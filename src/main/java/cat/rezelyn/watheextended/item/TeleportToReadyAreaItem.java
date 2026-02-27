@@ -1,0 +1,52 @@
+package cat.rezelyn.watheextended.item;
+
+import cat.rezelyn.watheextended.api.cca.GameStatus;
+import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
+import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.world.TeleportTarget;
+import net.minecraft.world.World;
+
+public class TeleportToReadyAreaItem extends Item {
+
+    public TeleportToReadyAreaItem(Settings settings) {
+        super(settings);
+    }
+
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        ItemStack stack = user.getStackInHand(hand);
+
+        if (world.isClient()) {
+            return TypedActionResult.pass(stack);
+        }
+        if (GameStatus.State(world)) {
+            return TypedActionResult.fail(stack);
+        }
+
+        if (!(user instanceof ServerPlayerEntity serverPlayer)) {
+            return TypedActionResult.pass(stack);
+        }
+
+        MapVariablesWorldComponent.PosWithOrientation dest =
+                WatheExtendedWorldComponent.KEY.get(world).getReadyAreaSpawnPos();
+
+        TeleportTarget target = new TeleportTarget(
+                serverPlayer.getServerWorld(),
+                dest.pos,
+                net.minecraft.util.math.Vec3d.ZERO,
+                dest.yaw,
+                dest.pitch,
+                TeleportTarget.NO_OP
+        );
+        serverPlayer.teleportTo(target);
+
+        return TypedActionResult.success(stack);
+    }
+}
+

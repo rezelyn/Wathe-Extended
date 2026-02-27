@@ -1,0 +1,172 @@
+package cat.rezelyn.watheextended.cca;
+
+import cat.rezelyn.watheextended.WatheExtended;
+import cat.rezelyn.watheextended.teleport.TeleportationSlot;
+import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
+import org.ladysnake.cca.api.v3.component.ComponentKey;
+import org.ladysnake.cca.api.v3.component.ComponentRegistry;
+import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class WatheExtendedWorldComponent implements AutoSyncedComponent {
+
+    public static final ComponentKey<WatheExtendedWorldComponent> KEY =
+            ComponentRegistry.getOrCreate(WatheExtended.id("mapvariables"), WatheExtendedWorldComponent.class);
+    private static final MapVariablesWorldComponent.PosWithOrientation DEFAULT_READY_AREA_SPAWN_POS =
+            new MapVariablesWorldComponent.PosWithOrientation(new Vec3d(-999.5, 1.0, -360.5), -90f, 0f);
+    private final World world;
+    private final List<TeleportationSlot> teleportationSlots = new ArrayList<>();
+    private MapVariablesWorldComponent.PosWithOrientation readyAreaSpawnPos = DEFAULT_READY_AREA_SPAWN_POS;
+
+    private boolean randomTeleportationEnabled = true;
+    private boolean playerCollisionsEnabled = true;
+    private boolean blockInteractionsProtected = true;
+
+    public WatheExtendedWorldComponent(World world) {
+        this.world = world;
+    }
+
+    private static MapVariablesWorldComponent.PosWithOrientation getPosWithOrientationFromNbt(NbtCompound tag, String name) {
+        Vec3d pos = new Vec3d(
+                tag.getDouble(name + "X"),
+                tag.getDouble(name + "Y"),
+                tag.getDouble(name + "Z")
+        );
+        return new MapVariablesWorldComponent.PosWithOrientation(
+                pos,
+                tag.getFloat(name + "Yaw"),
+                tag.getFloat(name + "Pitch")
+        );
+    }
+
+    private static void writePosWithOrientationToNbt(NbtCompound tag,
+                                                     MapVariablesWorldComponent.PosWithOrientation pos,
+                                                     String name) {
+        tag.putDouble(name + "X", pos.pos.getX());
+        tag.putDouble(name + "Y", pos.pos.getY());
+        tag.putDouble(name + "Z", pos.pos.getZ());
+        tag.putFloat(name + "Yaw", pos.yaw);
+        tag.putFloat(name + "Pitch", pos.pitch);
+    }
+
+    public void sync() {
+        KEY.sync(this.world);
+    }
+
+    public MapVariablesWorldComponent.PosWithOrientation getReadyAreaSpawnPos() {
+        return readyAreaSpawnPos;
+    }
+
+    public void setReadyAreaSpawnPos(MapVariablesWorldComponent.PosWithOrientation pos) {
+        this.readyAreaSpawnPos = pos;
+        this.sync();
+    }
+
+    public boolean isRtpEnabled() {
+        return randomTeleportationEnabled;
+    }
+
+    public void setRtpEnabled(boolean enabled) {
+        this.randomTeleportationEnabled = enabled;
+        this.sync();
+    }
+
+    public boolean isPlayerCollisionsEnabled() {
+        return playerCollisionsEnabled;
+    }
+
+    public void setPlayerCollisionsEnabled(boolean enabled) {
+        this.playerCollisionsEnabled = enabled;
+        this.sync();
+    }
+
+    public boolean isBlockInteractionsProtected() {
+        return blockInteractionsProtected;
+    }
+
+    public void setBlockInteractionsProtected(boolean enabled) {
+        this.blockInteractionsProtected = enabled;
+        this.sync();
+    }
+
+    public List<TeleportationSlot> getTeleportationSlots() {
+        return teleportationSlots;
+    }
+
+    public void setTeleportationSlots(List<TeleportationSlot> slots) {
+        this.teleportationSlots.clear();
+        this.teleportationSlots.addAll(slots);
+        this.sync();
+    }
+
+    public void addTeleportationSlot(TeleportationSlot slot) {
+        this.teleportationSlots.add(slot);
+        this.sync();
+    }
+
+    public void removeTeleportationSlot(int index) {
+        if (index >= 0 && index < teleportationSlots.size()) {
+            teleportationSlots.remove(index);
+            this.sync();
+        }
+    }
+
+    public void editTeleportationSlot(int index, TeleportationSlot slot) {
+        if (index >= 0 && index < teleportationSlots.size()) {
+            teleportationSlots.set(index, slot);
+            this.sync();
+        }
+    }
+
+    @Override
+    public void readFromNbt(@NotNull NbtCompound tag, RegistryWrapper.@NotNull WrapperLookup registryLookup) {
+        // Only read if data was previously saved; otherwise keep the default
+        if (tag.contains("readyAreaSpawnPosX")) {
+            this.readyAreaSpawnPos = getPosWithOrientationFromNbt(tag, "readyAreaSpawnPos");
+        } else {
+            this.readyAreaSpawnPos = DEFAULT_READY_AREA_SPAWN_POS;
+        }
+
+        this.randomTeleportationEnabled = !tag.contains("randomTeleportationEnabled")
+                || tag.getBoolean("randomTeleportationEnabled");
+
+        this.playerCollisionsEnabled = !tag.contains("playerCollisionsEnabled")
+                || tag.getBoolean("playerCollisionsEnabled");
+
+        this.blockInteractionsProtected = !tag.contains("blockInteractionsProtected")
+                || tag.getBoolean("blockInteractionsProtected");
+
+        this.teleportationSlots.clear();
+        if (tag.contains("teleportationSlots")) {
+            NbtList list = tag.getList("teleportationSlots", NbtCompound.COMPOUND_TYPE);
+            for (int i = 0; i < list.size(); i++) {
+                this.teleportationSlots.add(TeleportationSlot.fromNbt(list.getCompound(i)));
+            }
+        }
+    }
+
+    @Override
+    public void writeToNbt(@NotNull NbtCompound tag, RegistryWrapper.@NotNull WrapperLookup registryLookup) {
+        writePosWithOrientationToNbt(tag, this.readyAreaSpawnPos, "readyAreaSpawnPos");
+
+        tag.putBoolean("randomTeleportationEnabled", this.randomTeleportationEnabled);
+        tag.putBoolean("playerCollisionsEnabled", this.playerCollisionsEnabled);
+        tag.putBoolean("blockInteractionsProtected", this.blockInteractionsProtected);
+
+        NbtList list = new NbtList();
+        for (TeleportationSlot slot : this.teleportationSlots) {
+            list.add(slot.toNbt());
+        }
+        tag.put("teleportationSlots", list);
+    }
+}
+
+

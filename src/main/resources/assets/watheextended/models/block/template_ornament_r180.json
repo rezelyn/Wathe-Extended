@@ -1,0 +1,16 @@
+{
+	"parent": "minecraft:block/block",
+	"textures": {
+		"particle": "#texture"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 15.95],
+			"to": [16, 16, 15.95],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#texture"},
+				"south": {"uv": [16, 0, 0, 16], "rotation": 180, "texture": "#texture"}
+			}
+		}
+	]
+}

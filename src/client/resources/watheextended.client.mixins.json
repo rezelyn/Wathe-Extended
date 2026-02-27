@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "cat.rezelyn.watheextended.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "client.GameMenuScreenMixin",
+    "client.InGameHudMixin",
+    "client.MinecraftClientMixin",
+    "client.wathe.LobbyPlayersRendererMixin",
+    "client.wathe.LimitedInventoryScreenMixin",
+    "client.starexpress.GuidebookButtonMixin",
+    "client.ItemRendererAccessor",
+    "client.ItemRendererMixin",
+    "client.ModelLoaderMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
+  }
+}

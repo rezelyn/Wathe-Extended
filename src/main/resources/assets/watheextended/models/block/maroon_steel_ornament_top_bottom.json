@@ -1,0 +1,6 @@
+{
+  "parent": "watheextended:block/template_ornament_r90",
+  "textures": {
+    "texture": "watheextended:block/maroon_steel_ornament_sides"
+  }
+}

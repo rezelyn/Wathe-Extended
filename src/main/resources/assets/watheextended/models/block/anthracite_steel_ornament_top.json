@@ -1,0 +1,6 @@
+{
+  "parent": "watheextended:block/template_ornament_r90",
+  "textures": {
+    "texture": "watheextended:block/anthracite_steel_ornament_side"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "guidebook.open": {
+    "sounds": [ "watheextended:open_book" ]
+  },
+  "guidebook.close": {
+    "sounds": [ "watheextended:close_book" ]
+  },
+  "guidebook.page": {
+    "sounds": [ "watheextended:page_book" ]
+  }
+}
+

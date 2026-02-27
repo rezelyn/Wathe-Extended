@@ -1,0 +1,221 @@
+{
+  "providers": [
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/knife.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE100"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/revolver.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE101"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/lighter.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE102"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/lockpick.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE103"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/master_key.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE104"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/role_mine.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE105"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/tape.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE106"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/jerry_can.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE107"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/defense_vial.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE108"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/delusion_vial.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE109"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/psycho_mode.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE10A"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/bat.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE10B"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/blowgun.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE10C"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/body_bag.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE10D"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/crowbar.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE10E"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/dream_imprint.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE10F"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/firecracker.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE200"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/grenade.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE201"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/hunting_knife.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE202"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/knockout_drug.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE203"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/medical_kit.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE204"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/note.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE205"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/pan.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE206"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/pill.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE207"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/poison_injector.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE208"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/poison_vial.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE209"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/sulfuric_acid_barrel.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE210"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/coin.png",
+      "ascent": 7,
+      "height": 7,
+      "chars": ["\uE211"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/killer.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE212"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/civilian.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE213"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/neutral.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE214"]
+    }
+  ]
+}

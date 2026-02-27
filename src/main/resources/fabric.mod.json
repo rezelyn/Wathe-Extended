@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "id": "watheextended",
+  "version": "${version}",
+  "name": "Wathe Extended",
+  "description": "Add-on mod for Wathe: Murder Mystery, made for \"The Harpy Express: Extended\" modpack.",
+  "authors": [
+    "Rezelyn",
+    "\nAdditional assets from:\n- Color Ink (WathExtra)\n- LadySnake (Wathe: Murder Mystery)"
+  ],
+  "contact": {},
+  "license": "GPL-3.0",
+  "icon": "assets/watheextended/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-datagen": [
+      "cat.rezelyn.watheextended.client.WatheExtendedDataGenerator"
+    ],
+    "client": [
+      "cat.rezelyn.watheextended.client.WatheExtendedClient"
+    ],
+    "main": [
+      "cat.rezelyn.watheextended.WatheExtended"
+    ],
+    "cardinal-components": [
+      "cat.rezelyn.watheextended.cca.WatheExtendedComponents"
+    ]
+  },
+  "mixins": [
+    "watheextended.mixins.json",
+    {
+      "config": "watheextended.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}",
+    "yet_another_config_lib_v3": ">=3.8.0+1.21.1-fabric",
+    "wathe": ">=1.3.2-1.21.1",
+    "harpymodloader": ">=1.2.3-h1.3"
+  },
+  "custom": {
+    "cardinal-components": [
+      "watheextended:mapvariables"
+    ]
+  }
+}

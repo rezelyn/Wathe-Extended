@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/leaves",
+  "textures": {
+    "all": "watheextended:block/snowy_dark_oak_leaves"
+  }
+}
+

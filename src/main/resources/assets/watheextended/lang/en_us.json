@@ -1,0 +1,268 @@
+{
+  "text.watheextended.enabled": "Enabled",
+  "text.watheextended.disabled": "Disabled",
+
+  "command.watheextended.rtp_slot.added": "§aAdded teleportation slot§r #%d (%s)",
+  "command.watheextended.rtp_slot.removed": "§cRemoved teleportation slot§r #%d (%s)",
+  "command.watheextended.rtp_slot.edited": "§eUpdated teleportation slot§r #%d (%s)",
+  "command.watheextended.rtp_slot.invalid": "§cInvalid slot index:§r #%d",
+  "command.watheextended.rtp_slot.list_empty": "§cNo teleportation slots configured.",
+  "command.watheextended.rtp_slot.list_header": "%d teleportation slot(s):",
+  "command.watheextended.rtp_slot.enabled": "§aRandom teleportation enabled.",
+  "command.watheextended.rtp_slot.disabled": "§cRandom teleportation disabled.",
+  "command.watheextended.gamerules.collisions.enabled": "§aPlayer collisions enabled.",
+  "command.watheextended.gamerules.collisions.disabled": "§cPlayer collisions disabled.",
+  "command.watheextended.gamerules.worldprotection.enabled": "§aWorld protection enabled.",
+  "command.watheextended.gamerules.worldprotection.disabled": "§cWorld protection disabled.",
+
+  "item.watheextended.guidebook": "Guidebook",
+  "item.watheextended.teleport_to_ready_area": "§2Teleport to Ready Area",
+  "item.watheextended.pride_punch": "Pride Punch",
+  "item.watheextended.sunset_prism": "Sunset Prism",
+  "item.watheextended.mint_ocean": "Mint Ocean",
+  "item.watheextended.galaxy_fizz": "Galaxy Fizz",
+  "item.watheextended.cotton_candy_shake": "Cotton Candy Shake",
+  "item.watheextended.honey_lemonade": "Honey Lemonade",
+  "item.watheextended.velvet_ace": "Velvet Ace",
+  "item.watheextended.neon_splash": "Neon Splash",
+  "item.watheextended.the_amethyst": "The Amethyst",
+
+  "block.watheextended.anthracite_steel_ornament": "Anthracite Steel Ornament",
+  "block.watheextended.khaki_steel_ornament": "Khaki Steel Ornament",
+  "block.watheextended.maroon_steel_ornament": "Maroon Steel Ornament",
+  "block.watheextended.muntz_steel_ornament": "Muntz Steel Ornament",
+  "block.watheextended.navy_steel_ornament": "Navy Steel Ornament",
+  "block.watheextended.marble_panel": "Marble Panel",
+  "block.watheextended.dark_marble_panel": "Dark Marble Panel",
+  "block.watheextended.music_disc_box": "Music Disc Box",
+  "block.watheextended.pizza": "Pizza",
+  "block.watheextended.snowy_oak_leaves": "Snowy Oak Leaves",
+  "block.watheextended.snowy_spruce_leaves": "Snowy Spruce Leaves",
+  "block.watheextended.snowy_birch_leaves": "Snowy Birch Leaves",
+  "block.watheextended.snowy_jungle_leaves": "Snowy Jungle Leaves",
+  "block.watheextended.snowy_acacia_leaves": "Snowy Acacia Leaves",
+  "block.watheextended.snowy_dark_oak_leaves": "Snowy Dark Oak Leaves",
+  "block.watheextended.snowy_mangrove_leaves": "Snowy Mangrove Leaves",
+  "block.watheextended.snowy_cherry_leaves": "Snowy Cherry Leaves",
+  "block.watheextended.snowy_azalea_leaves": "Snowy Azalea Leaves",
+  "block.watheextended.snowy_flowering_azalea_leaves": "Snowy Flowering Azalea Leaves",
+
+  "gui.watheextended.inventory.role": "Role:",
+  "gui.watheextended.inventory.modifiers": "Modifier(s): ",
+  "gui.watheextended.inventory.no_modifiers": "No Modifiers",
+
+  "gui.watheextended.config.title": "Wathe Extended Options",
+  "gui.watheextended.config.category.options": "Options",
+  "gui.watheextended.config.category.options.tooltip": "General options for WATHE and add-ons",
+  "gui.watheextended.config.category.roles": "Roles",
+  "gui.watheextended.config.category.roles.tooltip": "Control whenever enabling or disabling certain roles",
+  "gui.watheextended.config.category.modifiers": "Modifiers",
+  "gui.watheextended.config.category.modifiers.tooltip": "Control whenever enabling or disabling certain modifiers",
+
+  "gui.watheextended.config.options.gamerules.title": "Gamerules",
+  "gui.watheextended.config.options.gamerules.tooltip": "Control various gamerules and features for WATHE and some supported add-ons.",
+  "gui.watheextended.config.options.gamerules.collisions": "Enable Player Collisions",
+  "gui.watheextended.config.options.gamerules.collisions.desc": "§fWhen disabled, players will no longer collide on to each others.",
+  "gui.watheextended.config.options.gamerules.rtp": "Enable Random Teleportation",
+  "gui.watheextended.config.options.gamerules.rtp.desc": "§fWhen enabled, players inside the ready area at game start will each be assigned a unique teleportation slot and teleported to it.",
+  "gui.watheextended.config.options.gamerules.worldprotection": "Enable World Protection",
+  "gui.watheextended.config.options.gamerules.worldprotection.desc": "§fWhen enabled, players will not be able to interact with containers, buttons, levers, trapdoors, doors, and other interactable blocks.\nWill not be applied on lamps, buttons and doors inside the playable area.\n\nThis applies to all players, including OPs.",
+
+  "gui.watheextended.config.options.mapvariables.title": "Map Variables",
+  "gui.watheextended.config.options.mapvariables.tooltip": "View and customize Wathe's current map variable values.",
+  "gui.watheextended.config.options.mapvariables.playarea": "Play Area",
+  "gui.watheextended.config.options.mapvariables.playarea.desc": "Format: <x1> <y1> <z1> <x2> <y2> <z2>§f\n\nThe play area outside which players will be eliminated.",
+  "gui.watheextended.config.options.mapvariables.playareaoffset": "Play Area Offset",
+  "gui.watheextended.config.options.mapvariables.playareaoffset.desc": "Format: <x> <y> <z>§f\n\nThe offset players will be teleported by from the ready area into the play area.",
+  "gui.watheextended.config.options.mapvariables.readyarea": "Ready Area",
+  "gui.watheextended.config.options.mapvariables.readyarea.desc": "Format: <x1> <y1> <z1> <x2> <y2> <z2>§f\n\nThe lobby area which players need to be in to be selected for a game.",
+  "gui.watheextended.config.options.mapvariables.resetpasteoffset": "Reset Paste Offset",
+  "gui.watheextended.config.options.mapvariables.resetpasteoffset.desc": "Format: <x> <y> <z>§f\n\nThe offset at which the template should be pasted.",
+  "gui.watheextended.config.options.mapvariables.spawnpos": "Spawn Position",
+  "gui.watheextended.config.options.mapvariables.spawnpos.desc": "Format: <x> <y> <z> <yaw> <pitch>§f\n\nThe spawn position and orientation players will be reset to once the game ends.",
+  "gui.watheextended.config.options.mapvariables.spectatorspawnpos": "Spectator Spawn Position",
+  "gui.watheextended.config.options.mapvariables.spectatorspawnpos.desc": "Format: <x> <y> <z> <yaw> <pitch>§f\n\nThe spawn position and orientation players will be set to when set as spectators at the start of a game.",
+  "gui.watheextended.config.options.mapvariables.readyareaspawnpos": "Ready Area Spawn Position",
+  "gui.watheextended.config.options.mapvariables.readyareaspawnpos.desc": "Format: <x> <y> <z> <yaw> <pitch>§f\n\nThe position players are teleported to when they use the \"Teleport to Ready Area\" item.",
+
+  "gui.watheextended.config.options.rtp_slots.title": "Random Teleportation Slots",
+  "gui.watheextended.config.options.rtp_slots.tooltip": "View and edit the teleportation slots used by random teleportation.",
+  "gui.watheextended.config.options.rtp_slots": "Slot #%d",
+  "gui.watheextended.config.options.rtp_slots.desc": "Format: <x> <y> <z> <yaw> <pitch>§f\n\nEdit this slot's values.\nType §cdelete§r to remove this slot.\n\nChanges take effect when saving.",
+  "gui.watheextended.config.options.rtp_slots.none": "No teleportation slots configured.",
+
+  "gui.watheextended.config.roles.empty": "No registered roles found!",
+  "gui.watheextended.config.roles.error": "Failed to load roles!",
+  "gui.watheextended.config.roles.desc": "ID: %s",
+
+  "gui.watheextended.config.modifiers.empty": "No registered modifiers found!",
+  "gui.watheextended.config.modifiers.error": "Failed to load modifiers!",
+  "gui.watheextended.config.modifiers.desc": "ID: %s",
+
+  "gui.watheextended.guidebook.title": "Guidebook",
+  "gui.watheextended.guidebook.hint.select": "Select an entry",
+  "gui.watheextended.guidebook.subtitle.separator": "— %s —",
+  "gui.watheextended.guidebook.subtitle.no_desc": "§cNo description available.",
+  "gui.watheextended.guidebook.subtitle.no_abilities": "§cNo abilities available.",
+  "gui.watheextended.guidebook.subtitle.no_items": "§cNo items available.",
+  "gui.watheextended.guidebook.button.prev": "< Prev",
+  "gui.watheextended.guidebook.button.next": "Next >",
+
+  "gui.watheextended.guidebook.tab.roles": "Roles",
+  "gui.watheextended.guidebook.tab.modifiers": "Modifiers",
+  "gui.watheextended.guidebook.tab.items": "Items",
+
+  "gui.watheextended.guidebook.subtitle.desc": "Description",
+  "gui.watheextended.guidebook.subtitle.abilities": "Abilities",
+  "gui.watheextended.guidebook.subtitle.items": "Items",
+
+  "gui.watheextended.guidebook.roles.side.killer": "Killer Roles",
+  "gui.watheextended.guidebook.roles.side.innocent": "Civilian Roles",
+  "gui.watheextended.guidebook.roles.side.neutral": "Neutral Roles",
+
+  "gui.watheextended.guidebook.role.desc.noellesroles.jester": "The Jester, a mischievous and unpredictable fool, thrives on chaos. With a penchant for trickery, the Jester's primary objective is to sow discord among players, often by misleading them about their true intentions. The Jester's unique abilities allow them to manipulate perceptions, making it difficult for others to discern their true nature. Whether it's through cunning disguises or clever tactics, the Jester keeps everyone on their toes, making them a wildcard in any game scenario.",
+  "gui.watheextended.guidebook.role.abilities.noellesroles.jester": "§lPsychosis\nWhen getting shot, automatically turns {icon:psycho_mode} §lPsycho Mode§r but does not have a §9Defense Shield§r, dies with one single shot.\n\n§lInstinct§r\nSee players through walls.\n\n§lAthletic§r\nHas infinite stamina.",
+  "gui.watheextended.guidebook.role.items.noellesroles.jester": "{icon:knife} §lFake Knife§r\nMade out of plasic, cannot be used to cause any harm. Given at game start.\n\n{icon:revolver} §lFake Revolver§r\nAlthough it looks like a real firearm, it is loaded with only blank rounds. Given at game start.",
+
+  "gui.watheextended.guidebook.role.desc.noellesroles.morphling": "The Morphling is a master of disguise and deception, capable of taking on the appearance and name of another player for a limited duration. This ability allows the Morphling to blend seamlessly into the crowd, making it difficult for others to identify them. With these unique skills, they can gaslight other players guessing about their true identity.",
+  "gui.watheextended.guidebook.role.abilities.noellesroles.morphling": "§lMorph§r\nTake on the appearance and name of another player for a duration.\n\n§lInstinct§r\nSee players and §4Killer Cohorts§r through walls.\n\n§lAthletic§r\nHas infinite stamina.",
+  "gui.watheextended.guidebook.role.items.noellesroles.morphling": "",
+
+  "gui.watheextended.guidebook.role.desc.noellesroles.conductor": "The master of the train, the Conductor. Their goal is to keep the train running smoothly, ensuring that all passengers reach their destinations safely. With a keen eye for detail and a deep understanding of the train's mechanics, the Conductor is responsible for maintaining order and efficiency throughout the journey. With their unique abitilites, they can keep track of lost items and ensure that all doors are accessible to those who need them.",
+  "gui.watheextended.guidebook.role.abilities.noellesroles.conductor": "§lInstinct§r\nSee dropped items through walls.",
+  "gui.watheextended.guidebook.role.items.noellesroles.conductor": "{icon:master_key} §lMaster Key§r\nOpens any door on the train. Given at game start.",
+
+  "gui.watheextended.guidebook.role.desc.noellesroles.bartender": "The Bartender is a skilled mixologist who serves up a variety of cocktails to the passengers. With a deep knowledge of flavors and ingredients, the Bartender crafts unique concoctions that can provide various benefits to those who consume them. Whether it's a refreshing Mint Ocean to boost energy or a soothing Honey Lemonade to calm nerves, the Bartender's drinks are sought after by many. However, the Bartender's talents extend beyond just mixing drinks, they also have a keen sense for detecting when someone has recently enjoyed one of their cocktails.",
+  "gui.watheextended.guidebook.role.abilities.noellesroles.bartender": "§lCocktail Sense§r\nSee players who've recently consumed a cocktail through walls.\n\n§lMixologist§r\nCan see players that have a §9Defense Shield§r.",
+  "gui.watheextended.guidebook.role.items.noellesroles.bartender": "{icon:defense_vial} §lDefense Vial§r §6(100 {icon:coin}§6)§r\nCan be poured into drinks/food, grants a §9Defense Shield§r, from being killed when consuming.",
+
+  "gui.watheextended.guidebook.role.desc.noellesroles.noisemaker": "A simple-minded troublemaker, the Noisemaker delights in irritating others by setting off firecrackers. But their disruptive behaviour can have serious consequences, some people don't take these pranks very kindly. As frustration grows, the Noisemaker may even receive death threats, realizing they've made themselves a target. Fully aware that they could be killed, they stand ready to shout their dramatic final words, perhaps as a last warning to the other players that there might be bad people on the train.",
+  "gui.watheextended.guidebook.role.abilities.noellesroles.noisemaker": "§lFamous Last Words§r\nThe Noisemaker's body will glow through walls after getting killed, alerting every on the train players.",
+  "gui.watheextended.guidebook.role.items.noellesroles.noisemaker": "{icon:firecracker} §lFirecracker§r §6(75 {icon:coin}§6)§r\nCan be triggered by placeing it down to detonate after a few seconds, producing a sound similar to a Revolver being fired.",
+
+  "gui.watheextended.guidebook.role.desc.noellesroles.swapper": "The Swapper draws inspiration from urban legends in which mysterious beings are said to possess the power to instantly switch the positions of two people, teleporting them back and forth in the blink of an eye to kill one of them without anyone noticing their disparition. Although this is a urban legends told to scare children, people recently affirmed that this was something real and that it happenned often in closed areas, mostly at night time.",
+  "gui.watheextended.guidebook.role.abilities.noellesroles.swapper": "§lSwap§r\nSwap the positions of two chosen players.\n\n§lInstinct§r\nSee players and §4Killer Cohorts§r through walls.\n\n§lAthletic§r\nHas infinite stamina.",
+  "gui.watheextended.guidebook.role.items.noellesroles.swapper": "",
+
+  "gui.watheextended.guidebook.role.desc.noellesroles.phantom": "The Phantom is a mysterious and elusive figure, shrouded in an aura of enigma. They are described as a shadowy presence that can move undetected through the environment, making them a formidable and unpredictable force. The Phantom's abilities allow them to become invisible for a duration, allowing them to slip past unsuspecting players and strike when least expected. However, their invisibility is not perfect, as held items remain visible, giving away their position to those who are observant.",
+  "gui.watheextended.guidebook.role.abilities.noellesroles.phantom": "§lInvisibility§r\nBecome invisible for a duration. Held items remain visible.\n\n§lInstinct§r\nSee players and §4Killer Cohorts§r through walls.\n\n§lAthletic§r\nHas infinite stamina.",
+  "gui.watheextended.guidebook.role.items.noellesroles.phantom": "",
+
+  "gui.watheextended.guidebook.role.desc.noellesroles.voodoo": "A sinister and malevolent entity, embodying the dark arts of voodoo magic. The Voodoo is capable to establish a mystical connection with another being, linking their fates together in a twisted bond. Everything that can happen to the Voodoo will also happen to the linked being, making them a puppet in the Voodoo's hands.",
+  "gui.watheextended.guidebook.role.abilities.noellesroles.voodoo": "§lVoodoo Doll§r\nLink a player as your voodoo doll. When you die, the currently linked player dies with you.",
+  "gui.watheextended.guidebook.role.items.noellesroles.voodoo": "",
+
+  "gui.watheextended.guidebook.role.desc.noellesroles.trapper": "A formely retired hunter, the Trapper has a knack for setting up traps to ensnare and catch small animals. However, their skills have taken a darker turn as they now use their expertise to set up traps to spy on unsuspecting victims. With a deep understanding of the terrain and a keen eye for detail, the Trapper can strategically place traps in high-traffic areas, allowing them to gather valuable information about the movements and activities of other people. These traps serve as a means of surveillance, enabling the Trapper to stay one step ahead and make informed decisions based on the information they gather.",
+  "gui.watheextended.guidebook.role.abilities.noellesroles.trapper": "",
+  "gui.watheextended.guidebook.role.items.noellesroles.trapper": "{icon:role_mine} §lRole Mine §6(100 {icon:coin}§6)§r\nCan be placed on the ground. Reveals the role of the next player who steps on it to the Trapper, with an audible cue upon detection.",
+
+  "gui.watheextended.guidebook.role.desc.noellesroles.coroner": "The Coroner is a skilled investigator who specializes in examining the deceased to uncover the truth behind their demise. With their expertise by working alongside the medical examiners, the Coroner meticulously inspects dead bodies to gather crucial information about the victim's cause of death, who they were and when did they died.",
+  "gui.watheextended.guidebook.role.abilities.noellesroles.coroner": "§lAutopsy§r\nInspect a dead body to learn the victim's role, cause of death, and time of death.",
+  "gui.watheextended.guidebook.role.items.noellesroles.coroner": "",
+
+  "gui.watheextended.guidebook.role.desc.noellesroles.executioner": "Hired by a mysterious organization, the Executioner is tasked with a grim and dangerous mission: eliminate a designated target. To avoid suspicion and maintain secrecy, they are stripped of any lethal weapons, forcing them to depend on manipulation, strategy, and careful planning to see the job through. Their objective is to ensure the target’s death by any means available. If they succeed, they earn a promotion, rising into the ranks of a §4Killer§r, gaining new powers and fresh opportunities to spread chaos",
+  "gui.watheextended.guidebook.role.abilities.noellesroles.executioner": "§lTarget§r\nA random target is assigned at game start. Work to ensure their death.\n\n§lPromotion§r\nIf your target dies, you become a random §4Killer Role§r.",
+  "gui.watheextended.guidebook.role.items.noellesroles.executioner": "",
+
+  "gui.watheextended.guidebook.role.desc.noellesroles.recaller": "The Recaller is a skilled manipulator of space, able to set a recall point and instantly return to it whenever needed. This power allows them to move strategically through their surroundings—escaping danger at a moment’s notice or repositioning for a tactical advantage. However, their ability cannot be used freely, as overuses may trigger unintended side effects.",
+  "gui.watheextended.guidebook.role.abilities.noellesroles.recaller": "§lRecall§r\nSet a recall point, then teleport back to it at any time on a cooldown.",
+  "gui.watheextended.guidebook.role.items.noellesroles.recaller": "",
+
+  "gui.watheextended.guidebook.role.desc.noellesroles.vulture": "Some people may also call them, the Cannibal, as they have an insatiable hunger for dead corpses. Their primary objective is to eat the remains of fallen players, consuming enough corpses to satisfy their hunger and ultimately transform into a formidable §4Killer§r. Gross...",
+  "gui.watheextended.guidebook.role.abilities.noellesroles.vulture": "§lCannibal§r\nEat enough corpses to satisfy your hunger and become a §4Killer Role§r.\n\n§lInstinct§r\nSee players and §4Killer Cohorts§r through walls.\n\n§lAthletic§r\nHas infinite stamina.",
+  "gui.watheextended.guidebook.role.items.noellesroles.vulture": "",
+
+  "gui.watheextended.guidebook.role.desc.noellesroles.mimic": "The Mimic, a master of imitation and usurpation, aware that dangerous individuals are hunting others, they came up with a smart plan: blend in by becoming one of them. Unfortunately, to avoid trouble with the security, they only carry a §lFake Knife§r as part of the disguise. To other §4Killers§r, they appear as one of the §4Killer Cohorts§r. By using this undercover tactic, the Mimic may be able to secretly identify and expose the real §4Killers§r to other passangers.",
+  "gui.watheextended.guidebook.role.abilities.noellesroles.mimic": "§lUndercover§r\nAppear as one of the §4Killer Cohorts§r to other §4Killers§r.",
+  "gui.watheextended.guidebook.role.items.noellesroles.mimic": "{icon:knife} §lFake Knife§r\nMade out of plasic, cannot be used to cause any harm. Given at game start.",
+
+  "gui.watheextended.guidebook.role.desc.stupid_express.amnesiac": "Waking up in an unfamiliar train with no memory of who they are or how they got there, the Amnesiac is a passenger plagued by a complete loss of identity. Struggling to piece together fragments of their past, they navigate the train with a sense of confusion and vulnerability. Upon looking at other people, they may experience brief flashes of memory, but these glimpses are fleeting and often leave them with more questions than answers. They may find a way to retrieve their (?) memories.",
+  "gui.watheextended.guidebook.role.abilities.stupid_express.amnesiac": "§lImpersonate§r\nInteract with a dead body to steal their role, therefore becoming that role and switching to the side of the role.",
+  "gui.watheextended.guidebook.role.items.stupid_express.amnesiac": "",
+
+  "gui.watheextended.guidebook.role.desc.stupid_express.arsonist": "A dangerous individual with a penchant for fire, the Arsonist is a passenger who harbors a destructive obsession. They are driven by an insatiable desire to set things to blazes, finding a twisted sense of satisfaction in watching flames consume their surroundings. Their worst fantasy is to burn alive the most people possible at the same time.",
+  "gui.watheextended.guidebook.role.abilities.stupid_express.arsonist": "§lInstinct§r\nSee players through walls.\n\n§lAthletic§r\nHas infinite stamina.",
+  "gui.watheextended.guidebook.role.items.stupid_express.arsonist": "{icon:jerry_can} §lJerry Can§r\nCan be used on a player to douse them on a cooldown. Given at game start.\n\n{icon:lighter} §lLighter§r\nCan be used to ignite all doused players. Given at game start.",
+
+  "gui.watheextended.guidebook.role.desc.stupid_express.avaricious": "The Avaricious, a sneaky individual driven by an insatiable desire for wealth and material possessions, stealing from other passengers by being very close to them without ever getting caught. They are cunning and resourceful, always on the lookout for opportunities to acquire valuable items and money.",
+  "gui.watheextended.guidebook.role.abilities.stupid_express.avaricious": "§lPickpocket§r\nGain coins passively by being close to other players. The more players around you, the more coins you gain.\n\n§lInstinct§r\nSee players and §4Killer Cohorts§r through walls.\n\n§lAthletic§r\nHas infinite stamina.",
+  "gui.watheextended.guidebook.role.items.stupid_express.avaricious": "",
+
+  "gui.watheextended.guidebook.role.desc.stupid_express.necromancer": "The Necromancer, capable of reviving the dead as their minions. They have a dark and twisted fascination with death, seeking to harness its power for their own nefarious purposes. With the ability to raise fallen passengers as undead servants, the Necromancer can use them to acomplish their sinister goals, whether it's for killing other people or scaring them.",
+  "gui.watheextended.guidebook.role.abilities.stupid_express.necromancer": "§lRising Dead§r\nRevive a dead player as a §4Killer§r.\n\n§lInstinct§r\nSee players through walls.",
+  "gui.watheextended.guidebook.role.items.stupid_express.necromancer": "",
+
+  "gui.watheextended.guidebook.role.desc.stupid_express.initiate": "The Initiate, upon boarding the train, they saw it, their nemesis, the other Initiate. They immediately felt a strong hatred towards them, and they know that they are the only one who can stop them. They will do anything to eliminate the other Initiate.",
+  "gui.watheextended.guidebook.role.abilities.stupid_express.initiate": "§lNemesis§r\nYou and the other Initiate are nemesis. You see each other through walls and gain coins by being close to each other.",
+  "gui.watheextended.guidebook.role.items.stupid_express.initiate": "",
+
+  "gui.watheextended.guidebook.role.desc.kinswathe.bellringer": "The Bellringer, they never separate their arm from their watch, being always aware of the train's schedule, they knows exactly when the train will reach each stations.",
+  "gui.watheextended.guidebook.role.abilities.kinswathe.bellringer": "§lTime Awareness§r\nCan see the remaining time.\n\n§lFast Travel§r\nCan reduce the remaining time by 1 minute.",
+  "gui.watheextended.guidebook.role.items.kinswathe.bellringer": "",
+
+  "gui.watheextended.guidebook.role.desc.kinswathe.cleaner": "While being a brutal, cold-blooded murderer, the Cleaner is also a very tidy person, they can't stand any mess around them. They will do anything to clean up the mess, even when killing people. They can dissolve corpses using their §lSulfuric Acid Barrel, leaving no traces about the incident, not even dropped items and blood stains.",
+  "gui.watheextended.guidebook.role.abilities.kinswathe.cleaner": "§lDeep Cleaning\nCan remove any dropped items on the train.\n\n§lInstinct§r\nSee players and §4Killer Cohorts§r through walls.\n\n§lAthletic§r\nHas infinite stamina.",
+  "gui.watheextended.guidebook.role.items.kinswathe.cleaner": "{icon:sulfuric_acid_barrel} §lSulfuric Acid Barrel\nCan be used on a corpse to make it disappear without leaving any traces. Given at game start.",
+
+  "gui.watheextended.guidebook.role.desc.kinswathe.cook": "The Cook, a close friend of the Bartender, specializes in preparing rich and delicious meals in the Harpy Express. Their dedication to their craft is unmatched, give 'em their §lPan, and they're ready to work their magic!",
+  "gui.watheextended.guidebook.role.abilities.kinswathe.cook": "§lCulinary Sense§r\nSee players who've recently consumed food through walls.",
+  "gui.watheextended.guidebook.role.items.kinswathe.cook": "{icon:pan} §lPan§r §6(250 {icon:coin}§6)§r\nCan be used on players to stun them for a short period of time.\nCan also be used to get a §9Defense Shield§r.",
+
+  "gui.watheextended.guidebook.role.desc.kinswathe.detective": "A skilled investigator, the Detective is in pursuit of the truth. With their sharp intellect and analytical skills, they are adept at solving mysteries and uncovering hidden secrets. The Detective's abilities allow them to gather crucial information about other players, making them a valuable asset in the quest for justice aboard the train.",
+  "gui.watheextended.guidebook.role.abilities.kinswathe.detective": "§lInvestigation§r\nCan check if a player is innocent or not.",
+  "gui.watheextended.guidebook.role.items.kinswathe.detective": "",
+
+  "gui.watheextended.guidebook.role.desc.kinswathe.dreamer": "The Dreamer, known to be a really strange individual, people call them crazy or drugged. Reports say that they often talk to themselves and have a very weird behavior next to other people, some people called out that the Dreamer were imprinting stuff on other people, but no one really knows what is it, some people say that this mysterious substance saved their life. Overall the Dreamer is a very odd person, and no one really knows what they are capable of and why they are doing all that.",
+  "gui.watheextended.guidebook.role.abilities.kinswathe.dreamer": "§lDream Big§r\nHas a counter of imprinted players. If a imprented player receives damage, they will teleport to them and increase the counter. When the counter reaches the required number, the Dreamer becomes a random §4Killer Role§r.",
+  "gui.watheextended.guidebook.role.items.kinswathe.dreamer": "{icon:dream_imprint} §lDream Imprint§r\nCan be used on a player to imprint them. Imprinted players will receive a §9Defense Shield§r. Given at game start.\nIf an imprinted player receives damage, the Dreamer will teleport to them and get a count to turn into a §4Killer Role§r.",
+
+  "gui.watheextended.guidebook.role.desc.kinswathe.drugmaker": "A professional drug maker, the Drugmaker is a passenger who has a deep understanding of various substances and their effects. With their expertise in chemistry and pharmacology, they are able to create a wide range of drugs that can have different effects on those who consume them. They often use their knowledge to concoct powerful and dangerous substances, which are used to kill people without raising suspicion.",
+  "gui.watheextended.guidebook.role.abilities.kinswathe.drugmaker": "§lInstinct§r\nSee players, poisonned players and §4Killer Cohorts§r through walls.\n\n§lAthletic§r\nHas infinite stamina.",
+  "gui.watheextended.guidebook.role.items.kinswathe.drugmaker": "{icon:poison_injector} §lPoison Injector§r §6(125 {icon:coin}§6)§r\nCan be used on a player to poison them, dealing damage over time.\n\n{icon:blowgun} §lBlowgun§r §6(175 {icon:coin}§6)§r\nCan shoot a poisonned dart from a distance, poisoning the target.",
+
+  "gui.watheextended.guidebook.role.desc.kinswathe.hunter": "A psychotic and bloodthirsty serial killer, the Hunter is a passenger who has a deep obsession with hunting and killing other passengers. They are driven by an insatiable desire to stalk and eliminate their prey, finding a twisted sense of satisfaction in the act of taking lives. With their cunning and predatory instincts, the Hunter is a formidable and dangerous individual who poses a significant threat to the safety of everyone on board.",
+  "gui.watheextended.guidebook.role.abilities.kinswathe.hunter": "§lAdrenaline Rush§r\nCan reset the cooldown of your Knife instantly.§r\n\n§lInstinct§r\nSee players and §4Killer Cohorts§r through walls.\n\n§lAthletic§r\nHas infinite stamina.",
+  "gui.watheextended.guidebook.role.items.kinswathe.hunter": "{icon:hunting_knife} §lHunting Knife§r\nSimilar to the default {icon:knife} §lKnife§r, it can be used to stab and kill players, can be used while sprinting, will have a short cooldown after using it while sprinting.",
+
+  "gui.watheextended.guidebook.role.desc.kinswathe.judge": "Fair and just, the Judge is a passenger who upholds the principles of justice and righteousness. With a strong sense of morality and a commitment to fairness, the Judge is dedicated to ensuring that justice is served aboard the train. They are known for their impartiality and their unwavering dedication to upholding the law, making them a respected figure among the passengers.",
+  "gui.watheextended.guidebook.role.abilities.kinswathe.judge": "§lJudgment§r\nCan sentence the closest player to not being able to use any items and abilities for a fair period of time, the sentenced player will glow through walls.",
+  "gui.watheextended.guidebook.role.items.kinswathe.judge": "",
+
+  "gui.watheextended.guidebook.role.desc.kinswathe.kidnapper": "Sneaky and effective, the Kidnapper loves abducting and holding its victims captive. They always use they Knockout Drug sheet to daze their target and drag them to their desired place, the imbibed drug is so strong that the victim will drop inconscious on the spot, making it easier for the Kidnapper to take them away without any resistance.",
+  "gui.watheextended.guidebook.role.abilities.kinswathe.kidnapper": "§lInstinct§r\nSee players and §4Killer Cohorts§r through walls.\n\n§lAthletic§r\nHas infinite stamina.",
+  "gui.watheextended.guidebook.role.items.kinswathe.kidnapper": "{icon:knockout_drug} §lKnockout Drug§r §6(75 {icon:coin}§6)§r\nCan be used on a player to daze them, making them following you while being unable to see, attack and talk. If the dazed player is left behind 5 blocks away from the Kidnapper, they will be free.",
+
+  "gui.watheextended.guidebook.role.desc.kinswathe.licensed_villain": "A lone wolf, the Licensed Villain operates alone, deprived of any sentimental attachment or alliance. They're searching for their individual gain, not caring about the consequences of their actions on others. They are driven by a desire for power, wealth, or personal satisfaction, and they will stop at nothing to achieve their goals, meaning that if everyone needs to be killed, everyone will be killed.",
+  "gui.watheextended.guidebook.role.abilities.kinswathe.licensed_villain": "§lInsentimental§r\nCan shoot at any passengers without ever dropping their Revolver",
+  "gui.watheextended.guidebook.role.items.kinswathe.licensed_villain": "{icon:lockpick} §lLockpick§r\nCan be used to open any locked doors, using the Lockpick while being sneaked will lock the door for a fair period of time. Given at game start.\n\n{icon:revolver} §lRevolver§r §6(0 {icon:coin}§6)§r\nCan trigger shot to kill targeted players.",
+
+  "gui.watheextended.guidebook.role.desc.kinswathe.physician": "The Physician is a renowned figure in science, particularly in the study of deadly plants, poisons, and toxins. Globally recognized for discovering a cure for methanol poisoning, their presence aboard the Harpy Express is essential to safeguard its high-class passengers, especially those who may be targeted by malintentioned individuals from any assassination attempts involving poison.",
+  "gui.watheextended.guidebook.role.abilities.kinswathe.physician": "§lPoison Sense§r\nSee players who've recently been poisonned through walls.",
+  "gui.watheextended.guidebook.role.items.kinswathe.physician": "{icon:medical_kit} §lMedical Kit§r\nCan be used to cure poison on a player, removing the poison effect. Given at game start.\n\n{icon:pill} §lPill§r §6(50 {icon:coin}§6)§r\nCan be used on a player to grant them a §9Defense Shield§r.",
+
+  "gui.watheextended.guidebook.role.desc.kinswathe.robot": "A highly advanced and sophisticated machine, the Robot is a \"passenger\" that serves as a source of entertainment and amusement for the other passengers. Deprived of any emotions the Robot will never feel depressed, lonely or scared, making it the perfect candidate for testing dangerous and risky stuff without any consequences.",
+  "gui.watheextended.guidebook.role.abilities.kinswathe.robot": "§lReboot§r\nWhen triggered, you will have the ability to see in the dark for a short period of time.\n\n§lMachine§r\nYou don't have any emotions, no mood system. You're also immune to poisonning.\n\n§lAthletic§r\nHas infinite stamina.",
+  "gui.watheextended.guidebook.role.items.kinswathe.robot": "",
+
+  "gui.watheextended.guidebook.role.desc.starexpress.starstruck": "A supernatural athlete, the Starstruck is capable of achieving incredible feats of agility and speed, making them a formidable competitor in any physical challenge. With their extraordinary abilities, the Starstruck can flee from danger with ease, that the cost of flashing everyone close to them as they start running.",
+  "gui.watheextended.guidebook.role.abilities.starexpress.starstruck": "§lStarstruck§r\nGrant a boost of speed for a short period of time, with an audible cue and particles effects upon activation.",
+  "gui.watheextended.guidebook.role.items.starexpress.starstruck": "",
+
+  "gui.watheextended.guidebook.role.desc.starexpress.muzzler": "Silence is key, the Muzzler favors a stealthy and silent approach, using their unique approach: muzzle their victim or witnesses so they can't call for help, often killing them in the process.",
+  "gui.watheextended.guidebook.role.abilities.starexpress.muzzler": "",
+  "gui.watheextended.guidebook.role.items.starexpress.muzzler": "{icon:tape} §lTape§r §6(75 {icon:coin}§6)§r\nCan be used on a player to mute them, players can be unmuzzled if interacting on them 5 times, muzzled players will die of suffocation if left outside for too long.",
+
+  "gui.watheextended.guidebook.modifier.desc.noellesroles.chameleon": "Gradually become invisible while standing still. Your name tag remains visible if looked at close range.",
+  "gui.watheextended.guidebook.modifier.desc.noellesroles.feather": "Passively grants you §oSlow Falling§r effect and allows you to bypass player collisions.",
+  "gui.watheextended.guidebook.modifier.desc.noellesroles.graverobber": "Inspect a dead body to learn the victim's role, cause of death, and time of death.\n\n§7Can only be assigned to a §4Killer§7.",
+  "gui.watheextended.guidebook.modifier.desc.noellesroles.guesser": "Select a player and guess their role.\n• §2Correct§r - They die.\n• §cIncorrect§r - You die.\n\n§7Can only be assigned to a §4Killer§7.",
+  "gui.watheextended.guidebook.modifier.desc.noellesroles.tiny": "Have you ever wanted to be small? Now you can!\nThis will make you smaller than other players, hopefully you won't get bullied too much!",
+
+  "gui.watheextended.guidebook.modifier.desc.stupid_express.lovers": "Will assign players in pairs as lovers, if one of the lovers dies, the other one dies of heartbreak.\nTheir goal is to be the last two standing, but they can win alongside the §2Civilians§r if they are both §2Civilians§r.\n\n§7Lovers can see each other through walls.",
+
+  "gui.watheextended.guidebook.modifier.desc.kinswathe.taskmaster": "Grant more coins for tasks completed.\n• §4Killers§r - §6+50 {icon:coin} \n• §2Innocents§r - §6+25 {icon:coin}",
+  "gui.watheextended.guidebook.modifier.desc.kinswathe.magnate": "Double the amount of coins you gain passively.",
+  "gui.watheextended.guidebook.modifier.desc.kinswathe.violator": "Has the ability to jump inside the train.",
+
+  "gui.watheextended.guidebook.modifier.desc.starexpress.allergic": "When the modifier is assigned, a random allergy type is chosen.\n\nUpon consuming their affected consumable type, the Allergic will receive one of the following effects:\n• §2Nothing§r §7(?/? chance)§r\n• §bInstinct §7(?/? chance)\n• §9Protection Shield §7(?/? chance)\n• §aBypassing Poison§r §7(?/? chance)"
+}
