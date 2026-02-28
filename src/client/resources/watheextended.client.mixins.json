@@ -9,6 +9,7 @@
     "client.MinecraftClientMixin",
     "client.wathe.LobbyPlayersRendererMixin",
     "client.wathe.LimitedInventoryScreenMixin",
+    "client.wathe.PlayerMoodComponentMixin",
     "client.starexpress.GuidebookButtonMixin",
     "client.ItemRendererAccessor",
     "client.ItemRendererMixin",
