@@ -1,10 +1,12 @@
 package cat.rezelyn.watheextended.client;
 
 import cat.rezelyn.watheextended.client.screen.GuidebookScreen;
+import cat.rezelyn.watheextended.client.screen.WatheOptionsScreen;
 import cat.rezelyn.watheextended.index.WatheExtendedBlocks;
 import cat.rezelyn.watheextended.index.WatheExtendedItems;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
@@ -33,6 +35,9 @@ public class WatheExtendedClient implements ClientModInitializer {
         );
 
         // BlockRenderLayerMap.INSTANCE.putBlock(WatheExtendedBlocks.MUSIC_DISC_BOX, RenderLayer.getTranslucent());
+
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client2) ->
+                WatheOptionsScreen.clearPendingState());
 
         // Open the Guidebook screen when the item is used on the client
         UseItemCallback.EVENT.register((player, world, hand) -> {

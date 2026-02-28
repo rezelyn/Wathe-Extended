@@ -26,6 +26,8 @@ public final class WatheOptionsScreen {
 
     private static Screen reopenParent = null;
     private static int waitForTicks = 0;
+    private static final Map<String, Boolean> pendingRoleState = new HashMap<>();
+    private static final Map<String, Boolean> pendingModifierState = new HashMap<>();
 
     static {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
@@ -324,13 +326,22 @@ public final class WatheOptionsScreen {
                                 ? display.display().copy().styled(style -> style.withColor(display.color()))
                                 : Text.literal(RolesDisplay.localName(id));
 
+                        boolean roleCurrentValue = pendingRoleState.containsKey(id)
+                                ? pendingRoleState.get(id)
+                                : !DisabledRoles.get().contains(id);
+
                         group.option(Option.<Boolean>createBuilder()
                                 .name(label)
                                 .description(OptionDescription.of(
                                         Text.literal(id).styled(style -> style.withColor(0x505050))))
-                                .binding(true,
-                                        () -> !DisabledRoles.get().contains(id),
-                                        enabled -> sendCommand("setEnabledRole " + id + " " + enabled, parent))
+                                .binding(roleCurrentValue,
+                                        () -> pendingRoleState.containsKey(id)
+                                                ? pendingRoleState.get(id)
+                                                : !DisabledRoles.get().contains(id),
+                                        enabled -> {
+                                            pendingRoleState.put(id, enabled);
+                                            sendCommand("setEnabledRole " + id + " " + enabled, parent);
+                                        })
                                 .controller(opt -> BooleanControllerBuilder.create(opt)
                                         .coloured(true)
                                         .formatValue(v -> Text.translatable(v ? "text.watheextended.enabled" : "text.watheextended.disabled")))
@@ -374,13 +385,22 @@ public final class WatheOptionsScreen {
                                 ? display.display().copy().styled(style -> style.withColor(display.color()))
                                 : Text.literal(ModifiersDisplay.localName(id));
 
+                        boolean modCurrentValue = pendingModifierState.containsKey(id)
+                                ? pendingModifierState.get(id)
+                                : !DisabledModifiers.get().contains(id);
+
                         group.option(Option.<Boolean>createBuilder()
                                 .name(label)
                                 .description(OptionDescription.of(
                                         Text.literal(id).styled(style -> style.withColor(0x505050))))
-                                .binding(true,
-                                        () -> !DisabledModifiers.get().contains(id),
-                                        enabled -> sendCommand("setEnabledModifier " + id + " " + enabled, parent))
+                                .binding(modCurrentValue,
+                                        () -> pendingModifierState.containsKey(id)
+                                                ? pendingModifierState.get(id)
+                                                : !DisabledModifiers.get().contains(id),
+                                        enabled -> {
+                                            pendingModifierState.put(id, enabled);
+                                            sendCommand("setEnabledModifier " + id + " " + enabled, parent);
+                                        })
                                 .controller(opt -> BooleanControllerBuilder.create(opt)
                                         .coloured(true)
                                         .formatValue(v -> Text.translatable(v ? "text.watheextended.enabled" : "text.watheextended.disabled")))
@@ -425,6 +445,11 @@ public final class WatheOptionsScreen {
 
     private static void sendWatheMapVarCommand(String subCommand) {
         sendCommand("wathe:mapVariables set " + subCommand, null);
+    }
+
+    public static void clearPendingState() {
+        pendingRoleState.clear();
+        pendingModifierState.clear();
     }
 
     private static String fmt(double v) {
