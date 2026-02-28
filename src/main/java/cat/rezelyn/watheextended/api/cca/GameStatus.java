@@ -16,4 +16,14 @@ public class GameStatus {
             return false;
         }
     }
+
+    public static boolean isActive(World world) {
+        if (world == null) return false;
+        try {
+            GameWorldComponent gwc = GameWorldComponent.KEY.get(world);
+            return gwc != null && gwc.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE;
+        } catch (Throwable t) {
+            return false;
+        }
+    }
 }

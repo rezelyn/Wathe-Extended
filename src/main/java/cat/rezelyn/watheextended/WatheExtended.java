@@ -11,9 +11,13 @@ import cat.rezelyn.watheextended.index.WatheExtendedItems;
 import cat.rezelyn.watheextended.index.WatheExtendedSounds;
 import cat.rezelyn.watheextended.teleport.TeleportationSlot;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.entity.PlayerBodyEntity;
+import dev.doctor4t.wathe.index.WatheEntities;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -123,13 +127,22 @@ public class WatheExtended implements ModInitializer {
 
                 if (gameRunning) {
                     removeTeleportItem(serverPlayer);
-                    removeGuidebook(serverPlayer);
                 } else if (readyArea != null && readyArea.contains(serverPlayer.getPos())) {
                     removeTeleportItem(serverPlayer);
                     giveGuidebook(serverPlayer);
                 } else {
                     giveTeleportItem(serverPlayer);
                     giveGuidebook(serverPlayer);
+                }
+            }
+
+            if (GameStatus.isActive(world)) {
+                try {
+                    WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(world);
+                    if (wec != null && wec.isItemBoundsCheckEnabled()) {
+                        tickItemBoundsCheck(serverWorld);
+                    }
+                } catch (Throwable ignored) {
                 }
             }
         });
@@ -174,5 +187,48 @@ public class WatheExtended implements ModInitializer {
             }
         } catch (Throwable ignored) {
         }
+    }
+
+    private static void tickItemBoundsCheck(ServerWorld world) {
+        try {
+            Box playArea = MapVariables.getPlayArea(world);
+            if (playArea == null) return;
+
+            List<Entity> targets = new ArrayList<>();
+            for (net.minecraft.entity.player.PlayerEntity p : world.getPlayers()) {
+                if (p instanceof ServerPlayerEntity sp
+                        && sp.isAlive()
+                        && !sp.isSpectator()
+                        && !sp.isCreative()) {
+                    targets.add(sp);
+                }
+            }
+            for (PlayerBodyEntity body : world.getEntitiesByType(WatheEntities.PLAYER_BODY, body -> true)) {
+                targets.add(body);
+            }
+
+            if (targets.isEmpty()) return;
+
+            for (ItemEntity item : world.getEntitiesByType(net.minecraft.entity.EntityType.ITEM, item -> !playArea.contains(item.getPos()))) {
+                Entity closest = findClosestEntity(item.getPos(), targets);
+                if (closest == null) continue;
+                Vec3d dest = closest.getPos();
+                item.requestTeleport(dest.x, dest.y, dest.z);
+            }
+        } catch (Throwable ignored) {
+        }
+    }
+
+    private static Entity findClosestEntity(Vec3d from, List<Entity> candidates) {
+        Entity best = null;
+        double bestDist = Double.MAX_VALUE;
+        for (Entity candidate : candidates) {
+            double dist = from.squaredDistanceTo(candidate.getPos());
+            if (dist < bestDist) {
+                bestDist = dist;
+                best = candidate;
+            }
+        }
+        return best;
     }
 }

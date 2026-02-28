@@ -14,6 +14,8 @@
   "command.watheextended.gamerules.collisions.disabled": "§cPlayer collisions disabled.",
   "command.watheextended.gamerules.worldprotection.enabled": "§aWorld protection enabled.",
   "command.watheextended.gamerules.worldprotection.disabled": "§cWorld protection disabled.",
+  "command.watheextended.gamerules.itemboundscheck.enabled": "§aItem bounds check enabled.",
+  "command.watheextended.gamerules.itemboundscheck.disabled": "§cItem bounds check disabled.",
 
   "item.watheextended.guidebook": "Guidebook",
   "item.watheextended.teleport_to_ready_area": "§2Teleport to Ready Area",
@@ -67,6 +69,8 @@
   "gui.watheextended.config.options.gamerules.rtp.desc": "§fWhen enabled, players inside the ready area at game start will each be assigned a unique teleportation slot and teleported to it.",
   "gui.watheextended.config.options.gamerules.worldprotection": "Enable World Protection",
   "gui.watheextended.config.options.gamerules.worldprotection.desc": "§fWhen enabled, players will not be able to interact with containers, buttons, levers, trapdoors, doors, and other interactable blocks.\nWill not be applied on lamps, buttons and doors inside the playable area.\n\nThis applies to all players, including OPs.",
+  "gui.watheextended.config.options.gamerules.itemboundscheck": "Enable Item Bounds Check",
+  "gui.watheextended.config.options.gamerules.itemboundscheck.desc": "§fWhen enabled, any item entity that falls outside the play area during an active game will be automatically teleported to the nearest alive player or player body.",
 
   "gui.watheextended.config.options.mapvariables.title": "Map Variables",
   "gui.watheextended.config.options.mapvariables.tooltip": "View and customize Wathe's current map variable values.",
@@ -88,7 +92,7 @@
   "gui.watheextended.config.options.rtp_slots.title": "Random Teleportation Slots",
   "gui.watheextended.config.options.rtp_slots.tooltip": "View and edit the teleportation slots used by random teleportation.",
   "gui.watheextended.config.options.rtp_slots": "Slot #%d",
-  "gui.watheextended.config.options.rtp_slots.desc": "Format: <x> <y> <z> <yaw> <pitch>§f\n\nEdit this slot's values.\nType §cdelete§r to remove this slot.\n\nChanges take effect when saving.",
+  "gui.watheextended.config.options.rtp_slots.desc": "Format: <x> <y> <z> <yaw> <pitch>§f\n\nEdit this slot's values.\nType §cdelete§r or leave blank to remove this slot.\n\nChanges take effect when saving.",
   "gui.watheextended.config.options.rtp_slots.none": "No teleportation slots configured.",
 
   "gui.watheextended.config.roles.empty": "No registered roles found!",

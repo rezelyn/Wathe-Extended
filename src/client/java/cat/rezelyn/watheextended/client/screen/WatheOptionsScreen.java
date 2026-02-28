@@ -153,6 +153,27 @@ public final class WatheOptionsScreen {
                 .controller(TickBoxControllerBuilder::create)
                 .build());
 
+        boolean itemBoundsCheckDefault;
+        try {
+            WatheExtendedWorldComponent wec = world != null
+                    ? WatheExtendedWorldComponent.KEY.get(world) : null;
+            itemBoundsCheckDefault = wec == null || wec.isItemBoundsCheckEnabled();
+        } catch (Throwable t) {
+            itemBoundsCheckDefault = true;
+        }
+        final boolean itemBoundsCheckFinal = itemBoundsCheckDefault;
+
+        group.option(Option.<Boolean>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.options.gamerules.itemboundscheck"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.options.gamerules.itemboundscheck.desc")
+                                .styled(style -> style.withColor(0x505050))))
+                .binding(true,
+                        () -> itemBoundsCheckFinal,
+                        v -> sendCommand("watheextended:enableItemBoundsCheck " + v, null))
+                .controller(TickBoxControllerBuilder::create)
+                .build());
+
         return group.build();
     }
 

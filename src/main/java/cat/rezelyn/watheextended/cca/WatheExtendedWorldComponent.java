@@ -29,6 +29,7 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
     private boolean randomTeleportationEnabled = true;
     private boolean playerCollisionsEnabled = true;
     private boolean blockInteractionsProtected = true;
+    private boolean itemBoundsCheckEnabled = true;
 
     public WatheExtendedWorldComponent(World world) {
         this.world = world;
@@ -97,6 +98,15 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
         this.sync();
     }
 
+    public boolean isItemBoundsCheckEnabled() {
+        return itemBoundsCheckEnabled;
+    }
+
+    public void setItemBoundsCheckEnabled(boolean enabled) {
+        this.itemBoundsCheckEnabled = enabled;
+        this.sync();
+    }
+
     public List<TeleportationSlot> getTeleportationSlots() {
         return teleportationSlots;
     }
@@ -144,6 +154,9 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
         this.blockInteractionsProtected = !tag.contains("blockInteractionsProtected")
                 || tag.getBoolean("blockInteractionsProtected");
 
+        this.itemBoundsCheckEnabled = !tag.contains("itemBoundsCheckEnabled")
+                || tag.getBoolean("itemBoundsCheckEnabled");
+
         this.teleportationSlots.clear();
         if (tag.contains("teleportationSlots")) {
             NbtList list = tag.getList("teleportationSlots", NbtCompound.COMPOUND_TYPE);
@@ -160,6 +173,7 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
         tag.putBoolean("randomTeleportationEnabled", this.randomTeleportationEnabled);
         tag.putBoolean("playerCollisionsEnabled", this.playerCollisionsEnabled);
         tag.putBoolean("blockInteractionsProtected", this.blockInteractionsProtected);
+        tag.putBoolean("itemBoundsCheckEnabled", this.itemBoundsCheckEnabled);
 
         NbtList list = new NbtList();
         for (TeleportationSlot slot : this.teleportationSlots) {

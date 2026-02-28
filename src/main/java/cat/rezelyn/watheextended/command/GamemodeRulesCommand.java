@@ -26,6 +26,14 @@ public class GamemodeRulesCommand {
                                 .executes(GamemodeRulesCommand::setWorldProtection)
                         )
         );
+
+        dispatcher.register(
+                CommandManager.literal("watheextended:enableItemBoundsCheck")
+                        .requires(source -> source.hasPermissionLevel(2))
+                        .then(CommandManager.argument("enabled", BoolArgumentType.bool())
+                                .executes(GamemodeRulesCommand::setItemBoundsCheck)
+                        )
+        );
     }
 
     private static int setPlayerCollisions(CommandContext<ServerCommandSource> context) {
@@ -55,6 +63,23 @@ public class GamemodeRulesCommand {
                             enabled
                                     ? "command.watheextended.gamerules.worldprotection.enabled"
                                     : "command.watheextended.gamerules.worldprotection.disabled"),
+                    true);
+        } catch (Throwable t) {
+            return 0;
+        }
+        return 1;
+    }
+
+    private static int setItemBoundsCheck(CommandContext<ServerCommandSource> context) {
+        boolean enabled = BoolArgumentType.getBool(context, "enabled");
+        ServerCommandSource source = context.getSource();
+        try {
+            WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(source.getWorld());
+            wec.setItemBoundsCheckEnabled(enabled);
+            source.sendFeedback(() -> Text.translatable(
+                            enabled
+                                    ? "command.watheextended.gamerules.itemboundscheck.enabled"
+                                    : "command.watheextended.gamerules.itemboundscheck.disabled"),
                     true);
         } catch (Throwable t) {
             return 0;
