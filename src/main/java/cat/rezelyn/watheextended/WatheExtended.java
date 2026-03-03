@@ -101,6 +101,7 @@ public class WatheExtended implements ModInitializer {
             WatheExtendedMapVariablesCommand.register(dispatcher);
             TeleportationSlotsCommand.register(dispatcher);
             GamemodeRulesCommand.register(dispatcher);
+            AddonsConfigCommand.register(dispatcher);
         });
 
         ServerTickEvents.END_WORLD_TICK.register(world -> {

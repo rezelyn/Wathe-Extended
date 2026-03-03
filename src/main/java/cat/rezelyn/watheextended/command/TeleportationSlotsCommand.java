@@ -26,40 +26,31 @@ public class TeleportationSlotsCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(
-                CommandManager.literal("watheextended:addSlot")
+                CommandManager.literal("watheextended:rtp")
                         .requires(source -> source.hasPermissionLevel(2))
-                        .executes(context -> addSlotFromPlayerPos(context))
-                        .then(CommandManager.argument("location", Vec3ArgumentType.vec3())
-                                .then(CommandManager.argument("rotation", RotationArgumentType.rotation())
-                                        .executes(context -> addSlotExplicit(context))
-                                ))
+                        .then(CommandManager.literal("enable")
+                                .executes(ctx -> setEnabled(ctx, true)))
+                        .then(CommandManager.literal("disable")
+                                .executes(ctx -> setEnabled(ctx, false)))
+                        .then(CommandManager.literal("slot")
+                                .then(CommandManager.literal("add")
+                                        .executes(TeleportationSlotsCommand::addSlotFromPlayerPos)
+                                        .then(CommandManager.argument("location", Vec3ArgumentType.vec3())
+                                                .then(CommandManager.argument("rotation", RotationArgumentType.rotation())
+                                                        .executes(TeleportationSlotsCommand::addSlotExplicit))))
+                                .then(CommandManager.literal("remove")
+                                        .then(CommandManager.argument("index", IntegerArgumentType.integer(1))
+                                                .executes(TeleportationSlotsCommand::removeSlot)))
+                                .then(CommandManager.literal("edit")
+                                        .then(CommandManager.argument("index", IntegerArgumentType.integer(1))
+                                                .executes(TeleportationSlotsCommand::editSlotFromPlayerPos)
+                                                .then(CommandManager.argument("location", Vec3ArgumentType.vec3())
+                                                        .then(CommandManager.argument("rotation", RotationArgumentType.rotation())
+                                                                .executes(TeleportationSlotsCommand::editSlotExplicit)))))
+                                .then(CommandManager.literal("list")
+                                        .executes(TeleportationSlotsCommand::listSlots)))
         );
-
-        dispatcher.register(
-                CommandManager.literal("watheextended:removeSlot")
-                        .requires(source -> source.hasPermissionLevel(2))
-                        .then(CommandManager.argument("index", IntegerArgumentType.integer(1))
-                                .executes(context -> removeSlot(context))
-                        )
-        );
-
-        dispatcher.register(
-                CommandManager.literal("watheextended:editSlot")
-                        .requires(source -> source.hasPermissionLevel(2))
-                        .then(CommandManager.argument("index", IntegerArgumentType.integer(1))
-                                .executes(context -> editSlotFromPlayerPos(context))
-                                .then(CommandManager.argument("location", Vec3ArgumentType.vec3())
-                                        .then(CommandManager.argument("rotation", RotationArgumentType.rotation())
-                                                .executes(context -> editSlotExplicit(context))
-                                        ))
-                        )
-        );
-
-        dispatcher.register(
-                CommandManager.literal("watheextended:listSlots")
-                        .requires(source -> source.hasPermissionLevel(2))
-                        .executes(context -> listSlots(context))
-        );
+    }
 
     private static int setEnabled(CommandContext<ServerCommandSource> context, boolean enabled) {
         ServerCommandSource source = context.getSource();
@@ -164,21 +155,5 @@ public class TeleportationSlotsCommand {
         }
         return slots.size();
     }
-
-    private static int setEnabled(CommandContext<ServerCommandSource> context) {
-        ServerCommandSource source = context.getSource();
-        boolean enabled = BoolArgumentType.getBool(context, "enabled");
-        WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(source.getWorld());
-        wec.setRtpEnabled(enabled);
-        source.sendMessage(Text.translatable(
-                enabled
-                        ? "command.watheextended.rtp_slot.enabled"
-                        : "command.watheextended.rtp_slot.disabled"));
-        return 1;
-    }
 }
-
-
-
-
 
