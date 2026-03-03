@@ -38,7 +38,6 @@ public abstract class GameMenuScreenMixin extends Screen {
         }
 
         ButtonWidget options = null;
-        boolean isOperator = watheExtended$isOperator();
 
         for (ButtonWidget button : buttons) {
             String key = watheExtended$getTranslationKey(button.getMessage());
@@ -48,8 +47,8 @@ public abstract class GameMenuScreenMixin extends Screen {
             }
         }
 
-        // Add Wathe Extended button anchored to the Options button if the player is OP
-        if (isOperator && options != null) {
+        // Add Wathe Extended button anchored to the Options button
+        if (options != null) {
             ButtonWidget watheButton = new IconButtonWidget(0, 0, 20, 20, this::watheExtended$onPress, watheIcon, 16, 16, 16);
             watheButton.setTooltip(Tooltip.of(Text.translatable("gui.watheextended.config.title")));
             this.addDrawableChild(watheButton);
@@ -61,13 +60,6 @@ public abstract class GameMenuScreenMixin extends Screen {
         }
     }
 
-    private static boolean watheExtended$isOperator() {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client == null || client.player == null) {
-            return false;
-        }
-        return client.player.hasPermissionLevel(2);
-    }
 
     private void watheExtended$onPress(ButtonWidget b) {
         MinecraftClient.getInstance().setScreen(
