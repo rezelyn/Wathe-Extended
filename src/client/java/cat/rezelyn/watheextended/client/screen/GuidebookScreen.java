@@ -49,14 +49,14 @@ public class GuidebookScreen extends Screen {
     private int leftPageX, leftPageY, leftPageWidth, leftPageHeight;
     private int rightPageX, rightPageY, rightPageWidth, rightPageHeight;
 
-    // lpage scroll
+    // left page scroll
     private int leftScrollTarget = 0;
     private float leftScrollSmooth = 0f;
     private int leftTotalHeight = 0;
     private boolean isDraggingScroll = false;
     private int dragStartY = 0, dragStartScroll = 0;
 
-    // rpage scroll
+    // right page scroll
     private int rightScrollTarget = 0;
     private float rightScrollSmooth = 0f;
     private int rightTotalHeight = 0;
@@ -66,7 +66,6 @@ public class GuidebookScreen extends Screen {
     // cached entry lists
     private List<GuidebookEntry> rolesEntries = null;
     private List<GuidebookEntry> modifiersEntries = null;
-    private List<GuidebookEntry> itemsEntries = null;
 
     // selected entry
     private String selectedId = null;
@@ -75,8 +74,8 @@ public class GuidebookScreen extends Screen {
     private String selectedDescKey = null;
     private String selectedEntryId = null;
 
-    // rpage paging (0 = description, 1 = abilities, 2 = items)
-    private int currentPage = 0;
+    // right page paging
+    private int currentPage = 0; // (0 = description, 1 = abilities, 2 = items)
     private List<Text> selectedDescLines = null;
     private boolean selectedDescNoContent = false;
 

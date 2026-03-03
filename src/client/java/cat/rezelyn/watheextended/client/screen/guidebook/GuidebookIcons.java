@@ -37,9 +37,9 @@ public final class GuidebookIcons {
             Map.entry("poison_vial", "\uE209"),
             Map.entry("sulfuric_acid_barrel", "\uE210"),
             Map.entry("coin", "\uE211"),
-            Map.entry("killer",   "\uE212"),
+            Map.entry("killer", "\uE212"),
             Map.entry("civilian", "\uE213"),
-            Map.entry("neutral",  "\uE214")
+            Map.entry("neutral", "\uE214")
     );
     private static final Style ICON_STYLE = Style.EMPTY
             .withColor(Formatting.WHITE)

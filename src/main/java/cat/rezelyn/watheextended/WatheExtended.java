@@ -4,6 +4,7 @@ import cat.rezelyn.watheextended.api.cca.GameStatus;
 import cat.rezelyn.watheextended.api.cca.MapVariables;
 import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.command.GamemodeRulesCommand;
+import cat.rezelyn.watheextended.command.AddonsConfigCommand;
 import cat.rezelyn.watheextended.command.TeleportationSlotsCommand;
 import cat.rezelyn.watheextended.command.WatheExtendedMapVariablesCommand;
 import cat.rezelyn.watheextended.index.WatheExtendedBlocks;
@@ -39,16 +40,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class WatheExtended implements ModInitializer {
     public static final String MOD_ID = "watheextended";
-    private static final Logger log = LoggerFactory.getLogger(WatheExtended.class);
-
-    private static final Map<RegistryKey<World>, Long> rtpSchedule = new ConcurrentHashMap<>();
-    private static final Map<RegistryKey<World>, Boolean> prevStarting = new ConcurrentHashMap<>();
-    private static final int RTP_FADE_TICK = 40;
+    private static final Logger LOGGER = LoggerFactory.getLogger(WatheExtended.class);
 
     public static @NotNull Identifier id(String name) {
         return Identifier.of(MOD_ID, name);
     }
 
+    // give teleport item to player if they are not in the ready area and the game is not running
     public static void giveTeleportItem(ServerPlayerEntity player) {
         boolean haveItem = false;
         for (int item = 0; item < player.getInventory().size(); item++) {
@@ -62,6 +60,7 @@ public class WatheExtended implements ModInitializer {
         }
     }
 
+    // remove teleport item from player inventory if they are in the ready area
     public static void removeTeleportItem(ServerPlayerEntity player) {
         for (int item = 0; item < player.getInventory().size(); item++) {
             if (player.getInventory().getStack(item).isOf(WatheExtendedItems.TELEPORT_TO_READY_AREA)) {
@@ -70,6 +69,7 @@ public class WatheExtended implements ModInitializer {
         }
     }
 
+    // give the guidebook to players
     public static void giveGuidebook(ServerPlayerEntity player) {
         boolean haveItem = false;
         for (int item = 0; item < player.getInventory().size(); item++) {
@@ -83,13 +83,12 @@ public class WatheExtended implements ModInitializer {
         }
     }
 
-    public static void removeGuidebook(ServerPlayerEntity player) {
-        for (int item = 0; item < player.getInventory().size(); item++) {
-            if (player.getInventory().getStack(item).isOf(WatheExtendedItems.GUIDEBOOK)) {
-                player.getInventory().setStack(item, ItemStack.EMPTY);
-            }
-        }
-    }
+    // rtp scheduling and tracking
+    private static final Map<RegistryKey<World>, Long> rtpSchedule = new ConcurrentHashMap<>();
+    private static final Map<RegistryKey<World>, Boolean> prevStarting = new ConcurrentHashMap<>();
+    // ticks to wait after the fading starts before teleporting players 40 seems to be the best value
+    // the teleportation will happen when screen is completely faded out making it seamless
+    private static final int RTP_FADE_TICK = 40;
 
     @Override
     public void onInitialize() {
@@ -104,6 +103,7 @@ public class WatheExtended implements ModInitializer {
             AddonsConfigCommand.register(dispatcher);
         });
 
+        // world tick handler
         ServerTickEvents.END_WORLD_TICK.register(world -> {
             if (!(world instanceof ServerWorld serverWorld)) return;
 
@@ -148,7 +148,7 @@ public class WatheExtended implements ModInitializer {
             }
         });
 
-        log.info("Mod initialized");
+        LOGGER.info("Mod initialized!");
     }
 
     private static boolean isStarting(World world) {
@@ -167,6 +167,7 @@ public class WatheExtended implements ModInitializer {
 
             List<TeleportationSlot> slots = new ArrayList<>(wec.getTeleportationSlots());
             if (slots.isEmpty()) return;
+
 
             List<ServerPlayerEntity> eligiblePlayers = new ArrayList<>();
             for (net.minecraft.entity.player.PlayerEntity player : world.getPlayers()) {
@@ -190,6 +191,7 @@ public class WatheExtended implements ModInitializer {
         }
     }
 
+    // oob item checker: teleport items that are outside the play area to the closest player body or player
     private static void tickItemBoundsCheck(ServerWorld world) {
         try {
             Box playArea = MapVariables.getPlayArea(world);
@@ -197,11 +199,11 @@ public class WatheExtended implements ModInitializer {
 
             List<Entity> targets = new ArrayList<>();
             for (net.minecraft.entity.player.PlayerEntity p : world.getPlayers()) {
-                if (p instanceof ServerPlayerEntity sp
-                        && sp.isAlive()
-                        && !sp.isSpectator()
-                        && !sp.isCreative()) {
-                    targets.add(sp);
+                if (p instanceof ServerPlayerEntity player
+                        && player.isAlive()
+                        && !player.isSpectator()
+                        && !player.isCreative()) {
+                    targets.add(player);
                 }
             }
             for (PlayerBodyEntity body : world.getEntitiesByType(WatheEntities.PLAYER_BODY, body -> true)) {
@@ -220,6 +222,7 @@ public class WatheExtended implements ModInitializer {
         }
     }
 
+    // oob item checker: find the closest entity (player or body)
     private static Entity findClosestEntity(Vec3d from, List<Entity> candidates) {
         Entity best = null;
         double bestDist = Double.MAX_VALUE;
