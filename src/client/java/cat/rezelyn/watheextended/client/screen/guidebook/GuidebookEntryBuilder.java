@@ -2,16 +2,31 @@ package cat.rezelyn.watheextended.client.screen.guidebook;
 
 import cat.rezelyn.watheextended.api.hml.ModifiersDisplay;
 import cat.rezelyn.watheextended.api.wathe.RolesDisplay;
-import cat.rezelyn.watheextended.client.screen.WatheOptionsScreen;
 import net.minecraft.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public final class GuidebookEntryBuilder {
 
+    // roles/modifiers that shouldn't appear in the guidebook
+    private static final Set<String> BLACKLIST = Set.of(
+            "awesome_binglus",
+            "better_vigilante",
+            "the_insane_damned_paranoid_killer",
+            "discovery_civilian",
+            "loose_end"
+    );
+
     private GuidebookEntryBuilder() {
+    }
+
+    private static boolean isBlacklisted(String id) {
+        int colon = id.indexOf(':');
+        String local = colon >= 0 ? id.substring(colon + 1) : id;
+        return BLACKLIST.contains(local);
     }
 
     public static GuidebookEntrySource roles() {
@@ -20,10 +35,6 @@ public final class GuidebookEntryBuilder {
 
     public static GuidebookEntrySource modifiers() {
         return GuidebookEntryBuilder::buildModifiers;
-    }
-
-    public static GuidebookEntrySource items() {
-        return List::of;
     }
 
     private static List<GuidebookEntry> buildRoles() {
@@ -37,7 +48,7 @@ public final class GuidebookEntryBuilder {
             List<RolesDisplay.RoleDisplay> neutrals = new ArrayList<>();
 
             for (RolesDisplay.RoleDisplay d : roles.values()) {
-                if (WatheOptionsScreen.isBlacklisted(d.id())) continue;
+                if (isBlacklisted(d.id())) continue;
                 switch (d.side()) {
                     case KILLER -> killers.add(d);
                     case INNOCENT -> innocents.add(d);

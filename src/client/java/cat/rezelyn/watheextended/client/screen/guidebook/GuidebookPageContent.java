@@ -14,8 +14,6 @@ public final class GuidebookPageContent {
             "gui.watheextended.guidebook.subtitle.items"
     };
 
-    public record PageResult(List<Text> lines, boolean noContent) {}
-
     private GuidebookPageContent() {
     }
 
@@ -96,5 +94,8 @@ public final class GuidebookPageContent {
             return baseDescKey.substring(0, lastDot) + "." + pageType + "." + dotId;
         }
         return null;
+    }
+
+    public record PageResult(List<Text> lines, boolean noContent) {
     }
 }

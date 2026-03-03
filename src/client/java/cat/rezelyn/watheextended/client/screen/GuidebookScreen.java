@@ -124,6 +124,13 @@ public class GuidebookScreen extends Screen {
                     .dimensions(tx, tabY, tabWidth, 18).build());
         }
 
+        int closeBtnW = 60, closeBtnH = 14;
+        int closeBtnX = bookX + (BOOK_WIDTH - closeBtnW) / 2;
+        int closeBtnY = bookY + BOOK_HEIGHT + 4;
+        addDrawableChild(ButtonWidget.builder(
+                Text.translatable("gui.watheextended.guidebook.button.close"), btn -> close())
+                .dimensions(closeBtnX, closeBtnY, closeBtnW, closeBtnH).build());
+
         refreshEntries();
         if (isOpened) {
             isOpened = false;
@@ -492,9 +499,6 @@ public class GuidebookScreen extends Screen {
             case MODIFIERS -> {
                 if (modifiersEntries == null) modifiersEntries = GuidebookEntryBuilder.modifiers().build();
             }
-            case ITEMS -> {
-                if (itemsEntries == null) itemsEntries = GuidebookEntryBuilder.items().build();
-            }
         }
         recalcLeftHeight();
     }
@@ -503,7 +507,6 @@ public class GuidebookScreen extends Screen {
         return switch (activeTab) {
             case ROLES -> rolesEntries != null ? rolesEntries : List.of();
             case MODIFIERS -> modifiersEntries != null ? modifiersEntries : List.of();
-            case ITEMS -> itemsEntries != null ? itemsEntries : List.of();
         };
     }
 
@@ -632,8 +635,7 @@ public class GuidebookScreen extends Screen {
 
     private enum Tab {
         ROLES(Text.translatable("gui.watheextended.guidebook.tab.roles")),
-        MODIFIERS(Text.translatable("gui.watheextended.guidebook.tab.modifiers")),
-        ITEMS(Text.translatable("gui.watheextended.guidebook.tab.items"));
+        MODIFIERS(Text.translatable("gui.watheextended.guidebook.tab.modifiers"));
 
         final Text label;
 

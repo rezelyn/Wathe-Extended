@@ -45,7 +45,7 @@ public class WatheExtendedClient implements ClientModInitializer {
             var stack = player.getStackInHand(hand);
             if (stack.getItem() == WatheExtendedItems.GUIDEBOOK) {
                 MinecraftClient.getInstance().setScreen(new GuidebookScreen());
-                return TypedActionResult.success(stack);
+                return TypedActionResult.pass(stack);
             }
             return TypedActionResult.pass(stack);
         });
