@@ -79,10 +79,10 @@ public final class GuidebookPageContent {
 
     private static Text noContent(int page) {
         return Text.translatable(switch (page) {
-            case 1 -> "gui.watheextended.guidebook.subtitle.no_abilities";
-            case 2 -> "gui.watheextended.guidebook.subtitle.no_items";
-            default -> "gui.watheextended.guidebook.subtitle.no_desc";
-        });
+            case 1 -> "gui.watheextended.guidebook.right_page.roles.subtitle.no_abilities";
+            case 2 -> "gui.watheextended.guidebook.right_page.roles.subtitle.no_items";
+            default -> "gui.watheextended.guidebook.right_page.roles.subtitle.no_desc";
+        }).styled(style -> style.withColor(0xFF5555));
     }
 
     private static String buildKey(String baseDescKey, String id, String pageType) {

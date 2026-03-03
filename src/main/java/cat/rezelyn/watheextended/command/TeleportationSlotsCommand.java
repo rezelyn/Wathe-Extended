@@ -19,6 +19,11 @@ import java.util.List;
 
 public class TeleportationSlotsCommand {
 
+    private static Text feedback(boolean enabled, String enabledKey, String disabledKey) {
+        return Text.translatable(enabled ? enabledKey : disabledKey)
+                .styled(style -> style.withColor(enabled ? 0x55FF55 : 0xFF5555));
+    }
+
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(
                 CommandManager.literal("watheextended:addSlot")
@@ -56,13 +61,14 @@ public class TeleportationSlotsCommand {
                         .executes(context -> listSlots(context))
         );
 
-        dispatcher.register(
-                CommandManager.literal("watheextended:enableRtp")
-                        .requires(source -> source.hasPermissionLevel(2))
-                        .then(CommandManager.argument("enabled", BoolArgumentType.bool())
-                                .executes(context -> setEnabled(context))
-                        )
-        );
+    private static int setEnabled(CommandContext<ServerCommandSource> context, boolean enabled) {
+        ServerCommandSource source = context.getSource();
+        WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(source.getWorld());
+        wec.setRtpEnabled(enabled);
+        source.sendMessage(feedback(enabled,
+                "command.watheextended.rtp_slot.enabled",
+                "command.watheextended.rtp_slot.disabled"));
+        return 1;
     }
 
     private static int addSlotFromPlayerPos(CommandContext<ServerCommandSource> context) {

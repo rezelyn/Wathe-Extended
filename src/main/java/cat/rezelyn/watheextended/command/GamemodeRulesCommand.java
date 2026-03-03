@@ -36,17 +36,20 @@ public class GamemodeRulesCommand {
         );
     }
 
+    private static Text feedback(boolean enabled, String enabledKey, String disabledKey) {
+        return Text.translatable(enabled ? enabledKey : disabledKey)
+                .styled(s -> s.withColor(enabled ? 0x55FF55 : 0xFF5555));
+    }
+
     private static int setPlayerCollisions(CommandContext<ServerCommandSource> context) {
         boolean enabled = BoolArgumentType.getBool(context, "enabled");
         ServerCommandSource source = context.getSource();
         try {
             WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(source.getWorld());
             wec.setPlayerCollisionsEnabled(enabled);
-            source.sendFeedback(() -> Text.translatable(
-                            enabled
-                                    ? "command.watheextended.gamerules.collisions.enabled"
-                                    : "command.watheextended.gamerules.collisions.disabled"),
-                    true);
+            source.sendFeedback(() -> feedback(enabled,
+                    "command.watheextended.gamerules.collisions.enabled",
+                    "command.watheextended.gamerules.collisions.disabled"), true);
         } catch (Throwable t) {
             return 0;
         }
@@ -59,11 +62,9 @@ public class GamemodeRulesCommand {
         try {
             WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(source.getWorld());
             wec.setBlockInteractionsProtected(enabled);
-            source.sendFeedback(() -> Text.translatable(
-                            enabled
-                                    ? "command.watheextended.gamerules.worldprotection.enabled"
-                                    : "command.watheextended.gamerules.worldprotection.disabled"),
-                    true);
+            source.sendFeedback(() -> feedback(enabled,
+                    "command.watheextended.gamerules.worldprotection.enabled",
+                    "command.watheextended.gamerules.worldprotection.disabled"), true);
         } catch (Throwable t) {
             return 0;
         }
@@ -76,15 +77,12 @@ public class GamemodeRulesCommand {
         try {
             WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(source.getWorld());
             wec.setItemBoundsCheckEnabled(enabled);
-            source.sendFeedback(() -> Text.translatable(
-                            enabled
-                                    ? "command.watheextended.gamerules.itemboundscheck.enabled"
-                                    : "command.watheextended.gamerules.itemboundscheck.disabled"),
-                    true);
+            source.sendFeedback(() -> feedback(enabled,
+                    "command.watheextended.gamerules.itemboundscheck.enabled",
+                    "command.watheextended.gamerules.itemboundscheck.disabled"), true);
         } catch (Throwable t) {
             return 0;
         }
         return 1;
     }
 }
-
