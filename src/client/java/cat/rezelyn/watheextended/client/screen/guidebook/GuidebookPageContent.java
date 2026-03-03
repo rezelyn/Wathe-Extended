@@ -9,9 +9,9 @@ import java.util.List;
 public final class GuidebookPageContent {
 
     public static final String[] PAGE_LABELS = {
-            "gui.watheextended.guidebook.subtitle.desc",
-            "gui.watheextended.guidebook.subtitle.abilities",
-            "gui.watheextended.guidebook.subtitle.items"
+            "gui.watheextended.guidebook.right_page.roles.subtitle.desc",
+            "gui.watheextended.guidebook.right_page.roles.subtitle.abilities",
+            "gui.watheextended.guidebook.right_page.roles.subtitle.items"
     };
 
     private GuidebookPageContent() {

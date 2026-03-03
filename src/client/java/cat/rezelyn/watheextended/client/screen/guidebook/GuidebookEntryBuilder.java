@@ -61,9 +61,9 @@ public final class GuidebookEntryBuilder {
             }
 
             List<Group> groups = List.of(
-                    new Group("gui.watheextended.guidebook.roles.side.killer",   0xDC001E, "killer",   killers),
-                    new Group("gui.watheextended.guidebook.roles.side.innocent", 0x75A743, "civilian", innocents),
-                    new Group("gui.watheextended.guidebook.roles.side.neutral",  0xA5C4FB, "neutral",  neutrals)
+                    new Group("gui.watheextended.guidebook.left_page.roles.side.killer", 0xDC001E, "killer", killers),
+                    new Group("gui.watheextended.guidebook.left_page.roles.side.civilian", 0x75A743, "civilian", innocents),
+                    new Group("gui.watheextended.guidebook.left_page.roles.side.neutral", 0xA5C4FB, "neutral", neutrals)
             );
 
             boolean first = true;

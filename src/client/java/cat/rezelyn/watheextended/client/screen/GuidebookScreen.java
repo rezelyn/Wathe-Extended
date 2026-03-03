@@ -228,7 +228,7 @@ public class GuidebookScreen extends Screen {
         int scrollAreaH = rightPageHeight - navBarH;
 
         if (selectedId == null) {
-            Text hint = Text.translatable("gui.watheextended.guidebook.hint.select");
+            Text hint = Text.translatable("gui.watheextended.guidebook.right_page.hint.select");
             int hx = rightPageX + (rightPageWidth - textRenderer.getWidth(hint)) / 2;
             int hy = rightPageY + rightPageHeight / 2 - LINE_HEIGHT / 2;
             context.drawText(textRenderer, hint.copy().styled(s -> s.withItalic(true)), hx, hy, COLOR_SELECT_HINT, false);
@@ -259,7 +259,7 @@ public class GuidebookScreen extends Screen {
         y += 4;
 
         if (paged) {
-            Text pageLabel = Text.translatable("gui.watheextended.guidebook.subtitle.separator",
+            Text pageLabel = Text.translatable("gui.watheextended.guidebook.right_page.roles.subtitle.separator",
                     Text.translatable(GuidebookPageContent.PAGE_LABELS[currentPage]));
             int labelX = rightPageX + CONTENT_PADDING + (usableW - textRenderer.getWidth(pageLabel)) / 2;
             if (y >= rightPageY && y <= rightPageY + scrollAreaH) {
@@ -311,8 +311,8 @@ public class GuidebookScreen extends Screen {
 
     private void renderPageNavButtons(DrawContext context, int scrollAreaH) {
         int btnY = navBtnY(scrollAreaH);
-        drawNavButton(context, navPrevX(), btnY, "gui.watheextended.guidebook.button.prev", currentPage > 0);
-        drawNavButton(context, navNextX(), btnY, "gui.watheextended.guidebook.button.next", currentPage < PAGE_COUNT - 1);
+        drawNavButton(context, navPrevX(), btnY, "gui.watheextended.guidebook.right_page.button.prev", currentPage > 0);
+        drawNavButton(context, navNextX(), btnY, "gui.watheextended.guidebook.right_page.button.next", currentPage < PAGE_COUNT - 1);
 
         String indicator = (currentPage + 1) + " / " + PAGE_COUNT;
         int cx = rightPageX + (rightPageWidth - textRenderer.getWidth(indicator)) / 2;
