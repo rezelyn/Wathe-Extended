@@ -217,8 +217,8 @@
   "gui.watheextended.config.category.mapvariables.group.variables.opt.readyareaspawnpos.desc": "Format: <x> <y> <z> <yaw> <pitch>\n\n§fThe position players are teleported to when they use the \"Teleport to Ready Area\" item.",
 
   "gui.watheextended.config.category.mapvariables.group.rtp_slots": "Random Teleportation Slots",
-  "gui.watheextended.config.category.mapvariables.group.rtp_slots.tooltip": "View and edit the teleportation slots used by random teleportation.",
-  "gui.watheextended.config.category.mapvariables.group.rtp_slots.none": "No teleportation slots configured.\nYou can use the §e/watheextended:rtp slot add§r command to create slots.",
+  "gui.watheextended.config.category.mapvariables.group.rtp_slots.tooltip": "View and edit the teleportation slots used by random teleportation.\n\n§6Slots needs to be configured and placed inside the Ready Area box to work properly.",
+  "gui.watheextended.config.category.mapvariables.group.rtp_slots.none": "No teleportation slots configured.\nYou can use the §e/watheextended:rtp slot add§r command to create slots.\n\n§6Slots needs to be configured and placed inside the Ready Area box to work properly",
   "gui.watheextended.config.category.mapvariables.group.rtp_slots.slot": "Slot #%d",
   "gui.watheextended.config.category.mapvariables.group.rtp_slots.slot.desc": "Format: <x> <y> <z> <yaw> <pitch>\n\n§fEdit this slot's values.\nLeave the values blank to delete the slot.\n\nChanges take effect when saving.",
 
