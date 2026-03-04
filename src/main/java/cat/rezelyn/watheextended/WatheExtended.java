@@ -19,6 +19,8 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -146,6 +148,9 @@ public class WatheExtended implements ModInitializer {
                 } catch (Throwable ignored) {
                 }
             }
+
+            // feather modifier fix
+            tickFeatherModifier(serverWorld);
         });
 
         LOGGER.info("Mod initialized!");
@@ -234,5 +239,33 @@ public class WatheExtended implements ModInitializer {
             }
         }
         return best;
+    }
+
+    // feather modifier fix:
+    // continuously reapplies slow falling each tick.
+    private static void tickFeatherModifier(ServerWorld world) {
+        if (!cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.isLoaded()) return;
+        try {
+            org.agmas.harpymodloader.component.WorldModifierComponent wmc =
+                    org.agmas.harpymodloader.component.WorldModifierComponent.KEY.get(world);
+            if (wmc == null) return;
+            org.agmas.harpymodloader.modifiers.Modifier feather = org.agmas.noellesroles.Noellesroles.FEATHER;
+            if (feather == null) return;
+            for (net.minecraft.entity.player.PlayerEntity player : world.getPlayers()) {
+                if (!(player instanceof ServerPlayerEntity serverPlayer)) continue;
+                try {
+                    if (wmc.isModifier(serverPlayer, feather)) {
+                        StatusEffectInstance existing = serverPlayer.getStatusEffect(StatusEffects.SLOW_FALLING);
+                        // reapply when duration is about to expire (~20 ticks)
+                        if (existing == null || existing.getDuration() < 20) {
+                            serverPlayer.addStatusEffect(new StatusEffectInstance(
+                                    StatusEffects.SLOW_FALLING, 80, 0, false, false));
+                        }
+                    }
+                } catch (Throwable ignored) {
+                }
+            }
+        } catch (Throwable ignored) {
+        }
     }
 }
