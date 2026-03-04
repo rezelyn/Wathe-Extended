@@ -63,8 +63,8 @@ public class GamemodeRulesCommand {
             WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(source.getWorld());
             wec.setBlockInteractionsProtected(enabled);
             source.sendFeedback(() -> feedback(enabled,
-                    "command.watheextended.gamerules.worldprotection.enabled",
-                    "command.watheextended.gamerules.worldprotection.disabled"), true);
+                    "command.watheextended.mapvariables.worldprotection.enabled",
+                    "command.watheextended.mapvariables.worldprotection.disabled"), true);
         } catch (Throwable t) {
             return 0;
         }
