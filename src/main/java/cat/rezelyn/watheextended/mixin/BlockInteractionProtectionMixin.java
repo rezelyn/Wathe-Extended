@@ -40,19 +40,36 @@ public class BlockInteractionProtectionMixin {
 
             if (!ProtectedBlocks.isProtected(state)) return;
 
+            Vec3d center = Vec3d.ofCenter(pos);
+
             Box playArea = MapVariables.getPlayArea(world);
-            if (playArea != null && playArea.contains(Vec3d.ofCenter(pos))) {
+            Box readyArea = MapVariables.getReadyArea(world);
+            Box lobbyArea = MapVariables.getLobbyArea(world);
+
+            boolean inPlayArea = playArea != null && playArea.contains(center);
+            boolean inReadyArea = readyArea != null && readyArea.contains(center);
+            boolean inLobbyArea = lobbyArea.contains(center);
+
+            // scoped to lobbyArea, readyArea, and playArea only
+            // stuff in the world that are outside these boxes are not protected
+            if (!inLobbyArea && !inReadyArea && !inPlayArea) {
+                return;
+            }
+
+            // playArea whitelist: allow lamps, doors, buttons
+            if (inPlayArea) {
                 Block block = state.getBlock();
-                // allow lamps/doors/buttons interactions in the playArea
-                boolean isLamp = block instanceof ToggleableFacingLightBlock || block instanceof NeonTubeBlock || block instanceof NeonPillarBlock;
+                boolean isLamp = block instanceof ToggleableFacingLightBlock
+                              || block instanceof NeonTubeBlock
+                              || block instanceof NeonPillarBlock;
                 boolean isDoor = block instanceof DoorBlock || block instanceof SmallDoorBlock;
                 boolean isButton = block instanceof WatheButtonBlock;
                 boolean isOrnament = block instanceof OrnamentBlock;
                 if (isLamp || isDoor || isOrnament || isButton) return;
             }
 
-            Box readyArea = MapVariables.getReadyArea(world);
-            if (readyArea != null && readyArea.contains(Vec3d.ofCenter(pos))) {
+            // readyArea whitelist: allow doors only
+            if (inReadyArea) {
                 Block block = state.getBlock();
                 boolean isDoor = block instanceof DoorBlock || block instanceof SmallDoorBlock;
                 if (isDoor) return;

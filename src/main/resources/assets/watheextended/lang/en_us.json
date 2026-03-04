@@ -15,10 +15,11 @@
 
   "command.watheextended.gamerules.collisions.enabled": "Player collisions enabled.",
   "command.watheextended.gamerules.collisions.disabled": "Player collisions disabled.",
-  "command.watheextended.gamerules.worldprotection.enabled": "World protection enabled.",
-  "command.watheextended.gamerules.worldprotection.disabled": "World protection disabled.",
   "command.watheextended.gamerules.itemboundscheck.enabled": "Item bounds check enabled.",
   "command.watheextended.gamerules.itemboundscheck.disabled": "Item bounds check disabled.",
+  "command.watheextended.mapvariables.worldprotection.enabled": "World protection enabled.",
+  "command.watheextended.mapvariables.worldprotection.disabled": "World protection disabled.",
+  "command.watheextended.mapvariables.lobbyarea.set": "Map variable lobbyArea successfully set to %s.",
 
   "command.watheextended.kinswathe.jumpinlobby.enabled": "Jump in lobby enabled.",
   "command.watheextended.kinswathe.jumpinlobby.disabled": "Jump in lobby disabled.",
@@ -201,6 +202,8 @@
   "gui.watheextended.config.category.mapvariables.tooltip": "View and customize current world map variables",
   "gui.watheextended.config.category.mapvariables.group.variables": "Variables",
   "gui.watheextended.config.category.mapvariables.group.variables.tooltip": "Manage various map variables that control important locations and areas for the game.",
+  "gui.watheextended.config.category.mapvariables.group.variables.opt.lobbyarea": "Lobby Area",
+  "gui.watheextended.config.category.mapvariables.group.variables.opt.lobbyarea.desc": "Format: <x1> <y1> <z1> <x2> <y2> <z2>\n\n§fBounding box covering the full lobby / waiting area.\n\nWhen world protection is enabled, only blocks inside this area, the Ready Area, and the Play Area will be protected.",
   "gui.watheextended.config.category.mapvariables.group.variables.opt.playarea": "Play Area",
   "gui.watheextended.config.category.mapvariables.group.variables.opt.playarea.desc": "Format: <x1> <y1> <z1> <x2> <y2> <z2>\n\n§fThe area where the game will play and outside of which players will be eliminated.",
   "gui.watheextended.config.category.mapvariables.group.variables.opt.playareaoffset": "Play Area Offset",

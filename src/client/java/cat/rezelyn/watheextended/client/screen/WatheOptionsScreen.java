@@ -657,6 +657,23 @@ public final class WatheOptionsScreen {
                 .controller(StringControllerBuilder::create)
                 .build());
 
+        String lobbyAreaDefault = boxToArgs(MapVariables.getLobbyArea(world));
+        group.option(Option.<String>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.lobbyarea"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.lobbyarea.desc")
+                        .styled(style -> style.withColor(0x757575))))
+                .binding(lobbyAreaDefault, () -> lobbyAreaDefault,
+                        v -> {
+                            String[] parts = v.trim().split("\\s+");
+                            if (parts.length == 6) {
+                                sendCommand("watheextended:mapVariables set lobbyArea "
+                                        + parts[0] + " " + parts[1] + " " + parts[2] + " "
+                                        + parts[3] + " " + parts[4] + " " + parts[5], null);
+                            }
+                        })
+                .controller(StringControllerBuilder::create)
+                .build());
+
         String resetPasteOffsetDefault = vec3iToArgs(MapVariables.getResetPasteOffset(world));
         group.option(Option.<String>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.resetpasteoffset"))

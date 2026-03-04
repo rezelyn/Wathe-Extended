@@ -87,7 +87,6 @@ public class MapVariables {
         return vec.getX() + " " + vec.getY() + " " + vec.getZ();
     }
 
-    /** Formats a {@link MapVariablesWorldComponent.PosWithOrientation} as "X Y Z YAW PITCH", or "N/A". */
     public static String formatPosWithOrientation(@Nullable MapVariablesWorldComponent.PosWithOrientation pos) {
         if (pos == null) return "N/A";
         return String.format("%.4f %.4f %.4f %.4f %.4f", pos.pos.x, pos.pos.y, pos.pos.z, (double) pos.yaw, (double) pos.pitch);
@@ -101,6 +100,16 @@ public class MapVariables {
             return wec != null ? wec.getReadyAreaSpawnPos() : null;
         } catch (Throwable t) {
             return null;
+        }
+    }
+
+    public static Box getLobbyArea(World world) {
+        if (world == null) return WatheExtendedWorldComponent.DEFAULT_LOBBY_AREA;
+        try {
+            WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(world);
+            return wec != null ? wec.getLobbyArea() : WatheExtendedWorldComponent.DEFAULT_LOBBY_AREA;
+        } catch (Throwable t) {
+            return WatheExtendedWorldComponent.DEFAULT_LOBBY_AREA;
         }
     }
 }

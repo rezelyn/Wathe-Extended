@@ -6,6 +6,7 @@ import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
@@ -22,9 +23,13 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
             ComponentRegistry.getOrCreate(WatheExtended.id("mapvariables"), WatheExtendedWorldComponent.class);
     private static final MapVariablesWorldComponent.PosWithOrientation DEFAULT_READY_AREA_SPAWN_POS =
             new MapVariablesWorldComponent.PosWithOrientation(new Vec3d(-999.5, 1.0, -360.5), -90f, 0f);
+    public static final Box DEFAULT_LOBBY_AREA =
+            new Box(-1424, -50, -512, -753, 50, -225);
+
     private final World world;
     private final List<TeleportationSlot> teleportationSlots = new ArrayList<>();
     private MapVariablesWorldComponent.PosWithOrientation readyAreaSpawnPos = DEFAULT_READY_AREA_SPAWN_POS;
+    private Box lobbyArea = DEFAULT_LOBBY_AREA;
 
     private boolean randomTeleportationEnabled = true;
     private boolean playerCollisionsEnabled = true;
@@ -107,6 +112,16 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
         this.sync();
     }
 
+    @NotNull
+    public Box getLobbyArea() {
+        return lobbyArea;
+    }
+
+    public void setLobbyArea(@NotNull Box area) {
+        this.lobbyArea = area;
+        this.sync();
+    }
+
     public List<TeleportationSlot> getTeleportationSlots() {
         return teleportationSlots;
     }
@@ -157,6 +172,14 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
         this.itemBoundsCheckEnabled = !tag.contains("itemBoundsCheckEnabled")
                 || tag.getBoolean("itemBoundsCheckEnabled");
 
+        if (tag.contains("lobbyAreaMinX")) {
+            this.lobbyArea = new Box(
+                    tag.getDouble("lobbyAreaMinX"), tag.getDouble("lobbyAreaMinY"), tag.getDouble("lobbyAreaMinZ"),
+                    tag.getDouble("lobbyAreaMaxX"), tag.getDouble("lobbyAreaMaxY"), tag.getDouble("lobbyAreaMaxZ"));
+        } else {
+            this.lobbyArea = DEFAULT_LOBBY_AREA;
+        }
+
         this.teleportationSlots.clear();
         if (tag.contains("teleportationSlots")) {
             NbtList list = tag.getList("teleportationSlots", NbtCompound.COMPOUND_TYPE);
@@ -174,6 +197,13 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
         tag.putBoolean("playerCollisionsEnabled", this.playerCollisionsEnabled);
         tag.putBoolean("blockInteractionsProtected", this.blockInteractionsProtected);
         tag.putBoolean("itemBoundsCheckEnabled", this.itemBoundsCheckEnabled);
+
+        tag.putDouble("lobbyAreaMinX", this.lobbyArea.minX);
+        tag.putDouble("lobbyAreaMinY", this.lobbyArea.minY);
+        tag.putDouble("lobbyAreaMinZ", this.lobbyArea.minZ);
+        tag.putDouble("lobbyAreaMaxX", this.lobbyArea.maxX);
+        tag.putDouble("lobbyAreaMaxY", this.lobbyArea.maxY);
+        tag.putDouble("lobbyAreaMaxZ", this.lobbyArea.maxZ);
 
         NbtList list = new NbtList();
         for (TeleportationSlot slot : this.teleportationSlots) {
