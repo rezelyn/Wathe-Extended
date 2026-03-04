@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.client;
 
+import cat.rezelyn.watheextended.client.debug.BoxDebugRenderer;
 import cat.rezelyn.watheextended.client.screen.GuidebookScreen;
 import cat.rezelyn.watheextended.client.screen.WatheOptionsScreen;
 import cat.rezelyn.watheextended.index.WatheExtendedBlocks;
@@ -15,6 +16,8 @@ import net.minecraft.util.TypedActionResult;
 public class WatheExtendedClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        BoxDebugRenderer.register();
+
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),
                 WatheExtendedBlocks.ANTHRACITE_STEEL_ORNAMENT,
                 WatheExtendedBlocks.KHAKI_STEEL_ORNAMENT,
@@ -33,8 +36,6 @@ public class WatheExtendedClient implements ClientModInitializer {
                 WatheExtendedBlocks.SNOWY_FLOWERING_AZALEA_LEAVES,
                 WatheExtendedBlocks.MUSIC_DISC_BOX
         );
-
-        // BlockRenderLayerMap.INSTANCE.putBlock(WatheExtendedBlocks.MUSIC_DISC_BOX, RenderLayer.getTranslucent());
 
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client2) ->
                 WatheOptionsScreen.clearPendingState());

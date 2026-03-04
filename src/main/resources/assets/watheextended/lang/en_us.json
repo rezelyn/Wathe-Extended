@@ -85,6 +85,15 @@
   "gui.watheextended.config.category.client.option.disablescreenshake": "Disable Screen Shake",
   "gui.watheextended.config.category.client.option.disablescreenshake.desc": "When enabled, disables the screen shake effect.",
 
+  "gui.watheextended.config.category.client.group.debug": "Debug",
+  "gui.watheextended.config.category.client.group.debug.tooltip": "Debugging tools for OPs.",
+  "gui.watheextended.config.category.client.group.debug.opt.showboxboundaries": "Show Area Boundaries",
+  "gui.watheextended.config.category.client.group.debug.opt.showboxboundaries.desc": "When enabled, renders outlines around the configured area boxes:\n• §cPlay Area\n• §aReady Area\n• §9Lobby Area",
+  "gui.watheextended.config.category.client.group.debug.opt.showrtpslots": "Show RTP Slots",
+  "gui.watheextended.config.category.client.group.debug.opt.showrtpslots.desc": "When enabled, renders a box at each configured RTP teleportation slot exact coordinates and yaw/pitch.",
+  "gui.watheextended.config.category.client.group.debug.opt.showkeyassignments": "Show Key Assignments",
+  "gui.watheextended.config.category.client.group.debug.opt.showkeyassignments.desc": "When enabled, highlights all doors that have a key ID assigned to them, while showing what key ID the door has.",
+
   "gui.watheextended.config.category.options": "Game",
   "gui.watheextended.config.category.options.tooltip": "General options for WATHE and add-ons",
   "gui.watheextended.config.category.options.group.gamerules": "Gamerules",

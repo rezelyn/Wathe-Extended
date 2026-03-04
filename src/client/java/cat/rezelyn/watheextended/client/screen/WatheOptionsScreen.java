@@ -118,7 +118,58 @@ public final class WatheOptionsScreen {
                 .controller(TickBoxControllerBuilder::create)
                 .build());
 
+        if (isOp()) {
+            builder.group(buildDebugGroup());
+        }
+
         return builder.build();
+    }
+
+    private static OptionGroup buildDebugGroup() {
+        return OptionGroup.createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.client.group.debug")
+                        .styled(style -> style.withColor(0xFF5555)))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.client.group.debug.tooltip")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .collapsed(false)
+                .option(Option.<Boolean>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.category.client.group.debug.opt.showboxboundaries"))
+                        .description(OptionDescription.of(
+                                Text.translatable("gui.watheextended.config.category.client.group.debug.opt.showboxboundaries.desc")
+                                        .styled(style -> style.withColor(0xFFFFFF))))
+                        .binding(false,
+                                () -> cat.rezelyn.watheextended.client.debug.BoxDebugRenderer.showBoxBoundaries,
+                                v -> cat.rezelyn.watheextended.client.debug.BoxDebugRenderer.showBoxBoundaries = v)
+                        .controller(opt -> BooleanControllerBuilder.create(opt)
+                                .coloured(true)
+                                .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
+                        .build())
+                .option(Option.<Boolean>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.category.client.group.debug.opt.showrtpslots"))
+                        .description(OptionDescription.of(
+                                Text.translatable("gui.watheextended.config.category.client.group.debug.opt.showrtpslots.desc")
+                                        .styled(style -> style.withColor(0xFFFFFF))))
+                        .binding(false,
+                                () -> cat.rezelyn.watheextended.client.debug.BoxDebugRenderer.showRtpSlots,
+                                v -> cat.rezelyn.watheextended.client.debug.BoxDebugRenderer.showRtpSlots = v)
+                        .controller(opt -> BooleanControllerBuilder.create(opt)
+                                .coloured(true)
+                                .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
+                        .build())
+                .option(Option.<Boolean>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.category.client.group.debug.opt.showkeyassignments"))
+                        .description(OptionDescription.of(
+                                Text.translatable("gui.watheextended.config.category.client.group.debug.opt.showkeyassignments.desc")
+                                        .styled(style -> style.withColor(0xFFFFFF))))
+                        .binding(false,
+                                () -> cat.rezelyn.watheextended.client.debug.BoxDebugRenderer.showKeyAssignments,
+                                v -> cat.rezelyn.watheextended.client.debug.BoxDebugRenderer.showKeyAssignments = v)
+                        .controller(opt -> BooleanControllerBuilder.create(opt)
+                                .coloured(true)
+                                .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
+                        .build())
+                .build();
     }
 
     private static ConfigCategory buildOptionsCategory() {
