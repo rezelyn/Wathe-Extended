@@ -10,6 +10,7 @@
     "client.wathe.LobbyPlayersRendererMixin",
     "client.wathe.LimitedInventoryScreenMixin",
     "client.wathe.PlayerMoodComponentMixin",
+    "client.noellesroles.GraverobberCoronerHudMixin",
     "client.starexpress.GuidebookButtonMixin",
     "client.ItemRendererAccessor",
     "client.ItemRendererMixin",
