@@ -5,10 +5,11 @@
   "name": "Wathe Extended",
   "description": "Add-on mod for Wathe: Murder Mystery, made for \"The Harpy Express: Extended\" modpack.",
   "authors": [
-    "Rezelyn",
-    "\nSpecial thanks:\n- The D.R. Harpy Transportation Ltd. for being psychopaths\n\nAdditional assets from:\n- Color Ink (WathExtra)\n- LadySnake (Wathe: Murder Mystery)"
+    "Rezelyn\n\nSpecial thanks:\n- The D.R. Harpy Transportation Ltd. for being psychopaths\n\nAdditional assets from:\n- Color Ink (WathExtra)\n- LadySnake (Wathe: Murder Mystery)"
   ],
-  "contact": {},
+  "contact": {
+    "sources": "https://github.com/rezelyn/Wathe-Extended"
+  },
   "license": "GPL-3.0",
   "icon": "assets/watheextended/icon.png",
   "environment": "*",
