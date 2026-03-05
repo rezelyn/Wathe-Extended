@@ -49,13 +49,14 @@ public final class TeleportationSlot {
     }
 
     public String toCommandArgs() {
-        return fmt(x) + " " + fmt(y) + " " + fmt(z) + " " + fmt(yaw) + " " + fmt(pitch);
+        return rounded(x) + " " + rounded(y) + " " + rounded(z) + " " + rounded(yaw) + " " + rounded(pitch);
     }
 
-    private static String fmt(double v) {
-        String s = String.format("%.4f", v);
-        s = s.replaceAll("0+$", "").replaceAll("\\.$", "");
-        return s;
+    private static String rounded(double v) {
+        // round double to 4 decimal places and trim zeros
+        String round = String.format("%.4f", v);
+        round = round.replaceAll("0+$", "").replaceAll("\\.$", "");
+        return round;
     }
 }
 
