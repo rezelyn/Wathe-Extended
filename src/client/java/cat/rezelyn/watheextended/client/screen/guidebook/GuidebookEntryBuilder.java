@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.client.screen.guidebook;
 
+import cat.rezelyn.watheextended.api.hml.ConfigHelper;
 import cat.rezelyn.watheextended.api.hml.ModifiersDisplay;
 import cat.rezelyn.watheextended.api.wathe.RolesDisplay;
 import net.minecraft.text.Text;
@@ -79,7 +80,12 @@ public final class GuidebookEntryBuilder {
                 list.add(GuidebookEntry.header(headerText, col));
                 for (RolesDisplay.RoleDisplay d : group.entries()) {
                     String descKey = "gui.watheextended.guidebook.role.desc." + d.id().replace(":", ".");
-                    list.add(GuidebookEntry.entry(d.display(), d.color(), d.id(), descKey, d.display()));
+                    boolean active = !ConfigHelper.getDisabledRoles().contains(d.id());
+                    Text icon = GuidebookIcons.icon(active ? "enabled" : "disabled");
+                    Text entryText = icon.copy()
+                            .append(Text.literal(" ").styled(s -> s.withFont(null)))
+                            .append(d.display().copy().styled(s -> s.withColor(d.color())));
+                    list.add(GuidebookEntry.entry(entryText, d.color(), d.id(), descKey, d.display(), active));
                 }
             }
         } catch (Throwable ignored) {
@@ -93,8 +99,14 @@ public final class GuidebookEntryBuilder {
             Map<String, ModifiersDisplay.ModifierDisplay> modifiers = ModifiersDisplay.get();
             if (modifiers.isEmpty()) return list;
             for (ModifiersDisplay.ModifierDisplay d : modifiers.values()) {
+                if (isBlacklisted(d.id())) continue;
                 String descKey = "gui.watheextended.guidebook.modifier.desc." + d.id().replace(":", ".");
-                list.add(GuidebookEntry.entry(d.display(), d.color(), d.id(), descKey, d.display()));
+                boolean active = !ConfigHelper.getDisabledModifiers().contains(d.id());
+                Text icon = GuidebookIcons.icon(active ? "enabled" : "disabled");
+                Text entryText = icon.copy()
+                        .append(Text.literal(" ").styled(s -> s.withFont(null)))
+                        .append(d.display().copy().styled(s -> s.withColor(d.color())));
+                list.add(GuidebookEntry.entry(entryText, d.color(), d.id(), descKey, d.display(), active));
             }
         } catch (Throwable ignored) {
         }

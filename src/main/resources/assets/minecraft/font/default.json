@@ -216,6 +216,20 @@
       "ascent": 9,
       "height": 12,
       "chars": ["\uE214"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/enabled.png",
+      "ascent": 7,
+      "height": 8,
+      "chars": ["\uE215"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/disabled.png",
+      "ascent": 7,
+      "height": 8,
+      "chars": ["\uE216"]
     }
   ]
 }

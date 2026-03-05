@@ -39,7 +39,9 @@ public final class GuidebookIcons {
             Map.entry("coin", "\uE211"),
             Map.entry("killer", "\uE212"),
             Map.entry("civilian", "\uE213"),
-            Map.entry("neutral", "\uE214")
+            Map.entry("neutral", "\uE214"),
+            Map.entry("enabled", "\uE215"),
+            Map.entry("disabled", "\uE216")
     );
     private static final Style ICON_STYLE = Style.EMPTY
             .withColor(Formatting.WHITE)

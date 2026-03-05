@@ -12,6 +12,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -20,120 +21,122 @@ import java.util.List;
 
 public class GuidebookScreen extends Screen {
 
-    static final int BOOK_WIDTH = 295;
-    static final int BOOK_HEIGHT = 180;
-    static final int LINE_HEIGHT = 11;
-    static final int CONTENT_PADDING = 5;
-    private static final Identifier BOOK_TEXTURE = Identifier.of("watheextended", "textures/gui/guidebook/book.png");
-    private static final float TITLE_SCALE = 1.3f;
+    // layout
+    static final int BOOK_WIDTH = 380;
+    static final int BOOK_HEIGHT = 240;
+    static final int LINE_HEIGHT = 12;
+    static final int CONTENT_PAD = 7;
+    private static final int PAGE_MARGIN_X = 18;
+    private static final int PAGE_MARGIN_TOP = 20;
+    private static final int PAGE_MARGIN_BOTTOM = 16;
+    private static final int SPINE_WIDTH = 9;
+    private static final int TAB_WIDTH = 76;
+    private static final int TAB_HEIGHT = 20;
+    private static final int TAB_GAP = 3;
+    private static final int CLOSE_BTN_WIDTH = 76;
+    private static final int CLOSE_BTN_HEIGHT = 16;
 
-    // colours (hex + alpha)
-    private static final int COLOR_SELECTED_BG = 0x33000000;
-    private static final int COLOR_HOVER_BG = 0x1A000000;
-    private static final int COLOR_SCROLL_BAR = 0xFF8B7355;
-    private static final int COLOR_SCROLL_TRACK = 0x33000000;
-    private static final int COLOR_RIGHT_TEXT = 0xFF3B2A1A;
-    private static final int COLOR_SELECT_HINT = 0xFF9B8B6B;
-
-    // navigation bar
+    // nav-bar
     private static final int PAGE_COUNT = GuidebookPageContent.PAGE_LABELS.length;
-    private static final int PAGE_BTN_W = 40;
-    private static final int PAGE_BTN_H = 12;
-    private static final int PAGE_BTN_MARGIN = 4;
+    private static final int NAV_BTN_W = 52;
+    private static final int NAV_BTN_H = 14;
+    private static final int NAV_BTN_MARGIN = 5;
 
-    // runtime
-    private Tab activeTab = Tab.ROLES;
-    private boolean isOpened = true;
+    // rendering
+    private static final float TITLE_SCALE = 1.6f;
+    private static final int TITLE_EXTRA_H = 4; // gap after title block
 
+    private static final int COLOR_SELECTED_BG = 0x33000000;
+    private static final int COLOR_HOVER_BG    = 0x1A000000;
+    private static final int COLOR_RIGHT_TEXT  = 0xFF3B2A1A;
+    private static final int COLOR_HINT        = 0xFF9B8B6B;
+
+    // nav-button sprites
+    private static final Identifier NAV_PREV          = Identifier.of("watheextended", "textures/gui/guidebook/sprites/previous.png");
+    private static final Identifier NAV_PREV_DISABLED = Identifier.of("watheextended", "textures/gui/guidebook/sprites/previous_disabled.png");
+    private static final Identifier NAV_PREV_HOVERED  = Identifier.of("watheextended", "textures/gui/guidebook/sprites/previous_hovered.png");
+    private static final Identifier NAV_NEXT          = Identifier.of("watheextended", "textures/gui/guidebook/sprites/next.png");
+    private static final Identifier NAV_NEXT_DISABLED = Identifier.of("watheextended", "textures/gui/guidebook/sprites/next_disabled.png");
+    private static final Identifier NAV_NEXT_HOVERED  = Identifier.of("watheextended", "textures/gui/guidebook/sprites/next_hovered.png");
+
+    private static final Identifier BOOK_TEXTURE =
+            Identifier.of("watheextended", "textures/gui/guidebook/book.png");
+
+    // regions
     private int bookX, bookY;
-    private int leftPageX, leftPageY, leftPageWidth, leftPageHeight;
-    private int rightPageX, rightPageY, rightPageWidth, rightPageHeight;
+    private int leftPageX, leftPageY, leftPageW, leftPageH;
+    private int rightPageX, rightPageY, rightPageW, rightPageH;
 
-    // left page scroll
+    // scroll
     private int leftScrollTarget = 0;
     private float leftScrollSmooth = 0f;
-    private int leftTotalHeight = 0;
-    private boolean isDraggingScroll = false;
-    private int dragStartY = 0, dragStartScroll = 0;
+    private int leftContentHeight = 0;
 
-    // right page scroll
     private int rightScrollTarget = 0;
     private float rightScrollSmooth = 0f;
-    private int rightTotalHeight = 0;
-    private boolean isDraggingRightScroll = false;
-    private int dragStartRightY = 0, dragStartRightScroll = 0;
+    private int rightContentHeight = 0;
 
-    // cached entry lists
+    private boolean isDraggingLeft = false;
+    private boolean isDraggingRight = false;
+    private int dragAnchorY = 0;
+    private int dragAnchorScrollLeft = 0;
+    private int dragAnchorScrollRight = 0;
+
+    // tracked mouse position (updated each render frame for hover checks)
+    private int lastMouseX = 0;
+    private int lastMouseY = 0;
+
+    // tabs and entries
+    private Tab activeTab = Tab.ROLES;
+    private boolean firstOpen = true;
+
     private List<GuidebookEntry> rolesEntries = null;
-    private List<GuidebookEntry> modifiersEntries = null;
+    private List<GuidebookEntry> modifierEntries = null;
 
-    // selected entry
     private String selectedId = null;
     private Text selectedTitle = null;
     private int selectedColor = 0xFF3B2A1A;
     private String selectedDescKey = null;
     private String selectedEntryId = null;
 
-    // right page paging
-    private int currentPage = 0; // (0 = description, 1 = abilities, 2 = items)
-    private List<Text> selectedDescLines = null;
-    private boolean selectedDescNoContent = false;
+    private int currentPage = 0;
+    private List<Text> rightPageLines = null;
+    private boolean rightPageNoContent = false;
 
     public GuidebookScreen() {
         super(Text.translatable("gui.watheextended.guidebook.title"));
+    }
+
+    private static boolean isInsidePage(int mx, int my, int px, int py, int pw, int ph) {
+        return mx >= px && mx <= px + pw && my >= py && my <= py + ph;
+    }
+
+    private static boolean isYVisible(int y, int regionY, int regionH) {
+        return y >= regionY && y <= regionY + regionH;
+    }
+
+    private static boolean isBlockVisible(int y, int blockH, int regionY, int regionH) {
+        return y + blockH >= regionY && y <= regionY + regionH;
     }
 
     private static int opaque(int color) {
         return 0xFF000000 | (color & 0x00FFFFFF);
     }
 
-    private static int clamp(int v, int min, int max) {
-        return Math.max(min, Math.min(max, v));
+    private static int clamp(int value, int min, int max) {
+        return Math.max(min, Math.min(max, value));
     }
 
     @Override
     protected void init() {
         super.init();
-        bookX = (width - BOOK_WIDTH) / 2;
-        bookY = (height - BOOK_HEIGHT) / 2;
-
-        int pageMarginX = 14, pageMarginTop = 16, pageMarginBottom = 12, spineW = 7;
-        int halfBook = BOOK_WIDTH / 2;
-
-        leftPageX = bookX + pageMarginX;
-        leftPageY = bookY + pageMarginTop;
-        leftPageWidth = halfBook - pageMarginX - spineW / 2 - 4;
-        leftPageHeight = BOOK_HEIGHT - pageMarginTop - pageMarginBottom;
-
-        rightPageX = bookX + halfBook + spineW / 2 + 4;
-        rightPageY = bookY + pageMarginTop;
-        rightPageWidth = halfBook - pageMarginX - spineW / 2 - 4;
-        rightPageHeight = BOOK_HEIGHT - pageMarginTop - pageMarginBottom;
-
-        int tabCount = Tab.values().length;
-        int tabWidth = 60;
-        int totalTabW = tabCount * tabWidth + (tabCount - 1) * 2;
-        int tabStartX = bookX + (BOOK_WIDTH - totalTabW) / 2;
-        int tabY = bookY - 22;
-
-        clearChildren();
-        for (int i = 0; i < tabCount; i++) {
-            final Tab tab = Tab.values()[i];
-            int tx = tabStartX + i * (tabWidth + 2);
-            addDrawableChild(ButtonWidget.builder(tab.label, btn -> selectTab(tab))
-                    .dimensions(tx, tabY, tabWidth, 18).build());
-        }
-
-        int closeBtnW = 60, closeBtnH = 14;
-        int closeBtnX = bookX + (BOOK_WIDTH - closeBtnW) / 2;
-        int closeBtnY = bookY + BOOK_HEIGHT + 4;
-        addDrawableChild(ButtonWidget.builder(
-                Text.translatable("gui.watheextended.guidebook.button.close"), btn -> close())
-                .dimensions(closeBtnX, closeBtnY, closeBtnW, closeBtnH).build());
-
+        computeLayout();
+        addTabButtons();
+        addCloseButton();
         refreshEntries();
-        if (isOpened) {
-            isOpened = false;
+
+        if (firstOpen) {
+            firstOpen = false;
             autoSelectPlayerRole();
             playSound(WatheExtendedSounds.GUIDEBOOK_OPEN);
         }
@@ -150,15 +153,62 @@ public class GuidebookScreen extends Screen {
         return false;
     }
 
+    private void computeLayout() {
+        bookX = (width - BOOK_WIDTH) / 2;
+        bookY = (height - BOOK_HEIGHT) / 2;
+
+        int halfBook = BOOK_WIDTH / 2;
+        int spineHalf = SPINE_WIDTH / 2;
+
+        leftPageX = bookX + PAGE_MARGIN_X;
+        leftPageY = bookY + PAGE_MARGIN_TOP;
+        leftPageW = halfBook - PAGE_MARGIN_X - spineHalf - 4;
+        leftPageH = BOOK_HEIGHT - PAGE_MARGIN_TOP - PAGE_MARGIN_BOTTOM;
+
+        rightPageX = bookX + halfBook + spineHalf + 4;
+        rightPageY = bookY + PAGE_MARGIN_TOP;
+        rightPageW = halfBook - PAGE_MARGIN_X - spineHalf - 4;
+        rightPageH = BOOK_HEIGHT - PAGE_MARGIN_TOP - PAGE_MARGIN_BOTTOM;
+    }
+
+    private void addTabButtons() {
+        Tab[] tabs = Tab.values();
+        int totalW = tabs.length * TAB_WIDTH + (tabs.length - 1) * TAB_GAP;
+        int startX = bookX + (BOOK_WIDTH - totalW) / 2;
+        int tabY = bookY - 22;
+
+        clearChildren();
+        for (int i = 0; i < tabs.length; i++) {
+            final Tab tab = tabs[i];
+            int tx = startX + i * (TAB_WIDTH + TAB_GAP);
+            addDrawableChild(
+                    ButtonWidget.builder(tab.label, btn -> selectTab(tab))
+                            .dimensions(tx, tabY, TAB_WIDTH, TAB_HEIGHT)
+                            .build()
+            );
+        }
+    }
+
+    private void addCloseButton() {
+        int x = bookX + (BOOK_WIDTH - CLOSE_BTN_WIDTH) / 2;
+        int y = bookY + BOOK_HEIGHT + 4;
+        addDrawableChild(
+                ButtonWidget.builder(
+                        Text.translatable("gui.watheextended.guidebook.button.close"),
+                        btn -> close()
+                ).dimensions(x, y, CLOSE_BTN_WIDTH, CLOSE_BTN_HEIGHT).build()
+        );
+    }
+
     @Override
     public void renderBackground(DrawContext context, int mouseX, int mouseY, float delta) {
     }
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        float speed = 1f - (float) Math.pow(0.08, delta);
-        leftScrollSmooth += (leftScrollTarget - leftScrollSmooth) * speed;
-        rightScrollSmooth += (rightScrollTarget - rightScrollSmooth) * speed;
+        lastMouseX = mouseX;
+        lastMouseY = mouseY;
+        updateScrollSmooth(delta);
 
         context.fill(0, 0, width, height, 0xB0000000);
         context.drawTexture(BOOK_TEXTURE, bookX, bookY, 0, 0, BOOK_WIDTH, BOOK_HEIGHT, BOOK_WIDTH, BOOK_HEIGHT);
@@ -167,12 +217,18 @@ public class GuidebookScreen extends Screen {
         super.render(context, mouseX, mouseY, delta);
     }
 
-    private void renderLeftPage(DrawContext context, int mouseX, int mouseY) {
-        int scrollbarW = 3;
-        int usableW = leftPageWidth - CONTENT_PADDING * 2 - scrollbarW - 2;
-        context.enableScissor(leftPageX, leftPageY, leftPageX + leftPageWidth, leftPageY + leftPageHeight);
+    private void updateScrollSmooth(float delta) {
+        float speed = 1f - (float) Math.pow(0.08, delta);
+        leftScrollSmooth += (leftScrollTarget - leftScrollSmooth) * speed;
+        rightScrollSmooth += (rightScrollTarget - rightScrollSmooth) * speed;
+    }
 
-        int y = leftPageY + CONTENT_PADDING - (int) leftScrollSmooth;
+    // left page
+    private void renderLeftPage(DrawContext context, int mouseX, int mouseY) {
+        int usableW = leftPageW - CONTENT_PAD * 2;
+        context.enableScissor(leftPageX, leftPageY, leftPageX + leftPageW, leftPageY + leftPageH);
+
+        int y = leftPageY + CONTENT_PAD - (int) leftScrollSmooth;
 
         for (GuidebookEntry entry : currentEntries()) {
             if (entry.text().getString().isEmpty()) {
@@ -181,186 +237,185 @@ public class GuidebookScreen extends Screen {
             }
 
             if (entry.isHeader()) {
-                if (y + LINE_HEIGHT >= leftPageY && y <= leftPageY + leftPageHeight) {
-                    int color = opaque(entry.color());
-                    context.drawText(textRenderer, entry.text(), leftPageX + CONTENT_PADDING, y, color, true);
+                if (isYVisible(y, leftPageY, leftPageH)) {
+                    context.drawText(textRenderer, entry.text(),
+                            leftPageX + CONTENT_PAD, y, opaque(entry.color()), true);
                 }
                 y += LINE_HEIGHT + 3;
                 continue;
             }
 
             List<OrderedText> wrapped = textRenderer.wrapLines(entry.text(), usableW);
-            int blockH = wrapped.size() * LINE_HEIGHT;
+            // highlight box fits the actual font height (fontHeight = 9) + 2px padding each side
+            int fontH  = textRenderer.fontHeight;
+            int rowH   = fontH + 4;
+            int blockH = wrapped.size() * rowH;
 
-            if (y + blockH >= leftPageY && y <= leftPageY + leftPageHeight) {
+            if (isBlockVisible(y, blockH, leftPageY, leftPageH)) {
                 boolean isSelected = entry.id() != null && entry.id().equals(selectedId);
-                boolean isHovered = entry.id() != null
-                        && mouseX >= leftPageX && mouseX <= leftPageX + leftPageWidth
-                        && mouseY >= y && mouseY < y + blockH;
+                boolean isHovered  = entry.id() != null && isMouseOverEntry(mouseX, mouseY, y, blockH);
 
-                if (isSelected)
-                    context.fill(leftPageX, y, leftPageX + leftPageWidth - scrollbarW - 2, y + blockH, COLOR_SELECTED_BG);
-                else if (isHovered)
-                    context.fill(leftPageX, y, leftPageX + leftPageWidth - scrollbarW - 2, y + blockH, COLOR_HOVER_BG);
+                if (isSelected)     context.fill(leftPageX, y, leftPageX + leftPageW, y + blockH, COLOR_SELECTED_BG);
+                else if (isHovered) context.fill(leftPageX, y, leftPageX + leftPageW, y + blockH, COLOR_HOVER_BG);
 
-                int color = opaque(entry.color());
+                int color   = opaque(entry.color());
+                int offsetY = (rowH - fontH) / 2; // 2px — centers text vertically in the box
+                int lineY   = y + offsetY;
                 for (OrderedText line : wrapped) {
-                    context.drawText(textRenderer, line, leftPageX + CONTENT_PADDING, y, color, false);
-                    y += LINE_HEIGHT;
+                    context.drawText(textRenderer, line, leftPageX + CONTENT_PAD, lineY, color, false);
+                    lineY += rowH;
                 }
-            } else {
-                y += blockH;
             }
+            y += blockH;
         }
 
         context.disableScissor();
-        renderScrollbar(context, leftPageX, leftPageY, leftPageWidth, leftPageHeight,
-                leftTotalHeight, leftScrollSmooth);
     }
 
+    private boolean isMouseOverEntry(int mouseX, int mouseY, int entryY, int blockH) {
+        return mouseX >= leftPageX && mouseX <= leftPageX + leftPageW
+                && mouseY >= entryY && mouseY < entryY + blockH;
+    }
+
+    // right page
     private boolean isPaged() {
         return activeTab == Tab.ROLES;
     }
 
-    private void renderRightPage(DrawContext context) {
-        boolean paged = isPaged();
-        int navBarH = paged ? PAGE_BTN_H + PAGE_BTN_MARGIN * 2 : 0;
-        int scrollAreaH = rightPageHeight - navBarH;
+    private int navBarHeight() {
+        return isPaged() ? NAV_BTN_H + NAV_BTN_MARGIN * 2 : 0;
+    }
 
+    private void renderRightPage(DrawContext context) {
         if (selectedId == null) {
-            Text hint = Text.translatable("gui.watheextended.guidebook.right_page.hint.select");
-            int hx = rightPageX + (rightPageWidth - textRenderer.getWidth(hint)) / 2;
-            int hy = rightPageY + rightPageHeight / 2 - LINE_HEIGHT / 2;
-            context.drawText(textRenderer, hint.copy().styled(s -> s.withItalic(true)), hx, hy, COLOR_SELECT_HINT, false);
+            renderNoSelectionHint(context);
             return;
         }
 
-        int scrollbarW = 3;
-        int usableW = rightPageWidth - CONTENT_PADDING * 2 - scrollbarW - 2;
-        context.enableScissor(rightPageX, rightPageY, rightPageX + rightPageWidth, rightPageY + scrollAreaH);
+        int scrollAreaH = rightPageH - navBarHeight();
+        renderRightContent(context, scrollAreaH);
+        if (isPaged()) renderPageNavBar(context, scrollAreaH);
+    }
 
-        int y = rightPageY + CONTENT_PADDING - (int) rightScrollSmooth;
+    private void renderNoSelectionHint(DrawContext context) {
+        Text hint = Text.translatable("gui.watheextended.guidebook.right_page.hint.select");
+        int x = rightPageX + (rightPageW - textRenderer.getWidth(hint)) / 2;
+        int y = rightPageY + rightPageH / 2 - LINE_HEIGHT / 2;
+        context.drawText(textRenderer, hint.copy().styled(s -> s.withItalic(true)), x, y, COLOR_HINT, false);
+    }
 
+    private void renderRightContent(DrawContext context, int scrollAreaH) {
+        int usableW = rightPageW - CONTENT_PAD * 2;
+        context.enableScissor(rightPageX, rightPageY, rightPageX + rightPageW, rightPageY + scrollAreaH);
+
+        int y = rightPageY + CONTENT_PAD - (int) rightScrollSmooth;
+        y = renderRightTitle(context, y, usableW, scrollAreaH);
+        y = renderPageSubtitle(context, y, usableW, scrollAreaH);
+        renderRightLines(context, y, usableW, scrollAreaH);
+
+        context.disableScissor();
+    }
+
+    private int renderRightTitle(DrawContext context, int y, int usableW, int scrollAreaH) {
         int titleColor = opaque(selectedColor);
         int scaledTitleW = (int) (usableW / TITLE_SCALE);
         int scaledLineH = (int) Math.ceil(LINE_HEIGHT * TITLE_SCALE);
-        for (OrderedText tl : textRenderer.wrapLines(selectedTitle.copy().styled(s -> s.withBold(true)), scaledTitleW)) {
-            if (y >= rightPageY && y <= rightPageY + scrollAreaH) {
-                int lineW = (int) (textRenderer.getWidth(tl) * TITLE_SCALE);
-                int centeredX = rightPageX + CONTENT_PADDING + (usableW - lineW) / 2;
+
+        for (OrderedText line : textRenderer.wrapLines(selectedTitle.copy().styled(s -> s.withBold(true)), scaledTitleW)) {
+            if (isYVisible(y, rightPageY, scrollAreaH)) {
+                int lineW = (int) (textRenderer.getWidth(line) * TITLE_SCALE);
+                int centeredX = rightPageX + CONTENT_PAD + (usableW - lineW) / 2;
                 context.getMatrices().push();
                 context.getMatrices().translate(centeredX, y, 0);
                 context.getMatrices().scale(TITLE_SCALE, TITLE_SCALE, 1f);
-                context.drawText(textRenderer, tl, 0, 0, titleColor, true);
+                context.drawText(textRenderer, line, 0, 0, titleColor, true);
                 context.getMatrices().pop();
             }
             y += scaledLineH;
         }
-        y += 4;
+        return y + TITLE_EXTRA_H;
+    }
 
-        if (paged) {
-            Text pageLabel = Text.translatable("gui.watheextended.guidebook.right_page.roles.subtitle.separator",
-                    Text.translatable(GuidebookPageContent.PAGE_LABELS[currentPage]));
-            int labelX = rightPageX + CONTENT_PADDING + (usableW - textRenderer.getWidth(pageLabel)) / 2;
-            if (y >= rightPageY && y <= rightPageY + scrollAreaH) {
-                context.drawText(textRenderer,
-                        pageLabel.copy().styled(s -> s.withItalic(true)), labelX, y, COLOR_SELECT_HINT, false);
-            }
-            y += LINE_HEIGHT + 2;
+    private int renderPageSubtitle(DrawContext context, int y, int usableW, int scrollAreaH) {
+        if (!isPaged()) return y;
+
+        Text label = Text.translatable(
+                "gui.watheextended.guidebook.right_page.roles.subtitle.separator",
+                Text.translatable(GuidebookPageContent.PAGE_LABELS[currentPage])
+        );
+        int x = rightPageX + CONTENT_PAD + (usableW - textRenderer.getWidth(label)) / 2;
+        if (isYVisible(y, rightPageY, scrollAreaH)) {
+            context.drawText(textRenderer, label.copy().styled(s -> s.withItalic(true)), x, y, COLOR_HINT, false);
+        }
+        return y + LINE_HEIGHT + 2;
+    }
+
+    private void renderRightLines(DrawContext context, int y, int usableW, int scrollAreaH) {
+        if (rightPageLines == null) return;
+
+        if (rightPageNoContent) {
+            Text msg = rightPageLines.getFirst();
+            int x = rightPageX + (rightPageW - textRenderer.getWidth(msg)) / 2;
+            int cy = rightPageY + scrollAreaH / 2 - LINE_HEIGHT / 2;
+            context.drawText(textRenderer, msg.copy().styled(s -> s.withItalic(true)), x, cy, COLOR_HINT, false);
+            return;
         }
 
-        if (selectedDescLines != null) {
-            if (selectedDescNoContent) {
-                Text noContent = selectedDescLines.get(0);
-                int nx = rightPageX + (rightPageWidth - textRenderer.getWidth(noContent)) / 2;
-                int ny = rightPageY + scrollAreaH / 2 - LINE_HEIGHT / 2;
-                context.drawText(textRenderer, noContent.copy().styled(s -> s.withItalic(true)), nx, ny, COLOR_SELECT_HINT, false);
-            } else {
-                for (Text line : selectedDescLines) {
-                    if (line.getString().isEmpty()) {
-                        y += LINE_HEIGHT / 2;
-                        continue;
-                    }
-                    for (OrderedText wl : textRenderer.wrapLines(line, usableW)) {
-                        if (y >= rightPageY && y <= rightPageY + scrollAreaH) {
-                            context.drawText(textRenderer, wl, rightPageX + CONTENT_PADDING, y, COLOR_RIGHT_TEXT, false);
-                        }
-                        y += LINE_HEIGHT;
-                    }
+        for (Text line : rightPageLines) {
+            if (line.getString().isEmpty()) {
+                y += LINE_HEIGHT / 2;
+                continue;
+            }
+            for (OrderedText wrapped : textRenderer.wrapLines(line, usableW)) {
+                if (isYVisible(y, rightPageY, scrollAreaH)) {
+                    context.drawText(textRenderer, wrapped, rightPageX + CONTENT_PAD, y, COLOR_RIGHT_TEXT, false);
                 }
+                y += LINE_HEIGHT;
             }
         }
-
-        context.disableScissor();
-        renderScrollbar(context, rightPageX, rightPageY, rightPageWidth, scrollAreaH,
-                rightTotalHeight, rightScrollSmooth);
-        if (paged) renderPageNavButtons(context, scrollAreaH);
     }
 
-    private void renderScrollbar(DrawContext context,
-                                 int pageX, int pageY, int pageW, int pageH,
-                                 int totalH, float scrollSmooth) {
-        if (totalH <= pageH) return;
-        int sx = pageX + pageW - 4;
-        context.fill(sx, pageY, sx + 3, pageY + pageH, COLOR_SCROLL_TRACK);
-        int thumbH = Math.max(12, pageH * pageH / totalH);
-        int maxScroll = Math.max(1, totalH - pageH);
-        int thumbY = pageY + (int) (scrollSmooth * (pageH - thumbH) / maxScroll);
-        context.fill(sx, thumbY, sx + 3, thumbY + thumbH, COLOR_SCROLL_BAR);
-    }
+    // nav-bar
+    private static final int NAV_SPRITE_W = 15;
+    private static final int NAV_SPRITE_H = 10;
 
-    private void renderPageNavButtons(DrawContext context, int scrollAreaH) {
+    private void renderPageNavBar(DrawContext context, int scrollAreaH) {
         int btnY = navBtnY(scrollAreaH);
-        drawNavButton(context, navPrevX(), btnY, "gui.watheextended.guidebook.right_page.button.prev", currentPage > 0);
-        drawNavButton(context, navNextX(), btnY, "gui.watheextended.guidebook.right_page.button.next", currentPage < PAGE_COUNT - 1);
+
+        boolean prevActive  = currentPage > 0;
+        boolean nextActive  = currentPage < PAGE_COUNT - 1;
+        boolean prevHovered = prevActive && isInsideNavBtn(lastMouseX, lastMouseY, navPrevX(), btnY);
+        boolean nextHovered = nextActive && isInsideNavBtn(lastMouseX, lastMouseY, navNextX(), btnY);
+
+        Identifier prevTex = prevActive ? (prevHovered ? NAV_PREV_HOVERED : NAV_PREV) : NAV_PREV_DISABLED;
+        Identifier nextTex = nextActive ? (nextHovered ? NAV_NEXT_HOVERED : NAV_NEXT) : NAV_NEXT_DISABLED;
+
+        // Center the native-size sprite inside the hit-box
+        int prevDrawX = navPrevX() + (NAV_BTN_W - NAV_SPRITE_W) / 2;
+        int nextDrawX = navNextX() + (NAV_BTN_W - NAV_SPRITE_W) / 2;
+        int drawY     = btnY       + (NAV_BTN_H - NAV_SPRITE_H) / 2;
+
+        context.drawTexture(prevTex, prevDrawX, drawY, 0, 0, NAV_SPRITE_W, NAV_SPRITE_H, NAV_SPRITE_W, NAV_SPRITE_H);
+        context.drawTexture(nextTex, nextDrawX, drawY, 0, 0, NAV_SPRITE_W, NAV_SPRITE_H, NAV_SPRITE_W, NAV_SPRITE_H);
 
         String indicator = (currentPage + 1) + " / " + PAGE_COUNT;
-        int cx = rightPageX + (rightPageWidth - textRenderer.getWidth(indicator)) / 2;
-        context.drawText(textRenderer, indicator, cx, btnY + (PAGE_BTN_H - 8) / 2, COLOR_SELECT_HINT, false);
+        int cx = rightPageX + (rightPageW - textRenderer.getWidth(indicator)) / 2;
+        context.drawText(textRenderer, indicator, cx, btnY + (NAV_BTN_H - 8) / 2, COLOR_HINT, false);
     }
 
-    private void drawNavButton(DrawContext context, int x, int y, String translationKey, boolean active) {
-        context.fill(x, y, x + PAGE_BTN_W, y + PAGE_BTN_H, active ? 0xCC6B5A40 : 0x55443322);
-        Text label = Text.translatable(translationKey);
-        int lw = textRenderer.getWidth(label);
-        context.drawText(textRenderer, label,
-                x + (PAGE_BTN_W - lw) / 2, y + (PAGE_BTN_H - 8) / 2,
-                active ? 0xFFE8D9B8 : 0x77998870, false);
+    private boolean isInsideNavBtn(int mx, int my, int btnX, int btnY) {
+        return mx >= btnX && mx <= btnX + NAV_BTN_W
+            && my >= btnY && my <= btnY + NAV_BTN_H;
     }
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (button != 0) return super.mouseClicked(mouseX, mouseY, button);
-        boolean inBook = mouseX >= bookX && mouseX <= bookX + BOOK_WIDTH
-                && mouseY >= bookY && mouseY <= bookY + BOOK_HEIGHT;
-        if (!inBook) return super.mouseClicked(mouseX, mouseY, button);
+        if (!isInsideBook(mouseX, mouseY)) return super.mouseClicked(mouseX, mouseY, button);
+        if (selectedId != null && isPaged() && handleNavBarClick(mouseX, mouseY)) return true;
 
-        if (isOnLeftScrollbar(mouseX, mouseY)) {
-            isDraggingScroll = true;
-            dragStartY = (int) mouseY;
-            dragStartScroll = leftScrollTarget;
-            return true;
-        }
-        if (isOnRightScrollbar(mouseX, mouseY)) {
-            isDraggingRightScroll = true;
-            dragStartRightY = (int) mouseY;
-            dragStartRightScroll = rightScrollTarget;
-            return true;
-        }
-        if (selectedId != null && isPaged()) {
-            int scrollAreaH = rightPageHeight - (PAGE_BTN_H + PAGE_BTN_MARGIN * 2);
-            int btnY = navBtnY(scrollAreaH);
-            if (mouseY >= btnY && mouseY <= btnY + PAGE_BTN_H) {
-                if (mouseX >= navPrevX() && mouseX <= navPrevX() + PAGE_BTN_W && currentPage > 0) {
-                    changePage(currentPage - 1);
-                    return true;
-                }
-                if (mouseX >= navNextX() && mouseX <= navNextX() + PAGE_BTN_W && currentPage < PAGE_COUNT - 1) {
-                    changePage(currentPage + 1);
-                    return true;
-                }
-            }
-        }
+        startDragIfNeeded((int) mouseX, (int) mouseY);
+
         GuidebookEntry clicked = entryAt((int) mouseX, (int) mouseY);
         if (clicked != null && clicked.id() != null) {
             selectEntry(clicked);
@@ -369,28 +424,46 @@ public class GuidebookScreen extends Screen {
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
-    @Override
-    public boolean mouseDragged(double mouseX, double mouseY, int button, double dx, double dy) {
-        if (isDraggingScroll && button == 0) {
-            int delta = (int) mouseY - dragStartY;
-            int maxS = Math.max(0, leftTotalHeight - leftPageHeight);
-            int thumbH = Math.max(12, leftPageHeight * leftPageHeight / Math.max(1, leftTotalHeight));
-            int range = leftPageHeight - thumbH;
-            if (range > 0) {
-                leftScrollTarget = clamp(dragStartScroll + delta * maxS / range, 0, maxS);
-                leftScrollSmooth = leftScrollTarget;
-            }
+    private boolean handleNavBarClick(double mouseX, double mouseY) {
+        int scrollAreaH = rightPageH - navBarHeight();
+        int btnY = navBtnY(scrollAreaH);
+        if (mouseY < btnY || mouseY > btnY + NAV_BTN_H) return false;
+
+        if (mouseX >= navPrevX() && mouseX <= navPrevX() + NAV_BTN_W && currentPage > 0) {
+            changePage(currentPage - 1);
             return true;
         }
-        if (isDraggingRightScroll && button == 0) {
-            int sah = rightPageHeight - (isPaged() ? PAGE_BTN_H + PAGE_BTN_MARGIN * 2 : 0);
-            int delta = (int) mouseY - dragStartRightY;
-            int maxS = Math.max(0, rightTotalHeight - sah);
-            int thumbH = Math.max(12, sah * sah / Math.max(1, rightTotalHeight));
-            int range = sah - thumbH;
-            if (range > 0) {
-                rightScrollTarget = clamp(dragStartRightScroll + delta * maxS / range, 0, maxS);
-                rightScrollSmooth = rightScrollTarget;
+        if (mouseX >= navNextX() && mouseX <= navNextX() + NAV_BTN_W && currentPage < PAGE_COUNT - 1) {
+            changePage(currentPage + 1);
+            return true;
+        }
+        return false;
+    }
+
+    private void startDragIfNeeded(int mouseX, int mouseY) {
+        boolean onLeft = isInsidePage(mouseX, mouseY, leftPageX, leftPageY, leftPageW, leftPageH);
+        boolean onRight = isInsidePage(mouseX, mouseY, rightPageX, rightPageY, rightPageW, rightPageH);
+        if (!onLeft && !onRight) return;
+
+        isDraggingLeft = onLeft;
+        isDraggingRight = onRight;
+        dragAnchorY = mouseY;
+        dragAnchorScrollLeft = leftScrollTarget;
+        dragAnchorScrollRight = rightScrollTarget;
+    }
+
+    @Override
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double dx, double dy) {
+        if (button == 0 && (isDraggingLeft || isDraggingRight)) {
+            int dragDelta = dragAnchorY - (int) mouseY; // drag up → scroll down
+            if (isDraggingLeft) {
+                int max = Math.max(0, leftContentHeight - leftPageH);
+                leftScrollTarget = clamp(dragAnchorScrollLeft + dragDelta, 0, max);
+            }
+            if (isDraggingRight) {
+                int scrollAreaH = rightPageH - navBarHeight();
+                int max = Math.max(0, rightContentHeight - scrollAreaH);
+                rightScrollTarget = clamp(dragAnchorScrollRight + dragDelta, 0, max);
             }
             return true;
         }
@@ -400,22 +473,21 @@ public class GuidebookScreen extends Screen {
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         if (button == 0) {
-            isDraggingScroll = false;
-            isDraggingRightScroll = false;
+            isDraggingLeft = false;
+            isDraggingRight = false;
         }
         return super.mouseReleased(mouseX, mouseY, button);
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double ha, double va) {
-        boolean inBook = mouseX >= bookX && mouseX <= bookX + BOOK_WIDTH
-                && mouseY >= bookY && mouseY <= bookY + BOOK_HEIGHT;
-        if (!inBook) return super.mouseScrolled(mouseX, mouseY, ha, va);
-        if (mouseX >= rightPageX && mouseX <= rightPageX + rightPageWidth
-                && mouseY >= rightPageY && mouseY <= rightPageY + rightPageHeight) {
-            scrollRight((int) (-va * 10));
+    public boolean mouseScrolled(double mouseX, double mouseY, double horizontalAmount, double verticalAmount) {
+        if (!isInsideBook(mouseX, mouseY)) return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
+
+        int scrollDelta = (int) (-verticalAmount * 10);
+        if (isInsidePage((int) mouseX, (int) mouseY, rightPageX, rightPageY, rightPageW, rightPageH)) {
+            scrollRight(scrollDelta);
         } else {
-            scrollLeft((int) (-va * 10));
+            scrollLeft(scrollDelta);
         }
         return true;
     }
@@ -426,40 +498,31 @@ public class GuidebookScreen extends Screen {
             case 256 -> {
                 close();
                 yield true;
-            }
+            } // Escape
             case 264 -> {
                 scrollLeft(10);
                 yield true;
-            }
+            } // Arrow Down
             case 265 -> {
                 scrollLeft(-10);
                 yield true;
-            }
+            } // Arrow Up
             case 266 -> {
-                scrollLeft(-leftPageHeight);
+                scrollLeft(-leftPageH);
                 yield true;
-            }
+            } // Page Up
             case 267 -> {
-                scrollLeft(leftPageHeight);
+                scrollLeft(leftPageH);
                 yield true;
-            }
+            } // Page Down
             default -> super.keyPressed(keyCode, scanCode, modifiers);
         };
     }
 
     private void selectTab(Tab tab) {
         activeTab = tab;
-        leftScrollTarget = 0;
-        leftScrollSmooth = 0f;
-        rightScrollTarget = 0;
-        rightScrollSmooth = 0f;
-        selectedId = null;
-        selectedTitle = null;
-        selectedDescLines = null;
-        selectedDescNoContent = false;
-        selectedDescKey = null;
-        selectedEntryId = null;
-        currentPage = 0;
+        resetScrollBoth();
+        clearSelection();
         refreshEntries();
     }
 
@@ -471,23 +534,32 @@ public class GuidebookScreen extends Screen {
         selectedDescKey = entry.descriptionKey();
         selectedEntryId = entry.id();
         currentPage = 0;
-        rightScrollTarget = 0;
-        rightScrollSmooth = 0f;
+        resetScrollRight();
         loadPageContent();
     }
 
     private void changePage(int page) {
         currentPage = page;
-        rightScrollTarget = 0;
-        rightScrollSmooth = 0f;
+        resetScrollRight();
         loadPageContent();
         playSound(WatheExtendedSounds.GUIDEBOOK_PAGE);
     }
 
+    private void clearSelection() {
+        selectedId = null;
+        selectedTitle = null;
+        selectedDescKey = null;
+        selectedEntryId = null;
+        currentPage = 0;
+        rightPageLines = null;
+        rightPageNoContent = false;
+    }
+
     private void loadPageContent() {
-        GuidebookPageContent.PageResult result = GuidebookPageContent.resolve(selectedDescKey, selectedEntryId, currentPage);
-        selectedDescLines = result.lines();
-        selectedDescNoContent = result.noContent();
+        GuidebookPageContent.PageResult result =
+                GuidebookPageContent.resolve(selectedDescKey, selectedEntryId, currentPage);
+        rightPageLines = result.lines();
+        rightPageNoContent = result.noContent();
         recalcRightHeight();
     }
 
@@ -497,7 +569,7 @@ public class GuidebookScreen extends Screen {
                 if (rolesEntries == null) rolesEntries = GuidebookEntryBuilder.roles().build();
             }
             case MODIFIERS -> {
-                if (modifiersEntries == null) modifiersEntries = GuidebookEntryBuilder.modifiers().build();
+                if (modifierEntries == null) modifierEntries = GuidebookEntryBuilder.modifiers().build();
             }
         }
         recalcLeftHeight();
@@ -506,12 +578,15 @@ public class GuidebookScreen extends Screen {
     private List<GuidebookEntry> currentEntries() {
         return switch (activeTab) {
             case ROLES -> rolesEntries != null ? rolesEntries : List.of();
-            case MODIFIERS -> modifiersEntries != null ? modifiersEntries : List.of();
+            case MODIFIERS -> modifierEntries != null ? modifierEntries : List.of();
         };
     }
 
     private void recalcLeftHeight() {
-        int h = 0;
+        int h = CONTENT_PAD * 2;
+        int usableW = leftPageW - CONTENT_PAD * 2;
+        int fontH = textRenderer != null ? textRenderer.fontHeight : 9;
+        int rowH  = fontH + 4;
         for (GuidebookEntry e : currentEntries()) {
             if (e.isHeader()) {
                 h += LINE_HEIGHT + 3;
@@ -519,32 +594,32 @@ public class GuidebookScreen extends Screen {
                 h += LINE_HEIGHT / 2;
             } else {
                 List<OrderedText> wrapped = textRenderer != null
-                        ? textRenderer.wrapLines(e.text(), leftPageWidth - CONTENT_PADDING * 2 - 6)
+                        ? textRenderer.wrapLines(e.text(), usableW)
                         : List.of(e.text().asOrderedText());
-                h += wrapped.size() * LINE_HEIGHT;
+                h += wrapped.size() * rowH;
             }
         }
-        leftTotalHeight = h + CONTENT_PADDING * 2;
+        leftContentHeight = h;
     }
 
     private void recalcRightHeight() {
-        if (selectedDescLines == null) {
-            rightTotalHeight = 0;
+        if (rightPageLines == null) {
+            rightContentHeight = 0;
             return;
         }
-        int scrollbarW = 3;
-        int usableW = rightPageWidth - CONTENT_PADDING * 2 - scrollbarW - 2;
-        int h = (int) Math.ceil(LINE_HEIGHT * TITLE_SCALE) + 4; // title
-        if (isPaged()) h += LINE_HEIGHT + 2; // page-label
-        for (Text line : selectedDescLines) {
+        int usableW = rightPageW - CONTENT_PAD * 2;
+        int h = (int) Math.ceil(LINE_HEIGHT * TITLE_SCALE) + TITLE_EXTRA_H; // title block
+        if (isPaged()) h += LINE_HEIGHT + 2; // page subtitle label
+        for (Text line : rightPageLines) {
             List<OrderedText> wrapped = textRenderer != null
                     ? textRenderer.wrapLines(line, usableW)
                     : List.of(line.asOrderedText());
             h += Math.max(1, wrapped.size()) * LINE_HEIGHT;
         }
-        rightTotalHeight = h + CONTENT_PADDING * 2;
+        rightContentHeight = h + CONTENT_PAD * 2;
     }
 
+    // try to auto-select the player's role on open
     private void autoSelectPlayerRole() {
         try {
             MinecraftClient client = MinecraftClient.getInstance();
@@ -554,6 +629,7 @@ public class GuidebookScreen extends Screen {
 
             GameWorldComponent gwc = GameWorldComponent.KEY.get(player.getWorld());
             if (gwc == null) return;
+
             Role role = gwc.getRole(player);
             if (role == null || role.identifier() == null) return;
 
@@ -574,10 +650,11 @@ public class GuidebookScreen extends Screen {
     }
 
     private GuidebookEntry entryAt(int mouseX, int mouseY) {
-        if (mouseX < leftPageX || mouseX > leftPageX + leftPageWidth) return null;
-        if (mouseY < leftPageY || mouseY > leftPageY + leftPageHeight) return null;
-        int usableW = leftPageWidth - CONTENT_PADDING * 2 - 3 - 2;
-        int y = leftPageY + CONTENT_PADDING - (int) leftScrollSmooth;
+        if (!isInsidePage(mouseX, mouseY, leftPageX, leftPageY, leftPageW, leftPageH)) return null;
+
+        int usableW = leftPageW - CONTENT_PAD * 2;
+        int y = leftPageY + CONTENT_PAD - (int) leftScrollSmooth;
+
         for (GuidebookEntry entry : currentEntries()) {
             if (entry.text().getString().isEmpty()) {
                 y += LINE_HEIGHT / 2;
@@ -587,48 +664,55 @@ public class GuidebookScreen extends Screen {
                 y += LINE_HEIGHT + 3;
                 continue;
             }
-            int blockH = textRenderer.wrapLines(entry.text(), usableW).size() * LINE_HEIGHT;
+            int rowH   = textRenderer.fontHeight + 4;
+            int blockH = textRenderer.wrapLines(entry.text(), usableW).size() * rowH;
             if (mouseY >= y && mouseY < y + blockH) return entry;
             y += blockH;
         }
         return null;
     }
 
+    private boolean isInsideBook(double mouseX, double mouseY) {
+        return mouseX >= bookX && mouseX <= bookX + BOOK_WIDTH
+                && mouseY >= bookY && mouseY <= bookY + BOOK_HEIGHT;
+    }
+
     private void scrollLeft(int amount) {
-        int max = Math.max(0, leftTotalHeight - leftPageHeight);
+        int max = Math.max(0, leftContentHeight - leftPageH);
         leftScrollTarget = clamp(leftScrollTarget + amount, 0, max);
     }
 
     private void scrollRight(int amount) {
-        int sah = rightPageHeight - (isPaged() ? PAGE_BTN_H + PAGE_BTN_MARGIN * 2 : 0);
-        int max = Math.max(0, rightTotalHeight - sah);
+        int scrollAreaH = rightPageH - navBarHeight();
+        int max = Math.max(0, rightContentHeight - scrollAreaH);
         rightScrollTarget = clamp(rightScrollTarget + amount, 0, max);
     }
 
-    private boolean isOnLeftScrollbar(double mx, double my) {
-        int sx = leftPageX + leftPageWidth - 4;
-        return mx >= sx && mx <= sx + 3 && my >= leftPageY && my <= leftPageY + leftPageHeight;
+    private void resetScrollBoth() {
+        leftScrollTarget = 0;
+        leftScrollSmooth = 0f;
+        rightScrollTarget = 0;
+        rightScrollSmooth = 0f;
     }
 
-    private boolean isOnRightScrollbar(double mx, double my) {
-        int sx = rightPageX + rightPageWidth - 4;
-        int scrollAreaH = rightPageHeight - (isPaged() ? PAGE_BTN_H + PAGE_BTN_MARGIN * 2 : 0);
-        return mx >= sx && mx <= sx + 3 && my >= rightPageY && my <= rightPageY + scrollAreaH;
+    private void resetScrollRight() {
+        rightScrollTarget = 0;
+        rightScrollSmooth = 0f;
     }
 
     private int navPrevX() {
-        return rightPageX + CONTENT_PADDING;
+        return rightPageX + CONTENT_PAD;
     }
 
     private int navNextX() {
-        return rightPageX + rightPageWidth - CONTENT_PADDING - PAGE_BTN_W;
+        return rightPageX + rightPageW - CONTENT_PAD - NAV_BTN_W;
     }
 
-    private int navBtnY(int saH) {
-        return rightPageY + saH + PAGE_BTN_MARGIN;
+    private int navBtnY(int scrollAreaH) {
+        return rightPageY + scrollAreaH + NAV_BTN_MARGIN;
     }
 
-    private void playSound(net.minecraft.sound.SoundEvent sound) {
+    private void playSound(SoundEvent sound) {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player != null) client.player.playSound(sound, 1f, 1f);
     }
@@ -644,4 +728,3 @@ public class GuidebookScreen extends Screen {
         }
     }
 }
-
