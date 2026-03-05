@@ -118,6 +118,48 @@ public final class WatheOptionsScreen {
                 .controller(TickBoxControllerBuilder::create)
                 .build());
 
+        final boolean fogDefault = GameComponents.getFog(MinecraftClient.getInstance().world);
+        builder.option(Option.<Boolean>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.client.option.visual.fog"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.client.option.visual.fog.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(fogDefault,
+                        () -> GameComponents.getFog(MinecraftClient.getInstance().world),
+                        v -> sendCommand("wathe:setVisual fog " + v, null))
+                .controller(opt -> BooleanControllerBuilder.create(opt)
+                        .coloured(true)
+                        .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
+                .build());
+
+        final boolean hudDefault = GameComponents.getHud(MinecraftClient.getInstance().world);
+        builder.option(Option.<Boolean>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.client.option.visual.hud"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.client.option.visual.hud.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(hudDefault,
+                        () -> GameComponents.getHud(MinecraftClient.getInstance().world),
+                        v -> sendCommand("wathe:setVisual hud " + v, null))
+                .controller(opt -> BooleanControllerBuilder.create(opt)
+                        .coloured(true)
+                        .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
+                .build());
+
+        final boolean snowDefault = GameComponents.getSnow(MinecraftClient.getInstance().world);
+        builder.option(Option.<Boolean>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.client.option.visual.snow"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.client.option.visual.snow.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(snowDefault,
+                        () -> GameComponents.getSnow(MinecraftClient.getInstance().world),
+                        v -> sendCommand("wathe:setVisual snow " + v, null))
+                .controller(opt -> BooleanControllerBuilder.create(opt)
+                        .coloured(true)
+                        .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
+                .build());
+
         if (isOp()) {
             builder.group(buildDebugGroup());
         }
