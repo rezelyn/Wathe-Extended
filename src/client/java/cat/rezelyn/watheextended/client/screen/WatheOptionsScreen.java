@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.client.screen;
 
+import cat.rezelyn.watheextended.api.cca.GameComponents;
 import cat.rezelyn.watheextended.api.cca.MapVariables;
 import cat.rezelyn.watheextended.api.hml.ConfigHelper;
 import cat.rezelyn.watheextended.api.hml.ModifiersDisplay;
@@ -223,6 +224,7 @@ public final class WatheOptionsScreen {
         if (cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) {
             builder.group(buildWatheOptionsGroup());
             builder.group(buildRolesOptionsGroup());
+            builder.group(buildModifiersOptionsGroup());
         }
 
         return builder.build();
@@ -252,32 +254,15 @@ public final class WatheOptionsScreen {
                 .name(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.collisions"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.collisions.desc")
                         .styled(style -> style.withColor(0xFFFFFF))))
-                .binding(true,
-                        () -> collisionsFinal,
+                .binding(collisionsFinal,
+                        () -> {
+                            try {
+                                World w = MinecraftClient.getInstance().world;
+                                WatheExtendedWorldComponent c = w != null ? WatheExtendedWorldComponent.KEY.get(w) : null;
+                                return c == null || c.isPlayerCollisionsEnabled();
+                            } catch (Throwable t) { return true; }
+                        },
                         v -> sendCommand("watheextended:enableCollisions " + v, null))
-                .controller(opt -> BooleanControllerBuilder.create(opt)
-                        .coloured(true)
-                        .formatValue(v -> Text.translatable(v ? "text.watheextended.enabled" : "text.watheextended.disabled")))
-                .build());
-
-        boolean itemBoundsCheckDefault;
-        try {
-            WatheExtendedWorldComponent wec = world != null
-                    ? WatheExtendedWorldComponent.KEY.get(world) : null;
-            itemBoundsCheckDefault = wec == null || wec.isItemBoundsCheckEnabled();
-        } catch (Throwable t) {
-            itemBoundsCheckDefault = true;
-        }
-        final boolean itemBoundsCheckFinal = itemBoundsCheckDefault;
-
-        group.option(Option.<Boolean>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.itemboundscheck"))
-                .description(OptionDescription.of(
-                        Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.itemboundscheck.desc")
-                                .styled(style -> style.withColor(0xFFFFFF))))
-                .binding(true,
-                        () -> itemBoundsCheckFinal,
-                        v -> sendCommand("watheextended:enableItemBoundsCheck " + v, null))
                 .controller(opt -> BooleanControllerBuilder.create(opt)
                         .coloured(true)
                         .formatValue(v -> Text.translatable(v ? "text.watheextended.enabled" : "text.watheextended.disabled")))
@@ -300,21 +285,6 @@ public final class WatheOptionsScreen {
         }
 
         if (cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) {
-
-            final boolean jumpNotInGameDefault = cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableJumpNotInGame(world);
-            group.option(Option.<Boolean>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.jumpinlobby"))
-                    .description(OptionDescription.of(
-                            Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.jumpinlobby.desc")
-                                    .styled(style -> style.withColor(0xFFFFFF))))
-                    .binding(false,
-                            () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableJumpNotInGame(
-                                    MinecraftClient.getInstance().world),
-                            v -> sendCommand("watheextended:config kinswathe enableJumpInLobby " + v, null))
-                    .controller(opt -> BooleanControllerBuilder.create(opt)
-                            .coloured(true)
-                            .formatValue(v -> Text.translatable(v ? "text.watheextended.enabled" : "text.watheextended.disabled")))
-                    .build());
 
             final boolean startSafeTimeDefault = cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableStartSafeTime(world);
             group.option(Option.<Boolean>createBuilder()
@@ -357,6 +327,19 @@ public final class WatheOptionsScreen {
         MinecraftClient client = MinecraftClient.getInstance();
         World world = client.world;
 
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.backfire"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.backfire.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(GameComponents.getBackfire(world),
+                        () -> GameComponents.getBackfire(MinecraftClient.getInstance().world),
+                        v -> sendCommand("wathe:gameSettings set backfire " + (v / 100f), null))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        final boolean watheTweaksEnabled = cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableWatheModify(world);
+
         group.option(Option.<Boolean>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.wathetweaks"))
                 .description(OptionDescription.of(
@@ -374,6 +357,7 @@ public final class WatheOptionsScreen {
                 .description(OptionDescription.of(
                         Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.initialcivilianincome.desc")
                                 .styled(style -> style.withColor(0xFFFFFF))))
+                .available(watheTweaksEnabled)
                 .binding(0,
                         () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getInitialCivilianIncome(MinecraftClient.getInstance().world),
                         v -> sendCommand("watheextended:config kinswathe setInitialCivilianIncome " + v, null))
@@ -385,6 +369,7 @@ public final class WatheOptionsScreen {
                 .description(OptionDescription.of(
                         Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.initialnnetralincome.desc")
                                 .styled(style -> style.withColor(0xFFFFFF))))
+                .available(watheTweaksEnabled)
                 .binding(0,
                         () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getInitialNeutralIncome(MinecraftClient.getInstance().world),
                         v -> sendCommand("watheextended:config kinswathe setInitialNeutralIncome " + v, null))
@@ -396,6 +381,7 @@ public final class WatheOptionsScreen {
                 .description(OptionDescription.of(
                         Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.initialkillerncome.desc")
                                 .styled(style -> style.withColor(0xFFFFFF))))
+                .available(watheTweaksEnabled)
                 .binding(100,
                         () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getInitialKillerIncome(MinecraftClient.getInstance().world),
                         v -> sendCommand("watheextended:config kinswathe setInitialKillerIncome " + v, null))
@@ -407,6 +393,7 @@ public final class WatheOptionsScreen {
                 .description(OptionDescription.of(
                         Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.increasemoneywhenkilll.desc")
                                 .styled(style -> style.withColor(0xFFFFFF))))
+                .available(watheTweaksEnabled)
                 .binding(100,
                         () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getIncreaseMoneyWhenKill(MinecraftClient.getInstance().world),
                         v -> sendCommand("watheextended:config kinswathe setIncreaseMoneyWhenKill " + v, null))
@@ -418,6 +405,7 @@ public final class WatheOptionsScreen {
                 .description(OptionDescription.of(
                         Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.preventkillerdroprevolver.desc")
                                 .styled(style -> style.withColor(0xFFFFFF))))
+                .available(watheTweaksEnabled)
                 .binding(false,
                         () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getPreventKillerDropRevolver(MinecraftClient.getInstance().world),
                         v -> sendCommand("watheextended:config kinswathe setPreventKillerDropRevolver " + v, null))
@@ -432,10 +420,34 @@ public final class WatheOptionsScreen {
                 .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options"))
                 .description(OptionDescription.of(
                         Text.translatable("gui.watheextended.config.category.options.group.roles_options.tooltip")))
-                .collapsed(false);
+                .collapsed(true);
 
         MinecraftClient client = MinecraftClient.getInstance();
         World world = client.world;
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.roledividend_killer"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.roledividend_killer.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(GameComponents.getKillerDividend(world),
+                        () -> GameComponents.getKillerDividend(MinecraftClient.getInstance().world),
+                        v -> sendCommand("wathe:gameSettings set roleDividend killer " + v, null))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.roledividend_vigilante"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.roledividend_vigilante.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(GameComponents.getVigilanteDividend(world),
+                        () -> GameComponents.getVigilanteDividend(MinecraftClient.getInstance().world),
+                        v -> sendCommand("wathe:gameSettings set roleDividend vigilante " + v, null))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        final boolean noellesRolesTweaksEnabled = cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableNoellesRolesModify(world);
 
         group.option(Option.<Boolean>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.tweaks"))
@@ -449,15 +461,12 @@ public final class WatheOptionsScreen {
                 .controller(TickBoxControllerBuilder::create)
                 .build());
 
-        group.option(LabelOption.create(
-                Text.translatable("gui.watheextended.config.category.options.group.roles_options.label.conductor")
-                        .styled(style -> style.withColor(0xAAAAAA))));
-
         group.option(Option.<Boolean>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.conductorinstinct"))
                 .description(OptionDescription.of(
                         Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.conductorinstinct.desc")
                                 .styled(style -> style.withColor(0xFFFFFF))))
+                .available(noellesRolesTweaksEnabled)
                 .binding(false,
                         () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getConductorInstinctModify(
                                 MinecraftClient.getInstance().world),
@@ -466,16 +475,12 @@ public final class WatheOptionsScreen {
                         .coloured(true)
                         .formatValue(v -> Text.translatable(v ? "text.watheextended.enabled" : "text.watheextended.disabled")))
                 .build());
-
-        group.option(LabelOption.create(
-                Text.translatable("gui.watheextended.config.category.options.group.roles_options.label.coroner")
-                        .styled(style -> style.withColor(0xAAAAAA))));
-
         group.option(Option.<Boolean>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.coronerinstinct"))
                 .description(OptionDescription.of(
                         Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.coronerinstinct.desc")
                                 .styled(style -> style.withColor(0xFFFFFF))))
+                .available(noellesRolesTweaksEnabled)
                 .binding(false,
                         () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getCoronerInstinctModify(
                                 MinecraftClient.getInstance().world),
@@ -664,6 +669,41 @@ public final class WatheOptionsScreen {
         return group.build();
     }
 
+    private static OptionGroup buildModifiersOptionsGroup() {
+        OptionGroup.Builder group = OptionGroup.createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.tooltip")))
+                .collapsed(true);
+
+        MinecraftClient client = MinecraftClient.getInstance();
+        World world = client.world;
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.maximum"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.modifiers.opt.maximum.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(1,
+                        ConfigHelper::getModifierMaximum,
+                        ConfigHelper::setModifierMaximum)
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.multiplier"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.modifiers.opt.multiplier.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(1,
+                        ConfigHelper::getModifierMultiplier,
+                        ConfigHelper::setModifierMultiplier)
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        return group.build();
+    }
+
     private static ConfigCategory buildMapVariablesCategory() {
         ConfigCategory.Builder builder = ConfigCategory.createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.mapvariables.title"))
@@ -683,14 +723,22 @@ public final class WatheOptionsScreen {
         final boolean worldProtectionFinal = worldProtectionDefault;
 
         builder.option(Option.<Boolean>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.worldprotection"))
+                .name(Text.translatable("gui.watheextended.config.category.mapvariables.opt.worldprotection"))
                 .description(OptionDescription.of(
-                        Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.worldprotection.desc")
+                        Text.translatable("gui.watheextended.config.category.mapvariables.opt.worldprotection.desc")
                                 .styled(style -> style.withColor(0xFFFFFF))))
-                .binding(true,
-                        () -> worldProtectionFinal,
+                .binding(worldProtectionFinal,
+                        () -> {
+                            try {
+                                World w = MinecraftClient.getInstance().world;
+                                WatheExtendedWorldComponent c = w != null ? WatheExtendedWorldComponent.KEY.get(w) : null;
+                                return c == null || c.isBlockInteractionsProtected();
+                            } catch (Throwable t) { return true; }
+                        },
                         v -> sendCommand("watheextended:enableWorldProtection " + v, null))
-                .controller(TickBoxControllerBuilder::create)
+                .controller(opt -> BooleanControllerBuilder.create(opt)
+                        .coloured(true)
+                        .formatValue(v -> Text.translatable(v ? "text.watheextended.enabled" : "text.watheextended.disabled")))
                 .build());
 
         boolean rtpDefault;
@@ -704,14 +752,94 @@ public final class WatheOptionsScreen {
         final boolean rtpFinal = rtpDefault;
 
         builder.option(Option.<Boolean>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.rtp"))
+                .name(Text.translatable("gui.watheextended.config.category.mapvariables.opt.rtp"))
                 .description(OptionDescription.of(
-                        Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.rtp.desc")
+                        Text.translatable("gui.watheextended.config.category.mapvariables.opt.rtp.desc")
                                 .styled(style -> style.withColor(0xFFFFFF))))
-                .binding(true,
-                        () -> rtpFinal,
+                .binding(rtpFinal,
+                        () -> {
+                            try {
+                                World w = MinecraftClient.getInstance().world;
+                                WatheExtendedWorldComponent c = w != null ? WatheExtendedWorldComponent.KEY.get(w) : null;
+                                return c == null || c.isRtpEnabled();
+                            } catch (Throwable t) { return true; }
+                        },
                         v -> sendCommand("watheextended:rtp " + (v ? "enable" : "disable"), null))
-                .controller(TickBoxControllerBuilder::create)
+                .controller(opt -> BooleanControllerBuilder.create(opt)
+                        .coloured(true)
+                        .formatValue(v -> Text.translatable(v ? "text.watheextended.enabled" : "text.watheextended.disabled")))
+                .build());
+
+        boolean itemBoundsCheckDefault;
+        try {
+            WatheExtendedWorldComponent wec = world != null
+                    ? WatheExtendedWorldComponent.KEY.get(world) : null;
+            itemBoundsCheckDefault = wec == null || wec.isItemBoundsCheckEnabled();
+        } catch (Throwable t) {
+            itemBoundsCheckDefault = true;
+        }
+        final boolean itemBoundsCheckFinal = itemBoundsCheckDefault;
+
+        builder.option(Option.<Boolean>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.mapvariables.opt.itemboundscheck"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.mapvariables.opt.itemboundscheck.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(itemBoundsCheckFinal,
+                        () -> {
+                            try {
+                                World w = MinecraftClient.getInstance().world;
+                                WatheExtendedWorldComponent c = w != null ? WatheExtendedWorldComponent.KEY.get(w) : null;
+                                return c == null || c.isItemBoundsCheckEnabled();
+                            } catch (Throwable t) { return true; }
+                        },
+                        v -> sendCommand("watheextended:enableItemBoundsCheck " + v, null))
+                .controller(opt -> BooleanControllerBuilder.create(opt)
+                        .coloured(true)
+                        .formatValue(v -> Text.translatable(v ? "text.watheextended.enabled" : "text.watheextended.disabled")))
+                .build());
+
+        builder.option(Option.<Boolean>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.mapvariables.opt.bounds"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.mapvariables.opt.bounds.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(GameComponents.getBounds(world),
+                        () -> GameComponents.getBounds(MinecraftClient.getInstance().world),
+                        v -> sendCommand("wathe:gameSettings set bounds " + v, null))
+                .controller(opt -> BooleanControllerBuilder.create(opt)
+                        .coloured(true)
+                        .formatValue(v -> Text.translatable(v ? "text.watheextended.enabled" : "text.watheextended.disabled")))
+                .build());
+
+        if (cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) {
+
+            final boolean jumpNotInGameDefault = cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableJumpNotInGame(world);
+            builder.option(Option.<Boolean>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.mapvariables.opt.jumpinlobby"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.mapvariables.opt.jumpinlobby.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(false,
+                            () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableJumpNotInGame(
+                                    MinecraftClient.getInstance().world),
+                            v -> sendCommand("watheextended:config kinswathe enableJumpInLobby " + v, null))
+                    .controller(opt -> BooleanControllerBuilder.create(opt)
+                            .coloured(true)
+                            .formatValue(v -> Text.translatable(v ? "text.watheextended.enabled" : "text.watheextended.disabled")))
+                    .build());
+
+        }
+
+        builder.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.mapvariables.opt.autostart"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.mapvariables.opt.autostart.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(GameComponents.getAutoStart(world),
+                        () -> GameComponents.getAutoStart(MinecraftClient.getInstance().world),
+                        v -> sendCommand("wathe:gameSettings set autoStart " + v, null))
+                .controller(IntegerFieldControllerBuilder::create)
                 .build());
 
         OptionGroup.Builder group = OptionGroup.createBuilder()
@@ -719,6 +847,23 @@ public final class WatheOptionsScreen {
                 .description(OptionDescription.of(
                         Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.tooltip")))
                 .collapsed(false);
+
+        String lobbyAreaDefault = boxToArgs(MapVariables.getLobbyArea(world));
+        group.option(Option.<String>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.lobbyarea"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.lobbyarea.desc")
+                        .styled(style -> style.withColor(0x757575))))
+                .binding(lobbyAreaDefault, () -> lobbyAreaDefault,
+                        v -> {
+                            String[] parts = v.trim().split("\\s+");
+                            if (parts.length == 6) {
+                                sendCommand("watheextended:mapVariables set lobbyArea "
+                                        + parts[0] + " " + parts[1] + " " + parts[2] + " "
+                                        + parts[3] + " " + parts[4] + " " + parts[5], null);
+                            }
+                        })
+                .controller(StringControllerBuilder::create)
+                .build());
 
         String playAreaDefault = boxToArgs(MapVariables.getPlayArea(world));
         group.option(Option.<String>createBuilder()
@@ -747,23 +892,6 @@ public final class WatheOptionsScreen {
                         .styled(style -> style.withColor(0x757575))))
                 .binding(readyAreaDefault, () -> readyAreaDefault,
                         v -> sendWatheMapVarCommand("readyArea " + v.trim()))
-                .controller(StringControllerBuilder::create)
-                .build());
-
-        String lobbyAreaDefault = boxToArgs(MapVariables.getLobbyArea(world));
-        group.option(Option.<String>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.lobbyarea"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.lobbyarea.desc")
-                        .styled(style -> style.withColor(0x757575))))
-                .binding(lobbyAreaDefault, () -> lobbyAreaDefault,
-                        v -> {
-                            String[] parts = v.trim().split("\\s+");
-                            if (parts.length == 6) {
-                                sendCommand("watheextended:mapVariables set lobbyArea "
-                                        + parts[0] + " " + parts[1] + " " + parts[2] + " "
-                                        + parts[3] + " " + parts[4] + " " + parts[5], null);
-                            }
-                        })
                 .controller(StringControllerBuilder::create)
                 .build());
 
@@ -933,29 +1061,6 @@ public final class WatheOptionsScreen {
         ConfigCategory.Builder builder = ConfigCategory.createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.modifiers"))
                 .tooltip(Text.translatable("gui.watheextended.config.category.modifiers.tooltip"));
-
-        builder.option(Option.<Integer>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.maximum"))
-                .description(OptionDescription.of(
-                        Text.translatable("gui.watheextended.config.category.modifiers.opt.maximum.desc")
-                                .styled(style -> style.withColor(0xFFFFFF))))
-                .binding(1,
-                        ConfigHelper::getModifierMaximum,
-                        ConfigHelper::setModifierMaximum)
-                .controller(IntegerFieldControllerBuilder::create)
-                .build());
-
-        builder.option(Option.<Integer>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.multiplier"))
-                .description(OptionDescription.of(
-                        Text.translatable("gui.watheextended.config.category.modifiers.opt.multiplier.desc")
-                                .styled(style -> style.withColor(0xFFFFFF))))
-                .binding(1,
-                        ConfigHelper::getModifierMultiplier,
-                        ConfigHelper::setModifierMultiplier)
-                .controller(IntegerFieldControllerBuilder::create)
-                .build());
-
 
         try {
             Set<String> modifierId = new LinkedHashSet<>(ModifiersId.get());
