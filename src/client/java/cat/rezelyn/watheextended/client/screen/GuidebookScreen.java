@@ -98,6 +98,7 @@ public class GuidebookScreen extends Screen {
     private int selectedColor = 0xFF3B2A1A;
     private String selectedDescKey = null;
     private String selectedEntryId = null;
+    private boolean selectedKillerSided = false;
 
     private int currentPage = 0;
     private List<Text> rightPageLines = null;
@@ -533,6 +534,7 @@ public class GuidebookScreen extends Screen {
         selectedColor = entry.color();
         selectedDescKey = entry.descriptionKey();
         selectedEntryId = entry.id();
+        selectedKillerSided = entry.killerSided();
         currentPage = 0;
         resetScrollRight();
         loadPageContent();
@@ -550,6 +552,7 @@ public class GuidebookScreen extends Screen {
         selectedTitle = null;
         selectedDescKey = null;
         selectedEntryId = null;
+        selectedKillerSided = false;
         currentPage = 0;
         rightPageLines = null;
         rightPageNoContent = false;
@@ -557,7 +560,7 @@ public class GuidebookScreen extends Screen {
 
     private void loadPageContent() {
         GuidebookPageContent.PageResult result =
-                GuidebookPageContent.resolve(selectedDescKey, selectedEntryId, currentPage);
+                GuidebookPageContent.resolve(selectedDescKey, selectedEntryId, currentPage, selectedKillerSided);
         rightPageLines = result.lines();
         rightPageNoContent = result.noContent();
         recalcRightHeight();

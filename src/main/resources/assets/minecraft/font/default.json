@@ -2,6 +2,20 @@
   "providers": [
     {
       "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/enabled.png",
+      "ascent": 7,
+      "height": 8,
+      "chars": ["\uE400"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/disabled.png",
+      "ascent": 7,
+      "height": 8,
+      "chars": ["\uE401"]
+    },
+    {
+      "type": "bitmap",
       "file": "watheextended:gui/guidebook/sprites/items/knife.png",
       "ascent": 9,
       "height": 12,
@@ -219,17 +233,178 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/enabled.png",
-      "ascent": 7,
-      "height": 8,
-      "chars": ["\uE215"]
+      "file": "watheextended:gui/guidebook/sprites/items/scorpion.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE217"]
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/disabled.png",
-      "ascent": 7,
-      "height": 8,
-      "chars": ["\uE216"]
+      "file": "watheextended:gui/guidebook/sprites/items/blackout.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE218"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/adrenaline.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE300"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/athletic.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE301"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/autopsy.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE302"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/avarice.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE303"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/cannibal.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE304"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/clean.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE305"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/imprint.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE306"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/instinct.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE307"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/invisibility.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE308"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/judgement.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE309"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/last_words.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE310"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/morph.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE311"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/nemesis.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE312"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/psychosis.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE313"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/question.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE314"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/recall.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE315"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/revive.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE316"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/sense.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE317"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/starstruck.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE318"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/swap.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE319"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/time.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE321"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/undercover.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE322"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/voodoo.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE323"]
     }
   ]
 }

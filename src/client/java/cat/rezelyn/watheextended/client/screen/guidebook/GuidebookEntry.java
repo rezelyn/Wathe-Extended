@@ -9,18 +9,24 @@ public record GuidebookEntry(
         String id,
         String descriptionKey,
         Text displayTitle,
-        boolean active
+        boolean active,
+        boolean killerSided
 ) {
 
     public static GuidebookEntry header(Text text, int color) {
-        return new GuidebookEntry(text, color, true, null, null, null, true);
+        return new GuidebookEntry(text, color, true, null, null, null, true, false);
     }
 
     public static GuidebookEntry spacer() {
-        return new GuidebookEntry(Text.literal(""), 0xFFFFFF, false, null, null, null, true);
+        return new GuidebookEntry(Text.literal(""), 0xFFFFFF, false, null, null, null, true, false);
     }
 
     public static GuidebookEntry entry(Text text, int color, String id, String descKey, Text displayTitle, boolean active) {
-        return new GuidebookEntry(text, color, false, id, descKey, displayTitle, active);
+        return new GuidebookEntry(text, color, false, id, descKey, displayTitle, active, false);
+    }
+
+    public static GuidebookEntry entry(Text text, int color, String id, String descKey, Text displayTitle, boolean active, boolean killerSided) {
+        return new GuidebookEntry(text, color, false, id, descKey, displayTitle, active, killerSided);
     }
 }
+

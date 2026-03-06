@@ -81,11 +81,12 @@ public final class GuidebookEntryBuilder {
                 for (RolesDisplay.RoleDisplay d : group.entries()) {
                     String descKey = "gui.watheextended.guidebook.role.desc." + d.id().replace(":", ".");
                     boolean active = !ConfigHelper.getDisabledRoles().contains(d.id());
+                    boolean killerSided = d.side() == RolesDisplay.Side.KILLER;
                     Text icon = GuidebookIcons.icon(active ? "enabled" : "disabled");
                     Text entryText = icon.copy()
                             .append(Text.literal(" ").styled(s -> s.withFont(null)))
                             .append(d.display().copy().styled(s -> s.withColor(d.color())));
-                    list.add(GuidebookEntry.entry(entryText, d.color(), d.id(), descKey, d.display(), active));
+                    list.add(GuidebookEntry.entry(entryText, d.color(), d.id(), descKey, d.display(), active, killerSided));
                 }
             }
         } catch (Throwable ignored) {

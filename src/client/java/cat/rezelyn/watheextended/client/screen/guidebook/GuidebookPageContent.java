@@ -18,27 +18,50 @@ public final class GuidebookPageContent {
     }
 
     public static PageResult resolve(String baseDescKey, String id, int page) {
+        return resolve(baseDescKey, id, page, false);
+    }
+
+    public static PageResult resolve(String baseDescKey, String id, int page, boolean isKillerSided) {
         String key = switch (page) {
             case 0 -> baseDescKey;
             case 1 -> buildKey(baseDescKey, id, "abilities");
             default -> buildKey(baseDescKey, id, "items");
         };
 
-        if (key == null) {
-            return new PageResult(List.of(noContent(page)), true);
-        }
-
-        Text raw = Text.translatable(key);
-        String str = raw.getString();
-
-        if (str.isEmpty() || str.equals(key)) {
-            return new PageResult(List.of(noContent(page)), true);
-        }
-
         List<Text> result = new ArrayList<>();
-        for (String line : str.split("\\\\n|\\n", -1)) {
-            result.add(parseLine(line));
+
+        // resolve lang-based content
+        if (key != null) {
+            Text raw = Text.translatable(key);
+            String str = raw.getString();
+            if (!str.isEmpty() && !str.equals(key)) {
+                for (String line : str.split("\\\\n|\\n", -1)) {
+                    result.add(parseLine(line));
+                }
+            }
         }
+
+        if (page == 2 && id != null) {
+            if (RoleItemsRegistry.hasExplicitRegistration(id) || (result.isEmpty() && isKillerSided)) {
+                List<RoleItemsRegistry.RoleItem> autoItems = RoleItemsRegistry.getItemsForRole(id, isKillerSided);
+                if (!autoItems.isEmpty()) {
+                    result.clear();
+                    for (int i = 0; i < autoItems.size(); i++) {
+                        RoleItemsRegistry.RoleItem item = autoItems.get(i);
+                        result.add(item.toText());
+                        // optional description sub-line
+                        Text desc = item.descText();
+                        if (desc != null) result.add(desc);
+                        if (i < autoItems.size() - 1) result.add(Text.literal(""));
+                    }
+                }
+            }
+        }
+
+        if (result.isEmpty()) {
+            return new PageResult(List.of(noContent(page)), true);
+        }
+
         return new PageResult(result, false);
     }
 
@@ -63,7 +86,7 @@ public final class GuidebookPageContent {
                 result.append(Text.literal(line.substring(start)));
                 break;
             }
-            String iconName = line.substring(start + 6, end); // 6 = length of "{icon:"
+            String iconName = line.substring(start + 6, end);
             Text iconText = GuidebookIcons.icon(iconName);
             if (iconText.getString().isEmpty()) {
                 result.append(Text.literal("{icon:" + iconName + "}"));
