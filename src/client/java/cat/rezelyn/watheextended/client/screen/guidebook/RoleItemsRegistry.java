@@ -29,6 +29,9 @@ public final class RoleItemsRegistry {
     private static final Map<String, Supplier<List<RoleItem>>> REGISTRY = new LinkedHashMap<>();
 
     static {
+        register("wathe:vigilante", () -> List.of(
+                starting("revolver", "item.wathe.revolver")
+        ));
         register("noellesroles:jester", () -> List.of(
                 starting("fake_knife", "item.noellesroles.fake_knife"),
                 starting("fake_revolver", "item.noellesroles.fake_revolver")
