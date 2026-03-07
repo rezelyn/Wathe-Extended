@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.command;
 
+import cat.rezelyn.watheextended.api.cca.MapVariables;
 import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.teleport.TeleportationSlot;
 import com.mojang.brigadier.CommandDispatcher;
@@ -11,10 +12,11 @@ import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 
-import java.util.List;
+import java.util.Map;
 
 public class TeleportationSlotsCommand {
 
@@ -38,10 +40,10 @@ public class TeleportationSlotsCommand {
                                                 .then(CommandManager.argument("rotation", RotationArgumentType.rotation())
                                                         .executes(TeleportationSlotsCommand::addSlotExplicit))))
                                 .then(CommandManager.literal("remove")
-                                        .then(CommandManager.argument("index", IntegerArgumentType.integer(1))
+                                        .then(CommandManager.argument("id", IntegerArgumentType.integer(1))
                                                 .executes(TeleportationSlotsCommand::removeSlot)))
                                 .then(CommandManager.literal("edit")
-                                        .then(CommandManager.argument("index", IntegerArgumentType.integer(1))
+                                        .then(CommandManager.argument("id", IntegerArgumentType.integer(1))
                                                 .executes(TeleportationSlotsCommand::editSlotFromPlayerPos)
                                                 .then(CommandManager.argument("location", Vec3ArgumentType.vec3())
                                                         .then(CommandManager.argument("rotation", RotationArgumentType.rotation())
@@ -64,13 +66,9 @@ public class TeleportationSlotsCommand {
     private static int addSlotFromPlayerPos(CommandContext<ServerCommandSource> context) {
         ServerCommandSource source = context.getSource();
         ServerPlayerEntity player = source.getPlayer();
-        if (player == null) {
-            return 0;
-        }
+        if (player == null) return 0;
         Vec3d pos = player.getPos();
-        float yaw = player.getYaw();
-        float pitch = player.getPitch();
-        return addSlotInternal(source, pos.x, pos.y, pos.z, yaw, pitch);
+        return addSlotInternal(source, pos.x, pos.y, pos.z, player.getYaw(), player.getPitch());
     }
 
     private static int addSlotExplicit(CommandContext<ServerCommandSource> context) {
@@ -81,78 +79,81 @@ public class TeleportationSlotsCommand {
     }
 
     private static int addSlotInternal(ServerCommandSource source, double x, double y, double z, float yaw, float pitch) {
+        if (!isInsideReadyArea(source, x, y, z)) return 0;
         WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(source.getWorld());
         TeleportationSlot slot = new TeleportationSlot(x, y, z, yaw, pitch);
-        wec.addTeleportationSlot(slot);
-        int index = wec.getTeleportationSlots().size();
-        source.sendMessage(Text.translatable("command.watheextended.rtp_slot.added",
-                index, slot.toString()));
+        int id = wec.addTeleportationSlot(slot);
+        source.sendMessage(Text.translatable("command.watheextended.rtp_slot.added", id, slot.toString()));
         return 1;
     }
 
     private static int removeSlot(CommandContext<ServerCommandSource> context) {
         ServerCommandSource source = context.getSource();
-        int index = IntegerArgumentType.getInteger(context, "index");
+        int id = IntegerArgumentType.getInteger(context, "id");
         WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(source.getWorld());
-        List<TeleportationSlot> slots = wec.getTeleportationSlots();
-        if (index < 1 || index > slots.size()) {
-            source.sendError(Text.translatable("command.watheextended.rtp_slot.invalid", index, slots.size()));
+        TeleportationSlot removed = wec.getTeleportationSlots().get(id);
+        if (removed == null) {
+            source.sendError(Text.translatable("command.watheextended.rtp_slot.invalid", id));
             return 0;
         }
-        TeleportationSlot removed = slots.get(index - 1);
-        wec.removeTeleportationSlot(index - 1);
-        source.sendMessage(Text.translatable("command.watheextended.rtp_slot.removed",
-                index, removed.toString()));
+        wec.removeTeleportationSlot(id);
+        source.sendMessage(Text.translatable("command.watheextended.rtp_slot.removed", id, removed.toString()));
         return 1;
     }
 
     private static int editSlotFromPlayerPos(CommandContext<ServerCommandSource> context) {
         ServerCommandSource source = context.getSource();
         ServerPlayerEntity player = source.getPlayer();
-        if (player == null) {
-            return 0;
-        }
-        int index = IntegerArgumentType.getInteger(context, "index");
+        if (player == null) return 0;
+        int id = IntegerArgumentType.getInteger(context, "id");
         Vec3d pos = player.getPos();
-        return editSlotInternal(source, index, pos.x, pos.y, pos.z, player.getYaw(), player.getPitch());
+        return editSlotInternal(source, id, pos.x, pos.y, pos.z, player.getYaw(), player.getPitch());
     }
 
     private static int editSlotExplicit(CommandContext<ServerCommandSource> context) {
         ServerCommandSource source = context.getSource();
-        int index = IntegerArgumentType.getInteger(context, "index");
+        int id = IntegerArgumentType.getInteger(context, "id");
         Vec3d pos = Vec3ArgumentType.getPosArgument(context, "location").toAbsolutePos(source);
         Vec2f rot = RotationArgumentType.getRotation(context, "rotation").toAbsoluteRotation(source);
-        return editSlotInternal(source, index, pos.x, pos.y, pos.z, rot.y, rot.x);
+        return editSlotInternal(source, id, pos.x, pos.y, pos.z, rot.y, rot.x);
     }
 
-    private static int editSlotInternal(ServerCommandSource source, int index,
+    private static int editSlotInternal(ServerCommandSource source, int id,
                                         double x, double y, double z, float yaw, float pitch) {
         WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(source.getWorld());
-        List<TeleportationSlot> slots = wec.getTeleportationSlots();
-        if (index < 1 || index > slots.size()) {
-            source.sendError(Text.translatable("command.watheextended.rtp_slot.invalid", index, slots.size()));
+        if (!wec.getTeleportationSlots().containsKey(id)) {
+            source.sendError(Text.translatable("command.watheextended.rtp_slot.invalid", id));
             return 0;
         }
+        if (!isInsideReadyArea(source, x, y, z)) return 0;
         TeleportationSlot slot = new TeleportationSlot(x, y, z, yaw, pitch);
-        wec.editTeleportationSlot(index - 1, slot);
-        source.sendMessage(Text.translatable("command.watheextended.rtp_slot.edited",
-                index, slot.toString()));
+        wec.editTeleportationSlot(id, slot);
+        source.sendMessage(Text.translatable("command.watheextended.rtp_slot.edited", id, slot.toString()));
         return 1;
     }
 
     private static int listSlots(CommandContext<ServerCommandSource> context) {
         ServerCommandSource source = context.getSource();
         WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(source.getWorld());
-        List<TeleportationSlot> slots = wec.getTeleportationSlots();
+        Map<Integer, TeleportationSlot> slots = wec.getTeleportationSlots();
         if (slots.isEmpty()) {
             source.sendMessage(Text.translatable("command.watheextended.rtp_slot.list_empty"));
             return 0;
         }
         source.sendMessage(Text.translatable("command.watheextended.rtp_slot.list_header", slots.size()));
-        for (int i = 0; i < slots.size(); i++) {
-            source.sendMessage(Text.literal("  §7[" + (i + 1) + "]§r " + slots.get(i).toString()));
+        for (Map.Entry<Integer, TeleportationSlot> entry : slots.entrySet()) {
+            source.sendMessage(Text.literal("  §7[#" + entry.getKey() + "]§r " + entry.getValue().toString()));
         }
         return slots.size();
     }
-}
 
+    private static boolean isInsideReadyArea(ServerCommandSource source, double x, double y, double z) {
+        Box readyArea = MapVariables.getReadyArea(source.getWorld());
+        if (readyArea != null && !readyArea.contains(x, y, z)) {
+            source.sendError(Text.translatable("command.watheextended.rtp_slot.outside_ready_area",
+                    String.format("%.2f %.2f %.2f", x, y, z)));
+            return false;
+        }
+        return true;
+    }
+}

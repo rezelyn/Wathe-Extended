@@ -14,8 +14,9 @@ import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class WatheExtendedWorldComponent implements AutoSyncedComponent {
 
@@ -27,7 +28,8 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
             new Box(-1424, -50, -512, -753, 50, -225);
 
     private final World world;
-    private final List<TeleportationSlot> teleportationSlots = new ArrayList<>();
+    private final Map<Integer, TeleportationSlot> teleportationSlots = new LinkedHashMap<>();
+    private int nextSlotId = 1;
     private MapVariablesWorldComponent.PosWithOrientation readyAreaSpawnPos = DEFAULT_READY_AREA_SPAWN_POS;
     private Box lobbyArea = DEFAULT_LOBBY_AREA;
 
@@ -122,33 +124,36 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
         this.sync();
     }
 
-    public List<TeleportationSlot> getTeleportationSlots() {
-        return teleportationSlots;
+    public Map<Integer, TeleportationSlot> getTeleportationSlots() {
+        return Collections.unmodifiableMap(teleportationSlots);
     }
 
-    public void setTeleportationSlots(List<TeleportationSlot> slots) {
+    public void setTeleportationSlots(Map<Integer, TeleportationSlot> slots) {
         this.teleportationSlots.clear();
-        this.teleportationSlots.addAll(slots);
+        this.teleportationSlots.putAll(slots);
+        this.nextSlotId = slots.isEmpty() ? 1 : Collections.max(slots.keySet()) + 1;
         this.sync();
     }
 
-    public void addTeleportationSlot(TeleportationSlot slot) {
-        this.teleportationSlots.add(slot);
+    public int addTeleportationSlot(TeleportationSlot slot) {
+        int id = nextSlotId++;
+        this.teleportationSlots.put(id, slot);
         this.sync();
+        return id;
     }
 
-    public void removeTeleportationSlot(int index) {
-        if (index >= 0 && index < teleportationSlots.size()) {
-            teleportationSlots.remove(index);
-            this.sync();
-        }
+    public boolean removeTeleportationSlot(int id) {
+        if (!teleportationSlots.containsKey(id)) return false;
+        teleportationSlots.remove(id);
+        this.sync();
+        return true;
     }
 
-    public void editTeleportationSlot(int index, TeleportationSlot slot) {
-        if (index >= 0 && index < teleportationSlots.size()) {
-            teleportationSlots.set(index, slot);
-            this.sync();
-        }
+    public boolean editTeleportationSlot(int id, TeleportationSlot slot) {
+        if (!teleportationSlots.containsKey(id)) return false;
+        teleportationSlots.put(id, slot);
+        this.sync();
+        return true;
     }
 
     @Override
@@ -184,9 +189,12 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
         if (tag.contains("teleportationSlots")) {
             NbtList list = tag.getList("teleportationSlots", NbtCompound.COMPOUND_TYPE);
             for (int i = 0; i < list.size(); i++) {
-                this.teleportationSlots.add(TeleportationSlot.fromNbt(list.getCompound(i)));
+                NbtCompound entry = list.getCompound(i);
+                int id = entry.getInt("id");
+                this.teleportationSlots.put(id, TeleportationSlot.fromNbt(entry));
             }
         }
+        this.nextSlotId = teleportationSlots.isEmpty() ? 1 : Collections.max(teleportationSlots.keySet()) + 1;
     }
 
     @Override
@@ -206,8 +214,10 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
         tag.putDouble("lobbyAreaMaxZ", this.lobbyArea.maxZ);
 
         NbtList list = new NbtList();
-        for (TeleportationSlot slot : this.teleportationSlots) {
-            list.add(slot.toNbt());
+        for (Map.Entry<Integer, TeleportationSlot> entry : this.teleportationSlots.entrySet()) {
+            NbtCompound slotTag = entry.getValue().toNbt();
+            slotTag.putInt("id", entry.getKey());
+            list.add(slotTag);
         }
         tag.put("teleportationSlots", list);
     }

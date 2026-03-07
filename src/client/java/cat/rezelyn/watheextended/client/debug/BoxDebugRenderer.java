@@ -55,10 +55,10 @@ public final class BoxDebugRenderer {
 
         if (!showBoxBoundaries && !showRtpSlots && !showKeyAssignments) return;
 
-        List<TeleportationSlot> slots = null;
+        List<java.util.Map.Entry<Integer, TeleportationSlot>> slots = null;
         if (showRtpSlots) {
             try {
-                slots = WatheExtendedWorldComponent.KEY.get(client.world).getTeleportationSlots();
+                slots = new java.util.ArrayList<>(WatheExtendedWorldComponent.KEY.get(client.world).getTeleportationSlots().entrySet());
             } catch (Throwable ignored) {
             }
         }
@@ -96,7 +96,8 @@ public final class BoxDebugRenderer {
             BufferBuilder linesBuf = tess.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
 
             boolean anySlot = false;
-            for (TeleportationSlot slot : slots) {
+            for (java.util.Map.Entry<Integer, TeleportationSlot> entry : slots) {
+                TeleportationSlot slot = entry.getValue();
                 double ddx = slot.x - px, ddy = slot.y - py, ddz = slot.z - pz;
                 if (ddx * ddx + ddy * ddy + ddz * ddz > maxDistSq) continue;
                 anySlot = true;
@@ -132,8 +133,8 @@ public final class BoxDebugRenderer {
             VertexConsumerProvider.Immediate immediate =
                     client.getBufferBuilders().getEntityVertexConsumers();
             TextRenderer textRenderer = client.textRenderer;
-            for (int i = 0; i < slots.size(); i++) {
-                TeleportationSlot slot = slots.get(i);
+            for (java.util.Map.Entry<Integer, TeleportationSlot> entry : slots) {
+                TeleportationSlot slot = entry.getValue();
                 double ddx = slot.x - px, ddy = slot.y - py, ddz = slot.z - pz;
                 if (ddx * ddx + ddy * ddy + ddz * ddz > maxDistSq) continue;
 
@@ -142,7 +143,7 @@ public final class BoxDebugRenderer {
                 matrices.multiply(ctx.camera().getRotation());
                 matrices.scale(0.025f, -0.025f, 0.025f);
 
-                Text label = Text.literal("Slot #" + (i + 1)).styled(s -> s.withColor(0xFFFFFF));
+                Text label = Text.literal("Slot #" + entry.getKey()).styled(s -> s.withColor(0xFFFFFF));
                 float xOff = -textRenderer.getWidth(label) / 2f;
                 textRenderer.draw(label, xOff, 0f, 0xFFFFFF, false,
                         matrices.peek().getPositionMatrix(), immediate,

@@ -170,7 +170,7 @@ public class WatheExtended implements ModInitializer {
             WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(world);
             if (!wec.isRtpEnabled()) return;
 
-            List<TeleportationSlot> slots = new ArrayList<>(wec.getTeleportationSlots());
+            List<TeleportationSlot> slots = new ArrayList<>(wec.getTeleportationSlots().values());
             if (slots.isEmpty()) return;
 
 
