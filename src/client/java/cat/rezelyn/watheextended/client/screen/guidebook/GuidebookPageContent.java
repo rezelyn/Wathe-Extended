@@ -37,6 +37,7 @@ public final class GuidebookPageContent {
             Text raw = Text.translatable(key);
             String str = raw.getString();
             if (!str.isEmpty() && !str.equals(key)) {
+                str = resolveAllergicPlaceholders(id, str);
                 for (String line : str.split("\\\\n|\\n", -1)) {
                     result.add(parseLine(line));
                 }
@@ -65,6 +66,31 @@ public final class GuidebookPageContent {
         }
 
         return new PageResult(result, false);
+    }
+
+    private static String resolveAllergicPlaceholders(String id, String str) {
+        if (id == null || !id.contains("allergic")) return str;
+        if (!str.contains("?/?")) return str;
+        try {
+            if (!cat.rezelyn.watheextended.api.starexpress.ConfigHelper.isLoaded()) return str;
+            int nothing = cat.rezelyn.watheextended.api.starexpress.ConfigHelper.getAllergicNothingChance();
+            int instinct = cat.rezelyn.watheextended.api.starexpress.ConfigHelper.getAllergicInstinctChance();
+            int armor = cat.rezelyn.watheextended.api.starexpress.ConfigHelper.getAllergicArmorChance();
+            int poison = cat.rezelyn.watheextended.api.starexpress.ConfigHelper.getAllergicPoisonChance();
+            int total = nothing + instinct + armor + poison;
+            str = replaceFirstPlaceholder(str, nothing, total);
+            str = replaceFirstPlaceholder(str, instinct, total);
+            str = replaceFirstPlaceholder(str, armor, total);
+            str = replaceFirstPlaceholder(str, poison, total);
+        } catch (Throwable ignored) {
+        }
+        return str;
+    }
+
+    private static String replaceFirstPlaceholder(String str, int value, int total) {
+        int idx = str.indexOf("?/?");
+        if (idx < 0) return str;
+        return str.substring(0, idx) + value + "/" + total + str.substring(idx + 3);
     }
 
     public static Text parseLine(String line) {
