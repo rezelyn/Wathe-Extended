@@ -1,7 +1,9 @@
 package cat.rezelyn.watheextended.client.screen.guidebook;
 
 import net.minecraft.text.MutableText;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,36 +68,65 @@ public final class GuidebookPageContent {
     }
 
     public static Text parseLine(String line) {
-        if (!line.contains("{icon:")) {
-            return Text.literal(line);
-        }
-
         MutableText result = Text.literal("");
         int i = 0;
+        Style currentStyle = Style.EMPTY;
+        StringBuilder buf = new StringBuilder();
+
         while (i < line.length()) {
-            int start = line.indexOf("{icon:", i);
-            if (start == -1) {
-                result.append(Text.literal(line.substring(i)));
-                break;
+            if (line.startsWith("{icon:", i)) {
+                int end = line.indexOf("}", i);
+                if (end != -1) {
+                    if (!buf.isEmpty()) {
+                        result.append(Text.literal(buf.toString()).setStyle(currentStyle));
+                        buf.setLength(0);
+                    }
+                    String iconName = line.substring(i + 6, end);
+                    Text iconText = GuidebookIcons.icon(iconName);
+                    if (iconText.getString().isEmpty()) {
+                        result.append(Text.literal("{icon:" + iconName + "}").setStyle(currentStyle));
+                    } else {
+                        result.append(iconText);
+                    }
+                    i = end + 1;
+                    continue;
+                }
             }
-            if (start > i) {
-                result.append(Text.literal(line.substring(i, start)));
+
+            if (line.charAt(i) == '\u00a7' && i + 1 < line.length()) {
+                char code = Character.toLowerCase(line.charAt(i + 1));
+                if (!buf.isEmpty()) {
+                    result.append(Text.literal(buf.toString()).setStyle(currentStyle));
+                    buf.setLength(0);
+                }
+                currentStyle = applyFormattingCode(currentStyle, code);
+                i += 2;
+                continue;
             }
-            int end = line.indexOf("}", start);
-            if (end == -1) {
-                result.append(Text.literal(line.substring(start)));
-                break;
-            }
-            String iconName = line.substring(start + 6, end);
-            Text iconText = GuidebookIcons.icon(iconName);
-            if (iconText.getString().isEmpty()) {
-                result.append(Text.literal("{icon:" + iconName + "}"));
-            } else {
-                result.append(iconText);
-            }
-            i = end + 1;
+            buf.append(line.charAt(i));
+            i++;
+        }
+
+        if (!buf.isEmpty()) {
+            result.append(Text.literal(buf.toString()).setStyle(currentStyle));
         }
         return result;
+    }
+
+    private static Style applyFormattingCode(Style base, char code) {
+        Formatting fmt = Formatting.byCode(code);
+        if (fmt == null) return base;
+        if (fmt == Formatting.RESET) return Style.EMPTY;
+        if (fmt.isColor()) return base.withColor(fmt);
+        // formatting modifiers
+        return switch (fmt) {
+            case BOLD -> base.withBold(true);
+            case ITALIC -> base.withItalic(true);
+            case UNDERLINE -> base.withUnderline(true);
+            case STRIKETHROUGH -> base.withStrikethrough(true);
+            case OBFUSCATED -> base.withObfuscated(true);
+            default -> base;
+        };
     }
 
     private static Text noContent(int page) {
