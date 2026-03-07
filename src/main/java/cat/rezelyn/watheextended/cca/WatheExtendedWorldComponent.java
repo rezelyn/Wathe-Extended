@@ -188,10 +188,18 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
         this.teleportationSlots.clear();
         if (tag.contains("teleportationSlots")) {
             NbtList list = tag.getList("teleportationSlots", NbtCompound.COMPOUND_TYPE);
+            int autoId = 1;
             for (int i = 0; i < list.size(); i++) {
                 NbtCompound entry = list.getCompound(i);
-                int id = entry.getInt("id");
-                this.teleportationSlots.put(id, TeleportationSlot.fromNbt(entry));
+                if (entry.contains("id")) {
+                    // new format: use stored stable ID
+                    int id = entry.getInt("id");
+                    this.teleportationSlots.put(id, TeleportationSlot.fromNbt(entry));
+                    if (id >= autoId) autoId = id + 1;
+                } else {
+                    // legacy format: assign sequential IDs starting from 1
+                    this.teleportationSlots.put(autoId++, TeleportationSlot.fromNbt(entry));
+                }
             }
         }
         this.nextSlotId = teleportationSlots.isEmpty() ? 1 : Collections.max(teleportationSlots.keySet()) + 1;
