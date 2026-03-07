@@ -11,6 +11,8 @@ import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.teleport.TeleportationSlot;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
+import dev.isxander.yacl3.api.controller.CyclingListControllerBuilder;
+import dev.isxander.yacl3.api.controller.FloatFieldControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerFieldControllerBuilder;
 import dev.isxander.yacl3.api.controller.StringControllerBuilder;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
@@ -221,8 +223,8 @@ public final class WatheOptionsScreen {
                 .tooltip(Text.translatable("gui.watheextended.config.category.options.tooltip"));
 
         builder.group(buildGamerulesGroup(parent));
+        builder.group(buildWatheOptionsGroup(parent));
         if (cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) {
-            builder.group(buildWatheOptionsGroup(parent));
             builder.group(buildRolesOptionsGroup(parent));
             builder.group(buildModifiersOptionsGroup(parent));
         }
@@ -340,79 +342,102 @@ public final class WatheOptionsScreen {
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
 
-        final boolean watheTweaksEnabled = cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableWatheModify(world);
+        if (cat.rezelyn.watheextended.api.shooterpunishments.ConfigHelper.isLoaded()) {
+            final String[] punishmentModes = cat.rezelyn.watheextended.api.shooterpunishments.ConfigHelper.getPunishmentModes();
+            group.option(Option.<String>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.shooterpunishment"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.shooterpunishment.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(cat.rezelyn.watheextended.api.shooterpunishments.ConfigHelper.getCurrentPunishment(),
+                            () -> cat.rezelyn.watheextended.api.shooterpunishments.ConfigHelper.getCurrentPunishment(),
+                            v -> sendCommand("watheextended:config shooterpunishments setMode " + v, parent))
+                    .controller(opt -> CyclingListControllerBuilder
+                            .<String>create(opt)
+                            .values(Arrays.asList(punishmentModes))
+                            .formatValue(v -> {
+                                String spaced = v.replaceAll("([A-Z])", " $1");
+                                String titled = Character.toUpperCase(spaced.charAt(0)) + spaced.substring(1);
+                                return Text.literal(titled);
+                            }))
+                    .build());
+        }
 
-        group.option(Option.<Boolean>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.wathetweaks"))
-                .description(OptionDescription.of(
-                        Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.wathetweaks.desc")
-                                .styled(style -> style.withColor(0xFFFFFF))))
-                .binding(false,
-                        () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableWatheModify(
-                                MinecraftClient.getInstance().world),
-                        v -> sendCommand("watheextended:config kinswathe enableWatheTweaks " + v, parent))
-                .controller(TickBoxControllerBuilder::create)
-                .build());
+        if (cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) {
+            final boolean watheTweaksEnabled = cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableWatheModify(world);
 
-        group.option(Option.<Integer>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.initialcivilianincome"))
-                .description(OptionDescription.of(
-                        Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.initialcivilianincome.desc")
-                                .styled(style -> style.withColor(0xFFFFFF))))
-                .available(watheTweaksEnabled)
-                .binding(0,
-                        () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getInitialCivilianIncome(MinecraftClient.getInstance().world),
-                        v -> sendCommand("watheextended:config kinswathe setInitialCivilianIncome " + v, parent))
-                .controller(IntegerFieldControllerBuilder::create)
-                .build());
+            group.option(Option.<Boolean>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.wathetweaks"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.wathetweaks.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(false,
+                            () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableWatheModify(
+                                    MinecraftClient.getInstance().world),
+                            v -> sendCommand("watheextended:config kinswathe enableWatheTweaks " + v, parent))
+                    .controller(TickBoxControllerBuilder::create)
+                    .build());
 
-        group.option(Option.<Integer>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.initialnnetralincome"))
-                .description(OptionDescription.of(
-                        Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.initialnnetralincome.desc")
-                                .styled(style -> style.withColor(0xFFFFFF))))
-                .available(watheTweaksEnabled)
-                .binding(0,
-                        () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getInitialNeutralIncome(MinecraftClient.getInstance().world),
-                        v -> sendCommand("watheextended:config kinswathe setInitialNeutralIncome " + v, parent))
-                .controller(IntegerFieldControllerBuilder::create)
-                .build());
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.initialcivilianincome"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.initialcivilianincome.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .available(watheTweaksEnabled)
+                    .binding(0,
+                            () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getInitialCivilianIncome(MinecraftClient.getInstance().world),
+                            v -> sendCommand("watheextended:config kinswathe setInitialCivilianIncome " + v, parent))
+                    .controller(IntegerFieldControllerBuilder::create)
+                    .build());
 
-        group.option(Option.<Integer>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.initialkillerncome"))
-                .description(OptionDescription.of(
-                        Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.initialkillerncome.desc")
-                                .styled(style -> style.withColor(0xFFFFFF))))
-                .available(watheTweaksEnabled)
-                .binding(100,
-                        () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getInitialKillerIncome(MinecraftClient.getInstance().world),
-                        v -> sendCommand("watheextended:config kinswathe setInitialKillerIncome " + v, parent))
-                .controller(IntegerFieldControllerBuilder::create)
-                .build());
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.initialnnetralincome"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.initialnnetralincome.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .available(watheTweaksEnabled)
+                    .binding(0,
+                            () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getInitialNeutralIncome(MinecraftClient.getInstance().world),
+                            v -> sendCommand("watheextended:config kinswathe setInitialNeutralIncome " + v, parent))
+                    .controller(IntegerFieldControllerBuilder::create)
+                    .build());
 
-        group.option(Option.<Integer>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.increasemoneywhenkilll"))
-                .description(OptionDescription.of(
-                        Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.increasemoneywhenkilll.desc")
-                                .styled(style -> style.withColor(0xFFFFFF))))
-                .available(watheTweaksEnabled)
-                .binding(100,
-                        () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getIncreaseMoneyWhenKill(MinecraftClient.getInstance().world),
-                        v -> sendCommand("watheextended:config kinswathe setIncreaseMoneyWhenKill " + v, parent))
-                .controller(IntegerFieldControllerBuilder::create)
-                .build());
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.initialkillerncome"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.initialkillerncome.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .available(watheTweaksEnabled)
+                    .binding(100,
+                            () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getInitialKillerIncome(MinecraftClient.getInstance().world),
+                            v -> sendCommand("watheextended:config kinswathe setInitialKillerIncome " + v, parent))
+                    .controller(IntegerFieldControllerBuilder::create)
+                    .build());
 
-        group.option(Option.<Boolean>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.preventkillerdroprevolver"))
-                .description(OptionDescription.of(
-                        Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.preventkillerdroprevolver.desc")
-                                .styled(style -> style.withColor(0xFFFFFF))))
-                .available(watheTweaksEnabled)
-                .binding(false,
-                        () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getPreventKillerDropRevolver(MinecraftClient.getInstance().world),
-                        v -> sendCommand("watheextended:config kinswathe setPreventKillerDropRevolver " + v, parent))
-                .controller(TickBoxControllerBuilder::create)
-                .build());
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.increasemoneywhenkilll"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.increasemoneywhenkilll.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .available(watheTweaksEnabled)
+                    .binding(100,
+                            () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getIncreaseMoneyWhenKill(MinecraftClient.getInstance().world),
+                            v -> sendCommand("watheextended:config kinswathe setIncreaseMoneyWhenKill " + v, parent))
+                    .controller(IntegerFieldControllerBuilder::create)
+                    .build());
+
+            group.option(Option.<Boolean>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.preventkillerdroprevolver"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.preventkillerdroprevolver.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .available(watheTweaksEnabled)
+                    .binding(false,
+                            () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getPreventKillerDropRevolver(MinecraftClient.getInstance().world),
+                            v -> sendCommand("watheextended:config kinswathe setPreventKillerDropRevolver " + v, parent))
+                    .controller(TickBoxControllerBuilder::create)
+                    .build());
+        }
 
         return group.build();
     }
@@ -671,6 +696,122 @@ public final class WatheOptionsScreen {
                 .binding(90, () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getRobotAbilityCooldown(MinecraftClient.getInstance().world), v -> sendCommand("watheextended:config kinswathe setRobotAbilityCooldown " + v, parent))
                 .controller(IntegerFieldControllerBuilder::create).build());
 
+        if (cat.rezelyn.watheextended.api.starexpress.ConfigHelper.isLoaded()) {
+            group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.roles_options.label.starstruck").styled(style -> style.withColor(0xAAAAAA))));
+            group.option(Option.<Boolean>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.starstruck.taskreducescooldown"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.starstruck.taskreducescooldown.desc")
+                            .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(true,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getStarstruckTaskReducesCooldown,
+                            v -> sendCommand("watheextended:config starexpress setStarstruckTaskReducesCooldown " + v, parent))
+                    .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
+                            .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
+                    .build());
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.starstruck.taskcooldownreduction"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.starstruck.taskcooldownreduction.desc")
+                            .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(5,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getStarstruckTaskCooldownReduction,
+                            v -> sendCommand("watheextended:config starexpress setStarstruckTaskCooldownReduction " + v, parent))
+                    .controller(IntegerFieldControllerBuilder::create).build());
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.starstruck.abilitycooldown"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.starstruck.abilitycooldown.desc")
+                            .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(90,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getStarstruckAbilityCooldown,
+                            v -> sendCommand("watheextended:config starexpress setStarstruckAbilityCooldown " + v, parent))
+                    .controller(IntegerFieldControllerBuilder::create).build());
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.starstruck.abilityduration"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.starstruck.abilityduration.desc")
+                            .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(15,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getStarstruckAbilityDuration,
+                            v -> sendCommand("watheextended:config starexpress setStarstruckAbilityDuration " + v, parent))
+                    .controller(IntegerFieldControllerBuilder::create).build());
+            group.option(Option.<Boolean>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.starstruck.abilityaffectsmovementspeed"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.starstruck.abilityaffectsmovementspeed.desc")
+                            .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(true,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getStarstruckAbilityAffectsMovementSpeed,
+                            v -> sendCommand("watheextended:config starexpress setStarstruckAbilityAffectsMovementSpeed " + v, parent))
+                    .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
+                            .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
+                    .build());
+            group.option(Option.<Float>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.starstruck.abilitywalkspeed"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.starstruck.abilitywalkspeed.desc")
+                            .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(0.12f,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getStarstruckAbilityWalkSpeed,
+                            v -> sendCommand("watheextended:config starexpress setStarstruckAbilityWalkSpeed " + v, parent))
+                    .controller(FloatFieldControllerBuilder::create).build());
+            group.option(Option.<Float>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.starstruck.abilitysprintspeed"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.starstruck.abilitysprintspeed.desc")
+                            .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(0.15f,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getStarstruckAbilitySprintSpeed,
+                            v -> sendCommand("watheextended:config starexpress setStarstruckAbilitySprintSpeed " + v, parent))
+                    .controller(FloatFieldControllerBuilder::create).build());
+
+            group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.roles_options.label.muzzler").styled(style -> style.withColor(0xAAAAAA))));
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.muzzler.tapecooldown"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.muzzler.tapecooldown.desc")
+                            .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(20,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getMuzzlerTapeCooldown,
+                            v -> sendCommand("watheextended:config starexpress setMuzzlerTapeCooldown " + v, parent))
+                    .controller(IntegerFieldControllerBuilder::create).build());
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.muzzler.suffocationtime"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.muzzler.suffocationtime.desc")
+                            .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(60,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getMuzzlerSuffocationTime,
+                            v -> sendCommand("watheextended:config starexpress setMuzzlerSuffocationTime " + v, parent))
+                    .controller(IntegerFieldControllerBuilder::create).build());
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.muzzler.tapetearcheckcount"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.muzzler.tapetearcheckcount.desc")
+                            .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(5,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getMuzzlerTapeTearCheckCount,
+                            v -> sendCommand("watheextended:config starexpress setMuzzlerTapeTearCheckCount " + v, parent))
+                    .controller(IntegerFieldControllerBuilder::create).build());
+            group.option(Option.<Float>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.muzzler.tapetearmoodchange"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.muzzler.tapetearmoodchange.desc")
+                            .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(0.1f,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getMuzzlerTapeTearMoodChange,
+                            v -> sendCommand("watheextended:config starexpress setMuzzlerTapeTearMoodChange " + v, parent))
+                    .controller(FloatFieldControllerBuilder::create).build());
+            group.option(Option.<Boolean>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.muzzler.killifcheckedatzero"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.muzzler.killifcheckedatzero.desc")
+                            .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(true,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getMuzzlerKillIfCheckedAtZero,
+                            v -> sendCommand("watheextended:config starexpress setMuzzlerKillIfCheckedAtZero " + v, parent))
+                    .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
+                            .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
+                    .build());
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.muzzler.displaysilencedtipdelay"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.muzzler.displaysilencedtipdelay.desc")
+                            .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(120,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getMuzzlerDisplaySilencedTipDelay,
+                            v -> sendCommand("watheextended:config starexpress setMuzzlerDisplaySilencedTipDelay " + v, parent))
+                    .controller(IntegerFieldControllerBuilder::create).build());
+        }
+
         return group.build();
     }
 
@@ -705,6 +846,50 @@ public final class WatheOptionsScreen {
                         ConfigHelper::setModifierMultiplier)
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
+
+        if (cat.rezelyn.watheextended.api.starexpress.ConfigHelper.isLoaded()) {
+            group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.label.allergic").styled(style -> style.withColor(0xAAAAAA))));
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.nothingchance"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.nothingchance.desc")
+                            .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(3,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getAllergicNothingChance,
+                            v -> sendCommand("watheextended:config starexpress setAllergicNothingChance " + v, parent))
+                    .controller(IntegerFieldControllerBuilder::create).build());
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.instinctchance"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.instinctchance.desc")
+                            .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(1,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getAllergicInstinctChance,
+                            v -> sendCommand("watheextended:config starexpress setAllergicInstinctChance " + v, parent))
+                    .controller(IntegerFieldControllerBuilder::create).build());
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.armorchance"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.armorchance.desc")
+                            .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(1,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getAllergicArmorChance,
+                            v -> sendCommand("watheextended:config starexpress setAllergicArmorChance " + v, parent))
+                    .controller(IntegerFieldControllerBuilder::create).build());
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.poisonchance"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.poisonchance.desc")
+                            .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(1,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getAllergicPoisonChance,
+                            v -> sendCommand("watheextended:config starexpress setAllergicPoisonChance " + v, parent))
+                    .controller(IntegerFieldControllerBuilder::create).build());
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.instinctduration"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.instinctduration.desc")
+                            .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(3,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getAllergicInstinctDuration,
+                            v -> sendCommand("watheextended:config starexpress setAllergicInstinctDuration " + v, parent))
+                    .controller(IntegerFieldControllerBuilder::create).build());
+        }
 
         return group.build();
     }

@@ -61,8 +61,6 @@ public final class ConfigHelper {
         saveConfig();
     }
 
-    // APIs
-
     public static boolean getInsanePlayersSeeMorphs(World world) {
         return readWorldBool(world, "insanePlayersSeeMorphs", true);
     }

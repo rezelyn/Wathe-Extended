@@ -373,6 +373,86 @@ public class AddonsConfigCommand {
             );
         }
 
+        if (cat.rezelyn.watheextended.api.shooterpunishments.ConfigHelper.isLoaded()) {
+            root.then(CommandManager.literal("shooterpunishments")
+                    .then(CommandManager.literal("setMode")
+                            .then(CommandManager.argument("mode", com.mojang.brigadier.arguments.StringArgumentType.word())
+                                    .executes(ctx -> {
+                                        String mode = com.mojang.brigadier.arguments.StringArgumentType.getString(ctx, "mode");
+                                        try {
+                                            ctx.getSource().getServer().getCommandManager().getDispatcher()
+                                                    .execute("setShootInnocentPunishment " + mode, ctx.getSource());
+                                            cat.rezelyn.watheextended.api.shooterpunishments.ConfigHelper.setLastKnownMode(mode);
+                                            return 1;
+                                        } catch (Exception e) {
+                                            return 0;
+                                        }
+                                    })))
+            );
+        }
+
+        if (cat.rezelyn.watheextended.api.starexpress.ConfigHelper.isLoaded()) {
+            root.then(CommandManager.literal("starexpress")
+                    // Starstruck
+                    .then(CommandManager.literal("setStarstruckTaskReducesCooldown")
+                            .then(CommandManager.argument("enabled", BoolArgumentType.bool())
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setStarstruckTaskReducesCooldown(BoolArgumentType.getBool(ctx, "enabled")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setStarstruckTaskCooldownReduction")
+                            .then(CommandManager.argument("value", IntegerArgumentType.integer(0))
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setStarstruckTaskCooldownReduction(IntegerArgumentType.getInteger(ctx, "value")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setStarstruckAbilityCooldown")
+                            .then(CommandManager.argument("value", IntegerArgumentType.integer(0))
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setStarstruckAbilityCooldown(IntegerArgumentType.getInteger(ctx, "value")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setStarstruckAbilityDuration")
+                            .then(CommandManager.argument("value", IntegerArgumentType.integer(0))
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setStarstruckAbilityDuration(IntegerArgumentType.getInteger(ctx, "value")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setStarstruckAbilityAffectsMovementSpeed")
+                            .then(CommandManager.argument("enabled", BoolArgumentType.bool())
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setStarstruckAbilityAffectsMovementSpeed(BoolArgumentType.getBool(ctx, "enabled")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setStarstruckAbilityWalkSpeed")
+                            .then(CommandManager.argument("value", com.mojang.brigadier.arguments.FloatArgumentType.floatArg(0f))
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setStarstruckAbilityWalkSpeed(com.mojang.brigadier.arguments.FloatArgumentType.getFloat(ctx, "value")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setStarstruckAbilitySprintSpeed")
+                            .then(CommandManager.argument("value", com.mojang.brigadier.arguments.FloatArgumentType.floatArg(0f))
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setStarstruckAbilitySprintSpeed(com.mojang.brigadier.arguments.FloatArgumentType.getFloat(ctx, "value")); return 1; } catch (Exception e) { return 0; } })))
+                    // Muzzler
+                    .then(CommandManager.literal("setMuzzlerTapeCooldown")
+                            .then(CommandManager.argument("value", IntegerArgumentType.integer(0))
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setMuzzlerTapeCooldown(IntegerArgumentType.getInteger(ctx, "value")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setMuzzlerSuffocationTime")
+                            .then(CommandManager.argument("value", IntegerArgumentType.integer(0))
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setMuzzlerSuffocationTime(IntegerArgumentType.getInteger(ctx, "value")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setMuzzlerTapeTearCheckCount")
+                            .then(CommandManager.argument("value", IntegerArgumentType.integer(0))
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setMuzzlerTapeTearCheckCount(IntegerArgumentType.getInteger(ctx, "value")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setMuzzlerTapeTearMoodChange")
+                            .then(CommandManager.argument("value", com.mojang.brigadier.arguments.FloatArgumentType.floatArg(0f, 1f))
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setMuzzlerTapeTearMoodChange(com.mojang.brigadier.arguments.FloatArgumentType.getFloat(ctx, "value")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setMuzzlerKillIfCheckedAtZero")
+                            .then(CommandManager.argument("enabled", BoolArgumentType.bool())
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setMuzzlerKillIfCheckedAtZero(BoolArgumentType.getBool(ctx, "enabled")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setMuzzlerDisplaySilencedTipDelay")
+                            .then(CommandManager.argument("value", IntegerArgumentType.integer(0))
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setMuzzlerDisplaySilencedTipDelay(IntegerArgumentType.getInteger(ctx, "value")); return 1; } catch (Exception e) { return 0; } })))
+                    // Allergic
+                    .then(CommandManager.literal("setAllergicNothingChance")
+                            .then(CommandManager.argument("value", IntegerArgumentType.integer(0))
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setAllergicNothingChance(IntegerArgumentType.getInteger(ctx, "value")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setAllergicInstinctChance")
+                            .then(CommandManager.argument("value", IntegerArgumentType.integer(0))
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setAllergicInstinctChance(IntegerArgumentType.getInteger(ctx, "value")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setAllergicArmorChance")
+                            .then(CommandManager.argument("value", IntegerArgumentType.integer(0))
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setAllergicArmorChance(IntegerArgumentType.getInteger(ctx, "value")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setAllergicPoisonChance")
+                            .then(CommandManager.argument("value", IntegerArgumentType.integer(0))
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setAllergicPoisonChance(IntegerArgumentType.getInteger(ctx, "value")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setAllergicInstinctDuration")
+                            .then(CommandManager.argument("value", IntegerArgumentType.integer(0))
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setAllergicInstinctDuration(IntegerArgumentType.getInteger(ctx, "value")); return 1; } catch (Exception e) { return 0; } })))
+            );
+        }
+
         dispatcher.register(root);
     }
 }
