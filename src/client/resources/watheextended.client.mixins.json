@@ -12,6 +12,7 @@
     "client.wathe.PlayerMoodComponentMixin",
     "client.noellesroles.GraverobberCoronerHudMixin",
     "client.starexpress.GuidebookButtonMixin",
+    "client.stupidexpress.LoversHudNullPlayerFixMixin",
     "client.ItemRendererAccessor",
     "client.ItemRendererMixin",
     "client.ModelLoaderMixin"
