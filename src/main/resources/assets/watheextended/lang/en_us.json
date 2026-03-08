@@ -98,8 +98,6 @@
   "gui.watheextended.config.category.mapvariables.group.variables.tooltip": "Manage various map variables that control important locations and areas for the game.",
   "gui.watheextended.config.category.mapvariables.opt.autostart": "Auto Start",
   "gui.watheextended.config.category.mapvariables.opt.autostart.desc": "The number of seconds after which the game will automatically start.\n\nSet to 0 to disable auto start.",
-  "gui.watheextended.config.category.mapvariables.opt.bounds": "Play Area Bounds",
-  "gui.watheextended.config.category.mapvariables.opt.bounds.desc": "When enabled, players who step outside the play area during a game will be eliminated. Spectators will also be restricted to staying within the play area bounds.",
   "gui.watheextended.config.category.mapvariables.opt.itemboundscheck": "Item Bounds Check",
   "gui.watheextended.config.category.mapvariables.opt.itemboundscheck.desc": "When enabled, any items that falls outside the play area during an active game will be automatically teleported back to the nearest alive player or dead body.",
   "gui.watheextended.config.category.mapvariables.opt.jumpinlobby": "Jump In Lobby",

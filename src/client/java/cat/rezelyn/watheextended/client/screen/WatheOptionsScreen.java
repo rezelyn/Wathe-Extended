@@ -995,18 +995,6 @@ public final class WatheOptionsScreen {
                         .formatValue(v -> Text.translatable(v ? "text.watheextended.enabled" : "text.watheextended.disabled")))
                 .build());
 
-        builder.option(Option.<Boolean>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.mapvariables.opt.bounds"))
-                .description(OptionDescription.of(
-                        Text.translatable("gui.watheextended.config.category.mapvariables.opt.bounds.desc")
-                                .styled(style -> style.withColor(0xFFFFFF))))
-                .binding(GameComponents.getBounds(world),
-                        () -> GameComponents.getBounds(MinecraftClient.getInstance().world),
-                        v -> sendCommand("wathe:gameSettings set bounds " + v, parent))
-                .controller(opt -> BooleanControllerBuilder.create(opt)
-                        .coloured(true)
-                        .formatValue(v -> Text.translatable(v ? "text.watheextended.enabled" : "text.watheextended.disabled")))
-                .build());
 
         if (cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) {
             final boolean jumpNotInGameDefault = cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableJumpNotInGame(world);
@@ -1376,7 +1364,7 @@ public final class WatheOptionsScreen {
             // close and reopen the config screen after a few ticks to reflect the changes
             client.setScreen(null);
             reopenParent = currentScreen;
-            waitForTicks = 1;
+            waitForTicks = 5;
         } catch (Throwable ignored) {
         }
     }
