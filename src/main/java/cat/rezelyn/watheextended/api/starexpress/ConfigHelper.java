@@ -1,5 +1,9 @@
 package cat.rezelyn.watheextended.api.starexpress;
 
+import cat.rezelyn.watheextended.api.config.ServerConfig;
+import cat.rezelyn.watheextended.api.config.ServerConfig.Entry;
+import cat.rezelyn.watheextended.api.config.ClientConfig;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 
 public final class ConfigHelper {
@@ -12,8 +16,8 @@ public final class ConfigHelper {
     }
 
     private static Object getConfig() throws Exception {
-        Class<?> mainClass = Class.forName("org.aussiebox.starexpress.StarryExpress");
-        return mainClass.getField("CONFIG").get(null);
+        Class<?> cls = Class.forName("org.aussiebox.starexpress.StarryExpress");
+        return cls.getField("CONFIG").get(null);
     }
 
     private static Object getSection(String sectionField) throws Exception {
@@ -21,21 +25,19 @@ public final class ConfigHelper {
         return cfg.getClass().getField(sectionField).get(cfg);
     }
 
-    private static boolean readBool(String section, String method, boolean def) {
+    private static boolean readBoolServer(String section, String method, boolean def) {
         try {
-            Object sec = getSection(section);
-            return (boolean) sec.getClass().getMethod(method).invoke(sec);
+            return (boolean) getSection(section).getClass().getMethod(method).invoke(getSection(section));
         } catch (Throwable t) {
             return def;
         }
     }
 
-    private static void writeBool(String section, String method, boolean value) throws Exception {
-        Object sec = getSection(section);
-        sec.getClass().getMethod(method, boolean.class).invoke(sec, value);
+    private static void writeBoolServer(String section, String method, boolean value) throws Exception {
+        getSection(section).getClass().getMethod(method, boolean.class).invoke(getSection(section), value);
     }
 
-    private static int readInt(String section, String method, int def) {
+    private static int readIntServer(String section, String method, int def) {
         try {
             Object sec = getSection(section);
             return (int) sec.getClass().getMethod(method).invoke(sec);
@@ -44,12 +46,11 @@ public final class ConfigHelper {
         }
     }
 
-    private static void writeInt(String section, String method, int value) throws Exception {
-        Object sec = getSection(section);
-        sec.getClass().getMethod(method, int.class).invoke(sec, value);
+    private static void writeIntServer(String section, String method, int value) throws Exception {
+        getSection(section).getClass().getMethod(method, int.class).invoke(getSection(section), value);
     }
 
-    private static float readFloat(String section, String method, float def) {
+    private static float readFloatServer(String section, String method, float def) {
         try {
             Object sec = getSection(section);
             Object result = sec.getClass().getMethod(method).invoke(sec);
@@ -61,7 +62,7 @@ public final class ConfigHelper {
         }
     }
 
-    private static void writeFloat(String section, String method, float value) throws Exception {
+    private static void writeFloatServer(String section, String method, float value) throws Exception {
         Object sec = getSection(section);
         try {
             sec.getClass().getMethod(method, float.class).invoke(sec, value);
@@ -70,148 +71,351 @@ public final class ConfigHelper {
         }
     }
 
-    public static boolean getStarstruckTaskReducesCooldown() {
-        return readBool("starstruckConfig", "taskReducesCooldown", true);
+    public static void registerEntries() {
+        if (!isLoaded()) return;
+
+        // Starstruck
+        reg(Entry.globalBool("starexpress.taskReducesCooldown", true,
+                () -> readBoolServer("starstruckConfig", "taskReducesCooldown", true),
+                v -> {
+                    try {
+                        writeBoolServer("starstruckConfig", "taskReducesCooldown", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalInt("starexpress.taskCooldownReduction", 5,
+                () -> readIntServer("starstruckConfig", "taskCooldownReduction", 5),
+                v -> {
+                    try {
+                        writeIntServer("starstruckConfig", "taskCooldownReduction", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalInt("starexpress.abilityCooldown", 90,
+                () -> readIntServer("starstruckConfig", "abilityCooldown", 90),
+                v -> {
+                    try {
+                        writeIntServer("starstruckConfig", "abilityCooldown", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalInt("starexpress.abilityDuration", 15,
+                () -> readIntServer("starstruckConfig", "abilityDuration", 15),
+                v -> {
+                    try {
+                        writeIntServer("starstruckConfig", "abilityDuration", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalBool("starexpress.abilityAffectsMovementSpeed", true,
+                () -> readBoolServer("starstruckConfig", "abilityAffectsMovementSpeed", true),
+                v -> {
+                    try {
+                        writeBoolServer("starstruckConfig", "abilityAffectsMovementSpeed", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.global("starexpress.abilityWalkSpeed", 0.12f,
+                () -> readFloatServer("starstruckConfig", "abilityWalkSpeed", 0.12f),
+                v -> {
+                    try {
+                        writeFloatServer("starstruckConfig", "abilityWalkSpeed", v);
+                    } catch (Throwable ignored) {
+                    }
+                },
+                Object::toString, s -> {
+                    try {
+                        return Float.parseFloat(s);
+                    } catch (NumberFormatException e) {
+                        return 0.12f;
+                    }
+                }));
+        reg(Entry.global("starexpress.abilitySprintSpeed", 0.15f,
+                () -> readFloatServer("starstruckConfig", "abilitySprintSpeed", 0.15f),
+                v -> {
+                    try {
+                        writeFloatServer("starstruckConfig", "abilitySprintSpeed", v);
+                    } catch (Throwable ignored) {
+                    }
+                },
+                Object::toString, s -> {
+                    try {
+                        return Float.parseFloat(s);
+                    } catch (NumberFormatException e) {
+                        return 0.15f;
+                    }
+                }));
+
+        // Muzzler
+        reg(Entry.globalInt("starexpress.tapeCooldown", 20,
+                () -> readIntServer("muzzlerConfig", "tapeCooldown", 20),
+                v -> {
+                    try {
+                        writeIntServer("muzzlerConfig", "tapeCooldown", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalInt("starexpress.suffocationTime", 60,
+                () -> readIntServer("muzzlerConfig", "suffocationTime", 60),
+                v -> {
+                    try {
+                        writeIntServer("muzzlerConfig", "suffocationTime", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalInt("starexpress.tapeTearCheckCount", 5,
+                () -> readIntServer("muzzlerConfig", "tapeTearCheckCount", 5),
+                v -> {
+                    try {
+                        writeIntServer("muzzlerConfig", "tapeTearCheckCount", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.global("starexpress.tapeTearMoodChange", 0.1f,
+                () -> readFloatServer("muzzlerConfig", "tapeTearMoodChange", 0.1f),
+                v -> {
+                    try {
+                        writeFloatServer("muzzlerConfig", "tapeTearMoodChange", v);
+                    } catch (Throwable ignored) {
+                    }
+                },
+                Object::toString, s -> {
+                    try {
+                        return Float.parseFloat(s);
+                    } catch (NumberFormatException e) {
+                        return 0.1f;
+                    }
+                }));
+        reg(Entry.globalBool("starexpress.killIfCheckedAtZero", true,
+                () -> readBoolServer("muzzlerConfig", "killIfCheckedAtZero", true),
+                v -> {
+                    try {
+                        writeBoolServer("muzzlerConfig", "killIfCheckedAtZero", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalInt("starexpress.displaySilencedTipDelay", 120,
+                () -> readIntServer("muzzlerConfig", "displaySilencedTipDelay", 120),
+                v -> {
+                    try {
+                        writeIntServer("muzzlerConfig", "displaySilencedTipDelay", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+
+        // Allergic
+        reg(Entry.globalInt("starexpress.nothingChance", 3,
+                () -> readIntServer("allergicConfig", "nothingChance", 3),
+                v -> {
+                    try {
+                        writeIntServer("allergicConfig", "nothingChance", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalInt("starexpress.instinctChance", 1,
+                () -> readIntServer("allergicConfig", "instinctChance", 1),
+                v -> {
+                    try {
+                        writeIntServer("allergicConfig", "instinctChance", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalInt("starexpress.armorChance", 1,
+                () -> readIntServer("allergicConfig", "armorChance", 1),
+                v -> {
+                    try {
+                        writeIntServer("allergicConfig", "armorChance", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalInt("starexpress.poisonChance", 1,
+                () -> readIntServer("allergicConfig", "poisonChance", 1),
+                v -> {
+                    try {
+                        writeIntServer("allergicConfig", "poisonChance", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalInt("starexpress.instinctDuration", 3,
+                () -> readIntServer("allergicConfig", "instinctDuration", 3),
+                v -> {
+                    try {
+                        writeIntServer("allergicConfig", "instinctDuration", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
     }
 
-    public static void setStarstruckTaskReducesCooldown(boolean value) throws Exception {
-        writeBool("starstruckConfig", "taskReducesCooldown", value);
+    private static <T> void reg(Entry<T> e) {
+        ServerConfig.register(e);
+    }
+
+    private static boolean cb(String key, boolean def) {
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+            return ClientConfig.getBool(key, def);
+        return def;
+    }
+
+    private static int ci(String key, int def) {
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+            return ClientConfig.getInt(key, def);
+        return def;
+    }
+
+    private static float cf(String key, float def) {
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+            return ClientConfig.getFloat(key, def);
+        return def;
+    }
+
+    public static boolean getStarstruckTaskReducesCooldown() {
+        return cb("starexpress.taskReducesCooldown", true);
+    }
+
+    public static void setStarstruckTaskReducesCooldown(boolean v) throws Exception {
+        applyV("starexpress.taskReducesCooldown", v);
     }
 
     public static int getStarstruckTaskCooldownReduction() {
-        return readInt("starstruckConfig", "taskCooldownReduction", 5);
+        return ci("starexpress.taskCooldownReduction", 5);
     }
 
-    public static void setStarstruckTaskCooldownReduction(int value) throws Exception {
-        writeInt("starstruckConfig", "taskCooldownReduction", value);
+    public static void setStarstruckTaskCooldownReduction(int v) throws Exception {
+        applyV("starexpress.taskCooldownReduction", v);
     }
 
     public static int getStarstruckAbilityCooldown() {
-        return readInt("starstruckConfig", "abilityCooldown", 90);
+        return ci("starexpress.abilityCooldown", 90);
     }
 
-    public static void setStarstruckAbilityCooldown(int value) throws Exception {
-        writeInt("starstruckConfig", "abilityCooldown", value);
+    public static void setStarstruckAbilityCooldown(int v) throws Exception {
+        applyV("starexpress.abilityCooldown", v);
     }
 
     public static int getStarstruckAbilityDuration() {
-        return readInt("starstruckConfig", "abilityDuration", 15);
+        return ci("starexpress.abilityDuration", 15);
     }
 
-    public static void setStarstruckAbilityDuration(int value) throws Exception {
-        writeInt("starstruckConfig", "abilityDuration", value);
+    public static void setStarstruckAbilityDuration(int v) throws Exception {
+        applyV("starexpress.abilityDuration", v);
     }
 
     public static boolean getStarstruckAbilityAffectsMovementSpeed() {
-        return readBool("starstruckConfig", "abilityAffectsMovementSpeed", true);
+        return cb("starexpress.abilityAffectsMovementSpeed", true);
     }
 
-    public static void setStarstruckAbilityAffectsMovementSpeed(boolean value) throws Exception {
-        writeBool("starstruckConfig", "abilityAffectsMovementSpeed", value);
+    public static void setStarstruckAbilityAffectsMovementSpeed(boolean v) throws Exception {
+        applyV("starexpress.abilityAffectsMovementSpeed", v);
     }
 
     public static float getStarstruckAbilityWalkSpeed() {
-        return readFloat("starstruckConfig", "abilityWalkSpeed", 0.12f);
+        return cf("starexpress.abilityWalkSpeed", 0.12f);
     }
 
-    public static void setStarstruckAbilityWalkSpeed(float value) throws Exception {
-        writeFloat("starstruckConfig", "abilityWalkSpeed", value);
+    public static void setStarstruckAbilityWalkSpeed(float v) throws Exception {
+        applyV("starexpress.abilityWalkSpeed", v);
     }
 
     public static float getStarstruckAbilitySprintSpeed() {
-        return readFloat("starstruckConfig", "abilitySprintSpeed", 0.15f);
+        return cf("starexpress.abilitySprintSpeed", 0.15f);
     }
 
-    public static void setStarstruckAbilitySprintSpeed(float value) throws Exception {
-        writeFloat("starstruckConfig", "abilitySprintSpeed", value);
+    public static void setStarstruckAbilitySprintSpeed(float v) throws Exception {
+        applyV("starexpress.abilitySprintSpeed", v);
     }
 
     public static int getMuzzlerTapeCooldown() {
-        return readInt("muzzlerConfig", "tapeCooldown", 20);
+        return ci("starexpress.tapeCooldown", 20);
     }
 
-    public static void setMuzzlerTapeCooldown(int value) throws Exception {
-        writeInt("muzzlerConfig", "tapeCooldown", value);
+    public static void setMuzzlerTapeCooldown(int v) throws Exception {
+        applyV("starexpress.tapeCooldown", v);
     }
 
     public static int getMuzzlerSuffocationTime() {
-        return readInt("muzzlerConfig", "suffocationTime", 60);
+        return ci("starexpress.suffocationTime", 60);
     }
 
-    public static void setMuzzlerSuffocationTime(int value) throws Exception {
-        writeInt("muzzlerConfig", "suffocationTime", value);
+    public static void setMuzzlerSuffocationTime(int v) throws Exception {
+        applyV("starexpress.suffocationTime", v);
     }
 
     public static int getMuzzlerTapeTearCheckCount() {
-        return readInt("muzzlerConfig", "tapeTearCheckCount", 5);
+        return ci("starexpress.tapeTearCheckCount", 5);
     }
 
-    public static void setMuzzlerTapeTearCheckCount(int value) throws Exception {
-        writeInt("muzzlerConfig", "tapeTearCheckCount", value);
+    public static void setMuzzlerTapeTearCheckCount(int v) throws Exception {
+        applyV("starexpress.tapeTearCheckCount", v);
     }
 
     public static float getMuzzlerTapeTearMoodChange() {
-        return readFloat("muzzlerConfig", "tapeTearMoodChange", 0.1f);
+        return cf("starexpress.tapeTearMoodChange", 0.1f);
     }
 
-    public static void setMuzzlerTapeTearMoodChange(float value) throws Exception {
-        writeFloat("muzzlerConfig", "tapeTearMoodChange", value);
+    public static void setMuzzlerTapeTearMoodChange(float v) throws Exception {
+        applyV("starexpress.tapeTearMoodChange", v);
     }
 
     public static boolean getMuzzlerKillIfCheckedAtZero() {
-        return readBool("muzzlerConfig", "killIfCheckedAtZero", true);
+        return cb("starexpress.killIfCheckedAtZero", true);
     }
 
-    public static void setMuzzlerKillIfCheckedAtZero(boolean value) throws Exception {
-        writeBool("muzzlerConfig", "killIfCheckedAtZero", value);
+    public static void setMuzzlerKillIfCheckedAtZero(boolean v) throws Exception {
+        applyV("starexpress.killIfCheckedAtZero", v);
     }
 
     public static int getMuzzlerDisplaySilencedTipDelay() {
-        return readInt("muzzlerConfig", "displaySilencedTipDelay", 120);
+        return ci("starexpress.displaySilencedTipDelay", 120);
     }
 
-    public static void setMuzzlerDisplaySilencedTipDelay(int value) throws Exception {
-        writeInt("muzzlerConfig", "displaySilencedTipDelay", value);
+    public static void setMuzzlerDisplaySilencedTipDelay(int v) throws Exception {
+        applyV("starexpress.displaySilencedTipDelay", v);
     }
 
     public static int getAllergicNothingChance() {
-        return readInt("allergicConfig", "nothingChance", 3);
+        return ci("starexpress.nothingChance", 3);
     }
 
-    public static void setAllergicNothingChance(int value) throws Exception {
-        writeInt("allergicConfig", "nothingChance", value);
+    public static void setAllergicNothingChance(int v) throws Exception {
+        applyV("starexpress.nothingChance", v);
     }
 
     public static int getAllergicInstinctChance() {
-        return readInt("allergicConfig", "instinctChance", 1);
+        return ci("starexpress.instinctChance", 1);
     }
 
-    public static void setAllergicInstinctChance(int value) throws Exception {
-        writeInt("allergicConfig", "instinctChance", value);
+    public static void setAllergicInstinctChance(int v) throws Exception {
+        applyV("starexpress.instinctChance", v);
     }
 
     public static int getAllergicArmorChance() {
-        return readInt("allergicConfig", "armorChance", 1);
+        return ci("starexpress.armorChance", 1);
     }
 
-    public static void setAllergicArmorChance(int value) throws Exception {
-        writeInt("allergicConfig", "armorChance", value);
+    public static void setAllergicArmorChance(int v) throws Exception {
+        applyV("starexpress.armorChance", v);
     }
 
     public static int getAllergicPoisonChance() {
-        return readInt("allergicConfig", "poisonChance", 1);
+        return ci("starexpress.poisonChance", 1);
     }
 
-    public static void setAllergicPoisonChance(int value) throws Exception {
-        writeInt("allergicConfig", "poisonChance", value);
+    public static void setAllergicPoisonChance(int v) throws Exception {
+        applyV("starexpress.poisonChance", v);
     }
 
     public static int getAllergicInstinctDuration() {
-        return readInt("allergicConfig", "instinctDuration", 3);
+        return ci("starexpress.instinctDuration", 3);
     }
 
-    public static void setAllergicInstinctDuration(int value) throws Exception {
-        writeInt("allergicConfig", "instinctDuration", value);
+    public static void setAllergicInstinctDuration(int v) throws Exception {
+        applyV("starexpress.instinctDuration", v);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> void applyV(String key, T value) {
+        Entry<T> entry = (Entry<T>) ServerConfig.entries().get(key);
+        if (entry != null) entry.writeServer(null, value);
     }
 }
 

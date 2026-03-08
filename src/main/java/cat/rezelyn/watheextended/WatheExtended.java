@@ -2,6 +2,7 @@ package cat.rezelyn.watheextended;
 
 import cat.rezelyn.watheextended.api.cca.GameStatus;
 import cat.rezelyn.watheextended.api.cca.MapVariables;
+import cat.rezelyn.watheextended.api.config.ServerConfig;
 import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.command.AddonsConfigCommand;
 import cat.rezelyn.watheextended.command.GamemodeRulesCommand;
@@ -17,6 +18,9 @@ import dev.doctor4t.wathe.index.WatheEntities;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -97,6 +101,113 @@ public class WatheExtended implements ModInitializer {
         WatheExtendedItems.initialize();
         WatheExtendedBlocks.initialize();
         WatheExtendedSounds.initialize();
+
+        // register all ConfigEntry into ConfigRegistry
+        cat.rezelyn.watheextended.api.hml.ConfigHelper.registerEntries();
+        cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.registerEntries();
+        cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.registerEntries();
+        cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.registerEntries();
+        cat.rezelyn.watheextended.api.starexpress.ConfigHelper.registerEntries();
+        cat.rezelyn.watheextended.api.shooterpunishments.ConfigHelper.registerEntries();
+
+        // read/write directly to overworld component
+        ServerConfig.register(ServerConfig.Entry.worldBool("watheextended.playerCollisions", true,
+                w -> {
+                    try {
+                        return WatheExtendedWorldComponent.KEY.get(w).isPlayerCollisionsEnabled();
+                    } catch (Throwable t) {
+                        return true;
+                    }
+                },
+                (w, v) -> {
+                    try {
+                        WatheExtendedWorldComponent.KEY.get(w).setPlayerCollisionsEnabled(v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        ServerConfig.register(ServerConfig.Entry.worldBool("watheextended.rtpEnabled", true,
+                w -> {
+                    try {
+                        return WatheExtendedWorldComponent.KEY.get(w).isRtpEnabled();
+                    } catch (Throwable t) {
+                        return true;
+                    }
+                },
+                (w, v) -> {
+                    try {
+                        WatheExtendedWorldComponent.KEY.get(w).setRtpEnabled(v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        ServerConfig.register(ServerConfig.Entry.worldBool("watheextended.blockProtection", true,
+                w -> {
+                    try {
+                        return WatheExtendedWorldComponent.KEY.get(w).isBlockInteractionsProtected();
+                    } catch (Throwable t) {
+                        return true;
+                    }
+                },
+                (w, v) -> {
+                    try {
+                        WatheExtendedWorldComponent.KEY.get(w).setBlockInteractionsProtected(v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        ServerConfig.register(ServerConfig.Entry.worldBool("watheextended.itemBoundsCheck", true,
+                w -> {
+                    try {
+                        return WatheExtendedWorldComponent.KEY.get(w).isItemBoundsCheckEnabled();
+                    } catch (Throwable t) {
+                        return true;
+                    }
+                },
+                (w, v) -> {
+                    try {
+                        WatheExtendedWorldComponent.KEY.get(w).setItemBoundsCheckEnabled(v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+
+        // register sync packets
+        PayloadTypeRegistry.playS2C().register(ServerConfig.SyncPayload.ID, ServerConfig.SyncPayload.CODEC);
+        PayloadTypeRegistry.playC2S().register(ServerConfig.ChangePayload.ID, ServerConfig.ChangePayload.CODEC);
+
+        // handle incoming config changes from op clients
+        ServerPlayNetworking.registerGlobalReceiver(ServerConfig.ChangePayload.ID, (payload, context) -> {
+            if (!context.player().hasPermissionLevel(2)) return;
+            context.server().execute(() -> {
+                ServerWorld overworld = context.server().getOverworld();
+
+                Map<String, String> registryChanges = new java.util.LinkedHashMap<>();
+                for (Map.Entry<String, String> entry : payload.changes().entrySet()) {
+                    if (entry.getKey().startsWith("cmd:")) {
+                        String cmd = entry.getKey().substring(4); // strip prefix
+                        try {
+                            context.server().getCommandManager().getDispatcher()
+                                    .execute(cmd, context.player().getCommandSource().withLevel(4).withSilent());
+                        } catch (Throwable ignored) {}
+                    } else {
+                        registryChanges.put(entry.getKey(), entry.getValue());
+                    }
+                }
+
+                if (!registryChanges.isEmpty()) {
+                    ServerConfig.applyChanges(registryChanges, overworld);
+                }
+
+                ServerConfig.broadcastToOps(context.server());
+            });
+        });
+
+        // push current server configs to op client when they join
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            ServerPlayerEntity joining = handler.player;
+            server.execute(() -> {
+                if (joining.hasPermissionLevel(2)) {
+                    ServerConfig.sendToPlayer(joining);
+                }
+            });
+        });
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             WatheExtendedMapVariablesCommand.register(dispatcher);

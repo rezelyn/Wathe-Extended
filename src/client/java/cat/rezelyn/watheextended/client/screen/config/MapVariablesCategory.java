@@ -125,60 +125,76 @@ public final class MapVariablesCategory {
         group.option(Option.<String>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.lobbyarea"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.lobbyarea.desc").styled(s -> s.withColor(0x757575))))
-                .binding(lobbyAreaDefault, () -> lobbyAreaDefault, v -> {
-                    String[] parts = v.trim().split("\\s+");
-                    if (parts.length == 6)
-                        sendCommand.accept("watheextended:mapVariables set lobbyArea " + parts[0] + " " + parts[1] + " " + parts[2] + " " + parts[3] + " " + parts[4] + " " + parts[5], parent);
-                })
+                .binding(lobbyAreaDefault,
+                        () -> ScreenUtils.boxToArgs(MapVariables.getLobbyArea(MinecraftClient.getInstance().world)),
+                        v -> {
+                            String[] parts = v.trim().split("\\s+");
+                            if (parts.length == 6)
+                                sendCommand.accept("watheextended:mapVariables set lobbyArea " + parts[0] + " " + parts[1] + " " + parts[2] + " " + parts[3] + " " + parts[4] + " " + parts[5], parent);
+                        })
                 .controller(StringControllerBuilder::create).build());
 
         String playAreaDefault = ScreenUtils.boxToArgs(MapVariables.getPlayArea(world));
         group.option(Option.<String>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.playarea"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.playarea.desc").styled(s -> s.withColor(0x757575))))
-                .binding(playAreaDefault, () -> playAreaDefault, v -> sendCommand.accept("wathe:mapVariables set playArea " + v.trim(), parent))
+                .binding(playAreaDefault,
+                        () -> ScreenUtils.boxToArgs(MapVariables.getPlayArea(MinecraftClient.getInstance().world)),
+                        v -> sendCommand.accept("wathe:mapVariables set playArea " + v.trim(), parent))
                 .controller(StringControllerBuilder::create).build());
 
         String playAreaOffsetDefault = ScreenUtils.vec3iToArgs(MapVariables.getPlayAreaOffset(world));
         group.option(Option.<String>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.playareaoffset"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.playareaoffset.desc").styled(s -> s.withColor(0x757575))))
-                .binding(playAreaOffsetDefault, () -> playAreaOffsetDefault, v -> sendCommand.accept("wathe:mapVariables set playAreaOffset " + v.trim(), parent))
+                .binding(playAreaOffsetDefault,
+                        () -> ScreenUtils.vec3iToArgs(MapVariables.getPlayAreaOffset(MinecraftClient.getInstance().world)),
+                        v -> sendCommand.accept("wathe:mapVariables set playAreaOffset " + v.trim(), parent))
                 .controller(StringControllerBuilder::create).build());
 
         String readyAreaDefault = ScreenUtils.boxToArgs(MapVariables.getReadyArea(world));
         group.option(Option.<String>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.readyarea"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.readyarea.desc").styled(s -> s.withColor(0x757575))))
-                .binding(readyAreaDefault, () -> readyAreaDefault, v -> sendCommand.accept("wathe:mapVariables set readyArea " + v.trim(), parent))
+                .binding(readyAreaDefault,
+                        () -> ScreenUtils.boxToArgs(MapVariables.getReadyArea(MinecraftClient.getInstance().world)),
+                        v -> sendCommand.accept("wathe:mapVariables set readyArea " + v.trim(), parent))
                 .controller(StringControllerBuilder::create).build());
 
         String resetPasteOffsetDefault = ScreenUtils.vec3iToArgs(MapVariables.getResetPasteOffset(world));
         group.option(Option.<String>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.resetpasteoffset"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.resetpasteoffset.desc").styled(s -> s.withColor(0x757575))))
-                .binding(resetPasteOffsetDefault, () -> resetPasteOffsetDefault, v -> sendCommand.accept("wathe:mapVariables set resetPasteOffset " + v.trim(), parent))
+                .binding(resetPasteOffsetDefault,
+                        () -> ScreenUtils.vec3iToArgs(MapVariables.getResetPasteOffset(MinecraftClient.getInstance().world)),
+                        v -> sendCommand.accept("wathe:mapVariables set resetPasteOffset " + v.trim(), parent))
                 .controller(StringControllerBuilder::create).build());
 
         String readyAreaSpawnDefault = ScreenUtils.posToArgs(MapVariables.getReadyAreaSpawnPosition(world));
         group.option(Option.<String>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.readyareaspawnpos"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.readyareaspawnpos.desc").styled(s -> s.withColor(0x757575))))
-                .binding(readyAreaSpawnDefault, () -> readyAreaSpawnDefault, v -> sendCommand.accept("watheextended:mapVariables set readyAreaSpawnPosition " + v.trim(), parent))
+                .binding(readyAreaSpawnDefault,
+                        () -> ScreenUtils.posToArgs(MapVariables.getReadyAreaSpawnPosition(MinecraftClient.getInstance().world)),
+                        v -> sendCommand.accept("watheextended:mapVariables set readyAreaSpawnPosition " + v.trim(), parent))
                 .controller(StringControllerBuilder::create).build());
 
         String spawnPosDefault = ScreenUtils.posToArgs(MapVariables.getSpawnPosition(world));
         group.option(Option.<String>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.spawnpos"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.spawnpos.desc").styled(s -> s.withColor(0x757575))))
-                .binding(spawnPosDefault, () -> spawnPosDefault, v -> sendCommand.accept("wathe:mapVariables set spawnPosition " + v.trim(), parent))
+                .binding(spawnPosDefault,
+                        () -> ScreenUtils.posToArgs(MapVariables.getSpawnPosition(MinecraftClient.getInstance().world)),
+                        v -> sendCommand.accept("wathe:mapVariables set spawnPosition " + v.trim(), parent))
                 .controller(StringControllerBuilder::create).build());
 
         String spectatorSpawnDefault = ScreenUtils.posToArgs(MapVariables.getSpectatorSpawnPosition(world));
         group.option(Option.<String>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.spectatorspawnpos"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.spectatorspawnpos.desc").styled(s -> s.withColor(0x757575))))
-                .binding(spectatorSpawnDefault, () -> spectatorSpawnDefault, v -> sendCommand.accept("wathe:mapVariables set spectatorSpawnPosition " + v.trim(), parent))
+                .binding(spectatorSpawnDefault,
+                        () -> ScreenUtils.posToArgs(MapVariables.getSpectatorSpawnPosition(MinecraftClient.getInstance().world)),
+                        v -> sendCommand.accept("wathe:mapVariables set spectatorSpawnPosition " + v.trim(), parent))
                 .controller(StringControllerBuilder::create).build());
 
         builder.group(group.build());
@@ -210,24 +226,35 @@ public final class MapVariablesCategory {
         } else {
             for (Map.Entry<Integer, TeleportationSlot> entry : slots.entrySet()) {
                 final int slotId = entry.getKey();
-                String slotDefault = entry.getValue().toCommandArgs();
+                final String slotDefault = entry.getValue().toCommandArgs();
 
                 group.option(Option.<String>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.rtp_slots.slot", slotId))
                         .description(OptionDescription.of(
                                 Text.translatable("gui.watheextended.config.category.mapvariables.group.rtp_slots.slot.desc")
                                         .styled(style -> style.withColor(0x757575))))
-                        .binding(slotDefault, () -> slotDefault, v -> {
-                            String trimmed = v.trim();
-                            String[] parts = trimmed.split("\\s+");
-                            if (parts.length == 5) {
-                                sendCommand.accept("watheextended:rtp slot edit " + slotId
-                                        + " " + parts[0] + " " + parts[1] + " " + parts[2]
-                                        + " " + parts[3] + " " + parts[4], parent);
-                            } else {
-                                sendCommand.accept("watheextended:rtp slot remove " + slotId, parent);
-                            }
-                        })
+                        .binding(slotDefault,
+                                () -> {
+                                    try {
+                                        World w = MinecraftClient.getInstance().world;
+                                        WatheExtendedWorldComponent c = w != null ? WatheExtendedWorldComponent.KEY.get(w) : null;
+                                        TeleportationSlot live = c != null ? c.getTeleportationSlots().get(slotId) : null;
+                                        return live != null ? live.toCommandArgs() : slotDefault;
+                                    } catch (Throwable t) {
+                                        return slotDefault;
+                                    }
+                                },
+                                v -> {
+                                    String trimmed = v.trim();
+                                    String[] parts = trimmed.split("\\s+");
+                                    if (parts.length == 5) {
+                                        sendCommand.accept("watheextended:rtp slot edit " + slotId
+                                                + " " + parts[0] + " " + parts[1] + " " + parts[2]
+                                                + " " + parts[3] + " " + parts[4], parent);
+                                    } else {
+                                        sendCommand.accept("watheextended:rtp slot remove " + slotId, parent);
+                                    }
+                                })
                         .controller(StringControllerBuilder::create)
                         .build());
             }

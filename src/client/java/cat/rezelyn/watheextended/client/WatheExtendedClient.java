@@ -1,5 +1,7 @@
 package cat.rezelyn.watheextended.client;
 
+import cat.rezelyn.watheextended.api.config.ClientConfig;
+import cat.rezelyn.watheextended.api.config.ServerConfig;
 import cat.rezelyn.watheextended.client.debug.BoxDebugRenderer;
 import cat.rezelyn.watheextended.client.screen.GuidebookScreen;
 import cat.rezelyn.watheextended.client.screen.WatheOptionsScreen;
@@ -8,6 +10,7 @@ import cat.rezelyn.watheextended.index.WatheExtendedItems;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
@@ -17,6 +20,7 @@ public class WatheExtendedClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         BoxDebugRenderer.register();
+        WatheOptionsScreen.registerTickHandler();
 
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),
                 WatheExtendedBlocks.ANTHRACITE_STEEL_ORNAMENT,
@@ -37,8 +41,23 @@ public class WatheExtendedClient implements ClientModInitializer {
                 WatheExtendedBlocks.MUSIC_DISC_BOX
         );
 
-        ClientPlayConnectionEvents.DISCONNECT.register((handler, client2) ->
-                WatheOptionsScreen.clearPendingState());
+        ClientPlayNetworking.registerGlobalReceiver(ServerConfig.SyncPayload.ID,
+                (payload, context) -> {
+                    ClientConfig.setRemoteServer(true);
+                    ClientConfig.update(payload.data());
+                    WatheOptionsScreen.onCacheUpdated();
+                });
+
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client2) -> {
+            if (client2.isIntegratedServerRunning()) {
+                ClientConfig.setRemoteServer(false);
+            }
+        });
+
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client2) -> {
+            WatheOptionsScreen.clearPendingState();
+            ClientConfig.clear();
+        });
 
         // Open the Guidebook screen when the item is used on the client
         UseItemCallback.EVENT.register((player, world, hand) -> {

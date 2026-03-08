@@ -1,5 +1,9 @@
 package cat.rezelyn.watheextended.api.stupidexpress;
 
+import cat.rezelyn.watheextended.api.config.ServerConfig;
+import cat.rezelyn.watheextended.api.config.ServerConfig.Entry;
+import cat.rezelyn.watheextended.api.config.ClientConfig;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 
 public final class ConfigHelper {
@@ -12,8 +16,8 @@ public final class ConfigHelper {
     }
 
     private static Object getConfig() throws Exception {
-        Class<?> mainClass = Class.forName("pro.fazeclan.river.stupid_express.StupidExpress");
-        return mainClass.getField("CONFIG").get(null);
+        Class<?> cls = Class.forName("pro.fazeclan.river.stupid_express.StupidExpress");
+        return cls.getField("CONFIG").get(null);
     }
 
     private static Object getNestedSection(Object cfg, String topField, String subField) throws Exception {
@@ -28,7 +32,7 @@ public final class ConfigHelper {
         }
     }
 
-    private static boolean readBool(String topSection, String subSection, String field, boolean def) {
+    private static boolean readBoolServer(String topSection, String subSection, String field, boolean def) {
         try {
             Object cfg = getConfig();
             Object section = getNestedSection(cfg, topSection, subSection);
@@ -38,74 +42,159 @@ public final class ConfigHelper {
         }
     }
 
-    private static void writeBool(String topSection, String subSection, String field, boolean value) throws Exception {
+    private static void writeBoolServer(String topSection, String subSection, String field, boolean value) throws Exception {
         Object cfg = getConfig();
         Object section = getNestedSection(cfg, topSection, subSection);
         section.getClass().getField(field).set(section, value);
         saveConfig(cfg);
     }
 
-    public static boolean getNecromancerHasShop() {
-        return readBool("rolesSection", "necromancerSection", "necromancerHasShop", false);
+    public static void registerEntries() {
+        if (!isLoaded()) return;
+
+        reg(Entry.globalBool("stupidexpress.necromancerHasShop", false,
+                () -> readBoolServer("rolesSection", "necromancerSection", "necromancerHasShop", false),
+                v -> {
+                    try {
+                        writeBoolServer("rolesSection", "necromancerSection", "necromancerHasShop", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalBool("stupidexpress.arsonistKeepsGameGoing", false,
+                () -> readBoolServer("rolesSection", "arsonistSection", "arsonistKeepsGameGoing", false),
+                v -> {
+                    try {
+                        writeBoolServer("rolesSection", "arsonistSection", "arsonistKeepsGameGoing", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalBool("stupidexpress.bodiesGlowToAmnesiac", true,
+                () -> readBoolServer("rolesSection", "amnesiacSection", "bodiesGlowToAmnesiac", true),
+                v -> {
+                    try {
+                        writeBoolServer("rolesSection", "amnesiacSection", "bodiesGlowToAmnesiac", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalBool("stupidexpress.amnesiacGlowsDifferently", true,
+                () -> readBoolServer("rolesSection", "amnesiacSection", "amnesiacGlowsDifferently", true),
+                v -> {
+                    try {
+                        writeBoolServer("rolesSection", "amnesiacSection", "amnesiacGlowsDifferently", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalBool("stupidexpress.loversKnowImmediately", true,
+                () -> readBoolServer("modifiersSection", "loversSection", "loversKnowImmediately", true),
+                v -> {
+                    try {
+                        writeBoolServer("modifiersSection", "loversSection", "loversKnowImmediately", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalBool("stupidexpress.loversWinWithKillers", false,
+                () -> readBoolServer("modifiersSection", "loversSection", "loversWinWithKillers", false),
+                v -> {
+                    try {
+                        writeBoolServer("modifiersSection", "loversSection", "loversWinWithKillers", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalBool("stupidexpress.loversWinWithCivilians", true,
+                () -> readBoolServer("modifiersSection", "loversSection", "loversWinWithCivilians", true),
+                v -> {
+                    try {
+                        writeBoolServer("modifiersSection", "loversSection", "loversWinWithCivilians", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalBool("stupidexpress.loversGlowToEachother", false,
+                () -> readBoolServer("modifiersSection", "loversSection", "loversGlowToEachother", false),
+                v -> {
+                    try {
+                        writeBoolServer("modifiersSection", "loversSection", "loversGlowToEachother", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
     }
 
-    public static void setNecromancerHasShop(boolean value) throws Exception {
-        writeBool("rolesSection", "necromancerSection", "necromancerHasShop", value);
+    private static <T> void reg(Entry<T> e) {
+        ServerConfig.register(e);
+    }
+
+    private static boolean c(String key, boolean def) {
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+            return ClientConfig.getBool(key, def);
+        return def;
+    }
+
+    public static boolean getNecromancerHasShop() {
+        return c("stupidexpress.necromancerHasShop", false);
+    }
+
+    public static void setNecromancerHasShop(boolean v) throws Exception {
+        apply("stupidexpress.necromancerHasShop", v);
     }
 
     public static boolean getArsonistKeepsGameGoing() {
-        return readBool("rolesSection", "arsonistSection", "arsonistKeepsGameGoing", false);
+        return c("stupidexpress.arsonistKeepsGameGoing", false);
     }
 
-    public static void setArsonistKeepsGameGoing(boolean value) throws Exception {
-        writeBool("rolesSection", "arsonistSection", "arsonistKeepsGameGoing", value);
+    public static void setArsonistKeepsGameGoing(boolean v) throws Exception {
+        apply("stupidexpress.arsonistKeepsGameGoing", v);
     }
 
     public static boolean getBodiesGlowToAmnesiac() {
-        return readBool("rolesSection", "amnesiacSection", "bodiesGlowToAmnesiac", true);
+        return c("stupidexpress.bodiesGlowToAmnesiac", true);
     }
 
-    public static void setBodiesGlowToAmnesiac(boolean value) throws Exception {
-        writeBool("rolesSection", "amnesiacSection", "bodiesGlowToAmnesiac", value);
+    public static void setBodiesGlowToAmnesiac(boolean v) throws Exception {
+        apply("stupidexpress.bodiesGlowToAmnesiac", v);
     }
 
     public static boolean getAmnesiacGlowsDifferently() {
-        return readBool("rolesSection", "amnesiacSection", "amnesiacGlowsDifferently", true);
+        return c("stupidexpress.amnesiacGlowsDifferently", true);
     }
 
-    public static void setAmnesiacGlowsDifferently(boolean value) throws Exception {
-        writeBool("rolesSection", "amnesiacSection", "amnesiacGlowsDifferently", value);
+    public static void setAmnesiacGlowsDifferently(boolean v) throws Exception {
+        apply("stupidexpress.amnesiacGlowsDifferently", v);
     }
 
     public static boolean getLoversKnowImmediately() {
-        return readBool("modifiersSection", "loversSection", "loversKnowImmediately", true);
+        return c("stupidexpress.loversKnowImmediately", true);
     }
 
-    public static void setLoversKnowImmediately(boolean value) throws Exception {
-        writeBool("modifiersSection", "loversSection", "loversKnowImmediately", value);
+    public static void setLoversKnowImmediately(boolean v) throws Exception {
+        apply("stupidexpress.loversKnowImmediately", v);
     }
 
     public static boolean getLoversWinWithKillers() {
-        return readBool("modifiersSection", "loversSection", "loversWinWithKillers", false);
+        return c("stupidexpress.loversWinWithKillers", false);
     }
 
-    public static void setLoversWinWithKillers(boolean value) throws Exception {
-        writeBool("modifiersSection", "loversSection", "loversWinWithKillers", value);
+    public static void setLoversWinWithKillers(boolean v) throws Exception {
+        apply("stupidexpress.loversWinWithKillers", v);
     }
 
     public static boolean getLoversWinWithCivilians() {
-        return readBool("modifiersSection", "loversSection", "loversWinWithCivilians", true);
+        return c("stupidexpress.loversWinWithCivilians", true);
     }
 
-    public static void setLoversWinWithCivilians(boolean value) throws Exception {
-        writeBool("modifiersSection", "loversSection", "loversWinWithCivilians", value);
+    public static void setLoversWinWithCivilians(boolean v) throws Exception {
+        apply("stupidexpress.loversWinWithCivilians", v);
     }
 
     public static boolean getLoversGlowToEachother() {
-        return readBool("modifiersSection", "loversSection", "loversGlowToEachother", false);
+        return c("stupidexpress.loversGlowToEachother", false);
     }
 
-    public static void setLoversGlowToEachother(boolean value) throws Exception {
-        writeBool("modifiersSection", "loversSection", "loversGlowToEachother", value);
+    public static void setLoversGlowToEachother(boolean v) throws Exception {
+        apply("stupidexpress.loversGlowToEachother", v);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> void apply(String key, T value) {
+        Entry<T> entry = (Entry<T>) ServerConfig.entries().get(key);
+        if (entry != null) entry.writeServer(null, value);
     }
 }

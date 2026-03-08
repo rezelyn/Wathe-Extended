@@ -1,9 +1,11 @@
 package cat.rezelyn.watheextended.command;
 
 import cat.rezelyn.watheextended.api.kinswathe.ConfigHelper;
+import cat.rezelyn.watheextended.api.config.ServerConfig;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
@@ -14,6 +16,14 @@ public class AddonsConfigCommand {
     private static Text feedback(boolean enabled, String enabledKey, String disabledKey, Object... args) {
         return Text.translatable(enabled ? enabledKey : disabledKey, args)
                 .styled(s -> s.withColor(enabled ? 0x55FF55 : 0xFF5555));
+    }
+
+    private static int syncAndReturn(CommandContext<ServerCommandSource> ctx) {
+        try {
+            ServerConfig.broadcastToOps(ctx.getSource().getServer());
+        } catch (Throwable ignored) {
+        }
+        return 1;
     }
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
@@ -32,7 +42,7 @@ public class AddonsConfigCommand {
                                             ctx.getSource().sendFeedback(() -> feedback(true,
                                                     "command.watheextended.kinswathe.startingcooldown.set",
                                                     "command.watheextended.kinswathe.startingcooldown.set", seconds), true);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -47,7 +57,7 @@ public class AddonsConfigCommand {
                                             ctx.getSource().sendFeedback(() -> feedback(v,
                                                     "command.watheextended.kinswathe.jumpinlobby.enabled",
                                                     "command.watheextended.kinswathe.jumpinlobby.disabled"), true);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -62,7 +72,7 @@ public class AddonsConfigCommand {
                                             ctx.getSource().sendFeedback(() -> feedback(v,
                                                     "command.watheextended.kinswathe.safepreptime.enabled",
                                                     "command.watheextended.kinswathe.safepreptime.disabled"), true);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -77,7 +87,7 @@ public class AddonsConfigCommand {
                                             ctx.getSource().sendFeedback(() -> feedback(v,
                                                     "command.watheextended.kinswathe.noellesrolestweaks.enabled",
                                                     "command.watheextended.kinswathe.noellesrolestweaks.disabled"), true);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -92,7 +102,7 @@ public class AddonsConfigCommand {
                                             ctx.getSource().sendFeedback(() -> feedback(v,
                                                     "command.watheextended.kinswathe.wathetweaks.enabled",
                                                     "command.watheextended.kinswathe.wathetweaks.disabled"), true);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -107,7 +117,7 @@ public class AddonsConfigCommand {
                                             ctx.getSource().sendFeedback(() -> feedback(v,
                                                     "command.watheextended.kinswathe.conductorinstinct.enabled",
                                                     "command.watheextended.kinswathe.conductorinstinct.disabled"), true);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -122,7 +132,7 @@ public class AddonsConfigCommand {
                                             ctx.getSource().sendFeedback(() -> feedback(v,
                                                     "command.watheextended.kinswathe.coronerinstinct.enabled",
                                                     "command.watheextended.kinswathe.coronerinstinct.disabled"), true);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -134,7 +144,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setInitialCivilianIncome(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -146,7 +156,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setInitialNeutralIncome(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -158,7 +168,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setInitialKillerIncome(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -170,7 +180,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setIncreaseMoneyWhenKill(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -182,7 +192,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setPreventKillerDropRevolver(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -195,7 +205,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setBellringerAbilityPrice(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -207,7 +217,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setBellringerAbilityCooldown(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -220,7 +230,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setBodymakerAbilityCooldown(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -232,7 +242,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setBodymakerAbilityFakeRole(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -245,7 +255,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setCleanerAbilityPrice(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -257,7 +267,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setCleanerAbilityCooldown(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -270,7 +280,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setCookPanPrice(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -283,7 +293,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setDetectiveAbilityPrice(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -295,7 +305,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setDetectiveAbilityCooldown(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -308,7 +318,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setDreamerInitialItemQuantity(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -321,7 +331,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setDrugmakerPlayerLimit(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -333,7 +343,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setDrugmakerGetCoins(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -345,7 +355,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setDrugmakerPoisonInjectorPrice(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -357,7 +367,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setDrugmakerBlowgunPrice(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -370,7 +380,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setHunterAbilityPrice(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -382,7 +392,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setHunterAbilityCooldown(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -395,7 +405,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setJudgeAbilityPrice(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -407,7 +417,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setJudgeAbilityGlowing(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -419,7 +429,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setJudgeAbilityCooldown(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -432,7 +442,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setKidnapperKnockoutDrugPrice(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -445,7 +455,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setLicensedVillainPlayerLimit(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -457,7 +467,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setLicensedVillainRevolverPrice(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -470,7 +480,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setPhysicianPillPrice(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -483,7 +493,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setRobotAbilityDuration(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -495,7 +505,7 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setRobotAbilityCooldown(world, v);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -514,7 +524,7 @@ public class AddonsConfigCommand {
                                             ctx.getSource().sendFeedback(() -> feedback(v,
                                                     "command.watheextended.noellesroles.morphpsychosis.enabled",
                                                     "command.watheextended.noellesroles.morphpsychosis.disabled"), true);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -525,7 +535,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.setVoodooNonKillerDeaths(BoolArgumentType.getBool(ctx, "enabled"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -535,7 +545,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.setVoodooShotLikeEvil(BoolArgumentType.getBool(ctx, "enabled"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -546,7 +556,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.setPlayerCountToMakeConducterKeyVisible(IntegerArgumentType.getInteger(ctx, "value"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -557,7 +567,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.setMaximumDefenseVials(IntegerArgumentType.getInteger(ctx, "value"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -567,7 +577,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.setDefenseVialPrice(IntegerArgumentType.getInteger(ctx, "value"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -578,7 +588,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.setRoleMinePrice(IntegerArgumentType.getInteger(ctx, "value"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -589,7 +599,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.setAllowCivillianGuessers(BoolArgumentType.getBool(ctx, "enabled"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -599,7 +609,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.setGuesserDiesAfterIncorrectGuess(com.mojang.brigadier.arguments.StringArgumentType.getString(ctx, "mode"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -617,7 +627,7 @@ public class AddonsConfigCommand {
                                             ctx.getSource().getServer().getCommandManager().getDispatcher()
                                                     .execute("setShootInnocentPunishment " + mode, ctx.getSource());
                                             cat.rezelyn.watheextended.api.shooterpunishments.ConfigHelper.setLastKnownMode(mode);
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -633,7 +643,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setStarstruckTaskReducesCooldown(BoolArgumentType.getBool(ctx, "enabled"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -643,7 +653,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setStarstruckTaskCooldownReduction(IntegerArgumentType.getInteger(ctx, "value"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -653,7 +663,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setStarstruckAbilityCooldown(IntegerArgumentType.getInteger(ctx, "value"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -663,7 +673,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setStarstruckAbilityDuration(IntegerArgumentType.getInteger(ctx, "value"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -673,7 +683,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setStarstruckAbilityAffectsMovementSpeed(BoolArgumentType.getBool(ctx, "enabled"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -683,7 +693,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setStarstruckAbilityWalkSpeed(com.mojang.brigadier.arguments.FloatArgumentType.getFloat(ctx, "value"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -693,7 +703,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setStarstruckAbilitySprintSpeed(com.mojang.brigadier.arguments.FloatArgumentType.getFloat(ctx, "value"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -704,7 +714,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setMuzzlerTapeCooldown(IntegerArgumentType.getInteger(ctx, "value"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -714,7 +724,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setMuzzlerSuffocationTime(IntegerArgumentType.getInteger(ctx, "value"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -724,7 +734,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setMuzzlerTapeTearCheckCount(IntegerArgumentType.getInteger(ctx, "value"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -734,7 +744,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setMuzzlerTapeTearMoodChange(com.mojang.brigadier.arguments.FloatArgumentType.getFloat(ctx, "value"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -744,7 +754,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setMuzzlerKillIfCheckedAtZero(BoolArgumentType.getBool(ctx, "enabled"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -754,7 +764,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setMuzzlerDisplaySilencedTipDelay(IntegerArgumentType.getInteger(ctx, "value"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -765,7 +775,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setAllergicNothingChance(IntegerArgumentType.getInteger(ctx, "value"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -775,7 +785,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setAllergicInstinctChance(IntegerArgumentType.getInteger(ctx, "value"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -785,7 +795,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setAllergicArmorChance(IntegerArgumentType.getInteger(ctx, "value"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -795,7 +805,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setAllergicPoisonChance(IntegerArgumentType.getInteger(ctx, "value"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -805,7 +815,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setAllergicInstinctDuration(IntegerArgumentType.getInteger(ctx, "value"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -821,7 +831,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.setNecromancerHasShop(BoolArgumentType.getBool(ctx, "enabled"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -832,7 +842,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.setArsonistKeepsGameGoing(BoolArgumentType.getBool(ctx, "enabled"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -843,7 +853,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.setBodiesGlowToAmnesiac(BoolArgumentType.getBool(ctx, "enabled"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -853,7 +863,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.setAmnesiacGlowsDifferently(BoolArgumentType.getBool(ctx, "enabled"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -864,7 +874,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.setLoversKnowImmediately(BoolArgumentType.getBool(ctx, "enabled"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -874,7 +884,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.setLoversWinWithKillers(BoolArgumentType.getBool(ctx, "enabled"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -884,7 +894,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.setLoversWinWithCivilians(BoolArgumentType.getBool(ctx, "enabled"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -894,7 +904,7 @@ public class AddonsConfigCommand {
                                     .executes(ctx -> {
                                         try {
                                             cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.setLoversGlowToEachother(BoolArgumentType.getBool(ctx, "enabled"));
-                                            return 1;
+                                            return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
                                         }
@@ -903,5 +913,24 @@ public class AddonsConfigCommand {
         }
 
         dispatcher.register(root);
+
+        // hml modifier config commands
+        dispatcher.register(CommandManager.literal("watheextended:config")
+                .requires(source -> source.hasPermissionLevel(2))
+                .then(CommandManager.literal("hml")
+                        .then(CommandManager.literal("setModifierMaximum")
+                                .then(CommandManager.argument("value", IntegerArgumentType.integer(1))
+                                        .executes(ctx -> {
+                                            int v = IntegerArgumentType.getInteger(ctx, "value");
+                                            cat.rezelyn.watheextended.api.hml.ConfigHelper.setModifierMaximum(v);
+                                            return syncAndReturn(ctx);
+                                        })))
+                        .then(CommandManager.literal("setModifierMultiplier")
+                                .then(CommandManager.argument("value", IntegerArgumentType.integer(1))
+                                        .executes(ctx -> {
+                                            int v = IntegerArgumentType.getInteger(ctx, "value");
+                                            cat.rezelyn.watheextended.api.hml.ConfigHelper.setModifierMultiplier(v);
+                                            return syncAndReturn(ctx);
+                                        })))));
     }
 }

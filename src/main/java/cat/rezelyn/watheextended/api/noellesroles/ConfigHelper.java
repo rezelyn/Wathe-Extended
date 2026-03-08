@@ -1,5 +1,9 @@
 package cat.rezelyn.watheextended.api.noellesroles;
 
+import cat.rezelyn.watheextended.api.config.ServerConfig;
+import cat.rezelyn.watheextended.api.config.ServerConfig.Entry;
+import cat.rezelyn.watheextended.api.config.ClientConfig;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.world.World;
 
@@ -13,132 +17,237 @@ public final class ConfigHelper {
     }
 
     private static Object getConfigInstance() throws Exception {
-        Class<?> configClass = Class.forName("org.agmas.noellesroles.config.NoellesRolesConfig");
-        Object handler = configClass.getField("HANDLER").get(null);
+        Class<?> cls = Class.forName("org.agmas.noellesroles.config.NoellesRolesConfig");
+        Object handler = cls.getField("HANDLER").get(null);
         return handler.getClass().getMethod("instance").invoke(handler);
     }
 
     private static void saveConfig() throws Exception {
-        Class<?> configClass = Class.forName("org.agmas.noellesroles.config.NoellesRolesConfig");
-        Object handler = configClass.getField("HANDLER").get(null);
+        Class<?> cls = Class.forName("org.agmas.noellesroles.config.NoellesRolesConfig");
+        Object handler = cls.getField("HANDLER").get(null);
         handler.getClass().getMethod("save").invoke(handler);
     }
 
-    private static boolean readBool(String fieldName, boolean def) {
+    private static boolean readBoolServer(String field, boolean def) {
         try {
             Object cfg = getConfigInstance();
-            return (boolean) cfg.getClass().getField(fieldName).get(cfg);
+            return (boolean) cfg.getClass().getField(field).get(cfg);
         } catch (Throwable t) {
             return def;
         }
     }
 
-    private static void writeBool(String fieldName, boolean value) throws Exception {
+    private static void writeBoolServer(String field, boolean value) throws Exception {
         Object cfg = getConfigInstance();
-        cfg.getClass().getField(fieldName).set(cfg, value);
+        cfg.getClass().getField(field).set(cfg, value);
         saveConfig();
     }
 
-    private static int readInt(String fieldName, int def) {
+    private static int readIntServer(String field, int def) {
         try {
             Object cfg = getConfigInstance();
-            return (int) cfg.getClass().getField(fieldName).get(cfg);
+            return (int) cfg.getClass().getField(field).get(cfg);
         } catch (Throwable t) {
             return def;
         }
     }
 
-    private static void writeInt(String fieldName, int value) throws Exception {
+    private static void writeIntServer(String field, int value) throws Exception {
         Object cfg = getConfigInstance();
-        cfg.getClass().getField(fieldName).set(cfg, value);
+        cfg.getClass().getField(field).set(cfg, value);
         saveConfig();
     }
 
-    private static String readString(String fieldName, String def) {
+    private static String readStringServer(String field, String def) {
         try {
             Object cfg = getConfigInstance();
-            Object val = cfg.getClass().getField(fieldName).get(cfg);
+            Object val = cfg.getClass().getField(field).get(cfg);
             return val instanceof String s ? s : def;
         } catch (Throwable t) {
             return def;
         }
     }
 
-    private static void writeString(String fieldName, String value) throws Exception {
+    private static void writeStringServer(String field, String value) throws Exception {
         Object cfg = getConfigInstance();
-        cfg.getClass().getField(fieldName).set(cfg, value);
+        cfg.getClass().getField(field).set(cfg, value);
         saveConfig();
     }
 
+    public static void registerEntries() {
+        if (!isLoaded()) return;
+
+        reg(Entry.globalBool("noellesroles.insanePlayersSeeMorphs", true,
+                () -> readBoolServer("insanePlayersSeeMorphs", true),
+                v -> {
+                    try {
+                        writeBoolServer("insanePlayersSeeMorphs", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalBool("noellesroles.voodooNonKillerDeaths", false,
+                () -> readBoolServer("voodooNonKillerDeaths", false),
+                v -> {
+                    try {
+                        writeBoolServer("voodooNonKillerDeaths", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalBool("noellesroles.voodooShotLikeEvil", true,
+                () -> readBoolServer("voodooShotLikeEvil", true),
+                v -> {
+                    try {
+                        writeBoolServer("voodooShotLikeEvil", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalBool("noellesroles.allowCivillianGuessers", false,
+                () -> readBoolServer("allowCivillianGuessers", false),
+                v -> {
+                    try {
+                        writeBoolServer("allowCivillianGuessers", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalInt("noellesroles.playerCountToMakeConducterKeyVisible", 10,
+                () -> readIntServer("playerCountToMakeConducterKeyVisible", 10),
+                v -> {
+                    try {
+                        writeIntServer("playerCountToMakeConducterKeyVisible", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalInt("noellesroles.maximumDefenseVials", 0,
+                () -> readIntServer("maximumDefenseVials", 0),
+                v -> {
+                    try {
+                        writeIntServer("maximumDefenseVials", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalInt("noellesroles.defenseVialPrice", 100,
+                () -> readIntServer("defenseVialPrice", 100),
+                v -> {
+                    try {
+                        writeIntServer("defenseVialPrice", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalInt("noellesroles.roleMinePrice", 100,
+                () -> readIntServer("roleMinePrice", 100),
+                v -> {
+                    try {
+                        writeIntServer("roleMinePrice", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalString("noellesroles.guesserDiesAfterIncorrectGuess", "none",
+                () -> readStringServer("guesserDiesAfterIncorrectGuess", "none"),
+                v -> {
+                    try {
+                        writeStringServer("guesserDiesAfterIncorrectGuess", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+    }
+
+    private static <T> void reg(Entry<T> e) {
+        ServerConfig.register(e);
+    }
+
+    private static boolean c(String key, boolean def) {
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+            return ClientConfig.getBool(key, def);
+        return def;
+    }
+
+    private static int c(String key, int def) {
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+            return ClientConfig.getInt(key, def);
+        return def;
+    }
+
+    private static String cs(String key, String def) {
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+            return ClientConfig.getString(key, def);
+        return def;
+    }
+
     public static boolean getInsanePlayersSeeMorphs(World world) {
-        return readBool("insanePlayersSeeMorphs", true);
+        return c("noellesroles.insanePlayersSeeMorphs", true);
     }
 
     public static void setInsanePlayersSeeMorphs(World world, boolean value) throws Exception {
-        writeBool("insanePlayersSeeMorphs", value);
+        apply("noellesroles.insanePlayersSeeMorphs", value, world);
     }
 
     public static boolean getVoodooNonKillerDeaths() {
-        return readBool("voodooNonKillerDeaths", false);
+        return c("noellesroles.voodooNonKillerDeaths", false);
     }
 
     public static void setVoodooNonKillerDeaths(boolean value) throws Exception {
-        writeBool("voodooNonKillerDeaths", value);
+        apply("noellesroles.voodooNonKillerDeaths", value, null);
     }
 
     public static boolean getVoodooShotLikeEvil() {
-        return readBool("voodooShotLikeEvil", true);
+        return c("noellesroles.voodooShotLikeEvil", true);
     }
 
     public static void setVoodooShotLikeEvil(boolean value) throws Exception {
-        writeBool("voodooShotLikeEvil", value);
+        apply("noellesroles.voodooShotLikeEvil", value, null);
     }
 
     public static int getPlayerCountToMakeConducterKeyVisible() {
-        return readInt("playerCountToMakeConducterKeyVisible", 10);
+        return c("noellesroles.playerCountToMakeConducterKeyVisible", 10);
     }
 
     public static void setPlayerCountToMakeConducterKeyVisible(int value) throws Exception {
-        writeInt("playerCountToMakeConducterKeyVisible", value);
+        apply("noellesroles.playerCountToMakeConducterKeyVisible", value, null);
     }
 
     public static int getMaximumDefenseVials() {
-        return readInt("maximumDefenseVials", 0);
+        return c("noellesroles.maximumDefenseVials", 0);
     }
 
-    public static void setMaximumDefenseVials(int value) throws Exception {
-        writeInt("maximumDefenseVials", value);
+    public static void setMaximumDefenseVials(int v) throws Exception {
+        apply("noellesroles.maximumDefenseVials", v, null);
     }
 
     public static int getDefenseVialPrice() {
-        return readInt("defenseVialPrice", 100);
+        return c("noellesroles.defenseVialPrice", 100);
     }
 
-    public static void setDefenseVialPrice(int value) throws Exception {
-        writeInt("defenseVialPrice", value);
+    public static void setDefenseVialPrice(int v) throws Exception {
+        apply("noellesroles.defenseVialPrice", v, null);
     }
 
     public static int getRoleMinePrice() {
-        return readInt("roleMinePrice", 100);
+        return c("noellesroles.roleMinePrice", 100);
     }
 
-    public static void setRoleMinePrice(int value) throws Exception {
-        writeInt("roleMinePrice", value);
+    public static void setRoleMinePrice(int v) throws Exception {
+        apply("noellesroles.roleMinePrice", v, null);
     }
 
     public static boolean getAllowCivillianGuessers() {
-        return readBool("allowCivillianGuessers", false);
+        return c("noellesroles.allowCivillianGuessers", false);
     }
 
-    public static void setAllowCivillianGuessers(boolean value) throws Exception {
-        writeBool("allowCivillianGuessers", value);
+    public static void setAllowCivillianGuessers(boolean v) throws Exception {
+        apply("noellesroles.allowCivillianGuessers", v, null);
     }
 
     public static String getGuesserDiesAfterIncorrectGuess() {
-        return readString("guesserDiesAfterIncorrectGuess", "none");
+        return cs("noellesroles.guesserDiesAfterIncorrectGuess", "none");
     }
 
-    public static void setGuesserDiesAfterIncorrectGuess(String value) throws Exception {
-        writeString("guesserDiesAfterIncorrectGuess", value);
+    public static void setGuesserDiesAfterIncorrectGuess(String v) throws Exception {
+        apply("noellesroles.guesserDiesAfterIncorrectGuess", v, null);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> void apply(String key, T value, World world) {
+        Entry<T> entry = (Entry<T>) ServerConfig.entries().get(key);
+        if (entry != null) entry.writeServer(world, value);
     }
 }
