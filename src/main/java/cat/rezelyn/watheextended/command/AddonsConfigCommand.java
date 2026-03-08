@@ -359,9 +359,8 @@ public class AddonsConfigCommand {
                             .then(CommandManager.argument("enabled", BoolArgumentType.bool())
                                     .executes(ctx -> {
                                         boolean v = BoolArgumentType.getBool(ctx, "enabled");
-                                        World world = ctx.getSource().getWorld();
                                         try {
-                                            cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.setInsanePlayersSeeMorphs(world, v);
+                                            cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.setInsanePlayersSeeMorphs(null, v);
                                             ctx.getSource().sendFeedback(() -> feedback(v,
                                                     "command.watheextended.noellesroles.morphpsychosis.enabled",
                                                     "command.watheextended.noellesroles.morphpsychosis.disabled"), true);
@@ -370,6 +369,35 @@ public class AddonsConfigCommand {
                                             return 0;
                                         }
                                     })))
+                    // Voodoo
+                    .then(CommandManager.literal("setVoodooNonKillerDeaths")
+                            .then(CommandManager.argument("enabled", BoolArgumentType.bool())
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.setVoodooNonKillerDeaths(BoolArgumentType.getBool(ctx, "enabled")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setVoodooShotLikeEvil")
+                            .then(CommandManager.argument("enabled", BoolArgumentType.bool())
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.setVoodooShotLikeEvil(BoolArgumentType.getBool(ctx, "enabled")); return 1; } catch (Exception e) { return 0; } })))
+                    // Conductor
+                    .then(CommandManager.literal("setPlayerCountToMakeConducterKeyVisible")
+                            .then(CommandManager.argument("value", IntegerArgumentType.integer(0))
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.setPlayerCountToMakeConducterKeyVisible(IntegerArgumentType.getInteger(ctx, "value")); return 1; } catch (Exception e) { return 0; } })))
+                    // Bartender
+                    .then(CommandManager.literal("setMaximumDefenseVials")
+                            .then(CommandManager.argument("value", IntegerArgumentType.integer(0))
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.setMaximumDefenseVials(IntegerArgumentType.getInteger(ctx, "value")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setDefenseVialPrice")
+                            .then(CommandManager.argument("value", IntegerArgumentType.integer(0))
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.setDefenseVialPrice(IntegerArgumentType.getInteger(ctx, "value")); return 1; } catch (Exception e) { return 0; } })))
+                    // Trapper
+                    .then(CommandManager.literal("setRoleMinePrice")
+                            .then(CommandManager.argument("value", IntegerArgumentType.integer(0))
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.setRoleMinePrice(IntegerArgumentType.getInteger(ctx, "value")); return 1; } catch (Exception e) { return 0; } })))
+                    // Guesser
+                    .then(CommandManager.literal("setAllowCivillianGuessers")
+                            .then(CommandManager.argument("enabled", BoolArgumentType.bool())
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.setAllowCivillianGuessers(BoolArgumentType.getBool(ctx, "enabled")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setGuesserDiesAfterIncorrectGuess")
+                            .then(CommandManager.argument("mode", com.mojang.brigadier.arguments.StringArgumentType.word())
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.setGuesserDiesAfterIncorrectGuess(com.mojang.brigadier.arguments.StringArgumentType.getString(ctx, "mode")); return 1; } catch (Exception e) { return 0; } })))
             );
         }
 
@@ -450,6 +478,39 @@ public class AddonsConfigCommand {
                     .then(CommandManager.literal("setAllergicInstinctDuration")
                             .then(CommandManager.argument("value", IntegerArgumentType.integer(0))
                                     .executes(ctx -> { try { cat.rezelyn.watheextended.api.starexpress.ConfigHelper.setAllergicInstinctDuration(IntegerArgumentType.getInteger(ctx, "value")); return 1; } catch (Exception e) { return 0; } })))
+            );
+        }
+
+        if (cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.isLoaded()) {
+            root.then(CommandManager.literal("stupid_express")
+                    // Necromancer
+                    .then(CommandManager.literal("setNecromancerHasShop")
+                            .then(CommandManager.argument("enabled", BoolArgumentType.bool())
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.setNecromancerHasShop(BoolArgumentType.getBool(ctx, "enabled")); return 1; } catch (Exception e) { return 0; } })))
+                    // Arsonist
+                    .then(CommandManager.literal("setArsonistKeepsGameGoing")
+                            .then(CommandManager.argument("enabled", BoolArgumentType.bool())
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.setArsonistKeepsGameGoing(BoolArgumentType.getBool(ctx, "enabled")); return 1; } catch (Exception e) { return 0; } })))
+                    // Amnesiac
+                    .then(CommandManager.literal("setBodiesGlowToAmnesiac")
+                            .then(CommandManager.argument("enabled", BoolArgumentType.bool())
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.setBodiesGlowToAmnesiac(BoolArgumentType.getBool(ctx, "enabled")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setAmnesiacGlowsDifferently")
+                            .then(CommandManager.argument("enabled", BoolArgumentType.bool())
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.setAmnesiacGlowsDifferently(BoolArgumentType.getBool(ctx, "enabled")); return 1; } catch (Exception e) { return 0; } })))
+                    // Lovers
+                    .then(CommandManager.literal("setLoversKnowImmediately")
+                            .then(CommandManager.argument("enabled", BoolArgumentType.bool())
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.setLoversKnowImmediately(BoolArgumentType.getBool(ctx, "enabled")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setLoversWinWithKillers")
+                            .then(CommandManager.argument("enabled", BoolArgumentType.bool())
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.setLoversWinWithKillers(BoolArgumentType.getBool(ctx, "enabled")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setLoversWinWithCivilians")
+                            .then(CommandManager.argument("enabled", BoolArgumentType.bool())
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.setLoversWinWithCivilians(BoolArgumentType.getBool(ctx, "enabled")); return 1; } catch (Exception e) { return 0; } })))
+                    .then(CommandManager.literal("setLoversGlowToEachother")
+                            .then(CommandManager.argument("enabled", BoolArgumentType.bool())
+                                    .executes(ctx -> { try { cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.setLoversGlowToEachother(BoolArgumentType.getBool(ctx, "enabled")); return 1; } catch (Exception e) { return 0; } })))
             );
         }
 
