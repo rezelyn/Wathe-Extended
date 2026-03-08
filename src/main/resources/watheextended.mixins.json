@@ -6,6 +6,7 @@
   "mixins": [
     "BlockInteractionProtectionMixin",
     "PlayerCollisionMixin",
+    "stupidexpress.ThiefItemRulesMixin",
     "wathe.HarpyExpressTrainMapEffectMixin"
   ],
   "injectors": {
