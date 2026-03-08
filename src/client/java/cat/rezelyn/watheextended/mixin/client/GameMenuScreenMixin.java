@@ -1,7 +1,7 @@
 package cat.rezelyn.watheextended.mixin.client;
 
-import cat.rezelyn.watheextended.client.widget.IconButtonWidget;
 import cat.rezelyn.watheextended.client.screen.WatheOptionsScreen;
+import cat.rezelyn.watheextended.client.widget.IconButtonWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.GameMenuScreen;

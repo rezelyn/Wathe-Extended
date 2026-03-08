@@ -69,6 +69,7 @@ public final class ConfigHelper {
             sec.getClass().getMethod(method, double.class).invoke(sec, (double) value);
         }
     }
+
     public static boolean getStarstruckTaskReducesCooldown() {
         return readBool("starstruckConfig", "taskReducesCooldown", true);
     }

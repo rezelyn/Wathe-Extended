@@ -60,8 +60,8 @@ public class BlockInteractionProtectionMixin {
             if (inPlayArea) {
                 Block block = state.getBlock();
                 boolean isLamp = block instanceof ToggleableFacingLightBlock
-                              || block instanceof NeonTubeBlock
-                              || block instanceof NeonPillarBlock;
+                        || block instanceof NeonTubeBlock
+                        || block instanceof NeonPillarBlock;
                 boolean isDoor = block instanceof DoorBlock || block instanceof SmallDoorBlock;
                 boolean isButton = block instanceof WatheButtonBlock;
                 boolean isOrnament = block instanceof OrnamentBlock;

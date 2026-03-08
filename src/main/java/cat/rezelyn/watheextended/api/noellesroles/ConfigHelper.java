@@ -70,7 +70,7 @@ public final class ConfigHelper {
         saveConfig();
     }
 
-   public static boolean getInsanePlayersSeeMorphs(World world) {
+    public static boolean getInsanePlayersSeeMorphs(World world) {
         return readBool("insanePlayersSeeMorphs", true);
     }
 

@@ -8,15 +8,16 @@ import net.minecraft.util.Identifier;
 
 public class WatheExtendedSounds {
 
-    public static final SoundEvent GUIDEBOOK_OPEN  = register("guidebook.open");
+    public static final SoundEvent GUIDEBOOK_OPEN = register("guidebook.open");
     public static final SoundEvent GUIDEBOOK_CLOSE = register("guidebook.close");
-    public static final SoundEvent GUIDEBOOK_PAGE  = register("guidebook.page");
+    public static final SoundEvent GUIDEBOOK_PAGE = register("guidebook.page");
 
     private static SoundEvent register(String name) {
         Identifier id = WatheExtended.id(name);
         return Registry.register(Registries.SOUND_EVENT, id, SoundEvent.of(id));
     }
 
-    public static void initialize() {}
+    public static void initialize() {
+    }
 }
 

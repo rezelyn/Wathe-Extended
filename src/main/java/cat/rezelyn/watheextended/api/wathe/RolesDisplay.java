@@ -11,7 +11,7 @@ import java.util.Map;
 
 public final class RolesDisplay {
 
-    public enum Side { KILLER, INNOCENT, NEUTRAL }
+    public enum Side {KILLER, INNOCENT, NEUTRAL}
 
     private RolesDisplay() {
     }

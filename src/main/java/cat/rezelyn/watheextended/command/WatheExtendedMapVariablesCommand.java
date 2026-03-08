@@ -80,7 +80,7 @@ public class WatheExtendedMapVariablesCommand {
         double y2 = DoubleArgumentType.getDouble(context, "y2");
         double z2 = DoubleArgumentType.getDouble(context, "z2");
         Box box = new Box(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2),
-                          Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2));
+                Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2));
         WatheExtendedWorldComponent.KEY.get(source.getWorld()).setLobbyArea(box);
         source.sendFeedback(() -> Text.translatable("command.watheextended.mapvariables.lobbyarea.set",
                         String.format("%.0f %.0f %.0f -> %.0f %.0f %.0f",

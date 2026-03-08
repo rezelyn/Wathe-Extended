@@ -47,17 +47,17 @@ public class GuidebookScreen extends Screen {
     private static final int TITLE_EXTRA_H = 4; // gap after title block
 
     private static final int COLOR_SELECTED_BG = 0x33000000;
-    private static final int COLOR_HOVER_BG    = 0x1A000000;
-    private static final int COLOR_RIGHT_TEXT  = 0xFF3B2A1A;
-    private static final int COLOR_HINT        = 0xFF9B8B6B;
+    private static final int COLOR_HOVER_BG = 0x1A000000;
+    private static final int COLOR_RIGHT_TEXT = 0xFF3B2A1A;
+    private static final int COLOR_HINT = 0xFF9B8B6B;
 
     // nav-button sprites
-    private static final Identifier NAV_PREV          = Identifier.of("watheextended", "textures/gui/guidebook/sprites/previous.png");
+    private static final Identifier NAV_PREV = Identifier.of("watheextended", "textures/gui/guidebook/sprites/previous.png");
     private static final Identifier NAV_PREV_DISABLED = Identifier.of("watheextended", "textures/gui/guidebook/sprites/previous_disabled.png");
-    private static final Identifier NAV_PREV_HOVERED  = Identifier.of("watheextended", "textures/gui/guidebook/sprites/previous_hovered.png");
-    private static final Identifier NAV_NEXT          = Identifier.of("watheextended", "textures/gui/guidebook/sprites/next.png");
+    private static final Identifier NAV_PREV_HOVERED = Identifier.of("watheextended", "textures/gui/guidebook/sprites/previous_hovered.png");
+    private static final Identifier NAV_NEXT = Identifier.of("watheextended", "textures/gui/guidebook/sprites/next.png");
     private static final Identifier NAV_NEXT_DISABLED = Identifier.of("watheextended", "textures/gui/guidebook/sprites/next_disabled.png");
-    private static final Identifier NAV_NEXT_HOVERED  = Identifier.of("watheextended", "textures/gui/guidebook/sprites/next_hovered.png");
+    private static final Identifier NAV_NEXT_HOVERED = Identifier.of("watheextended", "textures/gui/guidebook/sprites/next_hovered.png");
 
     private static final Identifier BOOK_TEXTURE =
             Identifier.of("watheextended", "textures/gui/guidebook/book.png");
@@ -248,20 +248,20 @@ public class GuidebookScreen extends Screen {
 
             List<OrderedText> wrapped = textRenderer.wrapLines(entry.text(), usableW);
             // highlight box fits the actual font height (fontHeight = 9) + 2px padding each side
-            int fontH  = textRenderer.fontHeight;
-            int rowH   = fontH + 4;
+            int fontH = textRenderer.fontHeight;
+            int rowH = fontH + 4;
             int blockH = wrapped.size() * rowH;
 
             if (isBlockVisible(y, blockH, leftPageY, leftPageH)) {
                 boolean isSelected = entry.id() != null && entry.id().equals(selectedId);
-                boolean isHovered  = entry.id() != null && isMouseOverEntry(mouseX, mouseY, y, blockH);
+                boolean isHovered = entry.id() != null && isMouseOverEntry(mouseX, mouseY, y, blockH);
 
-                if (isSelected)     context.fill(leftPageX, y, leftPageX + leftPageW, y + blockH, COLOR_SELECTED_BG);
+                if (isSelected) context.fill(leftPageX, y, leftPageX + leftPageW, y + blockH, COLOR_SELECTED_BG);
                 else if (isHovered) context.fill(leftPageX, y, leftPageX + leftPageW, y + blockH, COLOR_HOVER_BG);
 
-                int color   = opaque(entry.color());
-                int offsetY = (rowH - fontH) / 2; // 2px — centers text vertically in the box
-                int lineY   = y + offsetY;
+                int color = opaque(entry.color());
+                int offsetY = (rowH - fontH) / 2; // centers text vertically in the box
+                int lineY = y + offsetY;
                 for (OrderedText line : wrapped) {
                     context.drawText(textRenderer, line, leftPageX + CONTENT_PAD, lineY, color, false);
                     lineY += rowH;
@@ -383,8 +383,8 @@ public class GuidebookScreen extends Screen {
     private void renderPageNavBar(DrawContext context, int scrollAreaH) {
         int btnY = navBtnY(scrollAreaH);
 
-        boolean prevActive  = currentPage > 0;
-        boolean nextActive  = currentPage < PAGE_COUNT - 1;
+        boolean prevActive = currentPage > 0;
+        boolean nextActive = currentPage < PAGE_COUNT - 1;
         boolean prevHovered = prevActive && isInsideNavBtn(lastMouseX, lastMouseY, navPrevX(), btnY);
         boolean nextHovered = nextActive && isInsideNavBtn(lastMouseX, lastMouseY, navNextX(), btnY);
 
@@ -394,7 +394,7 @@ public class GuidebookScreen extends Screen {
         // Center the native-size sprite inside the hit-box
         int prevDrawX = navPrevX() + (NAV_BTN_W - NAV_SPRITE_W) / 2;
         int nextDrawX = navNextX() + (NAV_BTN_W - NAV_SPRITE_W) / 2;
-        int drawY     = btnY       + (NAV_BTN_H - NAV_SPRITE_H) / 2;
+        int drawY = btnY + (NAV_BTN_H - NAV_SPRITE_H) / 2;
 
         context.drawTexture(prevTex, prevDrawX, drawY, 0, 0, NAV_SPRITE_W, NAV_SPRITE_H, NAV_SPRITE_W, NAV_SPRITE_H);
         context.drawTexture(nextTex, nextDrawX, drawY, 0, 0, NAV_SPRITE_W, NAV_SPRITE_H, NAV_SPRITE_W, NAV_SPRITE_H);
@@ -406,7 +406,7 @@ public class GuidebookScreen extends Screen {
 
     private boolean isInsideNavBtn(int mx, int my, int btnX, int btnY) {
         return mx >= btnX && mx <= btnX + NAV_BTN_W
-            && my >= btnY && my <= btnY + NAV_BTN_H;
+                && my >= btnY && my <= btnY + NAV_BTN_H;
     }
 
     @Override
@@ -456,7 +456,7 @@ public class GuidebookScreen extends Screen {
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dx, double dy) {
         if (button == 0 && (isDraggingLeft || isDraggingRight)) {
-            int dragDelta = dragAnchorY - (int) mouseY; // drag up → scroll down
+            int dragDelta = dragAnchorY - (int) mouseY; // drag up > scroll down
             if (isDraggingLeft) {
                 int max = Math.max(0, leftContentHeight - leftPageH);
                 leftScrollTarget = clamp(dragAnchorScrollLeft + dragDelta, 0, max);
@@ -589,7 +589,7 @@ public class GuidebookScreen extends Screen {
         int h = CONTENT_PAD * 2;
         int usableW = leftPageW - CONTENT_PAD * 2;
         int fontH = textRenderer != null ? textRenderer.fontHeight : 9;
-        int rowH  = fontH + 4;
+        int rowH = fontH + 4;
         for (GuidebookEntry e : currentEntries()) {
             if (e.isHeader()) {
                 h += LINE_HEIGHT + 3;
@@ -667,7 +667,7 @@ public class GuidebookScreen extends Screen {
                 y += LINE_HEIGHT + 3;
                 continue;
             }
-            int rowH   = textRenderer.fontHeight + 4;
+            int rowH = textRenderer.fontHeight + 4;
             int blockH = textRenderer.wrapLines(entry.text(), usableW).size() * rowH;
             if (mouseY >= y && mouseY < y + blockH) return entry;
             y += blockH;

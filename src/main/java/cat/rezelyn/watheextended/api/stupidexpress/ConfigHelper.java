@@ -28,7 +28,6 @@ public final class ConfigHelper {
         }
     }
 
-
     private static boolean readBool(String topSection, String subSection, String field, boolean def) {
         try {
             Object cfg = getConfig();

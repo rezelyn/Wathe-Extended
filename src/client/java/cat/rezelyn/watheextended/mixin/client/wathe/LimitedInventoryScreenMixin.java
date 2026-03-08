@@ -1,8 +1,8 @@
 package cat.rezelyn.watheextended.mixin.client.wathe;
 
+import cat.rezelyn.watheextended.api.cca.GameStatus;
 import cat.rezelyn.watheextended.api.hml.AssignedModifier;
 import cat.rezelyn.watheextended.api.wathe.AssignedRole;
-import cat.rezelyn.watheextended.api.cca.GameStatus;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -20,11 +20,11 @@ import java.util.List;
 public class LimitedInventoryScreenMixin {
 
     @Redirect(
-        method = "drawBackground",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/client/gui/DrawContext;drawTexturedQuad(Lnet/minecraft/util/Identifier;IIIIIFFFFFFFF)V"
-        )
+            method = "drawBackground",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/gui/DrawContext;drawTexturedQuad(Lnet/minecraft/util/Identifier;IIIIIFFFFFFFF)V"
+            )
     )
     private void watheExtended$removeGameSprite(DrawContext context, Identifier texture, int x1, int x2, int y1, int y2, int z, float u1, float u2, float v1, float v2, float red, float green, float blue, float alpha) {
         // suppress game.png background sprite rendering

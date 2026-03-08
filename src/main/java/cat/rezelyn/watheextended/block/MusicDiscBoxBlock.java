@@ -16,7 +16,7 @@ public class MusicDiscBoxBlock extends HorizontalFacingBlock {
     public static final MapCodec<MusicDiscBoxBlock> CODEC = createCodec(MusicDiscBoxBlock::new);
 
     private static final VoxelShape SHAPE_NORTH_SOUTH = Block.createCuboidShape(3, 0, 2, 13, 4, 14);
-    private static final VoxelShape SHAPE_EAST_WEST   = Block.createCuboidShape(2, 0, 3, 14, 4, 13);
+    private static final VoxelShape SHAPE_EAST_WEST = Block.createCuboidShape(2, 0, 3, 14, 4, 13);
 
     public MusicDiscBoxBlock(Settings settings) {
         super(settings);
