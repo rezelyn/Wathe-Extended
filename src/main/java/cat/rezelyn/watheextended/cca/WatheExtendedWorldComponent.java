@@ -15,8 +15,11 @@ import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 public class WatheExtendedWorldComponent implements AutoSyncedComponent {
 
@@ -29,6 +32,7 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
 
     private final World world;
     private final Map<Integer, TeleportationSlot> teleportationSlots = new LinkedHashMap<>();
+    private final Set<UUID> killedPlayers = new HashSet<>();
     private int nextSlotId = 1;
     private MapVariablesWorldComponent.PosWithOrientation readyAreaSpawnPos = DEFAULT_READY_AREA_SPAWN_POS;
     private Box lobbyArea = DEFAULT_LOBBY_AREA;
@@ -40,6 +44,18 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
 
     public WatheExtendedWorldComponent(World world) {
         this.world = world;
+    }
+
+    public void markPlayerKilled(UUID uuid) {
+        killedPlayers.add(uuid);
+    }
+
+    public boolean isPlayerKilled(UUID uuid) {
+        return killedPlayers.contains(uuid);
+    }
+
+    public void clearKilledPlayers() {
+        killedPlayers.clear();
     }
 
     private static MapVariablesWorldComponent.PosWithOrientation getPosWithOrientationFromNbt(NbtCompound tag, String name) {

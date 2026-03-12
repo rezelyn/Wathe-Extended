@@ -208,7 +208,32 @@ public class WatheExtended implements ModInitializer {
         // sync: push current server configs to all clients when they join
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayerEntity joining = handler.player;
-            server.execute(() -> ServerConfig.sendToPlayer(joining));
+            server.execute(() -> {
+                ServerConfig.sendToPlayer(joining);
+                try {
+                    ServerWorld overworld = server.getOverworld();
+                    GameWorldComponent gwc = GameWorldComponent.KEY.get(overworld);
+                    WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(overworld);
+                    if (gwc.isRunning() && wec.isPlayerKilled(joining.getUuid())) {
+                        joining.changeGameMode(GameMode.SPECTATOR);
+                    }
+                } catch (Throwable ignored) {
+                }
+            });
+        });
+
+        GameEvents.ON_FINISH_INITIALIZE.register((world, gameWorldComponent) -> {
+            try {
+                WatheExtendedWorldComponent.KEY.get(world).clearKilledPlayers();
+            } catch (Throwable ignored) {
+            }
+        });
+
+        GameEvents.ON_FINISH_FINALIZE.register((world, gameWorldComponent) -> {
+            try {
+                WatheExtendedWorldComponent.KEY.get(world).clearKilledPlayers();
+            } catch (Throwable ignored) {
+            }
         });
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {

@@ -8,6 +8,8 @@
     "PlayerCollisionMixin",
     "stupidexpress.ThiefItemRulesMixin",
     "wathe.HarpyExpressTrainMapEffectMixin"
+    "wathe.GameFunctionsMixin",
+    "wathe.HarpyExpressTrainMapEffectMixin",
   ],
   "injectors": {
     "defaultRequire": 1
