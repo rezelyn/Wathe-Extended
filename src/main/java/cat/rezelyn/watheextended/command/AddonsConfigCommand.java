@@ -20,7 +20,7 @@ public class AddonsConfigCommand {
 
     private static int syncAndReturn(CommandContext<ServerCommandSource> ctx) {
         try {
-            ServerConfig.broadcastToOps(ctx.getSource().getServer());
+            ServerConfig.broadcastToAll(ctx.getSource().getServer());
         } catch (Throwable ignored) {
         }
         return 1;

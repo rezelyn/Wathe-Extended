@@ -527,6 +527,15 @@ public class GuidebookScreen extends Screen {
         };
     }
 
+    public static void invalidateIfOpen() {
+        MinecraftClient mc = MinecraftClient.getInstance();
+        if (mc.currentScreen instanceof GuidebookScreen gs) {
+            gs.rolesEntries = null;
+            gs.modifierEntries = null;
+            gs.refreshEntries();
+        }
+    }
+
     private void selectTab(Tab tab) {
         playSound(WatheExtendedSounds.GUIDEBOOK_PAGE);
         activeTab = tab;

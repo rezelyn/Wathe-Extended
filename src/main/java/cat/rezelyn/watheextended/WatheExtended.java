@@ -96,6 +96,12 @@ public class WatheExtended implements ModInitializer {
     // the teleportation will happen when screen is completely faded out making it seamless
     private static final int RTP_FADE_TICK = 40;
 
+    // sync: fix config sync issues for non-op players
+    private static List<String> lastKnownDisabledRoles = List.of();
+    private static List<String> lastKnownDisabledModifiers = List.of();
+    private static int hmlSyncTimer = 0;
+    private static final int HML_SYNC_INTERVAL = 20; // check every sec for changes
+
     @Override
     public void onInitialize() {
         WatheExtendedItems.initialize();
@@ -195,18 +201,14 @@ public class WatheExtended implements ModInitializer {
                     ServerConfig.applyChanges(registryChanges, overworld);
                 }
 
-                ServerConfig.broadcastToOps(context.server());
+                ServerConfig.broadcastToAll(context.server());
             });
         });
 
-        // push current server configs to op client when they join
+        // sync: push current server configs to all clients when they join
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             ServerPlayerEntity joining = handler.player;
-            server.execute(() -> {
-                if (joining.hasPermissionLevel(2)) {
-                    ServerConfig.sendToPlayer(joining);
-                }
-            });
+            server.execute(() -> ServerConfig.sendToPlayer(joining));
         });
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
@@ -262,6 +264,11 @@ public class WatheExtended implements ModInitializer {
 
             // feather modifier fix
             tickFeatherModifier(serverWorld);
+
+            // sync: detect HML config changes from direct commands
+            if (serverWorld.getRegistryKey() == World.OVERWORLD) {
+                tickHmlConfigSync(serverWorld);
+            }
         });
 
         LOGGER.info("Mod initialized!");
@@ -364,6 +371,20 @@ public class WatheExtended implements ModInitializer {
                 }
             }
         } catch (Throwable t) {
+        }
+    }
+
+    private static void tickHmlConfigSync(ServerWorld world) {
+        if (++hmlSyncTimer < HML_SYNC_INTERVAL) return;
+        hmlSyncTimer = 0;
+
+        List<String> currentRoles = cat.rezelyn.watheextended.api.hml.ConfigHelper.getDisabledRoles();
+        List<String> currentModifiers = cat.rezelyn.watheextended.api.hml.ConfigHelper.getDisabledModifiers();
+
+        if (!currentRoles.equals(lastKnownDisabledRoles) || !currentModifiers.equals(lastKnownDisabledModifiers)) {
+            lastKnownDisabledRoles = List.copyOf(currentRoles);
+            lastKnownDisabledModifiers = List.copyOf(currentModifiers);
+            ServerConfig.broadcastToAll(world.getServer());
         }
     }
 

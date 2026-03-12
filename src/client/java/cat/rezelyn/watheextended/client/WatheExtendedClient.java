@@ -46,6 +46,7 @@ public class WatheExtendedClient implements ClientModInitializer {
                     ClientConfig.setRemoteServer(true);
                     ClientConfig.update(payload.data());
                     WatheOptionsScreen.onCacheUpdated();
+                    GuidebookScreen.invalidateIfOpen();
                 });
 
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client2) -> {

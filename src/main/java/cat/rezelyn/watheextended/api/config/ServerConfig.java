@@ -196,6 +196,13 @@ public final class ServerConfig {
         });
     }
 
+    public static void broadcastToAll(MinecraftServer server) {
+        server.execute(() -> {
+            for (ServerPlayerEntity p : server.getPlayerManager().getPlayerList())
+                sendToPlayer(p);
+        });
+    }
+
     public record SyncPayload(NbtCompound data) implements CustomPayload {
         public static final Id<SyncPayload> ID = new Id<>(WatheExtended.id("config_sync"));
         public static final PacketCodec<RegistryByteBuf, SyncPayload> CODEC = PacketCodec.of(
