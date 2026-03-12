@@ -19,6 +19,7 @@ import net.minecraft.util.TypedActionResult;
 public class WatheExtendedClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        WatheExtendedClientConfig.load();
         BoxDebugRenderer.register();
         WatheOptionsScreen.registerTickHandler();
 

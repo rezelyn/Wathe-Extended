@@ -1,6 +1,7 @@
 package cat.rezelyn.watheextended.client.screen.config;
 
 import cat.rezelyn.watheextended.api.cca.GameComponents;
+import cat.rezelyn.watheextended.client.WatheExtendedClientConfig;
 import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionDescription;
@@ -98,6 +99,19 @@ public final class ClientCategory {
                 .binding(snowDefault,
                         () -> GameComponents.getSnow(MinecraftClient.getInstance().world),
                         v -> sendCommand.accept("wathe:setVisual snow " + v, parent))
+                .controller(opt -> BooleanControllerBuilder.create(opt)
+                        .coloured(true)
+                        .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
+                .build());
+
+        builder.option(Option.<Boolean>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.client.option.showchatduringgame"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.client.option.showchatduringgame.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(true,
+                        WatheExtendedClientConfig::getShowChatDuringGame,
+                        WatheExtendedClientConfig::setShowChatDuringGame)
                 .controller(opt -> BooleanControllerBuilder.create(opt)
                         .coloured(true)
                         .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))

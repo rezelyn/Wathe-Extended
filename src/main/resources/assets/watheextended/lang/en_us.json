@@ -62,6 +62,8 @@
   "gui.watheextended.config.category.client.group.debug.tooltip": "Debugging tools for OPs.",
   "gui.watheextended.config.category.client.option.disablescreenshake": "Disable Screen Shake",
   "gui.watheextended.config.category.client.option.disablescreenshake.desc": "When enabled, disables the screen shake effect.",
+  "gui.watheextended.config.category.client.option.showchatduringgame": "Show Chat During Game",
+  "gui.watheextended.config.category.client.option.showchatduringgame.desc": "When enabled, the chat HUD is visible during an active game.\nWathe hides the chatbox by default; this restores it in read-only mode (players cannot type or send messages).\n\nOP players are still able to send messages and commands.",
   "gui.watheextended.config.category.client.option.staminabar": "Stamina Bar",
   "gui.watheextended.config.category.client.option.staminabar.desc": "When enabled, displays the stamina bar HUD element.\n\n§6Warning: This option currently has overlapping conflicts with Wathe Extended.",
   "gui.watheextended.config.category.client.option.ultraperfmode": "Ultra Performance Mode",

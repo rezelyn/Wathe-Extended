@@ -12,7 +12,8 @@
     "wathe.GameFunctionsKillShieldMixin",
     "wathe.GunPickupCursorStackMixin",
     "wathe.HarpyExpressTrainMapEffectMixin",
-    "wathe.PlayerMoodComponentNbtMixin"
+    "wathe.PlayerMoodComponentNbtMixin",
+    "wathe.ServerPlayNetworkHandlerChatMixin"
   ],
   "injectors": {
     "defaultRequire": 1
