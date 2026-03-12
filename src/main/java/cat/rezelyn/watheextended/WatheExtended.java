@@ -352,6 +352,21 @@ public class WatheExtended implements ModInitializer {
         return best;
     }
 
+    public static void clearEffects(World world, ServerPlayerEntity player) {
+        if (world == null || player == null) return;
+        try {
+            GameWorldComponent gwc = GameWorldComponent.KEY.get(world);
+            if (gwc == null) return;
+            if (gwc.getGameStatus() == GameWorldComponent.GameStatus.STOPPING) {
+                List<StatusEffectInstance> effects = new ArrayList<>(player.getStatusEffects());
+                for (StatusEffectInstance effect : effects) {
+                    player.removeStatusEffect(effect.getEffectType());
+                }
+            }
+        } catch (Throwable t) {
+        }
+    }
+
     // feather modifier fix:
     // continuously reapplies slow falling each tick.
     private static void tickFeatherModifier(ServerWorld world) {
