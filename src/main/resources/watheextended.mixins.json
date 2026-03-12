@@ -10,6 +10,7 @@
     "wathe.DisabledKillerRoleConversionMixin",
     "wathe.GameFunctionsMixin",
     "wathe.GameFunctionsKillShieldMixin",
+    "wathe.GunPickupCursorStackMixin",
     "wathe.HarpyExpressTrainMapEffectMixin",
     "wathe.PlayerMoodComponentNbtMixin"
   ],
