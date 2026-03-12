@@ -8,6 +8,7 @@
     "PlayerCollisionMixin",
     "stupidexpress.ThiefItemRulesMixin",
     "wathe.GameFunctionsMixin",
+    "wathe.GameFunctionsKillShieldMixin",
     "wathe.HarpyExpressTrainMapEffectMixin",
     "wathe.PlayerMoodComponentNbtMixin"
   ],
