@@ -12,6 +12,7 @@ import cat.rezelyn.watheextended.index.WatheExtendedBlocks;
 import cat.rezelyn.watheextended.index.WatheExtendedItems;
 import cat.rezelyn.watheextended.index.WatheExtendedSounds;
 import cat.rezelyn.watheextended.teleport.TeleportationSlot;
+import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
 import dev.doctor4t.wathe.index.WatheEntities;
@@ -32,6 +33,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.GameMode;
 import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
@@ -47,6 +49,17 @@ import java.util.concurrent.ConcurrentHashMap;
 public class WatheExtended implements ModInitializer {
     public static final String MOD_ID = "watheextended";
     private static final Logger LOGGER = LoggerFactory.getLogger(WatheExtended.class);
+    // rtp scheduling and tracking
+    private static final Map<RegistryKey<World>, Long> rtpSchedule = new ConcurrentHashMap<>();
+    private static final Map<RegistryKey<World>, Boolean> prevStarting = new ConcurrentHashMap<>();
+    // ticks to wait after the fading starts before teleporting players 40 seems to be the best value
+    // the teleportation will happen when screen is completely faded out making it seamless
+    private static final int RTP_FADE_TICK = 40;
+    private static final int HML_SYNC_INTERVAL = 20; // check every sec for changes
+    // sync: fix config sync issues for non-op players
+    private static List<String> lastKnownDisabledRoles = List.of();
+    private static List<String> lastKnownDisabledModifiers = List.of();
+    private static int hmlSyncTimer = 0;
 
     public static @NotNull Identifier id(String name) {
         return Identifier.of(MOD_ID, name);
@@ -87,216 +100,6 @@ public class WatheExtended implements ModInitializer {
         if (!haveItem) {
             player.getInventory().insertStack(new ItemStack(WatheExtendedItems.GUIDEBOOK));
         }
-    }
-
-    // rtp scheduling and tracking
-    private static final Map<RegistryKey<World>, Long> rtpSchedule = new ConcurrentHashMap<>();
-    private static final Map<RegistryKey<World>, Boolean> prevStarting = new ConcurrentHashMap<>();
-    // ticks to wait after the fading starts before teleporting players 40 seems to be the best value
-    // the teleportation will happen when screen is completely faded out making it seamless
-    private static final int RTP_FADE_TICK = 40;
-
-    // sync: fix config sync issues for non-op players
-    private static List<String> lastKnownDisabledRoles = List.of();
-    private static List<String> lastKnownDisabledModifiers = List.of();
-    private static int hmlSyncTimer = 0;
-    private static final int HML_SYNC_INTERVAL = 20; // check every sec for changes
-
-    @Override
-    public void onInitialize() {
-        WatheExtendedItems.initialize();
-        WatheExtendedBlocks.initialize();
-        WatheExtendedSounds.initialize();
-
-        // register all ConfigEntry into ConfigRegistry
-        cat.rezelyn.watheextended.api.hml.ConfigHelper.registerEntries();
-        cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.registerEntries();
-        cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.registerEntries();
-        cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.registerEntries();
-        cat.rezelyn.watheextended.api.starexpress.ConfigHelper.registerEntries();
-        cat.rezelyn.watheextended.api.shooterpunishments.ConfigHelper.registerEntries();
-
-        // read/write directly to overworld component
-        ServerConfig.register(ServerConfig.Entry.worldBool("watheextended.playerCollisions", true,
-                w -> {
-                    try {
-                        return WatheExtendedWorldComponent.KEY.get(w).isPlayerCollisionsEnabled();
-                    } catch (Throwable t) {
-                        return true;
-                    }
-                },
-                (w, v) -> {
-                    try {
-                        WatheExtendedWorldComponent.KEY.get(w).setPlayerCollisionsEnabled(v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
-        ServerConfig.register(ServerConfig.Entry.worldBool("watheextended.rtpEnabled", true,
-                w -> {
-                    try {
-                        return WatheExtendedWorldComponent.KEY.get(w).isRtpEnabled();
-                    } catch (Throwable t) {
-                        return true;
-                    }
-                },
-                (w, v) -> {
-                    try {
-                        WatheExtendedWorldComponent.KEY.get(w).setRtpEnabled(v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
-        ServerConfig.register(ServerConfig.Entry.worldBool("watheextended.blockProtection", true,
-                w -> {
-                    try {
-                        return WatheExtendedWorldComponent.KEY.get(w).isBlockInteractionsProtected();
-                    } catch (Throwable t) {
-                        return true;
-                    }
-                },
-                (w, v) -> {
-                    try {
-                        WatheExtendedWorldComponent.KEY.get(w).setBlockInteractionsProtected(v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
-        ServerConfig.register(ServerConfig.Entry.worldBool("watheextended.itemBoundsCheck", true,
-                w -> {
-                    try {
-                        return WatheExtendedWorldComponent.KEY.get(w).isItemBoundsCheckEnabled();
-                    } catch (Throwable t) {
-                        return true;
-                    }
-                },
-                (w, v) -> {
-                    try {
-                        WatheExtendedWorldComponent.KEY.get(w).setItemBoundsCheckEnabled(v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
-
-        // register sync packets
-        PayloadTypeRegistry.playS2C().register(ServerConfig.SyncPayload.ID, ServerConfig.SyncPayload.CODEC);
-        PayloadTypeRegistry.playC2S().register(ServerConfig.ChangePayload.ID, ServerConfig.ChangePayload.CODEC);
-
-        // handle incoming config changes from op clients
-        ServerPlayNetworking.registerGlobalReceiver(ServerConfig.ChangePayload.ID, (payload, context) -> {
-            if (!context.player().hasPermissionLevel(2)) return;
-            context.server().execute(() -> {
-                ServerWorld overworld = context.server().getOverworld();
-
-                Map<String, String> registryChanges = new java.util.LinkedHashMap<>();
-                for (Map.Entry<String, String> entry : payload.changes().entrySet()) {
-                    if (entry.getKey().startsWith("cmd:")) {
-                        String cmd = entry.getKey().substring(4); // strip prefix
-                        try {
-                            context.server().getCommandManager().getDispatcher()
-                                    .execute(cmd, context.player().getCommandSource().withLevel(4).withSilent());
-                        } catch (Throwable ignored) {}
-                    } else {
-                        registryChanges.put(entry.getKey(), entry.getValue());
-                    }
-                }
-
-                if (!registryChanges.isEmpty()) {
-                    ServerConfig.applyChanges(registryChanges, overworld);
-                }
-
-                ServerConfig.broadcastToAll(context.server());
-            });
-        });
-
-        // sync: push current server configs to all clients when they join
-        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-            ServerPlayerEntity joining = handler.player;
-            server.execute(() -> {
-                ServerConfig.sendToPlayer(joining);
-                try {
-                    ServerWorld overworld = server.getOverworld();
-                    GameWorldComponent gwc = GameWorldComponent.KEY.get(overworld);
-                    WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(overworld);
-                    if (gwc.isRunning() && wec.isPlayerKilled(joining.getUuid())) {
-                        joining.changeGameMode(GameMode.SPECTATOR);
-                    }
-                } catch (Throwable ignored) {
-                }
-            });
-        });
-
-        GameEvents.ON_FINISH_INITIALIZE.register((world, gameWorldComponent) -> {
-            try {
-                WatheExtendedWorldComponent.KEY.get(world).clearKilledPlayers();
-            } catch (Throwable ignored) {
-            }
-        });
-
-        GameEvents.ON_FINISH_FINALIZE.register((world, gameWorldComponent) -> {
-            try {
-                WatheExtendedWorldComponent.KEY.get(world).clearKilledPlayers();
-            } catch (Throwable ignored) {
-            }
-        });
-
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            WatheExtendedMapVariablesCommand.register(dispatcher);
-            TeleportationSlotsCommand.register(dispatcher);
-            GamemodeRulesCommand.register(dispatcher);
-            AddonsConfigCommand.register(dispatcher);
-        });
-
-        // world tick handler
-        ServerTickEvents.END_WORLD_TICK.register(world -> {
-            if (!(world instanceof ServerWorld serverWorld)) return;
-
-            boolean gameRunning = GameStatus.State(world);
-            boolean isStarting = isStarting(world);
-            boolean wasStarting = prevStarting.getOrDefault(world.getRegistryKey(), false);
-
-            if (isStarting && !wasStarting) {
-                rtpSchedule.put(world.getRegistryKey(), world.getTime() + RTP_FADE_TICK);
-            }
-            prevStarting.put(world.getRegistryKey(), isStarting);
-
-            Long fireAt = rtpSchedule.get(world.getRegistryKey());
-            if (fireAt != null && world.getTime() >= fireAt) {
-                rtpSchedule.remove(world.getRegistryKey());
-                performRtp(serverWorld);
-            }
-
-            Box readyArea = MapVariables.getReadyArea(world);
-            for (net.minecraft.entity.player.PlayerEntity player : world.getPlayers()) {
-                if (!(player instanceof ServerPlayerEntity serverPlayer)) continue;
-
-                if (gameRunning) {
-                    removeTeleportItem(serverPlayer);
-                } else if (readyArea != null && readyArea.contains(serverPlayer.getPos())) {
-                    removeTeleportItem(serverPlayer);
-                    giveGuidebook(serverPlayer);
-                } else {
-                    giveTeleportItem(serverPlayer);
-                    giveGuidebook(serverPlayer);
-                }
-            }
-
-            if (GameStatus.isActive(world)) {
-                try {
-                    WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(world);
-                    if (wec != null && wec.isItemBoundsCheckEnabled()) {
-                        tickItemBoundsCheck(serverWorld);
-                    }
-                } catch (Throwable ignored) {
-                }
-            }
-
-            // feather modifier fix
-            tickFeatherModifier(serverWorld);
-
-            // sync: detect HML config changes from direct commands
-            if (serverWorld.getRegistryKey() == World.OVERWORLD) {
-                tickHmlConfigSync(serverWorld);
-            }
-        });
-
-        LOGGER.info("Mod initialized!");
     }
 
     private static boolean isStarting(World world) {
@@ -439,5 +242,203 @@ public class WatheExtended implements ModInitializer {
             }
         } catch (Throwable ignored) {
         }
+    }
+
+    @Override
+    public void onInitialize() {
+        WatheExtendedItems.initialize();
+        WatheExtendedBlocks.initialize();
+        WatheExtendedSounds.initialize();
+
+        // register all ConfigEntry into ConfigRegistry
+        cat.rezelyn.watheextended.api.hml.ConfigHelper.registerEntries();
+        cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.registerEntries();
+        cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.registerEntries();
+        cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.registerEntries();
+        cat.rezelyn.watheextended.api.starexpress.ConfigHelper.registerEntries();
+        cat.rezelyn.watheextended.api.shooterpunishments.ConfigHelper.registerEntries();
+
+        // read/write directly to overworld component
+        ServerConfig.register(ServerConfig.Entry.worldBool("watheextended.playerCollisions", true,
+                w -> {
+                    try {
+                        return WatheExtendedWorldComponent.KEY.get(w).isPlayerCollisionsEnabled();
+                    } catch (Throwable t) {
+                        return true;
+                    }
+                },
+                (w, v) -> {
+                    try {
+                        WatheExtendedWorldComponent.KEY.get(w).setPlayerCollisionsEnabled(v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        ServerConfig.register(ServerConfig.Entry.worldBool("watheextended.rtpEnabled", true,
+                w -> {
+                    try {
+                        return WatheExtendedWorldComponent.KEY.get(w).isRtpEnabled();
+                    } catch (Throwable t) {
+                        return true;
+                    }
+                },
+                (w, v) -> {
+                    try {
+                        WatheExtendedWorldComponent.KEY.get(w).setRtpEnabled(v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        ServerConfig.register(ServerConfig.Entry.worldBool("watheextended.blockProtection", true,
+                w -> {
+                    try {
+                        return WatheExtendedWorldComponent.KEY.get(w).isBlockInteractionsProtected();
+                    } catch (Throwable t) {
+                        return true;
+                    }
+                },
+                (w, v) -> {
+                    try {
+                        WatheExtendedWorldComponent.KEY.get(w).setBlockInteractionsProtected(v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        ServerConfig.register(ServerConfig.Entry.worldBool("watheextended.itemBoundsCheck", true,
+                w -> {
+                    try {
+                        return WatheExtendedWorldComponent.KEY.get(w).isItemBoundsCheckEnabled();
+                    } catch (Throwable t) {
+                        return true;
+                    }
+                },
+                (w, v) -> {
+                    try {
+                        WatheExtendedWorldComponent.KEY.get(w).setItemBoundsCheckEnabled(v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+
+        // register sync packets
+        PayloadTypeRegistry.playS2C().register(ServerConfig.SyncPayload.ID, ServerConfig.SyncPayload.CODEC);
+        PayloadTypeRegistry.playC2S().register(ServerConfig.ChangePayload.ID, ServerConfig.ChangePayload.CODEC);
+
+        // handle incoming config changes from op clients
+        ServerPlayNetworking.registerGlobalReceiver(ServerConfig.ChangePayload.ID, (payload, context) -> {
+            if (!context.player().hasPermissionLevel(2)) return;
+            context.server().execute(() -> {
+                ServerWorld overworld = context.server().getOverworld();
+
+                Map<String, String> registryChanges = new java.util.LinkedHashMap<>();
+                for (Map.Entry<String, String> entry : payload.changes().entrySet()) {
+                    if (entry.getKey().startsWith("cmd:")) {
+                        String cmd = entry.getKey().substring(4); // strip prefix
+                        try {
+                            context.server().getCommandManager().getDispatcher()
+                                    .execute(cmd, context.player().getCommandSource().withLevel(4).withSilent());
+                        } catch (Throwable ignored) {
+                        }
+                    } else {
+                        registryChanges.put(entry.getKey(), entry.getValue());
+                    }
+                }
+
+                if (!registryChanges.isEmpty()) {
+                    ServerConfig.applyChanges(registryChanges, overworld);
+                }
+
+                ServerConfig.broadcastToAll(context.server());
+            });
+        });
+
+        // sync: push current server configs to all clients when they join
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            ServerPlayerEntity joining = handler.player;
+            server.execute(() -> {
+                ServerConfig.sendToPlayer(joining);
+                try {
+                    ServerWorld overworld = server.getOverworld();
+                    GameWorldComponent gwc = GameWorldComponent.KEY.get(overworld);
+                    WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(overworld);
+                    if (gwc.isRunning() && wec.isPlayerKilled(joining.getUuid())) {
+                        joining.changeGameMode(GameMode.SPECTATOR);
+                    }
+                } catch (Throwable ignored) {
+                }
+            });
+        });
+
+        GameEvents.ON_FINISH_INITIALIZE.register((world, gameWorldComponent) -> {
+            try {
+                WatheExtendedWorldComponent.KEY.get(world).clearKilledPlayers();
+            } catch (Throwable ignored) {
+            }
+        });
+
+        GameEvents.ON_FINISH_FINALIZE.register((world, gameWorldComponent) -> {
+            try {
+                WatheExtendedWorldComponent.KEY.get(world).clearKilledPlayers();
+            } catch (Throwable ignored) {
+            }
+        });
+
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
+            WatheExtendedMapVariablesCommand.register(dispatcher);
+            TeleportationSlotsCommand.register(dispatcher);
+            GamemodeRulesCommand.register(dispatcher);
+            AddonsConfigCommand.register(dispatcher);
+        });
+
+        // world tick handler
+        ServerTickEvents.END_WORLD_TICK.register(world -> {
+            if (!(world instanceof ServerWorld serverWorld)) return;
+
+            boolean gameRunning = GameStatus.State(world);
+            boolean isStarting = isStarting(world);
+            boolean wasStarting = prevStarting.getOrDefault(world.getRegistryKey(), false);
+
+            if (isStarting && !wasStarting) {
+                rtpSchedule.put(world.getRegistryKey(), world.getTime() + RTP_FADE_TICK);
+            }
+            prevStarting.put(world.getRegistryKey(), isStarting);
+
+            Long fireAt = rtpSchedule.get(world.getRegistryKey());
+            if (fireAt != null && world.getTime() >= fireAt) {
+                rtpSchedule.remove(world.getRegistryKey());
+                performRtp(serverWorld);
+            }
+
+            Box readyArea = MapVariables.getReadyArea(world);
+            for (net.minecraft.entity.player.PlayerEntity player : world.getPlayers()) {
+                if (!(player instanceof ServerPlayerEntity serverPlayer)) continue;
+
+                if (gameRunning) {
+                    removeTeleportItem(serverPlayer);
+                } else if (readyArea != null && readyArea.contains(serverPlayer.getPos())) {
+                    removeTeleportItem(serverPlayer);
+                    giveGuidebook(serverPlayer);
+                } else {
+                    giveTeleportItem(serverPlayer);
+                    giveGuidebook(serverPlayer);
+                }
+            }
+
+            if (GameStatus.isActive(world)) {
+                try {
+                    WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(world);
+                    if (wec != null && wec.isItemBoundsCheckEnabled()) {
+                        tickItemBoundsCheck(serverWorld);
+                    }
+                } catch (Throwable ignored) {
+                }
+            }
+
+            // feather modifier fix
+            tickFeatherModifier(serverWorld);
+
+            // sync: detect HML config changes from direct commands
+            if (serverWorld.getRegistryKey() == World.OVERWORLD) {
+                tickHmlConfigSync(serverWorld);
+            }
+        });
+
+        LOGGER.info("Mod initialized!");
     }
 }
