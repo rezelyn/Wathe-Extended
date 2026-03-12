@@ -7,9 +7,9 @@
     "BlockInteractionProtectionMixin",
     "PlayerCollisionMixin",
     "stupidexpress.ThiefItemRulesMixin",
-    "wathe.HarpyExpressTrainMapEffectMixin"
     "wathe.GameFunctionsMixin",
     "wathe.HarpyExpressTrainMapEffectMixin",
+    "wathe.PlayerMoodComponentNbtMixin"
   ],
   "injectors": {
     "defaultRequire": 1
