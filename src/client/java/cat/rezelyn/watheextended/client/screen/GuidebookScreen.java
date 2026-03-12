@@ -10,7 +10,6 @@ import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.OrderedText;
@@ -21,46 +20,64 @@ import java.util.List;
 
 public class GuidebookScreen extends Screen {
 
-    // layout
-    static final int BOOK_WIDTH = 380;
-    static final int BOOK_HEIGHT = 240;
-    static final int LINE_HEIGHT = 12;
-    static final int CONTENT_PAD = 7;
-    private static final int PAGE_MARGIN_X = 18;
-    private static final int PAGE_MARGIN_TOP = 20;
-    private static final int PAGE_MARGIN_BOTTOM = 16;
-    private static final int SPINE_WIDTH = 9;
-    private static final int TAB_WIDTH = 76;
-    private static final int TAB_HEIGHT = 20;
-    private static final int TAB_GAP = 3;
-    private static final int CLOSE_BTN_WIDTH = 76;
-    private static final int CLOSE_BTN_HEIGHT = 16;
-
-    // nav-bar
-    private static final int PAGE_COUNT = GuidebookPageContent.PAGE_LABELS.length;
-    private static final int NAV_BTN_W = 52;
-    private static final int NAV_BTN_H = 14;
-    private static final int NAV_BTN_MARGIN = 5;
-
-    // rendering
-    private static final float TITLE_SCALE = 1.6f;
-    private static final int TITLE_EXTRA_H = 4; // gap after title block
-
-    private static final int COLOR_SELECTED_BG = 0x33000000;
-    private static final int COLOR_HOVER_BG = 0x1A000000;
-    private static final int COLOR_RIGHT_TEXT = 0xFF3B2A1A;
-    private static final int COLOR_HINT = 0xFF9B8B6B;
-
-    // nav-button sprites
+    // textures
     private static final Identifier NAV_PREV = Identifier.of("watheextended", "textures/gui/guidebook/sprites/previous.png");
     private static final Identifier NAV_PREV_DISABLED = Identifier.of("watheextended", "textures/gui/guidebook/sprites/previous_disabled.png");
     private static final Identifier NAV_PREV_HOVERED = Identifier.of("watheextended", "textures/gui/guidebook/sprites/previous_hovered.png");
     private static final Identifier NAV_NEXT = Identifier.of("watheextended", "textures/gui/guidebook/sprites/next.png");
     private static final Identifier NAV_NEXT_DISABLED = Identifier.of("watheextended", "textures/gui/guidebook/sprites/next_disabled.png");
     private static final Identifier NAV_NEXT_HOVERED = Identifier.of("watheextended", "textures/gui/guidebook/sprites/next_hovered.png");
+    private static final Identifier TAB_SELECTED = Identifier.of("watheextended", "textures/gui/guidebook/tab_selected.png");
+    private static final Identifier TAB_UNSELECTED = Identifier.of("watheextended", "textures/gui/guidebook/tab_unselected.png");
+    private static final Identifier CLOSE_BTN = Identifier.of("watheextended", "textures/gui/guidebook/close.png");
+    private static final Identifier CLOSE_BTN_HOVERED = Identifier.of("watheextended", "textures/gui/guidebook/close_selected.png");
+    private static final Identifier BOTTOM_LAYER = Identifier.of("watheextended", "textures/gui/guidebook/book1.png");
+    private static final Identifier TOP_LAYER = Identifier.of("watheextended", "textures/gui/guidebook/book2.png");
 
-    private static final Identifier BOOK_TEXTURE =
-            Identifier.of("watheextended", "textures/gui/guidebook/book.png");
+    // book res (native)
+    private static final int BOOK_TEX_W = 640;
+    private static final int BOOK_TEX_H = 414;
+
+    // layout
+    static final int BOOK_WIDTH = 371;
+    static final int BOOK_HEIGHT = 240;
+    static final int LINE_HEIGHT = 12;
+    static final int CONTENT_PAD = 6;
+
+    // margins
+    private static final int LEFT_MARGIN_X      = 18;
+    private static final int LEFT_MARGIN_TOP    = 14;
+    private static final int LEFT_MARGIN_BOTTOM = 26;
+    private static final int RIGHT_MARGIN_X      = 18;
+    private static final int RIGHT_MARGIN_TOP    = 14;
+    private static final int RIGHT_MARGIN_BOTTOM = 16;
+
+    // tabs
+    private static final int TAB_SPRITE_W = 48;
+    private static final int TAB_SPRITE_H = 19;
+    private static final int TAB_OFFSET_X = -TAB_SPRITE_W + 9;
+    private static final int TAB_OFFSET_Y = 14;
+    private static final int TAB_GAP = 2;
+    private static final int TAB_UNSELECTED_X = 6;
+    private static final int TAB_ICON_ANCHOR_X = 11;
+    private static final int TAB_ICON_ANCHOR_Y = 4;
+
+    // nav-bar
+    private static final int PAGE_COUNT = GuidebookPageContent.PAGE_LABELS.length;
+    private static final int NAV_SPRITE_W = 23;
+    private static final int NAV_SPRITE_H = 13;
+    private static final int NAV_BTN_W = 60;
+    private static final int NAV_BTN_H = 14;
+    private static final int NAV_BTN_MARGIN = 4;
+    private static final int NAV_CLOSE_BTN_SIZE = 12;
+
+    // rendering
+    private static final float TITLE_SCALE = 1.6f;
+    private static final int TITLE_EXTRA_H = 4; // gap after title block
+    private static final int COLOR_SELECTED_BG = 0x33000000;
+    private static final int COLOR_HOVER_BG = 0x1A000000;
+    private static final int COLOR_RIGHT_TEXT = 0xFF3B2A1A;
+    private static final int COLOR_HINT = 0xFF9B8B6B;
 
     // regions
     private int bookX, bookY;
@@ -71,35 +88,30 @@ public class GuidebookScreen extends Screen {
     private int leftScrollTarget = 0;
     private float leftScrollSmooth = 0f;
     private int leftContentHeight = 0;
-
     private int rightScrollTarget = 0;
     private float rightScrollSmooth = 0f;
     private int rightContentHeight = 0;
-
     private boolean isDraggingLeft = false;
     private boolean isDraggingRight = false;
     private int dragAnchorY = 0;
     private int dragAnchorScrollLeft = 0;
     private int dragAnchorScrollRight = 0;
 
-    // tracked mouse position (updated each render frame for hover checks)
+    // mouse position
     private int lastMouseX = 0;
     private int lastMouseY = 0;
 
-    // tabs and entries
+    // state
     private Tab activeTab = Tab.ROLES;
     private boolean firstOpen = true;
-
     private List<GuidebookEntry> rolesEntries = null;
     private List<GuidebookEntry> modifierEntries = null;
-
     private String selectedId = null;
     private Text selectedTitle = null;
     private int selectedColor = 0xFF3B2A1A;
     private String selectedDescKey = null;
     private String selectedEntryId = null;
     private boolean selectedKillerSided = false;
-
     private int currentPage = 0;
     private List<Text> rightPageLines = null;
     private boolean rightPageNoContent = false;
@@ -132,8 +144,7 @@ public class GuidebookScreen extends Screen {
     protected void init() {
         super.init();
         computeLayout();
-        addTabButtons();
-        addCloseButton();
+        addButtons();
         refreshEntries();
 
         if (firstOpen) {
@@ -159,46 +170,20 @@ public class GuidebookScreen extends Screen {
         bookY = (height - BOOK_HEIGHT) / 2;
 
         int halfBook = BOOK_WIDTH / 2;
-        int spineHalf = SPINE_WIDTH / 2;
+        int spineHalf = 9 / 2;
 
-        leftPageX = bookX + PAGE_MARGIN_X;
-        leftPageY = bookY + PAGE_MARGIN_TOP;
-        leftPageW = halfBook - PAGE_MARGIN_X - spineHalf - 4;
-        leftPageH = BOOK_HEIGHT - PAGE_MARGIN_TOP - PAGE_MARGIN_BOTTOM;
+        leftPageX = bookX + LEFT_MARGIN_X;
+        leftPageY = bookY + LEFT_MARGIN_TOP;
+        leftPageW = halfBook - LEFT_MARGIN_X - spineHalf - 4;
+        leftPageH = BOOK_HEIGHT - LEFT_MARGIN_TOP - LEFT_MARGIN_BOTTOM;
 
         rightPageX = bookX + halfBook + spineHalf + 4;
-        rightPageY = bookY + PAGE_MARGIN_TOP;
-        rightPageW = halfBook - PAGE_MARGIN_X - spineHalf - 4;
-        rightPageH = BOOK_HEIGHT - PAGE_MARGIN_TOP - PAGE_MARGIN_BOTTOM;
+        rightPageY = bookY + RIGHT_MARGIN_TOP;
+        rightPageW = halfBook - RIGHT_MARGIN_X - spineHalf - 4;
+        rightPageH = BOOK_HEIGHT - RIGHT_MARGIN_TOP - RIGHT_MARGIN_BOTTOM;
     }
 
-    private void addTabButtons() {
-        Tab[] tabs = Tab.values();
-        int totalW = tabs.length * TAB_WIDTH + (tabs.length - 1) * TAB_GAP;
-        int startX = bookX + (BOOK_WIDTH - totalW) / 2;
-        int tabY = bookY - 22;
-
-        clearChildren();
-        for (int i = 0; i < tabs.length; i++) {
-            final Tab tab = tabs[i];
-            int tx = startX + i * (TAB_WIDTH + TAB_GAP);
-            addDrawableChild(
-                    ButtonWidget.builder(tab.label, btn -> selectTab(tab))
-                            .dimensions(tx, tabY, TAB_WIDTH, TAB_HEIGHT)
-                            .build()
-            );
-        }
-    }
-
-    private void addCloseButton() {
-        int x = bookX + (BOOK_WIDTH - CLOSE_BTN_WIDTH) / 2;
-        int y = bookY + BOOK_HEIGHT + 4;
-        addDrawableChild(
-                ButtonWidget.builder(
-                        Text.translatable("gui.watheextended.guidebook.button.close"),
-                        btn -> close()
-                ).dimensions(x, y, CLOSE_BTN_WIDTH, CLOSE_BTN_HEIGHT).build()
-        );
+    private void addButtons() {
     }
 
     @Override
@@ -212,14 +197,18 @@ public class GuidebookScreen extends Screen {
         updateScrollSmooth(delta);
 
         context.fill(0, 0, width, height, 0xB0000000);
-        context.drawTexture(BOOK_TEXTURE, bookX, bookY, 0, 0, BOOK_WIDTH, BOOK_HEIGHT, BOOK_WIDTH, BOOK_HEIGHT);
+        context.drawTexture(BOTTOM_LAYER, bookX, bookY, BOOK_WIDTH, BOOK_HEIGHT, 0, 0, BOOK_TEX_W, BOOK_TEX_H, BOOK_TEX_W, BOOK_TEX_H);
+        renderTabButtons(context);
+        context.drawTexture(TOP_LAYER, bookX, bookY, BOOK_WIDTH, BOOK_HEIGHT, 0, 0, BOOK_TEX_W, BOOK_TEX_H, BOOK_TEX_W, BOOK_TEX_H);
         renderLeftPage(context, mouseX, mouseY);
         renderRightPage(context);
         super.render(context, mouseX, mouseY, delta);
+        renderCloseButton(context, mouseX, mouseY);
+        renderTabTooltips(context, mouseX, mouseY);
     }
 
     private void updateScrollSmooth(float delta) {
-        float speed = 1f - (float) Math.pow(0.08, delta);
+        float speed = 1f - (float) Math.pow(0.16, delta);
         leftScrollSmooth += (leftScrollTarget - leftScrollSmooth) * speed;
         rightScrollSmooth += (rightScrollTarget - rightScrollSmooth) * speed;
     }
@@ -338,11 +327,13 @@ public class GuidebookScreen extends Screen {
     }
 
     private int renderPageSubtitle(DrawContext context, int y, int usableW, int scrollAreaH) {
-        if (!isPaged()) return y;
+        String subtitleKey = isPaged()
+                ? GuidebookPageContent.PAGE_LABELS[currentPage]
+                : "gui.watheextended.guidebook.right_page.roles.subtitle.desc";
 
         Text label = Text.translatable(
                 "gui.watheextended.guidebook.right_page.roles.subtitle.separator",
-                Text.translatable(GuidebookPageContent.PAGE_LABELS[currentPage])
+                Text.translatable(subtitleKey)
         );
         int x = rightPageX + CONTENT_PAD + (usableW - textRenderer.getWidth(label)) / 2;
         if (isYVisible(y, rightPageY, scrollAreaH)) {
@@ -376,10 +367,6 @@ public class GuidebookScreen extends Screen {
         }
     }
 
-    // nav-bar
-    private static final int NAV_SPRITE_W = 15;
-    private static final int NAV_SPRITE_H = 10;
-
     private void renderPageNavBar(DrawContext context, int scrollAreaH) {
         int btnY = navBtnY(scrollAreaH);
 
@@ -411,17 +398,37 @@ public class GuidebookScreen extends Screen {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (button != 0) return super.mouseClicked(mouseX, mouseY, button);
-        if (!isInsideBook(mouseX, mouseY)) return super.mouseClicked(mouseX, mouseY, button);
-        if (selectedId != null && isPaged() && handleNavBarClick(mouseX, mouseY)) return true;
-
-        startDragIfNeeded((int) mouseX, (int) mouseY);
-
-        GuidebookEntry clicked = entryAt((int) mouseX, (int) mouseY);
-        if (clicked != null && clicked.id() != null) {
-            selectEntry(clicked);
+        if (button == 0 && closeBtn(mouseX, mouseY)) {
+            close();
             return true;
         }
+
+        if (button == 0) {
+            Tab[] tabs = Tab.values();
+            for (int i = 0; i < tabs.length; i++) {
+                if (isInsideTab(mouseX, mouseY, i)) {
+                    selectTab(tabs[i]);
+                    return true;
+                }
+            }
+        }
+
+        if (!isInsideBook(mouseX, mouseY)) return super.mouseClicked(mouseX, mouseY, button);
+
+        if (button == 1) {
+            startDragIfNeeded((int) mouseX, (int) mouseY);
+            return true;
+        }
+
+        if (button == 0) {
+            if (selectedId != null && isPaged() && handleNavBarClick(mouseX, mouseY)) return true;
+            GuidebookEntry clicked = entryAt((int) mouseX, (int) mouseY);
+            if (clicked != null && clicked.id() != null) {
+                selectEntry(clicked);
+                return true;
+            }
+        }
+
         return super.mouseClicked(mouseX, mouseY, button);
     }
 
@@ -455,7 +462,7 @@ public class GuidebookScreen extends Screen {
 
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double dx, double dy) {
-        if (button == 0 && (isDraggingLeft || isDraggingRight)) {
+        if (button == 1 && (isDraggingLeft || isDraggingRight)) {
             int dragDelta = dragAnchorY - (int) mouseY; // drag up > scroll down
             if (isDraggingLeft) {
                 int max = Math.max(0, leftContentHeight - leftPageH);
@@ -473,7 +480,7 @@ public class GuidebookScreen extends Screen {
 
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        if (button == 0) {
+        if (button == 1) {
             isDraggingLeft = false;
             isDraggingRight = false;
         }
@@ -521,6 +528,7 @@ public class GuidebookScreen extends Screen {
     }
 
     private void selectTab(Tab tab) {
+        playSound(WatheExtendedSounds.GUIDEBOOK_PAGE);
         activeTab = tab;
         resetScrollBoth();
         clearSelection();
@@ -612,7 +620,7 @@ public class GuidebookScreen extends Screen {
         }
         int usableW = rightPageW - CONTENT_PAD * 2;
         int h = (int) Math.ceil(LINE_HEIGHT * TITLE_SCALE) + TITLE_EXTRA_H; // title block
-        if (isPaged()) h += LINE_HEIGHT + 2; // page subtitle label
+        h += LINE_HEIGHT + 2; // page subtitle label
         for (Text line : rightPageLines) {
             List<OrderedText> wrapped = textRenderer != null
                     ? textRenderer.wrapLines(line, usableW)
@@ -675,6 +683,52 @@ public class GuidebookScreen extends Screen {
         return null;
     }
 
+    private int tabX(int index) {
+        Tab tab = Tab.values()[index];
+        int extra = (activeTab == tab) ? 0 : TAB_UNSELECTED_X;
+        return bookX + TAB_OFFSET_X + extra;
+    }
+
+    private int tabY(int index) {
+        return bookY + TAB_OFFSET_Y + index * (TAB_SPRITE_H + TAB_GAP);
+    }
+
+    private boolean isInsideTab(double mx, double my, int index) {
+        Tab tab = Tab.values()[index];
+        boolean selected = activeTab == tab;
+        int tabX = tabX(index);
+        int hitX = selected ? tabX : tabX + TAB_UNSELECTED_X;
+        int hitW = selected ? TAB_SPRITE_W : TAB_SPRITE_W - TAB_UNSELECTED_X;
+        int tabY = tabY(index);
+        return mx >= hitX && mx <= hitX + hitW && my >= tabY && my <= tabY + TAB_SPRITE_H;
+    }
+
+    private void renderTabButtons(DrawContext context) {
+        Tab[] tabs = Tab.values();
+        for (int i = 0; i < tabs.length; i++) {
+            Tab tab = tabs[i];
+            boolean selected = activeTab == tab;
+            Identifier texture = selected ? TAB_SELECTED : TAB_UNSELECTED;
+            Identifier iconTexture = selected ? tab.icon : tab.iconUnselected;
+            int tabX = tabX(i);
+            int tabY = tabY(i);
+            context.drawTexture(texture, tabX, tabY, 0, 0, TAB_SPRITE_W, TAB_SPRITE_H, TAB_SPRITE_W, TAB_SPRITE_H);
+            context.drawTexture(iconTexture,
+                    tabX + TAB_ICON_ANCHOR_X, tabY + TAB_ICON_ANCHOR_Y,
+                    0, 0, tab.iconW, tab.iconH, tab.iconW, tab.iconH);
+        }
+    }
+
+    private void renderTabTooltips(DrawContext context, int mouseX, int mouseY) {
+        Tab[] tabs = Tab.values();
+        for (int i = 0; i < tabs.length; i++) {
+            if (isInsideTab(mouseX, mouseY, i)) {
+                context.drawTooltip(textRenderer, tabs[i].label, mouseX, mouseY);
+            }
+        }
+    }
+
+
     private boolean isInsideBook(double mouseX, double mouseY) {
         return mouseX >= bookX && mouseX <= bookX + BOOK_WIDTH
                 && mouseY >= bookY && mouseY <= bookY + BOOK_HEIGHT;
@@ -703,6 +757,24 @@ public class GuidebookScreen extends Screen {
         rightScrollSmooth = 0f;
     }
 
+    private int closeBtnX() {
+        return rightPageX + rightPageW - NAV_CLOSE_BTN_SIZE;
+    }
+
+    private int closeBtnY() {
+        return rightPageY;
+    }
+
+    private boolean closeBtn(double mx, double my) {
+        return mx >= closeBtnX() && mx <= closeBtnX() + NAV_CLOSE_BTN_SIZE
+                && my >= closeBtnY() && my <= closeBtnY() + NAV_CLOSE_BTN_SIZE;
+    }
+
+    private void renderCloseButton(DrawContext context, int mouseX, int mouseY) {
+        Identifier tex = closeBtn(mouseX, mouseY) ? CLOSE_BTN_HOVERED : CLOSE_BTN;
+        context.drawTexture(tex, closeBtnX(), closeBtnY(), 0, 0, NAV_CLOSE_BTN_SIZE, NAV_CLOSE_BTN_SIZE, NAV_CLOSE_BTN_SIZE, NAV_CLOSE_BTN_SIZE);
+    }
+
     private int navPrevX() {
         return rightPageX + CONTENT_PAD;
     }
@@ -721,13 +793,31 @@ public class GuidebookScreen extends Screen {
     }
 
     private enum Tab {
-        ROLES(Text.translatable("gui.watheextended.guidebook.tab.roles")),
-        MODIFIERS(Text.translatable("gui.watheextended.guidebook.tab.modifiers"));
+        ROLES(
+                Text.translatable("gui.watheextended.guidebook.tab.roles"),
+                Identifier.of("watheextended", "textures/gui/guidebook/role.png"),
+                Identifier.of("watheextended", "textures/gui/guidebook/role_unselected.png"),
+                12, 10
+        ),
+        MODIFIERS(
+                Text.translatable("gui.watheextended.guidebook.tab.modifiers"),
+                Identifier.of("watheextended", "textures/gui/guidebook/modifier.png"),
+                Identifier.of("watheextended", "textures/gui/guidebook/modifier_unselected.png"),
+                12, 10
+        );
 
         final Text label;
+        final Identifier icon;
+        final Identifier iconUnselected;
+        final int iconW;
+        final int iconH;
 
-        Tab(Text label) {
+        Tab(Text label, Identifier icon, Identifier iconUnselected, int iconW, int iconH) {
             this.label = label;
+            this.icon = icon;
+            this.iconUnselected = iconUnselected;
+            this.iconW = iconW;
+            this.iconH = iconH;
         }
     }
 }
