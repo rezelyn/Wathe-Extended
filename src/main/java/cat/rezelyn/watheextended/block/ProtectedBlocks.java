@@ -1,4 +1,4 @@
-package cat.rezelyn.watheextended.protection;
+package cat.rezelyn.watheextended.block;
 
 import dev.doctor4t.wathe.block.*;
 import net.minecraft.block.*;

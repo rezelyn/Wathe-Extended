@@ -2,7 +2,7 @@ package cat.rezelyn.watheextended.mixin;
 
 import cat.rezelyn.watheextended.api.cca.MapVariables;
 import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
-import cat.rezelyn.watheextended.protection.ProtectedBlocks;
+import cat.rezelyn.watheextended.block.ProtectedBlocks;
 import dev.doctor4t.wathe.block.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
