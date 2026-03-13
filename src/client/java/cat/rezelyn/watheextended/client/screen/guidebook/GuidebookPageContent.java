@@ -105,6 +105,15 @@ public final class GuidebookPageContent {
 
                 str = replaceFirstStringPlaceholder(str, String.valueOf(crowdCount));
                 str = replaceFirstStringPlaceholder(str, formatFloat(crowdRange));
+
+            } else if (id.contains("taxed")) {
+                float reduction = cat.rezelyn.watheextended.api.config.ClientConfig.getFloat(
+                        "watheextended.taxed.coinReduction", 0.25f);
+
+                int percent = Math.round(reduction * 100f);
+
+                str = replaceFirstStringPlaceholder(str, String.valueOf(percent));
+
             }
         } catch (Throwable ignored) {
         }

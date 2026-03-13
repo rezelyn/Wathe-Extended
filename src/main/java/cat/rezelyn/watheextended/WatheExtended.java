@@ -343,6 +343,9 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.introverted.aloneDrainMultiplier", 0.5f,
                 WatheExtendedServerConfig::getIntrovertedAloneDrainMultiplier,
                 WatheExtendedServerConfig::setIntrovertedAloneDrainMultiplier));
+        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.taxed.coinReduction", 0.25f,
+                WatheExtendedServerConfig::getTaxedCoinReduction,
+                WatheExtendedServerConfig::setTaxedCoinReduction));
 
         // register sync packets
         PayloadTypeRegistry.playS2C().register(ServerConfig.SyncPayload.ID, ServerConfig.SyncPayload.CODEC);

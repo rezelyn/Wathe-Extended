@@ -1104,6 +1104,19 @@ public final class OptionsCategory {
                 .controller(FloatFieldControllerBuilder::create)
                 .build());
 
+        group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.label.taxed").styled(s -> s.withColor(0xAAAAAA))));
+
+        group.option(Option.<Float>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.taxed.coinreduction"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.taxed.coinreduction.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(0.25f,
+                        () -> ClientConfig.getFloat("watheextended.taxed.coinReduction", 0.25f),
+                        v -> stage(sendCommand, parent, "watheextended.taxed.coinReduction", v))
+                .controller(FloatFieldControllerBuilder::create)
+                .build());
+
         return group.build();
     }
 }

@@ -20,6 +20,7 @@
   "block.watheextended.snowy_spruce_leaves": "Snowy Spruce Leaves",
 
   "announcement.modifier.watheextended.introverted": "Introverted",
+  "announcement.modifier.watheextended.taxed": "Taxed",
 
   "command.watheextended.pronouns.set": "Your pronouns have been set to: %s",
   "command.watheextended.pronouns.cleared": "Your pronouns have been cleared.",
@@ -173,6 +174,9 @@
   "gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.crowddrainmultiplier.desc": "Mood drain multiplier applied each tick when the Introverted player is considered in a crowd.",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.alonedrainmultiplier": "Alone Drain Multiplier",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.alonedrainmultiplier.desc": "Mood drain multiplier applied each tick when the Introverted player is alone or with only one other nearby player.",
+  "gui.watheextended.config.category.options.group.modifiers_options.label.taxed": "Taxed",
+  "gui.watheextended.config.category.options.group.modifiers_options.opt.taxed.coinreduction": "Income Reduction",
+  "gui.watheextended.config.category.options.group.modifiers_options.opt.taxed.coinreduction.desc": "Fraction of coins deducted from a Taxed player's income (kill rewards and passive income).",
   "gui.watheextended.config.category.options.group.modifiers_options.tooltip": "Control various options related to modifiers and their effects.",
   "gui.watheextended.config.category.options.group.roles_options": "Roles Options",
   "gui.watheextended.config.category.options.group.roles_options.label.bellringer": "Bellringer",
@@ -375,6 +379,7 @@
   "gui.watheextended.guidebook.modifier.desc.starexpress.allergic": "Gives a random allergy type, upon consuming their affected consumable type, the Allergic will receive one of the following effects:\n• §2Nothing§r\n  (?/? chance)\n• §aInstinct§r\n  (?/? chance)\n• §9Protection Shield§r\n  (?/? chance)\n• §4Poison§r\n  (?/? chance)",
   "gui.watheextended.guidebook.modifier.desc.stupid_express.lovers": "Will assign pair of players as lovers, if one of the lovers dies, the other one dies of heartbreak.\nTheir goal is to be the last two standing, but they can win alongside the §2Civilians§r if they are both §2Civilians§r.",
   "gui.watheextended.guidebook.modifier.desc.watheextended.introverted": "You hate being into large crowds.\nIf more than %s players are around you inside a radius of %s blocks you will start feeling anxious, your mood will decrease faster.\nIf you are alone or with only one player, your mood will decrease slower.",
+  "gui.watheextended.guidebook.modifier.desc.watheextended.taxed": "Fraud, what's that? Never heard of it.\nYou receive %s% less coins from kills and passive income.",
 
   "gui.watheextended.guidebook.right_page.hint.select": "Select an entry",
   "gui.watheextended.guidebook.right_page.roles.subtitle.abilities": "Abilities",

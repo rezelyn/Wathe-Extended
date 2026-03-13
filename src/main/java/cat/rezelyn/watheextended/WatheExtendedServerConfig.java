@@ -20,6 +20,7 @@ public final class WatheExtendedServerConfig {
     public static float introvertedCrowdRange = 5.0f;
     public static float introvertedCrowdDrainMultiplier = 2.0f;
     public static float introvertedAloneDrainMultiplier = 0.5f;
+    public static float taxedCoinReduction = 0.25f;
 
     private WatheExtendedServerConfig() {
     }
@@ -38,6 +39,7 @@ public final class WatheExtendedServerConfig {
         introvertedCrowdRange = ClientConfig.readFloat(CONFIG_FILE, "introverted.crowdRange", 5.0f);
         introvertedCrowdDrainMultiplier = ClientConfig.readFloat(CONFIG_FILE, "introverted.crowdDrainMultiplier", 2.0f);
         introvertedAloneDrainMultiplier = ClientConfig.readFloat(CONFIG_FILE, "introverted.aloneDrainMultiplier", 0.5f);
+        taxedCoinReduction = ClientConfig.readFloat(CONFIG_FILE, "taxed.coinReduction", 0.25f);
     }
 
     public static void save() {
@@ -75,6 +77,10 @@ public final class WatheExtendedServerConfig {
                             "    \"crowdDrainMultiplier\": " + introvertedCrowdDrainMultiplier + ",\n" +
                             "    // Mood drain multiplier applied when the player is alone or with only one other player.\n" +
                             "    \"aloneDrainMultiplier\": " + introvertedAloneDrainMultiplier + "\n" +
+                            "  },\n" +
+                            "  \"taxed\": {\n" +
+                            "    // Fraction of coins deducted from the player's kill/passive income.\n" +
+                            "    \"coinReduction\": " + taxedCoinReduction + "\n" +
                             "  }\n" +
                             "}\n";
             Files.writeString(CONFIG_FILE.toPath(), content);
@@ -160,6 +166,42 @@ public final class WatheExtendedServerConfig {
 
     public static void setIntrovertedAloneDrainMultiplier(float value) {
         introvertedAloneDrainMultiplier = value;
+        save();
+    }
+
+    public static float getTaxedCoinReduction() {
+        return taxedCoinReduction;
+    }
+
+    public static void setTaxedCoinReduction(float value) {
+        taxedCoinReduction = value;
+        save();
+    }
+
+    public static int getAdaptiveMinUniqueMethods() {
+        return adaptiveMinUniqueMethods;
+    }
+
+    public static void setAdaptiveMinUniqueMethods(int value) {
+        adaptiveMinUniqueMethods = value;
+        save();
+    }
+
+    public static float getAdaptiveRepeatPenalty() {
+        return adaptiveRepeatPenalty;
+    }
+
+    public static void setAdaptiveRepeatPenalty(float value) {
+        adaptiveRepeatPenalty = value;
+        save();
+    }
+
+    public static float getAdaptiveVarietyBonus() {
+        return adaptiveVarietyBonus;
+    }
+
+    public static void setAdaptiveVarietyBonus(float value) {
+        adaptiveVarietyBonus = value;
         save();
     }
 }
