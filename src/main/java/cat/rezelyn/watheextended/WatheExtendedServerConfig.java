@@ -16,6 +16,11 @@ public final class WatheExtendedServerConfig {
     public static boolean blockProtectionEnabled = true;
     public static boolean itemBoundsCheckEnabled = true;
     public static boolean forbiddenLoversEnabled = false;
+    public static int introvertedCrowdCount = 3;
+    public static float introvertedCrowdRange = 5.0f;
+    public static float introvertedCrowdDrainMultiplier = 2.0f;
+    public static float introvertedAloneDrainMultiplier = 0.5f;
+
     private WatheExtendedServerConfig() {
     }
 
@@ -29,6 +34,10 @@ public final class WatheExtendedServerConfig {
         blockProtectionEnabled = ClientConfig.readBool(CONFIG_FILE, "blockProtection.enabled", true);
         itemBoundsCheckEnabled = ClientConfig.readBool(CONFIG_FILE, "itemBoundsCheck.enabled", true);
         forbiddenLoversEnabled = ClientConfig.readBool(CONFIG_FILE, "forbiddenLovers.enabled", false);
+        introvertedCrowdCount = ClientConfig.readInt(CONFIG_FILE, "introverted.crowdCount", 3);
+        introvertedCrowdRange = ClientConfig.readFloat(CONFIG_FILE, "introverted.crowdRange", 5.0f);
+        introvertedCrowdDrainMultiplier = ClientConfig.readFloat(CONFIG_FILE, "introverted.crowdDrainMultiplier", 2.0f);
+        introvertedAloneDrainMultiplier = ClientConfig.readFloat(CONFIG_FILE, "introverted.aloneDrainMultiplier", 0.5f);
     }
 
     public static void save() {
@@ -56,6 +65,16 @@ public final class WatheExtendedServerConfig {
                             "    // Enables the Forbidden Lovers mechanic: always have lovers pair being\n" +
                             "    // a Killer/Neutral and a non-Killer. Requires Stupid Express mod.\n" +
                             "    \"enabled\": " + forbiddenLoversEnabled + "\n" +
+                            "  },\n" +
+                            "  \"introverted\": {\n" +
+                            "    // Minimum number of nearby players (within crowdRange) for the Introverted modifier to consider the player in a crowd.\n" +
+                            "    \"crowdCount\": " + introvertedCrowdCount + ",\n" +
+                            "    // Radius in blocks in which other players are counted toward the crowd threshold.\n" +
+                            "    \"crowdRange\": " + introvertedCrowdRange + ",\n" +
+                            "    // Mood drain multiplier applied when the player is considered in a crowd.\n" +
+                            "    \"crowdDrainMultiplier\": " + introvertedCrowdDrainMultiplier + ",\n" +
+                            "    // Mood drain multiplier applied when the player is alone or with only one other player.\n" +
+                            "    \"aloneDrainMultiplier\": " + introvertedAloneDrainMultiplier + "\n" +
                             "  }\n" +
                             "}\n";
             Files.writeString(CONFIG_FILE.toPath(), content);
@@ -105,6 +124,42 @@ public final class WatheExtendedServerConfig {
 
     public static void setForbiddenLoversEnabled(boolean value) {
         forbiddenLoversEnabled = value;
+        save();
+    }
+
+    public static int getIntrovertedCrowdCount() {
+        return introvertedCrowdCount;
+    }
+
+    public static void setIntrovertedCrowdCount(int value) {
+        introvertedCrowdCount = value;
+        save();
+    }
+
+    public static float getIntrovertedCrowdRange() {
+        return introvertedCrowdRange;
+    }
+
+    public static void setIntrovertedCrowdRange(float value) {
+        introvertedCrowdRange = value;
+        save();
+    }
+
+    public static float getIntrovertedCrowdDrainMultiplier() {
+        return introvertedCrowdDrainMultiplier;
+    }
+
+    public static void setIntrovertedCrowdDrainMultiplier(float value) {
+        introvertedCrowdDrainMultiplier = value;
+        save();
+    }
+
+    public static float getIntrovertedAloneDrainMultiplier() {
+        return introvertedAloneDrainMultiplier;
+    }
+
+    public static void setIntrovertedAloneDrainMultiplier(float value) {
+        introvertedAloneDrainMultiplier = value;
         save();
     }
 }

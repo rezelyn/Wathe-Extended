@@ -1058,6 +1058,52 @@ public final class OptionsCategory {
                     .build());
         }
 
+        group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.label.introverted").styled(s -> s.withColor(0xAAAAAA))));
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.crowdcount"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.crowdcount.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(3,
+                        () -> ClientConfig.getInt("watheextended.introverted.crowdCount", 3),
+                        v -> stage(sendCommand, parent, "watheextended.introverted.crowdCount", v))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Float>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.crowdrange"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.crowdrange.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(5.0f,
+                        () -> ClientConfig.getFloat("watheextended.introverted.crowdRange", 5.0f),
+                        v -> stage(sendCommand, parent, "watheextended.introverted.crowdRange", v))
+                .controller(FloatFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Float>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.crowddrainmultiplier"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.crowddrainmultiplier.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(2.0f,
+                        () -> ClientConfig.getFloat("watheextended.introverted.crowdDrainMultiplier", 2.0f),
+                        v -> stage(sendCommand, parent, "watheextended.introverted.crowdDrainMultiplier", v))
+                .controller(FloatFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Float>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.alonedrainmultiplier"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.alonedrainmultiplier.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(0.5f,
+                        () -> ClientConfig.getFloat("watheextended.introverted.aloneDrainMultiplier", 0.5f),
+                        v -> stage(sendCommand, parent, "watheextended.introverted.aloneDrainMultiplier", v))
+                .controller(FloatFieldControllerBuilder::create)
+                .build());
+
         return group.build();
     }
 }

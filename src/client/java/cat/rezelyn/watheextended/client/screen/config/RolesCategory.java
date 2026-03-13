@@ -98,6 +98,7 @@ public final class RolesCategory {
 
     static String modsNamespace(String namespace) {
         return switch (namespace) {
+            case "watheextended" -> "Wathe Extended";
             case "noellesroles" -> "Noelle's Roles";
             case "kinswathe" -> "Kin's Wathe";
             case "stupid_express" -> "Stupid Express";
@@ -106,4 +107,3 @@ public final class RolesCategory {
         };
     }
 }
-

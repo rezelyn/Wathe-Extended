@@ -40,11 +40,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class WatheExtended implements ModInitializer {
@@ -252,9 +248,11 @@ public class WatheExtended implements ModInitializer {
         WatheExtendedSounds.initialize();
 
         WatheExtendedServerConfig.load();
-        
+
         // register all ConfigEntry into ConfigRegistry
         cat.rezelyn.watheextended.pronouns.PronounsManager.load();
+        // register custom modifiers with HarpyModLoader
+        cat.rezelyn.watheextended.modifiers.WatheExtendedModifiers.initialize();
         cat.rezelyn.watheextended.api.hml.ConfigHelper.registerEntries();
         cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.registerEntries();
         cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.registerEntries();
@@ -333,6 +331,18 @@ public class WatheExtended implements ModInitializer {
                     } catch (Throwable ignored) {
                     }
                 }));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.introverted.crowdCount", 3,
+                WatheExtendedServerConfig::getIntrovertedCrowdCount,
+                WatheExtendedServerConfig::setIntrovertedCrowdCount));
+        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.introverted.crowdRange", 5.0f,
+                WatheExtendedServerConfig::getIntrovertedCrowdRange,
+                WatheExtendedServerConfig::setIntrovertedCrowdRange));
+        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.introverted.crowdDrainMultiplier", 2.0f,
+                WatheExtendedServerConfig::getIntrovertedCrowdDrainMultiplier,
+                WatheExtendedServerConfig::setIntrovertedCrowdDrainMultiplier));
+        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.introverted.aloneDrainMultiplier", 0.5f,
+                WatheExtendedServerConfig::getIntrovertedAloneDrainMultiplier,
+                WatheExtendedServerConfig::setIntrovertedAloneDrainMultiplier));
 
         // register sync packets
         PayloadTypeRegistry.playS2C().register(ServerConfig.SyncPayload.ID, ServerConfig.SyncPayload.CODEC);
@@ -483,6 +493,9 @@ public class WatheExtended implements ModInitializer {
 
             // feather modifier fix
             tickFeatherModifier(serverWorld);
+
+            // introverted modifier tick
+            cat.rezelyn.watheextended.modifiers.IntrovertedModifier.tick(serverWorld);
 
             // sync: detect HML config changes from direct commands
             if (serverWorld.getRegistryKey() == World.OVERWORLD) {

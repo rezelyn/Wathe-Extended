@@ -38,6 +38,7 @@ public final class GuidebookPageContent {
             String str = raw.getString();
             if (!str.isEmpty() && !str.equals(key)) {
                 str = resolveAllergicPlaceholders(id, str);
+                str = resolveWatheExtendedPlaceholders(id, str);
                 for (String line : str.split("\\\\n|\\n", -1)) {
                     result.add(parseLine(line));
                 }
@@ -91,6 +92,34 @@ public final class GuidebookPageContent {
         int idx = str.indexOf("?/?");
         if (idx < 0) return str;
         return str.substring(0, idx) + value + "/" + total + str.substring(idx + 3);
+    }
+
+    private static String resolveWatheExtendedPlaceholders(String id, String str) {
+        if (id == null || !str.contains("%s")) return str;
+        try {
+            if (id.contains("introverted")) {
+                int crowdCount = cat.rezelyn.watheextended.api.config.ClientConfig.getInt(
+                        "watheextended.introverted.crowdCount", 3);
+                float crowdRange = cat.rezelyn.watheextended.api.config.ClientConfig.getFloat(
+                        "watheextended.introverted.crowdRange", 5.0f);
+
+                str = replaceFirstStringPlaceholder(str, String.valueOf(crowdCount));
+                str = replaceFirstStringPlaceholder(str, formatFloat(crowdRange));
+            }
+        } catch (Throwable ignored) {
+        }
+        return str;
+    }
+
+    private static String replaceFirstStringPlaceholder(String str, String value) {
+        int idx = str.indexOf("%s");
+        if (idx < 0) return str;
+        return str.substring(0, idx) + value + str.substring(idx + 2);
+    }
+
+    private static String formatFloat(float value) {
+        if (value == (int) value) return String.valueOf((int) value);
+        return String.valueOf(value);
     }
 
     public static Text parseLine(String line) {
