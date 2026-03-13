@@ -50,6 +50,13 @@ public class WatheExtendedClient implements ClientModInitializer {
                     GuidebookScreen.invalidateIfOpen();
                 });
 
+        // pronouns: receive server broadcasts and update local cache
+        ClientPlayNetworking.registerGlobalReceiver(
+                cat.rezelyn.watheextended.pronouns.PronounsManager.SyncPayload.ID,
+                (payload, context) -> context.client().execute(() ->
+                        cat.rezelyn.watheextended.client.pronouns.PronounsCache.set(
+                                payload.uuid(), payload.pronouns())));
+
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client2) -> {
             if (client2.isIntegratedServerRunning()) {
                 ClientConfig.setRemoteServer(false);
@@ -59,6 +66,7 @@ public class WatheExtendedClient implements ClientModInitializer {
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client2) -> {
             WatheOptionsScreen.clearPendingState();
             ClientConfig.clear();
+            cat.rezelyn.watheextended.client.pronouns.PronounsCache.clear();
         });
 
         // Open the Guidebook screen when the item is used on the client

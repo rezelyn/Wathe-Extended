@@ -13,6 +13,7 @@
     "client.wathe.ChatHudRestoreMixin",
     "client.wathe.WatheClientChatMixin",
     "client.wathe.KeyBindingChatRestoreMixin",
+    "client.wathe.RoleNameRendererMixin",
     "client.noellesroles.GraverobberCoronerHudMixin",
     "client.starexpress.GuidebookButtonMixin",
     "client.stupidexpress.LoversHudNullPlayerFixMixin",

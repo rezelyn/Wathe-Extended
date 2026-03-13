@@ -10,7 +10,7 @@ import java.nio.file.Files;
 public final class WatheExtendedClientConfig {
 
     private static final File CONFIG_FILE =
-            FabricLoader.getInstance().getConfigDir().resolve("watheextended-client.json5").toFile();
+            FabricLoader.getInstance().getConfigDir().resolve("watheextended").resolve("client.json5").toFile();
     public static boolean showChatDuringGame = true;
 
     private WatheExtendedClientConfig() {

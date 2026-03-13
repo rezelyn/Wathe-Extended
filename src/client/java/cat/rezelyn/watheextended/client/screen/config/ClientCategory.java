@@ -2,12 +2,16 @@ package cat.rezelyn.watheextended.client.screen.config;
 
 import cat.rezelyn.watheextended.api.cca.GameComponents;
 import cat.rezelyn.watheextended.client.WatheExtendedClientConfig;
+import cat.rezelyn.watheextended.client.pronouns.PronounsCache;
+import cat.rezelyn.watheextended.pronouns.PronounsManager;
 import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.OptionDescription;
 import dev.isxander.yacl3.api.OptionGroup;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
+import dev.isxander.yacl3.api.controller.StringControllerBuilder;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
@@ -22,6 +26,22 @@ public final class ClientCategory {
     public static ConfigCategory build(Screen parent, boolean isOp, BiConsumer<String, Screen> sendCommand) {
         ConfigCategory.Builder builder = ConfigCategory.createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.client"));
+
+        builder.option(Option.<String>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.client.option.pronouns"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.client.option.pronouns.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding("",
+                        PronounsCache::getLocalPronouns,
+                        v -> {
+                            try {
+                                ClientPlayNetworking.send(
+                                        new PronounsManager.UpdatePayload(v.trim()));
+                            } catch (Throwable ignored) {}
+                        })
+                .controller(StringControllerBuilder::create)
+                .build());
 
         if (cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) {
             builder.option(Option.<Boolean>createBuilder()

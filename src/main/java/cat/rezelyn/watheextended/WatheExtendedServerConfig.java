@@ -10,7 +10,7 @@ import java.nio.file.Files;
 public final class WatheExtendedServerConfig {
 
     private static final File CONFIG_FILE =
-            FabricLoader.getInstance().getConfigDir().resolve("watheextended-server.json5").toFile();
+            FabricLoader.getInstance().getConfigDir().resolve("watheextended").resolve("server.json5").toFile();
     public static boolean playerCollisionsEnabled = true;
     public static boolean rtpEnabled = true;
     public static boolean blockProtectionEnabled = true;

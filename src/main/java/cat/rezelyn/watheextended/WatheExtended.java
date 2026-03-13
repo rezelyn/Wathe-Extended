@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class WatheExtended implements ModInitializer {
@@ -251,8 +252,9 @@ public class WatheExtended implements ModInitializer {
         WatheExtendedSounds.initialize();
 
         WatheExtendedServerConfig.load();
-
+        
         // register all ConfigEntry into ConfigRegistry
+        cat.rezelyn.watheextended.pronouns.PronounsManager.load();
         cat.rezelyn.watheextended.api.hml.ConfigHelper.registerEntries();
         cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.registerEntries();
         cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.registerEntries();
@@ -336,6 +338,25 @@ public class WatheExtended implements ModInitializer {
         PayloadTypeRegistry.playS2C().register(ServerConfig.SyncPayload.ID, ServerConfig.SyncPayload.CODEC);
         PayloadTypeRegistry.playC2S().register(ServerConfig.ChangePayload.ID, ServerConfig.ChangePayload.CODEC);
 
+        // register pronouns packets
+        PayloadTypeRegistry.playC2S().register(cat.rezelyn.watheextended.pronouns.PronounsManager.UpdatePayload.ID, cat.rezelyn.watheextended.pronouns.PronounsManager.UpdatePayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(cat.rezelyn.watheextended.pronouns.PronounsManager.SyncPayload.ID, cat.rezelyn.watheextended.pronouns.PronounsManager.SyncPayload.CODEC);
+
+        // handle incoming pronouns updates from any client
+        ServerPlayNetworking.registerGlobalReceiver(cat.rezelyn.watheextended.pronouns.PronounsManager.UpdatePayload.ID, (payload, context) -> {
+            UUID uuid = context.player().getUuid();
+            String pronouns = payload.pronouns().trim();
+            context.server().execute(() -> {
+                cat.rezelyn.watheextended.pronouns.PronounsManager.set(uuid, pronouns);
+                String stored = cat.rezelyn.watheextended.pronouns.PronounsManager.get(uuid);
+                cat.rezelyn.watheextended.pronouns.PronounsManager.SyncPayload sync =
+                        new cat.rezelyn.watheextended.pronouns.PronounsManager.SyncPayload(uuid, stored);
+                for (ServerPlayerEntity p : context.server().getPlayerManager().getPlayerList()) {
+                    ServerPlayNetworking.send(p, sync);
+                }
+            });
+        });
+
         // handle incoming config changes from op clients
         ServerPlayNetworking.registerGlobalReceiver(ServerConfig.ChangePayload.ID, (payload, context) -> {
             if (!context.player().hasPermissionLevel(2)) return;
@@ -369,6 +390,10 @@ public class WatheExtended implements ModInitializer {
             ServerPlayerEntity joining = handler.player;
             server.execute(() -> {
                 ServerConfig.sendToPlayer(joining);
+                // send all stored pronouns to the joining player
+                cat.rezelyn.watheextended.pronouns.PronounsManager.getAll().forEach((uuid, pronouns) ->
+                        ServerPlayNetworking.send(joining,
+                                new cat.rezelyn.watheextended.pronouns.PronounsManager.SyncPayload(uuid, pronouns)));
                 try {
                     ServerWorld overworld = server.getOverworld();
                     GameWorldComponent gwc = GameWorldComponent.KEY.get(overworld);
@@ -409,6 +434,7 @@ public class WatheExtended implements ModInitializer {
             TeleportationSlotsCommand.register(dispatcher);
             GamemodeRulesCommand.register(dispatcher);
             AddonsConfigCommand.register(dispatcher);
+            cat.rezelyn.watheextended.pronouns.PronounsCommand.register(dispatcher);
         });
 
         // world tick handler
