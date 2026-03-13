@@ -8,11 +8,14 @@
     "PlayerCollisionMixin",
     "stupidexpress.ThiefItemRulesMixin",
     "wathe.DisabledKillerRoleConversionMixin",
+    "wathe.GameFunctionsAdaptiveMixin",
     "wathe.GameFunctionsMixin",
     "wathe.GameFunctionsKillShieldMixin",
     "wathe.GunPickupCursorStackMixin",
     "wathe.HarpyExpressTrainMapEffectMixin",
     "wathe.PlayerMoodComponentNbtMixin",
+    "wathe.PlayerShopComponentAdaptiveMixin",
+    "wathe.PlayerShopComponentTaxedMixin",
     "wathe.ServerPlayNetworkHandlerChatMixin"
   ],
   "injectors": {

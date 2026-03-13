@@ -346,6 +346,12 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.taxed.coinReduction", 0.25f,
                 WatheExtendedServerConfig::getTaxedCoinReduction,
                 WatheExtendedServerConfig::setTaxedCoinReduction));
+        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.adaptive.penaltyReduction", 0.50f,
+                WatheExtendedServerConfig::getAdaptivePenaltyReduction,
+                WatheExtendedServerConfig::setAdaptivePenaltyReduction));
+        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.adaptive.bonusMultiplier", 0.50f,
+                WatheExtendedServerConfig::getAdaptiveBonusMultiplier,
+                WatheExtendedServerConfig::setAdaptiveBonusMultiplier));
 
         // register sync packets
         PayloadTypeRegistry.playS2C().register(ServerConfig.SyncPayload.ID, ServerConfig.SyncPayload.CODEC);
@@ -424,6 +430,7 @@ public class WatheExtended implements ModInitializer {
                 WatheExtendedWorldComponent.KEY.get(world).clearKilledPlayers();
             } catch (Throwable ignored) {
             }
+            cat.rezelyn.watheextended.modifiers.AdaptiveModifier.clearAll();
             if (cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.isLoaded()) {
                 try {
                     WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(world);
@@ -440,6 +447,7 @@ public class WatheExtended implements ModInitializer {
                 WatheExtendedWorldComponent.KEY.get(world).clearKilledPlayers();
             } catch (Throwable ignored) {
             }
+            cat.rezelyn.watheextended.modifiers.AdaptiveModifier.clearAll();
         });
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {

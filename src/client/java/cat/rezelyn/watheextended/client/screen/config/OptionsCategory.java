@@ -949,7 +949,7 @@ public final class OptionsCategory {
                     .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
                             .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
                     .build());
-            
+
             group.option(Option.<Boolean>createBuilder()
                     .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.knowimmediately"))
                     .description(OptionDescription.of(
@@ -1114,6 +1114,30 @@ public final class OptionsCategory {
                 .binding(0.25f,
                         () -> ClientConfig.getFloat("watheextended.taxed.coinReduction", 0.25f),
                         v -> stage(sendCommand, parent, "watheextended.taxed.coinReduction", v))
+                .controller(FloatFieldControllerBuilder::create)
+                .build());
+
+        group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.label.adaptive").styled(s -> s.withColor(0xAAAAAA))));
+
+        group.option(Option.<Float>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.adaptive.penaltyreduction"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.adaptive.penaltyreduction.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(0.25f,
+                        () -> ClientConfig.getFloat("watheextended.adaptive.penaltyReduction", 0.25f),
+                        v -> stage(sendCommand, parent, "watheextended.adaptive.penaltyReduction", v))
+                .controller(FloatFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Float>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.adaptive.bonusmultiplier"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.adaptive.bonusmultiplier.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(0.50f,
+                        () -> ClientConfig.getFloat("watheextended.adaptive.bonusMultiplier", 0.50f),
+                        v -> stage(sendCommand, parent, "watheextended.adaptive.bonusMultiplier", v))
                 .controller(FloatFieldControllerBuilder::create)
                 .build());
 

@@ -21,6 +21,8 @@ public final class WatheExtendedServerConfig {
     public static float introvertedCrowdDrainMultiplier = 2.0f;
     public static float introvertedAloneDrainMultiplier = 0.5f;
     public static float taxedCoinReduction = 0.25f;
+    public static float adaptivePenaltyReduction = 0.50f;
+    public static float adaptiveBonusMultiplier = 0.50f;
 
     private WatheExtendedServerConfig() {
     }
@@ -40,6 +42,8 @@ public final class WatheExtendedServerConfig {
         introvertedCrowdDrainMultiplier = ClientConfig.readFloat(CONFIG_FILE, "introverted.crowdDrainMultiplier", 2.0f);
         introvertedAloneDrainMultiplier = ClientConfig.readFloat(CONFIG_FILE, "introverted.aloneDrainMultiplier", 0.5f);
         taxedCoinReduction = ClientConfig.readFloat(CONFIG_FILE, "taxed.coinReduction", 0.25f);
+        adaptivePenaltyReduction = ClientConfig.readFloat(CONFIG_FILE, "adaptive.penaltyReduction", 0.50f);
+        adaptiveBonusMultiplier = ClientConfig.readFloat(CONFIG_FILE, "adaptive.bonusMultiplier", 0.50f);
     }
 
     public static void save() {
@@ -81,6 +85,12 @@ public final class WatheExtendedServerConfig {
                             "  \"taxed\": {\n" +
                             "    // Fraction of coins deducted from the player's kill/passive income.\n" +
                             "    \"coinReduction\": " + taxedCoinReduction + "\n" +
+                            "  },\n" +
+                            "  \"adaptive\": {\n" +
+                            "    // Fraction penalty applied to kill income when the same method is used consecutively.\n" +
+                            "    \"penaltyReduction\": " + adaptivePenaltyReduction + ",\n" +
+                            "    // Fraction bonus applied to kill income when a different method is used.\n" +
+                            "    \"bonusMultiplier\": " + adaptiveBonusMultiplier + "\n" +
                             "  }\n" +
                             "}\n";
             Files.writeString(CONFIG_FILE.toPath(), content);
@@ -178,30 +188,21 @@ public final class WatheExtendedServerConfig {
         save();
     }
 
-    public static int getAdaptiveMinUniqueMethods() {
-        return adaptiveMinUniqueMethods;
+    public static float getAdaptivePenaltyReduction() {
+        return adaptivePenaltyReduction;
     }
 
-    public static void setAdaptiveMinUniqueMethods(int value) {
-        adaptiveMinUniqueMethods = value;
+    public static void setAdaptivePenaltyReduction(float value) {
+        adaptivePenaltyReduction = value;
         save();
     }
 
-    public static float getAdaptiveRepeatPenalty() {
-        return adaptiveRepeatPenalty;
+    public static float getAdaptiveBonusMultiplier() {
+        return adaptiveBonusMultiplier;
     }
 
-    public static void setAdaptiveRepeatPenalty(float value) {
-        adaptiveRepeatPenalty = value;
-        save();
-    }
-
-    public static float getAdaptiveVarietyBonus() {
-        return adaptiveVarietyBonus;
-    }
-
-    public static void setAdaptiveVarietyBonus(float value) {
-        adaptiveVarietyBonus = value;
+    public static void setAdaptiveBonusMultiplier(float value) {
+        adaptiveBonusMultiplier = value;
         save();
     }
 }
