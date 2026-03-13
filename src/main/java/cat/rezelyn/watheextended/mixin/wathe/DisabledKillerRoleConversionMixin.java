@@ -8,6 +8,7 @@ import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import org.agmas.harpymodloader.events.ModdedRoleAssigned;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -73,5 +74,7 @@ public class DisabledKillerRoleConversionMixin {
 
         gwc.addRole(killer, replacement);
         gwc.sync();
+
+        ModdedRoleAssigned.EVENT.invoker().assignModdedRole(killer, replacement);
     }
 }

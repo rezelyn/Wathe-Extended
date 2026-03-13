@@ -6,6 +6,7 @@
   "mixins": [
     "BlockInteractionProtectionMixin",
     "PlayerCollisionMixin",
+    "stupidexpress.RevivalItemGivingMixin",
     "stupidexpress.ThiefItemRulesMixin",
     "wathe.DisabledKillerRoleConversionMixin",
     "wathe.GameFunctionsAdaptiveMixin",
