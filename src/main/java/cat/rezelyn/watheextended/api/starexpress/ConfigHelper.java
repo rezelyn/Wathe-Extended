@@ -1,8 +1,8 @@
 package cat.rezelyn.watheextended.api.starexpress;
 
+import cat.rezelyn.watheextended.api.config.ClientConfig;
 import cat.rezelyn.watheextended.api.config.ServerConfig;
 import cat.rezelyn.watheextended.api.config.ServerConfig.Entry;
-import cat.rezelyn.watheextended.api.config.ClientConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 
@@ -418,4 +418,3 @@ public final class ConfigHelper {
         if (entry != null) entry.writeServer(null, value);
     }
 }
-

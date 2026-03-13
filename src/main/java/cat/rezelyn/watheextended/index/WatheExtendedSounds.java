@@ -20,4 +20,3 @@ public class WatheExtendedSounds {
     public static void initialize() {
     }
 }
-

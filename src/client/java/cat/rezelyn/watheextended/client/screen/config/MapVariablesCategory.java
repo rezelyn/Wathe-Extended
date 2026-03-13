@@ -263,4 +263,3 @@ public final class MapVariablesCategory {
         return group.build();
     }
 }
-

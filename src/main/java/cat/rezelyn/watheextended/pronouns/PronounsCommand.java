@@ -12,36 +12,37 @@ import java.util.UUID;
 
 public final class PronounsCommand {
 
-    private PronounsCommand() {}
+    private PronounsCommand() {
+    }
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(
-            CommandManager.literal("pronouns")
-                .then(CommandManager.literal("set")
-                    .then(CommandManager.argument("pronouns", StringArgumentType.greedyString())
-                        .executes(ctx -> {
-                            ServerPlayerEntity player = ctx.getSource().getPlayerOrThrow();
-                            String raw = StringArgumentType.getString(ctx, "pronouns").trim();
-                            UUID uuid = player.getUuid();
-                            PronounsManager.set(uuid, raw);
-                            String stored = PronounsManager.get(uuid);
-                            broadcastAll(ctx.getSource(), uuid, stored);
-                            ctx.getSource().sendFeedback(
-                                    () -> Text.translatable("command.watheextended.pronouns.set", stored),
-                                    false);
-                            return 1;
-                        })))
-                .then(CommandManager.literal("clear")
-                    .executes(ctx -> {
-                        ServerPlayerEntity player = ctx.getSource().getPlayerOrThrow();
-                        UUID uuid = player.getUuid();
-                        PronounsManager.clear(uuid);
-                        broadcastAll(ctx.getSource(), uuid, "");
-                        ctx.getSource().sendFeedback(
-                                () -> Text.translatable("command.watheextended.pronouns.cleared"),
-                                false);
-                        return 1;
-                    }))
+                CommandManager.literal("pronouns")
+                        .then(CommandManager.literal("set")
+                                .then(CommandManager.argument("pronouns", StringArgumentType.greedyString())
+                                        .executes(ctx -> {
+                                            ServerPlayerEntity player = ctx.getSource().getPlayerOrThrow();
+                                            String raw = StringArgumentType.getString(ctx, "pronouns").trim();
+                                            UUID uuid = player.getUuid();
+                                            PronounsManager.set(uuid, raw);
+                                            String stored = PronounsManager.get(uuid);
+                                            broadcastAll(ctx.getSource(), uuid, stored);
+                                            ctx.getSource().sendFeedback(
+                                                    () -> Text.translatable("command.watheextended.pronouns.set", stored),
+                                                    false);
+                                            return 1;
+                                        })))
+                        .then(CommandManager.literal("clear")
+                                .executes(ctx -> {
+                                    ServerPlayerEntity player = ctx.getSource().getPlayerOrThrow();
+                                    UUID uuid = player.getUuid();
+                                    PronounsManager.clear(uuid);
+                                    broadcastAll(ctx.getSource(), uuid, "");
+                                    ctx.getSource().sendFeedback(
+                                            () -> Text.translatable("command.watheextended.pronouns.cleared"),
+                                            false);
+                                    return 1;
+                                }))
         );
     }
 

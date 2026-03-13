@@ -1,8 +1,8 @@
 package cat.rezelyn.watheextended.api.hml;
 
+import cat.rezelyn.watheextended.api.config.ClientConfig;
 import cat.rezelyn.watheextended.api.config.ServerConfig;
 import cat.rezelyn.watheextended.api.config.ServerConfig.Entry;
-import cat.rezelyn.watheextended.api.config.ClientConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import org.agmas.harpymodloader.config.HarpyModLoaderConfig;

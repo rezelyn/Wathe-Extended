@@ -114,4 +114,3 @@ public final class GuidebookEntryBuilder {
         return list;
     }
 }
-

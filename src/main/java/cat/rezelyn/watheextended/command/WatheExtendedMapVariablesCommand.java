@@ -89,4 +89,3 @@ public class WatheExtendedMapVariablesCommand {
         return 1;
     }
 }
-

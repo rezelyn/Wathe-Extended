@@ -29,4 +29,3 @@ public record GuidebookEntry(
         return new GuidebookEntry(text, color, false, id, descKey, displayTitle, active, killerSided);
     }
 }
-

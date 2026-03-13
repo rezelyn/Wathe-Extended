@@ -7,5 +7,3 @@ public interface GuidebookEntrySource {
 
     List<GuidebookEntry> build();
 }
-
-

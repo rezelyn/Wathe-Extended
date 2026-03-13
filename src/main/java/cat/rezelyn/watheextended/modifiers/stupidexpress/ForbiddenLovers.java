@@ -12,7 +12,8 @@ import java.util.UUID;
 
 public final class ForbiddenLovers {
 
-    private ForbiddenLovers() {}
+    private ForbiddenLovers() {
+    }
 
     public static void apply(World world, GameWorldComponent gwc) {
         try {

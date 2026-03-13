@@ -139,4 +139,3 @@ public final class ClientConfig {
         return resolve(nested, parts[1]);
     }
 }
-

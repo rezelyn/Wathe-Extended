@@ -8,9 +8,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public final class PronounsCache {
 
-    private PronounsCache() {}
+    private PronounsCache() {
+    }
 
     private static final Map<UUID, String> CACHE = new ConcurrentHashMap<>();
+
     public static String get(UUID uuid) {
         return CACHE.getOrDefault(uuid, "");
     }

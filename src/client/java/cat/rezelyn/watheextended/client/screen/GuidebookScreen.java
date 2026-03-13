@@ -45,11 +45,11 @@ public class GuidebookScreen extends Screen {
     static final int CONTENT_PAD = 6;
 
     // margins
-    private static final int LEFT_MARGIN_X      = 18;
-    private static final int LEFT_MARGIN_TOP    = 14;
+    private static final int LEFT_MARGIN_X = 18;
+    private static final int LEFT_MARGIN_TOP = 14;
     private static final int LEFT_MARGIN_BOTTOM = 26;
-    private static final int RIGHT_MARGIN_X      = 18;
-    private static final int RIGHT_MARGIN_TOP    = 14;
+    private static final int RIGHT_MARGIN_X = 18;
+    private static final int RIGHT_MARGIN_TOP = 14;
     private static final int RIGHT_MARGIN_BOTTOM = 16;
 
     // tabs

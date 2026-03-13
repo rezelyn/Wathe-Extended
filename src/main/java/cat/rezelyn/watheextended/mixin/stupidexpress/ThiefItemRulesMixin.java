@@ -29,5 +29,3 @@ public class ThiefItemRulesMixin {
         CAN_TAKE.add(Identifier.of("starexpress", "tape"));
     }
 }
-
-

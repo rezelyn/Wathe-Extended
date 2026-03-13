@@ -78,4 +78,3 @@ public final class ModifiersCategory {
         return builder.build();
     }
 }
-

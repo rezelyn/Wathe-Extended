@@ -270,5 +270,3 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
         tag.put("teleportationSlots", list);
     }
 }
-
-

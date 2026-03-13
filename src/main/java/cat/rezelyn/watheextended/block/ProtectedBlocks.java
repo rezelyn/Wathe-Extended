@@ -52,4 +52,3 @@ public final class ProtectedBlocks {
         return block instanceof OrnamentBlock;
     }
 }
-

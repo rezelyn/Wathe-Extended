@@ -57,4 +57,3 @@ public class TeleportToReadyAreaItem extends Item {
         return TypedActionResult.success(stack);
     }
 }
-

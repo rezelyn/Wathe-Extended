@@ -38,7 +38,8 @@ public final class ClientCategory {
                             try {
                                 ClientPlayNetworking.send(
                                         new PronounsManager.UpdatePayload(v.trim()));
-                            } catch (Throwable ignored) {}
+                            } catch (Throwable ignored) {
+                            }
                         })
                 .controller(StringControllerBuilder::create)
                 .build());
@@ -191,4 +192,3 @@ public final class ClientCategory {
                 .build();
     }
 }
-

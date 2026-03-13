@@ -10,5 +10,3 @@ public class WatheExtendedComponents implements WorldComponentInitializer {
         registry.register(WatheExtendedWorldComponent.KEY, WatheExtendedWorldComponent::new);
     }
 }
-
-

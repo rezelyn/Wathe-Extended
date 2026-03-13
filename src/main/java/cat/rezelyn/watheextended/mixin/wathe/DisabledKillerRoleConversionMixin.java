@@ -75,4 +75,3 @@ public class DisabledKillerRoleConversionMixin {
         gwc.sync();
     }
 }
-
