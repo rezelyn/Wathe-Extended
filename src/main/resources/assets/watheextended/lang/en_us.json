@@ -145,6 +145,8 @@
   "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.winwithcivilians.desc": "Lovers count as a win condition for the Civilian team.",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.glowtoeachother": "Glow to Each Other",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.glowtoeachother.desc": "Lovers can see each other through walls via a glow effect.",
+  "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden": "Forbidden Lovers",
+  "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden.desc": "When enabled, the Lovers pair will always consist of one Killer/Neutral and one Non-Killer. Also reduces the overall chance of the Lovers modifier being assigned if this feature is enabled.",
   "gui.watheextended.config.category.options.group.modifiers_options.label.allergic": "Allergic",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.nothingchance": "Nothing Chance",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.nothingchance.desc": "The relative chance that the Allergic receives no effect when their allergy triggers. Set to 0 to disable.",

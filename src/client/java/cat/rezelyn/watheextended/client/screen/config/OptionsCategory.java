@@ -939,6 +939,18 @@ public final class OptionsCategory {
             group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.label.lovers").styled(s -> s.withColor(0xAAAAAA))));
 
             group.option(Option.<Boolean>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(false,
+                            () -> ClientConfig.getBool("watheextended.forbiddenLovers", false),
+                            v -> stage(sendCommand, parent, "watheextended.forbiddenLovers", v))
+                    .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
+                            .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
+                    .build());
+            
+            group.option(Option.<Boolean>createBuilder()
                     .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.knowimmediately"))
                     .description(OptionDescription.of(
                             Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.knowimmediately.desc")

@@ -9,12 +9,12 @@ import java.nio.file.Files;
 
 public final class WatheExtendedClientConfig {
 
-    private WatheExtendedClientConfig() {}
-
     private static final File CONFIG_FILE =
             FabricLoader.getInstance().getConfigDir().resolve("watheextended-client.json5").toFile();
-
     public static boolean showChatDuringGame = true;
+
+    private WatheExtendedClientConfig() {
+    }
 
     public static void load() {
         if (!CONFIG_FILE.exists()) {
@@ -29,14 +29,15 @@ public final class WatheExtendedClientConfig {
             CONFIG_FILE.getParentFile().mkdirs();
             String content =
                     "{\n" +
-                    "  \"chatHud\": {\n" +
-                    "    // Show the chat HUD.\n" +
-                    "    // This will still prevent non-op players to send messages and commands. enabling this\n" +
-                    "    \"showDuringGame\": " + showChatDuringGame + "\n" +
-                    "  }\n" +
-                    "}\n";
+                            "  \"chatHud\": {\n" +
+                            "    // Show the chat HUD.\n" +
+                            "    // This will still prevent non-op players to send messages and commands. enabling this\n" +
+                            "    \"showDuringGame\": " + showChatDuringGame + "\n" +
+                            "  }\n" +
+                            "}\n";
             Files.writeString(CONFIG_FILE.toPath(), content);
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+        }
     }
 
     public static boolean getShowChatDuringGame() {

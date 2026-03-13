@@ -41,6 +41,7 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
     private boolean playerCollisionsEnabled = true;
     private boolean blockInteractionsProtected = true;
     private boolean itemBoundsCheckEnabled = true;
+    private boolean forbiddenLoversEnabled = false;
 
     public WatheExtendedWorldComponent(World world) {
         this.world = world;
@@ -100,6 +101,7 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
 
     public void setRtpEnabled(boolean enabled) {
         this.randomTeleportationEnabled = enabled;
+        cat.rezelyn.watheextended.WatheExtendedServerConfig.setRtpEnabled(enabled);
         this.sync();
     }
 
@@ -109,6 +111,7 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
 
     public void setPlayerCollisionsEnabled(boolean enabled) {
         this.playerCollisionsEnabled = enabled;
+        cat.rezelyn.watheextended.WatheExtendedServerConfig.setPlayerCollisionsEnabled(enabled);
         this.sync();
     }
 
@@ -118,6 +121,7 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
 
     public void setBlockInteractionsProtected(boolean enabled) {
         this.blockInteractionsProtected = enabled;
+        cat.rezelyn.watheextended.WatheExtendedServerConfig.setBlockProtectionEnabled(enabled);
         this.sync();
     }
 
@@ -127,6 +131,17 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
 
     public void setItemBoundsCheckEnabled(boolean enabled) {
         this.itemBoundsCheckEnabled = enabled;
+        cat.rezelyn.watheextended.WatheExtendedServerConfig.setItemBoundsCheckEnabled(enabled);
+        this.sync();
+    }
+
+    public boolean isForbiddenLoversEnabled() {
+        return forbiddenLoversEnabled;
+    }
+
+    public void setForbiddenLoversEnabled(boolean enabled) {
+        this.forbiddenLoversEnabled = enabled;
+        cat.rezelyn.watheextended.WatheExtendedServerConfig.setForbiddenLoversEnabled(enabled);
         this.sync();
     }
 
@@ -181,17 +196,25 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
             this.readyAreaSpawnPos = DEFAULT_READY_AREA_SPAWN_POS;
         }
 
-        this.randomTeleportationEnabled = !tag.contains("randomTeleportationEnabled")
-                || tag.getBoolean("randomTeleportationEnabled");
+        this.randomTeleportationEnabled = tag.contains("randomTeleportationEnabled")
+                ? tag.getBoolean("randomTeleportationEnabled")
+                : cat.rezelyn.watheextended.WatheExtendedServerConfig.isRtpEnabled();
 
-        this.playerCollisionsEnabled = !tag.contains("playerCollisionsEnabled")
-                || tag.getBoolean("playerCollisionsEnabled");
+        this.playerCollisionsEnabled = tag.contains("playerCollisionsEnabled")
+                ? tag.getBoolean("playerCollisionsEnabled")
+                : cat.rezelyn.watheextended.WatheExtendedServerConfig.isPlayerCollisionsEnabled();
 
-        this.blockInteractionsProtected = !tag.contains("blockInteractionsProtected")
-                || tag.getBoolean("blockInteractionsProtected");
+        this.blockInteractionsProtected = tag.contains("blockInteractionsProtected")
+                ? tag.getBoolean("blockInteractionsProtected")
+                : cat.rezelyn.watheextended.WatheExtendedServerConfig.isBlockProtectionEnabled();
 
-        this.itemBoundsCheckEnabled = !tag.contains("itemBoundsCheckEnabled")
-                || tag.getBoolean("itemBoundsCheckEnabled");
+        this.itemBoundsCheckEnabled = tag.contains("itemBoundsCheckEnabled")
+                ? tag.getBoolean("itemBoundsCheckEnabled")
+                : cat.rezelyn.watheextended.WatheExtendedServerConfig.isItemBoundsCheckEnabled();
+
+        this.forbiddenLoversEnabled = tag.contains("forbiddenLoversEnabled")
+                ? tag.getBoolean("forbiddenLoversEnabled")
+                : cat.rezelyn.watheextended.WatheExtendedServerConfig.isForbiddenLoversEnabled();
 
         if (tag.contains("lobbyAreaMinX")) {
             this.lobbyArea = new Box(
@@ -229,6 +252,7 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
         tag.putBoolean("playerCollisionsEnabled", this.playerCollisionsEnabled);
         tag.putBoolean("blockInteractionsProtected", this.blockInteractionsProtected);
         tag.putBoolean("itemBoundsCheckEnabled", this.itemBoundsCheckEnabled);
+        tag.putBoolean("forbiddenLoversEnabled", this.forbiddenLoversEnabled);
 
         tag.putDouble("lobbyAreaMinX", this.lobbyArea.minX);
         tag.putDouble("lobbyAreaMinY", this.lobbyArea.minY);

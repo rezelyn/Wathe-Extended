@@ -250,6 +250,8 @@ public class WatheExtended implements ModInitializer {
         WatheExtendedBlocks.initialize();
         WatheExtendedSounds.initialize();
 
+        WatheExtendedServerConfig.load();
+
         // register all ConfigEntry into ConfigRegistry
         cat.rezelyn.watheextended.api.hml.ConfigHelper.registerEntries();
         cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.registerEntries();
@@ -315,6 +317,20 @@ public class WatheExtended implements ModInitializer {
                     } catch (Throwable ignored) {
                     }
                 }));
+        ServerConfig.register(ServerConfig.Entry.worldBool("watheextended.forbiddenLovers", false,
+                w -> {
+                    try {
+                        return WatheExtendedWorldComponent.KEY.get(w).isForbiddenLoversEnabled();
+                    } catch (Throwable t) {
+                        return false;
+                    }
+                },
+                (w, v) -> {
+                    try {
+                        WatheExtendedWorldComponent.KEY.get(w).setForbiddenLoversEnabled(v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
 
         // register sync packets
         PayloadTypeRegistry.playS2C().register(ServerConfig.SyncPayload.ID, ServerConfig.SyncPayload.CODEC);
@@ -369,6 +385,15 @@ public class WatheExtended implements ModInitializer {
             try {
                 WatheExtendedWorldComponent.KEY.get(world).clearKilledPlayers();
             } catch (Throwable ignored) {
+            }
+            if (cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.isLoaded()) {
+                try {
+                    WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(world);
+                    if (wec.isForbiddenLoversEnabled()) {
+                        cat.rezelyn.watheextended.modifiers.stupidexpress.ForbiddenLovers.apply(world, gameWorldComponent);
+                    }
+                } catch (Throwable ignored) {
+                }
             }
         });
 
