@@ -7,6 +7,9 @@
   },
   "guidebook.page": {
     "sounds": [ "watheextended:page_book" ]
+  },
+  "ish.plush": {
+    "sounds": [ "watheextended:ish_plush" ]
   }
 }
 

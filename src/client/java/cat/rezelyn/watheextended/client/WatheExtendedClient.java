@@ -3,8 +3,10 @@ package cat.rezelyn.watheextended.client;
 import cat.rezelyn.watheextended.api.config.ClientConfig;
 import cat.rezelyn.watheextended.api.config.ServerConfig;
 import cat.rezelyn.watheextended.client.debug.BoxDebugRenderer;
+import cat.rezelyn.watheextended.client.render.IshPlushBlockEntityRenderer;
 import cat.rezelyn.watheextended.client.screen.GuidebookScreen;
 import cat.rezelyn.watheextended.client.screen.WatheOptionsScreen;
+import cat.rezelyn.watheextended.index.WatheExtendedBlockEntities;
 import cat.rezelyn.watheextended.index.WatheExtendedBlocks;
 import cat.rezelyn.watheextended.index.WatheExtendedItems;
 import net.fabricmc.api.ClientModInitializer;
@@ -14,6 +16,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.util.TypedActionResult;
 
 public class WatheExtendedClient implements ClientModInitializer {
@@ -22,6 +25,8 @@ public class WatheExtendedClient implements ClientModInitializer {
         WatheExtendedClientConfig.load();
         BoxDebugRenderer.register();
         WatheOptionsScreen.registerTickHandler();
+
+        BlockEntityRendererFactories.register(WatheExtendedBlockEntities.ISH_PLUSH, IshPlushBlockEntityRenderer::new);
 
         BlockRenderLayerMap.INSTANCE.putBlocks(RenderLayer.getCutout(),
                 WatheExtendedBlocks.ANTHRACITE_STEEL_ORNAMENT,

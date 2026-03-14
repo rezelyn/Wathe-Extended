@@ -8,6 +8,7 @@ import cat.rezelyn.watheextended.command.AddonsConfigCommand;
 import cat.rezelyn.watheextended.command.GamemodeRulesCommand;
 import cat.rezelyn.watheextended.command.TeleportationSlotsCommand;
 import cat.rezelyn.watheextended.command.WatheExtendedMapVariablesCommand;
+import cat.rezelyn.watheextended.index.WatheExtendedBlockEntities;
 import cat.rezelyn.watheextended.index.WatheExtendedBlocks;
 import cat.rezelyn.watheextended.index.WatheExtendedItems;
 import cat.rezelyn.watheextended.index.WatheExtendedSounds;
@@ -245,6 +246,7 @@ public class WatheExtended implements ModInitializer {
     public void onInitialize() {
         WatheExtendedItems.initialize();
         WatheExtendedBlocks.initialize();
+        WatheExtendedBlockEntities.initialize();
         WatheExtendedSounds.initialize();
 
         WatheExtendedServerConfig.load();

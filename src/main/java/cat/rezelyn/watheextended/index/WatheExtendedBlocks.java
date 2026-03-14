@@ -1,11 +1,13 @@
 package cat.rezelyn.watheextended.index;
 
 import cat.rezelyn.watheextended.WatheExtended;
+import cat.rezelyn.watheextended.block.IshPlushBlock;
 import cat.rezelyn.watheextended.block.MusicDiscBoxBlock;
 import cat.rezelyn.watheextended.block.PizzaBlock;
 import dev.doctor4t.wathe.block.OrnamentBlock;
 import dev.doctor4t.wathe.block.PanelBlock;
 import dev.doctor4t.wathe.index.WatheBlocks;
+import dev.doctor4t.ratatouille.index.RatatouilleBlocks;
 import dev.doctor4t.wathe.index.WatheItems;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
@@ -53,6 +55,9 @@ public class WatheExtendedBlocks {
     public static final Block PIZZA = register("pizza",
             new PizzaBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.5f).sounds(BlockSoundGroup.MUD)));
 
+    public static final Block ISH_PLUSH = register("ish_plush",
+            new IshPlushBlock(AbstractBlock.Settings.create().nonOpaque().noCollision().strength(0.5f).sounds(BlockSoundGroup.WOOL)));
+
     private static <T extends Block> T register(String id, T block) {
         Registry.register(Registries.BLOCK, WatheExtended.id(id), block);
         Registry.register(Registries.ITEM, WatheExtended.id(id), new BlockItem(block, new Item.Settings()));
@@ -64,7 +69,7 @@ public class WatheExtendedBlocks {
     }
 
     public static void initialize() {
-        // WATHE Decoration Group
+        // WATHE Decoration Group - Ornaments
         ItemGroupEvents.modifyEntriesEvent(WatheItems.DECORATION_GROUP).register(entries ->
                 entries.addAfter(WatheBlocks.GOLD_ORNAMENT,
                         ANTHRACITE_STEEL_ORNAMENT,
@@ -73,6 +78,11 @@ public class WatheExtendedBlocks {
                         MUNTZ_STEEL_ORNAMENT,
                         NAVY_STEEL_ORNAMENT
                 )
+        );
+
+        // WATHE Decoration Group - Plushies
+        ItemGroupEvents.modifyEntriesEvent(WatheItems.DECORATION_GROUP).register(entries ->
+                entries.addAfter(RatatouilleBlocks.MAUVE_PLUSH, ISH_PLUSH)
         );
 
         ItemGroupEvents.modifyEntriesEvent(WatheItems.DECORATION_GROUP).register(entries ->
