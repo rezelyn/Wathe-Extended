@@ -56,7 +56,7 @@ public class WatheExtendedBlocks {
             new PizzaBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.5f).sounds(BlockSoundGroup.MUD)));
 
     public static final Block ISH_PLUSH = register("ish_plush",
-            new IshPlushBlock(AbstractBlock.Settings.create().nonOpaque().noCollision().strength(0.5f).sounds(BlockSoundGroup.WOOL)));
+            new IshPlushBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.5f).sounds(BlockSoundGroup.WOOL)));
 
     private static <T extends Block> T register(String id, T block) {
         Registry.register(Registries.BLOCK, WatheExtended.id(id), block);
