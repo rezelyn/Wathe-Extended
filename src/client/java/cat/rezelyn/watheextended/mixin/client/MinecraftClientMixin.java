@@ -6,6 +6,7 @@ import dev.doctor4t.wathe.client.WatheClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.SleepingChatScreen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.Nullable;
@@ -39,6 +40,7 @@ public abstract class MinecraftClientMixin {
     @Inject(method = "setScreen", at = @At("HEAD"), cancellable = true)
     private void watheextended$restrictChatScreen(Screen screen, CallbackInfo ci) {
         if (!(screen instanceof ChatScreen)) return;
+        if (screen instanceof SleepingChatScreen) return;
         if (player == null) return;
         if (WatheClient.gameComponent == null || !WatheClient.gameComponent.isRunning()) return;
         if (WatheClient.isPlayerAliveAndInSurvival() && !player.hasPermissionLevel(2)) {
