@@ -1,5 +1,10 @@
 > #### This changelog also documents changes that are related to ***The Harpy Express: Extended*** modpack.
 
+# stable-3.3.132
+
+### 🔧 Fixes
+- Fixed non-operator players being stuck inside beds when trying to sleep during a game
+
 # stable-3.2.132
 
 ### 🆕 Additions
