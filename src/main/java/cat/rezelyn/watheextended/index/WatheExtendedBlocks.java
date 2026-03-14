@@ -80,11 +80,6 @@ public class WatheExtendedBlocks {
                 )
         );
 
-        // WATHE Decoration Group - Plushies
-        ItemGroupEvents.modifyEntriesEvent(WatheItems.DECORATION_GROUP).register(entries ->
-                entries.addAfter(RatatouilleBlocks.MAUVE_PLUSH, ISH_PLUSH)
-        );
-
         ItemGroupEvents.modifyEntriesEvent(WatheItems.DECORATION_GROUP).register(entries ->
                 entries.addAfter(WatheBlocks.MAHOGANY_CABINET,
                         MUSIC_DISC_BOX
@@ -119,6 +114,11 @@ public class WatheExtendedBlocks {
         // Vanilla Food & Drink Group
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register(entries ->
                 entries.addAfter(Items.CAKE, PIZZA)
+        );
+
+        // Vanilla Functional Group
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries ->
+                entries.addAfter(RatatouilleBlocks.MAUVE_PLUSH, ISH_PLUSH)
         );
     }
 }
