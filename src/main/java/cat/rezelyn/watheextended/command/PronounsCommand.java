@@ -1,5 +1,6 @@
-package cat.rezelyn.watheextended.pronouns;
+package cat.rezelyn.watheextended.command;
 
+import cat.rezelyn.watheextended.pronouns.PronounsManager;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;

@@ -4,10 +4,7 @@ import cat.rezelyn.watheextended.api.cca.GameStatus;
 import cat.rezelyn.watheextended.api.cca.MapVariables;
 import cat.rezelyn.watheextended.api.config.ServerConfig;
 import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
-import cat.rezelyn.watheextended.command.AddonsConfigCommand;
-import cat.rezelyn.watheextended.command.GamemodeRulesCommand;
-import cat.rezelyn.watheextended.command.TeleportationSlotsCommand;
-import cat.rezelyn.watheextended.command.WatheExtendedMapVariablesCommand;
+import cat.rezelyn.watheextended.command.*;
 import cat.rezelyn.watheextended.index.WatheExtendedBlockEntities;
 import cat.rezelyn.watheextended.index.WatheExtendedBlocks;
 import cat.rezelyn.watheextended.index.WatheExtendedItems;
@@ -457,7 +454,7 @@ public class WatheExtended implements ModInitializer {
             TeleportationSlotsCommand.register(dispatcher);
             GamemodeRulesCommand.register(dispatcher);
             AddonsConfigCommand.register(dispatcher);
-            cat.rezelyn.watheextended.pronouns.PronounsCommand.register(dispatcher);
+            PronounsCommand.register(dispatcher);
         });
 
         // world tick handler
