@@ -37,7 +37,7 @@ public final class WatheExtendedModifiers {
                 0x4FC978,
                 new ArrayList<>(),
                 new ArrayList<>(),
-                false,
+                true,
                 false
         ));
     }
