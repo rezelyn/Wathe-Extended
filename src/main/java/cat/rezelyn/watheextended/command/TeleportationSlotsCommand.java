@@ -2,7 +2,7 @@ package cat.rezelyn.watheextended.command;
 
 import cat.rezelyn.watheextended.api.cca.MapVariables;
 import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
-import cat.rezelyn.watheextended.teleport.TeleportationSlot;
+import cat.rezelyn.watheextended.rtp.TeleportationSlot;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;

@@ -1,4 +1,4 @@
-package cat.rezelyn.watheextended.teleport;
+package cat.rezelyn.watheextended.rtp;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Vec3d;

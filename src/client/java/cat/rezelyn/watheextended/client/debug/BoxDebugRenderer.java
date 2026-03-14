@@ -2,7 +2,7 @@ package cat.rezelyn.watheextended.client.debug;
 
 import cat.rezelyn.watheextended.api.cca.MapVariables;
 import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
-import cat.rezelyn.watheextended.teleport.TeleportationSlot;
+import cat.rezelyn.watheextended.rtp.TeleportationSlot;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.doctor4t.wathe.block_entity.DoorBlockEntity;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;

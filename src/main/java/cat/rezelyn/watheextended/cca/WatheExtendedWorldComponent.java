@@ -1,7 +1,7 @@
 package cat.rezelyn.watheextended.cca;
 
 import cat.rezelyn.watheextended.WatheExtended;
-import cat.rezelyn.watheextended.teleport.TeleportationSlot;
+import cat.rezelyn.watheextended.rtp.TeleportationSlot;
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;

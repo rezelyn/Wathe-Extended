@@ -12,7 +12,7 @@ import cat.rezelyn.watheextended.index.WatheExtendedBlockEntities;
 import cat.rezelyn.watheextended.index.WatheExtendedBlocks;
 import cat.rezelyn.watheextended.index.WatheExtendedItems;
 import cat.rezelyn.watheextended.index.WatheExtendedSounds;
-import cat.rezelyn.watheextended.teleport.TeleportationSlot;
+import cat.rezelyn.watheextended.rtp.TeleportationSlot;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
