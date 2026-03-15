@@ -151,7 +151,7 @@
   "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.winwithcivilians.desc": "恋人计入平民团队的胜利条件。",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.glowtoeachother": "彼此发光",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.glowtoeachother.desc": "恋人可以通过发光效果看到墙后的对方。",
-  "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden": "禁止恋人",
+  "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden": "恋人分配调节",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden.desc": "启用时，情侣对将始终由一个杀手/中立和一个非杀手组成。如果启用此功能，这会减少被分配恋人修饰符的综合概率。",
   "gui.watheextended.config.category.options.group.modifiers_options.label.allergic": "过敏患者",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.nothingchance": "无效果几率",
