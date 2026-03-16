@@ -4,10 +4,7 @@ import cat.rezelyn.watheextended.api.cca.GameComponents;
 import cat.rezelyn.watheextended.client.WatheExtendedClientConfig;
 import cat.rezelyn.watheextended.client.pronouns.PronounsCache;
 import cat.rezelyn.watheextended.pronouns.PronounsManager;
-import dev.isxander.yacl3.api.ConfigCategory;
-import dev.isxander.yacl3.api.Option;
-import dev.isxander.yacl3.api.OptionDescription;
-import dev.isxander.yacl3.api.OptionGroup;
+import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import dev.isxander.yacl3.api.controller.StringControllerBuilder;
 import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
@@ -27,6 +24,8 @@ public final class ClientCategory {
         ConfigCategory.Builder builder = ConfigCategory.createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.client"));
 
+        builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.client.label.player").styled(s -> s.withColor(0xAAAAAA))));
+
         builder.option(Option.<String>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.client.option.pronouns"))
                 .description(OptionDescription.of(
@@ -43,6 +42,8 @@ public final class ClientCategory {
                         })
                 .controller(StringControllerBuilder::create)
                 .build());
+
+        builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.client.label.visual").styled(s -> s.withColor(0xAAAAAA))));
 
         if (cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) {
             builder.option(Option.<Boolean>createBuilder()
