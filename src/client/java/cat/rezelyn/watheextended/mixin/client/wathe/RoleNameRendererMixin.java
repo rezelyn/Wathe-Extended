@@ -41,6 +41,7 @@ public class RoleNameRendererMixin {
 
         String pronouns = PronounsCache.get(target.getUuid());
         if (pronouns.isEmpty()) return;
+        if (target.isInvisible()) return;
 
         Text pronounsText = Text.literal(pronouns);
         int pronounsWidth = renderer.getWidth(pronounsText);
@@ -55,7 +56,7 @@ public class RoleNameRendererMixin {
         context.drawTextWithShadow(
                 renderer, pronounsText,
                 -pronounsWidth / 2,
-                16 - renderer.fontHeight - 2,
+                16 + renderer.fontHeight + 2,
                 color);
         context.getMatrices().pop();
     }
