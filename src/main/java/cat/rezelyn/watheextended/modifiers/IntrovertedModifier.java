@@ -29,7 +29,8 @@ public final class IntrovertedModifier {
 
                 // only affect players that are subject to the mood system
                 Role role = GameWorldComponent.KEY.get(world).getRole(sp);
-                if (role != null && role.canUseKiller()) continue;
+                if (role == null || role.getMoodType() == Role.MoodType.NONE) continue;
+                if (role.canUseKiller()) continue;
 
                 PlayerMoodComponent mood = PlayerMoodComponent.KEY.get(sp);
                 int nearbyPlayers = countNearbyAliveSurvivalPlayers(world, sp);
