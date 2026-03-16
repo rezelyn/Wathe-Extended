@@ -60,7 +60,7 @@
   "gui.watheextended.config.category.client.label.player": "Player",
   "gui.watheextended.config.category.client.option.pronouns": "Pronouns",
   "gui.watheextended.config.category.client.option.pronouns.desc": "Set your pronouns (e.g. she/her, he/him, they/them). These will be shown above your username when other players look at you up close. If the value is empty, pronouns will not be shown.",
-  "gui.watheextended.config.category.client.label.visual": "Central configuration screen for client-side options",
+  "gui.watheextended.config.category.client.label.visual": "Visuals",
   "gui.watheextended.config.category.client.option.staminabar": "Stamina Bar",
   "gui.watheextended.config.category.client.option.staminabar.desc": "When enabled, displays the stamina bar HUD element.\n\n§6Warning: This option currently has overlapping conflicts with Wathe Extended.",
   "gui.watheextended.config.category.client.option.disablescreenshake": "Disable Screen Shake",
