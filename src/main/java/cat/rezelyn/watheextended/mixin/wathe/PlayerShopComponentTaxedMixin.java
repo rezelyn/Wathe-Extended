@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.mixin.wathe;
 
+import cat.rezelyn.watheextended.modifiers.AdaptiveModifier;
 import cat.rezelyn.watheextended.modifiers.TaxedModifier;
 import cat.rezelyn.watheextended.modifiers.WatheExtendedModifiers;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -33,7 +34,9 @@ public class PlayerShopComponentTaxedMixin {
             if (!gwc.canUseKillerFeatures(sp)) return amount;
             WorldModifierComponent wmc = WorldModifierComponent.KEY.get(world);
             if (!wmc.isModifier(sp, WatheExtendedModifiers.TAXED)) return amount;
-            return TaxedModifier.applyTax(amount);
+            AdaptiveModifier.KillContext ctx = AdaptiveModifier.CURRENT_KILL.get();
+            if (ctx == null || !ctx.killerUuid().equals(sp.getUuid())) return amount;
+            return TaxedModifier.applyTaxIfEligible(sp.getUuid(), amount);
         } catch (Throwable t) {
             return amount;
         }

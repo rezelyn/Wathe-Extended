@@ -1111,10 +1111,32 @@ public final class OptionsCategory {
                 .description(OptionDescription.of(
                         Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.taxed.coinreduction.desc")
                                 .styled(style -> style.withColor(0xFFFFFF))))
-                .binding(0.25f,
-                        () -> ClientConfig.getFloat("watheextended.taxed.coinReduction", 0.25f),
+                .binding(0.50f,
+                        () -> ClientConfig.getFloat("watheextended.taxed.coinReduction", 0.50f),
                         v -> stage(sendCommand, parent, "watheextended.taxed.coinReduction", v))
                 .controller(FloatFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.taxed.killthreshold"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.taxed.killthreshold.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(1,
+                        () -> ClientConfig.getInt("watheextended.taxed.killThreshold", 1),
+                        v -> stage(sendCommand, parent, "watheextended.taxed.killThreshold", v))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.taxed.killwindowseconds"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.taxed.killwindowseconds.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(60,
+                        () -> ClientConfig.getInt("watheextended.taxed.killWindowSeconds", 60),
+                        v -> stage(sendCommand, parent, "watheextended.taxed.killWindowSeconds", v))
+                .controller(IntegerFieldControllerBuilder::create)
                 .build());
 
         group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.label.adaptive").styled(s -> s.withColor(0xAAAAAA))));

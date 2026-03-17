@@ -107,11 +107,16 @@ public final class GuidebookPageContent {
                 str = replaceFirstStringPlaceholder(str, formatFloat(crowdRange));
 
             } else if (id.contains("taxed")) {
+                int killThreshold = cat.rezelyn.watheextended.api.config.ClientConfig.getInt(
+                        "watheextended.taxed.killThreshold", 1);
+                int killWindow = cat.rezelyn.watheextended.api.config.ClientConfig.getInt(
+                        "watheextended.taxed.killWindowSeconds", 60);
                 float reduction = cat.rezelyn.watheextended.api.config.ClientConfig.getFloat(
-                        "watheextended.taxed.coinReduction", 0.25f);
-
+                        "watheextended.taxed.coinReduction", 0.50f);
                 int percent = Math.round(reduction * 100f);
 
+                str = replaceFirstStringPlaceholder(str, String.valueOf(killThreshold));
+                str = replaceFirstStringPlaceholder(str, String.valueOf(killWindow));
                 str = replaceFirstStringPlaceholder(str, String.valueOf(percent));
 
             } else if (id.contains("adaptive")) {

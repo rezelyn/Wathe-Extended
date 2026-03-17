@@ -20,7 +20,9 @@ public final class WatheExtendedServerConfig {
     public static float introvertedCrowdRange = 5.0f;
     public static float introvertedCrowdDrainMultiplier = 2.0f;
     public static float introvertedAloneDrainMultiplier = 0.5f;
-    public static float taxedCoinReduction = 0.25f;
+    public static float taxedCoinReduction = 0.50f;
+    public static int taxedKillThreshold = 1;
+    public static int taxedKillWindowSeconds = 60;
     public static float adaptivePenaltyReduction = 0.50f;
     public static float adaptiveBonusMultiplier = 0.50f;
 
@@ -41,7 +43,9 @@ public final class WatheExtendedServerConfig {
         introvertedCrowdRange = ClientConfig.readFloat(CONFIG_FILE, "introverted.crowdRange", 5.0f);
         introvertedCrowdDrainMultiplier = ClientConfig.readFloat(CONFIG_FILE, "introverted.crowdDrainMultiplier", 2.0f);
         introvertedAloneDrainMultiplier = ClientConfig.readFloat(CONFIG_FILE, "introverted.aloneDrainMultiplier", 0.5f);
-        taxedCoinReduction = ClientConfig.readFloat(CONFIG_FILE, "taxed.coinReduction", 0.25f);
+        taxedCoinReduction = ClientConfig.readFloat(CONFIG_FILE, "taxed.coinReduction", 0.50f);
+        taxedKillThreshold = ClientConfig.readInt(CONFIG_FILE, "taxed.killThreshold", 1);
+        taxedKillWindowSeconds = ClientConfig.readInt(CONFIG_FILE, "taxed.killWindowSeconds", 60);
         adaptivePenaltyReduction = ClientConfig.readFloat(CONFIG_FILE, "adaptive.penaltyReduction", 0.50f);
         adaptiveBonusMultiplier = ClientConfig.readFloat(CONFIG_FILE, "adaptive.bonusMultiplier", 0.50f);
     }
@@ -83,8 +87,12 @@ public final class WatheExtendedServerConfig {
                             "    \"aloneDrainMultiplier\": " + introvertedAloneDrainMultiplier + "\n" +
                             "  },\n" +
                             "  \"taxed\": {\n" +
-                            "    // Fraction of coins deducted from the player's kill/passive income.\n" +
-                            "    \"coinReduction\": " + taxedCoinReduction + "\n" +
+                            "    // Fraction of kill income deducted when a Taxed player exceeds the kill threshold.\n" +
+                            "    \"coinReduction\": " + taxedCoinReduction + ",\n" +
+                            "    // Number of kills within the time window before tax starts applying (default: 1 = more than 1 kill).\n" +
+                            "    \"killThreshold\": " + taxedKillThreshold + ",\n" +
+                            "    // Time window in seconds during which kills are counted towards the threshold (default: 60 = 1 minute).\n" +
+                            "    \"killWindowSeconds\": " + taxedKillWindowSeconds + "\n" +
                             "  },\n" +
                             "  \"adaptive\": {\n" +
                             "    // Fraction penalty applied to kill income when the same method is used consecutively.\n" +
@@ -185,6 +193,24 @@ public final class WatheExtendedServerConfig {
 
     public static void setTaxedCoinReduction(float value) {
         taxedCoinReduction = value;
+        save();
+    }
+
+    public static int getTaxedKillThreshold() {
+        return taxedKillThreshold;
+    }
+
+    public static void setTaxedKillThreshold(int value) {
+        taxedKillThreshold = value;
+        save();
+    }
+
+    public static int getTaxedKillWindowSeconds() {
+        return taxedKillWindowSeconds;
+    }
+
+    public static void setTaxedKillWindowSeconds(int value) {
+        taxedKillWindowSeconds = value;
         save();
     }
 

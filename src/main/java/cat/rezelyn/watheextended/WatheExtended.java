@@ -342,9 +342,15 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.introverted.aloneDrainMultiplier", 0.5f,
                 WatheExtendedServerConfig::getIntrovertedAloneDrainMultiplier,
                 WatheExtendedServerConfig::setIntrovertedAloneDrainMultiplier));
-        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.taxed.coinReduction", 0.25f,
+        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.taxed.coinReduction", 0.50f,
                 WatheExtendedServerConfig::getTaxedCoinReduction,
                 WatheExtendedServerConfig::setTaxedCoinReduction));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.taxed.killThreshold", 1,
+                WatheExtendedServerConfig::getTaxedKillThreshold,
+                WatheExtendedServerConfig::setTaxedKillThreshold));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.taxed.killWindowSeconds", 60,
+                WatheExtendedServerConfig::getTaxedKillWindowSeconds,
+                WatheExtendedServerConfig::setTaxedKillWindowSeconds));
         ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.adaptive.penaltyReduction", 0.50f,
                 WatheExtendedServerConfig::getAdaptivePenaltyReduction,
                 WatheExtendedServerConfig::setAdaptivePenaltyReduction));
@@ -430,6 +436,7 @@ public class WatheExtended implements ModInitializer {
             } catch (Throwable ignored) {
             }
             cat.rezelyn.watheextended.modifiers.AdaptiveModifier.clearAll();
+            cat.rezelyn.watheextended.modifiers.TaxedModifier.clearAll();
             if (cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.isLoaded()) {
                 try {
                     WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(world);
@@ -447,6 +454,7 @@ public class WatheExtended implements ModInitializer {
             } catch (Throwable ignored) {
             }
             cat.rezelyn.watheextended.modifiers.AdaptiveModifier.clearAll();
+            cat.rezelyn.watheextended.modifiers.TaxedModifier.clearAll();
         });
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
