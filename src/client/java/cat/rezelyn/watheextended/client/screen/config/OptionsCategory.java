@@ -61,7 +61,7 @@ public final class OptionsCategory {
                     .description(OptionDescription.of(
                             Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.morphpsychosis.desc")
                                     .styled(style -> style.withColor(0xFFFFFF))))
-                    .binding(true,
+                    .binding(false,
                             () -> cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.getInsanePlayersSeeMorphs(null),
                             v -> stage(sendCommand, parent, "noellesroles.insanePlayersSeeMorphs", v))
                     .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
@@ -683,7 +683,7 @@ public final class OptionsCategory {
                     .description(OptionDescription.of(
                             Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.bartender.maxdefensevials.desc")
                                     .styled(style -> style.withColor(0xFFFFFF))))
-                    .binding(0,
+                    .binding(1,
                             cat.rezelyn.watheextended.api.noellesroles.ConfigHelper::getMaximumDefenseVials,
                             v -> stage(sendCommand, parent, "noellesroles.maximumDefenseVials", v))
                     .controller(IntegerFieldControllerBuilder::create)
@@ -694,7 +694,7 @@ public final class OptionsCategory {
                     .description(OptionDescription.of(
                             Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.bartender.defensevialsprice.desc")
                                     .styled(style -> style.withColor(0xFFFFFF))))
-                    .binding(100,
+                    .binding(200,
                             cat.rezelyn.watheextended.api.noellesroles.ConfigHelper::getDefenseVialPrice,
                             v -> stage(sendCommand, parent, "noellesroles.defenseVialPrice", v))
                     .controller(IntegerFieldControllerBuilder::create)
@@ -736,7 +736,7 @@ public final class OptionsCategory {
                     .description(OptionDescription.of(
                             Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.arsonist.keepsgamegoing.desc")
                                     .styled(style -> style.withColor(0xFFFFFF))))
-                    .binding(false,
+                    .binding(true,
                             cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper::getArsonistKeepsGameGoing,
                             v -> stage(sendCommand, parent, "stupidexpress.arsonistKeepsGameGoing", v))
                     .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
@@ -762,7 +762,7 @@ public final class OptionsCategory {
                     .description(OptionDescription.of(
                             Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.amnesiac.glowsdifferently.desc")
                                     .styled(style -> style.withColor(0xFFFFFF))))
-                    .binding(true,
+                    .binding(false,
                             cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper::getAmnesiacGlowsDifferently,
                             v -> stage(sendCommand, parent, "stupidexpress.amnesiacGlowsDifferently", v))
                     .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)

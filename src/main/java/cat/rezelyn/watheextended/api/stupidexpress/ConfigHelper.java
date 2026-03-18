@@ -60,8 +60,8 @@ public final class ConfigHelper {
                     } catch (Throwable ignored) {
                     }
                 }));
-        reg(Entry.globalBool("stupidexpress.arsonistKeepsGameGoing", false,
-                () -> readBoolServer("rolesSection", "arsonistSection", "arsonistKeepsGameGoing", false),
+        reg(Entry.globalBool("stupidexpress.arsonistKeepsGameGoing", true,
+                () -> readBoolServer("rolesSection", "arsonistSection", "arsonistKeepsGameGoing", true),
                 v -> {
                     try {
                         writeBoolServer("rolesSection", "arsonistSection", "arsonistKeepsGameGoing", v);
@@ -76,8 +76,8 @@ public final class ConfigHelper {
                     } catch (Throwable ignored) {
                     }
                 }));
-        reg(Entry.globalBool("stupidexpress.amnesiacGlowsDifferently", true,
-                () -> readBoolServer("rolesSection", "amnesiacSection", "amnesiacGlowsDifferently", true),
+        reg(Entry.globalBool("stupidexpress.amnesiacGlowsDifferently", false,
+                () -> readBoolServer("rolesSection", "amnesiacSection", "amnesiacGlowsDifferently", false),
                 v -> {
                     try {
                         writeBoolServer("rolesSection", "amnesiacSection", "amnesiacGlowsDifferently", v);
@@ -108,8 +108,8 @@ public final class ConfigHelper {
                     } catch (Throwable ignored) {
                     }
                 }));
-        reg(Entry.globalBool("stupidexpress.loversGlowToEachother", false,
-                () -> readBoolServer("modifiersSection", "loversSection", "loversGlowToEachother", false),
+        reg(Entry.globalBool("stupidexpress.loversGlowToEachother", true,
+                () -> readBoolServer("modifiersSection", "loversSection", "loversGlowToEachother", true),
                 v -> {
                     try {
                         writeBoolServer("modifiersSection", "loversSection", "loversGlowToEachother", v);
@@ -137,7 +137,7 @@ public final class ConfigHelper {
     }
 
     public static boolean getArsonistKeepsGameGoing() {
-        return c("stupidexpress.arsonistKeepsGameGoing", false);
+        return c("stupidexpress.arsonistKeepsGameGoing", true);
     }
 
     public static void setArsonistKeepsGameGoing(boolean v) throws Exception {
@@ -153,7 +153,7 @@ public final class ConfigHelper {
     }
 
     public static boolean getAmnesiacGlowsDifferently() {
-        return c("stupidexpress.amnesiacGlowsDifferently", true);
+        return c("stupidexpress.amnesiacGlowsDifferently", false);
     }
 
     public static void setAmnesiacGlowsDifferently(boolean v) throws Exception {
@@ -185,7 +185,7 @@ public final class ConfigHelper {
     }
 
     public static boolean getLoversGlowToEachother() {
-        return c("stupidexpress.loversGlowToEachother", false);
+        return c("stupidexpress.loversGlowToEachother", true);
     }
 
     public static void setLoversGlowToEachother(boolean v) throws Exception {

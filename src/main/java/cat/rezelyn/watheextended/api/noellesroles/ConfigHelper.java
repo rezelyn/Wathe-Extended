@@ -77,8 +77,8 @@ public final class ConfigHelper {
     public static void registerEntries() {
         if (!isLoaded()) return;
 
-        reg(Entry.globalBool("noellesroles.insanePlayersSeeMorphs", true,
-                () -> readBoolServer("insanePlayersSeeMorphs", true),
+        reg(Entry.globalBool("noellesroles.insanePlayersSeeMorphs", false,
+                () -> readBoolServer("insanePlayersSeeMorphs", false),
                 v -> {
                     try {
                         writeBoolServer("insanePlayersSeeMorphs", v);
@@ -117,16 +117,16 @@ public final class ConfigHelper {
                     } catch (Throwable ignored) {
                     }
                 }));
-        reg(Entry.globalInt("noellesroles.maximumDefenseVials", 0,
-                () -> readIntServer("maximumDefenseVials", 0),
+        reg(Entry.globalInt("noellesroles.maximumDefenseVials", 1,
+                () -> readIntServer("maximumDefenseVials", 1),
                 v -> {
                     try {
                         writeIntServer("maximumDefenseVials", v);
                     } catch (Throwable ignored) {
                     }
                 }));
-        reg(Entry.globalInt("noellesroles.defenseVialPrice", 100,
-                () -> readIntServer("defenseVialPrice", 100),
+        reg(Entry.globalInt("noellesroles.defenseVialPrice", 200,
+                () -> readIntServer("defenseVialPrice", 200),
                 v -> {
                     try {
                         writeIntServer("defenseVialPrice", v);
@@ -174,7 +174,7 @@ public final class ConfigHelper {
     }
 
     public static boolean getInsanePlayersSeeMorphs(World world) {
-        return c("noellesroles.insanePlayersSeeMorphs", true);
+        return c("noellesroles.insanePlayersSeeMorphs", false);
     }
 
     public static void setInsanePlayersSeeMorphs(World world, boolean value) throws Exception {
@@ -206,7 +206,7 @@ public final class ConfigHelper {
     }
 
     public static int getMaximumDefenseVials() {
-        return c("noellesroles.maximumDefenseVials", 0);
+        return c("noellesroles.maximumDefenseVials", 1);
     }
 
     public static void setMaximumDefenseVials(int v) throws Exception {
@@ -214,7 +214,7 @@ public final class ConfigHelper {
     }
 
     public static int getDefenseVialPrice() {
-        return c("noellesroles.defenseVialPrice", 100);
+        return c("noellesroles.defenseVialPrice", 200);
     }
 
     public static void setDefenseVialPrice(int v) throws Exception {
