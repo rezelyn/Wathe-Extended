@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.modifiers.stupidexpress;
 
+import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -16,6 +17,8 @@ public final class ForbiddenLovers {
     }
 
     public static void apply(World world, GameWorldComponent gwc) {
+        if (Math.random() >= WatheExtendedServerConfig.getForbiddenLoversChance()) return;
+
         try {
             org.agmas.harpymodloader.component.WorldModifierComponent wmc =
                     org.agmas.harpymodloader.component.WorldModifierComponent.KEY.get(world);

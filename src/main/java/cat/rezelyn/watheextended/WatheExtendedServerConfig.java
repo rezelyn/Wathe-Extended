@@ -16,6 +16,7 @@ public final class WatheExtendedServerConfig {
     public static boolean blockProtectionEnabled = true;
     public static boolean itemBoundsCheckEnabled = true;
     public static boolean forbiddenLoversEnabled = false;
+    public static float forbiddenLoversChance = 0.25f;
     public static int introvertedCrowdCount = 3;
     public static float introvertedCrowdRange = 5.0f;
     public static float introvertedCrowdDrainMultiplier = 2.0f;
@@ -39,6 +40,7 @@ public final class WatheExtendedServerConfig {
         blockProtectionEnabled = ClientConfig.readBool(CONFIG_FILE, "blockProtection.enabled", true);
         itemBoundsCheckEnabled = ClientConfig.readBool(CONFIG_FILE, "itemBoundsCheck.enabled", true);
         forbiddenLoversEnabled = ClientConfig.readBool(CONFIG_FILE, "forbiddenLovers.enabled", false);
+        forbiddenLoversChance = ClientConfig.readFloat(CONFIG_FILE, "forbiddenLovers.chance", 0.25f);
         introvertedCrowdCount = ClientConfig.readInt(CONFIG_FILE, "introverted.crowdCount", 3);
         introvertedCrowdRange = ClientConfig.readFloat(CONFIG_FILE, "introverted.crowdRange", 5.0f);
         introvertedCrowdDrainMultiplier = ClientConfig.readFloat(CONFIG_FILE, "introverted.crowdDrainMultiplier", 2.0f);
@@ -74,7 +76,10 @@ public final class WatheExtendedServerConfig {
                             "  \"forbiddenLovers\": {\n" +
                             "    // Enables the Forbidden Lovers mechanic: always have lovers pair being\n" +
                             "    // a Killer/Neutral and a non-Killer. Requires Stupid Express mod.\n" +
-                            "    \"enabled\": " + forbiddenLoversEnabled + "\n" +
+                            "    \"enabled\": " + forbiddenLoversEnabled + ",\n" +
+                            "    // Probability (0.0–1.0) that Forbidden Lovers are actually assigned each game.\n" +
+                            "    // If chance fails, no Lovers will be assigned whatsoever." +
+                            "    \"chance\": " + forbiddenLoversChance + "\n" +
                             "  },\n" +
                             "  \"introverted\": {\n" +
                             "    // Minimum number of nearby players (within crowdRange) for the Introverted modifier to consider the player in a crowd.\n" +
@@ -148,6 +153,15 @@ public final class WatheExtendedServerConfig {
 
     public static void setForbiddenLoversEnabled(boolean value) {
         forbiddenLoversEnabled = value;
+        save();
+    }
+
+    public static float getForbiddenLoversChance() {
+        return forbiddenLoversChance;
+    }
+
+    public static void setForbiddenLoversChance(float value) {
+        forbiddenLoversChance = Math.max(0.0f, Math.min(1.0f, value));
         save();
     }
 

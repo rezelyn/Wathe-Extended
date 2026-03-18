@@ -330,6 +330,9 @@ public class WatheExtended implements ModInitializer {
                     } catch (Throwable ignored) {
                     }
                 }));
+        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.forbiddenLovers.chance", 0.25f,
+                WatheExtendedServerConfig::getForbiddenLoversChance,
+                WatheExtendedServerConfig::setForbiddenLoversChance));
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.introverted.crowdCount", 3,
                 WatheExtendedServerConfig::getIntrovertedCrowdCount,
                 WatheExtendedServerConfig::setIntrovertedCrowdCount));

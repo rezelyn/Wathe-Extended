@@ -997,6 +997,17 @@ public final class OptionsCategory {
                             .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
                     .build());
 
+            group.option(Option.<Float>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden.chance"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden.chance.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(0.25f,
+                            () -> ClientConfig.getFloat("watheextended.forbiddenLovers.chance", 0.25f),
+                            v -> stage(sendCommand, parent, "watheextended.forbiddenLovers.chance", v))
+                    .controller(FloatFieldControllerBuilder::create)
+                    .build());
+
             group.option(Option.<Boolean>createBuilder()
                     .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.knowimmediately"))
                     .description(OptionDescription.of(
