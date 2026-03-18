@@ -15,6 +15,7 @@
     "wathe.GunPickupCursorStackMixin",
     "wathe.HarpyExpressTrainMapEffectMixin",
     "wathe.PlayerMoodComponentNbtMixin",
+    "wathe.PlayerMoodDirectAccessor",
     "wathe.PlayerShopComponentAdaptiveMixin",
     "wathe.PlayerShopComponentTaxedMixin",
     "wathe.ServerPlayNetworkHandlerChatMixin"

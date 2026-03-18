@@ -14,6 +14,28 @@ public final class ConfigHelper {
     public static boolean isLoaded() {
         return FabricLoader.getInstance().isModLoaded("starexpress");
     }
+    private static dev.doctor4t.wathe.api.Role cachedStarstruckRole;
+    private static boolean starstruckRoleCached = false;
+
+    private static dev.doctor4t.wathe.api.Role getStarstruckRole() {
+        if (!starstruckRoleCached) {
+            starstruckRoleCached = true;
+            if (!isLoaded()) return null;
+            try {
+                cachedStarstruckRole = (dev.doctor4t.wathe.api.Role)
+                        Class.forName("org.aussiebox.starexpress.StarryExpressRoles")
+                                .getField("STARSTRUCK").get(null);
+            } catch (Throwable ignored) {
+            }
+        }
+        return cachedStarstruckRole;
+    }
+
+    public static boolean isStarstruckRole(dev.doctor4t.wathe.api.Role role) {
+        if (role == null) return false;
+        dev.doctor4t.wathe.api.Role starstruck = getStarstruckRole();
+        return starstruck != null && role == starstruck;
+    }
 
     private static Object getConfig() throws Exception {
         Class<?> cls = Class.forName("org.aussiebox.starexpress.StarryExpress");

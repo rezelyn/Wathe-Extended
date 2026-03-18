@@ -14,6 +14,7 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
@@ -84,5 +85,18 @@ public class WatheExtendedClient implements ClientModInitializer {
             }
             return TypedActionResult.pass(stack);
         });
+        fixStarExpressAbilityBind();
+    }
+
+    private static void fixStarExpressAbilityBind() {
+        if (!FabricLoader.getInstance().isModLoaded("starexpress")) return;
+        if (!FabricLoader.getInstance().isModLoaded("noellesroles")) return;
+        try {
+            if (org.aussiebox.starexpress.client.StarryExpressClient.abilityBind == null) {
+                org.aussiebox.starexpress.client.StarryExpressClient.abilityBind =
+                        org.agmas.noellesroles.client.NoellesrolesClient.abilityBind;
+            }
+        } catch (Throwable ignored) {
+        }
     }
 }
