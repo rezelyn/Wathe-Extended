@@ -78,7 +78,7 @@ public final class WatheExtendedServerConfig {
                             "    // a Killer/Neutral and a non-Killer. Requires Stupid Express mod.\n" +
                             "    \"enabled\": " + forbiddenLoversEnabled + ",\n" +
                             "    // Probability (0.0–1.0) that Forbidden Lovers are actually assigned each game.\n" +
-                            "    // If chance fails, no Lovers will be assigned whatsoever." +
+                            "    // If chance fails, no Lovers will be assigned whatsoever.\n" +
                             "    \"chance\": " + forbiddenLoversChance + "\n" +
                             "  },\n" +
                             "  \"introverted\": {\n" +
