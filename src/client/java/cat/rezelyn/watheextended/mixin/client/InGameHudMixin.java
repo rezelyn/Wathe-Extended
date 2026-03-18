@@ -48,11 +48,7 @@ public class InGameHudMixin {
             return;
         }
 
-        List<Text> tooltip = this.currentStack.getTooltip(
-                Item.TooltipContext.DEFAULT,
-                this.client.player,
-                TooltipType.BASIC
-        );
+        List<Text> tooltip = this.currentStack.getTooltip(Item.TooltipContext.DEFAULT, this.client.player, TooltipType.BASIC);
 
         if (tooltip.isEmpty()) return;
         ci.cancel();
@@ -86,15 +82,21 @@ public class InGameHudMixin {
 
         TextRenderer textRenderer = this.client.textRenderer;
         int lineHeight = textRenderer.fontHeight + 2;
-        int alpha = (int) Math.min(
-                Math.min(this.heldItemTooltipFade, EXTENDED_FADE - this.heldItemTooltipFade + 10) * 255.0F / 10.0F,
-                255.0F
-        );
+        int alpha = (int) Math.min(Math.min(this.heldItemTooltipFade, EXTENDED_FADE - this.heldItemTooltipFade + 10) * 255.0F / 10.0F, 255.0F);
 
         int scaledWidth = context.getScaledWindowWidth();
         int scaledHeight = context.getScaledWindowHeight();
 
-        int blockBottom = scaledHeight - 22 - 4;
+        boolean staminaBarActive = cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()
+                && cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableStaminaBar()
+                && cat.rezelyn.watheextended.api.cca.GameStatus.isActive(this.client.world)
+                && this.client.interactionManager != null
+                && (this.client.interactionManager.getCurrentGameMode()
+                == net.minecraft.world.GameMode.SURVIVAL
+                || this.client.interactionManager.getCurrentGameMode()
+                == net.minecraft.world.GameMode.ADVENTURE);
+
+        int blockBottom = scaledHeight - 22 - 4 - (staminaBarActive ? 14 : 0);
         int blockTop = blockBottom - (lines.size() * lineHeight) + 2;
 
         for (int i = 0; i < lines.size(); i++) {
@@ -103,9 +105,7 @@ public class InGameHudMixin {
             int lx = (scaledWidth - textWidth) / 2;
             int ly = blockTop + (i * lineHeight);
 
-            int baseRgb = (i == 0)
-                    ? 0xFFFFFF
-                    : (line.getStyle().getColor() != null ? line.getStyle().getColor().getRgb() : 0xFFFFFF);
+            int baseRgb = (i == 0) ? 0xFFFFFF : (line.getStyle().getColor() != null ? line.getStyle().getColor().getRgb() : 0xFFFFFF);
             int lineColor = (alpha << 24) | (baseRgb & 0xFFFFFF);
 
             context.drawTextWithShadow(textRenderer, line, lx, ly, lineColor);
