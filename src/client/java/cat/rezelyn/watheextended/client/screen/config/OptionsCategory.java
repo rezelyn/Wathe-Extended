@@ -35,6 +35,11 @@ public final class OptionsCategory {
         cmd.accept(key + " " + value, parent);
     }
 
+    private static FloatFieldControllerBuilder floatController(Option<Float> opt) {
+        return FloatFieldControllerBuilder.create(opt)
+                .formatValue(v -> Text.literal(ScreenUtils.fmt((float) v)));
+    }
+
     private static OptionGroup buildGamerulesGroup(Screen parent, BiConsumer<String, Screen> sendCommand) {
         OptionGroup.Builder group = OptionGroup.createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.gamerules"))
@@ -838,7 +843,7 @@ public final class OptionsCategory {
                     .binding(0.12f,
                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getStarstruckAbilityWalkSpeed,
                             v -> stage(sendCommand, parent, "starexpress.abilityWalkSpeed", v))
-                    .controller(FloatFieldControllerBuilder::create)
+                    .controller(OptionsCategory::floatController)
                     .build());
 
             group.option(Option.<Float>createBuilder()
@@ -849,7 +854,7 @@ public final class OptionsCategory {
                     .binding(0.15f,
                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getStarstruckAbilitySprintSpeed,
                             v -> stage(sendCommand, parent, "starexpress.abilitySprintSpeed", v))
-                    .controller(FloatFieldControllerBuilder::create)
+                    .controller(OptionsCategory::floatController)
                     .build());
 
             group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.roles_options.label.muzzler").styled(s -> s.withColor(0xAAAAAA))));
@@ -895,7 +900,7 @@ public final class OptionsCategory {
                     .binding(0.1f,
                             cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getMuzzlerTapeTearMoodChange,
                             v -> stage(sendCommand, parent, "starexpress.tapeTearMoodChange", v))
-                    .controller(FloatFieldControllerBuilder::create)
+                    .controller(OptionsCategory::floatController)
                     .build());
 
             group.option(Option.<Boolean>createBuilder()
@@ -1005,7 +1010,7 @@ public final class OptionsCategory {
                     .binding(0.25f,
                             () -> ClientConfig.getFloat("watheextended.forbiddenLovers.chance", 0.25f),
                             v -> stage(sendCommand, parent, "watheextended.forbiddenLovers.chance", v))
-                    .controller(FloatFieldControllerBuilder::create)
+                    .controller(OptionsCategory::floatController)
                     .build());
 
             group.option(Option.<Boolean>createBuilder()
@@ -1137,7 +1142,7 @@ public final class OptionsCategory {
                 .binding(5.0f,
                         () -> ClientConfig.getFloat("watheextended.introverted.crowdRange", 5.0f),
                         v -> stage(sendCommand, parent, "watheextended.introverted.crowdRange", v))
-                .controller(FloatFieldControllerBuilder::create)
+                .controller(OptionsCategory::floatController)
                 .build());
 
         group.option(Option.<Float>createBuilder()
@@ -1148,7 +1153,7 @@ public final class OptionsCategory {
                 .binding(2.0f,
                         () -> ClientConfig.getFloat("watheextended.introverted.crowdDrainMultiplier", 2.0f),
                         v -> stage(sendCommand, parent, "watheextended.introverted.crowdDrainMultiplier", v))
-                .controller(FloatFieldControllerBuilder::create)
+                .controller(OptionsCategory::floatController)
                 .build());
 
         group.option(Option.<Float>createBuilder()
@@ -1159,7 +1164,7 @@ public final class OptionsCategory {
                 .binding(0.5f,
                         () -> ClientConfig.getFloat("watheextended.introverted.aloneDrainMultiplier", 0.5f),
                         v -> stage(sendCommand, parent, "watheextended.introverted.aloneDrainMultiplier", v))
-                .controller(FloatFieldControllerBuilder::create)
+                .controller(OptionsCategory::floatController)
                 .build());
 
         group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.label.taxed").styled(s -> s.withColor(0xAAAAAA))));
@@ -1172,7 +1177,7 @@ public final class OptionsCategory {
                 .binding(0.50f,
                         () -> ClientConfig.getFloat("watheextended.taxed.coinReduction", 0.50f),
                         v -> stage(sendCommand, parent, "watheextended.taxed.coinReduction", v))
-                .controller(FloatFieldControllerBuilder::create)
+                .controller(OptionsCategory::floatController)
                 .build());
 
         group.option(Option.<Integer>createBuilder()
@@ -1207,7 +1212,7 @@ public final class OptionsCategory {
                 .binding(0.25f,
                         () -> ClientConfig.getFloat("watheextended.adaptive.penaltyReduction", 0.25f),
                         v -> stage(sendCommand, parent, "watheextended.adaptive.penaltyReduction", v))
-                .controller(FloatFieldControllerBuilder::create)
+                .controller(OptionsCategory::floatController)
                 .build());
 
         group.option(Option.<Float>createBuilder()
@@ -1218,7 +1223,7 @@ public final class OptionsCategory {
                 .binding(0.50f,
                         () -> ClientConfig.getFloat("watheextended.adaptive.bonusMultiplier", 0.50f),
                         v -> stage(sendCommand, parent, "watheextended.adaptive.bonusMultiplier", v))
-                .controller(FloatFieldControllerBuilder::create)
+                .controller(OptionsCategory::floatController)
                 .build());
 
         return group.build();

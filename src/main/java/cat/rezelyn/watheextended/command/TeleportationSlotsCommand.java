@@ -57,9 +57,6 @@ public class TeleportationSlotsCommand {
         ServerCommandSource source = context.getSource();
         WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(source.getWorld());
         wec.setRtpEnabled(enabled);
-        source.sendMessage(feedback(enabled,
-                "command.watheextended.rtp_slot.enabled",
-                "command.watheextended.rtp_slot.disabled"));
         return 1;
     }
 

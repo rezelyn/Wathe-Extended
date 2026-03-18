@@ -3,6 +3,9 @@ package cat.rezelyn.watheextended.rtp;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Vec3d;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public final class TeleportationSlot {
 
     public final double x;
@@ -53,9 +56,12 @@ public final class TeleportationSlot {
     }
 
     private static String rounded(double v) {
-        // round double to 4 decimal places and trim zeros
-        String round = String.format("%.4f", v);
-        round = round.replaceAll("0+$", "").replaceAll("\\.$", "");
-        return round;
+        String s = new BigDecimal(Double.toString(v)).setScale(2, RoundingMode.DOWN).toPlainString();
+        return s.replaceAll("0+$", "").replaceAll("\\.$", "");
+    }
+
+    private static String rounded(float v) {
+        String s = new BigDecimal(Float.toString(v)).setScale(2, RoundingMode.DOWN).toPlainString();
+        return s.replaceAll("0+$", "").replaceAll("\\.$", "");
     }
 }

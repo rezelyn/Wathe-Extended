@@ -8,15 +8,10 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.Text;
 import net.minecraft.world.World;
 
 public class AddonsConfigCommand {
 
-    private static Text feedback(boolean enabled, String enabledKey, String disabledKey, Object... args) {
-        return Text.translatable(enabled ? enabledKey : disabledKey, args)
-                .styled(s -> s.withColor(enabled ? 0x55FF55 : 0xFF5555));
-    }
 
     private static int syncAndReturn(CommandContext<ServerCommandSource> ctx) {
         try {
@@ -39,9 +34,6 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setStartingCooldown(world, seconds);
-                                            ctx.getSource().sendFeedback(() -> feedback(true,
-                                                    "command.watheextended.kinswathe.startingcooldown.set",
-                                                    "command.watheextended.kinswathe.startingcooldown.set", seconds), true);
                                             return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
@@ -54,9 +46,6 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setEnableJumpNotInGame(world, v);
-                                            ctx.getSource().sendFeedback(() -> feedback(v,
-                                                    "command.watheextended.kinswathe.jumpinlobby.enabled",
-                                                    "command.watheextended.kinswathe.jumpinlobby.disabled"), true);
                                             return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
@@ -69,9 +58,6 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setEnableStartSafeTime(world, v);
-                                            ctx.getSource().sendFeedback(() -> feedback(v,
-                                                    "command.watheextended.kinswathe.safepreptime.enabled",
-                                                    "command.watheextended.kinswathe.safepreptime.disabled"), true);
                                             return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
@@ -84,9 +70,6 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setEnableNoellesRolesModify(world, v);
-                                            ctx.getSource().sendFeedback(() -> feedback(v,
-                                                    "command.watheextended.kinswathe.noellesrolestweaks.enabled",
-                                                    "command.watheextended.kinswathe.noellesrolestweaks.disabled"), true);
                                             return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
@@ -99,9 +82,6 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setEnableWatheModify(world, v);
-                                            ctx.getSource().sendFeedback(() -> feedback(v,
-                                                    "command.watheextended.kinswathe.wathetweaks.enabled",
-                                                    "command.watheextended.kinswathe.wathetweaks.disabled"), true);
                                             return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
@@ -114,9 +94,6 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setConductorInstinctModify(world, v);
-                                            ctx.getSource().sendFeedback(() -> feedback(v,
-                                                    "command.watheextended.kinswathe.conductorinstinct.enabled",
-                                                    "command.watheextended.kinswathe.conductorinstinct.disabled"), true);
                                             return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
@@ -129,9 +106,6 @@ public class AddonsConfigCommand {
                                         World world = ctx.getSource().getWorld();
                                         try {
                                             ConfigHelper.setCoronerInstinctModify(world, v);
-                                            ctx.getSource().sendFeedback(() -> feedback(v,
-                                                    "command.watheextended.kinswathe.coronerinstinct.enabled",
-                                                    "command.watheextended.kinswathe.coronerinstinct.disabled"), true);
                                             return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;
@@ -521,9 +495,6 @@ public class AddonsConfigCommand {
                                         boolean v = BoolArgumentType.getBool(ctx, "enabled");
                                         try {
                                             cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.setInsanePlayersSeeMorphs(null, v);
-                                            ctx.getSource().sendFeedback(() -> feedback(v,
-                                                    "command.watheextended.noellesroles.morphpsychosis.enabled",
-                                                    "command.watheextended.noellesroles.morphpsychosis.disabled"), true);
                                             return syncAndReturn(ctx);
                                         } catch (Exception e) {
                                             return 0;

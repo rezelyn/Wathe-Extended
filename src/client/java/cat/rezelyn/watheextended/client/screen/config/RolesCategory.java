@@ -26,19 +26,19 @@ public final class RolesCategory {
         try {
             Set<String> roleId = new LinkedHashSet<>();
             for (String id : RolesId.get()) {
-                if (!isBlacklisted(id, blacklist)) roleId.add(id);
+                if (!ScreenUtils.isBlacklisted(id, blacklist)) roleId.add(id);
             }
 
             if (roleId.isEmpty()) {
                 builder.option(LabelOption.create(
-                        Text.translatable("gui.watheextended.config.roles.empty")
+                        Text.translatable("gui.watheextended.config.category.roles.empty")
                                 .styled(style -> style.withColor(0xFF5555))));
             } else {
                 Map<String, RolesDisplay.RoleDisplay> roleName = RolesDisplay.get();
 
-                for (Map.Entry<String, List<String>> entry : sortByMods(roleId).entrySet()) {
+                for (Map.Entry<String, List<String>> entry : ScreenUtils.sortByMods(roleId).entrySet()) {
                     OptionGroup.Builder group = OptionGroup.createBuilder()
-                            .name(Text.literal(modsNamespace(entry.getKey())))
+                            .name(Text.literal(ScreenUtils.modsNamespace(entry.getKey())))
                             .collapsed(false);
 
                     for (String id : entry.getValue()) {
@@ -72,38 +72,10 @@ public final class RolesCategory {
             }
         } catch (Throwable t) {
             builder.option(LabelOption.create(
-                    Text.translatable("gui.watheextended.config.roles.error")
+                    Text.translatable("gui.watheextended.config.category.roles.error")
                             .styled(style -> style.withColor(0xFF5555))));
         }
 
         return builder.build();
-    }
-
-    private static boolean isBlacklisted(String id, Set<String> blacklist) {
-        int colon = id.indexOf(':');
-        String local = colon >= 0 ? id.substring(colon + 1) : id;
-        return blacklist.contains(local);
-    }
-
-    static Map<String, List<String>> sortByMods(Set<String> ids) {
-        Map<String, List<String>> map = new TreeMap<>();
-        for (String id : ids) {
-            int colon = id.indexOf(':');
-            String ns = colon > 0 ? id.substring(0, colon) : id;
-            map.computeIfAbsent(ns, k -> new ArrayList<>()).add(id);
-        }
-        map.values().forEach(Collections::sort);
-        return map;
-    }
-
-    static String modsNamespace(String namespace) {
-        return switch (namespace) {
-            case "watheextended" -> "Wathe Extended";
-            case "noellesroles" -> "Noelle's Roles";
-            case "kinswathe" -> "Kin's Wathe";
-            case "stupid_express" -> "Stupid Express";
-            case "starexpress" -> "Starry Express";
-            default -> RolesDisplay.localName(namespace + ":x").replace(" X", "").trim();
-        };
     }
 }

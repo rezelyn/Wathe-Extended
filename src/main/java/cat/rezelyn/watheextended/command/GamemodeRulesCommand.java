@@ -47,9 +47,6 @@ public class GamemodeRulesCommand {
         try {
             WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(source.getWorld());
             wec.setPlayerCollisionsEnabled(enabled);
-            source.sendFeedback(() -> feedback(enabled,
-                    "command.watheextended.gamerules.collisions.enabled",
-                    "command.watheextended.gamerules.collisions.disabled"), true);
         } catch (Throwable t) {
             return 0;
         }
@@ -62,9 +59,6 @@ public class GamemodeRulesCommand {
         try {
             WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(source.getWorld());
             wec.setBlockInteractionsProtected(enabled);
-            source.sendFeedback(() -> feedback(enabled,
-                    "command.watheextended.mapvariables.worldprotection.enabled",
-                    "command.watheextended.mapvariables.worldprotection.disabled"), true);
         } catch (Throwable t) {
             return 0;
         }
@@ -77,9 +71,6 @@ public class GamemodeRulesCommand {
         try {
             WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(source.getWorld());
             wec.setItemBoundsCheckEnabled(enabled);
-            source.sendFeedback(() -> feedback(enabled,
-                    "command.watheextended.gamerules.itemboundscheck.enabled",
-                    "command.watheextended.gamerules.itemboundscheck.disabled"), true);
         } catch (Throwable t) {
             return 0;
         }

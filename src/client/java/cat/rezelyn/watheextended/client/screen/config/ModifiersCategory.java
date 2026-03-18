@@ -35,9 +35,9 @@ public final class ModifiersCategory {
             } else {
                 Map<String, ModifiersDisplay.ModifierDisplay> modifierName = ModifiersDisplay.get();
 
-                for (Map.Entry<String, List<String>> entry : RolesCategory.sortByMods(modifierId).entrySet()) {
+                for (Map.Entry<String, List<String>> entry : ScreenUtils.sortByMods(modifierId).entrySet()) {
                     OptionGroup.Builder group = OptionGroup.createBuilder()
-                            .name(Text.literal(RolesCategory.modsNamespace(entry.getKey())))
+                            .name(Text.literal(ScreenUtils.modsNamespace(entry.getKey())))
                             .collapsed(false);
 
                     for (String id : entry.getValue()) {

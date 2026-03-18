@@ -7,6 +7,9 @@ import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class MapVariables {
 
     @Nullable
@@ -89,7 +92,18 @@ public class MapVariables {
 
     public static String formatPosWithOrientation(@Nullable MapVariablesWorldComponent.PosWithOrientation pos) {
         if (pos == null) return "N/A";
-        return String.format("%.4f %.4f %.4f %.4f %.4f", pos.pos.x, pos.pos.y, pos.pos.z, (double) pos.yaw, (double) pos.pitch);
+        return fmt(pos.pos.x) + " " + fmt(pos.pos.y) + " " + fmt(pos.pos.z)
+                + " " + fmt(pos.yaw) + " " + fmt(pos.pitch);
+    }
+
+    private static String fmt(double v) {
+        String s = new BigDecimal(Double.toString(v)).setScale(2, RoundingMode.DOWN).toPlainString();
+        return s.replaceAll("0+$", "").replaceAll("\\.$", "");
+    }
+
+    private static String fmt(float v) {
+        String s = new BigDecimal(Float.toString(v)).setScale(2, RoundingMode.DOWN).toPlainString();
+        return s.replaceAll("0+$", "").replaceAll("\\.$", "");
     }
 
     @Nullable
