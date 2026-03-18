@@ -60,6 +60,12 @@ public final class RoleItemsRegistry {
         register("noellesroles:phantom", () -> framingShop());
         register("noellesroles:swapper", () -> framingShop());
         register("noellesroles:voodoo", () -> framingShop());
+        register("kinswathe:hacker", () -> List.of(
+                starting("phone", "item.kinswathe.phone"),
+                shop("icon_weapon_cooldown_refresh", "item.kinswathe.icon_weapon_cooldown_refresh", 300),
+                shop("icon_ability_cooldown_refresh", "item.kinswathe.icon_ability_cooldown_refresh", 400),
+                shop("icon_potion_effect_refresh", "item.kinswathe.icon_potion_effect_refresh", 200)
+        ));
         register("kinswathe:cleaner", () -> List.of(
                 starting("sulfuric_acid_barrel", "item.kinswathe.sulfuric_acid_barrel")
         ));
@@ -71,7 +77,7 @@ public final class RoleItemsRegistry {
                 starting("dream_imprint", "item.kinswathe.dream_imprint")
         ));
         register("kinswathe:drugmaker", () -> {
-            int piPrice = ConfigHelper.isLoaded() ? ConfigHelper.getDrugmakerPoisonInjectorPrice(null) : 125;
+            int piPrice = ConfigHelper.isLoaded() ? ConfigHelper.getDrugmakerPoisonInjectorPrice(null) : 100;
             int bgPrice = ConfigHelper.isLoaded() ? ConfigHelper.getDrugmakerBlowgunPrice(null) : 175;
             return List.of(
                     shop("poison_injector", "item.kinswathe.poison_injector", piPrice),

@@ -455,6 +455,53 @@ public final class OptionsCategory {
                     .controller(IntegerFieldControllerBuilder::create)
                     .build());
 
+            group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.roles_options.label.hacker").styled(s -> s.withColor(0xAAAAAA))));
+
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.hacker.playerlimit"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.hacker.playerlimit.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(10,
+                            () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getHackerPlayerLimit(MinecraftClient.getInstance().world),
+                            v -> stage(sendCommand, parent, "kinswathe.HackerPlayerLimit", v))
+                    .controller(IntegerFieldControllerBuilder::create)
+                    .build());
+
+            group.option(Option.<Boolean>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.hacker.generatewithmimic"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.hacker.generatewithmimic.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(false,
+                            () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getHackerGenerateWithMimic(MinecraftClient.getInstance().world),
+                            v -> stage(sendCommand, parent, "kinswathe.HackerGenerateWithMimic", v))
+                    .controller(TickBoxControllerBuilder::create)
+                    .build());
+
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.hacker.hackingtime"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.hacker.hackingtime.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(30,
+                            () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getHackerHackingTime(MinecraftClient.getInstance().world),
+                            v -> stage(sendCommand, parent, "kinswathe.HackerHackingTime", v))
+                    .controller(IntegerFieldControllerBuilder::create)
+                    .build());
+
+            group.option(Option.<Boolean>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.hacker.hasshop"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.hacker.hasshop.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(true,
+                            () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getHackerHasShop(MinecraftClient.getInstance().world),
+                            v -> stage(sendCommand, parent, "kinswathe.HackerHasShop", v))
+                    .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
+                            .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
+                    .build());
+
             group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.roles_options.label.hunter").styled(s -> s.withColor(0xAAAAAA))));
 
             group.option(Option.<Integer>createBuilder()

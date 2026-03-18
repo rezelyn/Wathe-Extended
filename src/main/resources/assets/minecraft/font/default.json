@@ -247,6 +247,34 @@
     },
     {
       "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/phone.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE219"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/icon_ability_cooldown_refresh.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE21A"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/icon_potion_effect_refresh.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE21B"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/icon_weapon_cooldown_refresh.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE21C"]
+    },
+    {
+      "type": "bitmap",
       "file": "watheextended:gui/guidebook/sprites/abilities/adrenaline.png",
       "ascent": 9,
       "height": 12,

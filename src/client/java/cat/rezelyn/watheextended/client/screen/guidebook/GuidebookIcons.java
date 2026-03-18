@@ -60,6 +60,10 @@ public final class GuidebookIcons {
         map.put("neutral", "\uE214");
         map.put("scorpion", "\uE217");
         map.put("blackout", "\uE218");
+        map.put("phone", "\uE219");
+        map.put("icon_ability_cooldown_refresh", "\uE21A");
+        map.put("icon_potion_effect_refresh", "\uE21B");
+        map.put("icon_weapon_cooldown_refresh", "\uE21C");
 
         map.put("ability_adrenaline", "\uE300");
         map.put("ability_athletic", "\uE301");

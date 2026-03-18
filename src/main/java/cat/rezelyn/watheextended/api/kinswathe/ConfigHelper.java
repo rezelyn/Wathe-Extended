@@ -186,6 +186,22 @@ public final class ConfigHelper {
                     } catch (Throwable ignored) {
                     }
                 }));
+        reg(Entry.globalBool("kinswathe.HackerGenerateWithMimic", false,
+                () -> readBoolServer("HackerGenerateWithMimic", false),
+                v -> {
+                    try {
+                        setConfigBoolServer("HackerGenerateWithMimic", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalBool("kinswathe.HackerHasShop", true,
+                () -> readBoolServer("HackerHasShop", true),
+                v -> {
+                    try {
+                        setConfigBoolServer("HackerHasShop", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
 
         // world ints
         reg(Entry.worldInt("kinswathe.StartingCooldown", 30,
@@ -374,6 +390,22 @@ public final class ConfigHelper {
                     } catch (Throwable ignored) {
                     }
                 }));
+        reg(Entry.globalInt("kinswathe.HackerPlayerLimit", 10,
+                () -> readIntServer("HackerPlayerLimit", 10),
+                v -> {
+                    try {
+                        setConfigIntServer("HackerPlayerLimit", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
+        reg(Entry.globalInt("kinswathe.HackerHackingTime", 30,
+                () -> readIntServer("HackerHackingTime", 30),
+                v -> {
+                    try {
+                        setConfigIntServer("HackerHackingTime", v);
+                    } catch (Throwable ignored) {
+                    }
+                }));
         reg(Entry.globalInt("kinswathe.HunterAbilityCooldown", 5,
                 () -> readIntServer("HunterAbilityCooldown", 5),
                 v -> {
@@ -554,6 +586,22 @@ public final class ConfigHelper {
         return getInt("kinswathe.DrugmakerBlowgunPrice", 175);
     }
 
+    public static int getHackerPlayerLimit(World world) {
+        return getInt("kinswathe.HackerPlayerLimit", 10);
+    }
+
+    public static boolean getHackerGenerateWithMimic(World world) {
+        return getBool("kinswathe.HackerGenerateWithMimic", false);
+    }
+
+    public static int getHackerHackingTime(World world) {
+        return getInt("kinswathe.HackerHackingTime", 30);
+    }
+
+    public static boolean getHackerHasShop(World world) {
+        return getBool("kinswathe.HackerHasShop", true);
+    }
+
     public static int getHunterAbilityPrice(World world) {
         return getInt("kinswathe.HunterAbilityPrice", 125);
     }
@@ -700,6 +748,22 @@ public final class ConfigHelper {
 
     public static void setDrugmakerBlowgunPrice(World w, int v) throws Exception {
         apply("kinswathe.DrugmakerBlowgunPrice", v, w);
+    }
+
+    public static void setHackerPlayerLimit(World w, int v) throws Exception {
+        apply("kinswathe.HackerPlayerLimit", v, w);
+    }
+
+    public static void setHackerGenerateWithMimic(World w, boolean v) throws Exception {
+        apply("kinswathe.HackerGenerateWithMimic", v, w);
+    }
+
+    public static void setHackerHackingTime(World w, int v) throws Exception {
+        apply("kinswathe.HackerHackingTime", v, w);
+    }
+
+    public static void setHackerHasShop(World w, boolean v) throws Exception {
+        apply("kinswathe.HackerHasShop", v, w);
     }
 
     public static void setHunterAbilityPrice(World w, int v) throws Exception {
