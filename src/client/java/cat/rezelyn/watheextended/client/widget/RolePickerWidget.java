@@ -15,15 +15,13 @@ import java.util.function.Consumer;
 public class RolePickerWidget extends ClickableWidget {
 
     private static final int ENTRY_H = 12;
-    private static final int SEARCH_H = 13;
+    private static final int SEARCH_H = 14;
     private static final int SEP_H = 1;
     private static final int PAD = 2;
-    private static final int COL_BORDER = 0x50252525;
-    private static final int COL_BG = 0x10000000;
-    private static final int COL_SEARCH = 0x75252525;
-    private static final int COL_SEP = 0x75252525;
-    private static final int COL_HOVER = 0x50505050;
-    private static final int COL_HINT = 0xFF505050;
+    private static final int COLOR_BORDER = 0xFFC5A244;
+    private static final int COLOR_BACKGROUND = 0xFF160902;
+    private static final int COLOR_HOVER = 0xFF9A702A;
+    private static final int COLOR_HINT = 0xFF808080;
 
     private final List<RoleEntry> allEntries;
     private final Consumer<String> onSelect;
@@ -75,17 +73,16 @@ public class RolePickerWidget extends ClickableWidget {
         int x0 = getX(), y0 = getY(), x1 = x0 + width, y1 = y0 + height;
         TextRenderer tr = MinecraftClient.getInstance().textRenderer;
 
-        ctx.fill(x0, y0, x1, y1, COL_BORDER);
-        ctx.fill(x0 + 1, y0 + 1, x1 - 1, y1 - 1, COL_BG);
-
-        ctx.fill(x0 + 1, y0 + 1, x1 - 1, y0 + SEARCH_H, COL_SEARCH);
+        ctx.fill(x0, y0, x1, y1, COLOR_BORDER);
+        ctx.fill(x0 + 1, y0 + 1, x1 - 1, y1 - 1, COLOR_BACKGROUND);
+        ctx.fill(x0 + 1, y0 + 1, x1 - 1, y0 + SEARCH_H, COLOR_BACKGROUND);
 
         Text displayText;
         int searchColor;
 
         if (searchFilter.isEmpty()) {
             displayText = Text.translatable("gui.watheextended.inventory.rolepicker.search");
-            searchColor = COL_HINT;
+            searchColor = COLOR_HINT;
         } else {
             displayText = Text.literal(isFocused() ? searchFilter + "|" : searchFilter);
             searchColor = 0xFFFFFFFF;
@@ -93,7 +90,7 @@ public class RolePickerWidget extends ClickableWidget {
 
         ctx.drawTextWithShadow(tr, displayText, x0 + PAD + 2, y0 + (SEARCH_H - tr.fontHeight) / 2 + 1, searchColor);
 
-        ctx.fill(x0 + 1, y0 + SEARCH_H, x1 - 1, y0 + SEARCH_H + SEP_H, COL_SEP);
+        ctx.fill(x0 + 1, y0 + SEARCH_H, x1 - 1, y0 + SEARCH_H + SEP_H, COLOR_BORDER);
         ctx.enableScissor(x0 + 1, listTop(), x1 - 1, listBottom());
 
         List<RoleEntry> entries = filtered();
@@ -102,7 +99,7 @@ public class RolePickerWidget extends ClickableWidget {
             if (y + ENTRY_H > listTop() && y < listBottom()) {
                 boolean hovered = mouseX >= x0 && mouseX < x1 && mouseY >= y && mouseY < y + ENTRY_H;
                 if (hovered) {
-                    ctx.fill(x0 + 1, y, x1 - 1, y + ENTRY_H, COL_HOVER);
+                    ctx.fill(x0 + 1, y, x1 - 1, y + ENTRY_H, COLOR_HOVER);
                 }
                 int textY = y + (ENTRY_H - tr.fontHeight) / 2;
                 ctx.drawTextWithShadow(tr, entry.label(), x0 + PAD + 2, textY, entry.color());
@@ -116,7 +113,7 @@ public class RolePickerWidget extends ClickableWidget {
             Text hint = Text.translatable("gui.watheextended.inventory.rolepicker.no_matches");
             int hx = x0 + (width - tr.getWidth(hint)) / 2;
             int hy = listTop() + (listH() - tr.fontHeight) / 2;
-            ctx.drawTextWithShadow(tr, hint, hx, hy, COL_HINT);
+            ctx.drawTextWithShadow(tr, hint, hx, hy, COLOR_HINT);
         }
     }
 
