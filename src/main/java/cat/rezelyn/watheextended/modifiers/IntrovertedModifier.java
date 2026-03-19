@@ -39,13 +39,11 @@ public final class IntrovertedModifier {
                 if (nearbyPlayers >= WatheExtendedServerConfig.getIntrovertedCrowdCount()) {
                     mood.setMood(mood.getMood() - GameConstants.MOOD_DRAIN * WatheExtendedServerConfig.getIntrovertedCrowdDrainMultiplier());
                 } else {
-                    // alone or with one other player = slower drain
-                    float newMood = mood.getMood() + GameConstants.MOOD_DRAIN * WatheExtendedServerConfig.getIntrovertedAloneDrainMultiplier();
-                    if (cat.rezelyn.watheextended.api.starexpress.ConfigHelper.isStarstruckRole(role)) {
-                        ((cat.rezelyn.watheextended.mixin.wathe.PlayerMoodDirectAccessor) mood).watheextended$setMoodDirect(newMood);
-                    } else {
-                        mood.setMood(newMood);
-                    }
+                    // alone or with one other player = mood recovers
+                    float newMood = Math.clamp(
+                            mood.getMood() + GameConstants.MOOD_DRAIN * WatheExtendedServerConfig.getIntrovertedAloneDrainMultiplier(),
+                            0.0f, 1.0f);
+                    ((cat.rezelyn.watheextended.mixin.wathe.PlayerMoodDirectAccessor) mood).watheextended$setMoodDirect(newMood);
                 }
             }
         } catch (Throwable ignored) {
