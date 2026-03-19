@@ -27,7 +27,7 @@ public final class IntrovertedModifier {
                 if (!GameFunctions.isPlayerAliveAndSurvival(sp)) continue;
                 if (!wmc.isModifier(sp, WatheExtendedModifiers.INTROVERTED)) continue;
 
-                // only affect players that are subject to the mood system
+                // only affect roles that are subject to the mood system
                 Role role = GameWorldComponent.KEY.get(world).getRole(sp);
                 if (role == null || role.getMoodType() == Role.MoodType.NONE) continue;
                 if (role.canUseKiller()) continue;
