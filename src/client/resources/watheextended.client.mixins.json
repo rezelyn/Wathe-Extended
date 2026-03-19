@@ -4,6 +4,7 @@
   "package": "cat.rezelyn.watheextended.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "client.AbilityHudOverrideMixin",
     "client.GameMenuScreenMixin",
     "client.InGameHudMixin",
     "client.MinecraftClientMixin",

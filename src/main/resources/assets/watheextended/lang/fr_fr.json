@@ -1,14 +1,14 @@
 {
   "block.watheextended.anthracite_steel_ornament": "Ornement en acier anthracite",
-  "block.watheextended.dark_marble_panel": "Panneau de marbre sombre",
-  "block.watheextended.ish_plush": "Peluche Ish",
   "block.watheextended.khaki_steel_ornament": "Ornement en acier kaki",
-  "block.watheextended.marble_panel": "Panneau de marbre",
   "block.watheextended.maroon_steel_ornament": "Ornement en acier marron",
   "block.watheextended.muntz_steel_ornament": "Ornement en acier Muntz",
-  "block.watheextended.music_disc_box": "Boîte à disques de musique",
   "block.watheextended.navy_steel_ornament": "Ornement en acier marine",
+  "block.watheextended.marble_panel": "Panneau de marbre",
+  "block.watheextended.dark_marble_panel": "Panneau de marbre sombre",
   "block.watheextended.pizza": "Pizza",
+  "block.watheextended.music_disc_box": "Boîte à disques de musique",
+  "block.watheextended.ish_plush": "Peluche Ish",
   "block.watheextended.snowy_acacia_leaves": "Feuilles d'acacia enneigées",
   "block.watheextended.snowy_azalea_leaves": "Feuilles d'azalée enneigées",
   "block.watheextended.snowy_birch_leaves": "Feuilles de bouleau enneigées",
@@ -22,6 +22,7 @@
 
 
 
+  "item.watheextended.teleport_to_ready_area": "Téléportation vers la Zone de Préparation",
   "item.watheextended.cotton_candy_shake": "Shake Barbe à Papa",
   "item.watheextended.galaxy_fizz": "Galaxy Fizz",
   "item.watheextended.guidebook": "Guide",
@@ -30,7 +31,6 @@
   "item.watheextended.neon_splash": "Neon Splash",
   "item.watheextended.pride_punch": "Pride Punch",
   "item.watheextended.sunset_prism": "Prisme de Couchant",
-  "item.watheextended.teleport_to_ready_area": "Téléportation vers la Zone de Préparation",
   "item.watheextended.the_amethyst": "L'Améthyste",
   "item.watheextended.velvet_ace": "As de Velours",
 
@@ -61,6 +61,9 @@
   "command.watheextended.rtp_slot.removed": "Emplacement de téléportation #%d supprimé (%s)",
 
 
+
+
+  "gui.watheextended.ability.ready": "Ready",
 
   "gui.watheextended.config.title": "Options de Wathe Extended",
 

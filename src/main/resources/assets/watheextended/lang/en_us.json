@@ -1,14 +1,14 @@
 {
   "block.watheextended.anthracite_steel_ornament": "Anthracite Steel Ornament",
-  "block.watheextended.dark_marble_panel": "Dark Marble Panel",
-  "block.watheextended.ish_plush": "Ish Plush",
   "block.watheextended.khaki_steel_ornament": "Khaki Steel Ornament",
-  "block.watheextended.marble_panel": "Marble Panel",
   "block.watheextended.maroon_steel_ornament": "Maroon Steel Ornament",
   "block.watheextended.muntz_steel_ornament": "Muntz Steel Ornament",
-  "block.watheextended.music_disc_box": "Music Disc Box",
   "block.watheextended.navy_steel_ornament": "Navy Steel Ornament",
+  "block.watheextended.marble_panel": "Marble Panel",
+  "block.watheextended.dark_marble_panel": "Dark Marble Panel",
   "block.watheextended.pizza": "Pizza",
+  "block.watheextended.music_disc_box": "Music Disc Box",
+  "block.watheextended.ish_plush": "Ish Plush",
   "block.watheextended.snowy_acacia_leaves": "Snowy Acacia Leaves",
   "block.watheextended.snowy_azalea_leaves": "Snowy Azalea Leaves",
   "block.watheextended.snowy_birch_leaves": "Snowy Birch Leaves",
@@ -22,6 +22,7 @@
 
 
 
+  "item.watheextended.teleport_to_ready_area": "Teleport to Ready Area",
   "item.watheextended.cotton_candy_shake": "Cotton Candy Shake",
   "item.watheextended.galaxy_fizz": "Galaxy Fizz",
   "item.watheextended.guidebook": "Guidebook",
@@ -30,7 +31,6 @@
   "item.watheextended.neon_splash": "Neon Splash",
   "item.watheextended.pride_punch": "Pride Punch",
   "item.watheextended.sunset_prism": "Sunset Prism",
-  "item.watheextended.teleport_to_ready_area": "Teleport to Ready Area",
   "item.watheextended.the_amethyst": "The Amethyst",
   "item.watheextended.velvet_ace": "Velvet Ace",
 
@@ -61,6 +61,8 @@
   "command.watheextended.rtp_slot.removed": "Removed teleportation slot #%d (%s)",
 
 
+
+  "gui.watheextended.ability.ready": "Ready",
 
   "gui.watheextended.config.title": "Wathe Extended Options",
 

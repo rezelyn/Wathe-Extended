@@ -1,14 +1,14 @@
 {
   "block.watheextended.anthracite_steel_ornament": "无烟钢装饰板",
-  "block.watheextended.dark_marble_panel": "深色大理石板",
-  "block.watheextended.ish_plush": "Ish Plush",
   "block.watheextended.khaki_steel_ornament": "卡其钢装饰板",
-  "block.watheextended.marble_panel": "大理石板",
   "block.watheextended.maroon_steel_ornament": "褐红钢装饰板",
   "block.watheextended.muntz_steel_ornament": "蒙茨钢装饰板",
-  "block.watheextended.music_disc_box": "唱片盒",
   "block.watheextended.navy_steel_ornament": "藏青钢装饰板",
+  "block.watheextended.marble_panel": "大理石板",
+  "block.watheextended.dark_marble_panel": "深色大理石板",
   "block.watheextended.pizza": "披萨",
+  "block.watheextended.music_disc_box": "唱片盒",
+  "block.watheextended.ish_plush": "Ish Plush",
   "block.watheextended.snowy_acacia_leaves": "覆雪金合欢树叶",
   "block.watheextended.snowy_azalea_leaves": "覆雪杜鹃树叶",
   "block.watheextended.snowy_birch_leaves": "覆雪白桦树叶",
@@ -22,6 +22,7 @@
 
 
 
+  "item.watheextended.teleport_to_ready_area": "传送至就绪区域",
   "item.watheextended.cotton_candy_shake": "棉花糖奶昔",
   "item.watheextended.galaxy_fizz": "星系嘶嘶饮",
   "item.watheextended.guidebook": "指南书",
@@ -30,7 +31,6 @@
   "item.watheextended.neon_splash": "霓虹飞溅",
   "item.watheextended.pride_punch": "彩虹气泡水",
   "item.watheextended.sunset_prism": "日落棱镜",
-  "item.watheextended.teleport_to_ready_area": "传送至就绪区域",
   "item.watheextended.the_amethyst": "紫水晶",
   "item.watheextended.velvet_ace": "丝绒王牌",
 
@@ -61,6 +61,8 @@
   "command.watheextended.rtp_slot.removed": "已移除传送槽位 #%d (%s)",
 
 
+
+  "gui.watheextended.ability.ready": "Ready",
 
   "gui.watheextended.config.title": "Wathe Extended 选项",
 
