@@ -27,6 +27,7 @@
     "client.noellesroles.VoodooSlotTextureMixin",
     "client.noellesroles.VoodooTextSuppressMixin",
     "client.wathe.AbilityRowsMixin",
+    "client.wathe.MoodRendererMixin",
     "client.wathe.PlayerBodyRendererNullFixMixin",
     "client.starexpress.GuidebookButtonMixin",
     "client.stupidexpress.LoversHudNullPlayerFixMixin",
