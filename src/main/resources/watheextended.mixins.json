@@ -6,6 +6,10 @@
   "mixins": [
     "BlockInteractionProtectionMixin",
     "PlayerCollisionMixin",
+    "kinswathe.BellringerAbilityMixin",
+    "kinswathe.RobotAbilityMixin",
+    "starexpress.StarstruckComponentMixin",
+    "starexpress.StarryExpressMixin",
     "stupidexpress.RevivalItemGivingMixin",
     "stupidexpress.ThiefItemRulesMixin",
     "wathe.DisabledKillerRoleConversionMixin",

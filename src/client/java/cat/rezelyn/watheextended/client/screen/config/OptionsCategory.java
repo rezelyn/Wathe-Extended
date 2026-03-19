@@ -60,6 +60,18 @@ public final class OptionsCategory {
                         .formatValue(v -> Text.translatable(v ? "text.watheextended.enabled" : "text.watheextended.disabled")))
                 .build());
 
+        group.option(Option.<Boolean>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.suppressabilityvfxsfx"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.suppressabilityvfxsfx.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(ClientConfig.getBool("watheextended.suppressAbilityVfxSfx", false),
+                        () -> ClientConfig.getBool("watheextended.suppressAbilityVfxSfx", false),
+                        v -> stage(sendCommand, parent, "watheextended.suppressAbilityVfxSfx", v))
+                .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
+                        .formatValue(v -> Text.translatable(v ? "text.watheextended.enabled" : "text.watheextended.disabled")))
+                .build());
+
         if (cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.isLoaded()) {
             group.option(Option.<Boolean>createBuilder()
                     .name(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.morphpsychosis"))

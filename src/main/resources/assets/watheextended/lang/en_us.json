@@ -105,6 +105,8 @@
   "gui.watheextended.config.category.options.group.gamerules.tooltip": "Control various gamerules and features options.",
   "gui.watheextended.config.category.options.group.gamerules.opt.collisions": "Player Collisions",
   "gui.watheextended.config.category.options.group.gamerules.opt.collisions.desc": "When disabled, players will no longer collide on to each others.\n\n§6Default: §aEnabled",
+  "gui.watheextended.config.category.options.group.gamerules.opt.suppressabilityvfxsfx": "Suppress Ability Effects",
+  "gui.watheextended.config.category.options.group.gamerules.opt.suppressabilityvfxsfx.desc": "When enabled, suppresses the visual and sound effects triggered by ability use.\n\n§7Affects:\n• Starstruck (Particles + Sound)\n• Robot (Sound)\n• Bellringer (Sound)\n\n§6Default: §cDisabled",
   "gui.watheextended.config.category.options.group.gamerules.opt.morphpsychosis": "Morph Psychosis",
   "gui.watheextended.config.category.options.group.gamerules.opt.morphpsychosis.desc": "When enabled, insane players will no longer see players names and randomly see other players morph into other players skins.\n\n§6Default: §cDisabled",
   "gui.watheextended.config.category.options.group.gamerules.opt.safepreptime": "Safe Preparation Time",

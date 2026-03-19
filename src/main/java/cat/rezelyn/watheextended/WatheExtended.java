@@ -360,6 +360,9 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.adaptive.bonusMultiplier", 0.50f,
                 WatheExtendedServerConfig::getAdaptiveBonusMultiplier,
                 WatheExtendedServerConfig::setAdaptiveBonusMultiplier));
+        ServerConfig.register(ServerConfig.Entry.globalBool("watheextended.suppressAbilityVfxSfx", false,
+                WatheExtendedServerConfig::isSuppressAbilityVfxSfx,
+                WatheExtendedServerConfig::setSuppressAbilityVfxSfx));
 
         // register sync packets
         PayloadTypeRegistry.playS2C().register(ServerConfig.SyncPayload.ID, ServerConfig.SyncPayload.CODEC);

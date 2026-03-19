@@ -26,6 +26,7 @@ public final class WatheExtendedServerConfig {
     public static int taxedKillWindowSeconds = 60;
     public static float adaptivePenaltyReduction = 0.50f;
     public static float adaptiveBonusMultiplier = 0.50f;
+    public static boolean suppressAbilityVfxSfx = false;
 
     private WatheExtendedServerConfig() {
     }
@@ -50,6 +51,7 @@ public final class WatheExtendedServerConfig {
         taxedKillWindowSeconds = ClientConfig.readInt(CONFIG_FILE, "taxed.killWindowSeconds", 60);
         adaptivePenaltyReduction = ClientConfig.readFloat(CONFIG_FILE, "adaptive.penaltyReduction", 0.50f);
         adaptiveBonusMultiplier = ClientConfig.readFloat(CONFIG_FILE, "adaptive.bonusMultiplier", 0.50f);
+        suppressAbilityVfxSfx = ClientConfig.readBool(CONFIG_FILE, "ability.suppressVfxSfx", false);
     }
 
     public static void save() {
@@ -104,6 +106,10 @@ public final class WatheExtendedServerConfig {
                             "    \"penaltyReduction\": " + adaptivePenaltyReduction + ",\n" +
                             "    // Fraction bonus applied to kill income when a different method is used.\n" +
                             "    \"bonusMultiplier\": " + adaptiveBonusMultiplier + "\n" +
+                            "  },\n" +
+                            "  \"ability\": {\n" +
+                            "    // When enabled, suppresses VFX/SFX triggered by role abilities (Starstruck, Robot, Bellringer).\n" +
+                            "    \"suppressVfxSfx\": " + suppressAbilityVfxSfx + "\n" +
                             "  }\n" +
                             "}\n";
             Files.writeString(CONFIG_FILE.toPath(), content);
@@ -243,6 +249,15 @@ public final class WatheExtendedServerConfig {
 
     public static void setAdaptiveBonusMultiplier(float value) {
         adaptiveBonusMultiplier = value;
+        save();
+    }
+
+    public static boolean isSuppressAbilityVfxSfx() {
+        return suppressAbilityVfxSfx;
+    }
+
+    public static void setSuppressAbilityVfxSfx(boolean value) {
+        suppressAbilityVfxSfx = value;
         save();
     }
 }
