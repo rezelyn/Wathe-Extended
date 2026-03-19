@@ -937,9 +937,9 @@ public final class OptionsCategory {
                 .collapsed(false);
 
         group.option(Option.<Integer>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.maximum"))
+                .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.maximum"))
                 .description(OptionDescription.of(
-                        Text.translatable("gui.watheextended.config.category.modifiers.opt.maximum.desc")
+                        Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.maximum.desc")
                                 .styled(style -> style.withColor(0xFFFFFF))))
                 .binding(1,
                         ConfigHelper::getModifierMaximum,
@@ -948,9 +948,9 @@ public final class OptionsCategory {
                 .build());
 
         group.option(Option.<Integer>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.multiplier"))
+                .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.multiplier"))
                 .description(OptionDescription.of(
-                        Text.translatable("gui.watheextended.config.category.modifiers.opt.multiplier.desc")
+                        Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.multiplier.desc")
                                 .styled(style -> style.withColor(0xFFFFFF))))
                 .binding(1,
                         ConfigHelper::getModifierMultiplier,
