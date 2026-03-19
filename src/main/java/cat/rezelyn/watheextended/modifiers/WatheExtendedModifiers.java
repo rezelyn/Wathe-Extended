@@ -40,7 +40,7 @@ public final class WatheExtendedModifiers {
                 0xFC8E26,
                 new ArrayList<>(),
                 new ArrayList<>(),
-                false,
+                true,
                 false
         ));
         ADAPTIVE = HMLModifiers.registerModifier(new Modifier(
