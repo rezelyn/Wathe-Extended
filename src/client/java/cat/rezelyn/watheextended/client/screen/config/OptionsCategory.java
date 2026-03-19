@@ -376,6 +376,17 @@ public final class OptionsCategory {
                     .controller(IntegerFieldControllerBuilder::create)
                     .build());
 
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.cleaner.playerlimit"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.roles_options.opt.cleaner.playerlimit.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(10,
+                            () -> ClientConfig.getInt("watheextended.cleaner.playerLimit", 10),
+                            v -> stage(sendCommand, parent, "watheextended.cleaner.playerLimit", v))
+                    .controller(IntegerFieldControllerBuilder::create)
+                    .build());
+
             group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.roles_options.label.cook").styled(s -> s.withColor(0xAAAAAA))));
 
             group.option(Option.<Integer>createBuilder()

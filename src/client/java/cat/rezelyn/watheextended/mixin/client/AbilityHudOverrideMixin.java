@@ -1,8 +1,12 @@
 package cat.rezelyn.watheextended.mixin.client;
 
+import cat.rezelyn.watheextended.api.config.ClientConfig;
 import cat.rezelyn.watheextended.client.screen.guidebook.GuidebookIcons;
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.MutableText;
@@ -21,20 +25,12 @@ import java.util.Set;
 @Mixin(DrawContext.class)
 public class AbilityHudOverrideMixin {
 
-    @Unique
     private static final Set<String> ABILITY_READY_KEYS = Set.of("tip.starexpress.starstruck", "tip.phantom", "tip.recaller.teleport", "tip.recaller.place", "tip.kinswathe.ability.can_use", "hud.stupid_express.thief.ready");
-
-    @Unique
     private static final Set<String> ABILITY_COOLDOWN_KEYS = Set.of("tip.starexpress.cooldown", "tip.noellesroles.cooldown", "tip.kinswathe.cooldown", "hud.stupid_express.thief.cooldown");
-
-    @Unique
     private static final Set<String> ABILITY_COST_KEYS = Set.of("tip.kinswathe.ability.not_enough_money", "tip.recaller.not_enough_money");
-
-    @Unique
     private static final Set<String> ABILITY_VULTURE_KEYS = Set.of("tip.vulture");
-
-    @Unique
     private static final Set<String> ABILITY_DREAMER_KEYS = Set.of("tip.kinswathe.dreamer.counts");
+    private static final Set<String> CLEANER_ABILITY_KEYS = Set.of("tip.kinswathe.ability.can_use", "tip.kinswathe.cooldown", "tip.kinswathe.ability.not_enough_money");
 
     @Inject(method = "drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)I", at = @At("HEAD"), cancellable = true)
     private void watheextended$overrideAbilityHudTextShadow(TextRenderer renderer, Text text, int x, int y, int color, CallbackInfoReturnable<Integer> cir) {
@@ -54,6 +50,13 @@ public class AbilityHudOverrideMixin {
         String key = ttc.getKey();
         Object[] args = ttc.getArgs();
         DrawContext ctx = (DrawContext) (Object) this;
+
+        // cleaner player limit
+        if (CLEANER_ABILITY_KEYS.contains(key) && watheextended$isCleanerAbilityDisabledByLimit()) {
+            MutableText styled = Text.literal("§6⚠ §eAbility disabled!");
+            cir.setReturnValue(watheextended$drawAbilityHudText(ctx, renderer, styled, color));
+            return;
+        }
 
         // ready
         if (ABILITY_READY_KEYS.contains(key)) {
@@ -95,6 +98,24 @@ public class AbilityHudOverrideMixin {
             String required = String.valueOf(args[1]);
             MutableText styled = Text.literal("✦ " + counts + "/" + required);
             cir.setReturnValue(watheextended$drawAbilityHudText(ctx, renderer, styled, 0xE5CCFF));
+        }
+    }
+
+    @Unique
+    private boolean watheextended$isCleanerAbilityDisabledByLimit() {
+        try {
+            MinecraftClient mc = MinecraftClient.getInstance();
+            if (mc.world == null || mc.player == null) return false;
+            int limit = ClientConfig.getInt("watheextended.cleaner.playerLimit", 0);
+            if (limit <= 0) return false;
+            Role role = GameWorldComponent.KEY.get(mc.world).getRole(mc.player);
+            if (role == null || !role.identifier().toString().equals("kinswathe:cleaner")) return false;
+            long aliveCount = mc.world.getPlayers().stream()
+                    .filter(p -> !p.isSpectator() && !p.isCreative())
+                    .count();
+            return aliveCount < limit;
+        } catch (Throwable t) {
+            return false;
         }
     }
 

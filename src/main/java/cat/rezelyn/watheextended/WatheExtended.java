@@ -363,6 +363,9 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalBool("watheextended.suppressAbilityVfxSfx", false,
                 WatheExtendedServerConfig::isSuppressAbilityVfxSfx,
                 WatheExtendedServerConfig::setSuppressAbilityVfxSfx));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.cleaner.playerLimit", 10,
+                WatheExtendedServerConfig::getCleanerPlayerLimit,
+                WatheExtendedServerConfig::setCleanerPlayerLimit));
 
         // register sync packets
         PayloadTypeRegistry.playS2C().register(ServerConfig.SyncPayload.ID, ServerConfig.SyncPayload.CODEC);

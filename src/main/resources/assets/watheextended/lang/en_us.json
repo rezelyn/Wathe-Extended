@@ -164,6 +164,8 @@
   "gui.watheextended.config.category.options.group.roles_options.opt.cleaner.price.desc": "Adjust Cleaner's ability price.\n\n§6Default: §e200",
   "gui.watheextended.config.category.options.group.roles_options.opt.cleaner.cooldown": "Ability Cooldown",
   "gui.watheextended.config.category.options.group.roles_options.opt.cleaner.cooldown.desc": "Adjust Cleaner's ability cooldown.\n\n§6Default: §e150",
+  "gui.watheextended.config.category.options.group.roles_options.opt.cleaner.playerlimit": "Ability Player Limit",
+  "gui.watheextended.config.category.options.group.roles_options.opt.cleaner.playerlimit.desc": "Minimum number of alive players required for the Cleaner's Deep Cleaning ability to be active.\n\n§6Default: §e10",
 
   "gui.watheextended.config.category.options.group.roles_options.label.cook": "Cook",
   "gui.watheextended.config.category.options.group.roles_options.opt.cook.panprice": "Pan Price",

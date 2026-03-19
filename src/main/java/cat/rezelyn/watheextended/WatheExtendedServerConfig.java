@@ -27,6 +27,7 @@ public final class WatheExtendedServerConfig {
     public static float adaptivePenaltyReduction = 0.50f;
     public static float adaptiveBonusMultiplier = 0.50f;
     public static boolean suppressAbilityVfxSfx = false;
+    public static int cleanerPlayerLimit = 10;
 
     private WatheExtendedServerConfig() {
     }
@@ -52,6 +53,7 @@ public final class WatheExtendedServerConfig {
         adaptivePenaltyReduction = ClientConfig.readFloat(CONFIG_FILE, "adaptive.penaltyReduction", 0.50f);
         adaptiveBonusMultiplier = ClientConfig.readFloat(CONFIG_FILE, "adaptive.bonusMultiplier", 0.50f);
         suppressAbilityVfxSfx = ClientConfig.readBool(CONFIG_FILE, "ability.suppressVfxSfx", false);
+        cleanerPlayerLimit = ClientConfig.readInt(CONFIG_FILE, "cleaner.playerLimit", 10);
     }
 
     public static void save() {
@@ -110,6 +112,11 @@ public final class WatheExtendedServerConfig {
                             "  \"ability\": {\n" +
                             "    // When enabled, suppresses VFX/SFX triggered by role abilities (Starstruck, Robot, Bellringer).\n" +
                             "    \"suppressVfxSfx\": " + suppressAbilityVfxSfx + "\n" +
+                            "  },\n" +
+                            "  \"cleaner\": {\n" +
+                            "    // Minimum number of alive players required for the Cleaner's Deep Cleaning ability to be active.\n" +
+                            "    // Set to 0 to disable this limit.\n" +
+                            "    \"playerLimit\": " + cleanerPlayerLimit + "\n" +
                             "  }\n" +
                             "}\n";
             Files.writeString(CONFIG_FILE.toPath(), content);
@@ -258,6 +265,15 @@ public final class WatheExtendedServerConfig {
 
     public static void setSuppressAbilityVfxSfx(boolean value) {
         suppressAbilityVfxSfx = value;
+        save();
+    }
+
+    public static int getCleanerPlayerLimit() {
+        return cleanerPlayerLimit;
+    }
+
+    public static void setCleanerPlayerLimit(int value) {
+        cleanerPlayerLimit = Math.max(0, value);
         save();
     }
 }
