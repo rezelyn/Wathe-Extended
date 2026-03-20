@@ -1,5 +1,63 @@
 > #### This changelog also documents changes that are related to ***The Harpy Express: Extended*** modpack.
 
+# stable-3.4.132
+
+### 🆕 What's New
+- Added French translation ([@math730](https://github.com/rezelyn/Wathe-Extended/issues/46))
+- Improved inventory ability UIs:
+  - New textures for the slots of each unique roles ability rows, depending on the role
+  - **Bodymaker** and **Guesser** UIs will now show a clickable list of *every available* roles you can choose from instead of writing them down by yourself
+  - Rows are now split into multiple rows when the row starts to overflow outside the screen
+  - Update row placements to avoid overlapping with other UI elements (e.g. the Guesser modifier row overlapping with the player's role ability row)
+  - Added labels above each ability rows to clarify what that row is for inside the inventory screen
+  - Updated in-game HUD ability tip texts style to be more consistent and simple (e.g. cooldown, price, ready state...)
+- Added new HUD effects when Introverted modifier is inside a crowd of players
+- Added an optional option to disable ability VFX/SFX (Currently only supports Starstruck, Robot and Bellringer)
+- New ability triggering sound effects for the **Bellringer** and **Robot** roles
+- New textures for the Hunting Knife, Pan, Medical Kit, and Sulfuric Acid Barrel
+- New roles: *(More information in-game)*
+  - **Hacker**
+
+### 📋 Changes
+- Improved Kin's Wathe stamina bar visuals
+- Gameplay balancing:
+  - Morph Psychosis is now disabled by default
+  - Roles:
+    - **Cleaner**
+      - The Deep Cleaning ability will now be completely disabled under 10 players by default.
+    - **Bodymaker**
+      - When creating a fake Noisemaker body, the body will glow
+      - The correct sound of the chosen death reason will be played when the body is created (e.g. Revolver sound, Grenade sound)
+    - **Bartender**
+      - Default Maximum Defense Vial is now 1 by default
+      - Default Defense Vial price is now 200 coins by default
+    - **Physician**
+      - Default Pill cooldown is now 3 minutes
+    - **Amnesiac**
+      - No longer glows a different color to Killers by default
+    - **Arsonist**
+      - The game will now continue even after all Killers have been eliminated, and victory will require eliminating every player by default
+  - Modifiers:
+    - **Lovers**
+      - When **Forbidden Lovers** option is enabled, reduce the chances of having Lovers for the next game by 75%, (Configurable).
+      - Lovers will now see each other glowing through walls by default
+    - **Taxed**
+      - Tax no longer affects passive income
+      - Tax will now be applied if the player kills more than 1 player within the same minute
+      - Default tax is now -50% of the player's kill income
+
+### 🔧 Fixes
+- Fixed various entries in the Guidebook that had missing information or were inaccurate
+- Fixed pronouns overlapping player's role when looking at them in spectator mode
+- Fixed pronouns still being rendered when looking at invisible players
+- Fixed Introverted modifier being assigned to the Robot, Dreamer and Thief
+- Fixed Introverted modifier not working properly with the Starstruck ability
+- Fixed Introverted modifier infinite coins bug with roles that have passive income
+- Fixed Adaptive modifier being assigned to non-killers
+- Fixed Kin's Wathe stamina bar overlapping issues
+- Fixed Bartender's use of Defense Vials alerting the Drugmaker and Physician's Poison Sense abilities
+- Fixed a crash caused by Wathe conflicting with Iris
+
 # stable-3.3.132
 
 ### 🔧 Fixes
@@ -7,7 +65,7 @@
 
 # stable-3.2.132
 
-### 🆕 Additions
+### 🆕 What's New
 - Added Chinese translation ([@haiman233](https://github.com/rezelyn/Wathe-Extended/pull/39/changes))
 - Added new player pronouns that would show up above their usernames when looking at them
   - Pronouns are customizable through the configuration screen or by using the `/pronouns` command
@@ -51,7 +109,7 @@
 
 # stable-3.1.132
 
-### 🆕 Additions
+### 🆕 What's New
 - Added client-side options category within the configuration screen, accessible by anyone through the pause menu
 - Added server-sided options categories within the configuration screen, accessible by server admins (Permission Level 2) through the pause menu
 - Added a "Close" button in the Guidebook
@@ -127,7 +185,7 @@ This update introduces a wide range of new content, improvements, and fixes! Inc
 > ⚠️ **Please note:** this update may break older instances of the modpack. A fresh reinstall is recommended, and the same applies to dedicated servers.
 > I'm still actively learning Java and the Fabric modding environment. If you encounter any issues, please open an issue on GitHub. I'll do my best to provide support and fix bugs!
 
-### 🆕 Additions
+### 🆕 What's New
 - New cocktails, new blocks, and refreshed models for existing ones! **(WIP)**
 - The default Letter item and Stary Express's Guidebook have been replaced with a brand new, redesigned Guidebook item and UI. **(WIP)**
 - Improved the logic behind randomized player teleportation at the start of a game.
@@ -195,7 +253,7 @@ This update introduces a wide range of new content, improvements, and fixes! Inc
 
 # beta-2.7.132
 
-### 🆕 Additions
+### 🆕 What's New
 - Added a new in-game Guidebook that gives information about Roles and Modifiers from the game and add-ons, can be opened through the inventory
 - New roles:
     - **Trapper**
@@ -243,7 +301,7 @@ This update introduces a wide range of new content, improvements, and fixes! Inc
 This update adds several new roles and couple fixes, and includes a new holiday theme for the lobby. Have fun and happy holidays!
 <br> I'd like to also thanks everyone that'd shown support regarding the modpack development, it means a lot! Note that supporting me on Patreon is fully optional and I'm not asking for it, doing it will not grant you access to the **Supporter Commands**, consider subscribing to [doctor4t](https://www.patreon.com/cw/doctor4t)'s instead, they are the one you should support first! But still, thank you so much, all of you are awesome! ❤️
 
-### 🆕 Additions
+### 🆕 What's New
 - New roles:
     - **Amnesiac**
     - **Arsonist**
@@ -282,7 +340,7 @@ This update adds several new roles and couple fixes, and includes a new holiday 
 
 # beta-2.3.130
 
-### 🆕 Additions
+### 🆕 What's New
 - Randomized player teleportation across the train at game start.
 
 ### 📋 Changes
@@ -302,7 +360,7 @@ This update adds several new roles and couple fixes, and includes a new holiday 
 
 # beta-2.2.126
 
-### 🆕 Additions
+### 🆕 What's New
 - New roles:
     - **Mimic**
     - **Guesser**
@@ -335,7 +393,7 @@ This update adds several new roles and couple fixes, and includes a new holiday 
 
 # beta-2.0.126
 
-### 🆕 Additions
+### 🆕 What's New
 - New roles:
   - **Vulture**
   - **Recaller**
@@ -381,7 +439,7 @@ This update adds several new roles and couple fixes, and includes a new holiday 
 
 # alpha-1.6.126
 
-### 🆕 Additions
+### 🆕 What's New
 - Added Noelle's Roles add-on for TMM (see the description for more information about the roles)
 - Added default mod configuration (in case some people want to change client-side settings)
 
@@ -392,7 +450,7 @@ This update adds several new roles and couple fixes, and includes a new holiday 
 
 # alpha-1.5.126
 
-### 🆕 Additions
+### 🆕 What's New
 - Added interaction safeguards to the lobby and within the playable train **(WIP)**
 
 ### 📋 Changes
@@ -424,7 +482,7 @@ This update adds several new roles and couple fixes, and includes a new holiday 
 
 # alpha-1.2.126
 
-### 🆕 Additions
+### 🆕 What's New
 - Fully revamped HUD and menu elements with new themes and visual styles
 - Added a default client configuration
 - Added Shader configuration (WIP, shaders currently cause significant lag)
