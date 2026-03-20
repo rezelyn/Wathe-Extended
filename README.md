@@ -9,9 +9,9 @@ Using this mod outside the modpack is not recommended; you are free to do so, bu
 
 #### ❤️ Special thanks
 - The **D.R. Harpy Transportation Ltd.** Discord server for being psychopaths
-- @Celemimphar (Ish Plush model/texture)
-- @math730 (French localization)
-- @haiman322 (Chinese localization)
+- [@Celemimphar](https://github.com/celemimphar/) (Ish Plush model/texture)
+- [@math730](https://github.com/math730) (French localization)
+- [@haiman233](https://github.com/haiman233) (Chinese localization)
 
 #### ✅ List of the currently supported add-ons
 - **[Noelle's Roles](https://modrinth.com/mod/noelles-roles-tmm)** by [@agmas](https://modrinth.com/user/agmas)
