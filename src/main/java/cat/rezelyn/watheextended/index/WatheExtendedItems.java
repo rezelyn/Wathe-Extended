@@ -17,6 +17,7 @@ public class WatheExtendedItems {
 
     public static final Item GUIDEBOOK = register("guidebook", new GuidebookItem(new Item.Settings().maxCount(1)));
     public static final Item TELEPORT_TO_READY_AREA = register("teleport_to_ready_area", new TeleportToReadyAreaItem(new Item.Settings().maxCount(1)));
+
     public static final Item PRIDE_PUNCH = register("pride_punch", new CocktailItem(COCKTAIL)); // Rainbow Flag
     public static final Item SUNSET_PRISM = register("sunset_prism", new CocktailItem(COCKTAIL)); // Lesbian Flag
     public static final Item MINT_OCEAN = register("mint_ocean", new CocktailItem(COCKTAIL)); // Gay Flag
@@ -31,25 +32,5 @@ public class WatheExtendedItems {
         return Registry.register(Registries.ITEM, WatheExtended.id(id), item);
     }
 
-    public static void initialize() {
-        ItemGroupEvents.modifyEntriesEvent(WatheItems.EQUIPMENT_GROUP).register(entries ->
-                entries.addAfter(WatheItems.CHAMPAGNE,
-                        PRIDE_PUNCH,
-                        SUNSET_PRISM,
-                        MINT_OCEAN,
-                        GALAXY_FIZZ,
-                        COTTON_CANDY_SHAKE,
-                        HONEY_LEMONADE,
-                        NEON_SPLASH,
-                        THE_AMETHYST,
-                        VELVET_ACE
-                )
-        );
-
-        ItemGroupEvents.modifyEntriesEvent(WatheItems.EQUIPMENT_GROUP).register(entries ->
-                entries.addAfter(WatheItems.LETTER,
-                        GUIDEBOOK
-                )
-        );
-    }
+    public static void initialize() {}
 }

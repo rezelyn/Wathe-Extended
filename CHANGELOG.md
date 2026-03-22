@@ -4,6 +4,25 @@
 
 ### 🆕 What's New
 - Added French translation ([@math730](https://github.com/rezelyn/Wathe-Extended/issues/46))
+- Added new panel variants for some Wathe's blocks
+  - Black Hull Panel
+  - Black Hull Sheets Panel
+  - Bubinga Bookshelf Panel
+  - Bubinga Herringbone Panel
+  - Bubinga Planks Panel
+  - Dark Steel Panel
+  - Ebony Bookshelf Panel
+  - Ebony Herringbone Panel
+  - Ebony Planks Panel
+  - Gold Panel
+  - Mahogany Bookshelf Panel
+  - Mahogany Herringbone Panel
+  - Mahogany Planks Panel
+  - Marble Tiles Panel
+  - Metal Sheet Panel
+  - Pristine Gold Panel
+  - Stainless Steel Panel
+  - Tarnished Gold Panel
 - Improved inventory ability UIs:
   - New textures for the slots of each unique roles ability rows, depending on the role
   - **Bodymaker** and **Guesser** UIs will now show a clickable list of *every available* roles you can choose from instead of writing them down by yourself
@@ -20,6 +39,7 @@
 
 ### 📋 Changes
 - Improved Kin's Wathe stamina bar visuals
+- Centralized creative tab for Wathe: Extended blocks and items
 - Gameplay balancing:
   - Morph Psychosis is now disabled by default
   - Roles:

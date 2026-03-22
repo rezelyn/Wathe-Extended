@@ -1,5 +1,5 @@
 {
-  "parent": "watheextended:block/template_ornament_r270",
+  "parent": "wathe:block/template_ornament_r270",
   "textures": {
     "texture": "watheextended:block/maroon_steel_ornament_corner"
   }

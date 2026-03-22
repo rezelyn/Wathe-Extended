@@ -14,6 +14,5 @@ public class WatheExtendedBlockEntities {
             BlockEntityType.Builder.create(IshPlushBlockEntity::new, WatheExtendedBlocks.ISH_PLUSH).build()
     );
 
-    public static void initialize() {
-    }
+    public static void initialize() {}
 }

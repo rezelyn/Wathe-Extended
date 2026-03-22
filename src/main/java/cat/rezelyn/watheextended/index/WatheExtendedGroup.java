@@ -19,7 +19,44 @@ public class WatheExtendedGroup {
                 .icon(() -> new ItemStack(WatheExtendedItems.GUIDEBOOK))
                 .displayName(Text.translatable("itemGroup.watheextended.main"))
                 .entries((context, entries) -> {
-                    // Snowy leaves
+                    // Panels
+                    entries.add(WatheExtendedBlocks.TARNISHED_GOLD_PANEL);
+                    entries.add(WatheExtendedBlocks.GOLD_PANEL);
+                    entries.add(WatheExtendedBlocks.PRISTINE_GOLD_PANEL);
+                    entries.add(WatheExtendedBlocks.BLACK_HULL_PANEL);
+                    entries.add(WatheExtendedBlocks.BLACK_HULL_SHEETS_PANEL);
+                    entries.add(WatheExtendedBlocks.METAL_SHEET_PANEL);
+                    entries.add(WatheExtendedBlocks.STAINLESS_STEEL_PANEL);
+                    entries.add(WatheExtendedBlocks.DARK_STEEL_PANEL);
+                    entries.add(WatheExtendedBlocks.MARBLE_PANEL);
+                    entries.add(WatheExtendedBlocks.DARK_MARBLE_PANEL);
+                    entries.add(WatheExtendedBlocks.MARBLE_TILES_PANEL);
+                    entries.add(WatheExtendedBlocks.MAHOGANY_PLANKS_PANEL);
+                    entries.add(WatheExtendedBlocks.MAHOGANY_HERRINGBONE_PANEL);
+                    entries.add(WatheExtendedBlocks.MAHOGANY_BOOKSHELF_PANEL);
+                    entries.add(WatheExtendedBlocks.BUBINGA_PLANKS_PANEL);
+                    entries.add(WatheExtendedBlocks.BUBINGA_HERRINGBONE_PANEL);
+                    entries.add(WatheExtendedBlocks.BUBINGA_BOOKSHELF_PANEL);
+                    entries.add(WatheExtendedBlocks.EBONY_PLANKS_PANEL);
+                    entries.add(WatheExtendedBlocks.EBONY_HERRINGBONE_PANEL);
+                    entries.add(WatheExtendedBlocks.EBONY_BOOKSHELF_PANEL);
+
+                    // Ornaments
+                    entries.add(WatheExtendedBlocks.ANTHRACITE_STEEL_ORNAMENT);
+                    entries.add(WatheExtendedBlocks.KHAKI_STEEL_ORNAMENT);
+                    entries.add(WatheExtendedBlocks.MAROON_STEEL_ORNAMENT);
+                    entries.add(WatheExtendedBlocks.MUNTZ_STEEL_ORNAMENT);
+                    entries.add(WatheExtendedBlocks.NAVY_STEEL_ORNAMENT);
+
+                    // Moquettes
+                    entries.add(WatheExtendedBlocks.BLACK_MOQUETTE);
+                    entries.add(WatheExtendedBlocks.GREEN_MOQUETTE);
+                    entries.add(WatheExtendedBlocks.PURPLE_MOQUETTE);
+
+                    // Plushies
+                    entries.add(WatheExtendedBlocks.ISH_PLUSH);
+
+                    // Snowy Leaves
                     entries.add(WatheExtendedBlocks.SNOWY_OAK_LEAVES);
                     entries.add(WatheExtendedBlocks.SNOWY_SPRUCE_LEAVES);
                     entries.add(WatheExtendedBlocks.SNOWY_BIRCH_LEAVES);
@@ -31,23 +68,8 @@ public class WatheExtendedGroup {
                     entries.add(WatheExtendedBlocks.SNOWY_AZALEA_LEAVES);
                     entries.add(WatheExtendedBlocks.SNOWY_FLOWERING_AZALEA_LEAVES);
 
-                    // Ornament variants
-                    entries.add(WatheExtendedBlocks.ANTHRACITE_STEEL_ORNAMENT);
-                    entries.add(WatheExtendedBlocks.KHAKI_STEEL_ORNAMENT);
-                    entries.add(WatheExtendedBlocks.MAROON_STEEL_ORNAMENT);
-                    entries.add(WatheExtendedBlocks.MUNTZ_STEEL_ORNAMENT);
-                    entries.add(WatheExtendedBlocks.NAVY_STEEL_ORNAMENT);
-
-                    // Panels
-                    entries.add(WatheExtendedBlocks.MARBLE_PANEL);
-                    entries.add(WatheExtendedBlocks.DARK_MARBLE_PANEL);
-
-                    // Custom blocks
-                    entries.add(WatheExtendedBlocks.MUSIC_DISC_BOX);
-                    entries.add(WatheExtendedBlocks.PIZZA);
-                    entries.add(WatheExtendedBlocks.ISH_PLUSH);
-
                     // Items
+                    entries.add(WatheExtendedItems.GUIDEBOOK);
                     entries.add(WatheExtendedItems.PRIDE_PUNCH);
                     entries.add(WatheExtendedItems.SUNSET_PRISM);
                     entries.add(WatheExtendedItems.MINT_OCEAN);

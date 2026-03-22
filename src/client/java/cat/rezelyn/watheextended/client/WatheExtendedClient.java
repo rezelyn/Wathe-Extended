@@ -46,8 +46,7 @@ public class WatheExtendedClient implements ClientModInitializer {
                 WatheExtendedBlocks.SNOWY_MANGROVE_LEAVES,
                 WatheExtendedBlocks.SNOWY_CHERRY_LEAVES,
                 WatheExtendedBlocks.SNOWY_AZALEA_LEAVES,
-                WatheExtendedBlocks.SNOWY_FLOWERING_AZALEA_LEAVES,
-                WatheExtendedBlocks.MUSIC_DISC_BOX
+                WatheExtendedBlocks.SNOWY_FLOWERING_AZALEA_LEAVES
         );
 
         ClientPlayNetworking.registerGlobalReceiver(ServerConfig.SyncPayload.ID,
