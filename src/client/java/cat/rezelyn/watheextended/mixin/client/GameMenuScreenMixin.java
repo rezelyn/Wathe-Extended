@@ -47,7 +47,6 @@ public abstract class GameMenuScreenMixin extends Screen {
             }
         }
 
-        // Add Wathe Extended button anchored to the Options button
         if (options != null) {
             ButtonWidget watheButton = new IconButtonWidget(0, 0, 20, 20, this::watheExtended$onPress, watheIcon, 16, 16, 16);
             watheButton.setTooltip(Tooltip.of(Text.translatable("gui.watheextended.config.title")));
@@ -62,8 +61,7 @@ public abstract class GameMenuScreenMixin extends Screen {
 
 
     private void watheExtended$onPress(ButtonWidget b) {
-        MinecraftClient.getInstance().setScreen(
-                WatheOptionsScreen.create(this));
+        MinecraftClient.getInstance().setScreen(WatheOptionsScreen.create(this));
     }
 
     private static String watheExtended$getTranslationKey(Text text) {

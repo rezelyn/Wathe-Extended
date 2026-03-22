@@ -80,9 +80,7 @@ public class MapVariables {
 
     public static String formatBox(@Nullable Box box) {
         if (box == null) return "N/A";
-        return (int) box.minX + " " + (int) box.minY + " " + (int) box.minZ
-                + " → "
-                + (int) box.maxX + " " + (int) box.maxY + " " + (int) box.maxZ;
+        return (int) box.minX + " " + (int) box.minY + " " + (int) box.minZ + " → " + (int) box.maxX + " " + (int) box.maxY + " " + (int) box.maxZ;
     }
 
     public static String formatVec3i(@Nullable Vec3i vec) {
@@ -92,8 +90,7 @@ public class MapVariables {
 
     public static String formatPosWithOrientation(@Nullable MapVariablesWorldComponent.PosWithOrientation pos) {
         if (pos == null) return "N/A";
-        return fmt(pos.pos.x) + " " + fmt(pos.pos.y) + " " + fmt(pos.pos.z)
-                + " " + fmt(pos.yaw) + " " + fmt(pos.pitch);
+        return fmt(pos.pos.x) + " " + fmt(pos.pos.y) + " " + fmt(pos.pos.z) + " " + fmt(pos.yaw) + " " + fmt(pos.pitch);
     }
 
     private static String fmt(double v) {

@@ -10,22 +10,18 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public final class AdaptiveModifier {
 
-    private AdaptiveModifier() {
-    }
+    private AdaptiveModifier() {}
 
     public static final ThreadLocal<KillContext> CURRENT_KILL = new ThreadLocal<>();
     private static final Map<UUID, String> lastKillMethod = new ConcurrentHashMap<>();
 
-    public record KillContext(UUID killerUuid, String deathReason) {
-    }
+    public record KillContext(UUID killerUuid, String deathReason) {}
 
     public static int applyAdaptive(ServerPlayerEntity killer, int amount) {
         KillContext ctx = CURRENT_KILL.get();
         if (ctx == null || !ctx.killerUuid().equals(killer.getUuid())) return amount;
-
-        // exclude psycho mode
         try {
-            if (PlayerPsychoComponent.KEY.get(killer).getPsychoTicks() > 0) return amount;
+            if (PlayerPsychoComponent.KEY.get(killer).getPsychoTicks() > 0) return amount; // exclude psycho mode
         } catch (Throwable t) {
             return amount;
         }

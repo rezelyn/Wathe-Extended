@@ -2,8 +2,7 @@ package cat.rezelyn.watheextended.api.wathe;
 
 public final class ConfigHelper {
 
-    private ConfigHelper() {
-    }
+    private ConfigHelper() {}
 
     private static Class<?> getConfigClass() throws Exception {
         return Class.forName("dev.doctor4t.wathe.WatheConfig");

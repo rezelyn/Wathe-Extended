@@ -3,7 +3,7 @@ package cat.rezelyn.watheextended.client.screen.config;
 import cat.rezelyn.watheextended.api.cca.GameComponents;
 import cat.rezelyn.watheextended.api.cca.MapVariables;
 import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
-import cat.rezelyn.watheextended.rtp.TeleportationSlot;
+import cat.rezelyn.watheextended.game.TeleportationSlot;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerFieldControllerBuilder;
@@ -19,8 +19,7 @@ import java.util.function.BiConsumer;
 
 public final class MapVariablesCategory {
 
-    private MapVariablesCategory() {
-    }
+    private MapVariablesCategory() {}
 
     public static ConfigCategory build(Screen parent, BiConsumer<String, Screen> sendCommand) {
         ConfigCategory.Builder builder = ConfigCategory.createBuilder()

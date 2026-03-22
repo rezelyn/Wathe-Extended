@@ -32,9 +32,7 @@ public final class ServerConfig {
         private final Function<T, String> serializer;
         private final Function<String, T> deserializer;
 
-        private Entry(String key, T defaultValue,
-                      BiFunction<World, T, T> reader, BiConsumer<World, T> writer,
-                      Function<T, String> serializer, Function<String, T> deserializer) {
+        private Entry(String key, T defaultValue, BiFunction<World, T, T> reader, BiConsumer<World, T> writer, Function<T, String> serializer, Function<String, T> deserializer) {
             this.key = key;
             this.defaultValue = defaultValue;
             this.reader = reader;
@@ -59,45 +57,35 @@ public final class ServerConfig {
             return deserializer.apply(raw);
         }
 
-        public static <T> Entry<T> global(String key, T def,
-                                          Supplier<T> reader, Consumer<T> writer,
-                                          Function<T, String> ser, Function<String, T> deser) {
-            return new Entry<>(key, def,
-                    (w, d) -> {
-                        try {
-                            return reader.get();
-                        } catch (Throwable t) {
-                            return d;
-                        }
-                    },
-                    (w, v) -> {
-                        try {
-                            writer.accept(v);
-                        } catch (Throwable ignored) {
-                        }
-                    },
-                    ser, deser);
+        public static <T> Entry<T> global(String key, T def, Supplier<T> reader, Consumer<T> writer, Function<T, String> ser, Function<String, T> deser) {
+            return new Entry<>(key, def, (w, d) -> {
+                try {
+                    return reader.get();
+                } catch (Throwable t) {
+                    return d;
+                }
+            }, (w, v) -> {
+                try {
+                    writer.accept(v);
+                } catch (Throwable ignored) {
+                }
+            }, ser, deser);
         }
 
-        public static <T> Entry<T> worldScoped(String key, T def,
-                                               Function<World, T> reader, BiConsumer<World, T> writer,
-                                               Function<T, String> ser, Function<String, T> deser) {
-            return new Entry<>(key, def,
-                    (w, d) -> {
-                        try {
-                            T v = reader.apply(w);
-                            return v != null ? v : d;
-                        } catch (Throwable t) {
-                            return d;
-                        }
-                    },
-                    (w, v) -> {
-                        try {
-                            writer.accept(w, v);
-                        } catch (Throwable ignored) {
-                        }
-                    },
-                    ser, deser);
+        public static <T> Entry<T> worldScoped(String key, T def, Function<World, T> reader, BiConsumer<World, T> writer, Function<T, String> ser, Function<String, T> deser) {
+            return new Entry<>(key, def, (w, d) -> {
+                try {
+                    T v = reader.apply(w);
+                    return v != null ? v : d;
+                } catch (Throwable t) {
+                    return d;
+                }
+            }, (w, v) -> {
+                try {
+                    writer.accept(w, v);
+                } catch (Throwable ignored) {
+                }
+            }, ser, deser);
         }
 
         public static Entry<Boolean> globalBool(String key, boolean def, Supplier<Boolean> r, Consumer<Boolean> w) {
@@ -205,9 +193,7 @@ public final class ServerConfig {
 
     public record SyncPayload(NbtCompound data) implements CustomPayload {
         public static final Id<SyncPayload> ID = new Id<>(WatheExtended.id("config_sync"));
-        public static final PacketCodec<RegistryByteBuf, SyncPayload> CODEC = PacketCodec.of(
-                (v, buf) -> buf.writeNbt(v.data()),
-                buf -> new SyncPayload(buf.readNbt()));
+        public static final PacketCodec<RegistryByteBuf, SyncPayload> CODEC = PacketCodec.of((v, buf) -> buf.writeNbt(v.data()), buf -> new SyncPayload(buf.readNbt()));
 
         @Override
         public Id<? extends CustomPayload> getId() {
@@ -217,18 +203,16 @@ public final class ServerConfig {
 
     public record ChangePayload(Map<String, String> changes) implements CustomPayload {
         public static final Id<ChangePayload> ID = new Id<>(WatheExtended.id("config_change"));
-        public static final PacketCodec<RegistryByteBuf, ChangePayload> CODEC = PacketCodec.of(
-                (v, buf) -> {
-                    NbtCompound nbt = new NbtCompound();
-                    v.changes().forEach(nbt::putString);
-                    buf.writeNbt(nbt);
-                },
-                buf -> {
-                    NbtCompound nbt = buf.readNbt();
-                    Map<String, String> map = new HashMap<>();
-                    if (nbt != null) nbt.getKeys().forEach(k -> map.put(k, nbt.getString(k)));
-                    return new ChangePayload(map);
-                });
+        public static final PacketCodec<RegistryByteBuf, ChangePayload> CODEC = PacketCodec.of((v, buf) -> {
+            NbtCompound nbt = new NbtCompound();
+            v.changes().forEach(nbt::putString);
+            buf.writeNbt(nbt);
+        }, buf -> {
+            NbtCompound nbt = buf.readNbt();
+            Map<String, String> map = new HashMap<>();
+            if (nbt != null) nbt.getKeys().forEach(k -> map.put(k, nbt.getString(k)));
+            return new ChangePayload(map);
+        });
 
         @Override
         public Id<? extends CustomPayload> getId() {

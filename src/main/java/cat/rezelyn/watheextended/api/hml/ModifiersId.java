@@ -9,8 +9,7 @@ import java.util.List;
 
 public final class ModifiersId {
 
-    private ModifiersId() {
-    }
+    private ModifiersId() {}
 
     public static List<String> get() {
         List<String> ids = new ArrayList<>();

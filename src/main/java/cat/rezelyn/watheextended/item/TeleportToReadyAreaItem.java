@@ -41,17 +41,9 @@ public class TeleportToReadyAreaItem extends Item {
             return TypedActionResult.pass(stack);
         }
 
-        MapVariablesWorldComponent.PosWithOrientation dest =
-                WatheExtendedWorldComponent.KEY.get(world).getReadyAreaSpawnPos();
+        MapVariablesWorldComponent.PosWithOrientation dest = WatheExtendedWorldComponent.KEY.get(world).getReadyAreaSpawnPos();
 
-        TeleportTarget target = new TeleportTarget(
-                serverPlayer.getServerWorld(),
-                dest.pos,
-                net.minecraft.util.math.Vec3d.ZERO,
-                dest.yaw,
-                dest.pitch,
-                TeleportTarget.NO_OP
-        );
+        TeleportTarget target = new TeleportTarget(serverPlayer.getServerWorld(), dest.pos, net.minecraft.util.math.Vec3d.ZERO, dest.yaw, dest.pitch, TeleportTarget.NO_OP);
         serverPlayer.teleportTo(target);
 
         return TypedActionResult.success(stack);

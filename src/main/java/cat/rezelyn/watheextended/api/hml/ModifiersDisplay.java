@@ -10,8 +10,7 @@ import java.util.Map;
 
 public final class ModifiersDisplay {
 
-    private ModifiersDisplay() {
-    }
+    private ModifiersDisplay() {}
 
     public static Map<String, ModifierDisplay> get() {
         Map<String, ModifierDisplay> result = new LinkedHashMap<>();

@@ -9,8 +9,7 @@ import java.util.List;
 
 public final class RolesId {
 
-    private RolesId() {
-    }
+    private RolesId() {}
 
     public static List<String> get() {
         List<String> ids = new ArrayList<>();

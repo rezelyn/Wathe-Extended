@@ -9,8 +9,7 @@ import net.minecraft.world.World;
 
 public final class ConfigHelper {
 
-    private ConfigHelper() {
-    }
+    private ConfigHelper() {}
 
     public static boolean isLoaded() {
         return FabricLoader.getInstance().isModLoaded("noellesroles");
@@ -77,78 +76,60 @@ public final class ConfigHelper {
     public static void registerEntries() {
         if (!isLoaded()) return;
 
-        reg(Entry.globalBool("noellesroles.insanePlayersSeeMorphs", false,
-                () -> readBoolServer("insanePlayersSeeMorphs", false),
-                v -> {
-                    try {
-                        writeBoolServer("insanePlayersSeeMorphs", v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
-        reg(Entry.globalBool("noellesroles.voodooNonKillerDeaths", false,
-                () -> readBoolServer("voodooNonKillerDeaths", false),
-                v -> {
-                    try {
-                        writeBoolServer("voodooNonKillerDeaths", v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
-        reg(Entry.globalBool("noellesroles.voodooShotLikeEvil", true,
-                () -> readBoolServer("voodooShotLikeEvil", true),
-                v -> {
-                    try {
-                        writeBoolServer("voodooShotLikeEvil", v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
-        reg(Entry.globalBool("noellesroles.allowCivillianGuessers", false,
-                () -> readBoolServer("allowCivillianGuessers", false),
-                v -> {
-                    try {
-                        writeBoolServer("allowCivillianGuessers", v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
-        reg(Entry.globalInt("noellesroles.playerCountToMakeConducterKeyVisible", 10,
-                () -> readIntServer("playerCountToMakeConducterKeyVisible", 10),
-                v -> {
-                    try {
-                        writeIntServer("playerCountToMakeConducterKeyVisible", v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
-        reg(Entry.globalInt("noellesroles.maximumDefenseVials", 1,
-                () -> readIntServer("maximumDefenseVials", 1),
-                v -> {
-                    try {
-                        writeIntServer("maximumDefenseVials", v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
-        reg(Entry.globalInt("noellesroles.defenseVialPrice", 200,
-                () -> readIntServer("defenseVialPrice", 200),
-                v -> {
-                    try {
-                        writeIntServer("defenseVialPrice", v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
-        reg(Entry.globalInt("noellesroles.roleMinePrice", 100,
-                () -> readIntServer("roleMinePrice", 100),
-                v -> {
-                    try {
-                        writeIntServer("roleMinePrice", v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
-        reg(Entry.globalString("noellesroles.guesserDiesAfterIncorrectGuess", "none",
-                () -> readStringServer("guesserDiesAfterIncorrectGuess", "none"),
-                v -> {
-                    try {
-                        writeStringServer("guesserDiesAfterIncorrectGuess", v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
+        reg(Entry.globalBool("noellesroles.insanePlayersSeeMorphs", false, () -> readBoolServer("insanePlayersSeeMorphs", false), v -> {
+            try {
+                writeBoolServer("insanePlayersSeeMorphs", v);
+            } catch (Throwable ignored) {
+            }
+        }));
+        reg(Entry.globalBool("noellesroles.voodooNonKillerDeaths", false, () -> readBoolServer("voodooNonKillerDeaths", false), v -> {
+            try {
+                writeBoolServer("voodooNonKillerDeaths", v);
+            } catch (Throwable ignored) {
+            }
+        }));
+        reg(Entry.globalBool("noellesroles.voodooShotLikeEvil", true, () -> readBoolServer("voodooShotLikeEvil", true), v -> {
+            try {
+                writeBoolServer("voodooShotLikeEvil", v);
+            } catch (Throwable ignored) {
+            }
+        }));
+        reg(Entry.globalBool("noellesroles.allowCivillianGuessers", false, () -> readBoolServer("allowCivillianGuessers", false), v -> {
+            try {
+                writeBoolServer("allowCivillianGuessers", v);
+            } catch (Throwable ignored) {
+            }
+        }));
+        reg(Entry.globalInt("noellesroles.playerCountToMakeConducterKeyVisible", 10, () -> readIntServer("playerCountToMakeConducterKeyVisible", 10), v -> {
+            try {
+                writeIntServer("playerCountToMakeConducterKeyVisible", v);
+            } catch (Throwable ignored) {
+            }
+        }));
+        reg(Entry.globalInt("noellesroles.maximumDefenseVials", 1, () -> readIntServer("maximumDefenseVials", 1), v -> {
+            try {
+                writeIntServer("maximumDefenseVials", v);
+            } catch (Throwable ignored) {
+            }
+        }));
+        reg(Entry.globalInt("noellesroles.defenseVialPrice", 200, () -> readIntServer("defenseVialPrice", 200), v -> {
+            try {
+                writeIntServer("defenseVialPrice", v);
+            } catch (Throwable ignored) {
+            }
+        }));
+        reg(Entry.globalInt("noellesroles.roleMinePrice", 100, () -> readIntServer("roleMinePrice", 100), v -> {
+            try {
+                writeIntServer("roleMinePrice", v);
+            } catch (Throwable ignored) {
+            }
+        }));
+        reg(Entry.globalString("noellesroles.guesserDiesAfterIncorrectGuess", "none", () -> readStringServer("guesserDiesAfterIncorrectGuess", "none"), v -> {
+            try {
+                writeStringServer("guesserDiesAfterIncorrectGuess", v);
+            } catch (Throwable ignored) {
+            }
+        }));
     }
 
     private static <T> void reg(Entry<T> e) {
@@ -156,20 +137,17 @@ public final class ConfigHelper {
     }
 
     private static boolean c(String key, boolean def) {
-        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
-            return ClientConfig.getBool(key, def);
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) return ClientConfig.getBool(key, def);
         return def;
     }
 
     private static int c(String key, int def) {
-        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
-            return ClientConfig.getInt(key, def);
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) return ClientConfig.getInt(key, def);
         return def;
     }
 
     private static String cs(String key, String def) {
-        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
-            return ClientConfig.getString(key, def);
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) return ClientConfig.getString(key, def);
         return def;
     }
 

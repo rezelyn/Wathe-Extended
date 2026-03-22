@@ -18,8 +18,7 @@ public class KeyBindingChatRestoreMixin {
         if (client.player == null) return true;
 
         KeyBinding self = (KeyBinding) (Object) this;
-        boolean isChatOrCommand = self.equals(client.options.chatKey)
-                || self.equals(client.options.commandKey);
+        boolean isChatOrCommand = self.equals(client.options.chatKey) || self.equals(client.options.commandKey);
 
         if (client.player.hasPermissionLevel(2)) {
             return !isChatOrCommand;

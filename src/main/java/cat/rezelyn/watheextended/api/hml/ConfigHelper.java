@@ -14,8 +14,7 @@ import java.util.function.Function;
 
 public final class ConfigHelper {
 
-    private ConfigHelper() {
-    }
+    private ConfigHelper() {}
 
     private static HarpyModLoaderConfig getInstance() {
         return HarpyModLoaderConfig.HANDLER.instance();

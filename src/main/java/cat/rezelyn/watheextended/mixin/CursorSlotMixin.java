@@ -1,4 +1,4 @@
-package cat.rezelyn.watheextended.mixin.wathe;
+package cat.rezelyn.watheextended.mixin;
 
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.index.tag.WatheItemTags;
@@ -10,16 +10,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-// fix: prevent players from picking up additional guns by picking up the existing one from their inventory
 @Mixin(ItemEntity.class)
-public class GunPickupCursorStackMixin {
+public class CursorSlotMixin {
 
-    @Inject(
-            method = "onPlayerCollision",
-            at = @At("HEAD"),
-            cancellable = true
-    )
-    private void watheextended$preventDuplicateGunPickup(PlayerEntity player, CallbackInfo ci) {
+    @Inject(method = "onPlayerCollision", at = @At("HEAD"), cancellable = true)
+    private void watheextended$preventGunPickup(PlayerEntity player, CallbackInfo ci) {
         if (player.isCreative()) return;
 
         ItemStack groundStack = ((ItemEntity) (Object) this).getStack();

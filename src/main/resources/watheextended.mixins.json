@@ -17,7 +17,7 @@
     "wathe.GameFunctionsAdaptiveMixin",
     "wathe.GameFunctionsMixin",
     "wathe.GameFunctionsKillShieldMixin",
-    "wathe.GunPickupCursorStackMixin",
+    "CursorSlotMixin",
     "wathe.HarpyExpressTrainMapEffectMixin",
     "wathe.PlayerMoodComponentNbtMixin",
     "wathe.PlayerMoodDirectAccessor",

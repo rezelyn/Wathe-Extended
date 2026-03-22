@@ -18,9 +18,7 @@ public class CleanerAbilityMixin {
         int limit = WatheExtendedServerConfig.cleanerPlayerLimit;
         if (limit <= 0) return;
         try {
-            long aliveCount = ((ServerWorld) player.getWorld()).getPlayers().stream()
-                    .filter(p -> !p.isSpectator() && !p.isCreative())
-                    .count();
+            long aliveCount = ((ServerWorld) player.getWorld()).getPlayers().stream().filter(p -> !p.isSpectator() && !p.isCreative()).count();
             if (aliveCount < limit) {
                 ci.cancel();
             }

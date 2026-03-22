@@ -31,20 +31,14 @@ public class RoleNameRendererMixin {
     }
 
     @Inject(method = "renderHud", at = @At("TAIL"))
-    private static void watheExtended$renderPronouns(
-            TextRenderer renderer,
-            ClientPlayerEntity player,
-            DrawContext context,
-            RenderTickCounter tickCounter,
-            CallbackInfo ci) {
+    private static void watheExtended$renderPronouns(TextRenderer renderer, ClientPlayerEntity player, DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
 
         if (nametagAlpha <= 0.05f) return;
 
         float range = GameFunctions.isPlayerSpectatingOrCreative(player) ? 8f : 2f;
 
-        if (!(ProjectileUtil.getCollision(player, entity -> entity instanceof PlayerEntity, range)
-                instanceof EntityHitResult hit
-                && hit.getEntity() instanceof PlayerEntity target)) return;
+        if (!(ProjectileUtil.getCollision(player, entity -> entity instanceof PlayerEntity, range) instanceof EntityHitResult hit && hit.getEntity() instanceof PlayerEntity target))
+            return;
 
         String pronouns = PronounsCache.get(target.getUuid());
         if (pronouns.isEmpty()) return;
@@ -55,16 +49,9 @@ public class RoleNameRendererMixin {
         int color = 0xAAAAAA | ((int) (nametagAlpha * 255) << 24);
 
         context.getMatrices().push();
-        context.getMatrices().translate(
-                context.getScaledWindowWidth() / 2f,
-                context.getScaledWindowHeight() / 2f + 6f,
-                0f);
+        context.getMatrices().translate(context.getScaledWindowWidth() / 2f, context.getScaledWindowHeight() / 2f + 6f, 0f);
         context.getMatrices().scale(0.6f, 0.6f, 1f);
-        context.drawTextWithShadow(
-                renderer, pronounsText,
-                -pronounsWidth / 2,
-                16 + renderer.fontHeight + 2,
-                color);
+        context.drawTextWithShadow(renderer, pronounsText, -pronounsWidth / 2, 16 + renderer.fontHeight + 2, color);
         context.getMatrices().pop();
     }
 }

@@ -8,8 +8,7 @@ import net.fabricmc.loader.api.FabricLoader;
 
 public final class ConfigHelper {
 
-    private ConfigHelper() {
-    }
+    private ConfigHelper() {}
 
     public static boolean isLoaded() {
         return FabricLoader.getInstance().isModLoaded("stupid_express");
@@ -52,70 +51,54 @@ public final class ConfigHelper {
     public static void registerEntries() {
         if (!isLoaded()) return;
 
-        reg(Entry.globalBool("stupidexpress.necromancerHasShop", false,
-                () -> readBoolServer("rolesSection", "necromancerSection", "necromancerHasShop", false),
-                v -> {
-                    try {
-                        writeBoolServer("rolesSection", "necromancerSection", "necromancerHasShop", v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
-        reg(Entry.globalBool("stupidexpress.arsonistKeepsGameGoing", true,
-                () -> readBoolServer("rolesSection", "arsonistSection", "arsonistKeepsGameGoing", true),
-                v -> {
-                    try {
-                        writeBoolServer("rolesSection", "arsonistSection", "arsonistKeepsGameGoing", v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
-        reg(Entry.globalBool("stupidexpress.bodiesGlowToAmnesiac", true,
-                () -> readBoolServer("rolesSection", "amnesiacSection", "bodiesGlowToAmnesiac", true),
-                v -> {
-                    try {
-                        writeBoolServer("rolesSection", "amnesiacSection", "bodiesGlowToAmnesiac", v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
-        reg(Entry.globalBool("stupidexpress.amnesiacGlowsDifferently", false,
-                () -> readBoolServer("rolesSection", "amnesiacSection", "amnesiacGlowsDifferently", false),
-                v -> {
-                    try {
-                        writeBoolServer("rolesSection", "amnesiacSection", "amnesiacGlowsDifferently", v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
-        reg(Entry.globalBool("stupidexpress.loversKnowImmediately", true,
-                () -> readBoolServer("modifiersSection", "loversSection", "loversKnowImmediately", true),
-                v -> {
-                    try {
-                        writeBoolServer("modifiersSection", "loversSection", "loversKnowImmediately", v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
-        reg(Entry.globalBool("stupidexpress.loversWinWithKillers", false,
-                () -> readBoolServer("modifiersSection", "loversSection", "loversWinWithKillers", false),
-                v -> {
-                    try {
-                        writeBoolServer("modifiersSection", "loversSection", "loversWinWithKillers", v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
-        reg(Entry.globalBool("stupidexpress.loversWinWithCivilians", true,
-                () -> readBoolServer("modifiersSection", "loversSection", "loversWinWithCivilians", true),
-                v -> {
-                    try {
-                        writeBoolServer("modifiersSection", "loversSection", "loversWinWithCivilians", v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
-        reg(Entry.globalBool("stupidexpress.loversGlowToEachother", true,
-                () -> readBoolServer("modifiersSection", "loversSection", "loversGlowToEachother", true),
-                v -> {
-                    try {
-                        writeBoolServer("modifiersSection", "loversSection", "loversGlowToEachother", v);
-                    } catch (Throwable ignored) {
-                    }
-                }));
+        reg(Entry.globalBool("stupidexpress.necromancerHasShop", false, () -> readBoolServer("rolesSection", "necromancerSection", "necromancerHasShop", false), v -> {
+            try {
+                writeBoolServer("rolesSection", "necromancerSection", "necromancerHasShop", v);
+            } catch (Throwable ignored) {
+            }
+        }));
+        reg(Entry.globalBool("stupidexpress.arsonistKeepsGameGoing", true, () -> readBoolServer("rolesSection", "arsonistSection", "arsonistKeepsGameGoing", true), v -> {
+            try {
+                writeBoolServer("rolesSection", "arsonistSection", "arsonistKeepsGameGoing", v);
+            } catch (Throwable ignored) {
+            }
+        }));
+        reg(Entry.globalBool("stupidexpress.bodiesGlowToAmnesiac", true, () -> readBoolServer("rolesSection", "amnesiacSection", "bodiesGlowToAmnesiac", true), v -> {
+            try {
+                writeBoolServer("rolesSection", "amnesiacSection", "bodiesGlowToAmnesiac", v);
+            } catch (Throwable ignored) {
+            }
+        }));
+        reg(Entry.globalBool("stupidexpress.amnesiacGlowsDifferently", false, () -> readBoolServer("rolesSection", "amnesiacSection", "amnesiacGlowsDifferently", false), v -> {
+            try {
+                writeBoolServer("rolesSection", "amnesiacSection", "amnesiacGlowsDifferently", v);
+            } catch (Throwable ignored) {
+            }
+        }));
+        reg(Entry.globalBool("stupidexpress.loversKnowImmediately", true, () -> readBoolServer("modifiersSection", "loversSection", "loversKnowImmediately", true), v -> {
+            try {
+                writeBoolServer("modifiersSection", "loversSection", "loversKnowImmediately", v);
+            } catch (Throwable ignored) {
+            }
+        }));
+        reg(Entry.globalBool("stupidexpress.loversWinWithKillers", false, () -> readBoolServer("modifiersSection", "loversSection", "loversWinWithKillers", false), v -> {
+            try {
+                writeBoolServer("modifiersSection", "loversSection", "loversWinWithKillers", v);
+            } catch (Throwable ignored) {
+            }
+        }));
+        reg(Entry.globalBool("stupidexpress.loversWinWithCivilians", true, () -> readBoolServer("modifiersSection", "loversSection", "loversWinWithCivilians", true), v -> {
+            try {
+                writeBoolServer("modifiersSection", "loversSection", "loversWinWithCivilians", v);
+            } catch (Throwable ignored) {
+            }
+        }));
+        reg(Entry.globalBool("stupidexpress.loversGlowToEachother", true, () -> readBoolServer("modifiersSection", "loversSection", "loversGlowToEachother", true), v -> {
+            try {
+                writeBoolServer("modifiersSection", "loversSection", "loversGlowToEachother", v);
+            } catch (Throwable ignored) {
+            }
+        }));
     }
 
     private static <T> void reg(Entry<T> e) {
@@ -123,8 +106,7 @@ public final class ConfigHelper {
     }
 
     private static boolean c(String key, boolean def) {
-        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
-            return ClientConfig.getBool(key, def);
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) return ClientConfig.getBool(key, def);
         return def;
     }
 

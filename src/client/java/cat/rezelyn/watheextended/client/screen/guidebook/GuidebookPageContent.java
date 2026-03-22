@@ -16,8 +16,7 @@ public final class GuidebookPageContent {
             "gui.watheextended.guidebook.right_page.roles.subtitle.items"
     };
 
-    private GuidebookPageContent() {
-    }
+    private GuidebookPageContent() {}
 
     public static PageResult resolve(String baseDescKey, String id, int page) {
         return resolve(baseDescKey, id, page, false);

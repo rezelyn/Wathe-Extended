@@ -64,7 +64,7 @@ public class MoodRendererMixin {
             return;
         }
         ctx.getMatrices().push();
-        ctx.getMatrices().translate(Math.round(watheExtended$offset(2, false)), Math.round(watheExtended$offset(2, true)), 0f);
+        ctx.getMatrices().translate(watheExtended$offset(2, false), watheExtended$offset(2, true), 0f);
         op.call(ctx, texture, x, y, w, h);
         ctx.getMatrices().pop();
     }

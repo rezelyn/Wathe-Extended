@@ -57,15 +57,10 @@ public final class GuidebookEntryBuilder {
                 }
             }
 
-            record Group(String headerKey, int headerColor, String iconName,
-                         List<RolesDisplay.RoleDisplay> entries) {
+            record Group(String headerKey, int headerColor, String iconName, List<RolesDisplay.RoleDisplay> entries) {
             }
 
-            List<Group> groups = List.of(
-                    new Group("gui.watheextended.guidebook.left_page.roles.side.killer", 0xDC001E, "killer", killers),
-                    new Group("gui.watheextended.guidebook.left_page.roles.side.civilian", 0x75A743, "civilian", innocents),
-                    new Group("gui.watheextended.guidebook.left_page.roles.side.neutral", 0xDE6F00, "neutral", neutrals)
-            );
+            List<Group> groups = List.of(new Group("gui.watheextended.guidebook.left_page.roles.side.killer", 0xDC001E, "killer", killers), new Group("gui.watheextended.guidebook.left_page.roles.side.civilian", 0x75A743, "civilian", innocents), new Group("gui.watheextended.guidebook.left_page.roles.side.neutral", 0xDE6F00, "neutral", neutrals));
 
             boolean first = true;
             for (Group group : groups) {
@@ -73,19 +68,14 @@ public final class GuidebookEntryBuilder {
                 if (!first) list.add(GuidebookEntry.spacer());
                 first = false;
                 int col = group.headerColor();
-                Text headerText = GuidebookIcons.icon(group.iconName())
-                        .copy()
-                        .append(Text.literal(" ").styled(s -> s.withFont(null).withColor(col)))
-                        .append(Text.translatable(group.headerKey()).styled(s -> s.withBold(true).withColor(col)));
+                Text headerText = GuidebookIcons.icon(group.iconName()).copy().append(Text.literal(" ").styled(s -> s.withFont(null).withColor(col))).append(Text.translatable(group.headerKey()).styled(s -> s.withBold(true).withColor(col)));
                 list.add(GuidebookEntry.header(headerText, col));
                 for (RolesDisplay.RoleDisplay d : group.entries()) {
                     String descKey = "gui.watheextended.guidebook.role.desc." + d.id().replace(":", ".");
                     boolean active = !ConfigHelper.getDisabledRoles().contains(d.id());
                     boolean killerSided = d.side() == RolesDisplay.Side.KILLER;
                     Text icon = GuidebookIcons.icon(active ? "enabled" : "disabled");
-                    Text entryText = icon.copy()
-                            .append(Text.literal(" ").styled(s -> s.withFont(null)))
-                            .append(d.display().copy().styled(s -> s.withColor(d.color())));
+                    Text entryText = icon.copy().append(Text.literal(" ").styled(s -> s.withFont(null))).append(d.display().copy().styled(s -> s.withColor(d.color())));
                     list.add(GuidebookEntry.entry(entryText, d.color(), d.id(), descKey, d.display(), active, killerSided));
                 }
             }
@@ -104,9 +94,7 @@ public final class GuidebookEntryBuilder {
                 String descKey = "gui.watheextended.guidebook.modifier.desc." + d.id().replace(":", ".");
                 boolean active = !ConfigHelper.getDisabledModifiers().contains(d.id());
                 Text icon = GuidebookIcons.icon(active ? "enabled" : "disabled");
-                Text entryText = icon.copy()
-                        .append(Text.literal(" ").styled(s -> s.withFont(null)))
-                        .append(d.display().copy().styled(s -> s.withColor(d.color())));
+                Text entryText = icon.copy().append(Text.literal(" ").styled(s -> s.withFont(null))).append(d.display().copy().styled(s -> s.withColor(d.color())));
                 list.add(GuidebookEntry.entry(entryText, d.color(), d.id(), descKey, d.display(), active));
             }
         } catch (Throwable ignored) {

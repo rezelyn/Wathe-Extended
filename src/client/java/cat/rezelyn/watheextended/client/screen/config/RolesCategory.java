@@ -13,8 +13,7 @@ import java.util.function.BiConsumer;
 
 public final class RolesCategory {
 
-    private RolesCategory() {
-    }
+    private RolesCategory() {}
 
     public static ConfigCategory build(Screen parent, Set<String> blacklist,
                                        Map<String, Boolean> pendingState,

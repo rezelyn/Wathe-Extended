@@ -5,7 +5,6 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-// Widget for buttons with icons/textures
 public final class IconButtonWidget extends ButtonWidget {
     private final Identifier icon;
     private final int iconSize;

@@ -1,4 +1,4 @@
-package cat.rezelyn.watheextended.pronouns;
+package cat.rezelyn.watheextended.game;
 
 import cat.rezelyn.watheextended.WatheExtended;
 import com.google.gson.*;
@@ -20,16 +20,13 @@ public final class PronounsManager {
     public static final int MAX_LENGTH = 32;
     private static final Map<UUID, String> PRONOUNS = new ConcurrentHashMap<>();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final File DATA_FILE = FabricLoader.getInstance()
-            .getConfigDir().resolve("watheextended").resolve("cache").resolve("pronouns.json").toFile();
+    private static final File DATA_FILE = FabricLoader.getInstance().getConfigDir().resolve("watheextended").resolve("cache").resolve("pronouns.json").toFile();
 
-    private PronounsManager() {
-    }
+    private PronounsManager() {}
 
     public static String get(UUID uuid) {
         return PRONOUNS.getOrDefault(uuid, "");
     }
-
     public static Map<UUID, String> getAll() {
         return Collections.unmodifiableMap(PRONOUNS);
     }
@@ -87,9 +84,7 @@ public final class PronounsManager {
 
     public record UpdatePayload(String pronouns) implements CustomPayload {
         public static final Id<UpdatePayload> ID = new Id<>(WatheExtended.id("pronouns_update"));
-        public static final PacketCodec<RegistryByteBuf, UpdatePayload> CODEC = PacketCodec.of(
-                (v, buf) -> buf.writeString(v.pronouns()),
-                buf -> new UpdatePayload(buf.readString(MAX_LENGTH + 1)));
+        public static final PacketCodec<RegistryByteBuf, UpdatePayload> CODEC = PacketCodec.of((v, buf) -> buf.writeString(v.pronouns()), buf -> new UpdatePayload(buf.readString(MAX_LENGTH + 1)));
 
         @Override
         public Id<? extends CustomPayload> getId() {
@@ -99,12 +94,10 @@ public final class PronounsManager {
 
     public record SyncPayload(UUID uuid, String pronouns) implements CustomPayload {
         public static final Id<SyncPayload> ID = new Id<>(WatheExtended.id("pronouns_sync"));
-        public static final PacketCodec<RegistryByteBuf, SyncPayload> CODEC = PacketCodec.of(
-                (v, buf) -> {
-                    buf.writeUuid(v.uuid());
-                    buf.writeString(v.pronouns());
-                },
-                buf -> new SyncPayload(buf.readUuid(), buf.readString(MAX_LENGTH + 1)));
+        public static final PacketCodec<RegistryByteBuf, SyncPayload> CODEC = PacketCodec.of((v, buf) -> {
+            buf.writeUuid(v.uuid());
+            buf.writeString(v.pronouns());
+        }, buf -> new SyncPayload(buf.readUuid(), buf.readString(MAX_LENGTH + 1)));
 
         @Override
         public Id<? extends CustomPayload> getId() {

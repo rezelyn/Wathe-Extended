@@ -7,8 +7,7 @@ import net.minecraft.world.World;
 
 public final class GameComponents {
 
-    private GameComponents() {
-    }
+    private GameComponents() {}
 
     public static boolean getBounds(World world) {
         if (world == null) return true;

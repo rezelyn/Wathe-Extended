@@ -1,4 +1,4 @@
-package cat.rezelyn.watheextended.rtp;
+package cat.rezelyn.watheextended.game;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Vec3d;

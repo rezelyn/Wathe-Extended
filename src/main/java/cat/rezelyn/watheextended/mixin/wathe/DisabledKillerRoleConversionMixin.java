@@ -23,17 +23,8 @@ import java.util.List;
 @Mixin(GameFunctions.class)
 public class DisabledKillerRoleConversionMixin {
 
-    @Inject(
-            method = "killPlayer(Lnet/minecraft/entity/player/PlayerEntity;ZLnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Identifier;)V",
-            at = @At("RETURN")
-    )
-    private static void watheextended$fixDisabledKillerRoleConversion(
-            PlayerEntity victim,
-            boolean spawnBody,
-            @Nullable PlayerEntity killer,
-            Identifier deathReason,
-            CallbackInfo ci
-    ) {
+    @Inject(method = "killPlayer(Lnet/minecraft/entity/player/PlayerEntity;ZLnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Identifier;)V", at = @At("RETURN"))
+    private static void watheextended$fixDisabledKillerRoleConversion(PlayerEntity victim, boolean spawnBody, @Nullable PlayerEntity killer, Identifier deathReason, CallbackInfo ci) {
         if (!(killer instanceof ServerPlayerEntity serverKiller)) return;
 
         GameWorldComponent gwc;
@@ -58,11 +49,7 @@ public class DisabledKillerRoleConversionMixin {
         if (!disabledRoles.contains(currentRole.identifier().toString())) return;
 
         List<Role> enabledKillerRoles = new ArrayList<>(WatheRoles.ROLES);
-        enabledKillerRoles.removeIf(role ->
-                !role.canUseKiller()
-                        || role.identifier() == null
-                        || disabledRoles.contains(role.identifier().toString())
-        );
+        enabledKillerRoles.removeIf(role -> !role.canUseKiller() || role.identifier() == null || disabledRoles.contains(role.identifier().toString()));
 
         Role replacement;
         if (enabledKillerRoles.isEmpty()) {

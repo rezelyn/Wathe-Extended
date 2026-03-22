@@ -9,8 +9,7 @@ import java.nio.file.Files;
 
 public final class WatheExtendedServerConfig {
 
-    private static final File CONFIG_FILE =
-            FabricLoader.getInstance().getConfigDir().resolve("watheextended").resolve("server.json5").toFile();
+    private static final File CONFIG_FILE = FabricLoader.getInstance().getConfigDir().resolve("watheextended").resolve("server.json5").toFile();
     public static boolean playerCollisionsEnabled = true;
     public static boolean rtpEnabled = true;
     public static boolean blockProtectionEnabled = true;
@@ -29,8 +28,7 @@ public final class WatheExtendedServerConfig {
     public static boolean suppressAbilityVfxSfx = false;
     public static int cleanerPlayerLimit = 10;
 
-    private WatheExtendedServerConfig() {
-    }
+    private WatheExtendedServerConfig() {}
 
     public static void load() {
         if (!CONFIG_FILE.exists()) {

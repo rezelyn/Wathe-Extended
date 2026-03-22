@@ -14,34 +14,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GameFunctions.class)
 public class GameFunctionsAdaptiveMixin {
 
-    @Inject(
-            method = "killPlayer(Lnet/minecraft/entity/player/PlayerEntity;ZLnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Identifier;)V",
-            at = @At("HEAD")
-    )
-    private static void watheextended$setAdaptiveKillContext(
-            PlayerEntity victim,
-            boolean spawnBody,
-            @Nullable PlayerEntity killer,
-            Identifier deathReason,
-            CallbackInfo ci
-    ) {
+    @Inject(method = "killPlayer(Lnet/minecraft/entity/player/PlayerEntity;ZLnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Identifier;)V", at = @At("HEAD"))
+    private static void watheextended$setAdaptiveKillContext(PlayerEntity victim, boolean spawnBody, @Nullable PlayerEntity killer, Identifier deathReason, CallbackInfo ci) {
         if (killer instanceof ServerPlayerEntity sp) {
-            AdaptiveModifier.CURRENT_KILL.set(
-                    new AdaptiveModifier.KillContext(sp.getUuid(), deathReason.toString()));
+            AdaptiveModifier.CURRENT_KILL.set(new AdaptiveModifier.KillContext(sp.getUuid(), deathReason.toString()));
         }
     }
 
-    @Inject(
-            method = "killPlayer(Lnet/minecraft/entity/player/PlayerEntity;ZLnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Identifier;)V",
-            at = @At("RETURN")
-    )
-    private static void watheextended$clearAdaptiveKillContext(
-            PlayerEntity victim,
-            boolean spawnBody,
-            @Nullable PlayerEntity killer,
-            Identifier deathReason,
-            CallbackInfo ci
-    ) {
+    @Inject(method = "killPlayer(Lnet/minecraft/entity/player/PlayerEntity;ZLnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Identifier;)V", at = @At("RETURN"))
+    private static void watheextended$clearAdaptiveKillContext(PlayerEntity victim, boolean spawnBody, @Nullable PlayerEntity killer, Identifier deathReason, CallbackInfo ci) {
         AdaptiveModifier.CURRENT_KILL.remove();
     }
 }

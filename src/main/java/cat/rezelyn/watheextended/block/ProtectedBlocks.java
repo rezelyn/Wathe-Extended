@@ -5,8 +5,7 @@ import net.minecraft.block.*;
 
 public final class ProtectedBlocks {
 
-    private ProtectedBlocks() {
-    }
+    private ProtectedBlocks() {}
 
     public static boolean isProtected(BlockState state) {
         Block block = state.getBlock();

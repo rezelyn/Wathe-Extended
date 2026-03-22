@@ -32,7 +32,6 @@ public class WatheExtendedItems {
     }
 
     public static void initialize() {
-
         ItemGroupEvents.modifyEntriesEvent(WatheItems.EQUIPMENT_GROUP).register(entries ->
                 entries.addAfter(WatheItems.CHAMPAGNE,
                         PRIDE_PUNCH,
@@ -44,6 +43,12 @@ public class WatheExtendedItems {
                         NEON_SPLASH,
                         THE_AMETHYST,
                         VELVET_ACE
+                )
+        );
+
+        ItemGroupEvents.modifyEntriesEvent(WatheItems.EQUIPMENT_GROUP).register(entries ->
+                entries.addAfter(WatheItems.LETTER,
+                        GUIDEBOOK
                 )
         );
     }

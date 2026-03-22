@@ -35,13 +35,8 @@ import java.util.UUID;
 @Mixin(LimitedInventoryScreen.class)
 public abstract class GuesserRolePickerMixin extends Screen {
 
-    @Unique
     private RolePickerWidget watheextended$guesserPicker = null;
-
-    @Unique
     private List<ClickableWidget> watheextended$bodymakerWidgets = new ArrayList<>();
-
-    @Unique
     private List<ClickableWidget> watheextended$guesserPlayerWidgets = new ArrayList<>();
 
     protected GuesserRolePickerMixin() {

@@ -18,8 +18,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(PlayerShopComponent.class)
 public class PlayerShopComponentTaxedMixin {
 
-    @Shadow
-    @Final
+    @Shadow @Final
     private PlayerEntity player;
 
     @ModifyVariable(method = "addToBalance(I)V", at = @At("HEAD"), argsOnly = true)
