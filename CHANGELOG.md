@@ -81,6 +81,7 @@
 - Fixed Kin's Wathe stamina bar overlapping issues
 - Fixed Bartender's use of Defense Vials alerting the Drugmaker and Physician's Poison Sense abilities
 - Fixed a crash caused by Wathe conflicting with Iris
+- Fixed ability to pickup more than one food/drinkable item from different trays
 
 # stable-3.3.132
 

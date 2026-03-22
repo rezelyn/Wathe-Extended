@@ -24,6 +24,7 @@
     "client.noellesroles.GuesserSlotTextureMixin",
     "client.noellesroles.MorphlingSlotTextureMixin",
     "client.noellesroles.SwapperSlotTextureMixin",
+    "client.noellesroles.SwapperTextSuppressMixin",
     "client.noellesroles.VoodooSlotTextureMixin",
     "client.noellesroles.VoodooTextSuppressMixin",
     "client.wathe.AbilityRowsMixin",

@@ -13,11 +13,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Environment(EnvType.CLIENT)
 @Mixin(DrawContext.class)
-public class VoodooTextSuppressMixin {
+public class SwapperTextSuppressMixin {
 
     @Inject(method = "drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)I", at = @At("HEAD"), cancellable = true)
-    private void watheextended$suppressVoodooHintText(TextRenderer tr, Text text, int x, int y, int color, CallbackInfoReturnable<Integer> cir) {
-        if (text.getContent() instanceof TranslatableTextContent tc && tc.getKey().equals("hud.voodoo.player_deaths_only")) {
+    private void watheextended$suppressSwapperHintText(TextRenderer tr, Text text, int x, int y, int color, CallbackInfoReturnable<Integer> cir) {
+        if (text.getContent() instanceof TranslatableTextContent tc && tc.getKey().equals("hud.swapper.first_player_selection")) {
+            cir.setReturnValue(0);
+        }
+        if (text.getContent() instanceof TranslatableTextContent tc && tc.getKey().equals("hud.swapper.second_player_selection")) {
             cir.setReturnValue(0);
         }
     }
