@@ -3,14 +3,13 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"textures": {
-		"0": "watheextended:item/guidebook_3d",
-		"particle": "watheextended:item/guidebook_3d"
+		"0": "watheextended:item/guidebook_3d"
 	},
 	"elements": [
 		{
-			"from": [-0.05, 1.08, 2.7],
-			"to": [7.65, 1.08, 13.125],
-			"rotation": {"angle": -22.5, "axis": "z", "origin": [6.15, 1.1, 7]},
+			"from": [-0.05, 1.58, 2.7],
+			"to": [7.65, 1.58, 13.125],
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [6.15, 1.6, 7]},
 			"faces": {
 				"north": {"uv": [0, 0, 2, 0], "texture": "#0"},
 				"east": {"uv": [0, 0, 4, 0], "texture": "#0"},
@@ -21,9 +20,9 @@
 			}
 		},
 		{
-			"from": [7.475, 0.315, 2.7],
-			"to": [15.175, 0.315, 13.125],
-			"rotation": {"angle": 22.5, "axis": "z", "origin": [6.975, 0.325, 7]},
+			"from": [7.475, 0.815, 2.7],
+			"to": [15.175, 0.815, 13.125],
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [6.975, 0.825, 7]},
 			"faces": {
 				"north": {"uv": [0, 0, 2, 0], "texture": "#0"},
 				"east": {"uv": [0, 0, 4, 0], "texture": "#0"},
@@ -35,7 +34,7 @@
 		},
 		{
 			"from": [-0.5, 0.025, 2.7],
-			"to": [15.5, 0.525, 13.125],
+			"to": [15.5, 1.025, 13.125],
 			"rotation": {"angle": 0, "axis": "y", "origin": [6.5, 0.025, 7]},
 			"faces": {
 				"north": {"uv": [10, 8, 15, 8.25], "texture": "#0"},
