@@ -29,7 +29,7 @@ public final class IntrovertedModifier {
 
                 // only affect roles that are subject to the mood system
                 Role role = GameWorldComponent.KEY.get(world).getRole(sp);
-                if (role == null || role.getMoodType() == Role.MoodType.NONE) continue;
+                if (role == null || role.getMoodType() == Role.MoodType.NONE || role.getMoodType() == Role.MoodType.FAKE) continue;
                 if (role.canUseKiller()) continue;
 
                 PlayerMoodComponent mood = PlayerMoodComponent.KEY.get(sp);
