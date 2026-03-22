@@ -1,14 +1,30 @@
 {
+  "itemGroup.watheextended.main": "Wathe: Extended",
+  "block.watheextended.tarnished_gold_panel": "Tarnished Gold Panel",
+  "block.watheextended.gold_panel": "Gold Panel",
+  "block.watheextended.pristine_gold_panel": "Pristine Gold Panel",
+  "block.watheextended.black_hull_panel": "Black Hull Panel",
+  "block.watheextended.black_hull_sheets_panel": "Black Hull Sheets Panel",
+  "block.watheextended.metal_sheet_panel": "Metal Sheet Panel",
+  "block.watheextended.stainless_steel_panel": "Stainless Steel Panel",
+  "block.watheextended.dark_steel_panel": "Dark Steel Panel",
+  "block.watheextended.marble_panel": "Panneau de marbre",
+  "block.watheextended.dark_marble_panel": "Panneau de marbre sombre",
+  "block.watheextended.marble_tiles_panel": "Marble Tiles Panel",
+  "block.watheextended.mahogany_planks_panel": "Mahogany Planks Panel",
+  "block.watheextended.mahogany_herringbone_panel": "Mahogany Herringbone Panel",
+  "block.watheextended.bubinga_planks_panel": "Bubinga Planks Panel",
+  "block.watheextended.bubinga_herringbone_panel": "Bubinga Herringbone Panel",
+  "block.watheextended.ebony_planks_panel": "Ebony Planks Panel",
+  "block.watheextended.ebony_herringbone_panel": "Ebony Herringbone Panel",
   "block.watheextended.anthracite_steel_ornament": "Ornement en acier anthracite",
   "block.watheextended.khaki_steel_ornament": "Ornement en acier kaki",
   "block.watheextended.maroon_steel_ornament": "Ornement en acier marron",
   "block.watheextended.muntz_steel_ornament": "Ornement en acier Muntz",
   "block.watheextended.navy_steel_ornament": "Ornement en acier marine",
-  "block.watheextended.marble_panel": "Panneau de marbre",
-  "block.watheextended.dark_marble_panel": "Panneau de marbre sombre",
-  "block.watheextended.pizza": "Pizza",
-  "block.watheextended.music_disc_box": "Boîte à disques de musique",
-  "block.watheextended.ish_plush": "Peluche Ish",
+  "block.watheextended.black_moquette": "Black Moquette",
+  "block.watheextended.green_moquette": "Green Moquette",
+  "block.watheextended.purple_moquette": "Purple Moquette",
   "block.watheextended.snowy_acacia_leaves": "Feuilles d'acacia enneigées",
   "block.watheextended.snowy_azalea_leaves": "Feuilles d'azalée enneigées",
   "block.watheextended.snowy_birch_leaves": "Feuilles de bouleau enneigées",
@@ -19,13 +35,11 @@
   "block.watheextended.snowy_mangrove_leaves": "Feuilles de palétuvier enneigées",
   "block.watheextended.snowy_oak_leaves": "Feuilles de chêne enneigées",
   "block.watheextended.snowy_spruce_leaves": "Feuilles de sapin enneigées",
-
-
-
+  "block.watheextended.ish_plush": "Peluche Ish",
+  "item.watheextended.guidebook": "Guide",
   "item.watheextended.teleport_to_ready_area": "Téléportation vers la Zone de Préparation",
   "item.watheextended.cotton_candy_shake": "Shake Barbe à Papa",
   "item.watheextended.galaxy_fizz": "Galaxy Fizz",
-  "item.watheextended.guidebook": "Guide",
   "item.watheextended.honey_lemonade": "Limonade au Miel",
   "item.watheextended.mint_ocean": "Océan de Menthe",
   "item.watheextended.neon_splash": "Neon Splash",
@@ -33,22 +47,13 @@
   "item.watheextended.sunset_prism": "Prisme de Couchant",
   "item.watheextended.the_amethyst": "L'Améthyste",
   "item.watheextended.velvet_ace": "As de Velours",
-
-
-
   "text.watheextended.disabled": "Désactivé",
   "text.watheextended.enabled": "Activé",
   "text.watheextended.off": "DÉSACTIVÉ",
   "text.watheextended.on": "ACTIVÉ",
-
-
-
   "announcement.modifier.watheextended.introverted": "Introverted",
   "announcement.modifier.watheextended.taxed": "Taxed",
   "announcement.modifier.watheextended.adaptive": "Adaptive",
-
-
-
   "command.watheextended.pronouns.set": "Vos pronoms ont été configurés sur : %s",
   "command.watheextended.pronouns.cleared": "Vos pronoms ont été effacés.",
   "command.watheextended.mapvariables.lobbyarea.set": "Variable de carte lobbyArea définie sur %s.",
@@ -59,21 +64,13 @@
   "command.watheextended.rtp_slot.list_header": "%d emplacement(s) de téléportation :",
   "command.watheextended.rtp_slot.outside_ready_area": "Impossible de placer l'emplacement à %s : la position est hors des limites de la zone de préparation.",
   "command.watheextended.rtp_slot.removed": "Emplacement de téléportation #%d supprimé (%s)",
-
-
-
-
   "gui.watheextended.ability.ready": "Ready",
-
   "gui.watheextended.config.title": "Options de Wathe Extended",
-
   "gui.watheextended.config.category.client": "Client",
   "gui.watheextended.config.category.client.tooltip": "Écran de configuration central pour les options côté client",
-
   "gui.watheextended.config.category.client.label.player": "Player",
   "gui.watheextended.config.category.client.option.pronouns": "Pronoms",
   "gui.watheextended.config.category.client.option.pronouns.desc": "Définissez vos pronoms (ex: elle, il, iel). Ils apparaîtront au-dessus de votre nom quand d'autres joueurs vous regardent de près. Si vide, ils ne seront pas affichés.",
-
   "gui.watheextended.config.category.client.label.visual": "Visuals",
   "gui.watheextended.config.category.client.option.staminabar": "Barre d'endurance",
   "gui.watheextended.config.category.client.option.staminabar.desc": "Si activé, affiche la barre d'endurance dans l'interface.\n\n§6Attention : Cette option a actuellement des conflits de superposition avec Wathe Extended.",
@@ -89,7 +86,6 @@
   "gui.watheextended.config.category.client.option.visual.hud.desc": "Activer/désactiver les éléments visuels de l'HUD.",
   "gui.watheextended.config.category.client.option.visual.snow": "Visuel de la neige",
   "gui.watheextended.config.category.client.option.visual.snow.desc": "Activer/désactiver l'effet visuel de la neige.",
-
   "gui.watheextended.config.category.client.group.debug": "Débogage",
   "gui.watheextended.config.category.client.group.debug.tooltip": "Outils de débogage pour les OPs.",
   "gui.watheextended.config.category.client.group.debug.opt.showboxboundaries": "Afficher les limites des zones",
@@ -98,21 +94,20 @@
   "gui.watheextended.config.category.client.group.debug.opt.showkeyassignments.desc": "Si activé, met en évidence toutes les portes ayant un ID de clé assigné et affiche cet ID.",
   "gui.watheextended.config.category.client.group.debug.opt.showrtpslots": "Afficher les emplacements RTP",
   "gui.watheextended.config.category.client.group.debug.opt.showrtpslots.desc": "Si activé, affiche une boîte aux coordonnées exactes de chaque emplacement RTP.\n• Boîte blanche : Position du joueur\n• §bLigne Aqua§r : Direction (Yaw/Pitch)",
-
   "gui.watheextended.config.category.options": "Jeu",
   "gui.watheextended.config.category.options.tooltip": "Options générales pour WATHE et ses add-ons",
-
   "gui.watheextended.config.category.options.group.gamerules": "Règles de jeu",
   "gui.watheextended.config.category.options.group.gamerules.tooltip": "Contrôler diverses règles de jeu et options de fonctionnalités.",
   "gui.watheextended.config.category.options.group.gamerules.opt.collisions": "Collisions joueurs",
   "gui.watheextended.config.category.options.group.gamerules.opt.collisions.desc": "Si désactivé, les joueurs n'auront plus de collision entre eux.",
+  "gui.watheextended.config.category.options.group.gamerules.opt.suppressabilityvfxsfx": "Suppress Ability Effects",
+  "gui.watheextended.config.category.options.group.gamerules.opt.suppressabilityvfxsfx.desc": "When enabled, suppresses the visual and sound effects triggered by ability use.\n\n§7Affects:\n• Starstruck (Particles + Sound)\n• Robot (Sound)\n• Bellringer (Sound)\n\n§6Default: §cDisabled",
   "gui.watheextended.config.category.options.group.gamerules.opt.morphpsychosis": "Psychose de métamorphose",
   "gui.watheextended.config.category.options.group.gamerules.opt.morphpsychosis.desc": "Si activé, les joueurs fous ne verront plus le nom des joueurs et verront aléatoirement d'autres joueurs se métamorphoser avec l'apparence d'autres joueurs.",
   "gui.watheextended.config.category.options.group.gamerules.opt.safepreptime": "Temps de préparation sécurisé",
   "gui.watheextended.config.category.options.group.gamerules.opt.safepreptime.desc": "Si activé, les joueurs auront une période de préparation sécurisée au début de la partie.",
   "gui.watheextended.config.category.options.group.gamerules.opt.safeprepcooldown": "Recharge de préparation sécurisée",
   "gui.watheextended.config.category.options.group.gamerules.opt.safeprepcooldown.desc": "Le temps de préparation en secondes dont disposent les joueurs au début d'une partie avant de pouvoir utiliser des armes mortelles.",
-
   "gui.watheextended.config.category.options.group.wathe_options": "Options Wathe",
   "gui.watheextended.config.category.options.group.wathe_options.tooltip": "Contrôler diverses options liées au gameplay et à l'équilibrage de WATHE.",
   "gui.watheextended.config.category.options.group.wathe_options.opt.backfire": "Chance de retour de flamme",
@@ -131,10 +126,8 @@
   "gui.watheextended.config.category.options.group.wathe_options.opt.increasemoneywhenkilll.desc": "Le montant de pièces que les Tueurs reçoivent lorsqu'ils tuent un joueur.\n\n§6Ne s'appliquera pas si les 'Ajustements Wathe' sont désactivés.",
   "gui.watheextended.config.category.options.group.wathe_options.opt.preventkillerdroprevolver": "Empêcher le tueur de lâcher son revolver",
   "gui.watheextended.config.category.options.group.wathe_options.opt.preventkillerdroprevolver.desc": "Si activé, les Tueurs ne lâcheront pas leur revolver en tirant sur des civils.\n\n§6Ne s'appliquera pas si les 'Ajustements Wathe' sont désactivés.",
-
   "gui.watheextended.config.category.options.group.roles_options": "Options des rôles",
   "gui.watheextended.config.category.options.group.roles_options.tooltip": "Configurer diverses options liées aux rôles et à leurs capacités.",
-
   "gui.watheextended.config.category.options.group.roles_options.opt.roledividend_killer": "Dividende du rôle Tueur",
   "gui.watheextended.config.category.options.group.roles_options.opt.roledividend_killer.desc": "La valeur de dividende utilisée pour déterminer combien de Tueurs sont assignés selon le nombre de joueurs.",
   "gui.watheextended.config.category.options.group.roles_options.opt.roledividend_vigilante": "Dividende du rôle Justicier",
@@ -145,39 +138,34 @@
   "gui.watheextended.config.category.options.group.roles_options.opt.conductorinstinct.desc": "Si activé, modifie la capacité d'instinct du Conductor pour voir les objets jetés.\n\n§6Ne s'appliquera pas si les 'Ajustements de rôles de Noelle' sont désactivés.",
   "gui.watheextended.config.category.options.group.roles_options.opt.coronerinstinct": "Activer l'instinct de coroner",
   "gui.watheextended.config.category.options.group.roles_options.opt.coronerinstinct.desc": "Si activé, modifie la capacité d'instinct du Coroner pour voir les corps des joueurs.\n\n§6Ne s'appliquera pas si les 'Ajustements de rôles de Noelle' sont désactivés.",
-
   "gui.watheextended.config.category.options.group.roles_options.label.bellringer": "Bellringer",
   "gui.watheextended.config.category.options.group.roles_options.opt.bellringer.price": "Prix de la capacité",
   "gui.watheextended.config.category.options.group.roles_options.opt.bellringer.price.desc": "Ajuster le prix de la capacité du Bellringer.",
   "gui.watheextended.config.category.options.group.roles_options.opt.bellringer.cooldown": "Recharge de capacité",
   "gui.watheextended.config.category.options.group.roles_options.opt.bellringer.cooldown.desc": "Ajuster le temps de recharge de la capacité du Bellringer.",
-
   "gui.watheextended.config.category.options.group.roles_options.label.bodymaker": "Bodymaker",
   "gui.watheextended.config.category.options.group.roles_options.opt.bodymaker.cooldown": "Recharge de capacité",
   "gui.watheextended.config.category.options.group.roles_options.opt.bodymaker.cooldown.desc": "Ajuster le temps de recharge de la capacité du Bodymaker.",
   "gui.watheextended.config.category.options.group.roles_options.opt.bodymaker.fakerole": "Peut créer de faux rôles",
   "gui.watheextended.config.category.options.group.roles_options.opt.bodymaker.fakerole.desc": "Le Bodymaker est-il autorisé à créer des cadavres avec des rôles désactivés ou des rôles non présents dans la partie actuelle ?",
-
   "gui.watheextended.config.category.options.group.roles_options.label.cleaner": "Cleaner",
   "gui.watheextended.config.category.options.group.roles_options.opt.cleaner.price": "Prix de la capacité",
   "gui.watheextended.config.category.options.group.roles_options.opt.cleaner.price.desc": "Ajuster le prix de la capacité du Cleaner.",
   "gui.watheextended.config.category.options.group.roles_options.opt.cleaner.cooldown": "Recharge de capacité",
   "gui.watheextended.config.category.options.group.roles_options.opt.cleaner.cooldown.desc": "Ajuster le temps de recharge de la capacité du Cleaner.",
-
+  "gui.watheextended.config.category.options.group.roles_options.opt.cleaner.playerlimit": "Ability Player Limit",
+  "gui.watheextended.config.category.options.group.roles_options.opt.cleaner.playerlimit.desc": "Minimum number of alive players required for the Cleaner's Deep Cleaning ability to be active.\n\n§6Default: §e10",
   "gui.watheextended.config.category.options.group.roles_options.label.cook": "Cook",
   "gui.watheextended.config.category.options.group.roles_options.opt.cook.panprice": "Prix de la poêle",
   "gui.watheextended.config.category.options.group.roles_options.opt.cook.panprice.desc": "Ajuster le prix de l'objet Poêle du Cook.",
-
   "gui.watheextended.config.category.options.group.roles_options.label.detective": "Detective",
   "gui.watheextended.config.category.options.group.roles_options.opt.detective.price": "Prix de la capacité",
   "gui.watheextended.config.category.options.group.roles_options.opt.detective.price.desc": "Ajuster le prix de la capacité du Detective.",
   "gui.watheextended.config.category.options.group.roles_options.opt.detective.cooldown": "Recharge de capacité",
   "gui.watheextended.config.category.options.group.roles_options.opt.detective.cooldown.desc": "Ajuster le temps de recharge de la capacité du Detective.",
-
   "gui.watheextended.config.category.options.group.roles_options.label.dreamer": "Dreamer",
   "gui.watheextended.config.category.options.group.roles_options.opt.dreamer.initialquantity": "Nombre initial d'empreintes de rêve",
   "gui.watheextended.config.category.options.group.roles_options.opt.dreamer.initialquantity.desc": "La quantité de départ d'Empreintes de Rêve donnée au Dreamer au début de la partie.",
-
   "gui.watheextended.config.category.options.group.roles_options.label.drugmaker": "Drugmaker",
   "gui.watheextended.config.category.options.group.roles_options.opt.drugmaker.playerlimit": "Limite de joueurs",
   "gui.watheextended.config.category.options.group.roles_options.opt.drugmaker.playerlimit.desc": "Le nombre minimum de joueurs requis pour que le rôle Drugmaker soit activé.",
@@ -187,7 +175,6 @@
   "gui.watheextended.config.category.options.group.roles_options.opt.drugmaker.poisoninjectorprice.desc": "Ajuster le prix de l'Injecteur de Poison du Drugmaker.",
   "gui.watheextended.config.category.options.group.roles_options.opt.drugmaker.blowgunprice": "Prix de la sarbacane",
   "gui.watheextended.config.category.options.group.roles_options.opt.drugmaker.blowgunprice.desc": "Ajuster le prix de la Sarbacane du Drugmaker.",
-
   "gui.watheextended.config.category.options.group.roles_options.label.hacker": "Hacker",
   "gui.watheextended.config.category.options.group.roles_options.opt.hacker.playerlimit": "Player Limit",
   "gui.watheextended.config.category.options.group.roles_options.opt.hacker.playerlimit.desc": "The minimum number of players required for the Drugmaker role to be enabled.\n\n§6Default: §e10",
@@ -197,13 +184,11 @@
   "gui.watheextended.config.category.options.group.roles_options.opt.hacker.hackingtime.desc": "Time in seconds required for the Hacker to complete a role crack.\n\n§6Default: §e30",
   "gui.watheextended.config.category.options.group.roles_options.opt.hacker.hasshop": "Has Shop",
   "gui.watheextended.config.category.options.group.roles_options.opt.hacker.hasshop.desc": "Whether the Hacker has access to the shop.\n\n§6Default: §aON",
-
   "gui.watheextended.config.category.options.group.roles_options.label.hunter": "Hunter",
   "gui.watheextended.config.category.options.group.roles_options.opt.hunter.price": "Prix de la capacité",
   "gui.watheextended.config.category.options.group.roles_options.opt.hunter.price.desc": "Ajuster le prix de la capacité du Hunter.",
   "gui.watheextended.config.category.options.group.roles_options.opt.hunter.cooldown": "Recharge de capacité",
   "gui.watheextended.config.category.options.group.roles_options.opt.hunter.cooldown.desc": "Ajuster le temps de recharge de la capacité du Hunter.",
-
   "gui.watheextended.config.category.options.group.roles_options.label.judge": "Judge",
   "gui.watheextended.config.category.options.group.roles_options.opt.judge.price": "Prix de la capacité",
   "gui.watheextended.config.category.options.group.roles_options.opt.judge.price.desc": "Ajuster le prix de la capacité du Judge.",
@@ -211,61 +196,49 @@
   "gui.watheextended.config.category.options.group.roles_options.opt.judge.cooldown.desc": "Ajuster le temps de recharge de la capacité du Judge.",
   "gui.watheextended.config.category.options.group.roles_options.opt.judge.glowing": "Durée de brillance",
   "gui.watheextended.config.category.options.group.roles_options.opt.judge.glowing.desc": "Ajuster la durée de l'effet de brillance de la capacité du Judge.",
-
   "gui.watheextended.config.category.options.group.roles_options.label.kidnapper": "Kidnapper",
   "gui.watheextended.config.category.options.group.roles_options.opt.kidnapper.knockoutdrugprice": "Prix de la drogue assommante",
   "gui.watheextended.config.category.options.group.roles_options.opt.kidnapper.knockoutdrugprice.desc": "Ajuster le prix de l'objet Drogue Assommante du Kidnapper.",
-
   "gui.watheextended.config.category.options.group.roles_options.label.licensedvillain": "Licensed Villain",
   "gui.watheextended.config.category.options.group.roles_options.opt.licensedvillain.playerlimit": "Limite de joueurs",
   "gui.watheextended.config.category.options.group.roles_options.opt.licensedvillain.playerlimit.desc": "Le nombre minimum de joueurs requis pour que le rôle Vilain licencié soit activé.",
   "gui.watheextended.config.category.options.group.roles_options.opt.licensedvillain.revolverprice": "Prix du revolver",
   "gui.watheextended.config.category.options.group.roles_options.opt.licensedvillain.revolverprice.desc": "Ajuster le prix du Revolver du Vilain licencié.",
-
   "gui.watheextended.config.category.options.group.roles_options.label.physician": "Physician",
   "gui.watheextended.config.category.options.group.roles_options.opt.physician.pillprice": "Prix de la pilule",
   "gui.watheextended.config.category.options.group.roles_options.opt.physician.pillprice.desc": "Ajuster le prix de l'objet Pilule du Physician.",
-
   "gui.watheextended.config.category.options.group.roles_options.label.robot": "Robot",
   "gui.watheextended.config.category.options.group.roles_options.opt.robot.duration": "Durée de capacité",
   "gui.watheextended.config.category.options.group.roles_options.opt.robot.duration.desc": "Ajuster la durée de la capacité du Robot.",
   "gui.watheextended.config.category.options.group.roles_options.opt.robot.cooldown": "Recharge de capacité",
   "gui.watheextended.config.category.options.group.roles_options.opt.robot.cooldown.desc": "Ajuster le temps de recharge de la capacité du Robot.",
-
   "gui.watheextended.config.category.options.group.roles_options.label.voodoo": "Voodoo",
   "gui.watheextended.config.category.options.group.roles_options.opt.voodoo.nonkillerdeaths": "Voodoo sur morts naturelles",
   "gui.watheextended.config.category.options.group.roles_options.opt.voodoo.nonkillerdeaths.desc": "Permet aux morts naturelles (sans tueur assigné) de déclencher le Voodoo.",
   "gui.watheextended.config.category.options.group.roles_options.opt.voodoo.shotlikeevil": "Tiré comme un méchant",
   "gui.watheextended.config.category.options.group.roles_options.opt.voodoo.shotlikeevil.desc": "Les Voodoos agissent comme des joueurs maléfiques lorsqu'ils sont tirés au revolver (pas de retour de flamme, pas de perte d'arme).",
-
   "gui.watheextended.config.category.options.group.roles_options.label.conductor": "Conductor",
   "gui.watheextended.config.category.options.group.roles_options.opt.conductor.keycountvisible": "Nombre de joueurs pour clé visible",
   "gui.watheextended.config.category.options.group.roles_options.opt.conductor.keycountvisible.desc": "Nombre minimum de joueurs en ligne pour que la Clé Maîtresse ressemble à une clé plutôt qu'à un crochet. (0 = toujours crochet, 1-6 = toujours clé)",
-
   "gui.watheextended.config.category.options.group.roles_options.label.bartender": "Bartender",
   "gui.watheextended.config.category.options.group.roles_options.opt.bartender.maxdefensevials": "Fioles de défense max",
   "gui.watheextended.config.category.options.group.roles_options.opt.bartender.maxdefensevials.desc": "Nombre de fioles de défense pouvant être achetées par un Bartender par manche. (0 = pas de limite)",
   "gui.watheextended.config.category.options.group.roles_options.opt.bartender.defensevialsprice": "Prix de la fiole de défense",
   "gui.watheextended.config.category.options.group.roles_options.opt.bartender.defensevialsprice.desc": "Prix de la fiole de défense du Bartender.",
-
   "gui.watheextended.config.category.options.group.roles_options.label.trapper": "Trapper",
   "gui.watheextended.config.category.options.group.roles_options.opt.trapper.rolemineprice": "Prix de la mine de rôle",
   "gui.watheextended.config.category.options.group.roles_options.opt.trapper.rolemineprice.desc": "Prix de la mine de rôle du Trapper.",
-
   "gui.watheextended.config.category.options.group.roles_options.label.necromancer": "Necromancer",
   "gui.watheextended.config.category.options.group.roles_options.opt.necromancer.hasshop": "A une boutique",
   "gui.watheextended.config.category.options.group.roles_options.opt.necromancer.hasshop.desc": "Si le Necromancer a accès à une boutique.",
-
   "gui.watheextended.config.category.options.group.roles_options.label.arsonist": "Arsonist",
   "gui.watheextended.config.category.options.group.roles_options.opt.arsonist.keepsgamegoing": "Maintient la partie",
   "gui.watheextended.config.category.options.group.roles_options.opt.arsonist.keepsgamegoing.desc": "Si activé, la partie ne se terminera pas tant que le Pyromane est encore en vie.",
-
   "gui.watheextended.config.category.options.group.roles_options.label.amnesiac": "Amnesiac",
   "gui.watheextended.config.category.options.group.roles_options.opt.amnesiac.bodiesglow": "Brillance des corps pour l'Amnésique",
   "gui.watheextended.config.category.options.group.roles_options.opt.amnesiac.bodiesglow.desc": "Les cadavres brillent pour l'Amnésique afin qu'il puisse les trouver pour se souvenir d'un rôle.",
   "gui.watheextended.config.category.options.group.roles_options.opt.amnesiac.glowsdifferently": "Brillance différente pour l'Amnésique",
   "gui.watheextended.config.category.options.group.roles_options.opt.amnesiac.glowsdifferently.desc": "L'Amnésique brille d'une couleur différente de la brillance par défaut des corps.",
-
   "gui.watheextended.config.category.options.group.roles_options.label.starstruck": "Starstruck",
   "gui.watheextended.config.category.options.group.roles_options.opt.starstruck.taskreducescooldown": "Les tâches réduisent la recharge",
   "gui.watheextended.config.category.options.group.roles_options.opt.starstruck.taskreducescooldown.desc": "Si activé, terminer une tâche en tant qu'Étoile filante réduira le temps de recharge de sa capacité.",
@@ -281,7 +254,6 @@
   "gui.watheextended.config.category.options.group.roles_options.opt.starstruck.abilitywalkspeed.desc": "Vitesse de mouvement de l'Étoile filante en marchant avec la capacité active.\n\n§6Par défaut : 0.12 | WATHE : 0.07",
   "gui.watheextended.config.category.options.group.roles_options.opt.starstruck.abilitysprintspeed": "Vitesse de sprint de capacité",
   "gui.watheextended.config.category.options.group.roles_options.opt.starstruck.abilitysprintspeed.desc": "Vitesse de mouvement de l'Étoile filante en sprintant avec la capacité active.\n\n§6Par défaut : 0.15 | WATHE : 0.10",
-
   "gui.watheextended.config.category.options.group.roles_options.label.muzzler": "Muzzler",
   "gui.watheextended.config.category.options.group.roles_options.opt.muzzler.tapecooldown": "Recharge de ruban",
   "gui.watheextended.config.category.options.group.roles_options.opt.muzzler.tapecooldown.desc": "Le temps de recharge en secondes de l'objet Ruban adhésif lorsque la Muzzler l'utilise sur un joueur.",
@@ -295,21 +267,17 @@
   "gui.watheextended.config.category.options.group.roles_options.opt.muzzler.killifcheckedatzero.desc": "Si activé, terminer une vérification de ruban sur un joueur ayant 0.0 de moral restant tuera le joueur vérifié.",
   "gui.watheextended.config.category.options.group.roles_options.opt.muzzler.displaysilencedtipdelay": "Délai d'affichage du conseil de silence",
   "gui.watheextended.config.category.options.group.roles_options.opt.muzzler.displaysilencedtipdelay.desc": "Le délai en secondes avant que le conseil \"Ce joueur est réduit au silence\" n'apparaisse. Réglez sur 0 pour désactiver.",
-
   "gui.watheextended.config.category.options.group.modifiers_options": "Options des modificateurs",
   "gui.watheextended.config.category.options.group.modifiers_options.tooltip": "Contrôler diverses options liées aux modificateurs et leurs effets.",
-
   "gui.watheextended.config.category.options.group.modifiers_options.opt.maximum": "Maximum de modificateurs",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.maximum.desc": "Le nombre maximum de modificateurs qu'un joueur peut avoir en même temps.",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.multiplier": "Multiplicateur de modificateurs",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.multiplier.desc": "Combien de modificateurs doivent être donnés par rapport au dividende du tueur.",
-
   "gui.watheextended.config.category.options.group.modifiers_options.label.guesser": "Guesser",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.guesser.allowcivillian": "Autoriser les devineurs civils",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.guesser.allowcivillian.desc": "Les civils peuvent recevoir le modificateur Devineur.",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.guesser.wrongguessmode": "Résultat d'erreur de devinette",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.guesser.wrongguessmode.desc": "Ce qui arrive à un Devineur après une supposition incorrecte : Rien (2 min de recharge), Mort (mort Voodoo), Explosion (tue les joueurs proches).",
-
   "gui.watheextended.config.category.options.group.modifiers_options.label.lovers": "Lovers",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden": "Amants interdits",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden.desc": "Si activé, la paire d'Amants consistera toujours en un Tueur/Neutre et un Non-Tueur. Réduit également la chance globale que le modificateur Amants soit attribué si cette option est activée.",
@@ -323,7 +291,6 @@
   "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.winwithcivilians.desc": "Les amants comptent comme une condition de victoire pour l'équipe des civils.",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.glowtoeachother": "Brillance mutuelle",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.glowtoeachother.desc": "Les amants peuvent se voir à travers les murs via un effet de brillance.",
-
   "gui.watheextended.config.category.options.group.modifiers_options.label.allergic": "Allergic",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.nothingchance": "Chance de rien",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.nothingchance.desc": "La chance relative que l'Allergique ne reçoive aucun effet lorsque son allergie se déclenche. Réglez sur 0 pour désactiver.",
@@ -335,7 +302,6 @@
   "gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.poisonchance.desc": "La chance relative que l'Allergique soit empoisonné lorsque son allergie se déclenche. Réglez sur 0 pour désactiver.",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.instinctduration": "Durée d'instinct",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.instinctduration.desc": "La durée en secondes de l'effet Instinct accordé par le modificateur Allergique.",
-
   "gui.watheextended.config.category.options.group.modifiers_options.label.introverted": "Introverted",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.crowdcount": "Nombre de personnes (foule)",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.crowdcount.desc": "Nombre minimum de joueurs à proximité (dans la portée de foule) requis pour que le joueur introverti se considère dans une foule et commence à se sentir anxieux.",
@@ -345,7 +311,6 @@
   "gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.crowddrainmultiplier.desc": "Multiplicateur de perte d'humeur appliqué à chaque tick lorsque le joueur introverti est considéré dans une foule.",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.alonedrainmultiplier": "Multiplicateur de perte (seul)",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.alonedrainmultiplier.desc": "Multiplicateur de perte d'humeur appliqué à chaque tick lorsque le joueur introverti est seul ou avec un seul autre joueur à proximité.",
-
   "gui.watheextended.config.category.options.group.modifiers_options.label.taxed": "Taxed",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.taxed.coinreduction": "Réduction de revenus",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.taxed.coinreduction.desc": "Fraction de pièces déduite des revenus d'un joueur taxé (récompenses de meurtre et revenus passifs).",
@@ -353,16 +318,13 @@
   "gui.watheextended.config.category.options.group.modifiers_options.opt.taxed.killthreshold.desc": "Number of kills within the time window before the tax starts applying to kill income.\n\n§6Default: §e1",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.taxed.killwindowseconds": "Kill Window",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.taxed.killwindowseconds.desc": "Time window in seconds during which kills are counted towards the tax threshold.\n\n§6Default: §e60",
-
   "gui.watheextended.config.category.options.group.modifiers_options.label.adaptive": "Adaptive",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.adaptive.penaltyreduction": "Pénalité de méthode identique",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.adaptive.penaltyreduction.desc": "Fraction de revenu de meurtre déduite lorsqu'un tueur répète la même méthode de meurtre consécutivement (ex: 0.25 = seulement 75% du revenu accordé).",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.adaptive.bonusmultiplier": "Bonus de méthode unique",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.adaptive.bonusmultiplier.desc": "Fraction de revenu de meurtre ajoutée en bonus lorsqu'un tueur utilise une méthode de meurtre différente de son dernier meurtre (ex: 0.50 = +50% de revenu accordé).",
-
   "gui.watheextended.config.category.mapvariables.title": "Carte",
   "gui.watheextended.config.category.mapvariables.tooltip": "Voir et personnaliser les variables de la carte du monde actuelle",
-
   "gui.watheextended.config.category.mapvariables.opt.worldprotection": "Protection du monde",
   "gui.watheextended.config.category.mapvariables.opt.worldprotection.desc": "Si activé, les joueurs ne pourront pas interagir avec les conteneurs, boutons, leviers, trappes, portes et autres blocs interactifs.\nNe s'appliquera pas aux lampes, boutons et portes à l'intérieur des zones de la carte (lobbyArea, readyArea, playArea).\n\n§6Non recommandé sur les cartes personnalisées car certains blocs moddés pourraient ne pas être compatibles.",
   "gui.watheextended.config.category.mapvariables.opt.rtp": "Téléportation aléatoire",
@@ -373,10 +335,8 @@
   "gui.watheextended.config.category.mapvariables.opt.jumpinlobby.desc": "Si activé, les joueurs seront autorisés à sauter lorsqu'ils ne sont pas en partie.",
   "gui.watheextended.config.category.mapvariables.opt.autostart": "Démarrage automatique",
   "gui.watheextended.config.category.mapvariables.opt.autostart.desc": "Le nombre de secondes après lesquelles la partie démarrera automatiquement.\n\nRéglez sur 0 pour désactiver le démarrage automatique.",
-
   "gui.watheextended.config.category.mapvariables.group.variables": "Variables",
   "gui.watheextended.config.category.mapvariables.group.variables.tooltip": "Gérer diverses variables de carte qui contrôlent les emplacements et zones importants du jeu.",
-
   "gui.watheextended.config.category.mapvariables.group.variables.label.positions": "Positions",
   "gui.watheextended.config.category.mapvariables.group.variables.opt.spawnpos": "Position d'apparition",
   "gui.watheextended.config.category.mapvariables.group.variables.opt.spawnpos.desc": "Format : <x> <y> <z> <yaw> <pitch>\n\n§fLa position d'apparition et l'orientation auxquelles les joueurs seront réinitialisés une fois la partie terminée.",
@@ -396,27 +356,21 @@
   "gui.watheextended.config.category.mapvariables.group.variables.opt.playareaoffset.desc": "Format: <x> <y> <z>\n\n§fLe décalage appliqué aux joueurs lors de la téléportation vers la zone de jeu.",
   "gui.watheextended.config.category.mapvariables.group.variables.opt.resetpasteoffset": "Décalage de collage de réinitialisation",
   "gui.watheextended.config.category.mapvariables.group.variables.opt.resetpasteoffset.desc": "Format : <x> <y> <z>\n\n§fLe décalage auquel le modèle doit être collé.",
-
   "gui.watheextended.config.category.mapvariables.group.rtp_slots": "Emplacements de téléportation aléatoire",
   "gui.watheextended.config.category.mapvariables.group.rtp_slots.tooltip": "Voir et modifier les emplacements utilisés par la téléportation aléatoire.\n\n§6Ils doivent être placés dans la zone de préparation.",
   "gui.watheextended.config.category.mapvariables.group.rtp_slots.slot": "Emplacement #%d",
   "gui.watheextended.config.category.mapvariables.group.rtp_slots.slot.desc": "Format: <x> <y> <z> <yaw> <pitch>\n\n§fModifiez les valeurs. Laissez vide pour supprimer.\nLes changements s'appliquent lors de la sauvegarde.",
   "gui.watheextended.config.category.mapvariables.group.rtp_slots.none": "Aucun emplacement configuré.\nUtilisez la commande §e/watheextended:rtp slot add§r pour en créer.\n\n§6Les emplacements doivent être dans la zone de préparation pour fonctionner.",
-
   "gui.watheextended.config.category.roles": "Rôles",
   "gui.watheextended.config.category.roles.tooltip": "Contrôler l'activation ou la désactivation de certains rôles",
   "gui.watheextended.config.category.roles.desc": "ID : %s",
   "gui.watheextended.config.category.roles.empty": "Aucun rôle enregistré trouvé !",
   "gui.watheextended.config.category.roles.error": "Échec du chargement des rôles !",
-
   "gui.watheextended.config.category.modifiers": "Modificateurs",
   "gui.watheextended.config.category.modifiers.tooltip": "Contrôler l'activation ou la désactivation de certains modificateurs",
   "gui.watheextended.config.category.modifiers.desc": "ID : %s",
   "gui.watheextended.config.category.modifiers.empty": "Aucun modificateur enregistré trouvé !",
   "gui.watheextended.config.category.modifiers.error": "Échec du chargement des modificateurs !",
-
-
-
   "gui.watheextended.inventory.role": "Rôle :",
   "gui.watheextended.inventory.modifiers": "Modificateurs : ",
   "gui.watheextended.inventory.no_modifiers": "Aucun modificateur",
@@ -429,17 +383,12 @@
   "gui.watheextended.inventory.bodymaker.reason": "Select the reason of the death.",
   "gui.watheextended.inventory.rolepicker.search": "Search...",
   "gui.watheextended.inventory.rolepicker.no_matches": "No matches",
-
-
-
   "gui.watheextended.guidebook.title": "Guide",
   "gui.watheextended.guidebook.tab.modifiers": "Modificateurs",
   "gui.watheextended.guidebook.tab.roles": "Rôles",
-
   "gui.watheextended.guidebook.left_page.roles.side.civilian": "Rôles Civils",
   "gui.watheextended.guidebook.left_page.roles.side.killer": "Rôles Tueurs",
   "gui.watheextended.guidebook.left_page.roles.side.neutral": "Rôles Neutres",
-
   "gui.watheextended.guidebook.right_page.hint.select": "Sélectionnez une entrée",
   "gui.watheextended.guidebook.right_page.roles.subtitle.abilities": "Capacités",
   "gui.watheextended.guidebook.right_page.roles.subtitle.desc": "Description",
@@ -448,7 +397,6 @@
   "gui.watheextended.guidebook.right_page.roles.subtitle.no_desc": "Aucune description disponible.",
   "gui.watheextended.guidebook.right_page.roles.subtitle.no_items": "Aucun objet disponible.",
   "gui.watheextended.guidebook.right_page.roles.subtitle.separator": "— %s —",
-
   "gui.watheextended.guidebook.role.desc.wathe.civilian": "Simple visage dans la foule, le Civil n'est pas différent des autres passagers. Il voyage pour diverses raisons : travail, loisirs, vacances méritées ou simple croisière de luxe.",
   "gui.watheextended.guidebook.role.desc.wathe.vigilante": "L'une des figures les plus vitales du Harpy Express. Le Vigilante garantit que chaque passager arrive à bon port en maintenant l'ordre. Ne l'importunez pas, il est très protecteur.",
   "gui.watheextended.guidebook.role.desc.wathe.killer": "Un tueur en série impitoyable dont l'unique objectif est d'éliminer tout le monde à bord par n'importe quel moyen. Opérant souvent avec ses §4Cohortes§r, ses motifs restent un mystère glaçant.",
@@ -488,7 +436,6 @@
   "gui.watheextended.guidebook.role.desc.stupid_express.initiate": "En montant à bord, il a vu sa némésis, l'autre Initié. Une haine immédiate les lie, et ils savent qu'il n'y a pas assez de place pour deux dans ce train.",
   "gui.watheextended.guidebook.role.desc.stupid_express.necromancer": "Capable de ranimer les morts pour en faire ses serviteurs. Le Necromancer voue une fascination tordue à la mort et utilise les défunts pour accomplir ses sombres desseins.",
   "gui.watheextended.guidebook.role.desc.stupid_express.thief": "Loup solitaire en quête d'objets précieux, le Voleur est obsédé par les couteaux de collection et les armes à feu. Fermez bien vos poches quand il est dans les parages.",
-
   "gui.watheextended.guidebook.role.abilities.wathe.civilian": "",
   "gui.watheextended.guidebook.role.abilities.wathe.vigilante": "",
   "gui.watheextended.guidebook.role.abilities.wathe.killer": "{icon:instinct} §lInstinct§r\nVoir les joueurs et les §4Cohortes de tueurs§r à travers les murs.\n\n{icon:athletic} §lAthlétique§r\nEndurance infinie.",
@@ -528,7 +475,6 @@
   "gui.watheextended.guidebook.role.abilities.stupid_express.initiate": "{icon:nemesis} §lNémésis§r\nVous et l'autre Initié êtes ennemis. Vous vous voyez à travers les murs et gagnez des pièces en restant proches. Les deux Initiés doivent tuer l'autre pour devenir un §4Rôle de tueur§r ; si l'un tue quelqu'un d'autre, il meurt et l'autre devient Amnésique.",
   "gui.watheextended.guidebook.role.abilities.stupid_express.necromancer": "{icon:revive} §lRéanimation§r\nRanime un joueur mort en tant que §4Tueur§r.\n\n{icon:instinct} §lInstinct§r\nVoir les joueurs à travers les murs.",
   "gui.watheextended.guidebook.role.abilities.stupid_express.thief": "{icon:avarice} §lVol§r\nPeut voler un objet à un joueur en cliquant dessus à proximité. Ne peut voler que les Couteaux, Revolvers ou Poêles.",
-
   "gui.watheextended.guidebook.item.blackout.desc": "Clic droit pour déclencher une panne de courant dans tout le train, coupant toutes les lumières pour une courte durée.",
   "gui.watheextended.guidebook.item.blowgun.desc": "Clic droit pour viser et tirer une fléchette empoisonnée, empoisonnant la cible à distance.",
   "gui.watheextended.guidebook.item.body_bag.desc": "Clic droit sur un cadavre pour le mettre dans un sac mortuaire.",
@@ -563,7 +509,6 @@
   "gui.watheextended.guidebook.item.icon_ability_cooldown_refresh.desc": "Instantly reset the cooldown of all Killers abilities.",
   "gui.watheextended.guidebook.item.icon_potion_effect_refresh.desc": "Instantly refresh or clear active potion effects of all Killers.",
   "gui.watheextended.guidebook.item.icon_weapon_cooldown_refresh.desc": "Instantly resets the cooldown of all Killers weapons.",
-
   "gui.watheextended.guidebook.modifier.desc.kinswathe.magnate": "Double le montant des gains de pièces passifs.",
   "gui.watheextended.guidebook.modifier.desc.kinswathe.taskmaster": "Accorde plus de pièces pour avoir terminé les tâches.\n• §4Tueurs§r - §6+50 {icon:coin} \n• §2Innocents§r - §6+25 {icon:coin}",
   "gui.watheextended.guidebook.modifier.desc.kinswathe.violator": "Accorde la capacité de sauter à l'intérieur du train.",
