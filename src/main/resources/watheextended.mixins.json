@@ -6,6 +6,7 @@
   "mixins": [
     "BlockInteractionProtectionMixin",
     "PlayerCollisionMixin",
+    "ServerChunkLoadingManagerAccessor",
     "kinswathe.BellringerAbilityMixin",
     "kinswathe.CleanerAbilityMixin",
     "kinswathe.RobotAbilityMixin",
@@ -14,6 +15,7 @@
     "stupidexpress.RevivalItemGivingMixin",
     "stupidexpress.ThiefItemRulesMixin",
     "wathe.DisabledKillerRoleConversionMixin",
+    "wathe.FoodPlatterBlockMixin",
     "wathe.GameFunctionsAdaptiveMixin",
     "wathe.GameFunctionsMixin",
     "wathe.GameFunctionsKillShieldMixin",
