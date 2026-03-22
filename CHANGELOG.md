@@ -23,6 +23,10 @@
   - Pristine Gold Panel
   - Stainless Steel Panel
   - Tarnished Gold Panel
+- Added new moquette blocks color variants
+  - Black Moquette
+  - Green Moquette
+  - Purple Moquette
 - Improved inventory ability UIs:
   - New textures for the slots of each unique roles ability rows, depending on the role
   - **Bodymaker** and **Guesser** UIs will now show a clickable list of *every available* roles you can choose from instead of writing them down by yourself
