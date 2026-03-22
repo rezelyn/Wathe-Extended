@@ -18,6 +18,5 @@ public class WatheExtendedSounds {
         return Registry.register(Registries.SOUND_EVENT, id, SoundEvent.of(id));
     }
 
-    public static void initialize() {
-    }
+    public static void initialize() {}
 }

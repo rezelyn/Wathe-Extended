@@ -1,7 +1,7 @@
 package cat.rezelyn.watheextended.cca;
 
 import cat.rezelyn.watheextended.WatheExtended;
-import cat.rezelyn.watheextended.rtp.TeleportationSlot;
+import cat.rezelyn.watheextended.game.TeleportationSlot;
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
@@ -23,12 +23,9 @@ import java.util.UUID;
 
 public class WatheExtendedWorldComponent implements AutoSyncedComponent {
 
-    public static final ComponentKey<WatheExtendedWorldComponent> KEY =
-            ComponentRegistry.getOrCreate(WatheExtended.id("mapvariables"), WatheExtendedWorldComponent.class);
-    private static final MapVariablesWorldComponent.PosWithOrientation DEFAULT_READY_AREA_SPAWN_POS =
-            new MapVariablesWorldComponent.PosWithOrientation(new Vec3d(-999.5, 1.0, -360.5), -90f, 0f);
-    public static final Box DEFAULT_LOBBY_AREA =
-            new Box(-1424, -50, -512, -753, 50, -225);
+    public static final ComponentKey<WatheExtendedWorldComponent> KEY = ComponentRegistry.getOrCreate(WatheExtended.id("mapvariables"), WatheExtendedWorldComponent.class);
+    private static final MapVariablesWorldComponent.PosWithOrientation DEFAULT_READY_AREA_SPAWN_POS = new MapVariablesWorldComponent.PosWithOrientation(new Vec3d(-999.5, 1.0, -360.5), -90f, 0f);
+    public static final Box DEFAULT_LOBBY_AREA = new Box(-1424, -50, -512, -753, 50, -225);
 
     private final World world;
     private final Map<Integer, TeleportationSlot> teleportationSlots = new LinkedHashMap<>();
@@ -46,35 +43,22 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
     public WatheExtendedWorldComponent(World world) {
         this.world = world;
     }
-
     public void markPlayerKilled(UUID uuid) {
         killedPlayers.add(uuid);
     }
-
     public boolean isPlayerKilled(UUID uuid) {
         return killedPlayers.contains(uuid);
     }
-
     public void clearKilledPlayers() {
         killedPlayers.clear();
     }
 
     private static MapVariablesWorldComponent.PosWithOrientation getPosWithOrientationFromNbt(NbtCompound tag, String name) {
-        Vec3d pos = new Vec3d(
-                tag.getDouble(name + "X"),
-                tag.getDouble(name + "Y"),
-                tag.getDouble(name + "Z")
-        );
-        return new MapVariablesWorldComponent.PosWithOrientation(
-                pos,
-                tag.getFloat(name + "Yaw"),
-                tag.getFloat(name + "Pitch")
-        );
+        Vec3d pos = new Vec3d(tag.getDouble(name + "X"), tag.getDouble(name + "Y"), tag.getDouble(name + "Z"));
+        return new MapVariablesWorldComponent.PosWithOrientation(pos, tag.getFloat(name + "Yaw"), tag.getFloat(name + "Pitch"));
     }
 
-    private static void writePosWithOrientationToNbt(NbtCompound tag,
-                                                     MapVariablesWorldComponent.PosWithOrientation pos,
-                                                     String name) {
+    private static void writePosWithOrientationToNbt(NbtCompound tag, MapVariablesWorldComponent.PosWithOrientation pos, String name) {
         tag.putDouble(name + "X", pos.pos.getX());
         tag.putDouble(name + "Y", pos.pos.getY());
         tag.putDouble(name + "Z", pos.pos.getZ());
@@ -189,37 +173,20 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
 
     @Override
     public void readFromNbt(@NotNull NbtCompound tag, RegistryWrapper.@NotNull WrapperLookup registryLookup) {
-        // Only read if data was previously saved; otherwise keep the default
         if (tag.contains("readyAreaSpawnPosX")) {
             this.readyAreaSpawnPos = getPosWithOrientationFromNbt(tag, "readyAreaSpawnPos");
         } else {
             this.readyAreaSpawnPos = DEFAULT_READY_AREA_SPAWN_POS;
         }
 
-        this.randomTeleportationEnabled = tag.contains("randomTeleportationEnabled")
-                ? tag.getBoolean("randomTeleportationEnabled")
-                : cat.rezelyn.watheextended.WatheExtendedServerConfig.isRtpEnabled();
-
-        this.playerCollisionsEnabled = tag.contains("playerCollisionsEnabled")
-                ? tag.getBoolean("playerCollisionsEnabled")
-                : cat.rezelyn.watheextended.WatheExtendedServerConfig.isPlayerCollisionsEnabled();
-
-        this.blockInteractionsProtected = tag.contains("blockInteractionsProtected")
-                ? tag.getBoolean("blockInteractionsProtected")
-                : cat.rezelyn.watheextended.WatheExtendedServerConfig.isBlockProtectionEnabled();
-
-        this.itemBoundsCheckEnabled = tag.contains("itemBoundsCheckEnabled")
-                ? tag.getBoolean("itemBoundsCheckEnabled")
-                : cat.rezelyn.watheextended.WatheExtendedServerConfig.isItemBoundsCheckEnabled();
-
-        this.forbiddenLoversEnabled = tag.contains("forbiddenLoversEnabled")
-                ? tag.getBoolean("forbiddenLoversEnabled")
-                : cat.rezelyn.watheextended.WatheExtendedServerConfig.isForbiddenLoversEnabled();
+        this.randomTeleportationEnabled = tag.contains("randomTeleportationEnabled") ? tag.getBoolean("randomTeleportationEnabled") : cat.rezelyn.watheextended.WatheExtendedServerConfig.isRtpEnabled();
+        this.playerCollisionsEnabled = tag.contains("playerCollisionsEnabled") ? tag.getBoolean("playerCollisionsEnabled") : cat.rezelyn.watheextended.WatheExtendedServerConfig.isPlayerCollisionsEnabled();
+        this.blockInteractionsProtected = tag.contains("blockInteractionsProtected") ? tag.getBoolean("blockInteractionsProtected") : cat.rezelyn.watheextended.WatheExtendedServerConfig.isBlockProtectionEnabled();
+        this.itemBoundsCheckEnabled = tag.contains("itemBoundsCheckEnabled") ? tag.getBoolean("itemBoundsCheckEnabled") : cat.rezelyn.watheextended.WatheExtendedServerConfig.isItemBoundsCheckEnabled();
+        this.forbiddenLoversEnabled = tag.contains("forbiddenLoversEnabled") ? tag.getBoolean("forbiddenLoversEnabled") : cat.rezelyn.watheextended.WatheExtendedServerConfig.isForbiddenLoversEnabled();
 
         if (tag.contains("lobbyAreaMinX")) {
-            this.lobbyArea = new Box(
-                    tag.getDouble("lobbyAreaMinX"), tag.getDouble("lobbyAreaMinY"), tag.getDouble("lobbyAreaMinZ"),
-                    tag.getDouble("lobbyAreaMaxX"), tag.getDouble("lobbyAreaMaxY"), tag.getDouble("lobbyAreaMaxZ"));
+            this.lobbyArea = new Box(tag.getDouble("lobbyAreaMinX"), tag.getDouble("lobbyAreaMinY"), tag.getDouble("lobbyAreaMinZ"), tag.getDouble("lobbyAreaMaxX"), tag.getDouble("lobbyAreaMaxY"), tag.getDouble("lobbyAreaMaxZ"));
         } else {
             this.lobbyArea = DEFAULT_LOBBY_AREA;
         }

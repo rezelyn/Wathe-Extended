@@ -2,7 +2,7 @@ package cat.rezelyn.watheextended.client.debug;
 
 import cat.rezelyn.watheextended.api.cca.MapVariables;
 import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
-import cat.rezelyn.watheextended.rtp.TeleportationSlot;
+import cat.rezelyn.watheextended.game.TeleportationSlot;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.doctor4t.wathe.block_entity.DoorBlockEntity;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
@@ -102,10 +102,7 @@ public final class BoxDebugRenderer {
                 if (ddx * ddx + ddy * ddy + ddz * ddz > maxDistSq) continue;
                 anySlot = true;
 
-                drawLines(matrices, linesBuf,
-                        slot.x - HIT_W, slot.y, slot.z - HIT_W,
-                        slot.x + HIT_W, slot.y + HIT_H, slot.z + HIT_W,
-                        CUBE_COLOR[0], CUBE_COLOR[1], CUBE_COLOR[2], 0.4f);
+                drawLines(matrices, linesBuf, slot.x - HIT_W, slot.y, slot.z - HIT_W, slot.x + HIT_W, slot.y + HIT_H, slot.z + HIT_W, CUBE_COLOR[0], CUBE_COLOR[1], CUBE_COLOR[2], 0.4f);
 
                 double eyeY = slot.y + 1.62;
                 double yawRad = Math.toRadians(slot.yaw);
@@ -117,10 +114,7 @@ public final class BoxDebugRenderer {
 
                 Matrix4f pose = matrices.peek().getPositionMatrix();
                 float ox = (float) slot.x, oy = (float) eyeY, oz = (float) slot.z;
-                emitLine(linesBuf, pose,
-                        ox, oy, oz, ox + dx * 2.0f, oy + dy * 2.0f, oz + dz * 2.0f,
-                        dx, dy, dz,
-                        VIEW_COLOR[0], VIEW_COLOR[1], VIEW_COLOR[2], 0.4f);
+                emitLine(linesBuf, pose, ox, oy, oz, ox + dx * 2.0f, oy + dy * 2.0f, oz + dz * 2.0f, dx, dy, dz, VIEW_COLOR[0], VIEW_COLOR[1], VIEW_COLOR[2], 0.4f);
             }
 
             if (anySlot) {
@@ -130,8 +124,7 @@ public final class BoxDebugRenderer {
                 }
             }
 
-            VertexConsumerProvider.Immediate immediate =
-                    client.getBufferBuilders().getEntityVertexConsumers();
+            VertexConsumerProvider.Immediate immediate = client.getBufferBuilders().getEntityVertexConsumers();
             TextRenderer textRenderer = client.textRenderer;
             for (java.util.Map.Entry<Integer, TeleportationSlot> entry : slots) {
                 TeleportationSlot slot = entry.getValue();
@@ -145,9 +138,7 @@ public final class BoxDebugRenderer {
 
                 Text label = Text.literal("Slot #" + entry.getKey()).styled(s -> s.withColor(0xFFFFFF));
                 float xOff = -textRenderer.getWidth(label) / 2f;
-                textRenderer.draw(label, xOff, 0f, 0xFFFFFF, false,
-                        matrices.peek().getPositionMatrix(), immediate,
-                        TextRenderer.TextLayerType.SEE_THROUGH, 0, 0xF000F0);
+                textRenderer.draw(label, xOff, 0f, 0xFFFFFF, false, matrices.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.SEE_THROUGH, 0, 0xF000F0);
 
                 matrices.pop();
             }
@@ -165,8 +156,7 @@ public final class BoxDebugRenderer {
             RenderSystem.lineWidth(1.5f);
             BufferBuilder linesBuf = tess.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
 
-            VertexConsumerProvider.Immediate immediate =
-                    client.getBufferBuilders().getEntityVertexConsumers();
+            VertexConsumerProvider.Immediate immediate = client.getBufferBuilders().getEntityVertexConsumers();
             VertexConsumer fillBuf = immediate.getBuffer(RenderLayer.getDebugFilledBox());
             TextRenderer textRenderer = client.textRenderer;
 
@@ -198,12 +188,9 @@ public final class BoxDebugRenderer {
                         }
                         double y1 = by + 2.0;
 
-                        drawLines(matrices, linesBuf, x0, by, z0, x1, y1, z1,
-                                KEY_COLOR[0], KEY_COLOR[1], KEY_COLOR[2], 1.0f);
+                        drawLines(matrices, linesBuf, x0, by, z0, x1, y1, z1, KEY_COLOR[0], KEY_COLOR[1], KEY_COLOR[2], 1.0f);
 
-                        WorldRenderer.renderFilledBox(matrices, fillBuf,
-                                x0, by, z0, x1, y1, z1,
-                                KEY_COLOR[0], KEY_COLOR[1], KEY_COLOR[2], 0.25f);
+                        WorldRenderer.renderFilledBox(matrices, fillBuf, x0, by, z0, x1, y1, z1, KEY_COLOR[0], KEY_COLOR[1], KEY_COLOR[2], 0.25f);
 
                         matrices.push();
                         matrices.translate((x0 + x1) / 2.0, y1 + 0.1, (z0 + z1) / 2.0);
@@ -212,9 +199,7 @@ public final class BoxDebugRenderer {
 
                         Text label = Text.literal(keyName).styled(s -> s.withColor(0xFFAA00).withBold(true));
                         float xOff = -textRenderer.getWidth(label) / 2f;
-                        textRenderer.draw(label, xOff, 0f, 0xFFAA00, false,
-                                matrices.peek().getPositionMatrix(), immediate,
-                                TextRenderer.TextLayerType.SEE_THROUGH, 0, 0xF000F0);
+                        textRenderer.draw(label, xOff, 0f, 0xFFAA00, false, matrices.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.SEE_THROUGH, 0, 0xF000F0);
 
                         matrices.pop();
                         anyDrawn = true;
@@ -259,10 +244,7 @@ public final class BoxDebugRenderer {
         cuboid(matrices, buf, x0 - BEAM, y0, z1 - BEAM, x0 + BEAM, y1, z1 + BEAM, r, g, b, a);
     }
 
-    private static void cuboid(MatrixStack matrices, BufferBuilder buf,
-                               float x0, float y0, float z0,
-                               float x1, float y1, float z1,
-                               float r, float g, float b, float a) {
+    private static void cuboid(MatrixStack matrices, BufferBuilder buf, float x0, float y0, float z0, float x1, float y1, float z1, float r, float g, float b, float a) {
         Matrix4f m = matrices.peek().getPositionMatrix();
         quad(buf, m, x0, y0, z1, x1, y0, z1, x1, y0, z0, x0, y0, z0, r, g, b, a); // -y
         quad(buf, m, x0, y1, z0, x1, y1, z0, x1, y1, z1, x0, y1, z1, r, g, b, a); // +y
@@ -272,22 +254,14 @@ public final class BoxDebugRenderer {
         quad(buf, m, x1, y1, z1, x1, y1, z0, x1, y0, z0, x1, y0, z1, r, g, b, a); // +x
     }
 
-    private static void quad(BufferBuilder buf, Matrix4f m,
-                             float ax, float ay, float az,
-                             float bx, float by, float bz,
-                             float cx, float cy, float cz,
-                             float dx, float dy, float dz,
-                             float r, float g, float b, float a) {
+    private static void quad(BufferBuilder buf, Matrix4f m, float ax, float ay, float az, float bx, float by, float bz, float cx, float cy, float cz, float dx, float dy, float dz, float r, float g, float b, float a) {
         buf.vertex(m, ax, ay, az).color(r, g, b, a);
         buf.vertex(m, bx, by, bz).color(r, g, b, a);
         buf.vertex(m, cx, cy, cz).color(r, g, b, a);
         buf.vertex(m, dx, dy, dz).color(r, g, b, a);
     }
 
-    private static void drawLines(MatrixStack matrices, BufferBuilder buf,
-                                  double x0, double y0, double z0,
-                                  double x1, double y1, double z1,
-                                  float r, float g, float b, float a) {
+    private static void drawLines(MatrixStack matrices, BufferBuilder buf, double x0, double y0, double z0, double x1, double y1, double z1, float r, float g, float b, float a) {
         Matrix4f m = matrices.peek().getPositionMatrix();
         float fx0 = (float) x0, fy0 = (float) y0, fz0 = (float) z0;
         float fx1 = (float) x1, fy1 = (float) y1, fz1 = (float) z1;
@@ -305,11 +279,7 @@ public final class BoxDebugRenderer {
         emitLine(buf, m, fx1, fy1, fz0, fx1, fy1, fz1, 0, 0, 1, r, g, b, a);
     }
 
-    private static void emitLine(BufferBuilder buf, Matrix4f m,
-                                 float x0, float y0, float z0,
-                                 float x1, float y1, float z1,
-                                 float nx, float ny, float nz,
-                                 float r, float g, float b, float a) {
+    private static void emitLine(BufferBuilder buf, Matrix4f m, float x0, float y0, float z0, float x1, float y1, float z1, float nx, float ny, float nz, float r, float g, float b, float a) {
         buf.vertex(m, x0, y0, z0).color(r, g, b, a).normal(nx, ny, nz);
         buf.vertex(m, x1, y1, z1).color(r, g, b, a).normal(nx, ny, nz);
     }

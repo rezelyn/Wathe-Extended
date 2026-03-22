@@ -3,7 +3,7 @@ package cat.rezelyn.watheextended.client.screen.config;
 import cat.rezelyn.watheextended.api.cca.GameComponents;
 import cat.rezelyn.watheextended.client.WatheExtendedClientConfig;
 import cat.rezelyn.watheextended.client.pronouns.PronounsCache;
-import cat.rezelyn.watheextended.pronouns.PronounsManager;
+import cat.rezelyn.watheextended.game.PronounsManager;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import dev.isxander.yacl3.api.controller.StringControllerBuilder;
@@ -17,8 +17,7 @@ import java.util.function.BiConsumer;
 
 public final class ClientCategory {
 
-    private ClientCategory() {
-    }
+    private ClientCategory() {}
 
     public static ConfigCategory build(Screen parent, boolean isOp, BiConsumer<String, Screen> sendCommand) {
         ConfigCategory.Builder builder = ConfigCategory.createBuilder()

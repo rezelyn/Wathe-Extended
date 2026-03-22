@@ -18,7 +18,8 @@ public class RolePickerWidget extends ClickableWidget {
     private static final int SEARCH_H = 14;
     private static final int SEP_H = 1;
     private static final int PAD = 2;
-    private static final int COLOR_BORDER = 0xFFC5A244;
+    private static final int COLOR_BORDER_TOP = 0xFFC5A244;
+    private static final int COLOR_BORDER_BOTTOM = 0xFF815A15;
     private static final int COLOR_BACKGROUND = 0xFF160902;
     private static final int COLOR_HOVER = 0xFF9A702A;
     private static final int COLOR_HINT = 0xFF808080;
@@ -73,7 +74,7 @@ public class RolePickerWidget extends ClickableWidget {
         int x0 = getX(), y0 = getY(), x1 = x0 + width, y1 = y0 + height;
         TextRenderer tr = MinecraftClient.getInstance().textRenderer;
 
-        ctx.fill(x0, y0, x1, y1, COLOR_BORDER);
+        ctx.fillGradient(x0, y0, x1, y1, COLOR_BORDER_TOP, COLOR_BORDER_BOTTOM);
         ctx.fill(x0 + 1, y0 + 1, x1 - 1, y1 - 1, COLOR_BACKGROUND);
         ctx.fill(x0 + 1, y0 + 1, x1 - 1, y0 + SEARCH_H, COLOR_BACKGROUND);
 
@@ -90,7 +91,7 @@ public class RolePickerWidget extends ClickableWidget {
 
         ctx.drawTextWithShadow(tr, displayText, x0 + PAD + 2, y0 + (SEARCH_H - tr.fontHeight) / 2 + 1, searchColor);
 
-        ctx.fill(x0 + 1, y0 + SEARCH_H, x1 - 1, y0 + SEARCH_H + SEP_H, COLOR_BORDER);
+        ctx.fill(x0 + 1, y0 + SEARCH_H, x1 - 1, y0 + SEARCH_H + SEP_H, COLOR_BORDER_TOP);
         ctx.enableScissor(x0 + 1, listTop(), x1 - 1, listBottom());
 
         List<RoleEntry> entries = filtered();

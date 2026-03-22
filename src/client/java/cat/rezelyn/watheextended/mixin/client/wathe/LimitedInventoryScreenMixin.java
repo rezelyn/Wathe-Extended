@@ -19,15 +19,8 @@ import java.util.List;
 @Mixin(LimitedInventoryScreen.class)
 public class LimitedInventoryScreenMixin {
 
-    @Redirect(
-            method = "drawBackground",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/DrawContext;drawTexturedQuad(Lnet/minecraft/util/Identifier;IIIIIFFFFFFFF)V"
-            )
-    )
+    @Redirect(method = "drawBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexturedQuad(Lnet/minecraft/util/Identifier;IIIIIFFFFFFFF)V"))
     private void watheExtended$removeGameSprite(DrawContext context, Identifier texture, int x1, int x2, int y1, int y2, int z, float u1, float u2, float v1, float v2, float red, float green, float blue, float alpha) {
-        // suppress game.png background sprite rendering
     }
 
     @Inject(method = "render", at = @At("TAIL"))

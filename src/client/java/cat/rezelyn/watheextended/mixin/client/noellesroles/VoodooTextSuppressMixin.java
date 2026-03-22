@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class VoodooTextSuppressMixin {
 
     @Inject(method = "drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)I", at = @At("HEAD"), cancellable = true)
-    private void watheextended$suppressVoodooDeathText(TextRenderer tr, Text text, int x, int y, int color, CallbackInfoReturnable<Integer> cir) {
+    private void watheextended$suppressVoodooHintText(TextRenderer tr, Text text, int x, int y, int color, CallbackInfoReturnable<Integer> cir) {
         if (text.getContent() instanceof TranslatableTextContent tc && tc.getKey().equals("hud.voodoo.player_deaths_only")) {
             cir.setReturnValue(0);
         }

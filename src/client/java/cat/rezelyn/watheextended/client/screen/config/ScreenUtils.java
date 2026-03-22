@@ -12,8 +12,7 @@ import java.util.*;
 
 public final class ScreenUtils {
 
-    private ScreenUtils() {
-    }
+    private ScreenUtils() {}
 
     public static String fmt(double v) {
         String s = new BigDecimal(Double.toString(v)).setScale(2, RoundingMode.DOWN).toPlainString();
@@ -29,8 +28,7 @@ public final class ScreenUtils {
 
     public static String boxToArgs(@Nullable Box box) {
         if (box == null) return "0 0 0 0 0 0";
-        return fmt(box.minX) + " " + fmt(box.minY) + " " + fmt(box.minZ)
-                + " " + fmt(box.maxX) + " " + fmt(box.maxY) + " " + fmt(box.maxZ);
+        return fmt(box.minX) + " " + fmt(box.minY) + " " + fmt(box.minZ) + " " + fmt(box.maxX) + " " + fmt(box.maxY) + " " + fmt(box.maxZ);
     }
 
     public static String vec3iToArgs(@Nullable Vec3i v) {
@@ -40,8 +38,7 @@ public final class ScreenUtils {
 
     public static String posToArgs(@Nullable MapVariablesWorldComponent.PosWithOrientation pos) {
         if (pos == null) return "0 0 0 0 0";
-        return fmt(pos.pos.x) + " " + fmt(pos.pos.y) + " " + fmt(pos.pos.z)
-                + " " + fmt(pos.yaw) + " " + fmt(pos.pitch);
+        return fmt(pos.pos.x) + " " + fmt(pos.pos.y) + " " + fmt(pos.pos.z) + " " + fmt(pos.yaw) + " " + fmt(pos.pitch);
     }
 
     public static Map<String, List<String>> sortByMods(Set<String> ids) {

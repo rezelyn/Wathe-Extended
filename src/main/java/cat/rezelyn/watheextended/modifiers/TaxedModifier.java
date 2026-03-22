@@ -7,8 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public final class TaxedModifier {
 
-    private TaxedModifier() {
-    }
+    private TaxedModifier() {}
 
     private static final Map<UUID, List<Long>> killTimestamps = new ConcurrentHashMap<>();
 

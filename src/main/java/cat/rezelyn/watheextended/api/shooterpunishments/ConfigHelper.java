@@ -11,8 +11,7 @@ public final class ConfigHelper {
     public static final String[] MODES = {"default", "preventGunPickup", "killShooter"};
     private static String lastKnownMode = MODES[0];
 
-    private ConfigHelper() {
-    }
+    private ConfigHelper() {}
 
     public static boolean isLoaded() {
         return FabricLoader.getInstance().isModLoaded("shooterpunishments");
@@ -21,9 +20,7 @@ public final class ConfigHelper {
     public static void registerEntries() {
         if (!isLoaded()) return;
 
-        ServerConfig.register(Entry.globalString("shooterpunishments.currentMode", MODES[0],
-                () -> lastKnownMode,
-                v -> lastKnownMode = v));
+        ServerConfig.register(Entry.globalString("shooterpunishments.currentMode", MODES[0], () -> lastKnownMode, v -> lastKnownMode = v));
     }
 
     public static String[] getPunishmentModes() {
@@ -31,8 +28,7 @@ public final class ConfigHelper {
     }
 
     public static String getCurrentPunishment() {
-        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT
-                && ClientConfig.isRemoteServer()) {
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT && ClientConfig.isRemoteServer()) {
             return ClientConfig.getString("shooterpunishments.currentMode", lastKnownMode);
         }
         return lastKnownMode;

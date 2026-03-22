@@ -4,8 +4,7 @@ public final class ChatHudRenderHelper {
 
     private static boolean forcingRender = false;
 
-    private ChatHudRenderHelper() {
-    }
+    private ChatHudRenderHelper() {}
 
     public static void setForcingRender(boolean forcing) {
         forcingRender = forcing;

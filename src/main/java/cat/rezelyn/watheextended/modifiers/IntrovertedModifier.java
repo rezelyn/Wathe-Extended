@@ -13,8 +13,7 @@ import org.agmas.harpymodloader.component.WorldModifierComponent;
 
 public final class IntrovertedModifier {
 
-    private IntrovertedModifier() {
-    }
+    private IntrovertedModifier() {}
 
     public static void tick(ServerWorld world) {
         try {
@@ -29,7 +28,8 @@ public final class IntrovertedModifier {
 
                 // only affect roles that are subject to the mood system
                 Role role = GameWorldComponent.KEY.get(world).getRole(sp);
-                if (role == null || role.getMoodType() == Role.MoodType.NONE || role.getMoodType() == Role.MoodType.FAKE) continue;
+                if (role == null || role.getMoodType() == Role.MoodType.NONE || role.getMoodType() == Role.MoodType.FAKE)
+                    continue;
                 if (role.canUseKiller()) continue;
 
                 PlayerMoodComponent mood = PlayerMoodComponent.KEY.get(sp);
@@ -40,9 +40,7 @@ public final class IntrovertedModifier {
                     mood.setMood(mood.getMood() - GameConstants.MOOD_DRAIN * WatheExtendedServerConfig.getIntrovertedCrowdDrainMultiplier());
                 } else {
                     // alone or with one other player = mood recovers
-                    float newMood = Math.clamp(
-                            mood.getMood() + GameConstants.MOOD_DRAIN * WatheExtendedServerConfig.getIntrovertedAloneDrainMultiplier(),
-                            0.0f, 1.0f);
+                    float newMood = Math.clamp(mood.getMood() + GameConstants.MOOD_DRAIN * WatheExtendedServerConfig.getIntrovertedAloneDrainMultiplier(), 0.0f, 1.0f);
                     ((cat.rezelyn.watheextended.mixin.wathe.PlayerMoodDirectAccessor) mood).watheextended$setMoodDirect(newMood);
                 }
             }

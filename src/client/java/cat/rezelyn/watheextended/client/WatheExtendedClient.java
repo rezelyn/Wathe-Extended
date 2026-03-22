@@ -6,6 +6,7 @@ import cat.rezelyn.watheextended.client.debug.BoxDebugRenderer;
 import cat.rezelyn.watheextended.client.render.IshPlushBlockEntityRenderer;
 import cat.rezelyn.watheextended.client.screen.GuidebookScreen;
 import cat.rezelyn.watheextended.client.screen.WatheOptionsScreen;
+import cat.rezelyn.watheextended.game.PronounsManager;
 import cat.rezelyn.watheextended.index.WatheExtendedBlockEntities;
 import cat.rezelyn.watheextended.index.WatheExtendedBlocks;
 import cat.rezelyn.watheextended.index.WatheExtendedItems;
@@ -45,8 +46,7 @@ public class WatheExtendedClient implements ClientModInitializer {
                 WatheExtendedBlocks.SNOWY_MANGROVE_LEAVES,
                 WatheExtendedBlocks.SNOWY_CHERRY_LEAVES,
                 WatheExtendedBlocks.SNOWY_AZALEA_LEAVES,
-                WatheExtendedBlocks.SNOWY_FLOWERING_AZALEA_LEAVES,
-                WatheExtendedBlocks.MUSIC_DISC_BOX
+                WatheExtendedBlocks.SNOWY_FLOWERING_AZALEA_LEAVES
         );
 
         ClientPlayNetworking.registerGlobalReceiver(ServerConfig.SyncPayload.ID,
@@ -57,9 +57,8 @@ public class WatheExtendedClient implements ClientModInitializer {
                     GuidebookScreen.invalidateIfOpen();
                 });
 
-        // pronouns: receive server broadcasts and update local cache
         ClientPlayNetworking.registerGlobalReceiver(
-                cat.rezelyn.watheextended.pronouns.PronounsManager.SyncPayload.ID,
+                PronounsManager.SyncPayload.ID,
                 (payload, context) -> context.client().execute(() ->
                         cat.rezelyn.watheextended.client.pronouns.PronounsCache.set(
                                 payload.uuid(), payload.pronouns())));
@@ -76,7 +75,6 @@ public class WatheExtendedClient implements ClientModInitializer {
             cat.rezelyn.watheextended.client.pronouns.PronounsCache.clear();
         });
 
-        // Open the Guidebook screen when the item is used on the client
         UseItemCallback.EVENT.register((player, world, hand) -> {
             if (!world.isClient()) return TypedActionResult.pass(player.getStackInHand(hand));
             var stack = player.getStackInHand(hand);

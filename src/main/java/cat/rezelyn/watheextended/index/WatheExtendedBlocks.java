@@ -4,10 +4,10 @@ import cat.rezelyn.watheextended.WatheExtended;
 import cat.rezelyn.watheextended.block.IshPlushBlock;
 import cat.rezelyn.watheextended.block.MusicDiscBoxBlock;
 import cat.rezelyn.watheextended.block.PizzaBlock;
+import dev.doctor4t.ratatouille.index.RatatouilleBlocks;
 import dev.doctor4t.wathe.block.OrnamentBlock;
 import dev.doctor4t.wathe.block.PanelBlock;
 import dev.doctor4t.wathe.index.WatheBlocks;
-import dev.doctor4t.ratatouille.index.RatatouilleBlocks;
 import dev.doctor4t.wathe.index.WatheItems;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
@@ -22,41 +22,66 @@ import net.minecraft.registry.Registry;
 import net.minecraft.sound.BlockSoundGroup;
 
 public class WatheExtendedBlocks {
+    // Panels
+    public static final Block TARNISHED_GOLD_PANEL = register("tarnished_gold_panel", new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.NETHERITE)));
+    public static final Block GOLD_PANEL = register("gold_panel", new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.NETHERITE)));
+    public static final Block PRISTINE_GOLD_PANEL = register("pristine_gold_panel", new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.NETHERITE)));
+    public static final Block BLACK_HULL_PANEL = register("black_hull_panel", new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.NETHERITE)));
+    public static final Block BLACK_HULL_SHEETS_PANEL = register("black_hull_sheets_panel", new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.COPPER)));
+    public static final Block METAL_SHEET_PANEL = register("metal_sheet_panel", new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.COPPER)));
+    public static final Block STAINLESS_STEEL_PANEL = register("stainless_steel_panel", new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.COPPER)));
+    public static final Block DARK_STEEL_PANEL = register("dark_steel_panel", new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.COPPER)));
+    public static final Block MARBLE_PANEL = register("marble_panel", new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.CALCITE)));
+    public static final Block DARK_MARBLE_PANEL = register("dark_marble_panel", new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.CALCITE)));
+    public static final Block MARBLE_TILES_PANEL = register("marble_tiles_panel", new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.CALCITE)));
+    public static final Block MAHOGANY_PLANKS_PANEL = register("mahogany_planks_panel", new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.WOOD)));
+    public static final Block MAHOGANY_HERRINGBONE_PANEL = register("mahogany_herringbone_panel", new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.WOOD)));
+    public static final Block MAHOGANY_BOOKSHELF_PANEL = register("mahogany_bookshelf_panel", new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.WOOD)));
+    public static final Block BUBINGA_PLANKS_PANEL = register("bubinga_planks_panel", new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.WOOD)));
+    public static final Block BUBINGA_HERRINGBONE_PANEL = register("bubinga_herringbone_panel", new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.WOOD)));
+    public static final Block BUBINGA_BOOKSHELF_PANEL = register("bubinga_bookshelf_panel", new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.WOOD)));
+    public static final Block EBONY_PLANKS_PANEL = register("ebony_planks_panel", new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.WOOD)));
+    public static final Block EBONY_HERRINGBONE_PANEL = register("ebony_herringbone_panel", new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.WOOD)));
+    public static final Block EBONY_BOOKSHELF_PANEL = register("ebony_bookshelf_panel", new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.WOOD)));
 
-    public static final Block MARBLE_PANEL = register("marble_panel",
-            new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.CALCITE)));
-    public static final Block DARK_MARBLE_PANEL = register("dark_marble_panel",
-            new PanelBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.2f).sounds(BlockSoundGroup.CALCITE)));
-    public static final Block ANTHRACITE_STEEL_ORNAMENT = register("anthracite_steel_ornament",
-            new OrnamentBlock(AbstractBlock.Settings.create().nonOpaque().noCollision().strength(0.25f).sounds(BlockSoundGroup.COPPER)));
-    public static final Block KHAKI_STEEL_ORNAMENT = register("khaki_steel_ornament",
-            new OrnamentBlock(AbstractBlock.Settings.create().nonOpaque().noCollision().strength(0.25f).sounds(BlockSoundGroup.COPPER)));
-    public static final Block MAROON_STEEL_ORNAMENT = register("maroon_steel_ornament",
-            new OrnamentBlock(AbstractBlock.Settings.create().nonOpaque().noCollision().strength(0.25f).sounds(BlockSoundGroup.COPPER)));
-    public static final Block MUNTZ_STEEL_ORNAMENT = register("muntz_steel_ornament",
-            new OrnamentBlock(AbstractBlock.Settings.create().nonOpaque().noCollision().strength(0.25f).sounds(BlockSoundGroup.COPPER)));
-    public static final Block NAVY_STEEL_ORNAMENT = register("navy_steel_ornament",
-            new OrnamentBlock(AbstractBlock.Settings.create().nonOpaque().noCollision().strength(0.25f).sounds(BlockSoundGroup.COPPER)));
+    // Ornaments
+    public static final Block ANTHRACITE_STEEL_ORNAMENT = register("anthracite_steel_ornament", new OrnamentBlock(ornamentBlock()));
+    public static final Block KHAKI_STEEL_ORNAMENT = register("khaki_steel_ornament", new OrnamentBlock(ornamentBlock()));
+    public static final Block MAROON_STEEL_ORNAMENT = register("maroon_steel_ornament", new OrnamentBlock(ornamentBlock()));
+    public static final Block MUNTZ_STEEL_ORNAMENT = register("muntz_steel_ornament", new OrnamentBlock(ornamentBlock()));
+    public static final Block NAVY_STEEL_ORNAMENT = register("navy_steel_ornament", new OrnamentBlock(ornamentBlock()));
 
-    public static final Block MUSIC_DISC_BOX = register("music_disc_box",
-            new MusicDiscBoxBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.5f).sounds(BlockSoundGroup.WOOD)));
+    // Moquettes
+    public static final Block BLACK_MOQUETTE = register("black_moquette", new Block(moquetteBlock()));
+    public static final Block GREEN_MOQUETTE = register("green_moquette", new Block(moquetteBlock()));
+    public static final Block PURPLE_MOQUETTE = register("purple_moquette", new Block(moquetteBlock()));
 
-    public static final Block SNOWY_OAK_LEAVES = register("snowy_oak_leaves", new LeavesBlock(leavesSettings()));
-    public static final Block SNOWY_SPRUCE_LEAVES = register("snowy_spruce_leaves", new LeavesBlock(leavesSettings()));
-    public static final Block SNOWY_BIRCH_LEAVES = register("snowy_birch_leaves", new LeavesBlock(leavesSettings()));
-    public static final Block SNOWY_JUNGLE_LEAVES = register("snowy_jungle_leaves", new LeavesBlock(leavesSettings()));
-    public static final Block SNOWY_ACACIA_LEAVES = register("snowy_acacia_leaves", new LeavesBlock(leavesSettings()));
-    public static final Block SNOWY_DARK_OAK_LEAVES = register("snowy_dark_oak_leaves", new LeavesBlock(leavesSettings()));
-    public static final Block SNOWY_MANGROVE_LEAVES = register("snowy_mangrove_leaves", new LeavesBlock(leavesSettings()));
-    public static final Block SNOWY_CHERRY_LEAVES = register("snowy_cherry_leaves", new LeavesBlock(leavesSettings()));
-    public static final Block SNOWY_AZALEA_LEAVES = register("snowy_azalea_leaves", new LeavesBlock(leavesSettings()));
-    public static final Block SNOWY_FLOWERING_AZALEA_LEAVES = register("snowy_flowering_azalea_leaves", new LeavesBlock(leavesSettings()));
+    // Snowy Leaves
+    public static final Block SNOWY_OAK_LEAVES = register("snowy_oak_leaves", new LeavesBlock(leavesBlock()));
+    public static final Block SNOWY_SPRUCE_LEAVES = register("snowy_spruce_leaves", new LeavesBlock(leavesBlock()));
+    public static final Block SNOWY_BIRCH_LEAVES = register("snowy_birch_leaves", new LeavesBlock(leavesBlock()));
+    public static final Block SNOWY_JUNGLE_LEAVES = register("snowy_jungle_leaves", new LeavesBlock(leavesBlock()));
+    public static final Block SNOWY_ACACIA_LEAVES = register("snowy_acacia_leaves", new LeavesBlock(leavesBlock()));
+    public static final Block SNOWY_DARK_OAK_LEAVES = register("snowy_dark_oak_leaves", new LeavesBlock(leavesBlock()));
+    public static final Block SNOWY_MANGROVE_LEAVES = register("snowy_mangrove_leaves", new LeavesBlock(leavesBlock()));
+    public static final Block SNOWY_CHERRY_LEAVES = register("snowy_cherry_leaves", new LeavesBlock(leavesBlock()));
+    public static final Block SNOWY_AZALEA_LEAVES = register("snowy_azalea_leaves", new LeavesBlock(leavesBlock()));
+    public static final Block SNOWY_FLOWERING_AZALEA_LEAVES = register("snowy_flowering_azalea_leaves", new LeavesBlock(leavesBlock()));
 
-    public static final Block PIZZA = register("pizza",
-            new PizzaBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.5f).sounds(BlockSoundGroup.MUD)));
+    // Plushies
+    public static final Block ISH_PLUSH = register("ish_plush", new IshPlushBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.5f).sounds(BlockSoundGroup.WOOL)));
 
-    public static final Block ISH_PLUSH = register("ish_plush",
-            new IshPlushBlock(AbstractBlock.Settings.create().nonOpaque().strength(0.5f).sounds(BlockSoundGroup.WOOL)));
+    private static AbstractBlock.Settings ornamentBlock() {
+        return AbstractBlock.Settings.create().nonOpaque().noCollision().strength(0.25f).sounds(BlockSoundGroup.COPPER);
+    }
+
+    private static AbstractBlock.Settings moquetteBlock() {
+        return AbstractBlock.Settings.create().nonOpaque().strength(0.5f).sounds(BlockSoundGroup.WOOL);
+    }
+
+    private static AbstractBlock.Settings leavesBlock() {
+        return AbstractBlock.Settings.create().nonOpaque().ticksRandomly().strength(0.2f).sounds(BlockSoundGroup.GRASS);
+    }
 
     private static <T extends Block> T register(String id, T block) {
         Registry.register(Registries.BLOCK, WatheExtended.id(id), block);
@@ -64,61 +89,5 @@ public class WatheExtendedBlocks {
         return block;
     }
 
-    private static AbstractBlock.Settings leavesSettings() {
-        return AbstractBlock.Settings.create().nonOpaque().ticksRandomly().strength(0.2f).sounds(BlockSoundGroup.GRASS);
-    }
-
-    public static void initialize() {
-        // WATHE Decoration Group - Ornaments
-        ItemGroupEvents.modifyEntriesEvent(WatheItems.DECORATION_GROUP).register(entries ->
-                entries.addAfter(WatheBlocks.GOLD_ORNAMENT,
-                        ANTHRACITE_STEEL_ORNAMENT,
-                        KHAKI_STEEL_ORNAMENT,
-                        MAROON_STEEL_ORNAMENT,
-                        MUNTZ_STEEL_ORNAMENT,
-                        NAVY_STEEL_ORNAMENT
-                )
-        );
-
-        ItemGroupEvents.modifyEntriesEvent(WatheItems.DECORATION_GROUP).register(entries ->
-                entries.addAfter(WatheBlocks.MAHOGANY_CABINET,
-                        MUSIC_DISC_BOX
-                )
-        );
-
-        // WATHE Building Group
-        ItemGroupEvents.modifyEntriesEvent(WatheItems.BUILDING_GROUP).register(entries ->
-                entries.addAfter(WatheBlocks.MARBLE_SLAB, MARBLE_PANEL)
-        );
-
-        ItemGroupEvents.modifyEntriesEvent(WatheItems.BUILDING_GROUP).register(entries ->
-                entries.addAfter(WatheBlocks.DARK_MARBLE_SLAB, DARK_MARBLE_PANEL)
-        );
-
-        // Vanilla Natural Group
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries ->
-                entries.addAfter(Items.FLOWERING_AZALEA_LEAVES,
-                        SNOWY_OAK_LEAVES,
-                        SNOWY_SPRUCE_LEAVES,
-                        SNOWY_BIRCH_LEAVES,
-                        SNOWY_JUNGLE_LEAVES,
-                        SNOWY_ACACIA_LEAVES,
-                        SNOWY_DARK_OAK_LEAVES,
-                        SNOWY_MANGROVE_LEAVES,
-                        SNOWY_CHERRY_LEAVES,
-                        SNOWY_AZALEA_LEAVES,
-                        SNOWY_FLOWERING_AZALEA_LEAVES
-                )
-        );
-
-        // Vanilla Food & Drink Group
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FOOD_AND_DRINK).register(entries ->
-                entries.addAfter(Items.CAKE, PIZZA)
-        );
-
-        // Vanilla Functional Group
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries ->
-                entries.addAfter(RatatouilleBlocks.MAUVE_PLUSH, ISH_PLUSH)
-        );
-    }
+    public static void initialize() {}
 }

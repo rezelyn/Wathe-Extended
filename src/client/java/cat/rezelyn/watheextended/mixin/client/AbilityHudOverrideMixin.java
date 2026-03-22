@@ -110,9 +110,7 @@ public class AbilityHudOverrideMixin {
             if (limit <= 0) return false;
             Role role = GameWorldComponent.KEY.get(mc.world).getRole(mc.player);
             if (role == null || !role.identifier().toString().equals("kinswathe:cleaner")) return false;
-            long aliveCount = mc.world.getPlayers().stream()
-                    .filter(p -> !p.isSpectator() && !p.isCreative())
-                    .count();
+            long aliveCount = mc.world.getPlayers().stream().filter(p -> !p.isSpectator() && !p.isCreative()).count();
             return aliveCount < limit;
         } catch (Throwable t) {
             return false;

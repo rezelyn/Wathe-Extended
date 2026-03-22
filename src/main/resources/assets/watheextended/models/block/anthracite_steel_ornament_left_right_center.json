@@ -1,5 +1,5 @@
 {
-  "parent": "watheextended:block/template_ornament_r0",
+  "parent": "wathe:block/template_ornament_r0",
   "textures": {
     "texture": "watheextended:block/anthracite_steel_ornament_sides_center"
   }

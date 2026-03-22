@@ -21,7 +21,6 @@ import org.agmas.noellesroles.Noellesroles;
 import org.agmas.noellesroles.client.ui.guesser.GuesserPlayerWidget;
 import org.agmas.noellesroles.packet.GuessC2SPacket;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -35,13 +34,10 @@ import java.util.UUID;
 @Mixin(LimitedInventoryScreen.class)
 public abstract class GuesserRolePickerMixin extends Screen {
 
-    @Unique
     private RolePickerWidget watheextended$guesserPicker = null;
-
-    @Unique
     private List<ClickableWidget> watheextended$bodymakerWidgets = new ArrayList<>();
-
-    @Unique
+    private List<ClickableWidget> watheextended$morphlingWidgets = new ArrayList<>();
+    private List<ClickableWidget> watheextended$swapperWidgets = new ArrayList<>();
     private List<ClickableWidget> watheextended$guesserPlayerWidgets = new ArrayList<>();
 
     protected GuesserRolePickerMixin() {
@@ -95,6 +91,8 @@ public abstract class GuesserRolePickerMixin extends Screen {
         watheextended$guesserPicker = null;
         watheextended$bodymakerWidgets = new ArrayList<>();
         watheextended$guesserPlayerWidgets = new ArrayList<>();
+        watheextended$morphlingWidgets = new ArrayList<>();
+        watheextended$swapperWidgets = new ArrayList<>();
         if (!FabricLoader.getInstance().isModLoaded("noellesroles")) return;
 
         try {
@@ -128,6 +126,26 @@ public abstract class GuesserRolePickerMixin extends Screen {
                     }
                 } catch (Exception ignored) {
                 }
+            }
+
+            try {
+                Class<?> mpwClass = Class.forName("org.agmas.noellesroles.client.ui.MorphlingPlayerWidget");
+                for (Element child : this.children()) {
+                    if (mpwClass.isInstance(child) && child instanceof ClickableWidget cw) {
+                        watheextended$morphlingWidgets.add(cw);
+                    }
+                }
+            } catch (Exception ignored) {
+            }
+
+            try {
+                Class<?> spwClass = Class.forName("org.agmas.noellesroles.client.ui.SwapperPlayerWidget");
+                for (Element child : this.children()) {
+                    if (spwClass.isInstance(child) && child instanceof ClickableWidget cw) {
+                        watheextended$swapperWidgets.add(cw);
+                    }
+                }
+            } catch (Exception ignored) {
             }
 
             for (Element child : this.children()) {
@@ -181,6 +199,14 @@ public abstract class GuesserRolePickerMixin extends Screen {
 
         for (ClickableWidget bmWidget : watheextended$bodymakerWidgets) {
             bmWidget.visible = !playerSelected;
+        }
+
+        for (ClickableWidget cw : watheextended$morphlingWidgets) {
+            cw.visible = !playerSelected;
+        }
+
+        for (ClickableWidget cw : watheextended$swapperWidgets) {
+            cw.visible = !playerSelected;
         }
 
         if (!playerSelected && !watheextended$guesserPlayerWidgets.isEmpty()) {

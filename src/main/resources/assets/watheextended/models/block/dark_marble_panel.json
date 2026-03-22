@@ -1,6 +1,6 @@
 {
-  "parent": "watheextended:block/template_panel",
+  "parent": "wathe:block/template_panel",
   "textures": {
-    "all": "watheextended:block/dark_marble_panel"
+    "all": "wathe:block/dark_marble"
   }
 }

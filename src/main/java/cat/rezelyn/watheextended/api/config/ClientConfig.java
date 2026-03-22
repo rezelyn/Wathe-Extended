@@ -10,8 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public final class ClientConfig {
 
-    private ClientConfig() {
-    }
+    private ClientConfig() {}
 
     private static final Map<String, String> CACHE = new ConcurrentHashMap<>();
     private static volatile boolean remoteServer = false;

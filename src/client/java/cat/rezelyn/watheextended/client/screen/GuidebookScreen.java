@@ -228,8 +228,7 @@ public class GuidebookScreen extends Screen {
 
             if (entry.isHeader()) {
                 if (isYVisible(y, leftPageY, leftPageH)) {
-                    context.drawText(textRenderer, entry.text(),
-                            leftPageX + CONTENT_PAD, y, opaque(entry.color()), true);
+                    context.drawText(textRenderer, entry.text(), leftPageX + CONTENT_PAD, y, opaque(entry.color()), true);
                 }
                 y += LINE_HEIGHT + 3;
                 continue;
@@ -263,8 +262,7 @@ public class GuidebookScreen extends Screen {
     }
 
     private boolean isMouseOverEntry(int mouseX, int mouseY, int entryY, int blockH) {
-        return mouseX >= leftPageX && mouseX <= leftPageX + leftPageW
-                && mouseY >= entryY && mouseY < entryY + blockH;
+        return mouseX >= leftPageX && mouseX <= leftPageX + leftPageW && mouseY >= entryY && mouseY < entryY + blockH;
     }
 
     // right page
@@ -327,14 +325,9 @@ public class GuidebookScreen extends Screen {
     }
 
     private int renderPageSubtitle(DrawContext context, int y, int usableW, int scrollAreaH) {
-        String subtitleKey = isPaged()
-                ? GuidebookPageContent.PAGE_LABELS[currentPage]
-                : "gui.watheextended.guidebook.right_page.roles.subtitle.desc";
+        String subtitleKey = isPaged() ? GuidebookPageContent.PAGE_LABELS[currentPage] : "gui.watheextended.guidebook.right_page.roles.subtitle.desc";
 
-        Text label = Text.translatable(
-                "gui.watheextended.guidebook.right_page.roles.subtitle.separator",
-                Text.translatable(subtitleKey)
-        );
+        Text label = Text.translatable("gui.watheextended.guidebook.right_page.roles.subtitle.separator", Text.translatable(subtitleKey));
         int x = rightPageX + CONTENT_PAD + (usableW - textRenderer.getWidth(label)) / 2;
         if (isYVisible(y, rightPageY, scrollAreaH)) {
             context.drawText(textRenderer, label.copy().styled(s -> s.withItalic(true)), x, y, COLOR_HINT, false);
@@ -392,8 +385,7 @@ public class GuidebookScreen extends Screen {
     }
 
     private boolean isInsideNavBtn(int mx, int my, int btnX, int btnY) {
-        return mx >= btnX && mx <= btnX + NAV_BTN_W
-                && my >= btnY && my <= btnY + NAV_BTN_H;
+        return mx >= btnX && mx <= btnX + NAV_BTN_W && my >= btnY && my <= btnY + NAV_BTN_H;
     }
 
     @Override
@@ -576,8 +568,7 @@ public class GuidebookScreen extends Screen {
     }
 
     private void loadPageContent() {
-        GuidebookPageContent.PageResult result =
-                GuidebookPageContent.resolve(selectedDescKey, selectedEntryId, currentPage, selectedKillerSided);
+        GuidebookPageContent.PageResult result = GuidebookPageContent.resolve(selectedDescKey, selectedEntryId, currentPage, selectedKillerSided);
         rightPageLines = result.lines();
         rightPageNoContent = result.noContent();
         recalcRightHeight();
@@ -613,9 +604,7 @@ public class GuidebookScreen extends Screen {
             } else if (e.text().getString().isEmpty()) {
                 h += LINE_HEIGHT / 2;
             } else {
-                List<OrderedText> wrapped = textRenderer != null
-                        ? textRenderer.wrapLines(e.text(), usableW)
-                        : List.of(e.text().asOrderedText());
+                List<OrderedText> wrapped = textRenderer != null ? textRenderer.wrapLines(e.text(), usableW) : List.of(e.text().asOrderedText());
                 h += wrapped.size() * rowH;
             }
         }
@@ -631,9 +620,7 @@ public class GuidebookScreen extends Screen {
         int h = (int) Math.ceil(LINE_HEIGHT * TITLE_SCALE) + TITLE_EXTRA_H; // title block
         h += LINE_HEIGHT + 2; // page subtitle label
         for (Text line : rightPageLines) {
-            List<OrderedText> wrapped = textRenderer != null
-                    ? textRenderer.wrapLines(line, usableW)
-                    : List.of(line.asOrderedText());
+            List<OrderedText> wrapped = textRenderer != null ? textRenderer.wrapLines(line, usableW) : List.of(line.asOrderedText());
             h += Math.max(1, wrapped.size()) * LINE_HEIGHT;
         }
         rightContentHeight = h + CONTENT_PAD * 2;
@@ -722,9 +709,7 @@ public class GuidebookScreen extends Screen {
             int tabX = tabX(i);
             int tabY = tabY(i);
             context.drawTexture(texture, tabX, tabY, 0, 0, TAB_SPRITE_W, TAB_SPRITE_H, TAB_SPRITE_W, TAB_SPRITE_H);
-            context.drawTexture(iconTexture,
-                    tabX + TAB_ICON_ANCHOR_X, tabY + TAB_ICON_ANCHOR_Y,
-                    0, 0, tab.iconW, tab.iconH, tab.iconW, tab.iconH);
+            context.drawTexture(iconTexture, tabX + TAB_ICON_ANCHOR_X, tabY + TAB_ICON_ANCHOR_Y, 0, 0, tab.iconW, tab.iconH, tab.iconW, tab.iconH);
         }
     }
 
@@ -739,8 +724,7 @@ public class GuidebookScreen extends Screen {
 
 
     private boolean isInsideBook(double mouseX, double mouseY) {
-        return mouseX >= bookX && mouseX <= bookX + BOOK_WIDTH
-                && mouseY >= bookY && mouseY <= bookY + BOOK_HEIGHT;
+        return mouseX >= bookX && mouseX <= bookX + BOOK_WIDTH && mouseY >= bookY && mouseY <= bookY + BOOK_HEIGHT;
     }
 
     private void scrollLeft(int amount) {
@@ -775,8 +759,7 @@ public class GuidebookScreen extends Screen {
     }
 
     private boolean closeBtn(double mx, double my) {
-        return mx >= closeBtnX() && mx <= closeBtnX() + NAV_CLOSE_BTN_SIZE
-                && my >= closeBtnY() && my <= closeBtnY() + NAV_CLOSE_BTN_SIZE;
+        return mx >= closeBtnX() && mx <= closeBtnX() + NAV_CLOSE_BTN_SIZE && my >= closeBtnY() && my <= closeBtnY() + NAV_CLOSE_BTN_SIZE;
     }
 
     private void renderCloseButton(DrawContext context, int mouseX, int mouseY) {
@@ -802,18 +785,7 @@ public class GuidebookScreen extends Screen {
     }
 
     private enum Tab {
-        ROLES(
-                Text.translatable("gui.watheextended.guidebook.tab.roles"),
-                Identifier.of("watheextended", "textures/gui/guidebook/role.png"),
-                Identifier.of("watheextended", "textures/gui/guidebook/role_unselected.png"),
-                12, 10
-        ),
-        MODIFIERS(
-                Text.translatable("gui.watheextended.guidebook.tab.modifiers"),
-                Identifier.of("watheextended", "textures/gui/guidebook/modifier.png"),
-                Identifier.of("watheextended", "textures/gui/guidebook/modifier_unselected.png"),
-                12, 10
-        );
+        ROLES(Text.translatable("gui.watheextended.guidebook.tab.roles"), Identifier.of("watheextended", "textures/gui/guidebook/role.png"), Identifier.of("watheextended", "textures/gui/guidebook/role_unselected.png"), 12, 10), MODIFIERS(Text.translatable("gui.watheextended.guidebook.tab.modifiers"), Identifier.of("watheextended", "textures/gui/guidebook/modifier.png"), Identifier.of("watheextended", "textures/gui/guidebook/modifier_unselected.png"), 12, 10);
 
         final Text label;
         final Identifier icon;

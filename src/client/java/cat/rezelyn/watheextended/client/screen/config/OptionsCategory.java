@@ -15,8 +15,7 @@ import java.util.function.BiConsumer;
 
 public final class OptionsCategory {
 
-    private OptionsCategory() {
-    }
+    private OptionsCategory() {}
 
     public static ConfigCategory build(Screen parent, BiConsumer<String, Screen> sendCommand) {
         ConfigCategory.Builder builder = ConfigCategory.createBuilder()

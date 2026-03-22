@@ -2,7 +2,6 @@ package cat.rezelyn.watheextended.block;
 
 import cat.rezelyn.watheextended.index.WatheExtendedBlockEntities;
 import cat.rezelyn.watheextended.index.WatheExtendedSounds;
-import dev.doctor4t.ratatouille.Ratatouille;
 import dev.doctor4t.ratatouille.block.PlushBlock;
 import dev.doctor4t.ratatouille.index.RatatouilleSounds;
 import net.minecraft.block.BlockState;
@@ -24,11 +23,8 @@ public class IshPlushBlock extends PlushBlock {
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        world.playSound(player, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                RatatouilleSounds.BLOCK_RAT_MAID_PLUSH_HONK, SoundCategory.BLOCKS, 0.5f, 1.0f);
-        // meow :3
-        world.playSound(player, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                WatheExtendedSounds.ISH_PLUSH, SoundCategory.BLOCKS, 2.0f, 1.0f);
+        world.playSound(player, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, RatatouilleSounds.BLOCK_RAT_MAID_PLUSH_HONK, SoundCategory.BLOCKS, 0.5f, 1.0f);
+        world.playSound(player, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, WatheExtendedSounds.ISH_PLUSH, SoundCategory.BLOCKS, 2.0f, 1.0f); // meow :3
         if (!world.isClient()) {
             BlockEntity be = world.getBlockEntity(pos);
             if (be instanceof IshPlushBlockEntity plushBE) {

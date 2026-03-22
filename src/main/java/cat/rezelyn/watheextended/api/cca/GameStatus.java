@@ -9,9 +9,7 @@ public class GameStatus {
         try {
             GameWorldComponent gwc = GameWorldComponent.KEY.get(world);
             GameWorldComponent.GameStatus status = gwc.getGameStatus();
-            return status == GameWorldComponent.GameStatus.ACTIVE
-                    || status == GameWorldComponent.GameStatus.STOPPING
-                    || status == GameWorldComponent.GameStatus.STARTING;
+            return status == GameWorldComponent.GameStatus.ACTIVE || status == GameWorldComponent.GameStatus.STOPPING || status == GameWorldComponent.GameStatus.STARTING;
         } catch (Throwable t) {
             return false;
         }

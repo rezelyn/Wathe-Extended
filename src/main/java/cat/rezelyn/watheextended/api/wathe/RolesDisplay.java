@@ -13,8 +13,7 @@ public final class RolesDisplay {
 
     public enum Side {KILLER, INNOCENT, NEUTRAL}
 
-    private RolesDisplay() {
-    }
+    private RolesDisplay() {}
 
     public static Map<String, RoleDisplay> get() {
         Map<String, RoleDisplay> result = new LinkedHashMap<>();

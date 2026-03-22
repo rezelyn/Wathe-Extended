@@ -21,19 +21,8 @@ import pro.fazeclan.river.stupid_express.role.necromancer.RevivalSelectionHandle
 @Mixin(value = RevivalSelectionHandler.class, remap = false)
 public class RevivalItemGivingMixin {
 
-    @Inject(
-            method = "lambda$init$1",
-            at = @At("RETURN"),
-            remap = false
-    )
-    private static void watheextended$giveRevivalRoleItems(
-            PlayerEntity interactingPlayer,
-            World world,
-            Hand hand,
-            Entity entity,
-            EntityHitResult hitResult,
-            CallbackInfoReturnable<ActionResult> cir
-    ) {
+    @Inject(method = "lambda$init$1", at = @At("RETURN"), remap = false)
+    private static void watheextended$giveRevivalRoleItems(PlayerEntity interactingPlayer, World world, Hand hand, Entity entity, EntityHitResult hitResult, CallbackInfoReturnable<ActionResult> cir) {
         if (cir.getReturnValue() != ActionResult.CONSUME) return;
         if (!(entity instanceof PlayerBodyEntity body)) return;
         if (!(world instanceof ServerWorld serverWorld)) return;

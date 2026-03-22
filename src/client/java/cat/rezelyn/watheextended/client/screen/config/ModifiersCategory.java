@@ -16,8 +16,7 @@ import java.util.function.BiConsumer;
 
 public final class ModifiersCategory {
 
-    private ModifiersCategory() {
-    }
+    private ModifiersCategory() {}
 
     public static ConfigCategory build(Screen parent, Map<String, Boolean> pendingState,
                                        BiConsumer<String, Screen> sendCommand) {

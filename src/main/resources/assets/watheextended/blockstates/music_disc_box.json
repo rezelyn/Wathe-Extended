@@ -1,9 +1,0 @@
-{
-  "variants": {
-    "facing=north": { "model": "watheextended:block/music_disc_box" },
-    "facing=east":  { "model": "watheextended:block/music_disc_box", "y": 90 },
-    "facing=south": { "model": "watheextended:block/music_disc_box", "y": 180 },
-    "facing=west":  { "model": "watheextended:block/music_disc_box", "y": 270 }
-  }
-}
-

@@ -14,18 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = GameFunctions.class, priority = 500)
 public class GameFunctionsKillShieldMixin {
 
-    @Inject(
-            method = "killPlayer(Lnet/minecraft/entity/player/PlayerEntity;ZLnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Identifier;)V",
-            at = @At("HEAD"),
-            cancellable = true
-    )
-    private static void watheextended$checkAllowPlayerDeath(
-            PlayerEntity victim,
-            boolean spawnBody,
-            @Nullable PlayerEntity killer,
-            Identifier deathReason,
-            CallbackInfo ci
-    ) {
+    @Inject(method = "killPlayer(Lnet/minecraft/entity/player/PlayerEntity;ZLnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Identifier;)V", at = @At("HEAD"), cancellable = true)
+    private static void watheextended$checkAllowPlayerDeath(PlayerEntity victim, boolean spawnBody, @Nullable PlayerEntity killer, Identifier deathReason, CallbackInfo ci) {
         if (!AllowPlayerDeath.EVENT.invoker().allowDeath(victim, killer, deathReason)) {
             ci.cancel();
         }

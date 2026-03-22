@@ -16,19 +16,14 @@ import java.util.Map;
 @Mixin(PlayerMoodComponent.class)
 public class PlayerMoodComponentNbtMixin {
 
-    @Shadow
-    @Final
+    @Shadow @Final
     public Map<PlayerMoodComponent.Task, Integer> timesGotten;
 
     @Shadow
     private int nextTaskTimer;
 
     @Inject(method = "writeToNbt", at = @At("TAIL"))
-    private void watheextended$writeTaskNbt(
-            NbtCompound tag,
-            RegistryWrapper.WrapperLookup registryLookup,
-            CallbackInfo ci
-    ) {
+    private void watheextended$writeTaskNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup, CallbackInfo ci) {
         tag.putInt("nextTaskTimerExt", this.nextTaskTimer);
 
         NbtCompound timesGottenTag = new NbtCompound();
@@ -39,11 +34,7 @@ public class PlayerMoodComponentNbtMixin {
     }
 
     @Inject(method = "readFromNbt", at = @At("TAIL"))
-    private void watheextended$readTaskNbt(
-            NbtCompound tag,
-            RegistryWrapper.WrapperLookup registryLookup,
-            CallbackInfo ci
-    ) {
+    private void watheextended$readTaskNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup, CallbackInfo ci) {
         if (tag.contains("nextTaskTimerExt", NbtElement.INT_TYPE)) {
             this.nextTaskTimer = tag.getInt("nextTaskTimerExt");
         }

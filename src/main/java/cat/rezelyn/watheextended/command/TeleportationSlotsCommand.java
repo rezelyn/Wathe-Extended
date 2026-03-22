@@ -2,7 +2,7 @@ package cat.rezelyn.watheextended.command;
 
 import cat.rezelyn.watheextended.api.cca.MapVariables;
 import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
-import cat.rezelyn.watheextended.rtp.TeleportationSlot;
+import cat.rezelyn.watheextended.game.TeleportationSlot;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -21,36 +21,11 @@ import java.util.Map;
 public class TeleportationSlotsCommand {
 
     private static Text feedback(boolean enabled, String enabledKey, String disabledKey) {
-        return Text.translatable(enabled ? enabledKey : disabledKey)
-                .styled(style -> style.withColor(enabled ? 0x55FF55 : 0xFF5555));
+        return Text.translatable(enabled ? enabledKey : disabledKey).styled(style -> style.withColor(enabled ? 0x55FF55 : 0xFF5555));
     }
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(
-                CommandManager.literal("watheextended:rtp")
-                        .requires(source -> source.hasPermissionLevel(2))
-                        .then(CommandManager.literal("enable")
-                                .executes(ctx -> setEnabled(ctx, true)))
-                        .then(CommandManager.literal("disable")
-                                .executes(ctx -> setEnabled(ctx, false)))
-                        .then(CommandManager.literal("slot")
-                                .then(CommandManager.literal("add")
-                                        .executes(TeleportationSlotsCommand::addSlotFromPlayerPos)
-                                        .then(CommandManager.argument("location", Vec3ArgumentType.vec3())
-                                                .then(CommandManager.argument("rotation", RotationArgumentType.rotation())
-                                                        .executes(TeleportationSlotsCommand::addSlotExplicit))))
-                                .then(CommandManager.literal("remove")
-                                        .then(CommandManager.argument("id", IntegerArgumentType.integer(1))
-                                                .executes(TeleportationSlotsCommand::removeSlot)))
-                                .then(CommandManager.literal("edit")
-                                        .then(CommandManager.argument("id", IntegerArgumentType.integer(1))
-                                                .executes(TeleportationSlotsCommand::editSlotFromPlayerPos)
-                                                .then(CommandManager.argument("location", Vec3ArgumentType.vec3())
-                                                        .then(CommandManager.argument("rotation", RotationArgumentType.rotation())
-                                                                .executes(TeleportationSlotsCommand::editSlotExplicit)))))
-                                .then(CommandManager.literal("list")
-                                        .executes(TeleportationSlotsCommand::listSlots)))
-        );
+        dispatcher.register(CommandManager.literal("watheextended:rtp").requires(source -> source.hasPermissionLevel(2)).then(CommandManager.literal("enable").executes(ctx -> setEnabled(ctx, true))).then(CommandManager.literal("disable").executes(ctx -> setEnabled(ctx, false))).then(CommandManager.literal("slot").then(CommandManager.literal("add").executes(TeleportationSlotsCommand::addSlotFromPlayerPos).then(CommandManager.argument("location", Vec3ArgumentType.vec3()).then(CommandManager.argument("rotation", RotationArgumentType.rotation()).executes(TeleportationSlotsCommand::addSlotExplicit)))).then(CommandManager.literal("remove").then(CommandManager.argument("id", IntegerArgumentType.integer(1)).executes(TeleportationSlotsCommand::removeSlot))).then(CommandManager.literal("edit").then(CommandManager.argument("id", IntegerArgumentType.integer(1)).executes(TeleportationSlotsCommand::editSlotFromPlayerPos).then(CommandManager.argument("location", Vec3ArgumentType.vec3()).then(CommandManager.argument("rotation", RotationArgumentType.rotation()).executes(TeleportationSlotsCommand::editSlotExplicit))))).then(CommandManager.literal("list").executes(TeleportationSlotsCommand::listSlots))));
     }
 
     private static int setEnabled(CommandContext<ServerCommandSource> context, boolean enabled) {
@@ -115,8 +90,7 @@ public class TeleportationSlotsCommand {
         return editSlotInternal(source, id, pos.x, pos.y, pos.z, rot.y, rot.x);
     }
 
-    private static int editSlotInternal(ServerCommandSource source, int id,
-                                        double x, double y, double z, float yaw, float pitch) {
+    private static int editSlotInternal(ServerCommandSource source, int id, double x, double y, double z, float yaw, float pitch) {
         WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(source.getWorld());
         if (!wec.getTeleportationSlots().containsKey(id)) {
             source.sendError(Text.translatable("command.watheextended.rtp_slot.invalid", id));
@@ -147,8 +121,7 @@ public class TeleportationSlotsCommand {
     private static boolean isInsideReadyArea(ServerCommandSource source, double x, double y, double z) {
         Box readyArea = MapVariables.getReadyArea(source.getWorld());
         if (readyArea != null && !readyArea.contains(x, y, z)) {
-            source.sendError(Text.translatable("command.watheextended.rtp_slot.outside_ready_area",
-                    String.format("%.2f %.2f %.2f", x, y, z)));
+            source.sendError(Text.translatable("command.watheextended.rtp_slot.outside_ready_area", String.format("%.2f %.2f %.2f", x, y, z)));
             return false;
         }
         return true;

@@ -24,13 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class BlockInteractionProtectionMixin {
 
     @Inject(method = "interactBlock", at = @At("HEAD"), cancellable = true)
-    private void watheExtended$blockInteraction(
-            ServerPlayerEntity player,
-            World world,
-            net.minecraft.item.ItemStack stack,
-            net.minecraft.util.Hand hand,
-            BlockHitResult hitResult,
-            CallbackInfoReturnable<ActionResult> cir) {
+    private void watheExtended$blockInteraction(ServerPlayerEntity player, World world, net.minecraft.item.ItemStack stack, net.minecraft.util.Hand hand, BlockHitResult hitResult, CallbackInfoReturnable<ActionResult> cir) {
         try {
             WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(world);
             if (!wec.isBlockInteractionsProtected()) return;
@@ -59,9 +53,7 @@ public class BlockInteractionProtectionMixin {
             // playArea whitelist: allow lamps, doors, buttons
             if (inPlayArea) {
                 Block block = state.getBlock();
-                boolean isLamp = block instanceof ToggleableFacingLightBlock
-                        || block instanceof NeonTubeBlock
-                        || block instanceof NeonPillarBlock;
+                boolean isLamp = block instanceof ToggleableFacingLightBlock || block instanceof NeonTubeBlock || block instanceof NeonPillarBlock;
                 boolean isDoor = block instanceof DoorBlock || block instanceof SmallDoorBlock;
                 boolean isButton = block instanceof WatheButtonBlock;
                 boolean isOrnament = block instanceof OrnamentBlock;

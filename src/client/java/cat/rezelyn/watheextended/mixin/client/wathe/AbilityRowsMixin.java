@@ -46,6 +46,26 @@ public abstract class AbilityRowsMixin extends Screen {
     }
 
     @Unique
+    private static boolean watheextended$isMorphlingActive() {
+        try {
+            MinecraftClient mc = MinecraftClient.getInstance();
+            if (mc.player == null) return false;
+            Class<?> cls = Class.forName("org.agmas.noellesroles.morphling.MorphlingPlayerComponent");
+            java.lang.reflect.Field keyField = cls.getDeclaredField("KEY");
+            keyField.setAccessible(true);
+            @SuppressWarnings({"unchecked", "rawtypes"})
+            org.ladysnake.cca.api.v3.component.ComponentKey key =
+                    (org.ladysnake.cca.api.v3.component.ComponentKey) keyField.get(null);
+            Object comp = key.get(mc.player);
+            java.lang.reflect.Field morphTicksField = cls.getDeclaredField("morphTicks");
+            morphTicksField.setAccessible(true);
+            return ((int) morphTicksField.get(comp)) > 0;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Unique
     private void watheextended$applyLayout() {
         int rowMax = Math.max(1, (this.width - 36) / APART);
         int baseY = (this.height - 32) / 2 + 60;
@@ -101,7 +121,9 @@ public abstract class AbilityRowsMixin extends Screen {
         TextRenderer tr = MinecraftClient.getInstance().textRenderer;
         if (tr == null) return;
 
-        watheextended$drawLabel(ctx, tr, watheextended$morphlingWidgets, "gui.watheextended.inventory.morphling.morph", 0xAA023D);
+        if (!watheextended$isMorphlingActive()) {
+            watheextended$drawLabel(ctx, tr, watheextended$morphlingWidgets, "gui.watheextended.inventory.morphling.morph", 0xAA023D);
+        }
         watheextended$drawLabel(ctx, tr, watheextended$swapperWidgets, "gui.watheextended.inventory.swapper.swap", 0x3904AA);
         watheextended$drawLabel(ctx, tr, watheextended$judgeWidgets, "gui.watheextended.inventory.judge.judgement", 0xECECF7);
         watheextended$drawLabel(ctx, tr, watheextended$bmakerWidgets, "gui.watheextended.inventory.bodymaker.select", 0x2148D1);

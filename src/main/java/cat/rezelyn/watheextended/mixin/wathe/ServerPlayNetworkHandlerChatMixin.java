@@ -36,8 +36,7 @@ public class ServerPlayNetworkHandlerChatMixin {
     private boolean watheextended$isGameRunningAndNotOp() {
         if (player == null) return false;
         try {
-            return GameWorldComponent.KEY.get(player.getServerWorld()).isRunning()
-                    && !player.hasPermissionLevel(2);
+            return GameWorldComponent.KEY.get(player.getServerWorld()).isRunning() && !player.hasPermissionLevel(2);
         } catch (Exception ignored) {
             return false;
         }
