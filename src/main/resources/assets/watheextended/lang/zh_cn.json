@@ -1,14 +1,30 @@
 {
+  "itemGroup.watheextended.main": "Wathe: Extended",
+  "block.watheextended.tarnished_gold_panel": "Tarnished Gold Panel",
+  "block.watheextended.gold_panel": "Gold Panel",
+  "block.watheextended.pristine_gold_panel": "Pristine Gold Panel",
+  "block.watheextended.black_hull_panel": "Black Hull Panel",
+  "block.watheextended.black_hull_sheets_panel": "Black Hull Sheets Panel",
+  "block.watheextended.metal_sheet_panel": "Metal Sheet Panel",
+  "block.watheextended.stainless_steel_panel": "Stainless Steel Panel",
+  "block.watheextended.dark_steel_panel": "Dark Steel Panel",
+  "block.watheextended.marble_panel": "大理石板",
+  "block.watheextended.dark_marble_panel": "深色大理石板",
+  "block.watheextended.marble_tiles_panel": "Marble Tiles Panel",
+  "block.watheextended.mahogany_planks_panel": "Mahogany Planks Panel",
+  "block.watheextended.mahogany_herringbone_panel": "Mahogany Herringbone Panel",
+  "block.watheextended.bubinga_planks_panel": "Bubinga Planks Panel",
+  "block.watheextended.bubinga_herringbone_panel": "Bubinga Herringbone Panel",
+  "block.watheextended.ebony_planks_panel": "Ebony Planks Panel",
+  "block.watheextended.ebony_herringbone_panel": "Ebony Herringbone Panel",
   "block.watheextended.anthracite_steel_ornament": "无烟钢装饰板",
   "block.watheextended.khaki_steel_ornament": "卡其钢装饰板",
   "block.watheextended.maroon_steel_ornament": "褐红钢装饰板",
   "block.watheextended.muntz_steel_ornament": "蒙茨钢装饰板",
   "block.watheextended.navy_steel_ornament": "藏青钢装饰板",
-  "block.watheextended.marble_panel": "大理石板",
-  "block.watheextended.dark_marble_panel": "深色大理石板",
-  "block.watheextended.pizza": "披萨",
-  "block.watheextended.music_disc_box": "唱片盒",
-  "block.watheextended.ish_plush": "Ish Plush",
+  "block.watheextended.black_moquette": "Black Moquette",
+  "block.watheextended.green_moquette": "Green Moquette",
+  "block.watheextended.purple_moquette": "Purple Moquette",
   "block.watheextended.snowy_acacia_leaves": "覆雪金合欢树叶",
   "block.watheextended.snowy_azalea_leaves": "覆雪杜鹃树叶",
   "block.watheextended.snowy_birch_leaves": "覆雪白桦树叶",
@@ -19,13 +35,11 @@
   "block.watheextended.snowy_mangrove_leaves": "覆雪红树树叶",
   "block.watheextended.snowy_oak_leaves": "覆雪橡木树叶",
   "block.watheextended.snowy_spruce_leaves": "覆雪云杉树叶",
-
-
-
+  "block.watheextended.ish_plush": "Ish Plush",
+  "item.watheextended.guidebook": "指南书",
   "item.watheextended.teleport_to_ready_area": "传送至就绪区域",
   "item.watheextended.cotton_candy_shake": "棉花糖奶昔",
   "item.watheextended.galaxy_fizz": "星系嘶嘶饮",
-  "item.watheextended.guidebook": "指南书",
   "item.watheextended.honey_lemonade": "蜂蜜柠檬水",
   "item.watheextended.mint_ocean": "薄荷海洋",
   "item.watheextended.neon_splash": "霓虹飞溅",
@@ -33,22 +47,13 @@
   "item.watheextended.sunset_prism": "日落棱镜",
   "item.watheextended.the_amethyst": "紫水晶",
   "item.watheextended.velvet_ace": "丝绒王牌",
-
-
-
   "text.watheextended.disabled": "已禁用",
   "text.watheextended.enabled": "已启用",
   "text.watheextended.off": "关",
   "text.watheextended.on": "开",
-
-
-
   "announcement.modifier.watheextended.introverted": "Introverted",
   "announcement.modifier.watheextended.taxed": "Taxed",
   "announcement.modifier.watheextended.adaptive": "Adaptive",
-
-
-
   "command.watheextended.pronouns.set": "Your pronouns have been set to: %s",
   "command.watheextended.pronouns.cleared": "Your pronouns have been cleared.",
   "command.watheextended.mapvariables.lobbyarea.set": "地图变量大厅区域已成功设置为 %s。",
@@ -59,20 +64,13 @@
   "command.watheextended.rtp_slot.list_header": "%d 个传送槽位:",
   "command.watheextended.rtp_slot.outside_ready_area": "无法在 %s 放置槽位：该位置在就绪区域边界之外。",
   "command.watheextended.rtp_slot.removed": "已移除传送槽位 #%d (%s)",
-
-
-
   "gui.watheextended.ability.ready": "Ready",
-
   "gui.watheextended.config.title": "Wathe Extended 选项",
-
   "gui.watheextended.config.category.client": "客户端",
   "gui.watheextended.config.category.client.tooltip": "客户端选项的中央配置屏幕",
-
   "gui.watheextended.config.category.client.label.player": "Player",
   "gui.watheextended.config.category.client.option.pronouns": "Pronouns",
-  "gui.watheextended.config.category.client.option.pronouns.desc": "Set your pronouns (e.g. she/her, he/him, they/them). These will be shown above your username when other players look at you up close. If the value is empty, pronouns will not be shown.",
-
+  "gui.watheextended.config.category.client.option.pronouns.desc": "§8Example: she/her, he/him, they/them§r\n\nSet your pronouns. These will be shown above your username when other players look at you up close. If the value is empty, pronouns will not be shown.",
   "gui.watheextended.config.category.client.label.visual": "Visuals",
   "gui.watheextended.config.category.client.option.staminabar": "体力条",
   "gui.watheextended.config.category.client.option.staminabar.desc": "启用时，显示体力条HUD元素。\n\n§6警告：此选项目前与 Wathe Extended 存在重叠冲突。",
@@ -88,7 +86,6 @@
   "gui.watheextended.config.category.client.option.visual.hud.desc": "切换HUD视觉元素。",
   "gui.watheextended.config.category.client.option.visual.snow": "雪视觉效果",
   "gui.watheextended.config.category.client.option.visual.snow.desc": "切换雪视觉效果。",
-
   "gui.watheextended.config.category.client.group.debug": "调试",
   "gui.watheextended.config.category.client.group.debug.tooltip": "操作员的调试工具。",
   "gui.watheextended.config.category.client.group.debug.opt.showboxboundaries": "显示区域边界",
@@ -97,21 +94,20 @@
   "gui.watheextended.config.category.client.group.debug.opt.showkeyassignments.desc": "启用时，会高亮所有分配了钥匙ID的门，并显示该门的钥匙ID。",
   "gui.watheextended.config.category.client.group.debug.opt.showrtpslots": "显示RTP槽位",
   "gui.watheextended.config.category.client.group.debug.opt.showrtpslots.desc": "启用时，会在每个已配置的RTP传送槽位的精确坐标和偏航/俯仰处渲染一个盒子。\n• 白盒: 玩家位置\n• §b青蓝线§r: 偏航/俯仰",
-
   "gui.watheextended.config.category.options": "游戏",
   "gui.watheextended.config.category.options.tooltip": "WATHE 及附加组件的通用选项",
-
   "gui.watheextended.config.category.options.group.gamerules": "游戏规则",
   "gui.watheextended.config.category.options.group.gamerules.tooltip": "控制各种游戏规则和功能选项。",
   "gui.watheextended.config.category.options.group.gamerules.opt.collisions": "玩家碰撞",
   "gui.watheextended.config.category.options.group.gamerules.opt.collisions.desc": "禁用时，玩家将不再相互碰撞。",
+  "gui.watheextended.config.category.options.group.gamerules.opt.suppressabilityvfxsfx": "Suppress Ability Effects",
+  "gui.watheextended.config.category.options.group.gamerules.opt.suppressabilityvfxsfx.desc": "When enabled, suppresses the visual and sound effects triggered by ability use.\n\n§7Affects:\n• Starstruck (Particles + Sound)\n• Robot (Sound)\n• Bellringer (Sound)\n\n§6Default: §cDisabled",
   "gui.watheextended.config.category.options.group.gamerules.opt.morphpsychosis": "精神失常",
   "gui.watheextended.config.category.options.group.gamerules.opt.morphpsychosis.desc": "启用时，精神失常的玩家将不再看到玩家姓名，并会随机看到其他玩家的皮肤变形为其他玩家。",
   "gui.watheextended.config.category.options.group.gamerules.opt.safepreptime": "安全准备时间",
   "gui.watheextended.config.category.options.group.gamerules.opt.safepreptime.desc": "启用时，玩家在游戏开始时将拥有一个安全的准备阶段。",
   "gui.watheextended.config.category.options.group.gamerules.opt.safeprepcooldown": "安全准备冷却时间",
   "gui.watheextended.config.category.options.group.gamerules.opt.safeprepcooldown.desc": "游戏开始时玩家在可以使用致命武器之前拥有的准备时间（秒）。",
-
   "gui.watheextended.config.category.options.group.wathe_options": "Wathe 选项",
   "gui.watheextended.config.category.options.group.wathe_options.tooltip": "控制与 WATHE 游戏玩法和平衡相关的各种选项。",
   "gui.watheextended.config.category.options.group.wathe_options.opt.backfire": "反噬几率",
@@ -130,10 +126,8 @@
   "gui.watheextended.config.category.options.group.wathe_options.opt.increasemoneywhenkilll.desc": "杀手击杀玩家时获得的硬币数量。\n\n§6如果“启用 Wathe 调整”被禁用，此设置将不会应用。",
   "gui.watheextended.config.category.options.group.wathe_options.opt.preventkillerdroprevolver": "防止杀手掉落左轮",
   "gui.watheextended.config.category.options.group.wathe_options.opt.preventkillerdroprevolver.desc": "启用时，杀手射击平民时将不会掉落他们的左轮手枪。\n\n§6如果“启用 Wathe 调整”被禁用，此设置将不会应用。",
-
   "gui.watheextended.config.category.options.group.roles_options": "角色选项",
   "gui.watheextended.config.category.options.group.roles_options.tooltip": "配置与角色及其能力相关的各种选项。",
-
   "gui.watheextended.config.category.options.group.roles_options.opt.roledividend_killer": "杀手角色分配",
   "gui.watheextended.config.category.options.group.roles_options.opt.roledividend_killer.desc": "用于根据玩家数量决定分配多少杀手的分配值。",
   "gui.watheextended.config.category.options.group.roles_options.opt.roledividend_vigilante": "义警角色分配",
@@ -144,39 +138,34 @@
   "gui.watheextended.config.category.options.group.roles_options.opt.conductorinstinct.desc": "启用时，修改列车长的本能能力以看到掉落的物品。\n\n§6如果“启用诺艾尔角色调整”被禁用，此设置将不会应用。",
   "gui.watheextended.config.category.options.group.roles_options.opt.coronerinstinct": "启用验尸官本能",
   "gui.watheextended.config.category.options.group.roles_options.opt.coronerinstinct.desc": "启用时，修改验尸官的本能能力以看到玩家尸体。\n\n§6如果“启用诺艾尔角色调整”被禁用，此设置将不会应用。",
-
   "gui.watheextended.config.category.options.group.roles_options.label.bellringer": "敲钟人",
   "gui.watheextended.config.category.options.group.roles_options.opt.bellringer.price": "技能价格",
   "gui.watheextended.config.category.options.group.roles_options.opt.bellringer.price.desc": "调整敲钟人的技能价格。",
   "gui.watheextended.config.category.options.group.roles_options.opt.bellringer.cooldown": "技能冷却时间",
   "gui.watheextended.config.category.options.group.roles_options.opt.bellringer.cooldown.desc": "调整敲钟人的技能冷却时间。",
-
   "gui.watheextended.config.category.options.group.roles_options.label.bodymaker": "造尸怪",
   "gui.watheextended.config.category.options.group.roles_options.opt.bodymaker.cooldown": "技能冷却时间",
   "gui.watheextended.config.category.options.group.roles_options.opt.bodymaker.cooldown.desc": "调整造尸怪的技能冷却时间。",
   "gui.watheextended.config.category.options.group.roles_options.opt.bodymaker.fakerole": "可创建虚假角色",
   "gui.watheextended.config.category.options.group.roles_options.opt.bodymaker.fakerole.desc": "造尸怪是否应该被允许创建带有禁用角色或当前游戏中实际不存在的角色的尸体？",
-
   "gui.watheextended.config.category.options.group.roles_options.label.cleaner": "清道夫",
   "gui.watheextended.config.category.options.group.roles_options.opt.cleaner.price": "技能价格",
   "gui.watheextended.config.category.options.group.roles_options.opt.cleaner.price.desc": "调整清道夫的技能价格。",
   "gui.watheextended.config.category.options.group.roles_options.opt.cleaner.cooldown": "技能冷却时间",
   "gui.watheextended.config.category.options.group.roles_options.opt.cleaner.cooldown.desc": "调整清道夫的技能冷却时间。",
-
+  "gui.watheextended.config.category.options.group.roles_options.opt.cleaner.playerlimit": "Ability Player Limit",
+  "gui.watheextended.config.category.options.group.roles_options.opt.cleaner.playerlimit.desc": "Minimum number of alive players required for the Cleaner's Deep Cleaning ability to be active.\n\n§6Default: §e10",
   "gui.watheextended.config.category.options.group.roles_options.label.cook": "厨师",
   "gui.watheextended.config.category.options.group.roles_options.opt.cook.panprice": "平底锅价格",
   "gui.watheextended.config.category.options.group.roles_options.opt.cook.panprice.desc": "调整厨师的平底锅物品价格。",
-
   "gui.watheextended.config.category.options.group.roles_options.label.detective": "侦探",
   "gui.watheextended.config.category.options.group.roles_options.opt.detective.price": "技能价格",
   "gui.watheextended.config.category.options.group.roles_options.opt.detective.price.desc": "调整侦探的技能价格。",
   "gui.watheextended.config.category.options.group.roles_options.opt.detective.cooldown": "技能冷却时间",
   "gui.watheextended.config.category.options.group.roles_options.opt.detective.cooldown.desc": "调整侦探的技能冷却时间。",
-
   "gui.watheextended.config.category.options.group.roles_options.label.dreamer": "梦者",
   "gui.watheextended.config.category.options.group.roles_options.opt.dreamer.initialquantity": "初始梦境印记数量",
   "gui.watheextended.config.category.options.group.roles_options.opt.dreamer.initialquantity.desc": "梦者在游戏开始时将被给予的初始梦境印记数量。",
-
   "gui.watheextended.config.category.options.group.roles_options.label.drugmaker": "制毒师",
   "gui.watheextended.config.category.options.group.roles_options.opt.drugmaker.playerlimit": "玩家限制",
   "gui.watheextended.config.category.options.group.roles_options.opt.drugmaker.playerlimit.desc": "启用制毒师角色所需的最小玩家数量。",
@@ -186,7 +175,6 @@
   "gui.watheextended.config.category.options.group.roles_options.opt.drugmaker.poisoninjectorprice.desc": "调整制毒师的毒药注射器物品价格。",
   "gui.watheextended.config.category.options.group.roles_options.opt.drugmaker.blowgunprice": "吹箭筒价格",
   "gui.watheextended.config.category.options.group.roles_options.opt.drugmaker.blowgunprice.desc": "调整制毒师的吹箭筒物品价格。",
-
   "gui.watheextended.config.category.options.group.roles_options.label.hacker": "Hacker",
   "gui.watheextended.config.category.options.group.roles_options.opt.hacker.playerlimit": "Player Limit",
   "gui.watheextended.config.category.options.group.roles_options.opt.hacker.playerlimit.desc": "The minimum number of players required for the Drugmaker role to be enabled.\n\n§6Default: §e10",
@@ -196,13 +184,11 @@
   "gui.watheextended.config.category.options.group.roles_options.opt.hacker.hackingtime.desc": "Time in seconds required for the Hacker to complete a role crack.\n\n§6Default: §e30",
   "gui.watheextended.config.category.options.group.roles_options.opt.hacker.hasshop": "Has Shop",
   "gui.watheextended.config.category.options.group.roles_options.opt.hacker.hasshop.desc": "Whether the Hacker has access to the shop.\n\n§6Default: §aON",
-
   "gui.watheextended.config.category.options.group.roles_options.label.hunter": "追猎者",
   "gui.watheextended.config.category.options.group.roles_options.opt.hunter.price": "技能价格",
   "gui.watheextended.config.category.options.group.roles_options.opt.hunter.price.desc": "调整追猎者的技能价格。",
   "gui.watheextended.config.category.options.group.roles_options.opt.hunter.cooldown": "技能冷却时间",
   "gui.watheextended.config.category.options.group.roles_options.opt.hunter.cooldown.desc": "调整追猎者的技能冷却时间。",
-
   "gui.watheextended.config.category.options.group.roles_options.label.judge": "大法官",
   "gui.watheextended.config.category.options.group.roles_options.opt.judge.price": "技能价格",
   "gui.watheextended.config.category.options.group.roles_options.opt.judge.price.desc": "调整大法官的技能价格。",
@@ -210,61 +196,49 @@
   "gui.watheextended.config.category.options.group.roles_options.opt.judge.cooldown.desc": "调整大法官的技能冷却时间。",
   "gui.watheextended.config.category.options.group.roles_options.opt.judge.glowing": "发光持续时间",
   "gui.watheextended.config.category.options.group.roles_options.opt.judge.glowing.desc": "调整大法官技能的发光效果持续时间。",
-
   "gui.watheextended.config.category.options.group.roles_options.label.kidnapper": "绑匪",
   "gui.watheextended.config.category.options.group.roles_options.opt.kidnapper.knockoutdrugprice": "麻醉药价格",
   "gui.watheextended.config.category.options.group.roles_options.opt.kidnapper.knockoutdrugprice.desc": "调整绑匪的麻醉药物品价格。",
-
   "gui.watheextended.config.category.options.group.roles_options.label.licensedvillain": "执照恶棍",
   "gui.watheextended.config.category.options.group.roles_options.opt.licensedvillain.playerlimit": "玩家限制",
   "gui.watheextended.config.category.options.group.roles_options.opt.licensedvillain.playerlimit.desc": "启用执照恶棍角色所需的最小玩家数量。",
   "gui.watheextended.config.category.options.group.roles_options.opt.licensedvillain.revolverprice": "左轮手枪价格",
   "gui.watheextended.config.category.options.group.roles_options.opt.licensedvillain.revolverprice.desc": "调整执照恶棍的左轮手枪物品价格。",
-
   "gui.watheextended.config.category.options.group.roles_options.label.physician": "医师",
   "gui.watheextended.config.category.options.group.roles_options.opt.physician.pillprice": "药片价格",
   "gui.watheextended.config.category.options.group.roles_options.opt.physician.pillprice.desc": "调整医师的药片物品价格。",
-
   "gui.watheextended.config.category.options.group.roles_options.label.robot": "机器人",
   "gui.watheextended.config.category.options.group.roles_options.opt.robot.duration": "技能持续时间",
   "gui.watheextended.config.category.options.group.roles_options.opt.robot.duration.desc": "调整机器人的技能持续时间。",
   "gui.watheextended.config.category.options.group.roles_options.opt.robot.cooldown": "技能冷却时间",
   "gui.watheextended.config.category.options.group.roles_options.opt.robot.cooldown.desc": "调整机器人的技能冷却时间。",
-
   "gui.watheextended.config.category.options.group.roles_options.label.voodoo": "巫毒师",
   "gui.watheextended.config.category.options.group.roles_options.opt.voodoo.nonkillerdeaths": "自然死亡触发巫毒",
   "gui.watheextended.config.category.options.group.roles_options.opt.voodoo.nonkillerdeaths.desc": "允许自然死亡（无指定杀手）触发巫毒。",
   "gui.watheextended.config.category.options.group.roles_options.opt.voodoo.shotlikeevil": "像杀手一样被射击",
   "gui.watheextended.config.category.options.group.roles_options.opt.voodoo.shotlikeevil.desc": "巫毒师被左轮手枪射击时行为像杀手阵营的玩家（无反冲，不丢失枪支）。",
-
   "gui.watheextended.config.category.options.group.roles_options.label.conductor": "列车长",
   "gui.watheextended.config.category.options.group.roles_options.opt.conductor.keycountvisible": "钥匙可见玩家数",
   "gui.watheextended.config.category.options.group.roles_options.opt.conductor.keycountvisible.desc": "主钥匙看起来像主钥匙而不是开锁器的最小在线玩家数。（0 = 总是开锁器，1-6 = 总是钥匙）",
-
   "gui.watheextended.config.category.options.group.roles_options.label.bartender": "酒保",
   "gui.watheextended.config.category.options.group.roles_options.opt.bartender.maxdefensevials": "最大防御试剂数",
   "gui.watheextended.config.category.options.group.roles_options.opt.bartender.maxdefensevials.desc": "一个酒保每回合可以购买的防御试剂数量。（0 = 无限制）",
   "gui.watheextended.config.category.options.group.roles_options.opt.bartender.defensevialsprice": "防御试剂价格",
   "gui.watheextended.config.category.options.group.roles_options.opt.bartender.defensevialsprice.desc": "酒保的防御试剂价格。",
-
   "gui.watheextended.config.category.options.group.roles_options.label.trapper": "陷阱师",
   "gui.watheextended.config.category.options.group.roles_options.opt.trapper.rolemineprice": "身份地雷价格",
   "gui.watheextended.config.category.options.group.roles_options.opt.trapper.rolemineprice.desc": "陷阱师的身份地雷价格。",
-
   "gui.watheextended.config.category.options.group.roles_options.label.necromancer": "死灵法师",
   "gui.watheextended.config.category.options.group.roles_options.opt.necromancer.hasshop": "拥有商店",
   "gui.watheextended.config.category.options.group.roles_options.opt.necromancer.hasshop.desc": "死灵法师是否拥有杀手商店。",
-
   "gui.watheextended.config.category.options.group.roles_options.label.arsonist": "纵火犯",
   "gui.watheextended.config.category.options.group.roles_options.opt.arsonist.keepsgamegoing": "保持游戏进行",
   "gui.watheextended.config.category.options.group.roles_options.opt.arsonist.keepsgamegoing.desc": "启用时，当纵火犯存活时游戏不会结束。",
-
   "gui.watheextended.config.category.options.group.roles_options.label.amnesiac": "失忆患者",
   "gui.watheextended.config.category.options.group.roles_options.opt.amnesiac.bodiesglow": "尸体对失忆患者发光",
   "gui.watheextended.config.category.options.group.roles_options.opt.amnesiac.bodiesglow.desc": "尸体对失忆患者发光，以便他们能找到尸体来记住一个角色。",
   "gui.watheextended.config.category.options.group.roles_options.opt.amnesiac.glowsdifferently": "失忆患者发光不同",
   "gui.watheextended.config.category.options.group.roles_options.opt.amnesiac.glowsdifferently.desc": "失忆患者的发光颜色与默认的尸体发光不同。",
-
   "gui.watheextended.config.category.options.group.roles_options.label.starstruck": "星界使者",
   "gui.watheextended.config.category.options.group.roles_options.opt.starstruck.taskreducescooldown": "任务减少冷却",
   "gui.watheextended.config.category.options.group.roles_options.opt.starstruck.taskreducescooldown.desc": "启用时，星界使者完成任务会减少其技能冷却时间。",
@@ -280,7 +254,6 @@
   "gui.watheextended.config.category.options.group.roles_options.opt.starstruck.abilitywalkspeed.desc": "星界使者在其技能激活期间行走时的移动速度。\n\n§6默认: 0.12 | WATHE 默认: 0.07",
   "gui.watheextended.config.category.options.group.roles_options.opt.starstruck.abilitysprintspeed": "技能疾跑速度",
   "gui.watheextended.config.category.options.group.roles_options.opt.starstruck.abilitysprintspeed.desc": "星界使者在其技能激活期间疾跑时的移动速度。\n\n§6默认: 0.15 | WATHE 默认: 0.10",
-
   "gui.watheextended.config.category.options.group.roles_options.label.muzzler": "静语者",
   "gui.watheextended.config.category.options.group.roles_options.opt.muzzler.tapecooldown": "胶带冷却时间",
   "gui.watheextended.config.category.options.group.roles_options.opt.muzzler.tapecooldown.desc": "静语者对玩家使用胶带物品时的冷却时间（秒）。",
@@ -294,21 +267,17 @@
   "gui.watheextended.config.category.options.group.roles_options.opt.muzzler.killifcheckedatzero.desc": "启用时，对情绪值为0.0的玩家完成胶带检查将杀死被检查的玩家。",
   "gui.watheextended.config.category.options.group.roles_options.opt.muzzler.displaysilencedtipdelay": "显示消音提示延迟",
   "gui.watheextended.config.category.options.group.roles_options.opt.muzzler.displaysilencedtipdelay.desc": "显示“此玩家已被消音”提示前的延迟（秒）。设为0以禁用。",
-
   "gui.watheextended.config.category.options.group.modifiers_options": "修饰符选项",
   "gui.watheextended.config.category.options.group.modifiers_options.tooltip": "控制与修饰符及其效果相关的各种选项。",
-
   "gui.watheextended.config.category.options.group.modifiers_options.opt.maximum": "修饰符上限",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.maximum.desc": "一个玩家可以同时拥有的修饰符最大数量。",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.multiplier": "修饰符倍数",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.multiplier.desc": "应给予的修饰符数量相对于杀手分红的倍数。",
-
   "gui.watheextended.config.category.options.group.modifiers_options.label.guesser": "猜测者",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.guesser.allowcivillian": "允许平民刷新猜测者",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.guesser.allowcivillian.desc": "平民会随机到猜测者修饰符。",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.guesser.wrongguessmode": "错误猜测结果",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.guesser.wrongguessmode.desc": "猜测者玩家错误猜测后会发生什么：无（2分钟冷却），死亡（巫毒死亡），爆炸（杀死附近玩家）。",
-
   "gui.watheextended.config.category.options.group.modifiers_options.label.lovers": "恋人",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden": "Forbidden Lovers",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden.desc": "When enabled, the Lovers pair will always consist of one Killer/Neutral and one Non-Killer. Also reduces the overall chance of the Lovers modifier being assigned if this feature is enabled.",
@@ -322,7 +291,6 @@
   "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.winwithcivilians.desc": "恋人计入平民团队的胜利条件。",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.glowtoeachother": "彼此发光",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.glowtoeachother.desc": "恋人可以通过发光效果看到墙后的对方。",
-
   "gui.watheextended.config.category.options.group.modifiers_options.label.allergic": "过敏者",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.nothingchance": "无效果几率",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.nothingchance.desc": "过敏者过敏触发时无效果的相对几率。设为0以禁用。",
@@ -334,7 +302,6 @@
   "gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.poisonchance.desc": "过敏者过敏触发时中毒的相对几率。设为0以禁用。",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.instinctduration": "本能持续时间",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.instinctduration.desc": "过敏者修饰符授予的本能效果持续时间（秒）。",
-
   "gui.watheextended.config.category.options.group.modifiers_options.label.introverted": "Introverted",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.crowdcount": "Crowd Count",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.crowdcount.desc": "Minimum number of nearby players (within the Crowd Range) required for the Introverted player to consider themselves in a crowd and start feeling anxious.",
@@ -344,7 +311,6 @@
   "gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.crowddrainmultiplier.desc": "Mood drain multiplier applied each tick when the Introverted player is considered in a crowd.",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.alonedrainmultiplier": "Alone Drain Multiplier",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.introverted.alonedrainmultiplier.desc": "Mood drain multiplier applied each tick when the Introverted player is alone or with only one other nearby player.",
-
   "gui.watheextended.config.category.options.group.modifiers_options.label.taxed": "Taxed",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.taxed.coinreduction": "Income Reduction",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.taxed.coinreduction.desc": "Fraction of coins deducted from a Taxed player's income (kill rewards and passive income).",
@@ -352,16 +318,13 @@
   "gui.watheextended.config.category.options.group.modifiers_options.opt.taxed.killthreshold.desc": "Number of kills within the time window before the tax starts applying to kill income.\n\n§6Default: §e1",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.taxed.killwindowseconds": "Kill Window",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.taxed.killwindowseconds.desc": "Time window in seconds during which kills are counted towards the tax threshold.\n\n§6Default: §e60",
-
   "gui.watheextended.config.category.options.group.modifiers_options.label.adaptive": "Adaptive",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.adaptive.penaltyreduction": "Same-Method Penalty",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.adaptive.penaltyreduction.desc": "Fraction of kill income deducted when a killer repeats the same kill method consecutively (e.g. 0.25 = only 75% income awarded).",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.adaptive.bonusmultiplier": "Unique-Method Bonus",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.adaptive.bonusmultiplier.desc": "Fraction of kill income added as a bonus when a killer uses a different kill method from their last kill (e.g. 0.50 = +50% income awarded).",
-
   "gui.watheextended.config.category.mapvariables.title": "地图",
   "gui.watheextended.config.category.mapvariables.tooltip": "查看和自定义当前世界地图变量",
-
   "gui.watheextended.config.category.mapvariables.opt.worldprotection": "世界保护",
   "gui.watheextended.config.category.mapvariables.opt.worldprotection.desc": "启用时，玩家将无法与容器、按钮、拉杆、活板门、门和其他可交互方块互动。\n不会应用于地图区域（大厅区域、就绪区域、游戏区域）内的灯、按钮和门。\n\n§6不推荐在自定义地图上使用，因为某些模组方块可能与此选项不兼容。",
   "gui.watheextended.config.category.mapvariables.opt.rtp": "随机传送",
@@ -372,10 +335,8 @@
   "gui.watheextended.config.category.mapvariables.opt.jumpinlobby.desc": "启用时，将允许玩家在非游戏状态下跳跃。",
   "gui.watheextended.config.category.mapvariables.opt.autostart": "自动开始",
   "gui.watheextended.config.category.mapvariables.opt.autostart.desc": "游戏将在此秒数后自动开始。\n\n设置为0以禁用自动开始。",
-
   "gui.watheextended.config.category.mapvariables.group.variables": "变量",
   "gui.watheextended.config.category.mapvariables.group.variables.tooltip": "管理控制游戏中重要位置和区域的各种地图变量。",
-
   "gui.watheextended.config.category.mapvariables.group.variables.label.positions": "Positions",
   "gui.watheextended.config.category.mapvariables.group.variables.opt.spawnpos": "重生位置",
   "gui.watheextended.config.category.mapvariables.group.variables.opt.spawnpos.desc": "格式: <x> <y> <z> <yaw> <pitch>\n\n§f游戏结束后玩家将被重置到的重生位置和朝向。",
@@ -395,27 +356,21 @@
   "gui.watheextended.config.category.mapvariables.group.variables.opt.playareaoffset.desc": "格式: <x> <y> <z>\n\n§f玩家从就绪区域传送到游戏区域时的偏移量。",
   "gui.watheextended.config.category.mapvariables.group.variables.opt.resetpasteoffset": "重置粘贴偏移",
   "gui.watheextended.config.category.mapvariables.group.variables.opt.resetpasteoffset.desc": "格式: <x> <y> <z>\n\n§f模板应被粘贴的偏移量。",
-
   "gui.watheextended.config.category.mapvariables.group.rtp_slots": "随机传送槽位",
   "gui.watheextended.config.category.mapvariables.group.rtp_slots.tooltip": "查看和编辑随机传送使用的传送槽位。\n\n§6槽位需要配置并放置在就绪区域框内才能正常工作。",
   "gui.watheextended.config.category.mapvariables.group.rtp_slots.slot": "槽位 #%d",
   "gui.watheextended.config.category.mapvariables.group.rtp_slots.slot.desc": "格式: <x> <y> <z> <yaw> <pitch>\n\n§f编辑此槽位的值。\n将值留空以删除此槽位。\n\n保存后更改生效。",
   "gui.watheextended.config.category.mapvariables.group.rtp_slots.none": "未配置传送槽位。\n您可以使用命令 §e/watheextended:rtp slot add§r 来创建槽位。\n\n§6槽位需要配置并放置在就绪区域框内才能正常工作",
-
   "gui.watheextended.config.category.roles": "角色",
   "gui.watheextended.config.category.roles.tooltip": "控制启用或禁用某些角色",
   "gui.watheextended.config.category.roles.desc": "ID: %s",
   "gui.watheextended.config.category.roles.empty": "未找到已注册的角色！",
   "gui.watheextended.config.category.roles.error": "加载角色失败！",
-
   "gui.watheextended.config.category.modifiers": "修饰符",
   "gui.watheextended.config.category.modifiers.tooltip": "控制启用或禁用某些修饰符",
   "gui.watheextended.config.category.modifiers.desc": "ID: %s",
   "gui.watheextended.config.category.modifiers.empty": "未找到已注册的修饰符！",
   "gui.watheextended.config.category.modifiers.error": "加载修饰符失败！",
-
-
-
   "gui.watheextended.inventory.role": "角色:",
   "gui.watheextended.inventory.modifiers": "修饰符: ",
   "gui.watheextended.inventory.no_modifiers": "无修饰符",
@@ -428,17 +383,12 @@
   "gui.watheextended.inventory.bodymaker.reason": "Select the reason of the death.",
   "gui.watheextended.inventory.rolepicker.search": "Search...",
   "gui.watheextended.inventory.rolepicker.no_matches": "No matches",
-
-
-
   "gui.watheextended.guidebook.title": "指南书",
   "gui.watheextended.guidebook.tab.modifiers": "修饰符",
   "gui.watheextended.guidebook.tab.roles": "角色",
-
   "gui.watheextended.guidebook.left_page.roles.side.civilian": "平民角色",
   "gui.watheextended.guidebook.left_page.roles.side.killer": "杀手角色",
   "gui.watheextended.guidebook.left_page.roles.side.neutral": "中立角色",
-
   "gui.watheextended.guidebook.right_page.hint.select": "选择一个条目",
   "gui.watheextended.guidebook.right_page.roles.subtitle.abilities": "能力",
   "gui.watheextended.guidebook.right_page.roles.subtitle.desc": "描述",
@@ -447,7 +397,6 @@
   "gui.watheextended.guidebook.right_page.roles.subtitle.no_desc": "无可用的描述。",
   "gui.watheextended.guidebook.right_page.roles.subtitle.no_items": "无可用的物品。",
   "gui.watheextended.guidebook.right_page.roles.subtitle.separator": "— %s —",
-
   "gui.watheextended.guidebook.role.desc.wathe.civilian": "人群中一张普通的面孔，平民与车上的其他人没什么不同，还是有所不同？他们旅行有各种原因，无论是商务、休闲、应得的假期，还是单纯的豪华航行。",
   "gui.watheextended.guidebook.role.desc.wathe.vigilante": "哈比快车上最重要的人物之一，义警的存在不仅重要，而且是必不可少的。他们的职责是保证每位乘客安全到达目的地，排除麻烦并在整个旅程中维持秩序。建议不要打扰义警，因为他们以保护乘客而闻名，并且会对任何威胁列车安全的人毫不犹豫地采取行动。",
   "gui.watheextended.guidebook.role.desc.wathe.killer": "一个无情的连环杀手，其独特目标是利用一切手段消灭车上的所有人。他们通常与§4杀手同伙§r一起行动，他们真正的动机以及是什么把他们带到这里，以及为什么他们如此决心不让任何人活着，仍然是一个令人不寒而栗的谜。",
@@ -487,7 +436,6 @@
   "gui.watheextended.guidebook.role.desc.stupid_express.initiate": "登上列车时，他们看到了，他们的宿敌，另一位初学者。他们立即对对方产生了强烈的仇恨，并且知道只有自己能阻止对方。他们会不惜一切代价消灭另一位初学者，列车上容不下他们两个人。",
   "gui.watheextended.guidebook.role.desc.stupid_express.necromancer": "能够将死者复活为其仆从。死灵法师对死亡有着黑暗而扭曲的迷恋，寻求利用其力量来达到自己邪恶的目的。凭借将死去的乘客复活为亡灵仆从的能力，死灵法师可以利用他们来实现其阴险的目标，无论是为了杀其他人还是吓唬他们。",
   "gui.watheextended.guidebook.role.desc.stupid_express.thief": "一只寻找有价值物品来偷窃的独狼，窃贼对获取贵重财产有深深的痴迷。他们最喜欢偷的贵重物品是收藏刀和枪，他们会不惜一切代价得到它们，所以当你看到他们在附近时，最好关上你所有打开的口袋，以防万一。",
-
   "gui.watheextended.guidebook.role.abilities.wathe.civilian": "",
   "gui.watheextended.guidebook.role.abilities.wathe.vigilante": "",
   "gui.watheextended.guidebook.role.abilities.wathe.killer": "{icon:instinct} §l本能§r\n看到墙后的玩家和§4杀手同伙§r。\n\n{icon:athletic} §l无限体力§r\n拥有无限体力。",
@@ -527,7 +475,6 @@
   "gui.watheextended.guidebook.role.abilities.stupid_express.initiate": "{icon:nemesis} §l宿敌§r\n你和另一位初学者是宿敌。你们可以透过墙壁看到对方，并通过接近对方获得硬币。\n两位初学者都需要杀死对方才能成为§4杀手角色§r，如果一位初学者决定杀死别人，他们反而会死亡，而另一位初学者会转变为失忆患者。",
   "gui.watheextended.guidebook.role.abilities.stupid_express.necromancer": "{icon:revive} §l死者苏生§r\n将一名死亡的玩家复活为§4杀手§r。\n\n{icon:instinct} §l本能§r\n看到墙后的玩家。",
   "gui.watheextended.guidebook.role.abilities.stupid_express.thief": "{icon:avarice} §l偷窃§r\n可以在靠近时通过点击玩家从其身上偷取一件物品，只能偷取刀、左轮手枪或平底锅，如果被偷玩家没有这些物品，窃贼将不会偷到任何东西。",
-
   "gui.watheextended.guidebook.item.blackout.desc": "右键单击以触发全列车停电，短暂切断所有灯光。",
   "gui.watheextended.guidebook.item.blowgun.desc": "右键单击以瞄准并发射毒镖，从远处毒害目标。",
   "gui.watheextended.guidebook.item.body_bag.desc": "右键单击尸体以将其放入袋中。",
@@ -562,7 +509,6 @@
   "gui.watheextended.guidebook.item.icon_ability_cooldown_refresh.desc": "Instantly reset the cooldown of all Killers abilities.",
   "gui.watheextended.guidebook.item.icon_potion_effect_refresh.desc": "Instantly refresh or clear active potion effects of all Killers.",
   "gui.watheextended.guidebook.item.icon_weapon_cooldown_refresh.desc": "Instantly resets the cooldown of all Killers weapons.",
-
   "gui.watheextended.guidebook.modifier.desc.kinswathe.magnate": "使被动硬币收益翻倍。",
   "gui.watheextended.guidebook.modifier.desc.kinswathe.taskmaster": "完成任务时给予更多硬币。\n• §4杀手§r - §6+50 {icon:coin} \n• §2无辜者§r - §6+25 {icon:coin}",
   "gui.watheextended.guidebook.modifier.desc.kinswathe.violator": "授予在列车内跳跃的能力。",
