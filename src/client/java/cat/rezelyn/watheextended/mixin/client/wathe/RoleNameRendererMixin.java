@@ -1,6 +1,9 @@
 package cat.rezelyn.watheextended.mixin.client.wathe;
 
+import cat.rezelyn.watheextended.api.noellesroles.ConfigHelper;
 import cat.rezelyn.watheextended.client.pronouns.PronounsCache;
+import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
+import dev.doctor4t.wathe.client.WatheClient;
 import dev.doctor4t.wathe.client.gui.RoleNameRenderer;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.client.font.TextRenderer;
@@ -39,6 +42,15 @@ public class RoleNameRendererMixin {
 
         if (!(ProjectileUtil.getCollision(player, entity -> entity instanceof PlayerEntity, range) instanceof EntityHitResult hit && hit.getEntity() instanceof PlayerEntity target))
             return;
+
+        try {
+            if (PlayerPsychoComponent.KEY.get(target).getPsychoTicks() > 0) return;
+        } catch (Throwable ignored) {
+        }
+
+        if (ConfigHelper.isLoaded() && ConfigHelper.getInsanePlayersSeeMorphs(player.getWorld()) && WatheClient.moodComponent != null && WatheClient.moodComponent.isLowerThanDepressed()) {
+            return;
+        }
 
         String pronouns = PronounsCache.get(target.getUuid());
         if (pronouns.isEmpty()) return;

@@ -74,6 +74,8 @@
 - Fixed various entries in the Guidebook that had missing information or were inaccurate
 - Fixed pronouns overlapping player's role when looking at them in spectator mode
 - Fixed pronouns still being rendered when looking at invisible players
+- Fixed pronouns being rendered on Psycho Mode players when looking at them (#50)
+- Fixed pronouns being rendered when Morph Psychosis is active and the player's mood is depressed (#50)
 - Fixed Introverted modifier being assigned to the Robot, Dreamer and Thief
 - Fixed Introverted modifier not working properly with the Starstruck ability
 - Fixed Introverted modifier infinite coins bug with roles that have passive income
