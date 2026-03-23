@@ -63,7 +63,7 @@
       - The game will now continue even after all Killers have been eliminated, and victory will require eliminating every player by default
   - Modifiers:
     - **Lovers**
-      - When **Forbidden Lovers** option is enabled, reduce the chances of having Lovers for the next game by 75%, (Configurable).
+      - When **Forbidden Lovers** option is enabled, reduce the chances of having Lovers for the next game by 75% (Configurable).
       - Lovers will now see each other glowing through walls by default
     - **Taxed**
       - Tax no longer affects passive income
@@ -84,6 +84,7 @@
 - Fixed Bartender's use of Defense Vials alerting the Drugmaker and Physician's Poison Sense abilities
 - Fixed a crash caused by Wathe conflicting with Iris
 - Fixed ability to pickup more than one food/drinkable item from different trays
+- Fixed Guesser modifier being able to guess the Mimic (#51)
 
 # stable-3.3.132
 

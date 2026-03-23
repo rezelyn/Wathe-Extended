@@ -134,6 +134,7 @@ On top of what the mod adds, the mod also includes a number of bug fixes for iss
 ### Noelle's Roles
 - **Graverobber HUD fix**: The Graverobber modifier now displays correct Coroner-style death information (time, reason, role) when inspecting a body.
 - **Feather Modifier Fix**: Kin's Wathe conflicts with Noelle's Roles Feather modifier, Wathe: Extended is continuously reapplying the `SLOW_FALLING` effect server-side for Feather modifier players so it never expires.
+- **Guesser Modifier and Mimic compat**: The Guesser will no longer be able to see and guess the Mimic if it is actually present in the current game.
 
 ### Stupid Express
 - **Lovers crash fix**: Catches a `NullPointerException` that would crash the game in the Lovers HUD renderer during spectator mode, ultimately causing the client to crash if a player died while the spectator was looking at them.

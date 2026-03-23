@@ -148,10 +148,27 @@ public abstract class GuesserRolePickerMixin extends Screen {
             } catch (Exception ignored) {
             }
 
-            for (Element child : this.children()) {
+            for (Element child : List.copyOf(this.children())) {
                 if (gpwClass.isInstance(child) && child instanceof ClickableWidget cw) {
-                    cw.setY(cw.getY() + 35);
-                    watheextended$guesserPlayerWidgets.add(cw);
+                    boolean isMimic = false;
+                    try {
+                        java.lang.reflect.Field targetUUIDField = gpwClass.getField("targetUUID");
+                        UUID targetUUID = (UUID) targetUUIDField.get(cw);
+                        net.minecraft.client.world.ClientWorld world = MinecraftClient.getInstance().world;
+                        if (world != null && targetUUID != null) {
+                            net.minecraft.entity.player.PlayerEntity targetPlayer = world.getPlayerByUuid(targetUUID);
+                            if (targetPlayer != null) {
+                                isMimic = GameWorldComponent.KEY.get(world).isRole(targetPlayer, Noellesroles.MIMIC);
+                            }
+                        }
+                    } catch (Exception ignored) {
+                    }
+                    if (isMimic) {
+                        this.remove(cw);
+                    } else {
+                        cw.setY(cw.getY() + 35);
+                        watheextended$guesserPlayerWidgets.add(cw);
+                    }
                 }
             }
 
