@@ -26,9 +26,24 @@ public final class PlayerItemManager {
         player.getInventory().insertStack(new ItemStack(WatheExtendedItems.TELEPORT_TO_READY_AREA));
     }
 
+    public static void giveTeleportToSceneryItem(ServerPlayerEntity player) {
+        for (int i = 0; i < player.getInventory().size(); i++) {
+            if (player.getInventory().getStack(i).isOf(WatheExtendedItems.TELEPORT_TO_SCENERY)) return;
+        }
+        player.getInventory().insertStack(new ItemStack(WatheExtendedItems.TELEPORT_TO_SCENERY));
+    }
+
     public static void removeTeleportItem(ServerPlayerEntity player) {
         for (int i = 0; i < player.getInventory().size(); i++) {
             if (player.getInventory().getStack(i).isOf(WatheExtendedItems.TELEPORT_TO_READY_AREA)) {
+                player.getInventory().setStack(i, ItemStack.EMPTY);
+            }
+        }
+    }
+
+    public static void removeTeleportToSceneryItem(ServerPlayerEntity player) {
+        for (int i = 0; i < player.getInventory().size(); i++) {
+            if (player.getInventory().getStack(i).isOf(WatheExtendedItems.TELEPORT_TO_SCENERY)) {
                 player.getInventory().setStack(i, ItemStack.EMPTY);
             }
         }
@@ -39,7 +54,15 @@ public final class PlayerItemManager {
 
         if (gameRunning) {
             removeTeleportItem(player);
+            removeTeleportToSceneryItem(player);
         } else {
+            boolean isCreativeOp = player.isCreative() && player.hasPermissionLevel(2);
+            if (isCreativeOp) {
+                giveTeleportToSceneryItem(player);
+            } else {
+                removeTeleportToSceneryItem(player);
+            }
+
             Box readyArea = MapVariables.getReadyArea(world);
             if (readyArea != null && readyArea.contains(player.getPos())) {
                 removeTeleportItem(player);

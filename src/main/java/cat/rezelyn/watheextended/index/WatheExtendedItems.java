@@ -3,9 +3,8 @@ package cat.rezelyn.watheextended.index;
 import cat.rezelyn.watheextended.WatheExtended;
 import cat.rezelyn.watheextended.item.GuidebookItem;
 import cat.rezelyn.watheextended.item.TeleportToReadyAreaItem;
-import dev.doctor4t.wathe.index.WatheItems;
+import cat.rezelyn.watheextended.item.TeleportToSceneryItem;
 import dev.doctor4t.wathe.item.CocktailItem;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.type.FoodComponents;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -17,6 +16,7 @@ public class WatheExtendedItems {
 
     public static final Item GUIDEBOOK = register("guidebook", new GuidebookItem(new Item.Settings().maxCount(1)));
     public static final Item TELEPORT_TO_READY_AREA = register("teleport_to_ready_area", new TeleportToReadyAreaItem(new Item.Settings().maxCount(1)));
+    public static final Item TELEPORT_TO_SCENERY = register("teleport_to_scenery", new TeleportToSceneryItem(new Item.Settings().maxCount(1)));
 
     public static final Item PRIDE_PUNCH = register("pride_punch", new CocktailItem(COCKTAIL)); // Rainbow Flag
     public static final Item SUNSET_PRISM = register("sunset_prism", new CocktailItem(COCKTAIL)); // Lesbian Flag
