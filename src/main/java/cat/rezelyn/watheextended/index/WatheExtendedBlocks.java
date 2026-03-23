@@ -52,9 +52,19 @@ public class WatheExtendedBlocks {
     public static final Block NAVY_STEEL_ORNAMENT = register("navy_steel_ornament", new OrnamentBlock(ornamentBlock()));
 
     // Moquettes
+    public static final Block WHITE_MOQUETTE = register("white_moquette", new Block(moquetteBlock()));
+    public static final Block LIGHT_GRAY_MOQUETTE = register("light_gray_moquette", new Block(moquetteBlock()));
+    public static final Block GRAY_MOQUETTE = register("gray_moquette", new Block(moquetteBlock()));
     public static final Block BLACK_MOQUETTE = register("black_moquette", new Block(moquetteBlock()));
+    public static final Block ORANGE_MOQUETTE = register("orange_moquette", new Block(moquetteBlock()));
+    public static final Block YELLOW_MOQUETTE = register("yellow_moquette", new Block(moquetteBlock()));
+    public static final Block LIME_MOQUETTE = register("lime_moquette", new Block(moquetteBlock()));
     public static final Block GREEN_MOQUETTE = register("green_moquette", new Block(moquetteBlock()));
+    public static final Block CYAN_MOQUETTE = register("cyan_moquette", new Block(moquetteBlock()));
+    public static final Block LIGHT_BLUE_MOQUETTE = register("light_blue_moquette", new Block(moquetteBlock()));
     public static final Block PURPLE_MOQUETTE = register("purple_moquette", new Block(moquetteBlock()));
+    public static final Block MAGENTA_MOQUETTE = register("magenta_moquette", new Block(moquetteBlock()));
+    public static final Block PINK_MOQUETTE = register("pink_moquette", new Block(moquetteBlock()));
 
     // Snowy Leaves
     public static final Block SNOWY_OAK_LEAVES = register("snowy_oak_leaves", new LeavesBlock(leavesBlock()));

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "watheextended:block/light_gray_moquette"
+  }
+}

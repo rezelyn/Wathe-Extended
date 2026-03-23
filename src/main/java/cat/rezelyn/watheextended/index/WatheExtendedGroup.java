@@ -49,12 +49,19 @@ public class WatheExtendedGroup {
                     entries.add(WatheExtendedBlocks.NAVY_STEEL_ORNAMENT);
 
                     // Moquettes
+                    entries.add(WatheExtendedBlocks.WHITE_MOQUETTE);
+                    entries.add(WatheExtendedBlocks.LIGHT_GRAY_MOQUETTE);
+                    entries.add(WatheExtendedBlocks.GRAY_MOQUETTE);
                     entries.add(WatheExtendedBlocks.BLACK_MOQUETTE);
+                    entries.add(WatheExtendedBlocks.ORANGE_MOQUETTE);
+                    entries.add(WatheExtendedBlocks.YELLOW_MOQUETTE);
+                    entries.add(WatheExtendedBlocks.LIME_MOQUETTE);
                     entries.add(WatheExtendedBlocks.GREEN_MOQUETTE);
+                    entries.add(WatheExtendedBlocks.CYAN_MOQUETTE);
+                    entries.add(WatheExtendedBlocks.LIGHT_BLUE_MOQUETTE);
                     entries.add(WatheExtendedBlocks.PURPLE_MOQUETTE);
-
-                    // Plushies
-                    entries.add(WatheExtendedBlocks.ISH_PLUSH);
+                    entries.add(WatheExtendedBlocks.MAGENTA_MOQUETTE);
+                    entries.add(WatheExtendedBlocks.PINK_MOQUETTE);
 
                     // Snowy Leaves
                     entries.add(WatheExtendedBlocks.SNOWY_OAK_LEAVES);
@@ -79,6 +86,9 @@ public class WatheExtendedGroup {
                     entries.add(WatheExtendedItems.NEON_SPLASH);
                     entries.add(WatheExtendedItems.THE_AMETHYST);
                     entries.add(WatheExtendedItems.VELVET_ACE);
+
+                    // Plushies
+                    entries.add(WatheExtendedBlocks.ISH_PLUSH);
                 })
                 .build());
     }
