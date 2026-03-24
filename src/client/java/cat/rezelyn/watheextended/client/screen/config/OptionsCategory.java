@@ -229,6 +229,17 @@ public final class OptionsCategory {
                     .build());
         }
 
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.killincreasetime"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.killincreasetime.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(60,
+                        () -> ClientConfig.getInt("watheextended.killIncreaseTime", 60),
+                        v -> stage(sendCommand, parent, "watheextended.killIncreaseTime", v))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
         return group.build();
     }
 

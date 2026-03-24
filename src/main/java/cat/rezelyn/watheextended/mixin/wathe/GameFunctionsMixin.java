@@ -1,7 +1,10 @@
 package cat.rezelyn.watheextended.mixin.wathe;
 
+import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.modifiers.taxed.TaxedModifier;
+import dev.doctor4t.wathe.cca.GameTimeComponent;
+import dev.doctor4t.wathe.game.GameConstants;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -33,6 +36,16 @@ public class GameFunctionsMixin {
                 wec.markPlayerKilled(serverPlayer.getUuid());
             } catch (Throwable ignored) {
             }
+        }
+    }
+
+    @Inject(method = "killPlayer(Lnet/minecraft/entity/player/PlayerEntity;ZLnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Identifier;)V", at = @At("RETURN"))
+    private static void watheextended$adjustKillIncreaseTime(PlayerEntity victim, boolean spawnBody, @Nullable PlayerEntity killer, Identifier deathReason, CallbackInfo ci) {
+        int delta = WatheExtendedServerConfig.killIncreaseTime * 20 - GameConstants.TIME_ON_CIVILIAN_KILL;
+        if (delta == 0) return;
+        try {
+            GameTimeComponent.KEY.get(victim.getWorld()).addTime(delta);
+        } catch (Throwable ignored) {
         }
     }
 }

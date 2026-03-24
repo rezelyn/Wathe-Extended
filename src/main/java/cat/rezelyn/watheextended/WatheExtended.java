@@ -172,6 +172,9 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.cleaner.playerLimit", 10,
                 WatheExtendedServerConfig::getCleanerPlayerLimit,
                 WatheExtendedServerConfig::setCleanerPlayerLimit));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.killIncreaseTime", 60,
+                WatheExtendedServerConfig::getKillIncreaseTime,
+                WatheExtendedServerConfig::setKillIncreaseTime));
     }
 
     private static void registerNetworking() {

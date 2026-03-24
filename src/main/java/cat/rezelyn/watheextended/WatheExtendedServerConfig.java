@@ -27,6 +27,7 @@ public final class WatheExtendedServerConfig {
     public static float adaptiveBonusMultiplier = 0.50f;
     public static boolean suppressAbilityVfxSfx = false;
     public static int cleanerPlayerLimit = 10;
+    public static int killIncreaseTime = 60;
 
     private WatheExtendedServerConfig() {}
 
@@ -52,6 +53,7 @@ public final class WatheExtendedServerConfig {
         adaptiveBonusMultiplier = ClientConfig.readFloat(CONFIG_FILE, "adaptive.bonusMultiplier", 0.50f);
         suppressAbilityVfxSfx = ClientConfig.readBool(CONFIG_FILE, "ability.suppressVfxSfx", false);
         cleanerPlayerLimit = ClientConfig.readInt(CONFIG_FILE, "cleaner.playerLimit", 10);
+        killIncreaseTime = ClientConfig.readInt(CONFIG_FILE, "timer.killIncreaseSeconds", 60);
     }
 
     public static void save() {
@@ -115,6 +117,11 @@ public final class WatheExtendedServerConfig {
                             "    // Minimum number of alive players required for the Cleaner's Deep Cleaning ability to be active.\n" +
                             "    // Set to 0 to disable this limit.\n" +
                             "    \"playerLimit\": " + cleanerPlayerLimit + "\n" +
+                            "  },\n" +
+                            "  \"timer\": {\n" +
+                            "    // Time in seconds added to the game timer when a player is killed.\n" +
+                            "    // Set to 0 to disable kill time addition. Default matches Wathe (60 = 1 minute).\n" +
+                            "    \"killIncreaseSeconds\": " + killIncreaseTime + "\n" +
                             "  }\n" +
                             "}\n";
             Files.writeString(CONFIG_FILE.toPath(), content);
@@ -272,6 +279,15 @@ public final class WatheExtendedServerConfig {
 
     public static void setCleanerPlayerLimit(int value) {
         cleanerPlayerLimit = Math.max(0, value);
+        save();
+    }
+
+    public static int getKillIncreaseTime() {
+        return killIncreaseTime;
+    }
+
+    public static void setKillIncreaseTime(int value) {
+        killIncreaseTime = Math.max(0, value);
         save();
     }
 }
