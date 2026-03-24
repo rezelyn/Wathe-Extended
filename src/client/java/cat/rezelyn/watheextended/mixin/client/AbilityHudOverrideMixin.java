@@ -4,6 +4,7 @@ import cat.rezelyn.watheextended.api.config.ClientConfig;
 import cat.rezelyn.watheextended.client.screen.guidebook.GuidebookIcons;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.game.GameConstants;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -119,6 +120,18 @@ public class AbilityHudOverrideMixin {
 
     @Unique
     private static int watheextended$drawAbilityHudText(DrawContext ctx, TextRenderer renderer, MutableText styled, int color) {
+        try {
+            MinecraftClient mc = MinecraftClient.getInstance();
+            if (mc.world != null) {
+                int fade = GameWorldComponent.KEY.get(mc.world).getFade();
+                if (fade > 0) {
+                    int alpha = (int)(255.0f * Math.max(0.0f, 1.0f - fade / (float) GameConstants.FADE_TIME));
+                    if (alpha <= 3) return 0;
+                    color = (alpha << 24) | (color & 0xFFFFFF);
+                }
+            }
+        } catch (Throwable ignored) {}
+
         int width = ctx.getScaledWindowWidth();
         int height = ctx.getScaledWindowHeight();
         int sw = renderer.getWidth(styled);
