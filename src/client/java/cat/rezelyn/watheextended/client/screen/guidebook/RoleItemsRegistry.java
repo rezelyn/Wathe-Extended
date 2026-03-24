@@ -23,8 +23,8 @@ public final class RoleItemsRegistry {
             new RoleItem("blackout", "item.wathe.blackout", 200),
             new RoleItem("note", "item.wathe.note", 10)
     );
-    private static final String KEY_ITEM_DESC_PREFIX = "gui.watheextended.guidebook.item.";
 
+    private static final String KEY_ITEM_DESC_PREFIX = "gui.watheextended.guidebook.item.";
     private static final String KEY_ITEM_DESC_SUFFIX = ".desc";
     private static final Map<String, Supplier<List<RoleItem>>> REGISTRY = new LinkedHashMap<>();
 
@@ -35,6 +35,13 @@ public final class RoleItemsRegistry {
         register("noellesroles:jester", () -> List.of(
                 starting("fake_knife", "item.noellesroles.fake_knife"),
                 starting("fake_revolver", "item.noellesroles.fake_revolver")
+        ));
+        register("noellesroles:awesome_binglus", () -> List.of(
+                starting("note", "item.wathe.note")
+        ));
+        register("noellesroles:better_vigilante", () -> List.of(
+                starting("revolver", "item.wathe.revolver"),
+                starting("grenade", "item.wathe.grenade")
         ));
         register("noellesroles:conductor", () -> List.of(
                 starting("master_key", "item.noellesroles.master_key")

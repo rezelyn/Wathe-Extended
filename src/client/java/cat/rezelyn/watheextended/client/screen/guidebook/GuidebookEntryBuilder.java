@@ -14,9 +14,6 @@ public final class GuidebookEntryBuilder {
 
     // roles/modifiers that shouldn't appear in the guidebook
     private static final Set<String> BLACKLIST = Set.of(
-            "awesome_binglus",
-            "better_vigilante",
-            "the_insane_damned_paranoid_killer",
             "discovery_civilian",
             "loose_end"
     );
@@ -60,7 +57,11 @@ public final class GuidebookEntryBuilder {
             record Group(String headerKey, int headerColor, String iconName, List<RolesDisplay.RoleDisplay> entries) {
             }
 
-            List<Group> groups = List.of(new Group("gui.watheextended.guidebook.left_page.roles.side.killer", 0xDC001E, "killer", killers), new Group("gui.watheextended.guidebook.left_page.roles.side.civilian", 0x75A743, "civilian", innocents), new Group("gui.watheextended.guidebook.left_page.roles.side.neutral", 0xDE6F00, "neutral", neutrals));
+            List<Group> groups = List.of(
+                    new Group("gui.watheextended.guidebook.left_page.roles.side.killer", 0xDC001E, "killer", killers),
+                    new Group("gui.watheextended.guidebook.left_page.roles.side.civilian", 0x75A743, "civilian", innocents),
+                    new Group("gui.watheextended.guidebook.left_page.roles.side.neutral", 0xDE6F00, "neutral", neutrals)
+            );
 
             boolean first = true;
             for (Group group : groups) {
