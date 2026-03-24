@@ -1000,7 +1000,7 @@ public final class OptionsCategory {
                     .description(OptionDescription.of(
                             Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.guesser.wrongguessmode.desc")
                                     .styled(style -> style.withColor(0xFFFFFF))))
-                    .binding("none",
+                    .binding("death",
                             cat.rezelyn.watheextended.api.noellesroles.ConfigHelper::getGuesserDiesAfterIncorrectGuess,
                             v -> stage(sendCommand, parent, "noellesroles.guesserDiesAfterIncorrectGuess", v))
                     .controller(opt -> CyclingListControllerBuilder.create(opt)

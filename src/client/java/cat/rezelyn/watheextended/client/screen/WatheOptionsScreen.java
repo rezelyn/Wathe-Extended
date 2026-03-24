@@ -21,7 +21,7 @@ public final class WatheOptionsScreen {
     private static final Map<String, Boolean> pendingModifierState = new HashMap<>();
 
     // Blacklist of roles that shouldn't be shown in the config screen
-    // Has these are needed by WATHE to function properly and so are not meant to be disabled
+    // As these are needed by WATHE to function properly and so are not meant to be disabled
     private static final Set<String> BLACKLIST = Set.of(
             "civilian",
             "killer",

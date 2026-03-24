@@ -216,7 +216,7 @@ public final class ConfigHelper {
     }
 
     public static String getGuesserDiesAfterIncorrectGuess() {
-        return cs("noellesroles.guesserDiesAfterIncorrectGuess", "none");
+        return cs("noellesroles.guesserDiesAfterIncorrectGuess", "death");
     }
 
     public static void setGuesserDiesAfterIncorrectGuess(String v) throws Exception {

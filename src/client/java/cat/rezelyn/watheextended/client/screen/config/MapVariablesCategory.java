@@ -169,15 +169,6 @@ public final class MapVariablesCategory {
                         v -> sendCommand.accept("wathe:mapVariables set resetPasteOffset " + v.trim(), parent))
                 .controller(StringControllerBuilder::create).build());
 
-        String readyAreaSpawnDefault = ScreenUtils.posToArgs(MapVariables.getReadyAreaSpawnPosition(world));
-        group.option(Option.<String>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.readyareaspawnpos"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.readyareaspawnpos.desc").styled(s -> s.withColor(0x757575))))
-                .binding(readyAreaSpawnDefault,
-                        () -> ScreenUtils.posToArgs(MapVariables.getReadyAreaSpawnPosition(MinecraftClient.getInstance().world)),
-                        v -> sendCommand.accept("watheextended:mapVariables set readyAreaSpawnPosition " + v.trim(), parent))
-                .controller(StringControllerBuilder::create).build());
-
         String spawnPosDefault = ScreenUtils.posToArgs(MapVariables.getSpawnPosition(world));
         group.option(Option.<String>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.spawnpos"))
@@ -185,6 +176,15 @@ public final class MapVariablesCategory {
                 .binding(spawnPosDefault,
                         () -> ScreenUtils.posToArgs(MapVariables.getSpawnPosition(MinecraftClient.getInstance().world)),
                         v -> sendCommand.accept("wathe:mapVariables set spawnPosition " + v.trim(), parent))
+                .controller(StringControllerBuilder::create).build());
+
+        String readyAreaSpawnDefault = ScreenUtils.posToArgs(MapVariables.getReadyAreaSpawnPosition(world));
+        group.option(Option.<String>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.readyareaspawnpos"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.readyareaspawnpos.desc").styled(s -> s.withColor(0x757575))))
+                .binding(readyAreaSpawnDefault,
+                        () -> ScreenUtils.posToArgs(MapVariables.getReadyAreaSpawnPosition(MinecraftClient.getInstance().world)),
+                        v -> sendCommand.accept("watheextended:mapVariables set readyAreaSpawnPosition " + v.trim(), parent))
                 .controller(StringControllerBuilder::create).build());
 
         String spectatorSpawnDefault = ScreenUtils.posToArgs(MapVariables.getSpectatorSpawnPosition(world));
