@@ -1,7 +1,7 @@
 package cat.rezelyn.watheextended.mixin.client.wathe;
 
 import cat.rezelyn.watheextended.client.WatheExtendedClientConfig;
-import cat.rezelyn.watheextended.client.util.ChatHudRenderHelper;
+import cat.rezelyn.watheextended.client.render.ChatHudRenderHelper;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.client.gui.DrawContext;
