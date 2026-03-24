@@ -468,6 +468,7 @@
   "gui.watheextended.guidebook.role.abilities.kinswathe.licensed_villain": "{icon:nemesis} §lUnsentimental§r\nCan shoot at any passengers without ever dropping their Revolver",
   "gui.watheextended.guidebook.role.abilities.kinswathe.physician": "{icon:sense} §lPoison Sense§r\nSee players who've recently been poisoned through walls.",
   "gui.watheextended.guidebook.role.abilities.kinswathe.robot": "{icon:last_words} §lReboot§r\nWhen triggered, you will have the ability to see in the dark for a short period of time.\n\n{icon:undercover} §lMachine§r\nYou don't have any emotions, no mood system. You're also immune to poisoning.\n\n{icon:athletic} §lAthletic§r\nHas infinite stamina.",
+  "gui.watheextended.guidebook.role.abilities.noellesroles.awesome_binglus": "{icon:instinct} §lInstinct§r\nSee §lNotes§r through walls.",
   "gui.watheextended.guidebook.role.abilities.noellesroles.bartender": "{icon:sense} §lCocktail Sense§r\nSee players who've recently consumed a cocktail and players that have a §9Defense Shield§r through walls.",
   "gui.watheextended.guidebook.role.abilities.noellesroles.coroner": "{icon:autopsy} §lAutopsy§r\nInspect a dead body to learn the victim's role, cause of death, and time of death.",
   "gui.watheextended.guidebook.role.abilities.noellesroles.executioner": "{icon:nemesis} §lTarget§r\nA random target is assigned at game start. Work to ensure their death, the target needs to be killed by another Innocent in order for you to become a random §4Killer Role§r.",

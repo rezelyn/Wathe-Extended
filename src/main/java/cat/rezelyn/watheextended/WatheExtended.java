@@ -7,6 +7,7 @@ import cat.rezelyn.watheextended.game.ItemBoundsChecker;
 import cat.rezelyn.watheextended.game.PlayerItemManager;
 import cat.rezelyn.watheextended.game.PronounsManager;
 import cat.rezelyn.watheextended.index.*;
+import cat.rezelyn.watheextended.modifiers.noellesroles.AwesomeBinglusNote;
 import cat.rezelyn.watheextended.modifiers.noellesroles.FeatherModifierFix;
 import cat.rezelyn.watheextended.modifiers.IntrovertedModifier;
 import cat.rezelyn.watheextended.game.TeleportationHandler;
@@ -240,6 +241,9 @@ public class WatheExtended implements ModInitializer {
             cat.rezelyn.watheextended.modifiers.AdaptiveModifier.clearAll();
             cat.rezelyn.watheextended.modifiers.TaxedModifier.clearAll();
             if (world instanceof ServerWorld sw) FeatherModifierFix.applyOnGameStart(sw);
+            if (cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.isLoaded()) {
+                AwesomeBinglusNote.applyOnGameStart(world, gameWorldComponent);
+            }
             if (cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.isLoaded()) {
                 try {
                     WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(world);
