@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.mixin.client;
 
+import cat.rezelyn.watheextended.api.wathe.GameStatus;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -85,7 +86,7 @@ public class InGameHudMixin {
         int scaledWidth = context.getScaledWindowWidth();
         int scaledHeight = context.getScaledWindowHeight();
 
-        boolean staminaBarActive = cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded() && cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableStaminaBar() && cat.rezelyn.watheextended.api.cca.GameStatus.isActive(this.client.world) && this.client.interactionManager != null && (this.client.interactionManager.getCurrentGameMode() == net.minecraft.world.GameMode.SURVIVAL || this.client.interactionManager.getCurrentGameMode() == net.minecraft.world.GameMode.ADVENTURE);
+        boolean staminaBarActive = cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded() && cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableStaminaBar() && GameStatus.isActive(this.client.world) && this.client.interactionManager != null && (this.client.interactionManager.getCurrentGameMode() == net.minecraft.world.GameMode.SURVIVAL || this.client.interactionManager.getCurrentGameMode() == net.minecraft.world.GameMode.ADVENTURE);
 
         int blockBottom = scaledHeight - 22 - 4 - (staminaBarActive ? 14 : 0);
         int blockTop = blockBottom - (lines.size() * lineHeight) + 2;

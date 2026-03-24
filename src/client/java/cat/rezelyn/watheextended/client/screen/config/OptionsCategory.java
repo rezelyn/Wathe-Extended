@@ -1,7 +1,7 @@
 package cat.rezelyn.watheextended.client.screen.config;
 
-import cat.rezelyn.watheextended.api.cca.GameComponents;
-import cat.rezelyn.watheextended.api.config.ClientConfig;
+import cat.rezelyn.watheextended.api.wathe.GameComponents;
+import cat.rezelyn.watheextended.api.ClientConfig;
 import cat.rezelyn.watheextended.api.hml.ConfigHelper;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.*;

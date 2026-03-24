@@ -1,7 +1,7 @@
 package cat.rezelyn.watheextended.command;
 
 import cat.rezelyn.watheextended.api.kinswathe.ConfigHelper;
-import cat.rezelyn.watheextended.api.config.ServerConfig;
+import cat.rezelyn.watheextended.api.ServerConfig;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;

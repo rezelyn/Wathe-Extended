@@ -1,8 +1,8 @@
 package cat.rezelyn.watheextended.api.kinswathe;
 
-import cat.rezelyn.watheextended.api.config.ClientConfig;
-import cat.rezelyn.watheextended.api.config.ServerConfig;
-import cat.rezelyn.watheextended.api.config.ServerConfig.Entry;
+import cat.rezelyn.watheextended.api.ClientConfig;
+import cat.rezelyn.watheextended.api.ServerConfig;
+import cat.rezelyn.watheextended.api.ServerConfig.Entry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.world.World;

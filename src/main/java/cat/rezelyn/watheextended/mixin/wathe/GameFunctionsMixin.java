@@ -1,7 +1,7 @@
 package cat.rezelyn.watheextended.mixin.wathe;
 
 import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
-import cat.rezelyn.watheextended.modifiers.TaxedModifier;
+import cat.rezelyn.watheextended.modifiers.taxed.TaxedModifier;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;

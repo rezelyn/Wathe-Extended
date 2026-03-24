@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.mixin.wathe;
 
-import cat.rezelyn.watheextended.modifiers.AdaptiveModifier;
+import cat.rezelyn.watheextended.modifiers.adaptive.AdaptiveModifier;
 import cat.rezelyn.watheextended.modifiers.WatheExtendedModifiers;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;

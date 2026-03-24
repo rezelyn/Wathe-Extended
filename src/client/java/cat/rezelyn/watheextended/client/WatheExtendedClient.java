@@ -1,11 +1,11 @@
 package cat.rezelyn.watheextended.client;
 
-import cat.rezelyn.watheextended.api.config.ClientConfig;
-import cat.rezelyn.watheextended.api.config.ServerConfig;
+import cat.rezelyn.watheextended.api.ClientConfig;
+import cat.rezelyn.watheextended.api.ServerConfig;
 import cat.rezelyn.watheextended.client.debug.BoxDebugRenderer;
 import cat.rezelyn.watheextended.client.render.IshPlushBlockEntityRenderer;
 import cat.rezelyn.watheextended.client.screen.GuidebookScreen;
-import cat.rezelyn.watheextended.client.screen.WatheOptionsScreen;
+import cat.rezelyn.watheextended.client.screen.WatheConfigScreen;
 import cat.rezelyn.watheextended.game.PronounsManager;
 import cat.rezelyn.watheextended.index.WatheExtendedBlockEntities;
 import cat.rezelyn.watheextended.index.WatheExtendedBlocks;
@@ -27,7 +27,7 @@ public class WatheExtendedClient implements ClientModInitializer {
     public void onInitializeClient() {
         WatheExtendedClientConfig.load();
         BoxDebugRenderer.register();
-        WatheOptionsScreen.registerTickHandler();
+        WatheConfigScreen.registerTickHandler();
 
         BlockEntityRendererFactories.register(WatheExtendedBlockEntities.ISH_PLUSH, IshPlushBlockEntityRenderer::new);
 
@@ -53,7 +53,7 @@ public class WatheExtendedClient implements ClientModInitializer {
                 (payload, context) -> {
                     ClientConfig.setRemoteServer(true);
                     ClientConfig.update(payload.data());
-                    WatheOptionsScreen.onCacheUpdated();
+                    WatheConfigScreen.onCacheUpdated();
                     GuidebookScreen.invalidateIfOpen();
                 });
 
@@ -70,7 +70,7 @@ public class WatheExtendedClient implements ClientModInitializer {
         });
 
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client2) -> {
-            WatheOptionsScreen.clearPendingState();
+            WatheConfigScreen.clearPendingState();
             ClientConfig.clear();
             cat.rezelyn.watheextended.client.pronouns.PronounsCache.clear();
         });

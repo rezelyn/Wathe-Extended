@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.client.debug;
 
-import cat.rezelyn.watheextended.api.cca.MapVariables;
+import cat.rezelyn.watheextended.api.wathe.MapVariables;
 import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.game.TeleportationSlot;
 import com.mojang.blaze3d.systems.RenderSystem;

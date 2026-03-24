@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.mixin.client;
 
-import cat.rezelyn.watheextended.client.screen.WatheOptionsScreen;
+import cat.rezelyn.watheextended.client.screen.WatheConfigScreen;
 import cat.rezelyn.watheextended.client.widget.IconButtonWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
@@ -61,7 +61,7 @@ public abstract class GameMenuScreenMixin extends Screen {
 
 
     private void watheExtended$onPress(ButtonWidget b) {
-        MinecraftClient.getInstance().setScreen(WatheOptionsScreen.create(this));
+        MinecraftClient.getInstance().setScreen(WatheConfigScreen.create(this));
     }
 
     private static String watheExtended$getTranslationKey(Text text) {

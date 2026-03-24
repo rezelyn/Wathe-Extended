@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.game;
 
-import cat.rezelyn.watheextended.api.cca.MapVariables;
+import cat.rezelyn.watheextended.api.wathe.MapVariables;
 import dev.doctor4t.wathe.index.WatheEntities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

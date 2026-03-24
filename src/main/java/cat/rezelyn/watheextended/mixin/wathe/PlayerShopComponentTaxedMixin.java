@@ -1,7 +1,7 @@
 package cat.rezelyn.watheextended.mixin.wathe;
 
-import cat.rezelyn.watheextended.modifiers.AdaptiveModifier;
-import cat.rezelyn.watheextended.modifiers.TaxedModifier;
+import cat.rezelyn.watheextended.modifiers.adaptive.AdaptiveModifier;
+import cat.rezelyn.watheextended.modifiers.taxed.TaxedModifier;
 import cat.rezelyn.watheextended.modifiers.WatheExtendedModifiers;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerShopComponent;
@@ -29,7 +29,7 @@ public class PlayerShopComponentTaxedMixin {
             ServerWorld world = sp.getServerWorld();
             GameWorldComponent gwc = GameWorldComponent.KEY.get(world);
             if (!gwc.isRunning()) return amount;
-            // only affect players that can use killer features (have coin access)
+            // only affect players that can use killer features
             if (!gwc.canUseKillerFeatures(sp)) return amount;
             WorldModifierComponent wmc = WorldModifierComponent.KEY.get(world);
             if (!wmc.isModifier(sp, WatheExtendedModifiers.TAXED)) return amount;

@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.mixin;
 
-import cat.rezelyn.watheextended.api.cca.MapVariables;
+import cat.rezelyn.watheextended.api.wathe.MapVariables;
 import cat.rezelyn.watheextended.block.ProtectedBlocks;
 import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
 import dev.doctor4t.wathe.block.*;

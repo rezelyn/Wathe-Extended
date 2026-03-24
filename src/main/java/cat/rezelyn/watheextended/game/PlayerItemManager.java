@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.game;
 
-import cat.rezelyn.watheextended.api.cca.MapVariables;
+import cat.rezelyn.watheextended.api.wathe.MapVariables;
 import cat.rezelyn.watheextended.index.WatheExtendedItems;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.item.ItemStack;

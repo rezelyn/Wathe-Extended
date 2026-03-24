@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.mixin.client.wathe;
 
-import cat.rezelyn.watheextended.api.cca.GameStatus;
+import cat.rezelyn.watheextended.api.wathe.GameStatus;
 import cat.rezelyn.watheextended.api.hml.AssignedModifier;
 import cat.rezelyn.watheextended.api.wathe.AssignedRole;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;

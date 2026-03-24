@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended;
 
-import cat.rezelyn.watheextended.api.config.ClientConfig;
+import cat.rezelyn.watheextended.api.ClientConfig;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.File;

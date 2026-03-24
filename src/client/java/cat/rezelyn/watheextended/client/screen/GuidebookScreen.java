@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.client.screen;
 
-import cat.rezelyn.watheextended.api.cca.GameStatus;
+import cat.rezelyn.watheextended.api.wathe.GameStatus;
 import cat.rezelyn.watheextended.client.screen.guidebook.GuidebookEntry;
 import cat.rezelyn.watheextended.client.screen.guidebook.GuidebookEntryBuilder;
 import cat.rezelyn.watheextended.client.screen.guidebook.GuidebookIcons;

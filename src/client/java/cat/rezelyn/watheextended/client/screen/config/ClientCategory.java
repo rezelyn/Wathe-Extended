@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.client.screen.config;
 
-import cat.rezelyn.watheextended.api.cca.GameComponents;
+import cat.rezelyn.watheextended.api.wathe.GameComponents;
 import cat.rezelyn.watheextended.client.WatheExtendedClientConfig;
 import cat.rezelyn.watheextended.client.pronouns.PronounsCache;
 import cat.rezelyn.watheextended.game.PronounsManager;

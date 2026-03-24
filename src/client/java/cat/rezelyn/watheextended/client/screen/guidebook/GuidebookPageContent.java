@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.client.screen.guidebook;
 
+import cat.rezelyn.watheextended.api.ClientConfig;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -45,12 +46,12 @@ public final class GuidebookPageContent {
         }
 
         if (page == 2 && id != null) {
-            if (RoleItemsRegistry.hasExplicitRegistration(id) || (result.isEmpty() && isKillerSided)) {
-                List<RoleItemsRegistry.RoleItem> autoItems = RoleItemsRegistry.getItemsForRole(id, isKillerSided);
+            if (GuidebookEntryItems.hasExplicitRegistration(id) || (result.isEmpty() && isKillerSided)) {
+                List<GuidebookEntryItems.RoleItem> autoItems = GuidebookEntryItems.getItemsForRole(id, isKillerSided);
                 if (!autoItems.isEmpty()) {
                     result.clear();
                     for (int i = 0; i < autoItems.size(); i++) {
-                        RoleItemsRegistry.RoleItem item = autoItems.get(i);
+                        GuidebookEntryItems.RoleItem item = autoItems.get(i);
                         result.add(item.toText());
                         // optional description sub-line
                         Text desc = item.descText();
@@ -97,20 +98,20 @@ public final class GuidebookPageContent {
         if (id == null || !str.contains("%s")) return str;
         try {
             if (id.contains("introverted")) {
-                int crowdCount = cat.rezelyn.watheextended.api.config.ClientConfig.getInt(
+                int crowdCount = ClientConfig.getInt(
                         "watheextended.introverted.crowdCount", 3);
-                float crowdRange = cat.rezelyn.watheextended.api.config.ClientConfig.getFloat(
+                float crowdRange = ClientConfig.getFloat(
                         "watheextended.introverted.crowdRange", 5.0f);
 
                 str = replaceFirstStringPlaceholder(str, String.valueOf(crowdCount));
                 str = replaceFirstStringPlaceholder(str, formatFloat(crowdRange));
 
             } else if (id.contains("taxed")) {
-                int killThreshold = cat.rezelyn.watheextended.api.config.ClientConfig.getInt(
+                int killThreshold = ClientConfig.getInt(
                         "watheextended.taxed.killThreshold", 1);
-                int killWindow = cat.rezelyn.watheextended.api.config.ClientConfig.getInt(
+                int killWindow = ClientConfig.getInt(
                         "watheextended.taxed.killWindowSeconds", 60);
-                float reduction = cat.rezelyn.watheextended.api.config.ClientConfig.getFloat(
+                float reduction = ClientConfig.getFloat(
                         "watheextended.taxed.coinReduction", 0.50f);
                 int percent = Math.round(reduction * 100f);
 
@@ -119,9 +120,9 @@ public final class GuidebookPageContent {
                 str = replaceFirstStringPlaceholder(str, String.valueOf(percent));
 
             } else if (id.contains("adaptive")) {
-                float penalty = cat.rezelyn.watheextended.api.config.ClientConfig.getFloat(
+                float penalty = ClientConfig.getFloat(
                         "watheextended.adaptive.penaltyReduction", 0.25f);
-                float bonus = cat.rezelyn.watheextended.api.config.ClientConfig.getFloat(
+                float bonus = ClientConfig.getFloat(
                         "watheextended.adaptive.bonusMultiplier", 0.50f);
                 int penaltyPercent = Math.round((1f - penalty) * 100f);
                 int bonusPercent = Math.round(bonus * 100f);

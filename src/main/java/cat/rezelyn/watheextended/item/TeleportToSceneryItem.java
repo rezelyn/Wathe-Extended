@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.item;
 
-import cat.rezelyn.watheextended.api.cca.GameStatus;
+import cat.rezelyn.watheextended.api.wathe.GameStatus;
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;

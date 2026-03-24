@@ -1,17 +1,20 @@
 package cat.rezelyn.watheextended;
 
-import cat.rezelyn.watheextended.api.config.ServerConfig;
+import cat.rezelyn.watheextended.api.ServerConfig;
 import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.command.*;
 import cat.rezelyn.watheextended.game.ItemBoundsChecker;
 import cat.rezelyn.watheextended.game.PlayerItemManager;
 import cat.rezelyn.watheextended.game.PronounsManager;
 import cat.rezelyn.watheextended.index.*;
-import cat.rezelyn.watheextended.modifiers.noellesroles.AwesomeBinglusNote;
-import cat.rezelyn.watheextended.modifiers.noellesroles.FeatherModifierFix;
-import cat.rezelyn.watheextended.modifiers.IntrovertedModifier;
+import cat.rezelyn.watheextended.modifiers.adaptive.AdaptiveModifier;
+import cat.rezelyn.watheextended.modifiers.noellesroles.binglus.AwesomeBinglusNote;
+import cat.rezelyn.watheextended.modifiers.noellesroles.feather.FeatherModifierFix;
+import cat.rezelyn.watheextended.modifiers.introverted.IntrovertedModifier;
 import cat.rezelyn.watheextended.game.TeleportationHandler;
-import cat.rezelyn.watheextended.api.hml.ConfigSync;
+import cat.rezelyn.watheextended.api.ConfigSync;
+import cat.rezelyn.watheextended.modifiers.stupidexpress.lovers.ForbiddenLovers;
+import cat.rezelyn.watheextended.modifiers.taxed.TaxedModifier;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.fabricmc.api.ModInitializer;
@@ -238,8 +241,8 @@ public class WatheExtended implements ModInitializer {
         GameEvents.ON_FINISH_INITIALIZE.register((world, gameWorldComponent) -> {
             try { WatheExtendedWorldComponent.KEY.get(world).clearKilledPlayers(); }
             catch (Throwable ignored) {}
-            cat.rezelyn.watheextended.modifiers.AdaptiveModifier.clearAll();
-            cat.rezelyn.watheextended.modifiers.TaxedModifier.clearAll();
+            AdaptiveModifier.clearAll();
+            TaxedModifier.clearAll();
             if (world instanceof ServerWorld sw) FeatherModifierFix.applyOnGameStart(sw);
             if (cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.isLoaded()) {
                 AwesomeBinglusNote.applyOnGameStart(world, gameWorldComponent);
@@ -248,7 +251,7 @@ public class WatheExtended implements ModInitializer {
                 try {
                     WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(world);
                     if (wec.isForbiddenLoversEnabled()) {
-                        cat.rezelyn.watheextended.modifiers.stupidexpress.ForbiddenLovers.apply(world, gameWorldComponent);
+                        ForbiddenLovers.apply(world, gameWorldComponent);
                     }
                 } catch (Throwable ignored) {}
             }
@@ -257,8 +260,8 @@ public class WatheExtended implements ModInitializer {
         GameEvents.ON_FINISH_FINALIZE.register((world, gameWorldComponent) -> {
             try { WatheExtendedWorldComponent.KEY.get(world).clearKilledPlayers(); }
             catch (Throwable ignored) {}
-            cat.rezelyn.watheextended.modifiers.AdaptiveModifier.clearAll();
-            cat.rezelyn.watheextended.modifiers.TaxedModifier.clearAll();
+            AdaptiveModifier.clearAll();
+            TaxedModifier.clearAll();
         });
     }
 

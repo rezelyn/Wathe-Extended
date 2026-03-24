@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.mixin.client;
 
-import cat.rezelyn.watheextended.api.config.ClientConfig;
+import cat.rezelyn.watheextended.api.ClientConfig;
 import cat.rezelyn.watheextended.client.screen.guidebook.GuidebookIcons;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
