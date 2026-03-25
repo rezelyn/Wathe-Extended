@@ -4,8 +4,10 @@ import cat.rezelyn.watheextended.api.ClientConfig;
 import cat.rezelyn.watheextended.api.ServerConfig;
 import cat.rezelyn.watheextended.client.debug.BoxDebugRenderer;
 import cat.rezelyn.watheextended.client.render.IshPlushBlockEntityRenderer;
+import cat.rezelyn.watheextended.client.render.LastStandRenderer;
 import cat.rezelyn.watheextended.client.screen.GuidebookScreen;
 import cat.rezelyn.watheextended.client.screen.WatheConfigScreen;
+import cat.rezelyn.watheextended.game.LastStandManager;
 import cat.rezelyn.watheextended.game.PronounsManager;
 import cat.rezelyn.watheextended.index.WatheExtendedBlockEntities;
 import cat.rezelyn.watheextended.index.WatheExtendedBlocks;
@@ -13,8 +15,10 @@ import cat.rezelyn.watheextended.index.WatheExtendedItems;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
@@ -28,6 +32,9 @@ public class WatheExtendedClient implements ClientModInitializer {
         WatheExtendedClientConfig.load();
         BoxDebugRenderer.register();
         WatheConfigScreen.registerTickHandler();
+
+        HudRenderCallback.EVENT.register((context, tickCounter) -> LastStandRenderer.render(context));
+        ClientTickEvents.END_CLIENT_TICK.register(client -> LastStandRenderer.tick());
 
         BlockEntityRendererFactories.register(WatheExtendedBlockEntities.ISH_PLUSH, IshPlushBlockEntityRenderer::new);
 
@@ -48,6 +55,9 @@ public class WatheExtendedClient implements ClientModInitializer {
                 WatheExtendedBlocks.SNOWY_AZALEA_LEAVES,
                 WatheExtendedBlocks.SNOWY_FLOWERING_AZALEA_LEAVES
         );
+
+        ClientPlayNetworking.registerGlobalReceiver(LastStandManager.LastStandPayload.ID,
+                (payload, context) -> context.client().execute(() -> LastStandRenderer.start(payload.totalTicks())));
 
         ClientPlayNetworking.registerGlobalReceiver(ServerConfig.SyncPayload.ID,
                 (payload, context) -> {
@@ -73,6 +83,7 @@ public class WatheExtendedClient implements ClientModInitializer {
             WatheConfigScreen.clearPendingState();
             ClientConfig.clear();
             cat.rezelyn.watheextended.client.pronouns.PronounsCache.clear();
+            LastStandRenderer.stop();
         });
 
         UseItemCallback.EVENT.register((player, world, hand) -> {

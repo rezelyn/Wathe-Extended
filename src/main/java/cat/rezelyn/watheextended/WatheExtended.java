@@ -15,6 +15,9 @@ import cat.rezelyn.watheextended.game.TeleportationHandler;
 import cat.rezelyn.watheextended.api.ConfigSync;
 import cat.rezelyn.watheextended.modifiers.stupidexpress.lovers.ForbiddenLovers;
 import cat.rezelyn.watheextended.modifiers.taxed.TaxedModifier;
+import cat.rezelyn.watheextended.api.wathe.GameStatus;
+import cat.rezelyn.watheextended.game.LastStandManager;
+import dev.doctor4t.wathe.api.event.AllowPlayerDeath;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.fabricmc.api.ModInitializer;
@@ -87,6 +90,7 @@ public class WatheExtended implements ModInitializer {
         registerConnectionEvents();
         registerGameEvents();
         registerTickEvents();
+        registerLastStand();
 
         // commands
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
@@ -175,6 +179,12 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.killIncreaseTime", 60,
                 WatheExtendedServerConfig::getKillIncreaseTime,
                 WatheExtendedServerConfig::setKillIncreaseTime));
+        ServerConfig.register(ServerConfig.Entry.globalBool("watheextended.lastStand.enabled", false,
+                WatheExtendedServerConfig::isLastStandEnabled,
+                WatheExtendedServerConfig::setLastStandEnabled));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.lastStand.cooldown", 30,
+                WatheExtendedServerConfig::getLastStandCooldown,
+                WatheExtendedServerConfig::setLastStandCooldown));
     }
 
     private static void registerNetworking() {
@@ -182,6 +192,7 @@ public class WatheExtended implements ModInitializer {
         PayloadTypeRegistry.playC2S().register(ServerConfig.ChangePayload.ID, ServerConfig.ChangePayload.CODEC);
         PayloadTypeRegistry.playC2S().register(PronounsManager.UpdatePayload.ID, PronounsManager.UpdatePayload.CODEC);
         PayloadTypeRegistry.playS2C().register(PronounsManager.SyncPayload.ID, PronounsManager.SyncPayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(LastStandManager.LastStandPayload.ID, LastStandManager.LastStandPayload.CODEC);
 
         ServerPlayNetworking.registerGlobalReceiver(PronounsManager.UpdatePayload.ID, (payload, context) -> {
             UUID uuid = context.player().getUuid();
@@ -265,6 +276,7 @@ public class WatheExtended implements ModInitializer {
             catch (Throwable ignored) {}
             AdaptiveModifier.clearAll();
             TaxedModifier.clearAll();
+            LastStandManager.clearAll();
         });
     }
 
@@ -304,7 +316,42 @@ public class WatheExtended implements ModInitializer {
 
             if (serverWorld.getRegistryKey() == World.OVERWORLD) {
                 ConfigSync.tick(serverWorld);
+                LastStandManager.tick(serverWorld);
             }
         });
+    }
+
+    private static void registerLastStand() {
+        AllowPlayerDeath.EVENT.register((victim, killer, deathReason) -> {
+            if (!WatheExtendedServerConfig.lastStandEnabled) return true;
+            if (deathReason == null) return true;
+            if (!GameStatus.isActive(victim.getWorld())) return true;
+
+            String id = deathReason.toString();
+            String message = null;
+
+            if ("stupid_express:broken_heart".equals(id)) {
+                message = "You feel your heart begin to ache...";
+            } else if ("noellesroles:voodoo".equals(id)) {
+                if (killer != null) {
+                    message = "Your identity has been compromised...";
+                } else if (!isGuesser(victim)) {
+                    message = "Strange visions curse your mind...";
+                }
+            }
+
+            if (message == null) return true;
+
+            return !LastStandManager.tryActivate(victim, killer, deathReason, message);
+        });
+    }
+
+    private static boolean isGuesser(net.minecraft.entity.player.PlayerEntity player) {
+        try {
+            org.agmas.harpymodloader.component.WorldModifierComponent wmc =
+                    org.agmas.harpymodloader.component.WorldModifierComponent.KEY.get(player.getWorld());
+            return wmc.isRole(player, org.agmas.noellesroles.Noellesroles.GUESSER);
+        } catch (Throwable ignored) {}
+        return false;
     }
 }

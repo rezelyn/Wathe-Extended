@@ -28,6 +28,8 @@ public final class WatheExtendedServerConfig {
     public static boolean suppressAbilityVfxSfx = false;
     public static int cleanerPlayerLimit = 10;
     public static int killIncreaseTime = 60;
+    public static boolean lastStandEnabled = false;
+    public static int lastStandCooldown = 30;
 
     private WatheExtendedServerConfig() {}
 
@@ -54,6 +56,8 @@ public final class WatheExtendedServerConfig {
         suppressAbilityVfxSfx = ClientConfig.readBool(CONFIG_FILE, "ability.suppressVfxSfx", false);
         cleanerPlayerLimit = ClientConfig.readInt(CONFIG_FILE, "cleaner.playerLimit", 10);
         killIncreaseTime = ClientConfig.readInt(CONFIG_FILE, "timer.killIncreaseSeconds", 60);
+        lastStandEnabled = ClientConfig.readBool(CONFIG_FILE, "lastStand.enabled", false);
+        lastStandCooldown = ClientConfig.readInt(CONFIG_FILE, "lastStand.cooldown", 30);
     }
 
     public static void save() {
@@ -122,6 +126,13 @@ public final class WatheExtendedServerConfig {
                             "    // Time in seconds added to the game timer when a player is killed.\n" +
                             "    // Set to 0 to disable kill time addition. Default matches Wathe (60 = 1 minute).\n" +
                             "    \"killIncreaseSeconds\": " + killIncreaseTime + "\n" +
+                            "  },\n" +
+                            "  \"lastStand\": {\n" +
+                            "    // When enabled, instakill methods (Guesser, Voodoo, Lovers heartbreak) give the\n" +
+                            "    // targeted player a countdown before they actually die.\n" +
+                            "    \"enabled\": " + lastStandEnabled + ",\n" +
+                            "    // Duration in seconds of the Last Stand countdown before the player dies.\n" +
+                            "    \"cooldown\": " + lastStandCooldown + "\n" +
                             "  }\n" +
                             "}\n";
             Files.writeString(CONFIG_FILE.toPath(), content);
@@ -288,6 +299,24 @@ public final class WatheExtendedServerConfig {
 
     public static void setKillIncreaseTime(int value) {
         killIncreaseTime = Math.max(0, value);
+        save();
+    }
+
+    public static boolean isLastStandEnabled() {
+        return lastStandEnabled;
+    }
+
+    public static void setLastStandEnabled(boolean value) {
+        lastStandEnabled = value;
+        save();
+    }
+
+    public static int getLastStandCooldown() {
+        return lastStandCooldown;
+    }
+
+    public static void setLastStandCooldown(int value) {
+        lastStandCooldown = Math.max(1, value);
         save();
     }
 }

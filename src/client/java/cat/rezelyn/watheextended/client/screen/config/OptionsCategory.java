@@ -85,6 +85,29 @@ public final class OptionsCategory {
                     .build());
         }
 
+        group.option(Option.<Boolean>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.laststand"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.laststand.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(ClientConfig.getBool("watheextended.lastStand.enabled", false),
+                        () -> ClientConfig.getBool("watheextended.lastStand.enabled", false),
+                        v -> stage(sendCommand, parent, "watheextended.lastStand.enabled", v))
+                .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
+                        .formatValue(v -> Text.translatable(v ? "text.watheextended.enabled" : "text.watheextended.disabled")))
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.laststandcooldown"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.laststandcooldown.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(30,
+                        () -> ClientConfig.getInt("watheextended.lastStand.cooldown", 30),
+                        v -> stage(sendCommand, parent, "watheextended.lastStand.cooldown", v))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
         if (cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) {
             final boolean startSafeTimeDefault = cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableStartSafeTime(world);
 
