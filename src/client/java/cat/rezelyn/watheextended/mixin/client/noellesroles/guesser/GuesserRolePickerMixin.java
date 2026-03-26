@@ -172,6 +172,15 @@ public abstract class GuesserRolePickerMixin extends Screen {
                 }
             }
 
+            int spacing = 36;
+            int count = watheextended$guesserPlayerWidgets.size();
+            if (count > 0) {
+                int startX = this.width / 2 - (count * spacing) / 2 + 9;
+                for (int i = 0; i < count; i++) {
+                    watheextended$guesserPlayerWidgets.get(i).setX(startX + i * spacing);
+                }
+            }
+
             if (roleWidget == null) return;
 
             this.remove(roleWidget);
