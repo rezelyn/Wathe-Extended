@@ -30,6 +30,7 @@ public final class WatheExtendedServerConfig {
     public static int killIncreaseTime = 60;
     public static boolean lastStandEnabled = false;
     public static int lastStandCooldown = 30;
+    public static int grenadeCooldown = 90;
 
     private WatheExtendedServerConfig() {}
 
@@ -58,6 +59,7 @@ public final class WatheExtendedServerConfig {
         killIncreaseTime = ClientConfig.readInt(CONFIG_FILE, "timer.killIncreaseSeconds", 60);
         lastStandEnabled = ClientConfig.readBool(CONFIG_FILE, "lastStand.enabled", false);
         lastStandCooldown = ClientConfig.readInt(CONFIG_FILE, "lastStand.cooldown", 30);
+        grenadeCooldown = ClientConfig.readInt(CONFIG_FILE, "items.grenade.cooldown", 90);
     }
 
     public static void save() {
@@ -317,6 +319,15 @@ public final class WatheExtendedServerConfig {
 
     public static void setLastStandCooldown(int value) {
         lastStandCooldown = Math.max(1, value);
+        save();
+    }
+
+    public static int getGrenadeCooldown() {
+        return grenadeCooldown;
+    }
+
+    public static void setGrenadeCooldown(int value) {
+        grenadeCooldown = Math.max(0, value);
         save();
     }
 }

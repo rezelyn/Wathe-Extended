@@ -19,6 +19,7 @@
     "wathe.GameFunctionsAdaptiveMixin",
     "wathe.GameFunctionsMixin",
     "wathe.GameFunctionsKillShieldMixin",
+    "wathe.GrenadeItemUseMixin",
     "wathe.HarpyExpressTrainMapEffectMixin",
     "wathe.PlayerMoodComponentNbtMixin",
     "wathe.PlayerMoodDirectAccessor",

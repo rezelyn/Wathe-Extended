@@ -73,10 +73,11 @@ public class WatheExtended implements ModInitializer {
         WatheExtendedGroup.initialize();
 
         WatheExtendedServerConfig.load();
+        applyItemCooldowns();
 
         // integrations
         PronounsManager.load();
-        cat.rezelyn.watheextended.modifiers.WatheExtendedModifiers.initialize();
+        WatheExtendedModifiers.initialize();
         cat.rezelyn.watheextended.api.hml.ConfigHelper.registerEntries();
         cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.registerEntries();
         cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.registerEntries();
@@ -185,6 +186,9 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.lastStand.cooldown", 30,
                 WatheExtendedServerConfig::getLastStandCooldown,
                 WatheExtendedServerConfig::setLastStandCooldown));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.grenade.cooldown", 90,
+                WatheExtendedServerConfig::getGrenadeCooldown,
+                WatheExtendedServerConfig::setGrenadeCooldown));
     }
 
     private static void registerNetworking() {

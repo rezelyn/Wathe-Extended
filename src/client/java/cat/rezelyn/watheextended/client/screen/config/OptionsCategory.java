@@ -252,6 +252,8 @@ public final class OptionsCategory {
                     .build());
         }
 
+        group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.label.items").styled(s -> s.withColor(0xAAAAAA))));
+
         group.option(Option.<Integer>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.killincreasetime"))
                 .description(OptionDescription.of(
@@ -260,6 +262,16 @@ public final class OptionsCategory {
                 .binding(60,
                         () -> ClientConfig.getInt("watheextended.killIncreaseTime", 60),
                         v -> stage(sendCommand, parent, "watheextended.killIncreaseTime", v))
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.grenadecooldown"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.grenadecooldown.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(90,
+                        () -> ClientConfig.getInt("watheextended.grenade.cooldown", 90),
+                        v -> stage(sendCommand, parent, "watheextended.grenade.cooldown", v))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
 
