@@ -59,5 +59,14 @@ public class PlayerMoodComponentNbtMixin {
                 }
             }
         }
+
+        if (tag.contains("eatFulfilledExt", NbtElement.BYTE_TYPE)
+                && this.tasks.get(PlayerMoodComponent.Task.EAT) instanceof PlayerMoodComponent.EatTask eatTask) {
+            eatTask.fulfilled = tag.getBoolean("eatFulfilledExt");
+        }
+        if (tag.contains("drinkFulfilledExt", NbtElement.BYTE_TYPE)
+                && this.tasks.get(PlayerMoodComponent.Task.DRINK) instanceof PlayerMoodComponent.DrinkTask drinkTask) {
+            drinkTask.fulfilled = tag.getBoolean("drinkFulfilledExt");
+        }
     }
 }
