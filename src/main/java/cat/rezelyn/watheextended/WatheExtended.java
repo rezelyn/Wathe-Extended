@@ -253,7 +253,11 @@ public class WatheExtended implements ModInitializer {
 
     private static void registerGameEvents() {
         GameEvents.ON_FINISH_INITIALIZE.register((world, gameWorldComponent) -> {
-            try { WatheExtendedWorldComponent.KEY.get(world).clearKilledPlayers(); }
+            try { 
+                WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(world);
+                wec.clearKilledPlayers();
+                wec.setGameStartWorldTime(world.getTime());
+            }
             catch (Throwable ignored) {}
             AdaptiveModifier.clearAll();
             TaxedModifier.clearAll();

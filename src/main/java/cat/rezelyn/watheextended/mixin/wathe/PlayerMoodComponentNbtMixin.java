@@ -19,6 +19,9 @@ public class PlayerMoodComponentNbtMixin {
     @Shadow @Final
     public Map<PlayerMoodComponent.Task, Integer> timesGotten;
 
+    @Shadow @Final
+    public Map<PlayerMoodComponent.Task, PlayerMoodComponent.TrainTask> tasks;
+
     @Shadow
     private int nextTaskTimer;
 
@@ -31,6 +34,13 @@ public class PlayerMoodComponentNbtMixin {
             timesGottenTag.putInt(String.valueOf(entry.getKey().ordinal()), entry.getValue());
         }
         tag.put("timesGottenExt", timesGottenTag);
+
+        if (this.tasks.get(PlayerMoodComponent.Task.EAT) instanceof PlayerMoodComponent.EatTask eatTask) {
+            tag.putBoolean("eatFulfilledExt", eatTask.fulfilled);
+        }
+        if (this.tasks.get(PlayerMoodComponent.Task.DRINK) instanceof PlayerMoodComponent.DrinkTask drinkTask) {
+            tag.putBoolean("drinkFulfilledExt", drinkTask.fulfilled);
+        }
     }
 
     @Inject(method = "readFromNbt", at = @At("TAIL"))
