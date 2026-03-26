@@ -146,6 +146,19 @@ public final class OptionsCategory {
 
         World world = MinecraftClient.getInstance().world;
 
+        group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.label.global").styled(s -> s.withColor(0xAAAAAA))));
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.killincreasetime"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.killincreasetime.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(60,
+                        () -> ClientConfig.getInt("watheextended.killIncreaseTime", 60),
+                        v -> stage(sendCommand, parent, "watheextended.killIncreaseTime", v))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
         group.option(Option.<Integer>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.backfire"))
                 .description(OptionDescription.of(
@@ -255,13 +268,27 @@ public final class OptionsCategory {
         group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.label.items").styled(s -> s.withColor(0xAAAAAA))));
 
         group.option(Option.<Integer>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.killincreasetime"))
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.knifecooldown"))
                 .description(OptionDescription.of(
-                        Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.killincreasetime.desc")
+                        Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.knifecooldown.desc")
                                 .styled(style -> style.withColor(0xFFFFFF))))
                 .binding(60,
-                        () -> ClientConfig.getInt("watheextended.killIncreaseTime", 60),
-                        v -> stage(sendCommand, parent, "watheextended.killIncreaseTime", v))
+                        () -> ClientConfig.getInt("watheextended.knife.cooldown", 60),
+                        v -> stage(sendCommand, parent, "watheextended.knife.cooldown", v))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.revolvercooldown"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.revolvercooldown.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(10,
+                        () -> ClientConfig.getInt("watheextended.revolver.cooldown", 10),
+                        v -> stage(sendCommand, parent, "watheextended.revolver.cooldown", v))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
         group.option(Option.<Integer>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.grenadecooldown"))
                 .description(OptionDescription.of(
@@ -272,6 +299,59 @@ public final class OptionsCategory {
                         v -> stage(sendCommand, parent, "watheextended.grenade.cooldown", v))
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.psychomodecooldown"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.psychomodecooldown.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(300,
+                        () -> ClientConfig.getInt("watheextended.psychoMode.cooldown", 300),
+                        v -> stage(sendCommand, parent, "watheextended.psychoMode.cooldown", v))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.lockpickcooldown"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.lockpickcooldown.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(180,
+                        () -> ClientConfig.getInt("watheextended.lockpick.cooldown", 180),
+                        v -> stage(sendCommand, parent, "watheextended.lockpick.cooldown", v))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.crowbarcooldown"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.crowbarcooldown.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(10,
+                        () -> ClientConfig.getInt("watheextended.crowbar.cooldown", 10),
+                        v -> stage(sendCommand, parent, "watheextended.crowbar.cooldown", v))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.bodybagcooldown"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.bodybagcooldown.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(300,
+                        () -> ClientConfig.getInt("watheextended.bodyBag.cooldown", 300),
+                        v -> stage(sendCommand, parent, "watheextended.bodyBag.cooldown", v))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.blackoutcooldown"))
+                .description(OptionDescription.of(
+                        Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.blackoutcooldown.desc")
+                                .styled(style -> style.withColor(0xFFFFFF))))
+                .binding(300,
+                        () -> ClientConfig.getInt("watheextended.blackout.cooldown", 300),
+                        v -> stage(sendCommand, parent, "watheextended.blackout.cooldown", v))
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
 
@@ -1026,169 +1106,6 @@ public final class OptionsCategory {
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
 
-        if (cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.isLoaded()) {
-            group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.label.guesser").styled(s -> s.withColor(0xAAAAAA))));
-
-            group.option(Option.<Boolean>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.guesser.allowcivillian"))
-                    .description(OptionDescription.of(
-                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.guesser.allowcivillian.desc")
-                                    .styled(style -> style.withColor(0xFFFFFF))))
-                    .binding(false,
-                            cat.rezelyn.watheextended.api.noellesroles.ConfigHelper::getAllowCivillianGuessers,
-                            v -> stage(sendCommand, parent, "noellesroles.allowCivillianGuessers", v))
-                    .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
-                            .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
-                    .build());
-
-            group.option(Option.<String>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.guesser.wrongguessmode"))
-                    .description(OptionDescription.of(
-                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.guesser.wrongguessmode.desc")
-                                    .styled(style -> style.withColor(0xFFFFFF))))
-                    .binding("death",
-                            cat.rezelyn.watheextended.api.noellesroles.ConfigHelper::getGuesserDiesAfterIncorrectGuess,
-                            v -> stage(sendCommand, parent, "noellesroles.guesserDiesAfterIncorrectGuess", v))
-                    .controller(opt -> CyclingListControllerBuilder.create(opt)
-                            .values(java.util.List.of("none", "death", "explode"))
-                            .formatValue(v -> Text.literal(Character.toUpperCase(v.charAt(0)) + v.substring(1))))
-                    .build());
-        }
-
-        if (cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.isLoaded()) {
-            group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.label.lovers").styled(s -> s.withColor(0xAAAAAA))));
-
-            group.option(Option.<Boolean>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden"))
-                    .description(OptionDescription.of(
-                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden.desc")
-                                    .styled(style -> style.withColor(0xFFFFFF))))
-                    .binding(false,
-                            () -> ClientConfig.getBool("watheextended.forbiddenLovers", false),
-                            v -> stage(sendCommand, parent, "watheextended.forbiddenLovers", v))
-                    .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
-                            .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
-                    .build());
-
-            group.option(Option.<Float>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden.chance"))
-                    .description(OptionDescription.of(
-                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden.chance.desc")
-                                    .styled(style -> style.withColor(0xFFFFFF))))
-                    .binding(0.25f,
-                            () -> ClientConfig.getFloat("watheextended.forbiddenLovers.chance", 0.25f),
-                            v -> stage(sendCommand, parent, "watheextended.forbiddenLovers.chance", v))
-                    .controller(OptionsCategory::floatController)
-                    .build());
-
-            group.option(Option.<Boolean>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.knowimmediately"))
-                    .description(OptionDescription.of(
-                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.knowimmediately.desc")
-                                    .styled(style -> style.withColor(0xFFFFFF))))
-                    .binding(true,
-                            cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper::getLoversKnowImmediately,
-                            v -> stage(sendCommand, parent, "stupidexpress.loversKnowImmediately", v))
-                    .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
-                            .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
-                    .build());
-
-            group.option(Option.<Boolean>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.winwithkillers"))
-                    .description(OptionDescription.of(
-                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.winwithkillers.desc")
-                                    .styled(style -> style.withColor(0xFFFFFF))))
-                    .binding(false,
-                            cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper::getLoversWinWithKillers,
-                            v -> stage(sendCommand, parent, "stupidexpress.loversWinWithKillers", v))
-                    .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
-                            .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
-                    .build());
-
-            group.option(Option.<Boolean>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.winwithcivilians"))
-                    .description(OptionDescription.of(
-                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.winwithcivilians.desc")
-                                    .styled(style -> style.withColor(0xFFFFFF))))
-                    .binding(true,
-                            cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper::getLoversWinWithCivilians,
-                            v -> stage(sendCommand, parent, "stupidexpress.loversWinWithCivilians", v))
-                    .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
-                            .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
-                    .build());
-
-            group.option(Option.<Boolean>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.glowtoeachother"))
-                    .description(OptionDescription.of(
-                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.glowtoeachother.desc")
-                                    .styled(style -> style.withColor(0xFFFFFF))))
-                    .binding(false,
-                            cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper::getLoversGlowToEachother,
-                            v -> stage(sendCommand, parent, "stupidexpress.loversGlowToEachother", v))
-                    .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
-                            .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
-                    .build());
-        }
-
-        if (cat.rezelyn.watheextended.api.starexpress.ConfigHelper.isLoaded()) {
-            group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.label.allergic").styled(s -> s.withColor(0xAAAAAA))));
-
-            group.option(Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.nothingchance"))
-                    .description(OptionDescription.of(
-                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.nothingchance.desc")
-                                    .styled(style -> style.withColor(0xFFFFFF))))
-                    .binding(3,
-                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getAllergicNothingChance,
-                            v -> stage(sendCommand, parent, "starexpress.nothingChance", v))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build());
-
-            group.option(Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.instinctchance"))
-                    .description(OptionDescription.of(
-                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.instinctchance.desc")
-                                    .styled(style -> style.withColor(0xFFFFFF))))
-                    .binding(1,
-                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getAllergicInstinctChance,
-                            v -> stage(sendCommand, parent, "starexpress.instinctChance", v))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build());
-
-            group.option(Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.armorchance"))
-                    .description(OptionDescription.of(
-                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.armorchance.desc")
-                                    .styled(style -> style.withColor(0xFFFFFF))))
-                    .binding(1,
-                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getAllergicArmorChance,
-                            v -> stage(sendCommand, parent, "starexpress.armorChance", v))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build());
-
-            group.option(Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.poisonchance"))
-                    .description(OptionDescription.of(
-                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.poisonchance.desc")
-                                    .styled(style -> style.withColor(0xFFFFFF))))
-                    .binding(1,
-                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getAllergicPoisonChance,
-                            v -> stage(sendCommand, parent, "starexpress.poisonChance", v))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build());
-
-            group.option(Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.instinctduration"))
-                    .description(OptionDescription.of(
-                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.instinctduration.desc")
-                                    .styled(style -> style.withColor(0xFFFFFF))))
-                    .binding(3,
-                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getAllergicInstinctDuration,
-                            v -> stage(sendCommand, parent, "starexpress.instinctDuration", v))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build());
-        }
-
         group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.label.introverted").styled(s -> s.withColor(0xAAAAAA))));
 
         group.option(Option.<Integer>createBuilder()
@@ -1293,6 +1210,169 @@ public final class OptionsCategory {
                         v -> stage(sendCommand, parent, "watheextended.adaptive.bonusMultiplier", v))
                 .controller(OptionsCategory::floatController)
                 .build());
+
+        if (cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.isLoaded()) {
+            group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.label.guesser").styled(s -> s.withColor(0xAAAAAA))));
+
+            group.option(Option.<Boolean>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.guesser.allowcivillian"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.guesser.allowcivillian.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(false,
+                            cat.rezelyn.watheextended.api.noellesroles.ConfigHelper::getAllowCivillianGuessers,
+                            v -> stage(sendCommand, parent, "noellesroles.allowCivillianGuessers", v))
+                    .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
+                            .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
+                    .build());
+
+            group.option(Option.<String>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.guesser.wrongguessmode"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.guesser.wrongguessmode.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding("death",
+                            cat.rezelyn.watheextended.api.noellesroles.ConfigHelper::getGuesserDiesAfterIncorrectGuess,
+                            v -> stage(sendCommand, parent, "noellesroles.guesserDiesAfterIncorrectGuess", v))
+                    .controller(opt -> CyclingListControllerBuilder.create(opt)
+                            .values(java.util.List.of("none", "death", "explode"))
+                            .formatValue(v -> Text.literal(Character.toUpperCase(v.charAt(0)) + v.substring(1))))
+                    .build());
+        }
+
+        if (cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.isLoaded()) {
+            group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.label.lovers").styled(s -> s.withColor(0xAAAAAA))));
+
+            group.option(Option.<Boolean>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(false,
+                            () -> ClientConfig.getBool("watheextended.forbiddenLovers", false),
+                            v -> stage(sendCommand, parent, "watheextended.forbiddenLovers", v))
+                    .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
+                            .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
+                    .build());
+
+            group.option(Option.<Float>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden.chance"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.forbidden.chance.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(0.25f,
+                            () -> ClientConfig.getFloat("watheextended.forbiddenLovers.chance", 0.25f),
+                            v -> stage(sendCommand, parent, "watheextended.forbiddenLovers.chance", v))
+                    .controller(OptionsCategory::floatController)
+                    .build());
+
+            group.option(Option.<Boolean>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.knowimmediately"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.knowimmediately.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(true,
+                            cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper::getLoversKnowImmediately,
+                            v -> stage(sendCommand, parent, "stupidexpress.loversKnowImmediately", v))
+                    .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
+                            .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
+                    .build());
+
+            group.option(Option.<Boolean>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.winwithkillers"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.winwithkillers.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(false,
+                            cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper::getLoversWinWithKillers,
+                            v -> stage(sendCommand, parent, "stupidexpress.loversWinWithKillers", v))
+                    .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
+                            .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
+                    .build());
+
+            group.option(Option.<Boolean>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.winwithcivilians"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.winwithcivilians.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(true,
+                            cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper::getLoversWinWithCivilians,
+                            v -> stage(sendCommand, parent, "stupidexpress.loversWinWithCivilians", v))
+                    .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
+                            .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
+                    .build());
+
+            group.option(Option.<Boolean>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.glowtoeachother"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.lovers.glowtoeachother.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(true,
+                            cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper::getLoversGlowToEachother,
+                            v -> stage(sendCommand, parent, "stupidexpress.loversGlowToEachother", v))
+                    .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true)
+                            .formatValue(v -> Text.translatable(v ? "text.watheextended.on" : "text.watheextended.off")))
+                    .build());
+        }
+
+        if (cat.rezelyn.watheextended.api.starexpress.ConfigHelper.isLoaded()) {
+            group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.label.allergic").styled(s -> s.withColor(0xAAAAAA))));
+
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.nothingchance"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.nothingchance.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(3,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getAllergicNothingChance,
+                            v -> stage(sendCommand, parent, "starexpress.nothingChance", v))
+                    .controller(IntegerFieldControllerBuilder::create)
+                    .build());
+
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.instinctchance"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.instinctchance.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(1,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getAllergicInstinctChance,
+                            v -> stage(sendCommand, parent, "starexpress.instinctChance", v))
+                    .controller(IntegerFieldControllerBuilder::create)
+                    .build());
+
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.armorchance"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.armorchance.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(1,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getAllergicArmorChance,
+                            v -> stage(sendCommand, parent, "starexpress.armorChance", v))
+                    .controller(IntegerFieldControllerBuilder::create)
+                    .build());
+
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.poisonchance"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.poisonchance.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(1,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getAllergicPoisonChance,
+                            v -> stage(sendCommand, parent, "starexpress.poisonChance", v))
+                    .controller(IntegerFieldControllerBuilder::create)
+                    .build());
+
+            group.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.instinctduration"))
+                    .description(OptionDescription.of(
+                            Text.translatable("gui.watheextended.config.category.options.group.modifiers_options.opt.allergic.instinctduration.desc")
+                                    .styled(style -> style.withColor(0xFFFFFF))))
+                    .binding(3,
+                            cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getAllergicInstinctDuration,
+                            v -> stage(sendCommand, parent, "starexpress.instinctDuration", v))
+                    .controller(IntegerFieldControllerBuilder::create)
+                    .build());
+        }
 
         return group.build();
     }

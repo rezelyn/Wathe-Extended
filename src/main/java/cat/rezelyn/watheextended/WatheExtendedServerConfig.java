@@ -31,6 +31,13 @@ public final class WatheExtendedServerConfig {
     public static boolean lastStandEnabled = false;
     public static int lastStandCooldown = 30;
     public static int grenadeCooldown = 90;
+    public static int knifeCooldown = 60;
+    public static int revolverCooldown = 10;
+    public static int psychoModeCooldown = 300;
+    public static int lockpickCooldown = 180;
+    public static int crowbarCooldown = 10;
+    public static int bodyBagCooldown = 300;
+    public static int blackoutCooldown = 300;
 
     private WatheExtendedServerConfig() {}
 
@@ -39,27 +46,34 @@ public final class WatheExtendedServerConfig {
             save();
             return;
         }
-        playerCollisionsEnabled = ClientConfig.readBool(CONFIG_FILE, "playerCollisions.enabled", true);
-        rtpEnabled = ClientConfig.readBool(CONFIG_FILE, "rtp.enabled", true);
-        blockProtectionEnabled = ClientConfig.readBool(CONFIG_FILE, "blockProtection.enabled", true);
-        itemBoundsCheckEnabled = ClientConfig.readBool(CONFIG_FILE, "itemBoundsCheck.enabled", true);
-        forbiddenLoversEnabled = ClientConfig.readBool(CONFIG_FILE, "forbiddenLovers.enabled", false);
-        forbiddenLoversChance = ClientConfig.readFloat(CONFIG_FILE, "forbiddenLovers.chance", 0.25f);
-        introvertedCrowdCount = ClientConfig.readInt(CONFIG_FILE, "introverted.crowdCount", 3);
-        introvertedCrowdRange = ClientConfig.readFloat(CONFIG_FILE, "introverted.crowdRange", 5.0f);
-        introvertedCrowdDrainMultiplier = ClientConfig.readFloat(CONFIG_FILE, "introverted.crowdDrainMultiplier", 2.0f);
-        introvertedAloneDrainMultiplier = ClientConfig.readFloat(CONFIG_FILE, "introverted.aloneDrainMultiplier", 0.5f);
-        taxedCoinReduction = ClientConfig.readFloat(CONFIG_FILE, "taxed.coinReduction", 0.50f);
-        taxedKillThreshold = ClientConfig.readInt(CONFIG_FILE, "taxed.killThreshold", 1);
-        taxedKillWindowSeconds = ClientConfig.readInt(CONFIG_FILE, "taxed.killWindowSeconds", 60);
-        adaptivePenaltyReduction = ClientConfig.readFloat(CONFIG_FILE, "adaptive.penaltyReduction", 0.50f);
-        adaptiveBonusMultiplier = ClientConfig.readFloat(CONFIG_FILE, "adaptive.bonusMultiplier", 0.50f);
-        suppressAbilityVfxSfx = ClientConfig.readBool(CONFIG_FILE, "ability.suppressVfxSfx", false);
-        cleanerPlayerLimit = ClientConfig.readInt(CONFIG_FILE, "cleaner.playerLimit", 10);
-        killIncreaseTime = ClientConfig.readInt(CONFIG_FILE, "timer.killIncreaseSeconds", 60);
-        lastStandEnabled = ClientConfig.readBool(CONFIG_FILE, "lastStand.enabled", false);
-        lastStandCooldown = ClientConfig.readInt(CONFIG_FILE, "lastStand.cooldown", 30);
+        playerCollisionsEnabled = ClientConfig.readBool(CONFIG_FILE, "gamerules.playerCollisions", true);
+        rtpEnabled = ClientConfig.readBool(CONFIG_FILE, "gamerules.randomTeleportation", true);
+        blockProtectionEnabled = ClientConfig.readBool(CONFIG_FILE, "gamerules.worldProtection", true);
+        itemBoundsCheckEnabled = ClientConfig.readBool(CONFIG_FILE, "gamerules.itemBoundsCheck", true);
+        suppressAbilityVfxSfx = ClientConfig.readBool(CONFIG_FILE, "gamerules.suppressVfxSfx", false);
+        killIncreaseTime = ClientConfig.readInt(CONFIG_FILE, "gamerules.killIncreaseSeconds", 60);
+        lastStandEnabled = ClientConfig.readBool(CONFIG_FILE, "gamerules.lastStandEnabled", false);
+        lastStandCooldown = ClientConfig.readInt(CONFIG_FILE, "gamerules.lastStandDuration", 30);
         grenadeCooldown = ClientConfig.readInt(CONFIG_FILE, "items.grenade.cooldown", 90);
+        knifeCooldown = ClientConfig.readInt(CONFIG_FILE, "items.knife.cooldown", 60);
+        revolverCooldown = ClientConfig.readInt(CONFIG_FILE, "items.revolver.cooldown", 10);
+        psychoModeCooldown = ClientConfig.readInt(CONFIG_FILE, "items.psychoMode.cooldown", 300);
+        lockpickCooldown = ClientConfig.readInt(CONFIG_FILE, "items.lockpick.cooldown", 180);
+        crowbarCooldown = ClientConfig.readInt(CONFIG_FILE, "items.crowbar.cooldown", 10);
+        bodyBagCooldown = ClientConfig.readInt(CONFIG_FILE, "items.bodyBag.cooldown", 300);
+        blackoutCooldown = ClientConfig.readInt(CONFIG_FILE, "items.blackout.cooldown", 300);
+        introvertedCrowdCount = ClientConfig.readInt(CONFIG_FILE, "modifiers.introverted.crowdCount", 3);
+        introvertedCrowdRange = ClientConfig.readFloat(CONFIG_FILE, "modifiers.introverted.crowdRange", 5.0f);
+        introvertedCrowdDrainMultiplier = ClientConfig.readFloat(CONFIG_FILE, "modifiers.introverted.crowdDrainMultiplier", 2.0f);
+        introvertedAloneDrainMultiplier = ClientConfig.readFloat(CONFIG_FILE, "modifiers.introverted.aloneDrainMultiplier", 0.5f);
+        taxedCoinReduction = ClientConfig.readFloat(CONFIG_FILE, "modifiers.taxed.coinReduction", 0.50f);
+        taxedKillThreshold = ClientConfig.readInt(CONFIG_FILE, "modifiers.taxed.killThreshold", 1);
+        taxedKillWindowSeconds = ClientConfig.readInt(CONFIG_FILE, "modifiers.taxed.killWindowSeconds", 60);
+        adaptivePenaltyReduction = ClientConfig.readFloat(CONFIG_FILE, "modifiers.adaptive.penaltyReduction", 0.50f);
+        adaptiveBonusMultiplier = ClientConfig.readFloat(CONFIG_FILE, "modifiers.adaptive.bonusMultiplier", 0.50f);
+        forbiddenLoversEnabled = ClientConfig.readBool(CONFIG_FILE, "modifiers.lovers.forbiddenLovers", false);
+        forbiddenLoversChance = ClientConfig.readFloat(CONFIG_FILE, "modifiers.lovers.chance", 0.25f);
+        cleanerPlayerLimit = ClientConfig.readInt(CONFIG_FILE, "roles.cleaner.playerLimit", 10);
     }
 
     public static void save() {
@@ -67,76 +81,134 @@ public final class WatheExtendedServerConfig {
             CONFIG_FILE.getParentFile().mkdirs();
             String content =
                     "{\n" +
-                            "  \"playerCollisions\": {\n" +
-                            "    // Whether player-to-player collisions are enabled during a game.\n" +
-                            "    \"enabled\": " + playerCollisionsEnabled + "\n" +
-                            "  },\n" +
-                            "  \"rtp\": {\n" +
-                            "    // Whether players are randomly teleported to a random slot when the game starts.\n" +
-                            "    \"enabled\": " + rtpEnabled + "\n" +
-                            "  },\n" +
-                            "  \"blockProtection\": {\n" +
-                            "    // Whether block interactions are protected in the mapVariables areas.\n" +
-                            "    \"enabled\": " + blockProtectionEnabled + "\n" +
-                            "  },\n" +
-                            "  \"itemBoundsCheck\": {\n" +
-                            "    // Whether items that fall outside the playArea are teleported back to the nearest player/dead body.\n" +
-                            "    \"enabled\": " + itemBoundsCheckEnabled + "\n" +
-                            "  },\n" +
-                            "  \"forbiddenLovers\": {\n" +
-                            "    // Enables the Forbidden Lovers mechanic: always have lovers pair being\n" +
-                            "    // a Killer/Neutral and a non-Killer. Requires Stupid Express mod.\n" +
-                            "    \"enabled\": " + forbiddenLoversEnabled + ",\n" +
-                            "    // Probability (0.0–1.0) that Forbidden Lovers are actually assigned each game.\n" +
-                            "    // If chance fails, no Lovers will be assigned whatsoever.\n" +
-                            "    \"chance\": " + forbiddenLoversChance + "\n" +
-                            "  },\n" +
-                            "  \"introverted\": {\n" +
-                            "    // Minimum number of nearby players (within crowdRange) for the Introverted modifier to consider the player in a crowd.\n" +
-                            "    \"crowdCount\": " + introvertedCrowdCount + ",\n" +
-                            "    // Radius in blocks in which other players are counted toward the crowd threshold.\n" +
-                            "    \"crowdRange\": " + introvertedCrowdRange + ",\n" +
-                            "    // Mood drain multiplier applied when the player is considered in a crowd.\n" +
-                            "    \"crowdDrainMultiplier\": " + introvertedCrowdDrainMultiplier + ",\n" +
-                            "    // Mood drain multiplier applied when the player is alone or with only one other player.\n" +
-                            "    \"aloneDrainMultiplier\": " + introvertedAloneDrainMultiplier + "\n" +
-                            "  },\n" +
-                            "  \"taxed\": {\n" +
-                            "    // Fraction of kill income deducted when a Taxed player exceeds the kill threshold.\n" +
-                            "    \"coinReduction\": " + taxedCoinReduction + ",\n" +
-                            "    // Number of kills within the time window before tax starts applying (default: 1 = more than 1 kill).\n" +
-                            "    \"killThreshold\": " + taxedKillThreshold + ",\n" +
-                            "    // Time window in seconds during which kills are counted towards the threshold (default: 60 = 1 minute).\n" +
-                            "    \"killWindowSeconds\": " + taxedKillWindowSeconds + "\n" +
-                            "  },\n" +
-                            "  \"adaptive\": {\n" +
-                            "    // Fraction penalty applied to kill income when the same method is used consecutively.\n" +
-                            "    \"penaltyReduction\": " + adaptivePenaltyReduction + ",\n" +
-                            "    // Fraction bonus applied to kill income when a different method is used.\n" +
-                            "    \"bonusMultiplier\": " + adaptiveBonusMultiplier + "\n" +
-                            "  },\n" +
-                            "  \"ability\": {\n" +
-                            "    // When enabled, suppresses VFX/SFX triggered by role abilities (Starstruck, Robot, Bellringer).\n" +
-                            "    \"suppressVfxSfx\": " + suppressAbilityVfxSfx + "\n" +
-                            "  },\n" +
-                            "  \"cleaner\": {\n" +
-                            "    // Minimum number of alive players required for the Cleaner's Deep Cleaning ability to be active.\n" +
-                            "    // Set to 0 to disable this limit.\n" +
-                            "    \"playerLimit\": " + cleanerPlayerLimit + "\n" +
-                            "  },\n" +
-                            "  \"timer\": {\n" +
-                            "    // Time in seconds added to the game timer when a player is killed.\n" +
-                            "    // Set to 0 to disable kill time addition. Default matches Wathe (60 = 1 minute).\n" +
-                            "    \"killIncreaseSeconds\": " + killIncreaseTime + "\n" +
-                            "  },\n" +
-                            "  \"lastStand\": {\n" +
-                            "    // When enabled, instakill methods (Guesser, Voodoo, Lovers heartbreak) give the\n" +
-                            "    // targeted player a countdown before they actually die.\n" +
-                            "    \"enabled\": " + lastStandEnabled + ",\n" +
-                            "    // Duration in seconds of the Last Stand countdown before the player dies.\n" +
-                            "    \"cooldown\": " + lastStandCooldown + "\n" +
-                            "  }\n" +
-                            "}\n";
+                    "  \"gamerules\": {\n" +
+                    "    // Do player-to-player collisions are enabled during a game?\n" +
+                    "    // Default: true\n" +
+                    "    \"playerCollisions\": " + playerCollisionsEnabled + ",\n" +
+                    "    // Do players are randomly teleported to a random slot when the game starts?\n" +
+                    "    // Default: false\n" +
+                    "    \"randomTeleportation\": " + rtpEnabled + ",\n" +
+                    "    // Do block interactions are protected in the mapVariables areas?\n" +
+                    "    // Default: false\n" +
+                    "    \"worldProtection\": " + blockProtectionEnabled + ",\n" +
+                    "    // Do items that fall outside the playArea are teleported back to the nearest player/dead body?\n" +
+                    "    // Default: true\n" +
+                    "    \"itemBoundsCheck\": " + itemBoundsCheckEnabled + ",\n" +
+                    "    // When enabled, suppresses VFX/SFX triggered by role abilities (Starstruck, Robot, Bellringer).\n" +
+                    "    // Default: false\n" +
+                    "    \"suppressVfxSfx\": " + suppressAbilityVfxSfx + ",\n" +
+                    "    // Time in seconds added to the game timer when a player is killed.\n" +
+                    "    // Set to 0 to disable kill time addition.\n" +
+                    "    // Default: 60\n" +
+                    "    \"killIncreaseSeconds\": " + killIncreaseTime + ",\n" +
+                    "    // When enabled, players targeted by instakill methods get a countdown before they die.\n" +
+                    "    // Default: false\n" +
+                    "    \"lastStandEnabled\": " + lastStandEnabled + ",\n" +
+                    "    // Duration in seconds of the Last Stand countdown before the player dies.\n" +
+                    "    // Default: 30\n" +
+                    "    \"lastStandDuration\": " + lastStandCooldown + "\n" +
+                    "  },\n" +
+                    "  \"items\": {\n" +
+                    "    \"knife\": {\n" +
+                    "      // Cooldown in seconds applied to the Knife after it is used to kill a player.\n" +
+                    "      // Default: 60\n" +
+                    "      \"cooldown\": " + knifeCooldown + "\n" +
+                    "    },\n" +
+                    "    \"revolver\": {\n" +
+                    "      // Cooldown in seconds applied to the Revolver after it is fired.\n" +
+                    "      // Default: 10\n" +
+                    "      \"cooldown\": " + revolverCooldown + "\n" +
+                    "    },\n" +
+                    "    \"grenade\": {\n" +
+                    "      // Cooldown in seconds after the Grenade is thrown.\n" +
+                    "      // Default: 90\n" +
+                    "      \"cooldown\": " + grenadeCooldown + "\n" +
+                    "    },\n" +
+                    "    \"psychoMode\": {\n" +
+                    "      // Cooldown in seconds applied to Psycho Mode after it is activated.\n" +
+                    "      // Default: 300\n" +
+                    "      \"cooldown\": " + psychoModeCooldown + "\n" +
+                    "    },\n" +
+                    "    \"lockpick\": {\n" +
+                    "      // Cooldown in seconds applied to the Lockpick after it is used to jam a door.\n" +
+                    "      // Default: 180\n" +
+                    "      \"cooldown\": " + lockpickCooldown + "\n" +
+                    "    },\n" +
+                    "    \"crowbar\": {\n" +
+                    "      // Cooldown in seconds applied to the Crowbar after it is used to pry open a door.\n" +
+                    "      // Default: 10\n" +
+                    "      \"cooldown\": " + crowbarCooldown + "\n" +
+                    "    },\n" +
+                    "    \"bodyBag\": {\n" +
+                    "      // Cooldown in seconds applied to the Body Bag after it is used to dispose of a body.\n" +
+                    "      // Default: 300\n" +
+                    "      \"cooldown\": " + bodyBagCooldown + "\n" +
+                    "    },\n" +
+                    "    \"blackout\": {\n" +
+                    "      // Cooldown in seconds applied to Blackout after it is triggered.\n" +
+                    "      // Default: 300\n" +
+                    "      \"cooldown\": " + blackoutCooldown + "\n" +
+                    "    }\n" +
+                    "  },\n" +
+                    "  \"modifiers\": {\n" +
+                    "    \"introverted\": {\n" +
+                    "      // Minimum number of nearby players (within crowdRange) for the Introverted modifier to consider the player in a crowd.\n" +
+                    "      // Default: 3\n" +
+                    "      \"crowdCount\": " + introvertedCrowdCount + ",\n" +
+                    "      // Radius in blocks in which other players are counted toward the crowd threshold.\n" +
+                    "      // Default: 5.0\n" +
+                    "      \"crowdRange\": " + introvertedCrowdRange + ",\n" +
+                    "      // Mood drain multiplier applied when the player is considered in a crowd.\n" +
+                    "      // Higher values mean more drain, 0 means no drain, 2 means double drain.\n" +
+                    "      // Default: 2.0\n" +
+                    "      \"crowdDrainMultiplier\": " + introvertedCrowdDrainMultiplier + ",\n" +
+                    "      // Mood drain multiplier applied when the player is alone or with only one other player.\n" +
+                    "      // Higher values mean more drain, 0 means no drain, 1 means normal drain.\n" +
+                    "      // Default: 0.5\n" +
+                    "      \"aloneDrainMultiplier\": " + introvertedAloneDrainMultiplier + "\n" +
+                    "    },\n" +
+                    "    \"taxed\": {\n" +
+                    "      // Fraction of kill income deducted when a Taxed player exceeds the kill threshold.\n" +
+                    "      // Higher values mean more tax, 0 means no tax, 1 means no income at all.\n" +
+                    "      // Default: 0.5\n" +
+                    "      \"coinReduction\": " + taxedCoinReduction + ",\n" +
+                    "      // Number of kills within the time window before tax starts applying.\n" +
+                    "      // Default: 1\n" +
+                    "      \"killThreshold\": " + taxedKillThreshold + ",\n" +
+                    "      // Time window in seconds during which kills are counted towards the threshold.\n" +
+                    "      // Default: 60\n" +
+                    "      \"killWindowSeconds\": " + taxedKillWindowSeconds + "\n" +
+                    "    },\n" +
+                    "    \"adaptive\": {\n" +
+                    "      // Fraction penalty applied to kill income when the same method is used consecutively.\n" +
+                    "      // Higher values mean more penalty, 0 means no penalty, 1 means no income at all.\n" +
+                    "      // Default: 0.5\n" +
+                    "      \"penaltyReduction\": " + adaptivePenaltyReduction + ",\n" +
+                    "      // Fraction bonus applied to kill income when a different method is used.\n" +
+                    "      // Higher values mean more bonus, 0 means no bonus, 1 means double income.\n" +
+                    "      // Default: 0.5\n" +
+                    "      \"bonusMultiplier\": " + adaptiveBonusMultiplier + "\n" +
+                    "    },\n" +
+                    "    \"lovers\": {\n" +
+                    "      // Enables the Forbidden Lovers mechanic: always have lovers pair being\n" +
+                    "      // a Killer/Neutral and a non-Killer. Requires Stupid Express mod.\n" +
+                    "      // Default: false\n" +
+                    "      \"forbiddenLovers\": " + forbiddenLoversEnabled + ",\n" +
+                    "      // Probability (0.0-1.0) that Forbidden Lovers are to be assigned each game.\n" +
+                    "      // If chance fails, no Lovers will be assigned whatsoever.\n" +
+                    "      // Default: 0.25\n" +
+                    "      \"chance\": " + forbiddenLoversChance + "\n" +
+                    "    }\n" +
+                    "  },\n" +
+                    "  \"roles\": {\n" +
+                    "    \"cleaner\": {\n" +
+                    "      // Minimum number of alive players required for the Cleaner's Deep Cleaning ability to be active.\n" +
+                    "      // Set to 0 to disable this limit.\n" +
+                    "      // Default: 10\n" +
+                    "      \"playerLimit\": " + cleanerPlayerLimit + "\n" +
+                    "    }\n" +
+                    "  }\n" +
+                    "}\n";
             Files.writeString(CONFIG_FILE.toPath(), content);
         } catch (IOException ignored) {
         }
@@ -328,6 +400,69 @@ public final class WatheExtendedServerConfig {
 
     public static void setGrenadeCooldown(int value) {
         grenadeCooldown = Math.max(0, value);
+        save();
+    }
+
+    public static int getKnifeCooldown() {
+        return knifeCooldown;
+    }
+
+    public static void setKnifeCooldown(int value) {
+        knifeCooldown = Math.max(0, value);
+        save();
+    }
+
+    public static int getRevolverCooldown() {
+        return revolverCooldown;
+    }
+
+    public static void setRevolverCooldown(int value) {
+        revolverCooldown = Math.max(0, value);
+        save();
+    }
+
+    public static int getPsychoModeCooldown() {
+        return psychoModeCooldown;
+    }
+
+    public static void setPsychoModeCooldown(int value) {
+        psychoModeCooldown = Math.max(0, value);
+        save();
+    }
+
+    public static int getLockpickCooldown() {
+        return lockpickCooldown;
+    }
+
+    public static void setLockpickCooldown(int value) {
+        lockpickCooldown = Math.max(0, value);
+        save();
+    }
+
+    public static int getCrowbarCooldown() {
+        return crowbarCooldown;
+    }
+
+    public static void setCrowbarCooldown(int value) {
+        crowbarCooldown = Math.max(0, value);
+        save();
+    }
+
+    public static int getBodyBagCooldown() {
+        return bodyBagCooldown;
+    }
+
+    public static void setBodyBagCooldown(int value) {
+        bodyBagCooldown = Math.max(0, value);
+        save();
+    }
+
+    public static int getBlackoutCooldown() {
+        return blackoutCooldown;
+    }
+
+    public static void setBlackoutCooldown(int value) {
+        blackoutCooldown = Math.max(0, value);
         save();
     }
 }

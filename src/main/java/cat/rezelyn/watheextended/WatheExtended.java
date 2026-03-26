@@ -7,6 +7,7 @@ import cat.rezelyn.watheextended.game.ItemBoundsChecker;
 import cat.rezelyn.watheextended.game.PlayerItemManager;
 import cat.rezelyn.watheextended.game.PronounsManager;
 import cat.rezelyn.watheextended.index.*;
+import cat.rezelyn.watheextended.modifiers.WatheExtendedModifiers;
 import cat.rezelyn.watheextended.modifiers.adaptive.AdaptiveModifier;
 import cat.rezelyn.watheextended.modifiers.noellesroles.binglus.AwesomeBinglusNote;
 import cat.rezelyn.watheextended.modifiers.noellesroles.feather.FeatherModifierFix;
@@ -18,6 +19,8 @@ import cat.rezelyn.watheextended.modifiers.taxed.TaxedModifier;
 import cat.rezelyn.watheextended.api.wathe.GameStatus;
 import cat.rezelyn.watheextended.game.LastStandManager;
 import dev.doctor4t.wathe.api.event.AllowPlayerDeath;
+import dev.doctor4t.wathe.game.GameConstants;
+import dev.doctor4t.wathe.index.WatheItems;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.fabricmc.api.ModInitializer;
@@ -113,16 +116,16 @@ public class WatheExtended implements ModInitializer {
             try { WatheExtendedWorldComponent.KEY.get(w).setPlayerCollisionsEnabled(v); }
             catch (Throwable ignored) {}
         }));
-        ServerConfig.register(ServerConfig.Entry.worldBool("watheextended.rtpEnabled", true, w -> {
+        ServerConfig.register(ServerConfig.Entry.worldBool("watheextended.rtpEnabled", false, w -> {
             try { return WatheExtendedWorldComponent.KEY.get(w).isRtpEnabled(); }
-            catch (Throwable t) { return true; }
+            catch (Throwable t) { return false; }
         }, (w, v) -> {
             try { WatheExtendedWorldComponent.KEY.get(w).setRtpEnabled(v); }
             catch (Throwable ignored) {}
         }));
-        ServerConfig.register(ServerConfig.Entry.worldBool("watheextended.blockProtection", true, w -> {
+        ServerConfig.register(ServerConfig.Entry.worldBool("watheextended.blockProtection", false, w -> {
             try { return WatheExtendedWorldComponent.KEY.get(w).isBlockInteractionsProtected(); }
-            catch (Throwable t) { return true; }
+            catch (Throwable t) { return false; }
         }, (w, v) -> {
             try { WatheExtendedWorldComponent.KEY.get(w).setBlockInteractionsProtected(v); }
             catch (Throwable ignored) {}
@@ -189,6 +192,37 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.grenade.cooldown", 90,
                 WatheExtendedServerConfig::getGrenadeCooldown,
                 WatheExtendedServerConfig::setGrenadeCooldown));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.knife.cooldown", 60,
+                WatheExtendedServerConfig::getKnifeCooldown,
+                v -> { WatheExtendedServerConfig.setKnifeCooldown(v); GameConstants.ITEM_COOLDOWNS.put(WatheItems.KNIFE, v * 20); }));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.revolver.cooldown", 10,
+                WatheExtendedServerConfig::getRevolverCooldown,
+                v -> { WatheExtendedServerConfig.setRevolverCooldown(v); GameConstants.ITEM_COOLDOWNS.put(WatheItems.REVOLVER, v * 20); }));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.psychoMode.cooldown", 300,
+                WatheExtendedServerConfig::getPsychoModeCooldown,
+                v -> { WatheExtendedServerConfig.setPsychoModeCooldown(v); GameConstants.ITEM_COOLDOWNS.put(WatheItems.PSYCHO_MODE, v * 20); }));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.lockpick.cooldown", 180,
+                WatheExtendedServerConfig::getLockpickCooldown,
+                v -> { WatheExtendedServerConfig.setLockpickCooldown(v); GameConstants.ITEM_COOLDOWNS.put(WatheItems.LOCKPICK, v * 20); }));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.crowbar.cooldown", 10,
+                WatheExtendedServerConfig::getCrowbarCooldown,
+                v -> { WatheExtendedServerConfig.setCrowbarCooldown(v); GameConstants.ITEM_COOLDOWNS.put(WatheItems.CROWBAR, v * 20); }));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.bodyBag.cooldown", 300,
+                WatheExtendedServerConfig::getBodyBagCooldown,
+                v -> { WatheExtendedServerConfig.setBodyBagCooldown(v); GameConstants.ITEM_COOLDOWNS.put(WatheItems.BODY_BAG, v * 20); }));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.blackout.cooldown", 300,
+                WatheExtendedServerConfig::getBlackoutCooldown,
+                v -> { WatheExtendedServerConfig.setBlackoutCooldown(v); GameConstants.ITEM_COOLDOWNS.put(WatheItems.BLACKOUT, v * 20); }));
+    }
+
+    private static void applyItemCooldowns() {
+        GameConstants.ITEM_COOLDOWNS.put(WatheItems.KNIFE, WatheExtendedServerConfig.knifeCooldown * 20);
+        GameConstants.ITEM_COOLDOWNS.put(WatheItems.REVOLVER, WatheExtendedServerConfig.revolverCooldown * 20);
+        GameConstants.ITEM_COOLDOWNS.put(WatheItems.PSYCHO_MODE, WatheExtendedServerConfig.psychoModeCooldown * 20);
+        GameConstants.ITEM_COOLDOWNS.put(WatheItems.LOCKPICK, WatheExtendedServerConfig.lockpickCooldown * 20);
+        GameConstants.ITEM_COOLDOWNS.put(WatheItems.CROWBAR, WatheExtendedServerConfig.crowbarCooldown * 20);
+        GameConstants.ITEM_COOLDOWNS.put(WatheItems.BODY_BAG, WatheExtendedServerConfig.bodyBagCooldown * 20);
+        GameConstants.ITEM_COOLDOWNS.put(WatheItems.BLACKOUT, WatheExtendedServerConfig.blackoutCooldown * 20);
     }
 
     private static void registerNetworking() {
