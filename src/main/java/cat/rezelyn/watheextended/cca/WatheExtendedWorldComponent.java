@@ -39,6 +39,7 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
     private boolean blockInteractionsProtected = true;
     private boolean itemBoundsCheckEnabled = true;
     private boolean forbiddenLoversEnabled = false;
+    private long gameStartWorldTime = -1L;
 
     public WatheExtendedWorldComponent(World world) {
         this.world = world;
@@ -127,6 +128,14 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
         this.forbiddenLoversEnabled = enabled;
         cat.rezelyn.watheextended.WatheExtendedServerConfig.setForbiddenLoversEnabled(enabled);
         this.sync();
+    }
+
+    public long getGameStartWorldTime() {
+        return gameStartWorldTime;
+    }
+
+    public void setGameStartWorldTime(long time) {
+        this.gameStartWorldTime = time;
     }
 
     @NotNull

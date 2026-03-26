@@ -1,6 +1,7 @@
 package cat.rezelyn.watheextended.modifiers.introverted;
 
 import cat.rezelyn.watheextended.WatheExtendedServerConfig;
+import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.modifiers.WatheExtendedModifiers;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -19,6 +20,10 @@ public final class IntrovertedModifier {
     public static void tick(ServerWorld world) {
         try {
             if (!GameWorldComponent.KEY.get(world).isRunning()) return;
+
+            WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(world);
+            long gameStartWorldTime = wec.getGameStartWorldTime();
+            if (gameStartWorldTime < 0 || world.getTime() - gameStartWorldTime < GameConstants.TIME_TO_FIRST_TASK) return;
 
             WorldModifierComponent wmc = WorldModifierComponent.KEY.get(world);
 
