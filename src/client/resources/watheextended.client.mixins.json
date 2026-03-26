@@ -15,6 +15,7 @@
     "client.wathe.WatheClientChatMixin",
     "client.wathe.KeyBindingChatRestoreMixin",
     "client.wathe.RoleNameRendererMixin",
+    "client.wathe.WatheItemTooltipsMixin",
     "client.kinswathe.bodymaker.BodymakerRolePickerMixin",
     "client.kinswathe.bodymaker.BodymakerSlotTextureMixin",
     "client.kinswathe.bodymaker.BodymakerDeathReasonSlotTextureMixin",
