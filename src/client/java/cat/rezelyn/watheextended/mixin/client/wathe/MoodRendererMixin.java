@@ -4,8 +4,10 @@ import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import cat.rezelyn.watheextended.modifiers.WatheExtendedModifiers;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import dev.doctor4t.wathe.cca.GameTimeComponent;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
 import dev.doctor4t.wathe.client.gui.MoodRenderer;
+import dev.doctor4t.wathe.game.GameConstants;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -30,18 +32,15 @@ public class MoodRendererMixin {
 
     private static final Random watheExtended$rng = new Random();
     private static float watheExtended$fadeProgress = 0f;
-    private static long watheExtended$lastFrameTime = 0L;
-    private static final float fade = 2.75f;
+    private static final float FADE_SPEED = 2.75f;
 
     @Inject(method = "renderHud", at = @At("HEAD"))
     private static void watheExtended$updateFade(PlayerEntity player, TextRenderer tr, DrawContext ctx, RenderTickCounter tc, CallbackInfo ci) {
-        long now = System.currentTimeMillis();
-        float dt = watheExtended$lastFrameTime == 0L ? 0f : Math.min((now - watheExtended$lastFrameTime) / 1000f, 0.1f);
-        watheExtended$lastFrameTime = now;
+        float dt = tc.getLastFrameDuration() / 20.0f;
         if (watheExtended$isAnxious(player)) {
-            watheExtended$fadeProgress = Math.min(1f, watheExtended$fadeProgress + dt * fade);
+            watheExtended$fadeProgress = Math.min(1f, watheExtended$fadeProgress + dt * FADE_SPEED);
         } else {
-            watheExtended$fadeProgress = Math.max(0f, watheExtended$fadeProgress - dt * fade);
+            watheExtended$fadeProgress = Math.max(0f, watheExtended$fadeProgress - dt * FADE_SPEED);
         }
     }
 
@@ -102,6 +101,9 @@ public class MoodRendererMixin {
 
             // ignore when psycho
             if (PlayerPsychoComponent.KEY.get(player).getPsychoTicks() > 0) return false;
+
+            GameTimeComponent gtc = GameTimeComponent.KEY.get(player.getWorld());
+            if (gtc.resetTime - gtc.getTime() < GameConstants.TIME_TO_FIRST_TASK) return false;
 
             WorldModifierComponent wmc = WorldModifierComponent.KEY.get(player.getWorld());
             if (!wmc.isModifier(player, WatheExtendedModifiers.INTROVERTED)) return false;
