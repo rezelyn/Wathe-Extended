@@ -38,6 +38,31 @@ public final class WatheExtendedServerConfig {
     public static int crowbarCooldown = 10;
     public static int bodyBagCooldown = 300;
     public static int blackoutCooldown = 300;
+    public static int sulfuricAcidBarrelCooldown = 60;
+    public static int huntingKnifeCooldown = 45;
+    public static int medicalKitCooldown = 60;
+    public static int panCooldown = 45;
+    public static int poisonInjectorCooldown = 60;
+    public static int pillCooldown = 180;
+    public static int blowgunCooldown = 60;
+    public static int knockoutDrugCooldown = 60;
+    public static int knifePrice = 100;
+    public static int revolverPrice = 300;
+    public static int grenadePrice = 350;
+    public static int psychoModePrice = 300;
+    public static int poisonVialPrice = 100;
+    public static int scorpionPrice = 50;
+    public static int firecrackerPrice = 10;
+    public static int lockpickPrice = 50;
+    public static int crowbarPrice = 25;
+    public static int bodyBagPrice = 200;
+    public static int blackoutPrice = 200;
+    public static int huntingKnifePrice = 100;
+    public static int poisonInjectorPrice = 125;
+    public static int blowgunPrice = 175;
+    public static int knockoutDrugPrice = 75;
+    public static int panPrice = 250;
+    public static int pillPrice = 300;
 
     private WatheExtendedServerConfig() {}
 
@@ -54,14 +79,39 @@ public final class WatheExtendedServerConfig {
         killIncreaseTime = ClientConfig.readInt(CONFIG_FILE, "gamerules.killIncreaseSeconds", 60);
         lastStandEnabled = ClientConfig.readBool(CONFIG_FILE, "gamerules.lastStandEnabled", false);
         lastStandCooldown = ClientConfig.readInt(CONFIG_FILE, "gamerules.lastStandDuration", 30);
-        grenadeCooldown = ClientConfig.readInt(CONFIG_FILE, "items.grenade.cooldown", 90);
         knifeCooldown = ClientConfig.readInt(CONFIG_FILE, "items.knife.cooldown", 60);
         revolverCooldown = ClientConfig.readInt(CONFIG_FILE, "items.revolver.cooldown", 10);
+        grenadeCooldown = ClientConfig.readInt(CONFIG_FILE, "items.grenade.cooldown", 90);
         psychoModeCooldown = ClientConfig.readInt(CONFIG_FILE, "items.psychoMode.cooldown", 300);
         lockpickCooldown = ClientConfig.readInt(CONFIG_FILE, "items.lockpick.cooldown", 180);
         crowbarCooldown = ClientConfig.readInt(CONFIG_FILE, "items.crowbar.cooldown", 10);
         bodyBagCooldown = ClientConfig.readInt(CONFIG_FILE, "items.bodyBag.cooldown", 300);
         blackoutCooldown = ClientConfig.readInt(CONFIG_FILE, "items.blackout.cooldown", 300);
+        sulfuricAcidBarrelCooldown = ClientConfig.readInt(CONFIG_FILE, "addons.kinswathe.sulfuricAcidBarrel.cooldown", 60);
+        huntingKnifeCooldown = ClientConfig.readInt(CONFIG_FILE, "addons.kinswathe.huntingKnife.cooldown", 45);
+        medicalKitCooldown = ClientConfig.readInt(CONFIG_FILE, "addons.kinswathe.medicalKit.cooldown", 60);
+        panCooldown = ClientConfig.readInt(CONFIG_FILE, "addons.kinswathe.pan.cooldown", 45);
+        poisonInjectorCooldown = ClientConfig.readInt(CONFIG_FILE, "addons.kinswathe.poisonInjector.cooldown", 60);
+        pillCooldown = ClientConfig.readInt(CONFIG_FILE, "addons.kinswathe.pill.cooldown", 180);
+        blowgunCooldown = ClientConfig.readInt(CONFIG_FILE, "addons.kinswathe.blowgun.cooldown", 60);
+        knockoutDrugCooldown = ClientConfig.readInt(CONFIG_FILE, "addons.kinswathe.knockoutDrug.cooldown", 60);
+        knifePrice = ClientConfig.readInt(CONFIG_FILE, "items.knife.price", 100);
+        revolverPrice = ClientConfig.readInt(CONFIG_FILE, "items.revolver.price", 300);
+        grenadePrice = ClientConfig.readInt(CONFIG_FILE, "items.grenade.price", 350);
+        psychoModePrice = ClientConfig.readInt(CONFIG_FILE, "items.psychoMode.price", 300);
+        poisonVialPrice = ClientConfig.readInt(CONFIG_FILE, "items.poison_vial.price", 100);
+        scorpionPrice = ClientConfig.readInt(CONFIG_FILE, "items.scorpion.price", 50);
+        firecrackerPrice = ClientConfig.readInt(CONFIG_FILE, "items.firecracker.price", 10);
+        lockpickPrice = ClientConfig.readInt(CONFIG_FILE, "items.lockpick.price", 50);
+        crowbarPrice = ClientConfig.readInt(CONFIG_FILE, "items.crowbar.price", 25);
+        bodyBagPrice = ClientConfig.readInt(CONFIG_FILE, "items.bodyBag.price", 200);
+        blackoutPrice = ClientConfig.readInt(CONFIG_FILE, "items.blackout.price", 200);
+        huntingKnifePrice = ClientConfig.readInt(CONFIG_FILE, "addons.kinswathe.huntingKnife.price", 100);
+        poisonInjectorPrice = ClientConfig.readInt(CONFIG_FILE, "addons.kinswathe.poisonInjector.price", 125);
+        blowgunPrice = ClientConfig.readInt(CONFIG_FILE, "addons.kinswathe.blowgun.price", 175);
+        knockoutDrugPrice = ClientConfig.readInt(CONFIG_FILE, "addons.kinswathe.knockoutDrug.price", 75);
+        panPrice = ClientConfig.readInt(CONFIG_FILE, "addons.kinswathe.pan.price", 250);
+        pillPrice = ClientConfig.readInt(CONFIG_FILE, "addons.kinswathe.pill.price", 300);
         introvertedCrowdCount = ClientConfig.readInt(CONFIG_FILE, "modifiers.introverted.crowdCount", 3);
         introvertedCrowdRange = ClientConfig.readFloat(CONFIG_FILE, "modifiers.introverted.crowdRange", 5.0f);
         introvertedCrowdDrainMultiplier = ClientConfig.readFloat(CONFIG_FILE, "modifiers.introverted.crowdDrainMultiplier", 2.0f);
@@ -112,42 +162,81 @@ public final class WatheExtendedServerConfig {
                     "    \"knife\": {\n" +
                     "      // Cooldown in seconds applied to the Knife after it is used to kill a player.\n" +
                     "      // Default: 60\n" +
-                    "      \"cooldown\": " + knifeCooldown + "\n" +
+                    "      \"cooldown\": " + knifeCooldown + ",\n" +
+                    "      // Price of the Knife in the shop.\n" +
+                    "      // Default: 100\n" +
+                    "      \"price\": " + knifePrice + "\n" +
                     "    },\n" +
                     "    \"revolver\": {\n" +
                     "      // Cooldown in seconds applied to the Revolver after it is fired.\n" +
                     "      // Default: 10\n" +
-                    "      \"cooldown\": " + revolverCooldown + "\n" +
+                    "      \"cooldown\": " + revolverCooldown + ",\n" +
+                    "      // Price of the Revolver in the shop.\n" +
+                    "      // Default: 300\n" +
+                    "      \"price\": " + revolverPrice + "\n" +
                     "    },\n" +
                     "    \"grenade\": {\n" +
                     "      // Cooldown in seconds after the Grenade is thrown.\n" +
                     "      // Default: 90\n" +
-                    "      \"cooldown\": " + grenadeCooldown + "\n" +
+                    "      \"cooldown\": " + grenadeCooldown + ",\n" +
+                    "      // Price of the Grenade in the shop.\n" +
+                    "      // Default: 350\n" +
+                    "      \"price\": " + grenadePrice + "\n" +
                     "    },\n" +
                     "    \"psychoMode\": {\n" +
                     "      // Cooldown in seconds applied to Psycho Mode after it is activated.\n" +
                     "      // Default: 300\n" +
-                    "      \"cooldown\": " + psychoModeCooldown + "\n" +
+                    "      \"cooldown\": " + psychoModeCooldown + ",\n" +
+                    "      // Price of Psycho Mode in the shop.\n" +
+                    "      // Default: 300\n" +
+                    "      \"price\": " + psychoModePrice + "\n" +
                     "    },\n" +
                     "    \"lockpick\": {\n" +
                     "      // Cooldown in seconds applied to the Lockpick after it is used to jam a door.\n" +
                     "      // Default: 180\n" +
-                    "      \"cooldown\": " + lockpickCooldown + "\n" +
+                    "      \"cooldown\": " + lockpickCooldown + ",\n" +
+                    "      // Price of the Lockpick in the shop.\n" +
+                    "      // Default: 50\n" +
+                    "      \"price\": " + lockpickPrice + "\n" +
                     "    },\n" +
                     "    \"crowbar\": {\n" +
                     "      // Cooldown in seconds applied to the Crowbar after it is used to pry open a door.\n" +
                     "      // Default: 10\n" +
-                    "      \"cooldown\": " + crowbarCooldown + "\n" +
+                    "      \"cooldown\": " + crowbarCooldown + ",\n" +
+                    "      // Price of the Crowbar in the shop.\n" +
+                    "      // Default: 25\n" +
+                    "      \"price\": " + crowbarPrice + "\n" +
                     "    },\n" +
                     "    \"bodyBag\": {\n" +
                     "      // Cooldown in seconds applied to the Body Bag after it is used to dispose of a body.\n" +
                     "      // Default: 300\n" +
-                    "      \"cooldown\": " + bodyBagCooldown + "\n" +
+                    "      \"cooldown\": " + bodyBagCooldown + ",\n" +
+                    "      // Price of the Body Bag in the shop.\n" +
+                    "      // Default: 200\n" +
+                    "      \"price\": " + bodyBagPrice + "\n" +
                     "    },\n" +
                     "    \"blackout\": {\n" +
                     "      // Cooldown in seconds applied to Blackout after it is triggered.\n" +
                     "      // Default: 300\n" +
-                    "      \"cooldown\": " + blackoutCooldown + "\n" +
+                    "      \"cooldown\": " + blackoutCooldown + ",\n" +
+                    "      // Price of Blackout in the shop.\n" +
+                    "      // Default: 200\n" +
+                    "      \"price\": " + blackoutPrice + "\n" +
+                    "    },\n" +
+                    "    \"poison_vial\": {\n" +
+                    "      // Price of the Poison Vial in the shop.\n" +
+                    "      // Default: 100\n" +
+                    "      \"price\": " + poisonVialPrice + "\n" +
+                    "    },\n" +
+                    "    \"scorpion\": {\n" +
+                    "      // Price of the Scorpion in the shop.\n" +
+                    "      // Default: 50\n" +
+                    "      \"price\": " + scorpionPrice + "\n" +
+                    "    },\n" +
+                    "    \"firecracker\": {\n" +
+                    "      // Price of the Firecracker in the shop.\n" +
+                    "      // Default: 10\n" +
+                    "      \"price\": " + firecrackerPrice + "\n" +
                     "    }\n" +
                     "  },\n" +
                     "  \"modifiers\": {\n" +
@@ -206,6 +295,68 @@ public final class WatheExtendedServerConfig {
                     "      // Set to 0 to disable this limit.\n" +
                     "      // Default: 10\n" +
                     "      \"playerLimit\": " + cleanerPlayerLimit + "\n" +
+                    "    }\n" +
+                    "  },\n" +
+                    "  \"addons\": {\n" +
+                    "    \"kinswathe\": {\n" +
+                    "      \"sulfuricAcidBarrel\": {\n" +
+                    "        // Cooldown in seconds applied to the Sulfuric Acid Barrel after it is used.\n" +
+                    "        // Default: 60\n" +
+                    "        \"cooldown\": " + sulfuricAcidBarrelCooldown + "\n" +
+                    "      },\n" +
+                    "      \"huntingKnife\": {\n" +
+                    "        // Cooldown in seconds applied to the Hunting Knife after it is used.\n" +
+                    "        // Default: 45\n" +
+                    "        \"cooldown\": " + huntingKnifeCooldown + ",\n" +
+                    "        // Price of the Hunting Knife in the shop.\n" +
+                    "        // Default: 100\n" +
+                    "        \"price\": " + huntingKnifePrice + "\n" +
+                    "      },\n" +
+                    "      \"medicalKit\": {\n" +
+                    "        // Cooldown in seconds applied to the Medical Kit after it is used.\n" +
+                    "        // Default: 60\n" +
+                    "        \"cooldown\": " + medicalKitCooldown + "\n" +
+                    "      },\n" +
+                    "      \"pan\": {\n" +
+                    "        // Cooldown in seconds applied to the Pan after it is used.\n" +
+                    "        // Default: 45\n" +
+                    "        \"cooldown\": " + panCooldown + ",\n" +
+                    "        // Price of the Pan in the shop.\n" +
+                    "        // Default: 250\n" +
+                    "        \"price\": " + panPrice + "\n" +
+                    "      },\n" +
+                    "      \"poisonInjector\": {\n" +
+                    "        // Cooldown in seconds applied to the Poison Injector after it is used.\n" +
+                    "        // Default: 60\n" +
+                    "        \"cooldown\": " + poisonInjectorCooldown + ",\n" +
+                    "        // Price of the Poison Injector in the shop.\n" +
+                    "        // Default: 125\n" +
+                    "        \"price\": " + poisonInjectorPrice + "\n" +
+                    "      },\n" +
+                    "      \"pill\": {\n" +
+                    "        // Cooldown in seconds applied to the Pill after it is used.\n" +
+                    "        // Default: 180\n" +
+                    "        \"cooldown\": " + pillCooldown + ",\n" +
+                    "        // Price of the Pill in the shop.\n" +
+                    "        // Default: 300\n" +
+                    "        \"price\": " + pillPrice + "\n" +
+                    "      },\n" +
+                    "      \"blowgun\": {\n" +
+                    "        // Cooldown in seconds applied to the Blowgun after it is used.\n" +
+                    "        // Default: 60\n" +
+                    "        \"cooldown\": " + blowgunCooldown + ",\n" +
+                    "        // Price of the Blowgun in the shop.\n" +
+                    "        // Default: 175\n" +
+                    "        \"price\": " + blowgunPrice + "\n" +
+                    "      },\n" +
+                    "      \"knockoutDrug\": {\n" +
+                    "        // Cooldown in seconds applied to the Knockout Drug after it is used.\n" +
+                    "        // Default: 60\n" +
+                    "        \"cooldown\": " + knockoutDrugCooldown + ",\n" +
+                    "        // Price of the Knockout Drug in the shop.\n" +
+                    "        // Default: 75\n" +
+                    "        \"price\": " + knockoutDrugPrice + "\n" +
+                    "      }\n" +
                     "    }\n" +
                     "  }\n" +
                     "}\n";
@@ -463,6 +614,231 @@ public final class WatheExtendedServerConfig {
 
     public static void setBlackoutCooldown(int value) {
         blackoutCooldown = Math.max(0, value);
+        save();
+    }
+
+    public static int getSulfuricAcidBarrelCooldown() {
+        return sulfuricAcidBarrelCooldown;
+    }
+
+    public static void setSulfuricAcidBarrelCooldown(int value) {
+        sulfuricAcidBarrelCooldown = Math.max(0, value);
+        save();
+    }
+
+    public static int getHuntingKnifeCooldown() {
+        return huntingKnifeCooldown;
+    }
+
+    public static void setHuntingKnifeCooldown(int value) {
+        huntingKnifeCooldown = Math.max(0, value);
+        save();
+    }
+
+    public static int getMedicalKitCooldown() {
+        return medicalKitCooldown;
+    }
+
+    public static void setMedicalKitCooldown(int value) {
+        medicalKitCooldown = Math.max(0, value);
+        save();
+    }
+
+    public static int getPanCooldown() {
+        return panCooldown;
+    }
+
+    public static void setPanCooldown(int value) {
+        panCooldown = Math.max(0, value);
+        save();
+    }
+
+    public static int getPoisonInjectorCooldown() {
+        return poisonInjectorCooldown;
+    }
+
+    public static void setPoisonInjectorCooldown(int value) {
+        poisonInjectorCooldown = Math.max(0, value);
+        save();
+    }
+
+    public static int getPillCooldown() {
+        return pillCooldown;
+    }
+
+    public static void setPillCooldown(int value) {
+        pillCooldown = Math.max(0, value);
+        save();
+    }
+
+    public static int getBlowgunCooldown() {
+        return blowgunCooldown;
+    }
+
+    public static void setBlowgunCooldown(int value) {
+        blowgunCooldown = Math.max(0, value);
+        save();
+    }
+
+    public static int getKnockoutDrugCooldown() {
+        return knockoutDrugCooldown;
+    }
+
+    public static void setKnockoutDrugCooldown(int value) {
+        knockoutDrugCooldown = Math.max(0, value);
+        save();
+    }
+
+    public static int getKnifePrice() {
+        return knifePrice;
+    }
+
+    public static void setKnifePrice(int v) {
+        knifePrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getRevolverPrice() {
+        return revolverPrice;
+    }
+
+    public static void setRevolverPrice(int v) {
+        revolverPrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getGrenadePrice() {
+        return grenadePrice;
+    }
+
+    public static void setGrenadePrice(int v) {
+        grenadePrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getPsychoModePrice() {
+        return psychoModePrice;
+    }
+
+    public static void setPsychoModePrice(int v) {
+        psychoModePrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getPoisonVialPrice() {
+        return poisonVialPrice;
+    }
+
+    public static void setPoisonVialPrice(int v) {
+        poisonVialPrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getScorpionPrice() {
+        return scorpionPrice;
+    }
+
+    public static void setScorpionPrice(int v) {
+        scorpionPrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getFirecrackerPrice() {
+        return firecrackerPrice;
+    }
+
+    public static void setFirecrackerPrice(int v) {
+        firecrackerPrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getLockpickPrice() {
+        return lockpickPrice;
+    }
+
+    public static void setLockpickPrice(int v) {
+        lockpickPrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getCrowbarPrice() {
+        return crowbarPrice;
+    }
+
+    public static void setCrowbarPrice(int v) {
+        crowbarPrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getBodyBagPrice() {
+        return bodyBagPrice;
+    }
+
+    public static void setBodyBagPrice(int v) {
+        bodyBagPrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getBlackoutPrice() {
+        return blackoutPrice;
+    }
+
+    public static void setBlackoutPrice(int v) {
+        blackoutPrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getHuntingKnifePrice() {
+        return huntingKnifePrice;
+    }
+
+    public static void setHuntingKnifePrice(int v) {
+        huntingKnifePrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getPoisonInjectorPrice() {
+        return poisonInjectorPrice;
+    }
+
+    public static void setPoisonInjectorPrice(int v) {
+        poisonInjectorPrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getBlowgunPrice() {
+        return blowgunPrice;
+    }
+
+    public static void setBlowgunPrice(int v) {
+        blowgunPrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getKnockoutDrugPrice() {
+        return knockoutDrugPrice;
+    }
+
+    public static void setKnockoutDrugPrice(int v) {
+        knockoutDrugPrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getPanPrice() {
+        return panPrice;
+    }
+
+    public static void setPanPrice(int v) {
+        panPrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getPillPrice() {
+        return pillPrice;
+    }
+
+    public static void setPillPrice(int v) {
+        pillPrice = Math.max(0, v);
         save();
     }
 }

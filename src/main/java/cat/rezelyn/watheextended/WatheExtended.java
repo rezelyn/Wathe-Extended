@@ -1,28 +1,25 @@
 package cat.rezelyn.watheextended;
 
+import cat.rezelyn.watheextended.api.ConfigSync;
 import cat.rezelyn.watheextended.api.ServerConfig;
+import cat.rezelyn.watheextended.api.wathe.GameStatus;
 import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.command.*;
-import cat.rezelyn.watheextended.game.ItemBoundsChecker;
-import cat.rezelyn.watheextended.game.PlayerItemManager;
-import cat.rezelyn.watheextended.game.PronounsManager;
+import cat.rezelyn.watheextended.game.*;
 import cat.rezelyn.watheextended.index.*;
+import cat.rezelyn.watheextended.mixin.wathe.ShopEntryAccessor;
 import cat.rezelyn.watheextended.modifiers.WatheExtendedModifiers;
 import cat.rezelyn.watheextended.modifiers.adaptive.AdaptiveModifier;
+import cat.rezelyn.watheextended.modifiers.introverted.IntrovertedModifier;
 import cat.rezelyn.watheextended.modifiers.noellesroles.binglus.AwesomeBinglusNote;
 import cat.rezelyn.watheextended.modifiers.noellesroles.feather.FeatherModifierFix;
-import cat.rezelyn.watheextended.modifiers.introverted.IntrovertedModifier;
-import cat.rezelyn.watheextended.game.TeleportationHandler;
-import cat.rezelyn.watheextended.api.ConfigSync;
 import cat.rezelyn.watheextended.modifiers.stupidexpress.lovers.ForbiddenLovers;
 import cat.rezelyn.watheextended.modifiers.taxed.TaxedModifier;
-import cat.rezelyn.watheextended.api.wathe.GameStatus;
-import cat.rezelyn.watheextended.game.LastStandManager;
 import dev.doctor4t.wathe.api.event.AllowPlayerDeath;
-import dev.doctor4t.wathe.game.GameConstants;
-import dev.doctor4t.wathe.index.WatheItems;
 import dev.doctor4t.wathe.api.event.GameEvents;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.game.GameConstants;
+import dev.doctor4t.wathe.index.WatheItems;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -77,6 +74,7 @@ public class WatheExtended implements ModInitializer {
 
         WatheExtendedServerConfig.load();
         applyItemCooldowns();
+        applyShopPrices();
 
         // integrations
         PronounsManager.load();
@@ -213,6 +211,83 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.blackout.cooldown", 300,
                 WatheExtendedServerConfig::getBlackoutCooldown,
                 v -> { WatheExtendedServerConfig.setBlackoutCooldown(v); GameConstants.ITEM_COOLDOWNS.put(WatheItems.BLACKOUT, v * 20); }));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.knife.price", 100,
+                WatheExtendedServerConfig::getKnifePrice,
+                v -> { WatheExtendedServerConfig.setKnifePrice(v); applyShopPrices(); }));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.revolver.price", 300,
+                WatheExtendedServerConfig::getRevolverPrice,
+                v -> { WatheExtendedServerConfig.setRevolverPrice(v); applyShopPrices(); applyKinsWatheShopPrices(); }));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.grenade.price", 350,
+                WatheExtendedServerConfig::getGrenadePrice,
+                v -> { WatheExtendedServerConfig.setGrenadePrice(v); applyShopPrices(); }));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.psychoMode.price", 300,
+                WatheExtendedServerConfig::getPsychoModePrice,
+                v -> { WatheExtendedServerConfig.setPsychoModePrice(v); applyShopPrices(); }));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.poisonVial.price", 100,
+                WatheExtendedServerConfig::getPoisonVialPrice,
+                v -> { WatheExtendedServerConfig.setPoisonVialPrice(v); applyShopPrices(); }));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.scorpion.price", 50,
+                WatheExtendedServerConfig::getScorpionPrice,
+                v -> { WatheExtendedServerConfig.setScorpionPrice(v); applyShopPrices(); }));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.firecracker.price", 10,
+                WatheExtendedServerConfig::getFirecrackerPrice,
+                v -> { WatheExtendedServerConfig.setFirecrackerPrice(v); applyShopPrices(); }));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.lockpick.price", 50,
+                WatheExtendedServerConfig::getLockpickPrice,
+                v -> { WatheExtendedServerConfig.setLockpickPrice(v); applyShopPrices(); }));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.crowbar.price", 25,
+                WatheExtendedServerConfig::getCrowbarPrice,
+                v -> { WatheExtendedServerConfig.setCrowbarPrice(v); applyShopPrices(); }));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.bodyBag.price", 200,
+                WatheExtendedServerConfig::getBodyBagPrice,
+                v -> { WatheExtendedServerConfig.setBodyBagPrice(v); applyShopPrices(); }));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.blackout.price", 200,
+                WatheExtendedServerConfig::getBlackoutPrice,
+                v -> { WatheExtendedServerConfig.setBlackoutPrice(v); applyShopPrices(); }));
+        if (cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) {
+            ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.sulfuricAcidBarrel.cooldown", 60,
+                    WatheExtendedServerConfig::getSulfuricAcidBarrelCooldown,
+                    v -> { WatheExtendedServerConfig.setSulfuricAcidBarrelCooldown(v); putKinsWatheCooldown("sulfuric_acid_barrel", v); }));
+            ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.huntingKnife.cooldown", 45,
+                    WatheExtendedServerConfig::getHuntingKnifeCooldown,
+                    v -> { WatheExtendedServerConfig.setHuntingKnifeCooldown(v); putKinsWatheCooldown("hunting_knife", v); }));
+            ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.medicalKit.cooldown", 60,
+                    WatheExtendedServerConfig::getMedicalKitCooldown,
+                    v -> { WatheExtendedServerConfig.setMedicalKitCooldown(v); putKinsWatheCooldown("medical_kit", v); }));
+            ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.pan.cooldown", 45,
+                    WatheExtendedServerConfig::getPanCooldown,
+                    v -> { WatheExtendedServerConfig.setPanCooldown(v); putKinsWatheCooldown("pan", v); }));
+            ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.poisonInjector.cooldown", 60,
+                    WatheExtendedServerConfig::getPoisonInjectorCooldown,
+                    v -> { WatheExtendedServerConfig.setPoisonInjectorCooldown(v); putKinsWatheCooldown("poison_injector", v); }));
+            ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.pill.cooldown", 180,
+                    WatheExtendedServerConfig::getPillCooldown,
+                    v -> { WatheExtendedServerConfig.setPillCooldown(v); putKinsWatheCooldown("pill", v); }));
+            ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.blowgun.cooldown", 60,
+                    WatheExtendedServerConfig::getBlowgunCooldown,
+                    v -> { WatheExtendedServerConfig.setBlowgunCooldown(v); putKinsWatheCooldown("blowgun", v); }));
+            ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.knockoutDrug.cooldown", 60,
+                    WatheExtendedServerConfig::getKnockoutDrugCooldown,
+                    v -> { WatheExtendedServerConfig.setKnockoutDrugCooldown(v); putKinsWatheCooldown("knockout_drug", v); }));
+            ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.huntingKnife.price", 100,
+                    WatheExtendedServerConfig::getHuntingKnifePrice,
+                    v -> { WatheExtendedServerConfig.setHuntingKnifePrice(v); applyKinsWatheShopPrices(); }));
+            ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.poisonInjector.price", 125,
+                    WatheExtendedServerConfig::getPoisonInjectorPrice,
+                    v -> { WatheExtendedServerConfig.setPoisonInjectorPrice(v); applyKinsWatheShopPrices(); }));
+            ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.blowgun.price", 175,
+                    WatheExtendedServerConfig::getBlowgunPrice,
+                    v -> { WatheExtendedServerConfig.setBlowgunPrice(v); applyKinsWatheShopPrices(); }));
+            ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.knockoutDrug.price", 75,
+                    WatheExtendedServerConfig::getKnockoutDrugPrice,
+                    v -> { WatheExtendedServerConfig.setKnockoutDrugPrice(v); applyKinsWatheShopPrices(); }));
+            ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.pan.price", 250,
+                    WatheExtendedServerConfig::getPanPrice,
+                    v -> { WatheExtendedServerConfig.setPanPrice(v); applyKinsWatheShopPrices(); }));
+            ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.pill.price", 300,
+                    WatheExtendedServerConfig::getPillPrice,
+                    v -> { WatheExtendedServerConfig.setPillPrice(v); applyKinsWatheShopPrices(); }));
+        }
     }
 
     private static void applyItemCooldowns() {
@@ -223,6 +298,79 @@ public class WatheExtended implements ModInitializer {
         GameConstants.ITEM_COOLDOWNS.put(WatheItems.CROWBAR, WatheExtendedServerConfig.crowbarCooldown * 20);
         GameConstants.ITEM_COOLDOWNS.put(WatheItems.BODY_BAG, WatheExtendedServerConfig.bodyBagCooldown * 20);
         GameConstants.ITEM_COOLDOWNS.put(WatheItems.BLACKOUT, WatheExtendedServerConfig.blackoutCooldown * 20);
+        if (cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) {
+            applyKinsWatheItemCooldowns();
+            applyKinsWatheShopPrices();
+        }
+    }
+
+    private static void applyKinsWatheItemCooldowns() {
+        putKinsWatheCooldown("sulfuric_acid_barrel", WatheExtendedServerConfig.sulfuricAcidBarrelCooldown);
+        putKinsWatheCooldown("hunting_knife", WatheExtendedServerConfig.huntingKnifeCooldown);
+        putKinsWatheCooldown("medical_kit", WatheExtendedServerConfig.medicalKitCooldown);
+        putKinsWatheCooldown("pan", WatheExtendedServerConfig.panCooldown);
+        putKinsWatheCooldown("poison_injector", WatheExtendedServerConfig.poisonInjectorCooldown);
+        putKinsWatheCooldown("pill", WatheExtendedServerConfig.pillCooldown);
+        putKinsWatheCooldown("blowgun", WatheExtendedServerConfig.blowgunCooldown);
+        putKinsWatheCooldown("knockout_drug", WatheExtendedServerConfig.knockoutDrugCooldown);
+    }
+
+    private static void applyKinsWatheShopPrices() {
+        if (!cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) return;
+        try {
+            Class<?> cls = Class.forName("org.BsXinQin.kinswathe.KinsWatheConfig");
+            Object handler = cls.getField("HANDLER").get(null);
+            Object cfg = handler.getClass().getMethod("instance").invoke(handler);
+            cfg.getClass().getField("CookPanPrice").set(cfg, WatheExtendedServerConfig.panPrice);
+            cfg.getClass().getField("PhysicianPillPrice").set(cfg, WatheExtendedServerConfig.pillPrice);
+            cfg.getClass().getField("LicensedVillainRevolverPrice").set(cfg, WatheExtendedServerConfig.revolverPrice);
+            cfg.getClass().getField("DrugmakerPoisonInjectorPrice").set(cfg, WatheExtendedServerConfig.poisonInjectorPrice);
+            cfg.getClass().getField("DrugmakerBlowgunPrice").set(cfg, WatheExtendedServerConfig.blowgunPrice);
+            cfg.getClass().getField("KidnapperKnockoutDrugPrice").set(cfg, WatheExtendedServerConfig.knockoutDrugPrice);
+        } catch (Throwable ignored) {
+        }
+    }
+
+    private static void applyKinsWatheWorldPrices(World world) {
+        if (!cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) return;
+        try {
+            Class<?> cwcCls = Class.forName("org.BsXinQin.kinswathe.component.ConfigWorldComponent");
+            Object key = cwcCls.getField("KEY").get(null);
+            Object comp = key.getClass().getMethod("get", Object.class).invoke(key, world);
+            comp.getClass().getField("CookPanPrice").set(comp, WatheExtendedServerConfig.panPrice);
+            comp.getClass().getField("PhysicianPillPrice").set(comp, WatheExtendedServerConfig.pillPrice);
+            comp.getClass().getField("LicensedVillainRevolverPrice").set(comp, WatheExtendedServerConfig.revolverPrice);
+            comp.getClass().getField("DrugmakerPoisonInjectorPrice").set(comp, WatheExtendedServerConfig.poisonInjectorPrice);
+            comp.getClass().getField("DrugmakerBlowgunPrice").set(comp, WatheExtendedServerConfig.blowgunPrice);
+            comp.getClass().getField("KidnapperKnockoutDrugPrice").set(comp, WatheExtendedServerConfig.knockoutDrugPrice);
+        } catch (Throwable ignored) {
+        }
+    }
+
+    private static void putKinsWatheCooldown(String itemId, int seconds) {
+        net.minecraft.item.Item item = net.minecraft.registry.Registries.ITEM.get(Identifier.of("kinswathe", itemId));
+        if (item != net.minecraft.item.Items.AIR) {
+            GameConstants.ITEM_COOLDOWNS.put(item, seconds * 20);
+        }
+    }
+
+    private static void applyShopPrices() {
+        for (dev.doctor4t.wathe.util.ShopEntry entry : GameConstants.SHOP_ENTRIES) {
+            net.minecraft.item.Item item = entry.stack().getItem();
+            int price = -1;
+            if (item == WatheItems.KNIFE) price = WatheExtendedServerConfig.knifePrice;
+            else if (item == WatheItems.REVOLVER) price = WatheExtendedServerConfig.revolverPrice;
+            else if (item == WatheItems.GRENADE) price = WatheExtendedServerConfig.grenadePrice;
+            else if (item == WatheItems.PSYCHO_MODE) price = WatheExtendedServerConfig.psychoModePrice;
+            else if (item == WatheItems.POISON_VIAL) price = WatheExtendedServerConfig.poisonVialPrice;
+            else if (item == WatheItems.SCORPION) price = WatheExtendedServerConfig.scorpionPrice;
+            else if (item == WatheItems.FIRECRACKER) price = WatheExtendedServerConfig.firecrackerPrice;
+            else if (item == WatheItems.LOCKPICK) price = WatheExtendedServerConfig.lockpickPrice;
+            else if (item == WatheItems.CROWBAR) price = WatheExtendedServerConfig.crowbarPrice;
+            else if (item == WatheItems.BODY_BAG) price = WatheExtendedServerConfig.bodyBagPrice;
+            else if (item == WatheItems.BLACKOUT) price = WatheExtendedServerConfig.blackoutPrice;
+            if (price >= 0) ((ShopEntryAccessor) entry).watheextended$setPrice(price);
+        }
     }
 
     private static void registerNetworking() {
@@ -300,6 +448,10 @@ public class WatheExtended implements ModInitializer {
             AdaptiveModifier.clearAll();
             TaxedModifier.clearAll();
             if (world instanceof ServerWorld sw) FeatherModifierFix.applyOnGameStart(sw);
+            if (cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) {
+                applyKinsWatheShopPrices();
+                applyKinsWatheWorldPrices(world);
+            }
             if (cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.isLoaded()) {
                 AwesomeBinglusNote.applyOnGameStart(world, gameWorldComponent);
             }

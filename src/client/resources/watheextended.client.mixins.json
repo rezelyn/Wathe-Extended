@@ -20,6 +20,7 @@
     "client.kinswathe.bodymaker.BodymakerSlotTextureMixin",
     "client.kinswathe.bodymaker.BodymakerDeathReasonSlotTextureMixin",
     "client.kinswathe.judge.JudgeSlotTextureMixin",
+    "client.kinswathe.KinsWatheItemTooltipsMixin",
     "client.noellesroles.binglus.BinglusInstinctMixin",
     "client.noellesroles.graverobber.GraverobberCoronerHudMixin",
     "client.noellesroles.guesser.GuesserRolePickerMixin",

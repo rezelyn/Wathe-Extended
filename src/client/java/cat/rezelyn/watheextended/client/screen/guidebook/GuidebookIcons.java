@@ -11,7 +11,7 @@ import java.util.Map;
 public final class GuidebookIcons {
 
     public static final Map<String, String> ICONS;
-    private static final Style ICON_STYLE = Style.EMPTY
+    public static final Style ICON_STYLE = Style.EMPTY
             .withFont(Identifier.of("minecraft", "default"))
             .withColor(Formatting.WHITE)
             .withBold(false)

@@ -64,6 +64,7 @@ public final class WatheConfigScreen {
         if (op) {
             builder.category(OptionsCategory.build(parent, WatheConfigScreen::stageCommand));
             builder.category(MapVariablesCategory.build(parent, WatheConfigScreen::stageCommand));
+            builder.category(ItemsCategory.build(parent, WatheConfigScreen::stageCommand));
             builder.category(RolesCategory.build(parent, BLACKLIST, pendingRoleState, WatheConfigScreen::stageCommand));
             builder.category(ModifiersCategory.build(parent, pendingModifierState, WatheConfigScreen::stageCommand));
         }

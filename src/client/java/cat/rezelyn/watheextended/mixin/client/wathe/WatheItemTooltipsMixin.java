@@ -50,7 +50,6 @@ public class WatheItemTooltipsMixin {
         }
 
         if (seconds > 0) {
-            lines.add(Text.literal(""));
             lines.add(Text.translatable("tooltip.watheextended.item.cooldown", formatCooldown(seconds)).formatted(Formatting.DARK_GRAY));
         }
     }
