@@ -1,6 +1,7 @@
 package cat.rezelyn.watheextended.mixin.client;
 
 import cat.rezelyn.watheextended.api.wathe.GameStatus;
+import dev.doctor4t.wathe.index.WatheItems;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -8,9 +9,7 @@ import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -20,14 +19,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
 
+    private static final Set<Item> BLACKLIST = Set.of(
+            WatheItems.LETTER,
+            WatheItems.BAT
+    );
+
     private static final int VANILLA_FADE = 40;
     private static final int EXTENDED_FADE = 300;
-    @Shadow
-    @Final
+
+    @Shadow @Final
     private MinecraftClient client;
     @Shadow
     private int heldItemTooltipFade;
@@ -47,14 +52,16 @@ public class InGameHudMixin {
             return;
         }
 
+        if (BLACKLIST.contains(this.currentStack.getItem())) {
+            return;
+        }
+
         List<Text> tooltip = this.currentStack.getTooltip(Item.TooltipContext.DEFAULT, this.client.player, TooltipType.BASIC);
 
         if (tooltip.isEmpty()) return;
         ci.cancel();
 
-        // skip supporter line for Knife
-        boolean isKnife = this.currentStack.isOf(Registries.ITEM.get(Identifier.of("wathe", "knife")));
-        int loreStart = isKnife ? 2 : 1;
+        int loreStart = 1;
 
         Text cooldownLine = null;
         for (int i = loreStart; i < tooltip.size(); i++) {
@@ -75,6 +82,7 @@ public class InGameHudMixin {
             // show regular tooltip lines
             for (int i = loreStart; i < tooltip.size() && lines.size() < 3; i++) {
                 Text lore = tooltip.get(i);
+                if (lore.getString().isEmpty()) continue;
                 lines.add(Text.literal(lore.getString()).setStyle(lore.getStyle().withItalic(false)));
             }
         }

@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(WatheItemTooltips.class)
@@ -25,12 +26,29 @@ public class WatheItemTooltipsMixin {
 
         if (tooltipKey == null) return;
 
+        List<Text> activeCooldownLines = new ArrayList<>();
+        for (int i = 1; i < lines.size(); i++) {
+            net.minecraft.text.Style s = lines.get(i).getStyle();
+            if (s.getColor() != null && s.getColor().getRgb() == 0xC90000) {
+                activeCooldownLines.add(lines.get(i));
+            }
+        }
+
         if (lines.size() > 1) lines.subList(1, lines.size()).clear();
+
         for (String line : Text.translatable(tooltipKey).getString().split("\n")) {
             lines.add(Text.literal(line).styled(style -> style.withColor(0x808080)));
         }
 
         int seconds = getCooldownSeconds(item);
+        if (!activeCooldownLines.isEmpty() || seconds > 0) {
+            lines.add(Text.literal(""));
+        }
+
+        if (!activeCooldownLines.isEmpty()) {
+            lines.addAll(activeCooldownLines);
+        }
+
         if (seconds > 0) {
             lines.add(Text.literal(""));
             lines.add(Text.translatable("tooltip.watheextended.item.cooldown", formatCooldown(seconds)).formatted(Formatting.DARK_GRAY));
