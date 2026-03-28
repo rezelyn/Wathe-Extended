@@ -1,5 +1,8 @@
 {
   "itemGroup.watheextended.main": "Wathe: Extended",
+
+
+
   "block.watheextended.tarnished_gold_panel": "Tarnished Gold Panel",
   "block.watheextended.gold_panel": "Gold Panel",
   "block.watheextended.pristine_gold_panel": "Pristine Gold Panel",
@@ -49,6 +52,9 @@
   "block.watheextended.snowy_oak_leaves": "Snowy Oak Leaves",
   "block.watheextended.snowy_spruce_leaves": "Snowy Spruce Leaves",
   "block.watheextended.ish_plush": "Ish Plush",
+
+
+
   "item.watheextended.guidebook": "Guidebook",
   "item.watheextended.teleport_to_ready_area": "Teleport to Ready Area",
   "item.watheextended.teleport_to_scenery": "Teleport to Scenery",
@@ -61,7 +67,10 @@
   "item.watheextended.sunset_prism": "Sunset Prism",
   "item.watheextended.the_amethyst": "The Amethyst",
   "item.watheextended.velvet_ace": "Velvet Ace",
-  "tooltip.watheextended.item.knife": "Right-click (Hold) and prepare the knife to stab a player\nLeft-click to knock back / push a player",
+
+
+
+  "tooltip.watheextended.item.knife": "Right-click (Hold) and prepare the knife to stab a player\nLeft-click to push a player",
   "tooltip.watheextended.item.revolver": "Right-click to shoot\nDrops if you shoot an innocent player",
   "tooltip.watheextended.item.grenade": "Right-click to throw, explodes on impact\nGood to clear groups of people, but be wary of the blast radius!\nSingle use",
   "tooltip.watheextended.item.psycho_mode": "\"Do you like hurting other people?\"\nHides your identity and allows you to go crazy with a bat for 30 seconds\nBat kills on full swing and cannot be unselected for the duration of the ability\nActivated instantly upon purchase",
@@ -69,14 +78,34 @@
   "tooltip.watheextended.item.crowbar": "Use on any door to open it permanently",
   "tooltip.watheextended.item.body_bag": "Right-click on a dead body to bag it up and remove it\nSingle use",
   "tooltip.watheextended.item.blackout": "Turn off all lights aboard for 15 to 20 seconds\nUse your instinct [Left-Alt] to see your targets in the dark\nActivated instantly on purchase",
+  "tooltip.watheextended.item.sulfuric_acid_barrel": "Right-click on dead body to dissolve it completely",
+  "tooltip.watheextended.item.hunting_knife": "Right-click (Hold) and prepare the knife to stab a player\nLeft-click to push a player\nGrants a speed boost while sprinting",
+  "tooltip.watheextended.item.medical_kit": "Right-click on a poisoned player to instantly cure them",
+  "tooltip.watheextended.item.pan": "Right-click (Hold) to stun a nearby player for several seconds\nCan also absorb one incoming shot",
+  "tooltip.watheextended.item.poison_injector": "Right-click a player to inject poison\nIf already poisoned, the target dies immediately",
+  "tooltip.watheextended.item.pill": "Right-click to consume and gain a Defense Shield",
+  "tooltip.watheextended.item.blowgun": "Right-click to shoot a poison dart\nPoisons the target from a distance",
+  "tooltip.watheextended.item.knockout_drug": "Right-click on a player to daze them\nThey will follow you blindly and cannot speak or interact",
   "tooltip.watheextended.item.cooldown": "⏱ %s",
+
+
+
+  "text.watheextended.ready": "Ready",
   "text.watheextended.disabled": "Disabled",
   "text.watheextended.enabled": "Enabled",
   "text.watheextended.off": "OFF",
   "text.watheextended.on": "ON",
+  "text.watheextended.false": "False",
+  "text.watheextended.true": "True",
+
+
+
   "announcement.modifier.watheextended.introverted": "Introverted",
   "announcement.modifier.watheextended.taxed": "Taxed",
   "announcement.modifier.watheextended.adaptive": "Adaptive",
+
+
+
   "command.watheextended.pronouns.set": "Your pronouns have been set to: %s",
   "command.watheextended.pronouns.cleared": "Your pronouns have been cleared.",
   "command.watheextended.mapvariables.lobbyarea.set": "Map variable lobbyArea successfully set to:\n%s.",
@@ -87,8 +116,12 @@
   "command.watheextended.rtp_slot.list_header": "%d teleportation slot(s):",
   "command.watheextended.rtp_slot.outside_ready_area": "Cannot place slot at %s\nPosition is outside the Ready Area boundaries.",
   "command.watheextended.rtp_slot.removed": "Removed teleportation slot #%d (%s)",
-  "gui.watheextended.ability.ready": "Ready",
+
+
+
+
   "gui.watheextended.config.title": "Wathe Extended Options",
+
   "gui.watheextended.config.category.client": "Client",
   "gui.watheextended.config.category.client.tooltip": "Central configuration screen for client-side options",
   "gui.watheextended.config.category.client.label.player": "Player",
@@ -144,23 +177,6 @@
   "gui.watheextended.config.category.options.group.wathe_options.opt.backfire.desc": "The percentage chance that a shot will backfire and kill the shooter instead of the target.\nSet to 0 to disable backfire.\n\n§6Default: §e0",
   "gui.watheextended.config.category.options.group.wathe_options.opt.shooterpunishment": "Shooter Punishment",
   "gui.watheextended.config.category.options.group.wathe_options.opt.shooterpunishment.desc": "Controls what happens when someone shoots an innocent player with a Revolver.\n\n• Default: Shooter will drop their Revolver and cannot pick it back up. Can still pick up guns other players drop.\n• Prevent Gun Pickup: Shooter will drop their Revolver and cannot pick up any guns for the rest of the game.\n• Kill Shooter: Shooter will be instantly killed alongside the target they shot.",
-  "gui.watheextended.config.category.options.group.wathe_options.label.items": "Items",
-  "gui.watheextended.config.category.options.group.wathe_options.opt.grenadecooldown": "Grenade Cooldown",
-  "gui.watheextended.config.category.options.group.wathe_options.opt.grenadecooldown.desc": "Cooldown in seconds applied to the Grenade item after it is thrown.\n\n§6Default: §e90§r",
-  "gui.watheextended.config.category.options.group.wathe_options.opt.knifecooldown": "Knife Cooldown",
-  "gui.watheextended.config.category.options.group.wathe_options.opt.knifecooldown.desc": "Cooldown in seconds applied to the Knife after it is used to kill a player.\n\n§6Default: §e60§r",
-  "gui.watheextended.config.category.options.group.wathe_options.opt.revolvercooldown": "Revolver Cooldown",
-  "gui.watheextended.config.category.options.group.wathe_options.opt.revolvercooldown.desc": "Cooldown in seconds applied to the Revolver after it is fired.\n\n§6Default: §e10§r",
-  "gui.watheextended.config.category.options.group.wathe_options.opt.crowbarcooldown": "Crowbar Cooldown",
-  "gui.watheextended.config.category.options.group.wathe_options.opt.crowbarcooldown.desc": "Cooldown in seconds applied to the Crowbar after it is used to pry open a door.\n\n§6Default: §e10§r",
-  "gui.watheextended.config.category.options.group.wathe_options.opt.lockpickcooldown": "Lockpick Cooldown",
-  "gui.watheextended.config.category.options.group.wathe_options.opt.lockpickcooldown.desc": "Cooldown in seconds applied to the Lockpick after it is used to jam a door.\n\n§6Default: §e180§r",
-  "gui.watheextended.config.category.options.group.wathe_options.opt.bodybagcooldown": "Body Bag Cooldown",
-  "gui.watheextended.config.category.options.group.wathe_options.opt.bodybagcooldown.desc": "Cooldown in seconds applied to the Body Bag after it is used to dispose of a body.\n\n§6Default: §e300§r",
-  "gui.watheextended.config.category.options.group.wathe_options.opt.psychomodecooldown": "Psycho Mode Cooldown",
-  "gui.watheextended.config.category.options.group.wathe_options.opt.psychomodecooldown.desc": "Cooldown in seconds applied to Psycho Mode after it is activated.\n\n§6Default: §e300§r",
-  "gui.watheextended.config.category.options.group.wathe_options.opt.blackoutcooldown": "Blackout Cooldown",
-  "gui.watheextended.config.category.options.group.wathe_options.opt.blackoutcooldown.desc": "Cooldown in seconds applied to Blackout after it is triggered.\n\n§6Default: §e300§r",
   "gui.watheextended.config.category.options.group.wathe_options.opt.wathetweaks": "Enable Wathe Tweaks",
   "gui.watheextended.config.category.options.group.wathe_options.opt.wathetweaks.desc": "When enabled, Wathe tweaks will be applied.\n\n§6Default: §cOFF",
   "gui.watheextended.config.category.options.group.wathe_options.opt.initialcivilianincome": "Initial Civilian Income",
@@ -370,6 +386,9 @@
   "gui.watheextended.config.category.options.group.modifiers_options.opt.adaptive.penaltyreduction.desc": "Fraction of kill income deducted when a killer repeats the same kill method consecutively\n(e.g. 0.25 = -25% income awarded).\n\n§6Default: §e0.25",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.adaptive.bonusmultiplier": "Unique-Method Bonus",
   "gui.watheextended.config.category.options.group.modifiers_options.opt.adaptive.bonusmultiplier.desc": "Fraction of kill income added as a bonus when a killer uses a different kill method from their last kill\n(e.g. 0.50 = +50% income awarded).\n\n§6Default: §e0.5",
+
+
+
   "gui.watheextended.config.category.mapvariables.title": "Map",
   "gui.watheextended.config.category.mapvariables.tooltip": "View and customize current world map variables",
   "gui.watheextended.config.category.mapvariables.opt.worldprotection": "World Protection",
@@ -408,16 +427,86 @@
   "gui.watheextended.config.category.mapvariables.group.rtp_slots.slot": "Slot #%d",
   "gui.watheextended.config.category.mapvariables.group.rtp_slots.slot.desc": "Format: <x> <y> <z> <yaw> <pitch>\n\n§fEdit this slot's values.\nLeave the values blank to delete the slot.\n\nChanges take effect when saving.",
   "gui.watheextended.config.category.mapvariables.group.rtp_slots.none": "No teleportation slots configured.\nYou can use the §e/watheextended:rtp slot add§r command to create slots.",
+
+
+
+  "gui.watheextended.config.category.items": "Items",
+  "gui.watheextended.config.category.items.tooltip": "Control various options related to in-game items",
+  "gui.watheextended.config.category.items.cooldown": "Cooldown",
+  "gui.watheextended.config.category.items.price": "Price",
+  "gui.watheextended.config.category.items.label.knife": "\uE100 Knife",
+  "gui.watheextended.config.category.items.opt.knife.cooldown": "Cooldown in seconds applied to the Knife after it is used to kill a player.\n\n§6Default: §e60§r",
+  "gui.watheextended.config.category.items.opt.knife.price": "Shop price of the Knife.\n\n§6Default: §e100§r",
+  "gui.watheextended.config.category.items.label.revolver": "\uE101 Revolver",
+  "gui.watheextended.config.category.items.opt.revolver.cooldown": "Cooldown in seconds applied to the Revolver after it is fired.\n\n§6Default: §e10§r",
+  "gui.watheextended.config.category.items.opt.revolver.price": "Shop price of the Revolver.\n\n§6Default: §e300§r",
+  "gui.watheextended.config.category.items.opt.revolver.backfire": "Backfire Chance",
+  "gui.watheextended.config.category.items.opt.revolver.backfire.desc": "The percentage chance that a shot will backfire and kill the shooter instead of the target.\nSet to 0 to disable backfire.\n\n§6Default: §e0",
+  "gui.watheextended.config.category.items.label.grenade": "\uE201 Grenade",
+  "gui.watheextended.config.category.items.opt.grenade.cooldown": "Cooldown in seconds applied to the Grenade item after it is thrown.\n\n§6Default: §e90§r",
+  "gui.watheextended.config.category.items.opt.grenade.price": "Shop price of the Grenade.\n\n§6Default: §e350§r",
+  "gui.watheextended.config.category.items.label.psychomode": "\uE10A Psycho Mode",
+  "gui.watheextended.config.category.items.opt.psychomode.cooldown": "Cooldown in seconds applied to Psycho Mode after it is activated.\n\n§6Default: §e300§r",
+  "gui.watheextended.config.category.items.opt.psychomode.price": "Shop price of Psycho Mode.\n\n§6Default: §e300§r",
+  "gui.watheextended.config.category.items.label.lockpick": "\uE103 Lockpick",
+  "gui.watheextended.config.category.items.opt.lockpick.cooldown": "Cooldown in seconds applied to the Lockpick after it is used to jam a door.\n\n§6Default: §e180§r",
+  "gui.watheextended.config.category.items.opt.lockpick.price": "Shop price of the Lockpick.\n\n§6Default: §e50§r",
+  "gui.watheextended.config.category.items.label.crowbar": "\uE10E Crowbar",
+  "gui.watheextended.config.category.items.opt.crowbar.cooldown": "Cooldown in seconds applied to the Crowbar after it is used to pry open a door.\n\n§6Default: §e10§r",
+  "gui.watheextended.config.category.items.opt.crowbar.price": "Shop price of the Crowbar.\n\n§6Default: §e25§r",
+  "gui.watheextended.config.category.items.label.bodybag": "\uE10D Body Bag",
+  "gui.watheextended.config.category.items.opt.bodybag.cooldown": "Cooldown in seconds applied to the Body Bag after it is used to dispose of a body.\n\n§6Default: §e300§r",
+  "gui.watheextended.config.category.items.opt.bodybag.price": "Shop price of the Body Bag.\n\n§6Default: §e200§r",
+  "gui.watheextended.config.category.items.label.blackout": "\uE218 Blackout",
+  "gui.watheextended.config.category.items.opt.blackout.cooldown": "Cooldown in seconds applied to Blackout after it is triggered.\n\n§6Default: §e300§r",
+  "gui.watheextended.config.category.items.opt.blackout.price": "Shop price of Blackout.\n\n§6Default: §e200§r",
+  "gui.watheextended.config.category.items.label.poison_vial": "\uE209 Poison Vial",
+  "gui.watheextended.config.category.items.opt.poison_vial.price": "Shop price of the Poison Vial.\n\n§6Default: §e100§r",
+  "gui.watheextended.config.category.items.label.scorpion": "\uE217 Scorpion",
+  "gui.watheextended.config.category.items.opt.scorpion.price": "Shop price of the Scorpion.\n\n§6Default: §e50§r",
+  "gui.watheextended.config.category.items.label.firecracker": "\uE200 Firecracker",
+  "gui.watheextended.config.category.items.opt.firecracker.price": "Shop price of the Firecracker.\n\n§6Default: §e10§r",
+  "gui.watheextended.config.category.items.label.sulfuricacidbarrel": "\uE210 Sulfuric Acid Barrel",
+  "gui.watheextended.config.category.items.opt.sulfuricacidbarrel.cooldown": "Cooldown in seconds applied to the Sulfuric Acid Barrel after it is used.\n\n§6Default: §e60§r",
+  "gui.watheextended.config.category.items.label.huntingknife": "\uE202 Hunting Knife",
+  "gui.watheextended.config.category.items.opt.huntingknife.cooldown": "Cooldown in seconds applied to the Hunting Knife after it is used.\n\n§6Default: §e45§r",
+  "gui.watheextended.config.category.items.opt.huntingknife.price": "Price of the Hunting Knife in the Hunter's shop.\n\n§6Default: §e100§r",
+  "gui.watheextended.config.category.items.label.medicalkit": "\uE204 Medical Kit",
+  "gui.watheextended.config.category.items.opt.medicalkit.cooldown": "Cooldown in seconds applied to the Medical Kit after it is used.\n\n§6Default: §e60§r",
+  "gui.watheextended.config.category.items.label.pan": "\uE206 Pan",
+  "gui.watheextended.config.category.items.opt.pan.cooldown": "Cooldown in seconds applied to the Pan after it is used.\n\n§6Default: §e45§r",
+  "gui.watheextended.config.category.items.opt.pan.price": "Price of the Pan in the Cook's shop.\n\n§6Default: §e250§r",
+  "gui.watheextended.config.category.items.label.poisoninjector": "\uE208 Poison Injector",
+  "gui.watheextended.config.category.items.opt.poisoninjector.cooldown": "Cooldown in seconds applied to the Poison Injector after it is used.\n\n§6Default: §e60§r",
+  "gui.watheextended.config.category.items.opt.poisoninjector.price": "Price of the Poison Injector in the Drugmaker's shop.\n\n§6Default: §e125§r",
+  "gui.watheextended.config.category.items.label.pill": "\uE207 Pill",
+  "gui.watheextended.config.category.items.opt.pill.cooldown": "Cooldown in seconds applied to the Pill after it is used.\n\n§6Default: §e180§r",
+  "gui.watheextended.config.category.items.opt.pill.price": "Price of the Pill in the Physician's shop.\n\n§6Default: §e300§r",
+  "gui.watheextended.config.category.items.label.blowgun": "\uE10C Blowgun",
+  "gui.watheextended.config.category.items.opt.blowgun.cooldown": "Cooldown in seconds applied to the Blowgun after it is used.\n\n§6Default: §e60§r",
+  "gui.watheextended.config.category.items.opt.blowgun.price": "Price of the Blowgun in the Drugmaker's shop.\n\n§6Default: §e175§r",
+  "gui.watheextended.config.category.items.label.knockoutdrug": "\uE203 Knockout Drug",
+  "gui.watheextended.config.category.items.opt.knockoutdrug.cooldown": "Cooldown in seconds applied to the Knockout Drug after it is used.\n\n§6Default: §e60§r",
+  "gui.watheextended.config.category.items.opt.knockoutdrug.price": "Price of the Knockout Drug in the Kidnapper's shop.\n\n§6Default: §e75§r",
+
+
+
   "gui.watheextended.config.category.roles": "Roles",
   "gui.watheextended.config.category.roles.tooltip": "Control whenever enabling or disabling certain roles",
   "gui.watheextended.config.category.roles.desc": "ID: %s",
   "gui.watheextended.config.category.roles.empty": "No registered roles found!",
   "gui.watheextended.config.category.roles.error": "Failed to load roles!",
+
+
+
   "gui.watheextended.config.category.modifiers": "Modifiers",
   "gui.watheextended.config.category.modifiers.tooltip": "Control whenever enabling or disabling certain modifiers",
   "gui.watheextended.config.category.modifiers.desc": "ID: %s",
   "gui.watheextended.config.category.modifiers.empty": "No registered modifiers found!",
   "gui.watheextended.config.category.modifiers.error": "Failed to load modifiers!",
+
+
+
   "gui.watheextended.inventory.role": "Role:",
   "gui.watheextended.inventory.modifiers": "Modifiers: ",
   "gui.watheextended.inventory.no_modifiers": "No Modifiers",
@@ -430,6 +519,9 @@
   "gui.watheextended.inventory.bodymaker.reason": "Select the reason of the death.",
   "gui.watheextended.inventory.rolepicker.search": "Search...",
   "gui.watheextended.inventory.rolepicker.no_matches": "No matches",
+
+
+
   "gui.watheextended.guidebook.title": "Guidebook",
   "gui.watheextended.guidebook.tab.modifiers": "Modifiers",
   "gui.watheextended.guidebook.tab.roles": "Roles",
