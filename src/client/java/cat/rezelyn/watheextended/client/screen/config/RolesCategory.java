@@ -35,13 +35,13 @@ public final class RolesCategory {
             } else {
                 Map<String, RolesDisplay.RoleDisplay> roleName = RolesDisplay.get();
 
-                List<String> sorted = new ArrayList<>(roleId);
-                sorted.sort(Comparator.comparingInt(id -> {
+                List<String> roles = new ArrayList<>(roleId);
+                roles.sort(Comparator.comparingInt(id -> {
                     RolesDisplay.RoleDisplay d = roleName.get(id);
                     return d != null ? d.side().ordinal() : RolesDisplay.Side.NEUTRAL.ordinal();
                 }));
 
-                for (String id : sorted) {
+                for (String id : roles) {
                     RolesDisplay.RoleDisplay display = roleName.get(id);
                     Text label = display != null ? display.display().copy().styled(style -> style.withColor(display.color())) : Text.literal(RolesDisplay.localName(id));
 
@@ -51,7 +51,7 @@ public final class RolesCategory {
                     group.option(Option.<Boolean>createBuilder()
                             .name(Text.translatable("gui.watheextended.config.text.enabled"))
                             .description(OptionDescription.of(Text.literal(id).styled(style -> style.withColor(0x505050))))
-                            .binding(state, () -> pendingState.containsKey(id) ? pendingState.get(id) : !ConfigHelper.getDisabledModifiers().contains(id), enabled -> {
+                            .binding(state, () -> pendingState.containsKey(id) ? pendingState.get(id) : !ConfigHelper.getDisabledRoles().contains(id), enabled -> {
                                 pendingState.put(id, enabled);
                                 sendCommand.accept("setEnabledModifier " + id + " " + enabled, parent);
                             })
