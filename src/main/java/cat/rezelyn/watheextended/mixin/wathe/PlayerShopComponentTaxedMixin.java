@@ -25,17 +25,23 @@ public class PlayerShopComponentTaxedMixin {
     private int watheextended$applyTax(int amount) {
         try {
             if (amount <= 0) return amount;
-            if (!(player instanceof ServerPlayerEntity sp)) return amount;
-            ServerWorld world = sp.getServerWorld();
-            GameWorldComponent gwc = GameWorldComponent.KEY.get(world);
-            if (!gwc.isRunning()) return amount;
-            // only affect players that can use killer features
-            if (!gwc.canUseKillerFeatures(sp)) return amount;
-            WorldModifierComponent wmc = WorldModifierComponent.KEY.get(world);
-            if (!wmc.isModifier(sp, WatheExtendedModifiers.TAXED)) return amount;
-            AdaptiveModifier.KillContext ctx = AdaptiveModifier.CURRENT_KILL.get();
-            if (ctx == null || !ctx.killerUuid().equals(sp.getUuid())) return amount;
-            return TaxedModifier.applyTaxIfEligible(sp.getUuid(), amount);
+            if (!(this.player instanceof ServerPlayerEntity player)) return amount;
+
+            ServerWorld world = player.getServerWorld();
+            GameWorldComponent game = GameWorldComponent.KEY.get(world);
+
+            if (!game.isRunning()) return amount;
+            if (!game.canUseKillerFeatures(player)) return amount;
+
+            WorldModifierComponent modifier = WorldModifierComponent.KEY.get(world);
+
+            if (!modifier.isModifier(player, WatheExtendedModifiers.TAXED)) return amount;
+
+            AdaptiveModifier.KillContext kill = AdaptiveModifier.CURRENT_KILL.get();
+
+            if (kill == null || !kill.killerUuid().equals(player.getUuid())) return amount;
+
+            return TaxedModifier.applyTaxIfEligible(player.getUuid(), amount);
         } catch (Throwable t) {
             return amount;
         }

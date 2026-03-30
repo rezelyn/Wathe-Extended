@@ -27,7 +27,7 @@
       "cat.rezelyn.watheextended.WatheExtended"
     ],
     "cardinal-components": [
-      "cat.rezelyn.watheextended.cca.WatheExtendedComponents"
+      "cat.rezelyn.watheextended.component.WatheExtendedComponents"
     ]
   },
   "mixins": [

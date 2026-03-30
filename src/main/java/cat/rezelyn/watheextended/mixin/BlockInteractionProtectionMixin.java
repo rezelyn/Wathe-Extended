@@ -1,8 +1,8 @@
 package cat.rezelyn.watheextended.mixin;
 
-import cat.rezelyn.watheextended.api.wathe.MapVariables;
+import cat.rezelyn.watheextended.api.MapVariables;
 import cat.rezelyn.watheextended.block.ProtectedBlocks;
-import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
+import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
 import dev.doctor4t.wathe.block.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -26,8 +26,8 @@ public class BlockInteractionProtectionMixin {
     @Inject(method = "interactBlock", at = @At("HEAD"), cancellable = true)
     private void watheExtended$blockInteraction(ServerPlayerEntity player, World world, net.minecraft.item.ItemStack stack, net.minecraft.util.Hand hand, BlockHitResult hitResult, CallbackInfoReturnable<ActionResult> cir) {
         try {
-            WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(world);
-            if (!wec.isBlockInteractionsProtected()) return;
+            WatheExtendedWorldComponent component = WatheExtendedWorldComponent.KEY.get(world);
+            if (!component.isBlockInteractionsProtected()) return;
 
             BlockPos pos = hitResult.getBlockPos();
             BlockState state = world.getBlockState(pos);

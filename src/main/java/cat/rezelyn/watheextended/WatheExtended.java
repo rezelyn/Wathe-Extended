@@ -1,9 +1,9 @@
 package cat.rezelyn.watheextended;
 
-import cat.rezelyn.watheextended.api.ConfigSync;
-import cat.rezelyn.watheextended.api.ServerConfig;
-import cat.rezelyn.watheextended.api.wathe.GameStatus;
-import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
+import cat.rezelyn.watheextended.api.config.ConfigSync;
+import cat.rezelyn.watheextended.api.config.ServerConfig;
+import cat.rezelyn.watheextended.api.GameStatus;
+import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.command.*;
 import cat.rezelyn.watheextended.game.*;
 import cat.rezelyn.watheextended.index.*;
@@ -79,12 +79,12 @@ public class WatheExtended implements ModInitializer {
         // integrations
         PronounsManager.load();
         WatheExtendedModifiers.initialize();
-        cat.rezelyn.watheextended.api.hml.ConfigHelper.registerEntries();
-        cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.registerEntries();
-        cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.registerEntries();
-        cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.registerEntries();
-        cat.rezelyn.watheextended.api.starexpress.ConfigHelper.registerEntries();
-        cat.rezelyn.watheextended.api.shooterpunishments.ConfigHelper.registerEntries();
+        cat.rezelyn.watheextended.api.config.hml.ConfigHelper.registerEntries();
+        cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.registerEntries();
+        cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.registerEntries();
+        cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper.registerEntries();
+        cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.registerEntries();
+        cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper.registerEntries();
 
         // core
         registerServerConfigEntries();
@@ -96,7 +96,7 @@ public class WatheExtended implements ModInitializer {
 
         // commands
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            WatheExtendedMapVariablesCommand.register(dispatcher);
+            MapVariablesCommand.register(dispatcher);
             TeleportationSlotsCommand.register(dispatcher);
             GamemodeRulesCommand.register(dispatcher);
             AddonsConfigCommand.register(dispatcher);
@@ -247,7 +247,7 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.blackout.price", 200,
                 WatheExtendedServerConfig::getBlackoutPrice,
                 v -> { WatheExtendedServerConfig.setBlackoutPrice(v); applyShopPrices(); }));
-        if (cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) {
+        if (cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) {
             ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.sulfuricAcidBarrel.cooldown", 60,
                     WatheExtendedServerConfig::getSulfuricAcidBarrelCooldown,
                     v -> { WatheExtendedServerConfig.setSulfuricAcidBarrelCooldown(v); putKinsWatheCooldown("sulfuric_acid_barrel", v); }));
@@ -301,7 +301,7 @@ public class WatheExtended implements ModInitializer {
         GameConstants.ITEM_COOLDOWNS.put(WatheItems.CROWBAR, WatheExtendedServerConfig.crowbarCooldown * 20);
         GameConstants.ITEM_COOLDOWNS.put(WatheItems.BODY_BAG, WatheExtendedServerConfig.bodyBagCooldown * 20);
         GameConstants.ITEM_COOLDOWNS.put(WatheItems.BLACKOUT, WatheExtendedServerConfig.blackoutCooldown * 20);
-        if (cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) {
+        if (cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) {
             applyKinsWatheItemCooldowns();
             applyKinsWatheShopPrices();
         }
@@ -319,7 +319,7 @@ public class WatheExtended implements ModInitializer {
     }
 
     private static void applyKinsWatheShopPrices() {
-        if (!cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) return;
+        if (!cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) return;
         try {
             Class<?> cls = Class.forName("org.BsXinQin.kinswathe.KinsWatheConfig");
             Object handler = cls.getField("HANDLER").get(null);
@@ -335,7 +335,7 @@ public class WatheExtended implements ModInitializer {
     }
 
     private static void applyKinsWatheWorldPrices(World world) {
-        if (!cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) return;
+        if (!cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) return;
         try {
             Class<?> cwcCls = Class.forName("org.BsXinQin.kinswathe.component.ConfigWorldComponent");
             Object key = cwcCls.getField("KEY").get(null);
@@ -434,7 +434,7 @@ public class WatheExtended implements ModInitializer {
                         joining.changeGameMode(GameMode.SPECTATOR);
                     }
 
-                    PlayerItemManager.applyItemState(joining, overworld, gwc.getGameStatus());
+                    PlayerItemManager.applyItemState(joining, overworld);
                 } catch (Throwable ignored) {}
             });
         });
@@ -451,14 +451,14 @@ public class WatheExtended implements ModInitializer {
             AdaptiveModifier.clearAll();
             TaxedModifier.clearAll();
             if (world instanceof ServerWorld sw) FeatherModifierFix.applyOnGameStart(sw);
-            if (cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) {
+            if (cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) {
                 applyKinsWatheShopPrices();
                 applyKinsWatheWorldPrices(world);
             }
-            if (cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.isLoaded()) {
+            if (cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.isLoaded()) {
                 AwesomeBinglusNote.applyOnGameStart(world, gameWorldComponent);
             }
-            if (cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.isLoaded()) {
+            if (cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper.isLoaded()) {
                 try {
                     WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(world);
                     if (wec.isForbiddenLoversEnabled()) {
@@ -496,7 +496,7 @@ public class WatheExtended implements ModInitializer {
             TeleportationHandler.tick(serverWorld, status, worldTime);
 
             if (worldTime % 20 == 0) {
-                PlayerItemManager.tickAll(serverWorld, status);
+                PlayerItemManager.tickAll(serverWorld);
             }
 
             if (status == GameWorldComponent.GameStatus.ACTIVE && worldTime % 5 == 0) {

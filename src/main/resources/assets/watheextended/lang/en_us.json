@@ -87,7 +87,10 @@
   "tooltip.watheextended.item.blowgun": "Right-click to shoot a poison dart\nPoisons the target from a distance",
   "tooltip.watheextended.item.knockout_drug": "Right-click on a player to daze them\nThey will follow you blindly and cannot speak or interact",
   "tooltip.watheextended.item.cooldown": "⏱ %s",
-
+  "tooltip.watheextended.item.cooldown.second": "second",
+  "tooltip.watheextended.item.cooldown.seconds": "seconds",
+  "tooltip.watheextended.item.cooldown.minute": "minute",
+  "tooltip.watheextended.item.cooldown.minutes": "minutes",
 
 
   "announcement.modifier.watheextended.introverted": "Introverted",
@@ -135,13 +138,13 @@
   "gui.watheextended.config.category.client.opt.staminabar": "Stamina Bar",
   "gui.watheextended.config.category.client.opt.staminabar.desc": "When enabled, displays the stamina bar HUD element.\n\n§6Default: §cOFF",
   "gui.watheextended.config.category.client.label.visual": "Visuals",
-  "gui.watheextended.config.category.client.opt.disablescreenshake": "Disable Screen Shake",
-  "gui.watheextended.config.category.client.opt.disablescreenshake.desc": "When checked, disables the screen shake effect completely.\n\n§6Default: §cOFF",
-  "gui.watheextended.config.category.client.opt.fog": "Toggle Fog",
+  "gui.watheextended.config.category.client.opt.screenshake": "Screen Shake",
+  "gui.watheextended.config.category.client.opt.screenshake.desc": "Toggle the screen shake effect completely.\n\n§6Default: §aON",
+  "gui.watheextended.config.category.client.opt.fog": "Fog",
   "gui.watheextended.config.category.client.opt.fog.desc": "Toggle Wathe's custom fog rendering to enhance scenery immersion.\n\n§6Default: §aON",
-  "gui.watheextended.config.category.client.opt.hud": "Toggle HUD",
+  "gui.watheextended.config.category.client.opt.hud": "HUD",
   "gui.watheextended.config.category.client.opt.hud.desc": "Toggle custom HUD elements, like the mood meter, timer, coin counter...\n\n§6Default: §aON",
-  "gui.watheextended.config.category.client.opt.snowflakes": "Toggle Snowflakes",
+  "gui.watheextended.config.category.client.opt.snowflakes": "Snowflakes",
   "gui.watheextended.config.category.client.opt.snowflakes.desc": "Toggle the rendering of custom snowflake particles that appear during gameplay.\n\n§6Default: §aON",
   "gui.watheextended.config.category.client.opt.ultraperfmode": "Ultra Performance Mode",
   "gui.watheextended.config.category.client.opt.ultraperfmode.desc": "When enabled, completely disable the scenery to improve performance during a game.\n\n§6Default: §cOFF",
@@ -310,6 +313,10 @@
   "gui.watheextended.config.category.items.label.knockoutdrug": "\uE203 Knockout Drug",
   "gui.watheextended.config.category.items.opt.knockoutdrug.cooldown": "Cooldown in seconds applied to the Knockout Drug after it is used.\n\n§6Default: §e60§r",
   "gui.watheextended.config.category.items.opt.knockoutdrug.price": "Price of the Knockout Drug in the Kidnapper's shop.\n\n§6Default: §e75§r",
+  "gui.watheextended.config.category.items.label.defense_vial": "Defense Vial",
+  "gui.watheextended.config.category.items.opt.defense_vial.price": "Price of the Defense Vial in the Pharmacist's shop.\n\n§6Default: §e200§r",
+  "gui.watheextended.config.category.items.label.role_mine": "Role Mine",
+  "gui.watheextended.config.category.items.opt.role_mine.price": "Price of the Role Mine in the Trapper's shop.\n\n§6Default: §e100§r",
 
 
 
@@ -442,7 +449,7 @@
 
 
   "gui.watheextended.inventory.role": "Role:",
-  "gui.watheextended.inventory.modifiers": "Modifiers: ",
+  "gui.watheextended.inventory.modifiers": "Modifiers:",
   "gui.watheextended.inventory.no_modifiers": "No Modifiers",
   "gui.watheextended.inventory.guesser.guess": "Select a player to guess their role.",
   "gui.watheextended.inventory.swapper.swap": "Select two players to swap them.",
@@ -537,7 +544,7 @@
   "gui.watheextended.guidebook.role.abilities.kinswathe.licensed_villain": "{icon:nemesis} §lUnsentimental§r\nCan shoot at any passengers without ever dropping their Revolver",
   "gui.watheextended.guidebook.role.abilities.kinswathe.physician": "{icon:sense} §lPoison Sense§r\nSee players who've recently been poisoned through walls.",
   "gui.watheextended.guidebook.role.abilities.kinswathe.robot": "{icon:last_words} §lReboot§r\nWhen triggered, you will have the ability to see in the dark for a short period of time.\n\n{icon:undercover} §lMachine§r\nYou don't have any emotions, no mood system. You're also immune to poisoning.\n\n{icon:athletic} §lAthletic§r\nHas infinite stamina.",
-  "gui.watheextended.guidebook.role.abilities.noellesroles.awesome_binglus": "{icon:instinct} §lInstinct§r\nSee §lNotes§r through walls.",
+  "gui.watheextended.guidebook.role.abilities.noellesroles.awesome_binglus": "{icon:instinct} §lInstinct§r\nSee Notes through walls.",
   "gui.watheextended.guidebook.role.abilities.noellesroles.bartender": "{icon:sense} §lCocktail Sense§r\nSee players who've recently consumed a cocktail and players that have a §9Defense Shield§r through walls.",
   "gui.watheextended.guidebook.role.abilities.noellesroles.coroner": "{icon:autopsy} §lAutopsy§r\nInspect a dead body to learn the victim's role, cause of death, and time of death.",
   "gui.watheextended.guidebook.role.abilities.noellesroles.executioner": "{icon:nemesis} §lTarget§r\nA random target is assigned at game start. Work to ensure their death, the target needs to be killed by another Innocent in order for you to become a random §4Killer Role§r.",

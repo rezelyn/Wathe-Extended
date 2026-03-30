@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.mixin.client.wathe;
 
-import cat.rezelyn.watheextended.api.noellesroles.ConfigHelper;
+import cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper;
 import cat.rezelyn.watheextended.client.pronouns.PronounsCache;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
 import dev.doctor4t.wathe.client.WatheClient;
@@ -29,8 +29,8 @@ public class RoleNameRendererMixin {
     private static float nametagAlpha;
 
     @WrapOperation(method = "renderHud", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)I", ordinal = 1))
-    private static int watheextended$lowerCohortText(DrawContext ctx, TextRenderer renderer, Text text, int x, int y, int color, Operation<Integer> op) {
-        return op.call(ctx, renderer, text, x, y + 10, color);
+    private static int watheextended$lowerCohortText(DrawContext context, TextRenderer renderer, Text text, int x, int y, int color, Operation<Integer> op) {
+        return op.call(context, renderer, text, x, y + 10, color);
     }
 
     @Inject(method = "renderHud", at = @At("TAIL"))
@@ -43,11 +43,13 @@ public class RoleNameRendererMixin {
         if (!(ProjectileUtil.getCollision(player, entity -> entity instanceof PlayerEntity, range) instanceof EntityHitResult hit && hit.getEntity() instanceof PlayerEntity target))
             return;
 
+        // ignore psycho mode
         try {
             if (PlayerPsychoComponent.KEY.get(target).getPsychoTicks() > 0) return;
         } catch (Throwable ignored) {
         }
 
+        // compat: noelle's roles morph psychosis
         if (ConfigHelper.isLoaded() && ConfigHelper.getInsanePlayersSeeMorphs(player.getWorld()) && WatheClient.moodComponent != null && WatheClient.moodComponent.isLowerThanDepressed()) {
             return;
         }

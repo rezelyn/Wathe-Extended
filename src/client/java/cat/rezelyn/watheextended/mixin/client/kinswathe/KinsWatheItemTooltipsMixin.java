@@ -1,7 +1,7 @@
 package cat.rezelyn.watheextended.mixin.client.kinswathe;
 
-import cat.rezelyn.watheextended.api.ClientConfig;
-import cat.rezelyn.watheextended.api.kinswathe.ConfigHelper;
+import cat.rezelyn.watheextended.api.config.ClientConfig;
+import cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.Registries;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
@@ -38,8 +39,8 @@ public class KinsWatheItemTooltipsMixin {
 
         List<Text> activeCooldownLines = new java.util.ArrayList<>();
         for (int i = 1; i < lines.size(); i++) {
-            net.minecraft.text.Style s = lines.get(i).getStyle();
-            if (s.getColor() != null && s.getColor().getRgb() == 0xC90000) {
+            Style style = lines.get(i).getStyle();
+            if (style.getColor() != null && style.getColor().getRgb() == 0xC90000) {
                 activeCooldownLines.add(lines.get(i));
             }
         }
@@ -100,11 +101,14 @@ public class KinsWatheItemTooltipsMixin {
 
     @Unique
     private static String formatCooldown(int seconds) {
-        if (seconds < 60) return seconds + (seconds == 1 ? " second" : " seconds");
+        String sec = Text.translatable(seconds == 1 ? "tooltip.watheextended.item.cooldown.second" : "tooltip.watheextended.item.cooldown.seconds").getString();
+        if (seconds < 60) return seconds + " " + sec;
         int minutes = seconds / 60;
         int remaining = seconds % 60;
-        String minPart = minutes + (minutes == 1 ? " minute" : " minutes");
+        String min = Text.translatable(minutes == 1 ? "tooltip.watheextended.item.cooldown.minute" : "tooltip.watheextended.item.cooldown.minutes").getString();
+        String minPart = minutes + " " + min;
         if (remaining == 0) return minPart;
-        return minPart + " " + remaining + (remaining == 1 ? " second" : " seconds");
+        String remSec = Text.translatable(remaining == 1 ? "tooltip.watheextended.item.cooldown.second" : "tooltip.watheextended.item.cooldown.seconds").getString();
+        return minPart + " " + remaining + " " + remSec;
     }
 }

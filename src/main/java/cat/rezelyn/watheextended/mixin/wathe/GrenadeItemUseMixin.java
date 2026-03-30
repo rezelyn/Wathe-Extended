@@ -17,9 +17,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class GrenadeItemUseMixin {
 
     @Inject(method = "use", at = @At("TAIL"))
-    private void watheextended$applyGrenadeCooldown(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir) {
-        if (!user.isCreative()) {
-            user.getItemCooldownManager().set((Item) (Object) this, WatheExtendedServerConfig.grenadeCooldown * 20);
+    private void watheextended$applyGrenadeCooldown(World world, PlayerEntity player, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir) {
+        if (!player.isCreative()) {
+            player.getItemCooldownManager().set((Item) (Object) this, WatheExtendedServerConfig.grenadeCooldown * 20);
         }
     }
 }

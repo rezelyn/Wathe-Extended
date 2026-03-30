@@ -1,7 +1,7 @@
 package cat.rezelyn.watheextended.mixin.client;
 
-import cat.rezelyn.watheextended.api.ClientConfig;
-import cat.rezelyn.watheextended.client.screen.guidebook.GuidebookIcons;
+import cat.rezelyn.watheextended.api.config.ClientConfig;
+import cat.rezelyn.watheextended.client.screen.ScreenUtils;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -46,16 +46,16 @@ public class AbilityHudOverrideMixin {
     @Unique
     private void watheextended$handleAbilityHud(TextRenderer renderer, Text text, int color, CallbackInfoReturnable<Integer> cir) {
 
-        if (!(text.getContent() instanceof TranslatableTextContent ttc)) return;
+        if (!(text.getContent() instanceof TranslatableTextContent content)) return;
 
-        String key = ttc.getKey();
-        Object[] args = ttc.getArgs();
-        DrawContext ctx = (DrawContext) (Object) this;
+        String key = content.getKey();
+        Object[] args = content.getArgs();
+        DrawContext context = (DrawContext) (Object) this;
 
         // cleaner player limit
         if (CLEANER_ABILITY_KEYS.contains(key) && watheextended$isCleanerAbilityDisabledByLimit()) {
-            MutableText styled = Text.literal("§6⚠ §eAbility disabled!");
-            cir.setReturnValue(watheextended$drawAbilityHudText(ctx, renderer, styled, color));
+            MutableText styled = Text.literal("§6⚠  ").append(Text.translatable("gui.watheextended.hud.ability.disabled").formatted(Formatting.YELLOW));
+            cir.setReturnValue(watheextended$drawAbilityHudText(context, renderer, styled, color));
             return;
         }
 
@@ -63,8 +63,8 @@ public class AbilityHudOverrideMixin {
         if (ABILITY_READY_KEYS.contains(key)) {
             if (args == null || args.length == 0) return;
             String keybind = args[0] instanceof Text t ? t.getString() : String.valueOf(args[0]);
-            MutableText styled = Text.literal("§2✔ ").append(Text.translatable("gui.watheextended.ability.ready").formatted(Formatting.GREEN)).append(Text.literal(" §8[§7" + keybind + "§8]"));
-            cir.setReturnValue(watheextended$drawAbilityHudText(ctx, renderer, styled, color));
+            MutableText styled = Text.literal("§2✔ ").append(Text.translatable("gui.watheextended.hud.ability.ready").formatted(Formatting.GREEN)).append(Text.literal(" §8[§7" + keybind + "§8]"));
+            cir.setReturnValue(watheextended$drawAbilityHudText(context, renderer, styled, color));
         }
 
         // cooldown
@@ -72,15 +72,15 @@ public class AbilityHudOverrideMixin {
             if (args == null || args.length == 0) return;
             String seconds = String.valueOf(args[0]);
             MutableText styled = Text.literal("§4⏱ §c" + seconds + "s");
-            cir.setReturnValue(watheextended$drawAbilityHudText(ctx, renderer, styled, color));
+            cir.setReturnValue(watheextended$drawAbilityHudText(context, renderer, styled, color));
         }
 
         // cost
         else if (ABILITY_COST_KEYS.contains(key)) {
             if (args == null || args.length == 0) return;
             String price = args[0] instanceof Text t ? t.getString() : String.valueOf(args[0]);
-            MutableText styled = Text.literal("§4✘ §c" + price).append(GuidebookIcons.icon("coin"));
-            cir.setReturnValue(watheextended$drawAbilityHudText(ctx, renderer, styled, color));
+            MutableText styled = Text.literal("§4✘ §c" + price).append(ScreenUtils.icon("coin"));
+            cir.setReturnValue(watheextended$drawAbilityHudText(context, renderer, styled, color));
         }
 
         // progress (noellesroles:vulture)
@@ -89,7 +89,7 @@ public class AbilityHudOverrideMixin {
             String eaten = String.valueOf(args[0]);
             String required = String.valueOf(args[1]);
             MutableText styled = Text.literal("☠ " + eaten + "/" + required);
-            cir.setReturnValue(watheextended$drawAbilityHudText(ctx, renderer, styled, 0xB56700));
+            cir.setReturnValue(watheextended$drawAbilityHudText(context, renderer, styled, 0xB56700));
         }
 
         // progress (kinswathe:dreamer)
@@ -98,32 +98,32 @@ public class AbilityHudOverrideMixin {
             String counts = String.valueOf(args[0]);
             String required = String.valueOf(args[1]);
             MutableText styled = Text.literal("✦ " + counts + "/" + required);
-            cir.setReturnValue(watheextended$drawAbilityHudText(ctx, renderer, styled, 0xE5CCFF));
+            cir.setReturnValue(watheextended$drawAbilityHudText(context, renderer, styled, 0xE5CCFF));
         }
     }
 
     @Unique
     private boolean watheextended$isCleanerAbilityDisabledByLimit() {
         try {
-            MinecraftClient mc = MinecraftClient.getInstance();
-            if (mc.world == null || mc.player == null) return false;
+            MinecraftClient client = MinecraftClient.getInstance();
+            if (client.world == null || client.player == null) return false;
             int limit = ClientConfig.getInt("watheextended.cleaner.playerLimit", 0);
             if (limit <= 0) return false;
-            Role role = GameWorldComponent.KEY.get(mc.world).getRole(mc.player);
+            Role role = GameWorldComponent.KEY.get(client.world).getRole(client.player);
             if (role == null || !role.identifier().toString().equals("kinswathe:cleaner")) return false;
-            long aliveCount = mc.world.getPlayers().stream().filter(p -> !p.isSpectator() && !p.isCreative()).count();
+            long aliveCount = client.world.getPlayers().stream().filter(p -> !p.isSpectator() && !p.isCreative()).count();
             return aliveCount < limit;
-        } catch (Throwable t) {
+        } catch (Throwable throwable) {
             return false;
         }
     }
 
     @Unique
-    private static int watheextended$drawAbilityHudText(DrawContext ctx, TextRenderer renderer, MutableText styled, int color) {
+    private static int watheextended$drawAbilityHudText(DrawContext context, TextRenderer renderer, MutableText styled, int color) {
         try {
-            MinecraftClient mc = MinecraftClient.getInstance();
-            if (mc.world != null) {
-                int fade = GameWorldComponent.KEY.get(mc.world).getFade();
+            MinecraftClient client = MinecraftClient.getInstance();
+            if (client.world != null) {
+                int fade = GameWorldComponent.KEY.get(client.world).getFade();
                 if (fade > 0) {
                     int alpha = (int)(255.0f * Math.max(0.0f, 1.0f - fade / (float) GameConstants.FADE_TIME));
                     if (alpha <= 3) return 0;
@@ -132,9 +132,9 @@ public class AbilityHudOverrideMixin {
             }
         } catch (Throwable ignored) {}
 
-        int width = ctx.getScaledWindowWidth();
-        int height = ctx.getScaledWindowHeight();
-        int sw = renderer.getWidth(styled);
-        return ctx.drawText(renderer, styled, width - sw - 5, height - 12, color, true);
+        int width = context.getScaledWindowWidth();
+        int height = context.getScaledWindowHeight();
+        int styledWidth = renderer.getWidth(styled);
+        return context.drawText(renderer, styled, width - styledWidth - 5, height - 12, color, true);
     }
 }

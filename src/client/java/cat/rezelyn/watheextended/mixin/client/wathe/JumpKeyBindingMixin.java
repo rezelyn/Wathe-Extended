@@ -1,7 +1,7 @@
 package cat.rezelyn.watheextended.mixin.client.wathe;
 
-import cat.rezelyn.watheextended.api.ClientConfig;
-import cat.rezelyn.watheextended.api.wathe.GameStatus;
+import cat.rezelyn.watheextended.api.config.ClientConfig;
+import cat.rezelyn.watheextended.api.GameStatus;
 import dev.doctor4t.wathe.client.WatheClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
@@ -38,8 +38,8 @@ public class JumpKeyBindingMixin {
 
         String mode = ClientConfig.getString("watheextended.jumpMode", "DEFAULT");
         boolean allowJump = "EVERYWHERE".equals(mode) || ("LOBBY".equals(mode) && !GameStatus.State(client.world));
-        boolean wasActuallyPressed = this.timesPressed > 0;
-        if (wasActuallyPressed) this.timesPressed--;
-        cir.setReturnValue(allowJump && wasActuallyPressed);
+        boolean pressed = this.timesPressed > 0;
+        if (pressed) this.timesPressed--;
+        cir.setReturnValue(allowJump && pressed);
     }
 }

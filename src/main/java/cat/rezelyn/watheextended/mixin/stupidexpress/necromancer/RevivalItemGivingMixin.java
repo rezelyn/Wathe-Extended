@@ -30,8 +30,8 @@ public class RevivalItemGivingMixin {
         PlayerEntity revivedPlayer = serverWorld.getPlayerByUuid(body.getPlayerUuid());
         if (revivedPlayer == null) return;
 
-        GameWorldComponent gwc = GameWorldComponent.KEY.get(world);
-        Role assignedRole = gwc.getRole(revivedPlayer);
+        GameWorldComponent role = GameWorldComponent.KEY.get(world);
+        Role assignedRole = role.getRole(revivedPlayer);
         if (assignedRole == null) return;
 
         ModdedRoleAssigned.EVENT.invoker().assignModdedRole(revivedPlayer, assignedRole);

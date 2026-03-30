@@ -26,8 +26,8 @@ public class IshPlushBlock extends PlushBlock {
         world.playSound(player, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, RatatouilleSounds.BLOCK_RAT_MAID_PLUSH_HONK, SoundCategory.BLOCKS, 0.5f, 1.0f);
         world.playSound(player, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, WatheExtendedSounds.ISH_PLUSH, SoundCategory.BLOCKS, 2.0f, 1.0f); // meow :3
         if (!world.isClient()) {
-            BlockEntity be = world.getBlockEntity(pos);
-            if (be instanceof IshPlushBlockEntity plushBE) {
+            BlockEntity block = world.getBlockEntity(pos);
+            if (block instanceof IshPlushBlockEntity plushBE) {
                 plushBE.squish(1);
             }
         }
@@ -37,8 +37,8 @@ public class IshPlushBlock extends PlushBlock {
     @Override
     public void onBlockBreakStart(BlockState state, World world, BlockPos pos, PlayerEntity player) {
         if (!world.isClient()) {
-            BlockEntity be = world.getBlockEntity(pos);
-            if (be instanceof IshPlushBlockEntity plushBE) {
+            BlockEntity block = world.getBlockEntity(pos);
+            if (block instanceof IshPlushBlockEntity plushBE) {
                 plushBE.squish(24);
             }
         }
@@ -46,8 +46,8 @@ public class IshPlushBlock extends PlushBlock {
 
     @Override
     protected void spawnBreakParticles(World world, PlayerEntity player, BlockPos pos, BlockState state) {
-        BlockEntity be = world.getBlockEntity(pos);
-        if (be instanceof IshPlushBlockEntity plushBE) {
+        BlockEntity block = world.getBlockEntity(pos);
+        if (block instanceof IshPlushBlockEntity plushBE) {
             plushBE.squish(4);
         }
         super.spawnBreakParticles(world, player, pos, state);

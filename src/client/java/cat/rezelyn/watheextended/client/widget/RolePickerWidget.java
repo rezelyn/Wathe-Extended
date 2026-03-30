@@ -69,30 +69,29 @@ public class RolePickerWidget extends ClickableWidget {
     }
 
     @Override
-    protected void renderWidget(DrawContext ctx, int mouseX, int mouseY, float delta) {
+    protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
         updateScrollSmooth(delta);
         int x0 = getX(), y0 = getY(), x1 = x0 + width, y1 = y0 + height;
-        TextRenderer tr = MinecraftClient.getInstance().textRenderer;
+        TextRenderer render = MinecraftClient.getInstance().textRenderer;
 
-        ctx.fillGradient(x0, y0, x1, y1, COLOR_BORDER_TOP, COLOR_BORDER_BOTTOM);
-        ctx.fill(x0 + 1, y0 + 1, x1 - 1, y1 - 1, COLOR_BACKGROUND);
-        ctx.fill(x0 + 1, y0 + 1, x1 - 1, y0 + SEARCH_H, COLOR_BACKGROUND);
+        context.fillGradient(x0, y0, x1, y1, COLOR_BORDER_TOP, COLOR_BORDER_BOTTOM);
+        context.fill(x0 + 1, y0 + 1, x1 - 1, y1 - 1, COLOR_BACKGROUND);
+        context.fill(x0 + 1, y0 + 1, x1 - 1, y0 + SEARCH_H, COLOR_BACKGROUND);
 
-        Text displayText;
+        Text text;
         int searchColor;
 
         if (searchFilter.isEmpty()) {
-            displayText = Text.translatable("gui.watheextended.inventory.rolepicker.search");
+            text = Text.translatable("gui.watheextended.inventory.rolepicker.search");
             searchColor = COLOR_HINT;
         } else {
-            displayText = Text.literal(isFocused() ? searchFilter + "|" : searchFilter);
+            text = Text.literal(isFocused() ? searchFilter + "|" : searchFilter);
             searchColor = 0xFFFFFFFF;
         }
 
-        ctx.drawTextWithShadow(tr, displayText, x0 + PAD + 2, y0 + (SEARCH_H - tr.fontHeight) / 2 + 1, searchColor);
-
-        ctx.fill(x0 + 1, y0 + SEARCH_H, x1 - 1, y0 + SEARCH_H + SEP_H, COLOR_BORDER_TOP);
-        ctx.enableScissor(x0 + 1, listTop(), x1 - 1, listBottom());
+        context.drawTextWithShadow(render, text, x0 + PAD + 2, y0 + (SEARCH_H - render.fontHeight) / 2 + 1, searchColor);
+        context.fill(x0 + 1, y0 + SEARCH_H, x1 - 1, y0 + SEARCH_H + SEP_H, COLOR_BORDER_TOP);
+        context.enableScissor(x0 + 1, listTop(), x1 - 1, listBottom());
 
         List<RoleEntry> entries = filtered();
         int y = listTop() - (int) scrollSmooth;
@@ -100,41 +99,41 @@ public class RolePickerWidget extends ClickableWidget {
             if (y + ENTRY_H > listTop() && y < listBottom()) {
                 boolean hovered = mouseX >= x0 && mouseX < x1 && mouseY >= y && mouseY < y + ENTRY_H;
                 if (hovered) {
-                    ctx.fill(x0 + 1, y, x1 - 1, y + ENTRY_H, COLOR_HOVER);
+                    context.fill(x0 + 1, y, x1 - 1, y + ENTRY_H, COLOR_HOVER);
                 }
-                int textY = y + (ENTRY_H - tr.fontHeight) / 2;
-                ctx.drawTextWithShadow(tr, entry.label(), x0 + PAD + 2, textY, entry.color());
+                int textY = y + (ENTRY_H - render.fontHeight) / 2;
+                context.drawTextWithShadow(render, entry.label(), x0 + PAD + 2, textY, entry.color());
             }
             y += ENTRY_H;
         }
 
-        ctx.disableScissor();
+        context.disableScissor();
 
         if (entries.isEmpty()) {
             Text hint = Text.translatable("gui.watheextended.inventory.rolepicker.no_matches");
-            int hx = x0 + (width - tr.getWidth(hint)) / 2;
-            int hy = listTop() + (listH() - tr.fontHeight) / 2;
-            ctx.drawTextWithShadow(tr, hint, hx, hy, COLOR_HINT);
+            int hintX = x0 + (width - render.getWidth(hint)) / 2;
+            int hintY = listTop() + (listH() - render.fontHeight) / 2;
+            context.drawTextWithShadow(render, hint, hintX, hintY, COLOR_HINT);
         }
     }
 
     @Override
-    public boolean mouseClicked(double mx, double my, int button) {
-        if (!visible || !isMouseOver(mx, my)) return false;
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (!visible || !isMouseOver(mouseX, mouseY)) return false;
         setFocused(true);
 
-        if (button == 1 && my >= listTop()) {
+        if (button == 1 && mouseY >= listTop()) {
             isDragging = true;
-            dragAnchorY = (int) my;
+            dragAnchorY = (int) mouseY;
             dragAnchorScroll = scrollTarget;
             return true;
         }
 
-        if (button == 0 && my >= listTop()) {
+        if (button == 0 && mouseY >= listTop()) {
             List<RoleEntry> entries = filtered();
             int y = listTop() - (int) scrollSmooth;
             for (RoleEntry entry : entries) {
-                if (my >= y && my < y + ENTRY_H) {
+                if (mouseY >= y && mouseY < y + ENTRY_H) {
                     onSelect.accept(entry.sendValue());
                     return true;
                 }
@@ -145,23 +144,23 @@ public class RolePickerWidget extends ClickableWidget {
     }
 
     @Override
-    public boolean mouseDragged(double mx, double my, int button, double dx, double dy) {
+    public boolean mouseDragged(double mouseX, double mouseY, int button, double dx, double dy) {
         if (!visible || !isDragging || button != 1) return false;
-        int dragDelta = dragAnchorY - (int) my; // drag up → scroll down
+        int delta = dragAnchorY - (int) mouseY; // drag up → scroll down
         int max = Math.max(0, filtered().size() * ENTRY_H - listH());
-        scrollTarget = Math.max(0, Math.min(dragAnchorScroll + dragDelta, max));
+        scrollTarget = Math.max(0, Math.min(dragAnchorScroll + delta, max));
         return true;
     }
 
     @Override
-    public boolean mouseReleased(double mx, double my, int button) {
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
         if (button == 1) isDragging = false;
-        return super.mouseReleased(mx, my, button);
+        return super.mouseReleased(mouseX, mouseY, button);
     }
 
     @Override
-    public boolean mouseScrolled(double mx, double my, double hDelta, double vDelta) {
-        if (!visible || !isMouseOver(mx, my)) return false;
+    public boolean mouseScrolled(double mouseX, double mouseY, double hDelta, double vDelta) {
+        if (!visible || !isMouseOver(mouseX, mouseY)) return false;
         scrollTarget -= (int) (vDelta * ENTRY_H * 2);
         clampScroll();
         return true;
@@ -193,10 +192,10 @@ public class RolePickerWidget extends ClickableWidget {
     }
 
     @Override
-    public boolean charTyped(char chr, int modifiers) {
+    public boolean charTyped(char chars, int modifiers) {
         if (!isFocused() || !visible) return false;
-        if (chr >= 32) {
-            searchFilter += chr;
+        if (chars >= 32) {
+            searchFilter += chars;
             scrollTarget = 0;
             clampScroll();
             return true;

@@ -1,8 +1,8 @@
 package cat.rezelyn.watheextended.game;
 
-import cat.rezelyn.watheextended.api.wathe.MapVariables;
+import cat.rezelyn.watheextended.api.GameStatus;
+import cat.rezelyn.watheextended.api.MapVariables;
 import cat.rezelyn.watheextended.index.WatheExtendedItems;
-import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -49,8 +49,8 @@ public final class PlayerItemManager {
         }
     }
 
-    public static void applyItemState(ServerPlayerEntity player, ServerWorld world, GameWorldComponent.GameStatus status) {
-        boolean gameRunning = status == GameWorldComponent.GameStatus.ACTIVE || status == GameWorldComponent.GameStatus.STOPPING || status == GameWorldComponent.GameStatus.STARTING;
+    public static void applyItemState(ServerPlayerEntity player, ServerWorld world) {
+        boolean gameRunning = GameStatus.State(world);
 
         if (gameRunning) {
             removeTeleportItem(player);
@@ -74,10 +74,10 @@ public final class PlayerItemManager {
         }
     }
 
-    public static void tickAll(ServerWorld world, GameWorldComponent.GameStatus status) {
+    public static void tickAll(ServerWorld world) {
         for (net.minecraft.entity.player.PlayerEntity player : world.getPlayers()) {
             if (player instanceof ServerPlayerEntity serverPlayer) {
-                applyItemState(serverPlayer, world, status);
+                applyItemState(serverPlayer, world);
             }
         }
     }

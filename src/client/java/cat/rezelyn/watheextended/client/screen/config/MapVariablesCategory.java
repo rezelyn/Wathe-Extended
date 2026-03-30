@@ -1,9 +1,9 @@
 package cat.rezelyn.watheextended.client.screen.config;
 
-import cat.rezelyn.watheextended.api.wathe.GameComponents;
-import cat.rezelyn.watheextended.api.wathe.MapVariables;
-import cat.rezelyn.watheextended.api.ClientConfig;
-import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
+import cat.rezelyn.watheextended.api.GameComponents;
+import cat.rezelyn.watheextended.api.MapVariables;
+import cat.rezelyn.watheextended.api.config.ClientConfig;
+import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.client.screen.ScreenUtils;
 import cat.rezelyn.watheextended.game.TeleportationSlot;
 import dev.isxander.yacl3.api.*;

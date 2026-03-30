@@ -16,8 +16,8 @@ public class GameFunctionsAdaptiveMixin {
 
     @Inject(method = "killPlayer(Lnet/minecraft/entity/player/PlayerEntity;ZLnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Identifier;)V", at = @At("HEAD"))
     private static void watheextended$setAdaptiveKillContext(PlayerEntity victim, boolean spawnBody, @Nullable PlayerEntity killer, Identifier deathReason, CallbackInfo ci) {
-        if (killer instanceof ServerPlayerEntity sp) {
-            AdaptiveModifier.CURRENT_KILL.set(new AdaptiveModifier.KillContext(sp.getUuid(), deathReason.toString()));
+        if (killer instanceof ServerPlayerEntity player) {
+            AdaptiveModifier.CURRENT_KILL.set(new AdaptiveModifier.KillContext(player.getUuid(), deathReason.toString()));
         }
     }
 

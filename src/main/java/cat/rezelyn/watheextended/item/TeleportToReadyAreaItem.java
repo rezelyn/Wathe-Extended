@@ -1,7 +1,7 @@
 package cat.rezelyn.watheextended.item;
 
-import cat.rezelyn.watheextended.api.wathe.GameStatus;
-import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
+import cat.rezelyn.watheextended.api.GameStatus;
+import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -41,9 +41,9 @@ public class TeleportToReadyAreaItem extends Item {
             return TypedActionResult.pass(stack);
         }
 
-        MapVariablesWorldComponent.PosWithOrientation dest = WatheExtendedWorldComponent.KEY.get(world).getReadyAreaSpawnPos();
+        MapVariablesWorldComponent.PosWithOrientation destination = WatheExtendedWorldComponent.KEY.get(world).getReadyAreaSpawnPos();
 
-        TeleportTarget target = new TeleportTarget(serverPlayer.getServerWorld(), dest.pos, net.minecraft.util.math.Vec3d.ZERO, dest.yaw, dest.pitch, TeleportTarget.NO_OP);
+        TeleportTarget target = new TeleportTarget(serverPlayer.getServerWorld(), destination.pos, net.minecraft.util.math.Vec3d.ZERO, destination.yaw, destination.pitch, TeleportTarget.NO_OP);
         serverPlayer.teleportTo(target);
 
         return TypedActionResult.success(stack);

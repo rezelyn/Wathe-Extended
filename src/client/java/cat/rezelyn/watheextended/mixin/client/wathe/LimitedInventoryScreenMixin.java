@@ -1,8 +1,8 @@
 package cat.rezelyn.watheextended.mixin.client.wathe;
 
-import cat.rezelyn.watheextended.api.wathe.GameStatus;
-import cat.rezelyn.watheextended.api.hml.AssignedModifier;
-import cat.rezelyn.watheextended.api.wathe.AssignedRole;
+import cat.rezelyn.watheextended.api.GameStatus;
+import cat.rezelyn.watheextended.api.AssignedModifier;
+import cat.rezelyn.watheextended.api.AssignedRole;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -50,35 +50,35 @@ public class LimitedInventoryScreenMixin {
             int modifiersY = roleY + client.textRenderer.fontHeight + 2;
 
             if (modifiers.isEmpty()) {
-                Text noMods = Text.translatable("gui.watheextended.inventory.no_modifiers");
-                int w = client.textRenderer.getWidth(noMods);
+                Text none = Text.translatable("gui.watheextended.inventory.no_modifiers");
+                int w = client.textRenderer.getWidth(none);
                 int x = width / 2 - w / 2;
-                context.drawTextWithShadow(client.textRenderer, noMods, x, modifiersY, 0x555555);
+                context.drawTextWithShadow(client.textRenderer, none, x, modifiersY, 0x555555);
             } else {
-                Text label = Text.translatable("gui.watheextended.inventory.modifiers");
-                int labelWidth = client.textRenderer.getWidth(label);
-                int totalWidth = labelWidth;
+                Text modifierLabel = Text.translatable("gui.watheextended.inventory.modifiers");
+                int modifierLabelWidth = client.textRenderer.getWidth(modifierLabel);
+                int modifierTotalWidth = modifierLabelWidth + spacing;
                 for (int i = 0; i < modifiers.size(); i++) {
-                    totalWidth += client.textRenderer.getWidth(modifiers.get(i).text());
-                    if (i < modifiers.size() - 1) totalWidth += client.textRenderer.getWidth(", ");
+                    modifierTotalWidth += client.textRenderer.getWidth(modifiers.get(i).text());
+                    if (i < modifiers.size() - 1) modifierTotalWidth += client.textRenderer.getWidth(", ");
                 }
 
-                int cursorX = width / 2 - totalWidth / 2;
-                context.drawTextWithShadow(client.textRenderer, label, cursorX, modifiersY, 0xFFFFFF);
-                cursorX += labelWidth;
+                int cursorX = width / 2 - modifierTotalWidth / 2;
+                context.drawTextWithShadow(client.textRenderer, modifierLabel, cursorX, modifiersY, 0xFFFFFF);
+                cursorX += modifierLabelWidth + spacing;
 
                 for (int i = 0; i < modifiers.size(); i++) {
-                    AssignedModifier.Assigned mod = modifiers.get(i);
-                    Text modText = mod.text();
-                    int color = mod.color();
+                    AssignedModifier.Assigned modifier = modifiers.get(i);
+                    Text text = modifier.text();
+                    int color = modifier.color();
 
-                    context.drawTextWithShadow(client.textRenderer, modText, cursorX, modifiersY, color);
-                    cursorX += client.textRenderer.getWidth(modText);
+                    context.drawTextWithShadow(client.textRenderer, text, cursorX, modifiersY, color);
+                    cursorX += client.textRenderer.getWidth(text);
 
                     if (i < modifiers.size() - 1) {
-                        Text sep = Text.literal(", ").styled(style -> style.withColor(0xFFFFFF));
-                        context.drawTextWithShadow(client.textRenderer, sep, cursorX, modifiersY, 0xFFFFFF);
-                        cursorX += client.textRenderer.getWidth(sep);
+                        Text separator = Text.literal(", ").styled(style -> style.withColor(0xFFFFFF));
+                        context.drawTextWithShadow(client.textRenderer, separator, cursorX, modifiersY, 0xFFFFFF);
+                        cursorX += client.textRenderer.getWidth(separator);
                     }
                 }
             }

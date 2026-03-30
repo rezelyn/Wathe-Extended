@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.item;
 
-import cat.rezelyn.watheextended.api.wathe.GameStatus;
+import cat.rezelyn.watheextended.api.GameStatus;
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -44,9 +44,9 @@ public class TeleportToSceneryItem extends Item {
             return TypedActionResult.fail(stack);
         }
 
-        MapVariablesWorldComponent.PosWithOrientation dest = MapVariablesWorldComponent.KEY.get(world).getSpectatorSpawnPos();
+        MapVariablesWorldComponent.PosWithOrientation destination = MapVariablesWorldComponent.KEY.get(world).getSpectatorSpawnPos();
 
-        TeleportTarget target = new TeleportTarget(serverPlayer.getServerWorld(), dest.pos, net.minecraft.util.math.Vec3d.ZERO, dest.yaw, dest.pitch, TeleportTarget.NO_OP);
+        TeleportTarget target = new TeleportTarget(serverPlayer.getServerWorld(), destination.pos, net.minecraft.util.math.Vec3d.ZERO, destination.yaw, destination.pitch, TeleportTarget.NO_OP);
         serverPlayer.teleportTo(target);
 
         return TypedActionResult.success(stack);

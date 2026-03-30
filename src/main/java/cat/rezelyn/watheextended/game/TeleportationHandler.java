@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.game;
 
-import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
+import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -40,24 +40,24 @@ public final class TeleportationHandler {
 
     private static void perform(ServerWorld world) {
         try {
-            WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(world);
-            if (!wec.isRtpEnabled()) return;
+            WatheExtendedWorldComponent component = WatheExtendedWorldComponent.KEY.get(world);
+            if (!component.isRtpEnabled()) return;
 
-            List<TeleportationSlot> slots = new ArrayList<>(wec.getTeleportationSlots().values());
+            List<TeleportationSlot> slots = new ArrayList<>(component.getTeleportationSlots().values());
             if (slots.isEmpty()) return;
 
-            List<ServerPlayerEntity> eligiblePlayers = new ArrayList<>();
+            List<ServerPlayerEntity> eligible = new ArrayList<>();
             for (net.minecraft.entity.player.PlayerEntity player : world.getPlayers()) {
-                if (player instanceof ServerPlayerEntity sp) eligiblePlayers.add(sp);
+                if (player instanceof ServerPlayerEntity sp) eligible.add(sp);
             }
-            if (eligiblePlayers.isEmpty()) return;
+            if (eligible.isEmpty()) return;
 
-            Collections.shuffle(eligiblePlayers);
+            Collections.shuffle(eligible);
             Collections.shuffle(slots);
 
-            int count = Math.min(eligiblePlayers.size(), slots.size());
+            int count = Math.min(eligible.size(), slots.size());
             for (int i = 0; i < count; i++) {
-                ServerPlayerEntity player = eligiblePlayers.get(i);
+                ServerPlayerEntity player = eligible.get(i);
                 TeleportationSlot slot = slots.get(i);
                 TeleportTarget target = new TeleportTarget(world, new Vec3d(slot.x, slot.y, slot.z), Vec3d.ZERO, slot.yaw, slot.pitch, TeleportTarget.NO_OP);
                 player.teleportTo(target);

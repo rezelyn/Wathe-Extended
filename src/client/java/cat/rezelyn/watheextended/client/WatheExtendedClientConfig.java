@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.client;
 
-import cat.rezelyn.watheextended.api.ClientConfig;
+import cat.rezelyn.watheextended.api.config.ClientConfig;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.File;
@@ -19,7 +19,7 @@ public final class WatheExtendedClientConfig {
             save();
             return;
         }
-        showChatDuringGame = ClientConfig.readBool(CONFIG_FILE, "chatHud.showDuringGame", true);
+        showChatDuringGame = ClientConfig.readBool(CONFIG_FILE, "hud.showChatDuringGame", true);
     }
 
     public static void save() {
@@ -27,10 +27,10 @@ public final class WatheExtendedClientConfig {
             CONFIG_FILE.getParentFile().mkdirs();
             String content =
                     "{\n" +
-                            "  \"chatHud\": {\n" +
+                            "  \"hud\": {\n" +
                             "    // Show the chat HUD.\n" +
-                            "    // This will still prevent non-op players to send messages and commands. enabling this\n" +
-                            "    \"showDuringGame\": " + showChatDuringGame + "\n" +
+                            "    // Non-OP players will still be restricted to send messages and commands while a game is active.\n" +
+                            "    \"showChatDuringGame\": " + showChatDuringGame + "\n" +
                             "  }\n" +
                             "}\n";
             Files.writeString(CONFIG_FILE.toPath(), content);

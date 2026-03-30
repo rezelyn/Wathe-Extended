@@ -1,8 +1,8 @@
 package cat.rezelyn.watheextended.client.screen.config;
 
-import cat.rezelyn.watheextended.api.wathe.GameComponents;
-import cat.rezelyn.watheextended.api.ClientConfig;
-import cat.rezelyn.watheextended.api.hml.ConfigHelper;
+import cat.rezelyn.watheextended.api.GameComponents;
+import cat.rezelyn.watheextended.api.config.ClientConfig;
+import cat.rezelyn.watheextended.api.config.hml.ConfigHelper;
 import cat.rezelyn.watheextended.client.screen.ScreenUtils;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.*;
@@ -13,6 +13,8 @@ import net.minecraft.world.World;
 
 import java.util.Arrays;
 import java.util.function.BiConsumer;
+
+import static cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getEnableNoellesRolesModify;
 
 public final class OptionsCategory {
 
@@ -25,7 +27,7 @@ public final class OptionsCategory {
 
         builder.group(gamerulesGroup(parent, sendCommand));
         builder.group(watheOptionsGroup(parent, sendCommand));
-        if (cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) {
+        if (cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) {
             builder.group(extraOptionsGroup(parent, sendCommand));
         }
 
@@ -38,7 +40,7 @@ public final class OptionsCategory {
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.gamerules.tooltip")))
                 .collapsed(false);
 
-        World world = MinecraftClient.getInstance().world;
+        World client = MinecraftClient.getInstance().world;
 
         group.option(Option.<Boolean>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.collisions"))
@@ -54,11 +56,11 @@ public final class OptionsCategory {
                 .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled")))
                 .build());
 
-        if (cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.isLoaded()) {
+        if (cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.isLoaded()) {
             group.option(Option.<Boolean>createBuilder()
                     .name(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.morphpsychosis"))
                     .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.morphpsychosis.desc")))
-                    .binding(false, () -> cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.getInsanePlayersSeeMorphs(null), value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.insanePlayersSeeMorphs", value))
+                    .binding(false, () -> cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.getInsanePlayersSeeMorphs(null), value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.insanePlayersSeeMorphs", value))
                     .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled")))
                     .build());
         }
@@ -77,20 +79,20 @@ public final class OptionsCategory {
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
 
-        if (cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) {
-            final boolean startSafeTimeDefault = cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableStartSafeTime(world);
+        if (cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) {
+            final boolean startSafeTimeDefault = cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getEnableStartSafeTime(client);
 
             group.option(Option.<Boolean>createBuilder()
                     .name(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.safepreptime"))
                     .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.safepreptime.desc")))
-                    .binding(startSafeTimeDefault, () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableStartSafeTime(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.EnableStartSafeTime", value))
+                    .binding(startSafeTimeDefault, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getEnableStartSafeTime(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.EnableStartSafeTime", value))
                     .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled")))
                     .build());
 
             group.option(Option.<Integer>createBuilder()
                     .name(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.safeprepcooldown"))
                     .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.safeprepcooldown.desc")))
-                    .binding(30, () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getStartingCooldown(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.StartingCooldown", value))
+                    .binding(30, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getStartingCooldown(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.StartingCooldown", value))
                     .controller(IntegerFieldControllerBuilder::create)
                     .build());
         }
@@ -114,16 +116,16 @@ public final class OptionsCategory {
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
 
-        if (cat.rezelyn.watheextended.api.shooterpunishments.ConfigHelper.isLoaded()) {
-            final String[] punishmentModes = cat.rezelyn.watheextended.api.shooterpunishments.ConfigHelper.getPunishmentModes();
+        if (cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper.isLoaded()) {
+            final String[] punishmentModes = cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper.getPunishmentModes();
 
             group.option(Option.<String>createBuilder()
                     .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.shooterpunishment"))
                     .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.shooterpunishment.desc")))
-                    .binding(cat.rezelyn.watheextended.api.shooterpunishments.ConfigHelper.getCurrentPunishment(), cat.rezelyn.watheextended.api.shooterpunishments.ConfigHelper::getCurrentPunishment, value -> ScreenUtils.stage(sendCommand, parent, "shooterpunishments.currentMode", value))
-                    .controller(opt -> CyclingListControllerBuilder.create(opt).values(Arrays.asList(punishmentModes)).formatValue(value -> {
-                        String sp = value.replaceAll("([A-Z])", " $1");
-                        return Text.literal(Character.toUpperCase(sp.charAt(0)) + sp.substring(1));
+                    .binding(cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper.getCurrentPunishment(), cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper::getCurrentPunishment, value -> ScreenUtils.stage(sendCommand, parent, "shooterpunishments.currentMode", value))
+                    .controller(option -> CyclingListControllerBuilder.create(option).values(Arrays.asList(punishmentModes)).formatValue(value -> {
+                        String string = value.replaceAll("([A-Z])", " $1");
+                        return Text.literal(Character.toUpperCase(string.charAt(0)) + string.substring(1));
                     }))
                     .build());
         }
@@ -175,20 +177,20 @@ public final class OptionsCategory {
                 .collapsed(false);
 
         World world = MinecraftClient.getInstance().world;
-        final boolean watheTweaksEnabled = cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableWatheModify(world);
-        final boolean noellesRolesTweaksEnabled = cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableNoellesRolesModify(world);
+        final boolean watheTweaksEnabled = cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getEnableWatheModify(world);
+        final boolean noellesRolesTweaksEnabled = getEnableNoellesRolesModify(world);
 
         group.option(Option.<Boolean>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.extra_options.opt.wathetweaks"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.extra_options.opt.wathetweaks.desc")))
-                .binding(false, () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableWatheModify(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.EnableWatheModify", value))
+                .binding(false, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getEnableWatheModify(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.EnableWatheModify", value))
                 .controller(TickBoxControllerBuilder::create)
                 .build());
 
         group.option(Option.<Integer>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.extra_options.opt.initialcivilianincome"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.extra_options.opt.initialcivilianincome.desc")))
-                .binding(0, () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getInitialCivilianIncome(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.InitialCivilianIncome", value))
+                .binding(0, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getInitialCivilianIncome(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.InitialCivilianIncome", value))
                 .controller(IntegerFieldControllerBuilder::create)
                 .available(watheTweaksEnabled)
                 .build());
@@ -196,7 +198,7 @@ public final class OptionsCategory {
         group.option(Option.<Integer>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.extra_options.opt.initialnnetralincome"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.extra_options.opt.initialnnetralincome.desc")))
-                .binding(0, () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getInitialNeutralIncome(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.InitialNeutralIncome", value))
+                .binding(0, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getInitialNeutralIncome(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.InitialNeutralIncome", value))
                 .controller(IntegerFieldControllerBuilder::create)
                 .available(watheTweaksEnabled)
                 .build());
@@ -204,7 +206,7 @@ public final class OptionsCategory {
         group.option(Option.<Integer>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.extra_options.opt.initialkillerncome"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.extra_options.opt.initialkillerncome.desc")))
-                .binding(100, () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getInitialKillerIncome(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.InitialKillerIncome", value))
+                .binding(100, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getInitialKillerIncome(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.InitialKillerIncome", value))
                 .controller(IntegerFieldControllerBuilder::create)
                 .available(watheTweaksEnabled)
                 .build());
@@ -212,7 +214,7 @@ public final class OptionsCategory {
         group.option(Option.<Integer>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.extra_options.opt.increasemoneywhenkilll"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.extra_options.opt.increasemoneywhenkilll.desc")))
-                .binding(100, () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getIncreaseMoneyWhenKill(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.IncreaseMoneyWhenKill", value))
+                .binding(100, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getIncreaseMoneyWhenKill(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.IncreaseMoneyWhenKill", value))
                 .controller(IntegerFieldControllerBuilder::create)
                 .available(watheTweaksEnabled)
                 .build());
@@ -220,7 +222,7 @@ public final class OptionsCategory {
         group.option(Option.<Boolean>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.extra_options.opt.preventkillerdroprevolver"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.extra_options.opt.preventkillerdroprevolver.desc")))
-                .binding(false, () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getPreventKillerDropRevolver(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.PreventKillerDropRevolver", value))
+                .binding(false, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getPreventKillerDropRevolver(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.PreventKillerDropRevolver", value))
                 .controller(TickBoxControllerBuilder::create)
                 .available(watheTweaksEnabled)
                 .build());
@@ -228,14 +230,14 @@ public final class OptionsCategory {
         group.option(Option.<Boolean>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.extra_options.opt.noellestweaks"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.extra_options.opt.noellestweaks.desc")))
-                .binding(false, () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableNoellesRolesModify(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.EnableNoellesRolesModify", value))
+                .binding(false, () -> getEnableNoellesRolesModify(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.EnableNoellesRolesModify", value))
                 .controller(TickBoxControllerBuilder::create)
                 .build());
 
         group.option(Option.<Boolean>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.extra_options.opt.conductorinstinct"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.extra_options.opt.conductorinstinct.desc")))
-                .binding(false, () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getConductorInstinctModify(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.ConductorInstinctModify", value))
+                .binding(false, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getConductorInstinctModify(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.ConductorInstinctModify", value))
                 .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled")))
                 .available(noellesRolesTweaksEnabled)
                 .build());
@@ -243,7 +245,7 @@ public final class OptionsCategory {
         group.option(Option.<Boolean>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.extra_options.opt.coronerinstinct"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.extra_options.opt.coronerinstinct.desc")))
-                .binding(false, () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getCoronerInstinctModify(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.CoronerInstinctModify", value))
+                .binding(false, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getCoronerInstinctModify(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.CoronerInstinctModify", value))
                 .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled")))
                 .available(noellesRolesTweaksEnabled)
                 .build());

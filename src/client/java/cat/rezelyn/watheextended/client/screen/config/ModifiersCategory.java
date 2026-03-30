@@ -1,9 +1,9 @@
 package cat.rezelyn.watheextended.client.screen.config;
 
-import cat.rezelyn.watheextended.api.ClientConfig;
-import cat.rezelyn.watheextended.api.hml.ConfigHelper;
-import cat.rezelyn.watheextended.api.hml.ModifiersDisplay;
-import cat.rezelyn.watheextended.api.hml.ModifiersId;
+import cat.rezelyn.watheextended.api.config.ClientConfig;
+import cat.rezelyn.watheextended.api.config.hml.ConfigHelper;
+import cat.rezelyn.watheextended.api.ModifiersDisplay;
+import cat.rezelyn.watheextended.api.ModifiersId;
 import cat.rezelyn.watheextended.client.screen.ScreenUtils;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.*;
@@ -30,7 +30,7 @@ public final class ModifiersCategory {
 
                 for (String id : ModifiersId.get()) {
                     ModifiersDisplay.ModifierDisplay display = modifierName.get(id);
-                    Text label = display != null ? display.display().copy().styled(style -> style.withColor(display.color())) : Text.literal(ModifiersDisplay.localName(id));
+                    Text label = display != null ? display.display().copy().styled(style -> style.withColor(display.color())) : Text.literal(ModifiersDisplay.prettyName(id));
 
                     boolean state = pendingState.containsKey(id) ? pendingState.get(id) : !ConfigHelper.getDisabledModifiers().contains(id);
 
@@ -110,20 +110,20 @@ public final class ModifiersCategory {
                         .controller(ScreenUtils::floatController).build());
             }
             case "noellesroles:guesser" -> {
-                if (!cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.isLoaded()) return;
+                if (!cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.isLoaded()) return;
                 builder.option(Option.<Boolean>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.guesser.allowcivillian"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.guesser.allowcivillian.desc")))
-                        .binding(false, cat.rezelyn.watheextended.api.noellesroles.ConfigHelper::getAllowCivillianGuessers, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.allowCivillianGuessers", value))
+                        .binding(false, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getAllowCivillianGuessers, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.allowCivillianGuessers", value))
                         .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build());
                 builder.option(Option.<String>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.guesser.wrongguessmode"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.guesser.wrongguessmode.desc")))
-                        .binding("death", cat.rezelyn.watheextended.api.noellesroles.ConfigHelper::getGuesserDiesAfterIncorrectGuess, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.guesserDiesAfterIncorrectGuess", value))
+                        .binding("death", cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getGuesserDiesAfterIncorrectGuess, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.guesserDiesAfterIncorrectGuess", value))
                         .controller(option -> CyclingListControllerBuilder.create(option).values(java.util.List.of("none", "death", "explode")).formatValue(value -> Text.literal(value.toUpperCase()))).build());
             }
             case "stupid_express:lovers" -> {
-                if (!cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper.isLoaded()) return;
+                if (!cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper.isLoaded()) return;
                 builder.option(Option.<Boolean>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.forbidden"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.forbidden.desc")))
@@ -137,50 +137,50 @@ public final class ModifiersCategory {
                 builder.option(Option.<Boolean>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.knowimmediately"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.knowimmediately.desc")))
-                        .binding(true, cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper::getLoversKnowImmediately, value -> ScreenUtils.stage(sendCommand, parent, "stupidexpress.loversKnowImmediately", value))
+                        .binding(true, cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper::getLoversKnowImmediately, value -> ScreenUtils.stage(sendCommand, parent, "stupidexpress.loversKnowImmediately", value))
                         .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build());
                 builder.option(Option.<Boolean>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.winwithkillers"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.winwithkillers.desc")))
-                        .binding(false, cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper::getLoversWinWithKillers, value -> ScreenUtils.stage(sendCommand, parent, "stupidexpress.loversWinWithKillers", value))
+                        .binding(false, cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper::getLoversWinWithKillers, value -> ScreenUtils.stage(sendCommand, parent, "stupidexpress.loversWinWithKillers", value))
                         .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build());
                 builder.option(Option.<Boolean>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.winwithcivilians"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.winwithcivilians.desc")))
-                        .binding(true, cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper::getLoversWinWithCivilians, value -> ScreenUtils.stage(sendCommand, parent, "stupidexpress.loversWinWithCivilians", value))
+                        .binding(true, cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper::getLoversWinWithCivilians, value -> ScreenUtils.stage(sendCommand, parent, "stupidexpress.loversWinWithCivilians", value))
                         .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build());
                 builder.option(Option.<Boolean>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.glowtoeachother"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.glowtoeachother.desc")))
-                        .binding(true, cat.rezelyn.watheextended.api.stupidexpress.ConfigHelper::getLoversGlowToEachother, value -> ScreenUtils.stage(sendCommand, parent, "stupidexpress.loversGlowToEachother", value))
+                        .binding(true, cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper::getLoversGlowToEachother, value -> ScreenUtils.stage(sendCommand, parent, "stupidexpress.loversGlowToEachother", value))
                         .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build());
             }
             case "starexpress:allergic" -> {
-                if (!cat.rezelyn.watheextended.api.starexpress.ConfigHelper.isLoaded()) return;
+                if (!cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.isLoaded()) return;
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.allergic.nothingchance"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.allergic.nothingchance.desc")))
-                        .binding(3, cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getAllergicNothingChance, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.nothingChance", value))
+                        .binding(3, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getAllergicNothingChance, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.nothingChance", value))
                         .controller(IntegerFieldControllerBuilder::create).build());
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.allergic.instinctchance"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.allergic.instinctchance.desc")))
-                        .binding(1, cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getAllergicInstinctChance, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.instinctChance", value))
+                        .binding(1, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getAllergicInstinctChance, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.instinctChance", value))
                         .controller(IntegerFieldControllerBuilder::create).build());
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.allergic.armorchance"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.allergic.armorchance.desc")))
-                        .binding(1, cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getAllergicArmorChance, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.armorChance", value))
+                        .binding(1, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getAllergicArmorChance, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.armorChance", value))
                         .controller(IntegerFieldControllerBuilder::create).build());
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.allergic.poisonchance"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.allergic.poisonchance.desc")))
-                        .binding(1, cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getAllergicPoisonChance, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.poisonChance", value))
+                        .binding(1, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getAllergicPoisonChance, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.poisonChance", value))
                         .controller(IntegerFieldControllerBuilder::create).build());
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.allergic.instinctduration"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.allergic.instinctduration.desc")))
-                        .binding(3, cat.rezelyn.watheextended.api.starexpress.ConfigHelper::getAllergicInstinctDuration, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.instinctDuration", value))
+                        .binding(3, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getAllergicInstinctDuration, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.instinctDuration", value))
                         .controller(IntegerFieldControllerBuilder::create).build());
             }
         }

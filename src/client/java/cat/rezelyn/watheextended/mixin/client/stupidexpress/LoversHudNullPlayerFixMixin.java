@@ -17,9 +17,9 @@ public class LoversHudNullPlayerFixMixin {
 
     // spectator hud lovers crash fix
     @WrapMethod(method = "renderHud")
-    private static void watheExtended$fixLoversNullPlayer(TextRenderer renderer, ClientPlayerEntity player, DrawContext context, RenderTickCounter tickCounter, Operation<Void> original) {
+    private static void watheExtended$fixLoversNullPlayer(TextRenderer renderer, ClientPlayerEntity player, DrawContext context, RenderTickCounter tick, Operation<Void> original) {
         try {
-            original.call(renderer, player, context, tickCounter);
+            original.call(renderer, player, context, tick);
         } catch (NullPointerException ignored) {
         }
     }

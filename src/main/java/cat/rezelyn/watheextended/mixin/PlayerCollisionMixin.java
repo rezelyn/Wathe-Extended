@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.mixin;
 
-import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
+import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.entity.Entity;
@@ -15,8 +15,8 @@ public class PlayerCollisionMixin {
         Entity self = (Entity) (Object) this;
 
         if (other instanceof PlayerEntity player && self instanceof PlayerEntity) {
-            WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(player.getWorld());
-            if (!wec.isPlayerCollisionsEnabled()) {
+            WatheExtendedWorldComponent compenent = WatheExtendedWorldComponent.KEY.get(player.getWorld());
+            if (!compenent.isPlayerCollisionsEnabled()) {
                 return false;
             }
         }

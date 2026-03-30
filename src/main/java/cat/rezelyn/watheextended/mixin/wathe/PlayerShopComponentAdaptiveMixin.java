@@ -24,20 +24,20 @@ public class PlayerShopComponentAdaptiveMixin {
     private int watheextended$applyAdaptive(int amount) {
         try {
             if (amount <= 0) return amount;
-            if (!(player instanceof ServerPlayerEntity sp)) return amount;
+            if (!(this.player instanceof ServerPlayerEntity player)) return amount;
 
-            ServerWorld world = sp.getServerWorld();
-            GameWorldComponent gwc = GameWorldComponent.KEY.get(world);
+            ServerWorld world = player.getServerWorld();
+            GameWorldComponent component = GameWorldComponent.KEY.get(world);
 
-            if (!gwc.isRunning()) return amount;
-            if (!gwc.canUseKillerFeatures(sp)) return amount;
+            if (!component.isRunning()) return amount;
+            if (!component.canUseKillerFeatures(player)) return amount;
 
-            WorldModifierComponent wmc = WorldModifierComponent.KEY.get(world);
+            WorldModifierComponent modifier = WorldModifierComponent.KEY.get(world);
 
-            if (!wmc.isModifier(sp, WatheExtendedModifiers.ADAPTIVE)) return amount;
+            if (!modifier.isModifier(player, WatheExtendedModifiers.ADAPTIVE)) return amount;
             if (AdaptiveModifier.CURRENT_KILL.get() == null) return amount;
 
-            return AdaptiveModifier.applyAdaptive(sp, amount);
+            return AdaptiveModifier.applyAdaptive(player, amount);
         } catch (Throwable t) {
             return amount;
         }

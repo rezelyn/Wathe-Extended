@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.mixin.client.noellesroles.binglus;
 
-import cat.rezelyn.watheextended.api.noellesroles.ConfigHelper;
+import cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
 import dev.doctor4t.wathe.entity.NoteEntity;
@@ -19,12 +19,12 @@ public class BinglusInstinctMixin {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null) return;
 
-        GameWorldComponent gwc = WatheClient.gameComponent;
-        if (gwc == null) return;
+        GameWorldComponent game = WatheClient.gameComponent;
+        if (game == null) return;
         if (!ConfigHelper.isLoaded()) return;
 
         try {
-            if (!gwc.isRole(client.player, org.agmas.noellesroles.Noellesroles.AWESOME_BINGLUS)) return;
+            if (!game.isRole(client.player, org.agmas.noellesroles.Noellesroles.AWESOME_BINGLUS)) return;
         } catch (Throwable t) {
             return;
         }

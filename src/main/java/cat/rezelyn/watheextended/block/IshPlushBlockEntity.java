@@ -19,11 +19,11 @@ public class IshPlushBlockEntity extends BlockEntity {
         super(WatheExtendedBlockEntities.ISH_PLUSH, pos, state);
     }
 
-    public static void tick(World world, BlockPos pos, BlockState state, IshPlushBlockEntity be) {
-        if (be.squash > 0.0) {
-            be.squash /= 3.0;
-            if (be.squash < 0.01) {
-                be.squash = 0.0;
+    public static void tick(World world, BlockPos pos, BlockState state, IshPlushBlockEntity block) {
+        if (block.squash > 0.0) {
+            block.squash /= 3.0;
+            if (block.squash < 0.01) {
+                block.squash = 0.0;
                 if (world != null) {
                     world.updateListeners(pos, state, state, 2);
                 }

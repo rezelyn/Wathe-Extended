@@ -18,16 +18,16 @@ public final class AdaptiveModifier {
     public record KillContext(UUID killerUuid, String deathReason) {}
 
     public static int applyAdaptive(ServerPlayerEntity killer, int amount) {
-        KillContext ctx = CURRENT_KILL.get();
-        if (ctx == null || !ctx.killerUuid().equals(killer.getUuid())) return amount;
+        KillContext kill = CURRENT_KILL.get();
+        if (kill == null || !kill.killerUuid().equals(killer.getUuid())) return amount;
         try {
             if (PlayerPsychoComponent.KEY.get(killer).getPsychoTicks() > 0) return amount; // exclude psycho mode
         } catch (Throwable t) {
             return amount;
         }
 
-        String method = ctx.deathReason();
-        UUID uuid = ctx.killerUuid();
+        String method = kill.deathReason();
+        UUID uuid = kill.killerUuid();
         String last = lastKillMethod.get(uuid);
         lastKillMethod.put(uuid, method);
 

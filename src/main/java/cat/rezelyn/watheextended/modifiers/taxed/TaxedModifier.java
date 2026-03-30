@@ -12,7 +12,7 @@ public final class TaxedModifier {
     private static final Map<UUID, List<Long>> killTimestamps = new ConcurrentHashMap<>();
 
     public static void recordKill(UUID killerUuid) {
-        killTimestamps.computeIfAbsent(killerUuid, k -> new ArrayList<>()).add(System.currentTimeMillis());
+        killTimestamps.computeIfAbsent(killerUuid, kill -> new ArrayList<>()).add(System.currentTimeMillis());
     }
 
     private static int countKillsInWindow(UUID uuid) {

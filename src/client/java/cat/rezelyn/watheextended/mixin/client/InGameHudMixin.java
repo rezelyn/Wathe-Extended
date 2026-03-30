@@ -1,6 +1,7 @@
 package cat.rezelyn.watheextended.mixin.client;
 
-import cat.rezelyn.watheextended.api.wathe.GameStatus;
+import cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper;
+import cat.rezelyn.watheextended.api.GameStatus;
 import dev.doctor4t.wathe.index.WatheItems;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -88,27 +89,27 @@ public class InGameHudMixin {
         }
 
         TextRenderer textRenderer = this.client.textRenderer;
-        int lineHeight = textRenderer.fontHeight + 2;
+        int height = textRenderer.fontHeight + 2;
         int alpha = (int) Math.min(Math.min(this.heldItemTooltipFade, EXTENDED_FADE - this.heldItemTooltipFade + 10) * 255.0F / 10.0F, 255.0F);
 
         int scaledWidth = context.getScaledWindowWidth();
         int scaledHeight = context.getScaledWindowHeight();
 
-        boolean staminaBarActive = cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded() && cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableStaminaBar() && GameStatus.isActive(this.client.world) && this.client.interactionManager != null && (this.client.interactionManager.getCurrentGameMode() == net.minecraft.world.GameMode.SURVIVAL || this.client.interactionManager.getCurrentGameMode() == net.minecraft.world.GameMode.ADVENTURE);
+        boolean staminaBarActive = ConfigHelper.isLoaded() && ConfigHelper.getEnableStaminaBar() && GameStatus.isActive(this.client.world) && this.client.interactionManager != null && (this.client.interactionManager.getCurrentGameMode() == net.minecraft.world.GameMode.SURVIVAL || this.client.interactionManager.getCurrentGameMode() == net.minecraft.world.GameMode.ADVENTURE);
 
         int blockBottom = scaledHeight - 22 - 4 - (staminaBarActive ? 14 : 0);
-        int blockTop = blockBottom - (lines.size() * lineHeight) + 2;
+        int blockTop = blockBottom - (lines.size() * height) + 2;
 
         for (int i = 0; i < lines.size(); i++) {
             Text line = lines.get(i);
             int textWidth = textRenderer.getWidth(line);
-            int lx = (scaledWidth - textWidth) / 2;
-            int ly = blockTop + (i * lineHeight);
+            int leftX = (scaledWidth - textWidth) / 2;
+            int leftY = blockTop + (i * height);
 
             int baseRgb = (i == 0) ? 0xFFFFFF : (line.getStyle().getColor() != null ? line.getStyle().getColor().getRgb() : 0xFFFFFF);
             int lineColor = (alpha << 24) | (baseRgb & 0xFFFFFF);
 
-            context.drawTextWithShadow(textRenderer, line, lx, ly, lineColor);
+            context.drawTextWithShadow(textRenderer, line, leftX, leftY, lineColor);
         }
     }
 }

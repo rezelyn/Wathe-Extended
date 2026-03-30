@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.mixin.client.noellesroles.guesser;
 
-import cat.rezelyn.watheextended.api.wathe.RolesDisplay;
+import cat.rezelyn.watheextended.api.RolesDisplay;
 import cat.rezelyn.watheextended.client.widget.RolePickerWidget;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
@@ -15,6 +15,8 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import org.agmas.harpymodloader.Harpymodloader;
 import org.agmas.noellesroles.Noellesroles;
@@ -25,6 +27,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +70,7 @@ public abstract class GuesserRolePickerMixin extends Screen {
             String path = role.identifier().getPath();
 
             RolesDisplay.RoleDisplay d = display.get(id);
-            Text label = d != null ? d.display() : Text.literal(RolesDisplay.localName(id));
+            Text label = d != null ? d.display() : Text.literal(RolesDisplay.prettyName(id));
             int color = d != null ? d.color() : 0xFFFFFF;
             RolesDisplay.Side side = d != null ? d.side() : RolesDisplay.Side.NEUTRAL;
 
@@ -96,17 +99,17 @@ public abstract class GuesserRolePickerMixin extends Screen {
         if (!FabricLoader.getInstance().isModLoaded("noellesroles")) return;
 
         try {
-            Class<?> grwClass = Class.forName("org.agmas.noellesroles.client.ui.guesser.GuesserRoleWidget");
-            Class<?> gpwClass = Class.forName("org.agmas.noellesroles.client.ui.guesser.GuesserPlayerWidget");
+            Class<?> guesserRole = Class.forName("org.agmas.noellesroles.client.ui.guesser.GuesserRoleWidget");
+            Class<?> guesserPicker = Class.forName("org.agmas.noellesroles.client.ui.guesser.GuesserPlayerWidget");
 
             Element roleWidget = null;
             boolean isGuesserUI = false;
 
             for (Element child : List.copyOf(this.children())) {
-                if (grwClass.isInstance(child)) {
+                if (guesserRole.isInstance(child)) {
                     roleWidget = child;
                     isGuesserUI = true;
-                } else if (gpwClass.isInstance(child)) {
+                } else if (guesserPicker.isInstance(child)) {
                     isGuesserUI = true;
                 }
             }
@@ -115,12 +118,12 @@ public abstract class GuesserRolePickerMixin extends Screen {
 
             if (FabricLoader.getInstance().isModLoaded("kinswathe")) {
                 try {
-                    Class<?> bpwClass = Class.forName("org.BsXinQin.kinswathe.client.roles.bodymaker.BodymakerPlayerWidget");
-                    Class<?> bdwClass = Class.forName("org.BsXinQin.kinswathe.client.roles.bodymaker.BodymakerDeathReasonWidget");
+                    Class<?> bodymakerPicker = Class.forName("org.BsXinQin.kinswathe.client.roles.bodymaker.BodymakerPlayerWidget");
+                    Class<?> bodymakerReason = Class.forName("org.BsXinQin.kinswathe.client.roles.bodymaker.BodymakerDeathReasonWidget");
                     boolean bodymakerPresent = false;
                     for (Element child : this.children()) {
-                        if ((bpwClass.isInstance(child) || bdwClass.isInstance(child)) && child instanceof ClickableWidget cw) {
-                            watheextended$bodymakerWidgets.add(cw);
+                        if ((bodymakerPicker.isInstance(child) || bodymakerReason.isInstance(child)) && child instanceof ClickableWidget widget) {
+                            watheextended$bodymakerWidgets.add(widget);
                             bodymakerPresent = true;
                         }
                     }
@@ -129,34 +132,34 @@ public abstract class GuesserRolePickerMixin extends Screen {
             }
 
             try {
-                Class<?> mpwClass = Class.forName("org.agmas.noellesroles.client.ui.MorphlingPlayerWidget");
+                Class<?> morphlingPicker = Class.forName("org.agmas.noellesroles.client.ui.MorphlingPlayerWidget");
                 for (Element child : this.children()) {
-                    if (mpwClass.isInstance(child) && child instanceof ClickableWidget cw) {
-                        watheextended$morphlingWidgets.add(cw);
+                    if (morphlingPicker.isInstance(child) && child instanceof ClickableWidget widget) {
+                        watheextended$morphlingWidgets.add(widget);
                     }
                 }
             } catch (Exception ignored) {
             }
 
             try {
-                Class<?> spwClass = Class.forName("org.agmas.noellesroles.client.ui.SwapperPlayerWidget");
+                Class<?> swapperPicker = Class.forName("org.agmas.noellesroles.client.ui.SwapperPlayerWidget");
                 for (Element child : this.children()) {
-                    if (spwClass.isInstance(child) && child instanceof ClickableWidget cw) {
-                        watheextended$swapperWidgets.add(cw);
+                    if (swapperPicker.isInstance(child) && child instanceof ClickableWidget widget) {
+                        watheextended$swapperWidgets.add(widget);
                     }
                 }
             } catch (Exception ignored) {
             }
 
             for (Element child : List.copyOf(this.children())) {
-                if (gpwClass.isInstance(child) && child instanceof ClickableWidget cw) {
+                if (guesserPicker.isInstance(child) && child instanceof ClickableWidget widget) {
                     boolean isMimic = false;
                     try {
-                        java.lang.reflect.Field targetUUIDField = gpwClass.getField("targetUUID");
-                        UUID targetUUID = (UUID) targetUUIDField.get(cw);
-                        net.minecraft.client.world.ClientWorld world = MinecraftClient.getInstance().world;
+                        Field targetUUIDField = guesserPicker.getField("targetUUID");
+                        UUID targetUUID = (UUID) targetUUIDField.get(widget);
+                        ClientWorld world = MinecraftClient.getInstance().world;
                         if (world != null && targetUUID != null) {
-                            net.minecraft.entity.player.PlayerEntity targetPlayer = world.getPlayerByUuid(targetUUID);
+                            PlayerEntity targetPlayer = world.getPlayerByUuid(targetUUID);
                             if (targetPlayer != null) {
                                 isMimic = GameWorldComponent.KEY.get(world).isRole(targetPlayer, Noellesroles.MIMIC);
                             }
@@ -164,10 +167,10 @@ public abstract class GuesserRolePickerMixin extends Screen {
                     } catch (Exception ignored) {
                     }
                     if (isMimic) {
-                        this.remove(cw);
+                        this.remove(widget);
                     } else {
-                        cw.setY(cw.getY() + 35);
-                        watheextended$guesserPlayerWidgets.add(cw);
+                        widget.setY(widget.getY() + 35);
+                        watheextended$guesserPlayerWidgets.add(widget);
                     }
                 }
             }
@@ -227,22 +230,22 @@ public abstract class GuesserRolePickerMixin extends Screen {
             bmWidget.visible = !playerSelected;
         }
 
-        for (ClickableWidget cw : watheextended$morphlingWidgets) {
-            cw.visible = !playerSelected;
+        for (ClickableWidget widget : watheextended$morphlingWidgets) {
+            widget.visible = !playerSelected;
         }
 
-        for (ClickableWidget cw : watheextended$swapperWidgets) {
-            cw.visible = !playerSelected;
+        for (ClickableWidget widget : watheextended$swapperWidgets) {
+            widget.visible = !playerSelected;
         }
 
         if (!playerSelected && !watheextended$guesserPlayerWidgets.isEmpty()) {
-            ClickableWidget first = watheextended$guesserPlayerWidgets.get(0);
-            if (this.children().contains(first)) {
-                MinecraftClient mc = MinecraftClient.getInstance();
+            ClickableWidget widget = watheextended$guesserPlayerWidgets.get(0);
+            if (this.children().contains(widget)) {
+                MinecraftClient client = MinecraftClient.getInstance();
                 Text label = Text.translatable("gui.watheextended.inventory.guesser.guess");
-                int labelX = this.width / 2 - mc.textRenderer.getWidth(label) / 2;
-                int labelY = first.getY() - mc.textRenderer.fontHeight - 12;
-                context.drawText(mc.textRenderer, label, labelX, labelY, 0x9E2B19, true);
+                int labelX = this.width / 2 - client.textRenderer.getWidth(label) / 2;
+                int labelY = widget.getY() - client.textRenderer.fontHeight - 12;
+                context.drawText(client.textRenderer, label, labelX, labelY, 0x9E2B19, true);
             }
         }
     }

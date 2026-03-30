@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.mixin.wathe;
 
-import cat.rezelyn.watheextended.api.hml.ConfigHelper;
+import cat.rezelyn.watheextended.api.config.hml.ConfigHelper;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -27,29 +27,29 @@ public class DisabledKillerRoleConversionMixin {
     private static void watheextended$fixDisabledKillerRoleConversion(PlayerEntity victim, boolean spawnBody, @Nullable PlayerEntity killer, Identifier deathReason, CallbackInfo ci) {
         if (!(killer instanceof ServerPlayerEntity serverKiller)) return;
 
-        GameWorldComponent gwc;
+        GameWorldComponent component;
         try {
-            gwc = GameWorldComponent.KEY.get(serverKiller.getServerWorld());
+            component = GameWorldComponent.KEY.get(serverKiller.getServerWorld());
         } catch (Throwable ignored) {
             return;
         }
 
-        if (gwc == null || !gwc.isRunning()) return;
+        if (component == null || !component.isRunning()) return;
 
-        Role currentRole = gwc.getRole(killer);
+        Role currentRole = component.getRole(killer);
         if (currentRole == null || !currentRole.canUseKiller()) return;
 
-        List<String> disabledRoles;
+        List<String> disabled;
         try {
-            disabledRoles = ConfigHelper.getDisabledRoles();
+            disabled = ConfigHelper.getDisabledRoles();
         } catch (Throwable ignored) {
             return;
         }
 
-        if (!disabledRoles.contains(currentRole.identifier().toString())) return;
+        if (!disabled.contains(currentRole.identifier().toString())) return;
 
         List<Role> enabledKillerRoles = new ArrayList<>(WatheRoles.ROLES);
-        enabledKillerRoles.removeIf(role -> !role.canUseKiller() || role.identifier() == null || disabledRoles.contains(role.identifier().toString()));
+        enabledKillerRoles.removeIf(role -> !role.canUseKiller() || role.identifier() == null || disabled.contains(role.identifier().toString()));
 
         Role replacement;
         if (enabledKillerRoles.isEmpty()) {
@@ -59,8 +59,8 @@ public class DisabledKillerRoleConversionMixin {
             replacement = enabledKillerRoles.get(0);
         }
 
-        gwc.addRole(killer, replacement);
-        gwc.sync();
+        component.addRole(killer, replacement);
+        component.sync();
 
         ModdedRoleAssigned.EVENT.invoker().assignModdedRole(killer, replacement);
     }

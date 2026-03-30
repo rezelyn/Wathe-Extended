@@ -2,6 +2,7 @@ package cat.rezelyn.watheextended.mixin.client.noellesroles.graverobber;
 
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
 import dev.doctor4t.wathe.client.gui.RoleNameRenderer;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
@@ -30,7 +31,7 @@ public class GraverobberCoronerHudMixin {
 
     // graverobber modifier fix
     @Inject(method = "renderHud", at = @At("TAIL"))
-    private static void watheExtended$fixGraverobberCoronerHud(TextRenderer renderer, ClientPlayerEntity player, DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+    private static void watheExtended$fixGraverobberCoronerHud(TextRenderer renderer, ClientPlayerEntity player, DrawContext context, RenderTickCounter tick, CallbackInfo ci) {
         try {
             PlayerBodyEntity targetBody = NoellesrolesClient.targetBody;
             if (targetBody == null) return;
@@ -40,13 +41,13 @@ public class GraverobberCoronerHudMixin {
             if (client.player == null) return;
 
             // only run for graverobber modifier
-            WorldModifierComponent wmc = WorldModifierComponent.KEY.get(client.player.getWorld());
-            if (!wmc.isModifier(client.player.getUuid(), Noellesroles.GRAVEROBBER)) return;
+            WorldModifierComponent modifier = WorldModifierComponent.KEY.get(client.player.getWorld());
+            if (!modifier.isModifier(client.player.getUuid(), Noellesroles.GRAVEROBBER)) return;
 
             // avoid rendering duplication for coroner and vulture roles
-            dev.doctor4t.wathe.cca.GameWorldComponent gwc = dev.doctor4t.wathe.cca.GameWorldComponent.KEY.get(client.player.getWorld());
-            if (gwc.isRole(client.player, Noellesroles.CORONER)) return;
-            if (gwc.isRole(client.player, Noellesroles.VULTURE)) return;
+            GameWorldComponent game = GameWorldComponent.KEY.get(client.player.getWorld());
+            if (game.isRole(client.player, Noellesroles.CORONER)) return;
+            if (game.isRole(client.player, Noellesroles.VULTURE)) return;
 
             BodyDeathReasonComponent bodyComp = BodyDeathReasonComponent.KEY.get(targetBody);
 
@@ -69,14 +70,14 @@ public class GraverobberCoronerHudMixin {
 
             // role info line
             if (!bodyComp.vultured) {
-                Role foundRole = WatheRoles.CIVILIAN;
+                Role role = WatheRoles.CIVILIAN;
                 for (Role r : WatheRoles.ROLES) {
                     if (r.identifier().equals(bodyComp.playerRole)) {
-                        foundRole = r;
+                        role = r;
                         break;
                     }
                 }
-                Text roleInfo = Text.translatable("hud.coroner.role_info").withColor(0xFF0000).append(org.agmas.harpymodloader.Harpymodloader.getRoleName(foundRole).withColor(foundRole.color()));
+                Text roleInfo = Text.translatable("hud.coroner.role_info").withColor(0xFF0000).append(org.agmas.harpymodloader.Harpymodloader.getRoleName(role).withColor(role.color()));
                 context.drawTextWithShadow(renderer, roleInfo, -renderer.getWidth(roleInfo) / 2, 48, -1);
             }
 

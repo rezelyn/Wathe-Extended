@@ -17,8 +17,8 @@ public class KeyBindingChatRestoreMixin {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null) return true;
 
-        KeyBinding self = (KeyBinding) (Object) this;
-        boolean isChatOrCommand = self.equals(client.options.chatKey) || self.equals(client.options.commandKey);
+        KeyBinding input = (KeyBinding) (Object) this;
+        boolean isChatOrCommand = input.equals(client.options.chatKey) || input.equals(client.options.commandKey);
 
         if (client.player.hasPermissionLevel(2)) {
             return !isChatOrCommand;

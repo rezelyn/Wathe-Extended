@@ -16,21 +16,21 @@ public final class PronounsCommand {
     private PronounsCommand() {}
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(CommandManager.literal("pronouns").then(CommandManager.literal("set").then(CommandManager.argument("pronouns", StringArgumentType.greedyString()).executes(ctx -> {
-            ServerPlayerEntity player = ctx.getSource().getPlayerOrThrow();
-            String raw = StringArgumentType.getString(ctx, "pronouns").trim();
+        dispatcher.register(CommandManager.literal("pronouns").then(CommandManager.literal("set").then(CommandManager.argument("pronouns", StringArgumentType.greedyString()).executes(context -> {
+            ServerPlayerEntity player = context.getSource().getPlayerOrThrow();
+            String raw = StringArgumentType.getString(context, "pronouns").trim();
             UUID uuid = player.getUuid();
             PronounsManager.set(uuid, raw);
-            String stored = PronounsManager.get(uuid);
-            broadcastAll(ctx.getSource(), uuid, stored);
-            ctx.getSource().sendFeedback(() -> Text.translatable("command.watheextended.pronouns.set", stored), false);
+            String pronouns = PronounsManager.get(uuid);
+            broadcastAll(context.getSource(), uuid, pronouns);
+            context.getSource().sendFeedback(() -> Text.translatable("command.watheextended.pronouns.set", pronouns), false);
             return 1;
-        }))).then(CommandManager.literal("clear").executes(ctx -> {
-            ServerPlayerEntity player = ctx.getSource().getPlayerOrThrow();
+        }))).then(CommandManager.literal("clear").executes(context -> {
+            ServerPlayerEntity player = context.getSource().getPlayerOrThrow();
             UUID uuid = player.getUuid();
             PronounsManager.clear(uuid);
-            broadcastAll(ctx.getSource(), uuid, "");
-            ctx.getSource().sendFeedback(() -> Text.translatable("command.watheextended.pronouns.cleared"), false);
+            broadcastAll(context.getSource(), uuid, "");
+            context.getSource().sendFeedback(() -> Text.translatable("command.watheextended.pronouns.cleared"), false);
             return 1;
         })));
     }
@@ -39,8 +39,8 @@ public final class PronounsCommand {
         if (source.getServer() == null) return;
         PronounsManager.SyncPayload payload = new PronounsManager.SyncPayload(uuid, pronouns);
         source.getServer().execute(() -> {
-            for (ServerPlayerEntity p : source.getServer().getPlayerManager().getPlayerList()) {
-                ServerPlayNetworking.send(p, payload);
+            for (ServerPlayerEntity player : source.getServer().getPlayerManager().getPlayerList()) {
+                ServerPlayNetworking.send(player, payload);
             }
         });
     }

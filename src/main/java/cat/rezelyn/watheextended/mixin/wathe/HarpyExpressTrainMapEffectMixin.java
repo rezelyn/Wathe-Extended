@@ -17,7 +17,7 @@ import java.util.List;
 public class HarpyExpressTrainMapEffectMixin {
 
     @Inject(method = "initializeMapEffects", at = @At("TAIL"))
-    private void watheExtended$replaceLetterWithGuidebook(ServerWorld serverWorld, List<ServerPlayerEntity> players, CallbackInfo ci) {
+    private void watheExtended$replaceLetterWithGuidebook(ServerWorld world, List<ServerPlayerEntity> players, CallbackInfo ci) {
         for (ServerPlayerEntity player : players) {
             for (int i = 0; i < player.getInventory().size(); i++) {
                 ItemStack stack = player.getInventory().getStack(i);

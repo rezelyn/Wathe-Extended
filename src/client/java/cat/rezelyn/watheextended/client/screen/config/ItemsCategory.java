@@ -1,8 +1,8 @@
 package cat.rezelyn.watheextended.client.screen.config;
 
-import cat.rezelyn.watheextended.api.ClientConfig;
+import cat.rezelyn.watheextended.api.config.ClientConfig;
+import cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper;
 import cat.rezelyn.watheextended.client.screen.ScreenUtils;
-import cat.rezelyn.watheextended.client.screen.guidebook.GuidebookIcons;
 import dev.isxander.yacl3.api.ConfigCategory;
 import dev.isxander.yacl3.api.LabelOption;
 import dev.isxander.yacl3.api.Option;
@@ -190,7 +190,7 @@ public class ItemsCategory {
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
 
-        if (cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) {
+        if (ConfigHelper.isLoaded()) {
             // Sulfuric Acid Barrel
             builder.option(LabelOption.create(withIcon("gui.watheextended.config.category.items.label.sulfuricacidbarrel")));
             /// COOLDOWN
@@ -314,6 +314,26 @@ public class ItemsCategory {
                     .build());
         }
 
+        if (cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.isLoaded()) {
+            // Defense Vial
+            builder.option(LabelOption.create(withIcon("gui.watheextended.config.category.items.label.defense_vial")));
+            builder.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.text.price"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.opt.defense_vial.price")))
+                    .binding(200, () -> ClientConfig.getInt("noellesroles.defenseVialPrice", 200), value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.defenseVialPrice", value))
+                    .controller(IntegerFieldControllerBuilder::create)
+                    .build());
+
+            // Role Mine
+            builder.option(LabelOption.create(withIcon("gui.watheextended.config.category.items.label.role_mine")));
+            builder.option(Option.<Integer>createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.text.price"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.opt.role_mine.price")))
+                    .binding(100, () -> ClientConfig.getInt("noellesroles.roleMinePrice", 100), value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.roleMinePrice", value))
+                    .controller(IntegerFieldControllerBuilder::create)
+                    .build());
+        }
+
         return builder.build();
     }
 
@@ -346,7 +366,7 @@ public class ItemsCategory {
     private static void flush(MutableText into, String text, boolean isIcon) {
         if (text.isEmpty()) return;
         if (isIcon) {
-            into.append(Text.literal(text).setStyle(GuidebookIcons.ICON_STYLE));
+            into.append(Text.literal(text).setStyle(ScreenUtils.ICON_STYLE));
         } else {
             into.append(Text.literal(text).styled(style -> style.withColor(0xAAAAAA)));
         }

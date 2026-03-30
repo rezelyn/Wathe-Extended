@@ -1,7 +1,7 @@
 package cat.rezelyn.watheextended.mixin.client.kinswathe.bodymaker;
 
-import cat.rezelyn.watheextended.api.hml.ConfigHelper;
-import cat.rezelyn.watheextended.api.wathe.RolesDisplay;
+import cat.rezelyn.watheextended.api.config.hml.ConfigHelper;
+import cat.rezelyn.watheextended.api.RolesDisplay;
 import cat.rezelyn.watheextended.client.widget.RolePickerWidget;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
@@ -53,7 +53,7 @@ public abstract class BodymakerRolePickerMixin extends Screen {
             if (disabled.contains(id)) continue;
 
             RolesDisplay.RoleDisplay d = display.get(id);
-            Text label = d != null ? d.display() : Text.literal(RolesDisplay.localName(id));
+            Text label = d != null ? d.display() : Text.literal(RolesDisplay.prettyName(id));
             int color = d != null ? d.color() : 0xFFFFFF;
             RolesDisplay.Side side = d != null ? d.side() : RolesDisplay.Side.NEUTRAL;
 
@@ -78,18 +78,18 @@ public abstract class BodymakerRolePickerMixin extends Screen {
         if (!FabricLoader.getInstance().isModLoaded("kinswathe")) return;
 
         try {
-            Class<?> brwClass = Class.forName("org.BsXinQin.kinswathe.client.roles.bodymaker.BodymakerRoleWidget");
-            Class<?> bpwClass = Class.forName("org.BsXinQin.kinswathe.client.roles.bodymaker.BodymakerPlayerWidget");
-            Class<?> bdwClass = Class.forName("org.BsXinQin.kinswathe.client.roles.bodymaker.BodymakerDeathReasonWidget");
+            Class<?> bodymakerRole = Class.forName("org.BsXinQin.kinswathe.client.roles.bodymaker.BodymakerRoleWidget");
+            Class<?> bodymakerPicker = Class.forName("org.BsXinQin.kinswathe.client.roles.bodymaker.BodymakerPlayerWidget");
+            Class<?> bodymakerReason = Class.forName("org.BsXinQin.kinswathe.client.roles.bodymaker.BodymakerDeathReasonWidget");
 
             Element roleWidget = null;
             boolean isBodymakerUI = false;
 
             for (Element child : List.copyOf(this.children())) {
-                if (brwClass.isInstance(child)) {
+                if (bodymakerRole.isInstance(child)) {
                     roleWidget = child;
                     isBodymakerUI = true;
-                } else if (bpwClass.isInstance(child) || bdwClass.isInstance(child)) {
+                } else if (bodymakerPicker.isInstance(child) || bodymakerReason.isInstance(child)) {
                     isBodymakerUI = true;
                 }
             }
@@ -98,27 +98,27 @@ public abstract class BodymakerRolePickerMixin extends Screen {
 
             if (roleWidget != null && FabricLoader.getInstance().isModLoaded("noellesroles")) {
                 try {
-                    Class<?> gpwClass = Class.forName("org.agmas.noellesroles.client.ui.guesser.GuesserPlayerWidget");
-                    Class<?> grwClass = Class.forName("org.agmas.noellesroles.client.ui.guesser.GuesserRoleWidget");
+                    Class<?> guesserRole = Class.forName("org.agmas.noellesroles.client.ui.guesser.GuesserPlayerWidget");
+                    Class<?> guesserPicker = Class.forName("org.agmas.noellesroles.client.ui.guesser.GuesserRoleWidget");
                     for (Element child : List.copyOf(this.children())) {
-                        if (gpwClass.isInstance(child) || grwClass.isInstance(child)) {
+                        if (guesserRole.isInstance(child) || guesserPicker.isInstance(child)) {
                             this.remove(child);
                         }
                     }
-                    Field selectedPlayerField = gpwClass.getDeclaredField("selectedPlayer");
-                    selectedPlayerField.setAccessible(true);
-                    selectedPlayerField.set(null, null);
+                    Field selected = guesserRole.getDeclaredField("selectedPlayer");
+                    selected.setAccessible(true);
+                    selected.set(null, null);
                 } catch (Exception ignored) {
                 }
             }
 
             if (roleWidget == null) return;
 
-            Field uuidField = brwClass.getDeclaredField("targetPlayerUuid");
+            Field uuidField = bodymakerRole.getDeclaredField("targetPlayerUuid");
             uuidField.setAccessible(true);
-            UUID targetPlayerUuid = (UUID) uuidField.get(roleWidget);
+            UUID target = (UUID) uuidField.get(roleWidget);
 
-            Field reasonField = brwClass.getDeclaredField("deathReason");
+            Field reasonField = bodymakerRole.getDeclaredField("deathReason");
             reasonField.setAccessible(true);
             String deathReason = (String) reasonField.get(roleWidget);
 
@@ -128,15 +128,15 @@ public abstract class BodymakerRolePickerMixin extends Screen {
             int pickerY = (this.height - 32) / 2 + 32 + 20;
             int pickerH = Math.max(50, Math.min(100, this.height - pickerY - 5));
 
-            final UUID finalUUID = targetPlayerUuid;
+            final UUID finalUUID = target;
             final String finalReason = deathReason;
             LimitedInventoryScreen screen = (LimitedInventoryScreen) (Object) this;
 
             RolePickerWidget picker = new RolePickerWidget(
                     pickerX, pickerY, 200, pickerH, buildBodymakerEntries(),
-                    sendValue -> {
+                    value -> {
                         ClientPlayNetworking.send(
-                                new BodymakerC2SPacket(finalUUID, finalReason, sendValue));
+                                new BodymakerC2SPacket(finalUUID, finalReason, value));
                         screen.close();
                     });
 

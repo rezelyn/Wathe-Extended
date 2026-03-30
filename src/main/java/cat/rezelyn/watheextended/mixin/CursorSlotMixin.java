@@ -20,13 +20,13 @@ public class CursorSlotMixin {
         ItemStack groundStack = ((ItemEntity) (Object) this).getStack();
         if (!groundStack.isIn(WatheItemTags.GUNS)) return;
 
-        GameWorldComponent gwc;
+        GameWorldComponent compenent;
         try {
-            gwc = GameWorldComponent.KEY.get(player.getWorld());
+            compenent = GameWorldComponent.KEY.get(player.getWorld());
         } catch (Throwable ignored) {
             return;
         }
-        if (gwc == null || !gwc.isRunning()) return;
+        if (compenent == null || !compenent.isRunning()) return;
 
         ItemStack cursor = player.currentScreenHandler.getCursorStack();
         if (!cursor.isEmpty() && cursor.isIn(WatheItemTags.GUNS)) {

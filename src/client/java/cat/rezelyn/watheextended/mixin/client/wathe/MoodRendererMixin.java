@@ -35,62 +35,62 @@ public class MoodRendererMixin {
     private static final float FADE_SPEED = 2.75f;
 
     @Inject(method = "renderHud", at = @At("HEAD"))
-    private static void watheExtended$updateFade(PlayerEntity player, TextRenderer tr, DrawContext ctx, RenderTickCounter tc, CallbackInfo ci) {
-        float dt = tc.getLastFrameDuration() / 20.0f;
+    private static void watheExtended$updateFade(PlayerEntity player, TextRenderer text, DrawContext context, RenderTickCounter tick, CallbackInfo ci) {
+        float delta = tick.getLastFrameDuration() / 20.0f;
         if (watheExtended$isAnxious(player)) {
-            watheExtended$fadeProgress = Math.min(1f, watheExtended$fadeProgress + dt * FADE_SPEED);
+            watheExtended$fadeProgress = Math.min(1f, watheExtended$fadeProgress + delta * FADE_SPEED);
         } else {
-            watheExtended$fadeProgress = Math.max(0f, watheExtended$fadeProgress - dt * FADE_SPEED);
+            watheExtended$fadeProgress = Math.max(0f, watheExtended$fadeProgress - delta * FADE_SPEED);
         }
     }
 
     // task text
     @WrapOperation(method = "renderHud", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)I", ordinal = 0))
-    private static int watheExtended$shakeTaskText(DrawContext ctx, TextRenderer renderer, Text text, int x, int y, int color, Operation<Integer> op) {
-        if (watheExtended$fadeProgress <= 0f) return op.call(ctx, renderer, text, x, y, color);
-        ctx.getMatrices().push();
-        ctx.getMatrices().translate(watheExtended$offset(1, false), watheExtended$offset(1, true), 0f);
-        int result = op.call(ctx, renderer, text, x, y, color);
-        ctx.getMatrices().pop();
+    private static int watheExtended$shakeTaskText(DrawContext context, TextRenderer renderer, Text text, int x, int y, int color, Operation<Integer> op) {
+        if (watheExtended$fadeProgress <= 0f) return op.call(context, renderer, text, x, y, color);
+        context.getMatrices().push();
+        context.getMatrices().translate(watheExtended$offset(1, false), watheExtended$offset(1, true), 0f);
+        int result = op.call(context, renderer, text, x, y, color);
+        context.getMatrices().pop();
         return result;
     }
 
     // icon
     @WrapOperation(method = "renderCivilian", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V", ordinal = 0))
-    private static void watheExtended$shakeMoodIconCivilian(DrawContext ctx, Identifier texture, int x, int y, int w, int h, Operation<Void> op) {
+    private static void watheExtended$shakeMoodIconCivilian(DrawContext context, Identifier texture, int x, int y, int w, int h, Operation<Void> op) {
         if (watheExtended$fadeProgress <= 0f) {
-            op.call(ctx, texture, x, y, w, h);
+            op.call(context, texture, x, y, w, h);
             return;
         }
-        ctx.getMatrices().push();
-        ctx.getMatrices().translate(watheExtended$offset(2, false), watheExtended$offset(2, true), 0f);
-        op.call(ctx, texture, x, y, w, h);
-        ctx.getMatrices().pop();
+        context.getMatrices().push();
+        context.getMatrices().translate(watheExtended$offset(2, false), watheExtended$offset(2, true), 0f);
+        op.call(context, texture, x, y, w, h);
+        context.getMatrices().pop();
     }
 
     // bar
     @WrapOperation(method = "renderCivilian", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;fill(IIIII)V", ordinal = 0))
-    private static void watheExtended$shakeMoodBarCivilian(DrawContext ctx, int x1, int y1, int x2, int y2, int color, Operation<Void> op) {
+    private static void watheExtended$shakeMoodBarCivilian(DrawContext context, int x1, int y1, int x2, int y2, int color, Operation<Void> op) {
         if (watheExtended$fadeProgress <= 0f) {
-            op.call(ctx, x1, y1, x2, y2, color);
+            op.call(context, x1, y1, x2, y2, color);
             return;
         }
-        ctx.getMatrices().push();
-        ctx.getMatrices().translate(0f, watheExtended$offset(3, true), 0f);
-        op.call(ctx, x1, y1, x2, y2, color);
-        ctx.getMatrices().pop();
+        context.getMatrices().push();
+        context.getMatrices().translate(0f, watheExtended$offset(3, true), 0f);
+        op.call(context, x1, y1, x2, y2, color);
+        context.getMatrices().pop();
     }
 
     private static float watheExtended$offset(int slot, boolean isY) {
-        long t = System.currentTimeMillis();
+        long time = System.currentTimeMillis();
         double freq;
         if (!isY) {
             freq = slot == 1 ? 0.018 : (slot == 2 ? 0.023 : 0.014);
         } else {
             freq = slot == 1 ? 0.027 : (slot == 2 ? 0.032 : 0.021);
         }
-        double sine = isY ? Math.cos(t * freq) : Math.sin(t * freq);
-        watheExtended$rng.setSeed(t / 55L + slot + (isY ? 10 : 0));
+        double sine = isY ? Math.cos(time * freq) : Math.sin(time * freq);
+        watheExtended$rng.setSeed(time / 55L + slot + (isY ? 10 : 0));
         return (float) ((sine * 0.22 + watheExtended$rng.nextGaussian() / 25.0) * watheExtended$fadeProgress);
     }
 
@@ -99,20 +99,19 @@ public class MoodRendererMixin {
             if (!FabricLoader.getInstance().isModLoaded("harpymodloader")) return false;
             if (WatheExtendedModifiers.INTROVERTED == null) return false;
 
-            // ignore when psycho
-            if (PlayerPsychoComponent.KEY.get(player).getPsychoTicks() > 0) return false;
+            if (PlayerPsychoComponent.KEY.get(player).getPsychoTicks() > 0) return false; // ignore when psycho
 
-            GameTimeComponent gtc = GameTimeComponent.KEY.get(player.getWorld());
-            if (gtc.resetTime - gtc.getTime() < GameConstants.TIME_TO_FIRST_TASK) return false;
+            GameTimeComponent time = GameTimeComponent.KEY.get(player.getWorld());
+            if (time.resetTime - time.getTime() < GameConstants.TIME_TO_FIRST_TASK) return false;
 
-            WorldModifierComponent wmc = WorldModifierComponent.KEY.get(player.getWorld());
-            if (!wmc.isModifier(player, WatheExtendedModifiers.INTROVERTED)) return false;
-            float rangeSq = WatheExtendedServerConfig.getIntrovertedCrowdRange() * WatheExtendedServerConfig.getIntrovertedCrowdRange();
+            WorldModifierComponent modifier = WorldModifierComponent.KEY.get(player.getWorld());
+            if (!modifier.isModifier(player, WatheExtendedModifiers.INTROVERTED)) return false;
+            float range = WatheExtendedServerConfig.getIntrovertedCrowdRange() * WatheExtendedServerConfig.getIntrovertedCrowdRange();
             int count = 0;
             for (PlayerEntity other : player.getWorld().getPlayers()) {
                 if (other == player) continue;
                 if (!GameFunctions.isPlayerAliveAndSurvival(other)) continue;
-                if (other.squaredDistanceTo(player) <= rangeSq) count++;
+                if (other.squaredDistanceTo(player) <= range) count++;
             }
             return count >= WatheExtendedServerConfig.getIntrovertedCrowdCount();
         } catch (Throwable ignored) {

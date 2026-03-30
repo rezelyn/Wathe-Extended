@@ -1,10 +1,11 @@
 package cat.rezelyn.watheextended.mixin.client.wathe;
 
-import cat.rezelyn.watheextended.api.ClientConfig;
+import cat.rezelyn.watheextended.api.config.ClientConfig;
 import dev.doctor4t.wathe.client.util.WatheItemTooltips;
 import dev.doctor4t.wathe.index.WatheItems;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,8 +29,8 @@ public class WatheItemTooltipsMixin {
 
         List<Text> activeCooldownLines = new ArrayList<>();
         for (int i = 1; i < lines.size(); i++) {
-            net.minecraft.text.Style s = lines.get(i).getStyle();
-            if (s.getColor() != null && s.getColor().getRgb() == 0xC90000) {
+            Style style = lines.get(i).getStyle();
+            if (style.getColor() != null && style.getColor().getRgb() == 0xC90000) {
                 activeCooldownLines.add(lines.get(i));
             }
         }
@@ -82,11 +83,14 @@ public class WatheItemTooltipsMixin {
 
     @Unique
     private static String formatCooldown(int seconds) {
-        if (seconds < 60) return seconds + (seconds == 1 ? " second" : " seconds");
+        String sec = Text.translatable(seconds == 1 ? "tooltip.watheextended.item.cooldown.second" : "tooltip.watheextended.item.cooldown.seconds").getString();
+        if (seconds < 60) return seconds + " " + sec;
         int minutes = seconds / 60;
         int remaining = seconds % 60;
-        String minPart = minutes + (minutes == 1 ? " minute" : " minutes");
+        String min = Text.translatable(minutes == 1 ? "tooltip.watheextended.item.cooldown.minute" : "tooltip.watheextended.item.cooldown.minutes").getString();
+        String minPart = minutes + " " + min;
         if (remaining == 0) return minPart;
-        return minPart + " " + remaining + (remaining == 1 ? " second" : " seconds");
+        String remSec = Text.translatable(remaining == 1 ? "tooltip.watheextended.item.cooldown.second" : "tooltip.watheextended.item.cooldown.seconds").getString();
+        return minPart + " " + remaining + " " + remSec;
     }
 }

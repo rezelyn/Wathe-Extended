@@ -56,12 +56,12 @@ public final class TeleportationSlot {
     }
 
     private static String rounded(double v) {
-        String s = new BigDecimal(Double.toString(v)).setScale(2, RoundingMode.DOWN).toPlainString();
-        return s.replaceAll("0+$", "").replaceAll("\\.$", "");
+        String string = new BigDecimal(Double.toString(v)).setScale(2, RoundingMode.DOWN).toPlainString();
+        return string.replaceAll("0+$", "").replaceAll("\\.$", "");
     }
 
     private static String rounded(float v) {
-        String s = new BigDecimal(Float.toString(v)).setScale(2, RoundingMode.DOWN).toPlainString();
-        return s.replaceAll("0+$", "").replaceAll("\\.$", "");
+        String string = new BigDecimal(Float.toString(v)).setScale(2, RoundingMode.DOWN).toPlainString();
+        return string.replaceAll("0+$", "").replaceAll("\\.$", "");
     }
 }

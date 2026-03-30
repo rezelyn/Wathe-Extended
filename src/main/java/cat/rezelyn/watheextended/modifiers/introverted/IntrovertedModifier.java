@@ -1,7 +1,7 @@
 package cat.rezelyn.watheextended.modifiers.introverted;
 
 import cat.rezelyn.watheextended.WatheExtendedServerConfig;
-import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
+import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.modifiers.WatheExtendedModifiers;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -21,16 +21,16 @@ public final class IntrovertedModifier {
         try {
             if (!GameWorldComponent.KEY.get(world).isRunning()) return;
 
-            WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(world);
-            long gameStartWorldTime = wec.getGameStartWorldTime();
+            WatheExtendedWorldComponent component = WatheExtendedWorldComponent.KEY.get(world);
+            long gameStartWorldTime = component.getGameStartWorldTime();
             if (gameStartWorldTime < 0 || world.getTime() - gameStartWorldTime < GameConstants.TIME_TO_FIRST_TASK) return;
 
-            WorldModifierComponent wmc = WorldModifierComponent.KEY.get(world);
+            WorldModifierComponent worldComponent = WorldModifierComponent.KEY.get(world);
 
             for (PlayerEntity player : world.getPlayers()) {
                 if (!(player instanceof ServerPlayerEntity sp)) continue;
                 if (!GameFunctions.isPlayerAliveAndSurvival(sp)) continue;
-                if (!wmc.isModifier(sp, WatheExtendedModifiers.INTROVERTED)) continue;
+                if (!worldComponent.isModifier(sp, WatheExtendedModifiers.INTROVERTED)) continue;
 
                 // only affect roles that are subject to the mood system
                 Role role = GameWorldComponent.KEY.get(world).getRole(sp);

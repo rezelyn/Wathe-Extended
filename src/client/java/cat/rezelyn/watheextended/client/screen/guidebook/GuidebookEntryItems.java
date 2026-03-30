@@ -1,6 +1,7 @@
 package cat.rezelyn.watheextended.client.screen.guidebook;
 
-import cat.rezelyn.watheextended.api.kinswathe.ConfigHelper;
+import cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper;
+import cat.rezelyn.watheextended.client.screen.ScreenUtils;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 
@@ -24,8 +25,6 @@ public final class GuidebookEntryItems {
             new RoleItem("note", "item.wathe.note", 10)
     );
 
-    private static final String KEY_ITEM_DESC_PREFIX = "gui.watheextended.guidebook.item.";
-    private static final String KEY_ITEM_DESC_SUFFIX = ".desc";
     private static final Map<String, Supplier<List<RoleItem>>> REGISTRY = new LinkedHashMap<>();
 
     static {
@@ -44,18 +43,16 @@ public final class GuidebookEntryItems {
                 starting("grenade", "item.wathe.grenade")
         ));
         register("noellesroles:conductor", () -> List.of(
-                starting("master_key", "item.noellesroles.master_key")
-        ));
+                starting("master_key", "item.noellesroles.master_key")));
         register("noellesroles:bartender", () -> {
-            int price = cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.isLoaded()
-                    ? readNoellesInt("defenseVialPrice", 100) : 100;
+            int price = cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.isLoaded() ? readNoellesInt("defenseVialPrice", 100) : 100;
             return List.of(shop("defense_vial", "item.noellesroles.defense_vial", price));
         });
         register("noellesroles:noisemaker", () -> List.of(
                 shop("firecracker", "item.wathe.firecracker", 75)
         ));
         register("noellesroles:trapper", () -> {
-            int price = cat.rezelyn.watheextended.api.noellesroles.ConfigHelper.isLoaded()
+            int price = cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.isLoaded()
                     ? readNoellesInt("roleMinePrice", 100) : 100;
             return List.of(shop("role_mine", "item.noellesroles.role_mine", price));
         });
@@ -135,8 +132,8 @@ public final class GuidebookEntryItems {
         if (isKillerSided) {
             List<RoleItem> merged = new ArrayList<>(specific);
             for (RoleItem global : GLOBAL_KILLER_SHOP) {
-                boolean dup = specific.stream().anyMatch(ri -> ri.iconName().equals(global.iconName()));
-                if (!dup) merged.add(global);
+                boolean duplicate = specific.stream().anyMatch(item -> item.icon().equals(global.icon()));
+                if (!duplicate) merged.add(global);
             }
             return Collections.unmodifiableList(merged);
         }
@@ -151,12 +148,12 @@ public final class GuidebookEntryItems {
         REGISTRY.put(id, supplier);
     }
 
-    private static RoleItem shop(String icon, String nameKey, int price) {
-        return new RoleItem(icon, nameKey, price);
+    private static RoleItem shop(String icon, String name, int price) {
+        return new RoleItem(icon, name, price);
     }
 
-    private static RoleItem starting(String icon, String nameKey) {
-        return new RoleItem(icon, nameKey, 0);
+    private static RoleItem starting(String icon, String name) {
+        return new RoleItem(icon, name, 0);
     }
 
     private static List<RoleItem> framingShop() {
@@ -168,8 +165,8 @@ public final class GuidebookEntryItems {
 
     private static int readNoellesInt(String fieldName, int def) {
         try {
-            Class<?> cfgCls = Class.forName("org.agmas.noellesroles.config.NoellesRolesConfig");
-            Object handler = cfgCls.getField("HANDLER").get(null);
+            Class<?> cls = Class.forName("org.agmas.noellesroles.config.NoellesRolesConfig");
+            Object handler = cls.getField("HANDLER").get(null);
             Object instance = handler.getClass().getMethod("instance").invoke(handler);
             return (int) instance.getClass().getField(fieldName).get(instance);
         } catch (Throwable t) {
@@ -177,56 +174,56 @@ public final class GuidebookEntryItems {
         }
     }
 
-    private static List<RoleItem> safeGet(Supplier<List<RoleItem>> s) {
+    private static List<RoleItem> safeGet(Supplier<List<RoleItem>> supplier) {
         try {
-            List<RoleItem> list = s.get();
+            List<RoleItem> list = supplier.get();
             return list != null ? list : Collections.emptyList();
-        } catch (Throwable t) {
+        } catch (Throwable ignored) {
             return Collections.emptyList();
         }
     }
 
     private static String prettyName(String raw) {
         String[] parts = raw.split("[_\\-]");
-        StringBuilder sb = new StringBuilder();
+        StringBuilder string = new StringBuilder();
         for (String part : parts) {
             if (part.isEmpty()) continue;
-            if (!sb.isEmpty()) sb.append(' ');
-            sb.append(Character.toUpperCase(part.charAt(0))).append(part.substring(1));
+            if (!string.isEmpty()) string.append(' ');
+            string.append(Character.toUpperCase(part.charAt(0))).append(part.substring(1));
         }
-        return sb.isEmpty() ? raw : sb.toString();
+        return string.isEmpty() ? raw : string.toString();
     }
 
-    public record RoleItem(String iconName, String nameKey, int price) {
+    public record RoleItem(String icon, String name, int price) {
 
         public Text toText() {
             MutableText line = Text.literal("");
 
-            if (GuidebookIcons.has(iconName)) {
-                line.append(GuidebookIcons.icon(iconName));
-                line.append(Text.literal(" ").styled(s -> s.withFont(null)));
+            if (ScreenUtils.hasIcon(icon)) {
+                line.append(ScreenUtils.icon(icon));
+                line.append(Text.literal(" ").styled(style -> style.withFont(null)));
             }
 
-            String displayName = Text.translatable(nameKey).getString();
-            if (displayName.equals(nameKey)) {
-                int last = nameKey.lastIndexOf('.');
-                displayName = last >= 0 ? prettyName(nameKey.substring(last + 1)) : nameKey;
+            String text = Text.translatable(name).getString();
+            if (text.equals(name)) {
+                int last = name.lastIndexOf('.');
+                text = last >= 0 ? prettyName(name.substring(last + 1)) : name;
             }
-            line.append(Text.literal("§l" + displayName + "§r").styled(s -> s.withFont(null)));
+            line.append(Text.literal("§l" + text + "§r").styled(style -> style.withFont(null)));
 
             if (price > 0) {
-                line.append(Text.literal(" §6(" + price + " ").styled(s -> s.withFont(null)));
-                line.append(GuidebookIcons.icon("coin"));
-                line.append(Text.literal("§6)§r").styled(s -> s.withFont(null)));
+                line.append(Text.literal(" §6(" + price + " ").styled(style -> style.withFont(null)));
+                line.append(ScreenUtils.icon("coin"));
+                line.append(Text.literal("§6)§r").styled(style -> style.withFont(null)));
             }
             return line;
         }
 
         public Text descText() {
-            String key = KEY_ITEM_DESC_PREFIX + iconName + KEY_ITEM_DESC_SUFFIX;
-            String val = Text.translatable(key).getString();
-            if (val.equals(key) || val.isBlank()) return null;
-            return Text.literal("§7" + val + "§r").styled(s -> s.withFont(null));
+            String key = "gui.watheextended.guidebook.item." + icon + ".desc";
+            String value = Text.translatable(key).getString();
+            if (value.equals(key) || value.isBlank()) return null;
+            return Text.literal("§7" + value + "§r").styled(style -> style.withFont(null));
         }
     }
 }

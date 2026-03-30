@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.mixin.wathe;
 
-import cat.rezelyn.watheextended.api.noellesroles.ConfigHelper;
+import cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import dev.doctor4t.wathe.index.WatheItems;
@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.server.network.ServerPlayerEntity;
+import org.agmas.noellesroles.Noellesroles;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -20,8 +21,8 @@ public class PlayerMoodTaskCompleteMixin {
         ServerPlayNetworking.send(player, payload);
         if (!ConfigHelper.isLoaded()) return;
         try {
-            GameWorldComponent gwc = GameWorldComponent.KEY.get(player.getServerWorld());
-            if (gwc.isRole(player, org.agmas.noellesroles.Noellesroles.AWESOME_BINGLUS)) {
+            GameWorldComponent component = GameWorldComponent.KEY.get(player.getServerWorld());
+            if (component.isRole(player, Noellesroles.AWESOME_BINGLUS)) {
                 player.getInventory().insertStack(new ItemStack(WatheItems.NOTE, 4));
             }
         } catch (Throwable ignored) {}

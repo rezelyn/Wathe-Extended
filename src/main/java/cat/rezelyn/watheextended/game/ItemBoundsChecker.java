@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.game;
 
-import cat.rezelyn.watheextended.api.wathe.MapVariables;
+import cat.rezelyn.watheextended.api.MapVariables;
 import dev.doctor4t.wathe.index.WatheEntities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -25,8 +25,8 @@ public final class ItemBoundsChecker {
             if (playArea == null) return;
 
             TARGETS.clear();
-            for (net.minecraft.entity.player.PlayerEntity p : world.getPlayers()) {
-                if (p instanceof ServerPlayerEntity player && player.isAlive() && !player.isSpectator() && !player.isCreative()) {
+            for (net.minecraft.entity.player.PlayerEntity player : world.getPlayers()) {
+                if (player instanceof ServerPlayerEntity p && p.isAlive() && !p.isSpectator() && !p.isCreative()) {
                     TARGETS.add(player);
                 }
             }
@@ -48,9 +48,9 @@ public final class ItemBoundsChecker {
         Entity best = null;
         double bestDist = Double.MAX_VALUE;
         for (Entity candidate : candidates) {
-            double dist = from.squaredDistanceTo(candidate.getPos());
-            if (dist < bestDist) {
-                bestDist = dist;
+            double distance = from.squaredDistanceTo(candidate.getPos());
+            if (distance < bestDist) {
+                bestDist = distance;
                 best = candidate;
             }
         }

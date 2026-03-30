@@ -1,7 +1,7 @@
 package cat.rezelyn.watheextended.mixin.wathe;
 
 import cat.rezelyn.watheextended.WatheExtendedServerConfig;
-import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
+import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.modifiers.taxed.TaxedModifier;
 import dev.doctor4t.wathe.cca.GameTimeComponent;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -20,9 +20,9 @@ public class GameFunctionsMixin {
 
     @Inject(method = "killPlayer(Lnet/minecraft/entity/player/PlayerEntity;ZLnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Identifier;)V", at = @At("HEAD"))
     private static void watheextended$recordTaxedKill(PlayerEntity victim, boolean spawnBody, @Nullable PlayerEntity killer, Identifier deathReason, CallbackInfo ci) {
-        if (killer instanceof ServerPlayerEntity sp) {
+        if (killer instanceof ServerPlayerEntity player) {
             try {
-                TaxedModifier.recordKill(sp.getUuid());
+                TaxedModifier.recordKill(player.getUuid());
             } catch (Throwable ignored) {
             }
         }
@@ -30,10 +30,10 @@ public class GameFunctionsMixin {
 
     @Inject(method = "killPlayer(Lnet/minecraft/entity/player/PlayerEntity;ZLnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/Identifier;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;changeGameMode(Lnet/minecraft/world/GameMode;)Z", shift = At.Shift.AFTER))
     private static void watheextended$trackKilledPlayer(PlayerEntity victim, boolean spawnBody, @Nullable PlayerEntity killer, Identifier deathReason, CallbackInfo ci) {
-        if (victim instanceof ServerPlayerEntity serverPlayer) {
+        if (victim instanceof ServerPlayerEntity player) {
             try {
-                WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(serverPlayer.getServerWorld());
-                wec.markPlayerKilled(serverPlayer.getUuid());
+                WatheExtendedWorldComponent component = WatheExtendedWorldComponent.KEY.get(player.getServerWorld());
+                component.markPlayerKilled(player.getUuid());
             } catch (Throwable ignored) {
             }
         }
