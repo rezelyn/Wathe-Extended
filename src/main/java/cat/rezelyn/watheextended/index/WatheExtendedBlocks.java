@@ -78,7 +78,7 @@ public class WatheExtendedBlocks {
     }
 
     private static AbstractBlock.Settings moquetteBlock() {
-        return AbstractBlock.Settings.create().nonOpaque().strength(0.5f).sounds(BlockSoundGroup.WOOL);
+        return AbstractBlock.Settings.create().strength(0.5f).sounds(BlockSoundGroup.WOOL);
     }
 
     private static AbstractBlock.Settings leavesBlock() {
