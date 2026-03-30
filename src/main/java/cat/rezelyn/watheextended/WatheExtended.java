@@ -175,6 +175,9 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalBool("watheextended.suppressAbilityVfxSfx", false,
                 WatheExtendedServerConfig::isSuppressAbilityVfxSfx,
                 WatheExtendedServerConfig::setSuppressAbilityVfxSfx));
+        ServerConfig.register(ServerConfig.Entry.globalString("watheextended.jumpMode", "LOBBY",
+                WatheExtendedServerConfig::getJumpMode,
+                WatheExtendedServerConfig::setJumpMode));
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.cleaner.playerLimit", 10,
                 WatheExtendedServerConfig::getCleanerPlayerLimit,
                 WatheExtendedServerConfig::setCleanerPlayerLimit));

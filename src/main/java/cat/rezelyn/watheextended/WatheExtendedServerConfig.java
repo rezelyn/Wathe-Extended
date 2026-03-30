@@ -26,6 +26,7 @@ public final class WatheExtendedServerConfig {
     public static float adaptivePenaltyReduction = 0.50f;
     public static float adaptiveBonusMultiplier = 0.50f;
     public static boolean suppressAbilityVfxSfx = false;
+    public static String jumpMode = "LOBBY";
     public static int cleanerPlayerLimit = 10;
     public static int killIncreaseTime = 60;
     public static boolean lastStandEnabled = false;
@@ -76,6 +77,7 @@ public final class WatheExtendedServerConfig {
         blockProtectionEnabled = ClientConfig.readBool(CONFIG_FILE, "gamerules.worldProtection", true);
         itemBoundsCheckEnabled = ClientConfig.readBool(CONFIG_FILE, "gamerules.itemBoundsCheck", true);
         suppressAbilityVfxSfx = ClientConfig.readBool(CONFIG_FILE, "gamerules.suppressVfxSfx", false);
+        jumpMode = ClientConfig.readString(CONFIG_FILE, "gamerules.jumpMode", "LOBBY");
         killIncreaseTime = ClientConfig.readInt(CONFIG_FILE, "gamerules.killIncreaseSeconds", 60);
         lastStandEnabled = ClientConfig.readBool(CONFIG_FILE, "gamerules.lastStandEnabled", false);
         lastStandCooldown = ClientConfig.readInt(CONFIG_FILE, "gamerules.lastStandDuration", 30);
@@ -156,7 +158,11 @@ public final class WatheExtendedServerConfig {
                     "    \"lastStandEnabled\": " + lastStandEnabled + ",\n" +
                     "    // Duration in seconds of the Last Stand countdown before the player dies.\n" +
                     "    // Default: 30\n" +
-                    "    \"lastStandDuration\": " + lastStandCooldown + "\n" +
+                    "    \"lastStandDuration\": " + lastStandCooldown + ",\n" +
+                    "    // Controls when players are allowed to jump.\n" +
+                    "    // Options: DEFAULT (Wathe default behavior), LOBBY (only in lobby), EVERYWHERE (always)\n" +
+                    "    // Default: LOBBY\n" +
+                    "    \"jumpMode\": \"" + jumpMode + "\"\n" +
                     "  },\n" +
                     "  \"items\": {\n" +
                     "    \"knife\": {\n" +
@@ -506,6 +512,15 @@ public final class WatheExtendedServerConfig {
 
     public static void setSuppressAbilityVfxSfx(boolean value) {
         suppressAbilityVfxSfx = value;
+        save();
+    }
+
+    public static String getJumpMode() {
+        return jumpMode;
+    }
+
+    public static void setJumpMode(String value) {
+        if ("DEFAULT".equals(value) || "LOBBY".equals(value) || "EVERYWHERE".equals(value)) jumpMode = value;
         save();
     }
 

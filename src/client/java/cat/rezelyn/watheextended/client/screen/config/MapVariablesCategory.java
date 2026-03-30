@@ -2,11 +2,13 @@ package cat.rezelyn.watheextended.client.screen.config;
 
 import cat.rezelyn.watheextended.api.wathe.GameComponents;
 import cat.rezelyn.watheextended.api.wathe.MapVariables;
+import cat.rezelyn.watheextended.api.ClientConfig;
 import cat.rezelyn.watheextended.cca.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.client.screen.ScreenUtils;
 import cat.rezelyn.watheextended.game.TeleportationSlot;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
+import dev.isxander.yacl3.api.controller.CyclingListControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerFieldControllerBuilder;
 import dev.isxander.yacl3.api.controller.StringControllerBuilder;
 import net.minecraft.client.MinecraftClient;
@@ -83,17 +85,13 @@ public final class MapVariablesCategory {
                 }, value -> sendCommand.accept("watheextended:enableItemBoundsCheck " + value, parent))
                 .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled")))
                 .build());
-
-        if (cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.isLoaded()) {
-            /// JUMP IN LOBBY
-            builder.option(Option.<Boolean>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.category.mapvariables.opt.jumpinlobby"))
-                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.opt.jumpinlobby.desc")))
-                    .binding(true, () -> cat.rezelyn.watheextended.api.kinswathe.ConfigHelper.getEnableJumpNotInGame(MinecraftClient.getInstance().world), value -> sendCommand.accept("watheextended:config kinswathe enableJumpInLobby " + value, parent))
-                    .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled")))
-                    .build());
-        }
-
+        /// JUMP MODE
+        builder.option(Option.<String>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.mapvariables.opt.jumpmode"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.opt.jumpmode.desc")))
+                .binding("LOBBY", () -> ClientConfig.getString("watheextended.jumpMode", "DEFAULT"), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.jumpMode", value))
+                .controller(opt -> CyclingListControllerBuilder.create(opt).values(java.util.Arrays.asList("DEFAULT", "LOBBY", "EVERYWHERE")).formatValue(Text::literal))
+                .build());
         /// AUTO START
         builder.option(Option.<Integer>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.mapvariables.opt.autostart"))

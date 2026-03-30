@@ -30,6 +30,7 @@
     "client.noellesroles.swapper.SwapperTextSuppressMixin",
     "client.noellesroles.voodoo.VoodooSlotTextureMixin",
     "client.noellesroles.voodoo.VoodooTextSuppressMixin",
+    "client.wathe.JumpKeyBindingMixin",
     "client.wathe.AbilityRowsMixin",
     "client.wathe.MoodRendererMixin",
     "client.wathe.PlayerBodyRendererNullFixMixin",

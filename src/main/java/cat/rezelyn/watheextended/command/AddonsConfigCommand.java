@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.command;
 
+import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import cat.rezelyn.watheextended.api.kinswathe.ConfigHelper;
 import cat.rezelyn.watheextended.api.ServerConfig;
 import com.mojang.brigadier.CommandDispatcher;
@@ -22,6 +23,20 @@ public class AddonsConfigCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         var root = CommandManager.literal("watheextended:config").requires(source -> source.hasPermissionLevel(2));
+
+        root.then(CommandManager.literal("jumpMode")
+                .then(CommandManager.literal("DEFAULT").executes(ctx -> {
+                    WatheExtendedServerConfig.setJumpMode("DEFAULT");
+                    return syncAndReturn(ctx);
+                }))
+                .then(CommandManager.literal("LOBBY").executes(ctx -> {
+                    WatheExtendedServerConfig.setJumpMode("LOBBY");
+                    return syncAndReturn(ctx);
+                }))
+                .then(CommandManager.literal("EVERYWHERE").executes(ctx -> {
+                    WatheExtendedServerConfig.setJumpMode("EVERYWHERE");
+                    return syncAndReturn(ctx);
+                })));
 
         if (ConfigHelper.isLoaded()) {
             root.then(CommandManager.literal("kinswathe").then(CommandManager.literal("setStartingCooldown").then(CommandManager.argument("seconds", IntegerArgumentType.integer(0)).executes(ctx -> {

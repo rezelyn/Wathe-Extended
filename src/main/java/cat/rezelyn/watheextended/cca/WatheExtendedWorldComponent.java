@@ -1,6 +1,7 @@
 package cat.rezelyn.watheextended.cca;
 
 import cat.rezelyn.watheextended.WatheExtended;
+import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import cat.rezelyn.watheextended.game.TeleportationSlot;
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
 import net.minecraft.nbt.NbtCompound;
@@ -86,7 +87,7 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
 
     public void setRtpEnabled(boolean enabled) {
         this.randomTeleportationEnabled = enabled;
-        cat.rezelyn.watheextended.WatheExtendedServerConfig.setRtpEnabled(enabled);
+        WatheExtendedServerConfig.setRtpEnabled(enabled);
         this.sync();
     }
 
@@ -96,7 +97,7 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
 
     public void setPlayerCollisionsEnabled(boolean enabled) {
         this.playerCollisionsEnabled = enabled;
-        cat.rezelyn.watheextended.WatheExtendedServerConfig.setPlayerCollisionsEnabled(enabled);
+        WatheExtendedServerConfig.setPlayerCollisionsEnabled(enabled);
         this.sync();
     }
 
@@ -106,7 +107,7 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
 
     public void setBlockInteractionsProtected(boolean enabled) {
         this.blockInteractionsProtected = enabled;
-        cat.rezelyn.watheextended.WatheExtendedServerConfig.setBlockProtectionEnabled(enabled);
+        WatheExtendedServerConfig.setBlockProtectionEnabled(enabled);
         this.sync();
     }
 
@@ -116,7 +117,7 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
 
     public void setItemBoundsCheckEnabled(boolean enabled) {
         this.itemBoundsCheckEnabled = enabled;
-        cat.rezelyn.watheextended.WatheExtendedServerConfig.setItemBoundsCheckEnabled(enabled);
+        WatheExtendedServerConfig.setItemBoundsCheckEnabled(enabled);
         this.sync();
     }
 
@@ -126,7 +127,7 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
 
     public void setForbiddenLoversEnabled(boolean enabled) {
         this.forbiddenLoversEnabled = enabled;
-        cat.rezelyn.watheextended.WatheExtendedServerConfig.setForbiddenLoversEnabled(enabled);
+        WatheExtendedServerConfig.setForbiddenLoversEnabled(enabled);
         this.sync();
     }
 
@@ -188,11 +189,11 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
             this.readyAreaSpawnPos = DEFAULT_READY_AREA_SPAWN_POS;
         }
 
-        this.randomTeleportationEnabled = tag.contains("randomTeleportationEnabled") ? tag.getBoolean("randomTeleportationEnabled") : cat.rezelyn.watheextended.WatheExtendedServerConfig.isRtpEnabled();
-        this.playerCollisionsEnabled = tag.contains("playerCollisionsEnabled") ? tag.getBoolean("playerCollisionsEnabled") : cat.rezelyn.watheextended.WatheExtendedServerConfig.isPlayerCollisionsEnabled();
-        this.blockInteractionsProtected = tag.contains("blockInteractionsProtected") ? tag.getBoolean("blockInteractionsProtected") : cat.rezelyn.watheextended.WatheExtendedServerConfig.isBlockProtectionEnabled();
-        this.itemBoundsCheckEnabled = tag.contains("itemBoundsCheckEnabled") ? tag.getBoolean("itemBoundsCheckEnabled") : cat.rezelyn.watheextended.WatheExtendedServerConfig.isItemBoundsCheckEnabled();
-        this.forbiddenLoversEnabled = tag.contains("forbiddenLoversEnabled") ? tag.getBoolean("forbiddenLoversEnabled") : cat.rezelyn.watheextended.WatheExtendedServerConfig.isForbiddenLoversEnabled();
+        this.randomTeleportationEnabled = tag.contains("randomTeleportationEnabled") ? tag.getBoolean("randomTeleportationEnabled") : WatheExtendedServerConfig.isRtpEnabled();
+        this.playerCollisionsEnabled = tag.contains("playerCollisionsEnabled") ? tag.getBoolean("playerCollisionsEnabled") : WatheExtendedServerConfig.isPlayerCollisionsEnabled();
+        this.blockInteractionsProtected = tag.contains("blockInteractionsProtected") ? tag.getBoolean("blockInteractionsProtected") : WatheExtendedServerConfig.isBlockProtectionEnabled();
+        this.itemBoundsCheckEnabled = tag.contains("itemBoundsCheckEnabled") ? tag.getBoolean("itemBoundsCheckEnabled") : WatheExtendedServerConfig.isItemBoundsCheckEnabled();
+        this.forbiddenLoversEnabled = tag.contains("forbiddenLoversEnabled") ? tag.getBoolean("forbiddenLoversEnabled") : WatheExtendedServerConfig.isForbiddenLoversEnabled();
 
         if (tag.contains("lobbyAreaMinX")) {
             this.lobbyArea = new Box(tag.getDouble("lobbyAreaMinX"), tag.getDouble("lobbyAreaMinY"), tag.getDouble("lobbyAreaMinZ"), tag.getDouble("lobbyAreaMaxX"), tag.getDouble("lobbyAreaMaxY"), tag.getDouble("lobbyAreaMaxZ"));
