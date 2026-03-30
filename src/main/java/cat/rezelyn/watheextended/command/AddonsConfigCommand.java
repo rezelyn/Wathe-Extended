@@ -48,15 +48,6 @@ public class AddonsConfigCommand {
                         } catch (Exception e) {
                             return 0;
                         }
-                    }))).then(CommandManager.literal("enableJumpInLobby").then(CommandManager.argument("enabled", BoolArgumentType.bool()).executes(ctx -> {
-                        boolean v = BoolArgumentType.getBool(ctx, "enabled");
-                        World world = ctx.getSource().getWorld();
-                        try {
-                            ConfigHelper.setEnableJumpNotInGame(world, v);
-                            return syncAndReturn(ctx);
-                        } catch (Exception e) {
-                            return 0;
-                        }
                     }))).then(CommandManager.literal("enableSafePrepTime").then(CommandManager.argument("enabled", BoolArgumentType.bool()).executes(ctx -> {
                         boolean v = BoolArgumentType.getBool(ctx, "enabled");
                         World world = ctx.getSource().getWorld();
