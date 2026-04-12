@@ -56,6 +56,7 @@
   "announcement.modifier.watheextended.adaptive": "Adaptive",
   "command.watheextended.pronouns.set": "Your pronouns have been set to: %s",
   "command.watheextended.pronouns.cleared": "Your pronouns have been cleared.",
+  "command.watheextended.pronouns.cleared_other": "%ss pronouns have been cleared.",
   "command.watheextended.mapvariables.lobbyarea.set": "地图变量大厅区域已成功设置为 %s。",
   "command.watheextended.rtp_slot.added": "已添加传送槽位 #%d (%s)",
   "command.watheextended.rtp_slot.edited": "已更新传送槽位 #%d (%s)",
