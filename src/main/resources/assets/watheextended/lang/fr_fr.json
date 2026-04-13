@@ -56,6 +56,7 @@
   "announcement.modifier.watheextended.adaptive": "Adaptive",
   "command.watheextended.pronouns.set": "Vos pronoms ont été configurés sur : %s",
   "command.watheextended.pronouns.cleared": "Vos pronoms ont été effacés.",
+  "command.watheextended.pronouns.cleared_other": "Les pronoms de %s ont été effacés.",
   "command.watheextended.mapvariables.lobbyarea.set": "Variable de carte lobbyArea définie sur %s.",
   "command.watheextended.rtp_slot.added": "Emplacement de téléportation #%d ajouté (%s)",
   "command.watheextended.rtp_slot.edited": "Emplacement de téléportation #%d mis à jour (%s)",

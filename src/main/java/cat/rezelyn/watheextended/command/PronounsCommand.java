@@ -4,6 +4,7 @@ import cat.rezelyn.watheextended.game.PronounsManager;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -32,7 +33,15 @@ public final class PronounsCommand {
             broadcastAll(context.getSource(), uuid, "");
             context.getSource().sendFeedback(() -> Text.translatable("command.watheextended.pronouns.cleared"), false);
             return 1;
-        })));
+        }).then(CommandManager.argument("targets", EntityArgumentType.entities()).requires(source -> source.hasPermissionLevel(2)).executes(context -> {
+            for (ServerPlayerEntity player : EntityArgumentType.getPlayers(context, "targets")) {
+                UUID uuid = player.getUuid();
+                PronounsManager.clear(uuid);
+                broadcastAll(context.getSource(), uuid, "");
+                context.getSource().sendFeedback(() -> Text.translatable("command.watheextended.pronouns.cleared_other", player.getName()), true);
+            }
+            return 1;
+        }))));
     }
 
     public static void broadcastAll(ServerCommandSource source, UUID uuid, String pronouns) {

@@ -111,6 +111,7 @@
 
   "command.watheextended.pronouns.set": "Your pronouns have been set to: %s",
   "command.watheextended.pronouns.cleared": "Your pronouns have been cleared.",
+  "command.watheextended.pronouns.cleared_other": "%ss pronouns have been cleared.",
   "command.watheextended.mapvariables.lobbyarea.set": "Map variable lobbyArea successfully set to:\n%s.",
   "command.watheextended.rtp_slot.added": "Added teleportation slot #%d (%s)",
   "command.watheextended.rtp_slot.edited": "Updated teleportation slot #%d (%s)",
