@@ -123,10 +123,8 @@
 
 
 
-
   "gui.watheextended.config.title": "Wathe Extended Options",
 
-  "gui.watheextended.config.text.state": "State",
   "gui.watheextended.config.text.enabled": "Enabled",
   "gui.watheextended.config.text.disabled": "Disabled",
   "gui.watheextended.config.text.on": "\uE400",
@@ -269,11 +267,6 @@
 
   "gui.watheextended.config.category.items": "Items",
   "gui.watheextended.config.category.items.tooltip": "Control various options related to in-game items",
-  "gui.watheextended.config.category.items.group.wathe": "Wathe",
-  "gui.watheextended.config.category.items.group.kinswathe": "Kin's Wathe",
-  "gui.watheextended.config.category.items.group.noellesroles": "Noelle's Roles",
-  "gui.watheextended.config.category.items.group.starexpress": "Starry Express",
-  "gui.watheextended.config.category.items.group.stupidexpress": "Stupid Express",
   "gui.watheextended.config.category.items.group.knife": "\uE100 Knife",
   "gui.watheextended.config.category.items.group.knife.cooldown": "Cooldown in seconds applied to the Knife after it is used to kill a player.\n\n§6Default: §e60§r",
   "gui.watheextended.config.category.items.group.knife.price": "Shop price of the Knife.\n\n§6Default: §e100§r",
