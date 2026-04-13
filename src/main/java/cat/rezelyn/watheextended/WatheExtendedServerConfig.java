@@ -58,12 +58,32 @@ public final class WatheExtendedServerConfig {
     public static int crowbarPrice = 25;
     public static int bodyBagPrice = 200;
     public static int blackoutPrice = 200;
+    public static int notePrice = 10;
     public static int huntingKnifePrice = 100;
     public static int poisonInjectorPrice = 125;
     public static int blowgunPrice = 175;
     public static int knockoutDrugPrice = 75;
     public static int panPrice = 250;
     public static int pillPrice = 300;
+    public static int captureDevicePrice = 100;
+    public static int captureDeviceCooldown = 60;
+    public static int wrenchPrice = 100;
+    public static int wrenchCooldown = 120;
+    public static int powerRestorationPrice = 300;
+    public static int powerRestorationCooldown = 180;
+    public static int refreshWeaponCooldownPrice = 300;
+    public static int refreshWeaponCooldownCooldown = 180;
+    public static int refreshAbilityCooldownPrice = 400;
+    public static int refreshAbilityCooldownCooldown = 300;
+    public static int refreshPotionEffectPrice = 200;
+    public static int refreshPotionEffectCooldown = 180;
+    public static int delusionVialPrice = 30;
+    public static int defenseVialPrice = 200;
+    public static int roleMinePrice = 100;
+    public static int tapePrice = 75;
+    public static int tapeCooldown = 20;
+    public static int jerryCanCooldown = 0;
+    public static int lighterCooldown = 0;
 
     private WatheExtendedServerConfig() {}
 
@@ -72,61 +92,81 @@ public final class WatheExtendedServerConfig {
             save();
             return;
         }
-        ClientConfig.Reader cfg = ClientConfig.reader(CONFIG_FILE);
-        playerCollisionsEnabled = cfg.getBool("gamerules.playerCollisions", true);
-        rtpEnabled = cfg.getBool("gamerules.randomTeleportation", true);
-        blockProtectionEnabled = cfg.getBool("gamerules.worldProtection", true);
-        itemBoundsCheckEnabled = cfg.getBool("gamerules.itemBoundsCheck", true);
-        suppressAbilityVfxSfx = cfg.getBool("gamerules.suppressVfxSfx", false);
-        jumpMode = cfg.getString("gamerules.jumpMode", "LOBBY");
-        killIncreaseTime = cfg.getInt("gamerules.killIncreaseSeconds", 60);
-        lastStandEnabled = cfg.getBool("gamerules.lastStandEnabled", false);
-        lastStandCooldown = cfg.getInt("gamerules.lastStandDuration", 30);
-        knifeCooldown = cfg.getInt("items.knife.cooldown", 60);
-        revolverCooldown = cfg.getInt("items.revolver.cooldown", 10);
-        grenadeCooldown = cfg.getInt("items.grenade.cooldown", 90);
-        psychoModeCooldown = cfg.getInt("items.psychoMode.cooldown", 300);
-        lockpickCooldown = cfg.getInt("items.lockpick.cooldown", 180);
-        crowbarCooldown = cfg.getInt("items.crowbar.cooldown", 10);
-        bodyBagCooldown = cfg.getInt("items.bodyBag.cooldown", 300);
-        blackoutCooldown = cfg.getInt("items.blackout.cooldown", 300);
-        sulfuricAcidBarrelCooldown = cfg.getInt("addons.kinswathe.sulfuricAcidBarrel.cooldown", 60);
-        huntingKnifeCooldown = cfg.getInt("addons.kinswathe.huntingKnife.cooldown", 45);
-        medicalKitCooldown = cfg.getInt("addons.kinswathe.medicalKit.cooldown", 60);
-        panCooldown = cfg.getInt("addons.kinswathe.pan.cooldown", 45);
-        poisonInjectorCooldown = cfg.getInt("addons.kinswathe.poisonInjector.cooldown", 60);
-        pillCooldown = cfg.getInt("addons.kinswathe.pill.cooldown", 180);
-        blowgunCooldown = cfg.getInt("addons.kinswathe.blowgun.cooldown", 60);
-        knockoutDrugCooldown = cfg.getInt("addons.kinswathe.knockoutDrug.cooldown", 60);
-        knifePrice = cfg.getInt("items.knife.price", 100);
-        revolverPrice = cfg.getInt("items.revolver.price", 300);
-        grenadePrice = cfg.getInt("items.grenade.price", 350);
-        psychoModePrice = cfg.getInt("items.psychoMode.price", 300);
-        poisonVialPrice = cfg.getInt("items.poison_vial.price", 100);
-        scorpionPrice = cfg.getInt("items.scorpion.price", 50);
-        firecrackerPrice = cfg.getInt("items.firecracker.price", 10);
-        lockpickPrice = cfg.getInt("items.lockpick.price", 50);
-        crowbarPrice = cfg.getInt("items.crowbar.price", 25);
-        bodyBagPrice = cfg.getInt("items.bodyBag.price", 200);
-        blackoutPrice = cfg.getInt("items.blackout.price", 200);
-        huntingKnifePrice = cfg.getInt("addons.kinswathe.huntingKnife.price", 100);
-        poisonInjectorPrice = cfg.getInt("addons.kinswathe.poisonInjector.price", 125);
-        blowgunPrice = cfg.getInt("addons.kinswathe.blowgun.price", 175);
-        knockoutDrugPrice = cfg.getInt("addons.kinswathe.knockoutDrug.price", 75);
-        panPrice = cfg.getInt("addons.kinswathe.pan.price", 250);
-        pillPrice = cfg.getInt("addons.kinswathe.pill.price", 300);
-        introvertedCrowdCount = cfg.getInt("modifiers.introverted.crowdCount", 3);
-        introvertedCrowdRange = cfg.getFloat("modifiers.introverted.crowdRange", 5.0f);
-        introvertedCrowdDrainMultiplier = cfg.getFloat("modifiers.introverted.crowdDrainMultiplier", 2.0f);
-        introvertedAloneDrainMultiplier = cfg.getFloat("modifiers.introverted.aloneDrainMultiplier", 0.5f);
-        taxedCoinReduction = cfg.getFloat("modifiers.taxed.coinReduction", 0.50f);
-        taxedKillThreshold = cfg.getInt("modifiers.taxed.killThreshold", 1);
-        taxedKillWindowSeconds = cfg.getInt("modifiers.taxed.killWindowSeconds", 60);
-        adaptivePenaltyReduction = cfg.getFloat("modifiers.adaptive.penaltyReduction", 0.50f);
-        adaptiveBonusMultiplier = cfg.getFloat("modifiers.adaptive.bonusMultiplier", 0.50f);
-        forbiddenLoversEnabled = cfg.getBool("modifiers.lovers.forbiddenLovers", false);
-        forbiddenLoversChance = cfg.getFloat("modifiers.lovers.chance", 0.25f);
-        cleanerPlayerLimit = cfg.getInt("roles.cleaner.playerLimit", 10);
+        ClientConfig.Reader config = ClientConfig.reader(CONFIG_FILE);
+        playerCollisionsEnabled = config.getBool("gamerules.playerCollisions", true);
+        rtpEnabled = config.getBool("gamerules.randomTeleportation", true);
+        blockProtectionEnabled = config.getBool("gamerules.worldProtection", true);
+        itemBoundsCheckEnabled = config.getBool("gamerules.itemBoundsCheck", true);
+        suppressAbilityVfxSfx = config.getBool("gamerules.suppressVfxSfx", false);
+        jumpMode = config.getString("gamerules.jumpMode", "LOBBY");
+        killIncreaseTime = config.getInt("gamerules.killIncreaseSeconds", 60);
+        lastStandEnabled = config.getBool("gamerules.lastStandEnabled", false);
+        lastStandCooldown = config.getInt("gamerules.lastStandDuration", 30);
+        knifeCooldown = config.getInt("items.knife.cooldown", 60);
+        revolverCooldown = config.getInt("items.revolver.cooldown", 10);
+        grenadeCooldown = config.getInt("items.grenade.cooldown", 90);
+        psychoModeCooldown = config.getInt("items.psychoMode.cooldown", 300);
+        lockpickCooldown = config.getInt("items.lockpick.cooldown", 180);
+        crowbarCooldown = config.getInt("items.crowbar.cooldown", 10);
+        bodyBagCooldown = config.getInt("items.bodyBag.cooldown", 300);
+        blackoutCooldown = config.getInt("items.blackout.cooldown", 300);
+        sulfuricAcidBarrelCooldown = config.getInt("addons.kinswathe.sulfuricAcidBarrel.cooldown", 60);
+        huntingKnifeCooldown = config.getInt("addons.kinswathe.huntingKnife.cooldown", 45);
+        medicalKitCooldown = config.getInt("addons.kinswathe.medicalKit.cooldown", 60);
+        panCooldown = config.getInt("addons.kinswathe.pan.cooldown", 45);
+        poisonInjectorCooldown = config.getInt("addons.kinswathe.poisonInjector.cooldown", 60);
+        pillCooldown = config.getInt("addons.kinswathe.pill.cooldown", 180);
+        blowgunCooldown = config.getInt("addons.kinswathe.blowgun.cooldown", 60);
+        knockoutDrugCooldown = config.getInt("addons.kinswathe.knockoutDrug.cooldown", 60);
+        knifePrice = config.getInt("items.knife.price", 100);
+        revolverPrice = config.getInt("items.revolver.price", 300);
+        grenadePrice = config.getInt("items.grenade.price", 350);
+        psychoModePrice = config.getInt("items.psychoMode.price", 300);
+        poisonVialPrice = config.getInt("items.poison_vial.price", 100);
+        scorpionPrice = config.getInt("items.scorpion.price", 50);
+        firecrackerPrice = config.getInt("items.firecracker.price", 10);
+        lockpickPrice = config.getInt("items.lockpick.price", 50);
+        crowbarPrice = config.getInt("items.crowbar.price", 25);
+        bodyBagPrice = config.getInt("items.bodyBag.price", 200);
+        blackoutPrice = config.getInt("items.blackout.price", 200);
+        notePrice = config.getInt("items.note.price", 10);
+        huntingKnifePrice = config.getInt("addons.kinswathe.huntingKnife.price", 100);
+        poisonInjectorPrice = config.getInt("addons.kinswathe.poisonInjector.price", 125);
+        blowgunPrice = config.getInt("addons.kinswathe.blowgun.price", 175);
+        knockoutDrugPrice = config.getInt("addons.kinswathe.knockoutDrug.price", 75);
+        panPrice = config.getInt("addons.kinswathe.pan.price", 250);
+        pillPrice = config.getInt("addons.kinswathe.pill.price", 300);
+        captureDevicePrice = config.getInt("addons.kinswathe.captureDevice.price", 100);
+        captureDeviceCooldown = config.getInt("addons.kinswathe.captureDevice.cooldown", 60);
+        wrenchPrice = config.getInt("addons.kinswathe.wrench.price", 100);
+        wrenchCooldown = config.getInt("addons.kinswathe.wrench.cooldown", 120);
+        powerRestorationPrice = config.getInt("addons.kinswathe.powerRestoration.price", 300);
+        powerRestorationCooldown = config.getInt("addons.kinswathe.powerRestoration.cooldown", 180);
+        refreshWeaponCooldownPrice = config.getInt("addons.kinswathe.refreshWeaponCooldown.price", 300);
+        refreshWeaponCooldownCooldown = config.getInt("addons.kinswathe.refreshWeaponCooldown.cooldown", 180);
+        refreshAbilityCooldownPrice = config.getInt("addons.kinswathe.refreshAbilityCooldown.price", 400);
+        refreshAbilityCooldownCooldown = config.getInt("addons.kinswathe.refreshAbilityCooldown.cooldown", 300);
+        refreshPotionEffectPrice = config.getInt("addons.kinswathe.refreshPotionEffect.price", 200);
+        refreshPotionEffectCooldown = config.getInt("addons.kinswathe.refreshPotionEffect.cooldown", 180);
+        delusionVialPrice = config.getInt("addons.noellesroles.delusionVial.price", 30);
+        defenseVialPrice = config.getInt("addons.noellesroles.defenseVial.price", 200);
+        roleMinePrice = config.getInt("addons.noellesroles.roleMine.price", 100);
+        tapePrice = config.getInt("addons.starexpress.tape.price", 75);
+        tapeCooldown = config.getInt("addons.starexpress.tape.cooldown", 20);
+        jerryCanCooldown = config.getInt("addons.stupid_express.jerryCan.cooldown", 0);
+        lighterCooldown = config.getInt("addons.stupid_express.lighter.cooldown", 0);
+        introvertedCrowdCount = config.getInt("modifiers.introverted.crowdCount", 3);
+        introvertedCrowdRange = config.getFloat("modifiers.introverted.crowdRange", 5.0f);
+        introvertedCrowdDrainMultiplier = config.getFloat("modifiers.introverted.crowdDrainMultiplier", 2.0f);
+        introvertedAloneDrainMultiplier = config.getFloat("modifiers.introverted.aloneDrainMultiplier", 0.5f);
+        taxedCoinReduction = config.getFloat("modifiers.taxed.coinReduction", 0.50f);
+        taxedKillThreshold = config.getInt("modifiers.taxed.killThreshold", 1);
+        taxedKillWindowSeconds = config.getInt("modifiers.taxed.killWindowSeconds", 60);
+        adaptivePenaltyReduction = config.getFloat("modifiers.adaptive.penaltyReduction", 0.50f);
+        adaptiveBonusMultiplier = config.getFloat("modifiers.adaptive.bonusMultiplier", 0.50f);
+        forbiddenLoversEnabled = config.getBool("modifiers.lovers.forbiddenLovers", false);
+        forbiddenLoversChance = config.getFloat("modifiers.lovers.chance", 0.25f);
+        cleanerPlayerLimit = config.getInt("roles.cleaner.playerLimit", 10);
     }
 
     public static void save() {
@@ -229,6 +269,11 @@ public final class WatheExtendedServerConfig {
                     "      // Price of Blackout in the shop.\n" +
                     "      // Default: 200\n" +
                     "      \"price\": " + blackoutPrice + "\n" +
+                    "    },\n" +
+                    "    \"note\": {\n" +
+                    "      // Price of the Note in the shop.\n" +
+                    "      // Default: 10\n" +
+                    "      \"price\": " + notePrice + "\n" +
                     "    },\n" +
                     "    \"poison_vial\": {\n" +
                     "      // Price of the Poison Vial in the shop.\n" +
@@ -363,9 +408,98 @@ public final class WatheExtendedServerConfig {
                     "        // Price of the Knockout Drug in the shop.\n" +
                     "        // Default: 75\n" +
                     "        \"price\": " + knockoutDrugPrice + "\n" +
+                    "      },\n" +
+                    "      \"captureDevice\": {\n" +
+                    "        // Cooldown in seconds applied to the Capture Device after it is placed.\n" +
+                    "        // Default: 60\n" +
+                    "        \"cooldown\": " + captureDeviceCooldown + ",\n" +
+                    "        // Price of the Capture Device in the Technician's shop.\n" +
+                    "        // Default: 100\n" +
+                    "        \"price\": " + captureDevicePrice + "\n" +
+                    "      },\n" +
+                    "      \"wrench\": {\n" +
+                    "        // Cooldown in seconds applied to the Wrench after it is used.\n" +
+                    "        // Default: 120\n" +
+                    "        \"cooldown\": " + wrenchCooldown + ",\n" +
+                    "        // Price of the Wrench in the Technician's shop.\n" +
+                    "        // Default: 100\n" +
+                    "        \"price\": " + wrenchPrice + "\n" +
+                    "      },\n" +
+                    "      \"powerRestoration\": {\n" +
+                    "        // Cooldown in seconds applied to Power Restoration after it is purchased.\n" +
+                    "        // Default: 180\n" +
+                    "        \"cooldown\": " + powerRestorationCooldown + ",\n" +
+                    "        // Price of Power Restoration in the Technician's shop.\n" +
+                    "        // Default: 300\n" +
+                    "        \"price\": " + powerRestorationPrice + "\n" +
+                    "      },\n" +
+                    "      \"refreshWeaponCooldown\": {\n" +
+                    "        // Cooldown in seconds applied to Refresh Weapon Cooldown after it is purchased.\n" +
+                    "        // Default: 180\n" +
+                    "        \"cooldown\": " + refreshWeaponCooldownCooldown + ",\n" +
+                    "        // Price of Refresh Weapon Cooldown in the Hacker's shop.\n" +
+                    "        // Default: 300\n" +
+                    "        \"price\": " + refreshWeaponCooldownPrice + "\n" +
+                    "      },\n" +
+                    "      \"refreshAbilityCooldown\": {\n" +
+                    "        // Cooldown in seconds applied to Refresh Ability Cooldown after it is purchased.\n" +
+                    "        // Default: 300\n" +
+                    "        \"cooldown\": " + refreshAbilityCooldownCooldown + ",\n" +
+                    "        // Price of Refresh Ability Cooldown in the Hacker's shop.\n" +
+                    "        // Default: 400\n" +
+                    "        \"price\": " + refreshAbilityCooldownPrice + "\n" +
+                    "      },\n" +
+                    "      \"refreshPotionEffect\": {\n" +
+                    "        // Cooldown in seconds applied to Refresh Potion Effect after it is purchased.\n" +
+                    "        // Default: 180\n" +
+                    "        \"cooldown\": " + refreshPotionEffectCooldown + ",\n" +
+                    "        // Price of Refresh Potion Effect in the Hacker's shop.\n" +
+                    "        // Default: 200\n" +
+                    "        \"price\": " + refreshPotionEffectPrice + "\n" +
                     "      }\n" +
-                    "    }\n" +
-                    "  }\n" +
+                    "    },\n" +
+                    "    \"noellesroles\": {\n" +
+                    "      \"defenseVial\": {\n" +
+                    "        // Price of the Defense Vial in the Bartender's shop.\n" +
+                    "        // Default: 200\n" +
+                    "        \"price\": " + defenseVialPrice + "\n" +
+                    "      },\n" +
+                    "      \"delusionVial\": {\n" +
+                    "        // Price of the Delusion Vial in the Framing Roles shop.\n" +
+                    "        // Default: 30\n" +
+                    "        \"price\": " + delusionVialPrice + "\n" +
+                    "      },\n" +
+                "      \"roleMine\": {\n" +
+                "        // Price of the Role Mine in the Trapper's shop.\n" +
+                "        // Default: 100\n" +
+                "        \"price\": " + roleMinePrice + "\n" +
+                "      }\n" +
+                "    },\n" +
+                "    \"starexpress\": {\n" +
+                "      \"tape\": {\n" +
+                "        // Price of the Tape in the Muzzler's shop.\n" +
+                "        // Default: 75\n" +
+                "        \"price\": " + tapePrice + ",\n" +
+                "        // Cooldown in seconds of the Tape item when the Muzzler uses it on a player.\n" +
+                "        // Default: 20\n" +
+                "        \"cooldown\": " + tapeCooldown + "\n" +
+                "      }\n" +
+                "    },\n" +
+                "    \"stupid_express\": {\n" +
+                "      \"jerryCan\": {\n" +
+                "        // Fixed cooldown in seconds applied to the Jerry Can after dousing a player.\n" +
+                "        // Set to 0 to use Stupid Express's default dynamic formula (45 - 1.66 * playerCount seconds, min 20s).\n" +
+                "        // Default: 0\n" +
+                "        \"cooldown\": " + jerryCanCooldown + "\n" +
+                "      },\n" +
+                "      \"lighter\": {\n" +
+                "        // Fixed cooldown in seconds applied to the Lighter after igniting oiled players.\n" +
+                "        // Set to 0 to use the same dynamic cooldown as the Jerry Can.\n" +
+                "        // Default: 0\n" +
+                "        \"cooldown\": " + lighterCooldown + "\n" +
+                "      }\n" +
+                "    }\n" +
+                "  }\n" +
                     "}\n";
             Files.writeString(CONFIG_FILE.toPath(), content);
         } catch (IOException ignored) {
@@ -804,6 +938,15 @@ public final class WatheExtendedServerConfig {
         save();
     }
 
+    public static int getNotePrice() {
+        return notePrice;
+    }
+
+    public static void setNotePrice(int v) {
+        notePrice = Math.max(0, v);
+        save();
+    }
+
     public static int getHuntingKnifePrice() {
         return huntingKnifePrice;
     }
@@ -855,6 +998,177 @@ public final class WatheExtendedServerConfig {
 
     public static void setPillPrice(int v) {
         pillPrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getDelusionVialPrice() {
+        return delusionVialPrice;
+    }
+
+    public static void setDelusionVialPrice(int v) {
+        delusionVialPrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getDefenseVialPrice() {
+        return defenseVialPrice;
+    }
+
+    public static void setDefenseVialPrice(int v) {
+        defenseVialPrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getRoleMinePrice() {
+        return roleMinePrice;
+    }
+
+    public static void setRoleMinePrice(int v) {
+        roleMinePrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getCaptureDevicePrice() {
+        return captureDevicePrice;
+    }
+
+    public static void setCaptureDevicePrice(int v) {
+        captureDevicePrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getCaptureDeviceCooldown() {
+        return captureDeviceCooldown;
+    }
+
+    public static void setCaptureDeviceCooldown(int v) {
+        captureDeviceCooldown = Math.max(0, v);
+        save();
+    }
+
+    public static int getWrenchPrice() {
+        return wrenchPrice;
+    }
+
+    public static void setWrenchPrice(int v) {
+        wrenchPrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getWrenchCooldown() {
+        return wrenchCooldown;
+    }
+
+    public static void setWrenchCooldown(int v) {
+        wrenchCooldown = Math.max(0, v);
+        save();
+    }
+
+    public static int getPowerRestorationPrice() {
+        return powerRestorationPrice;
+    }
+
+    public static void setPowerRestorationPrice(int v) {
+        powerRestorationPrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getPowerRestorationCooldown() {
+        return powerRestorationCooldown;
+    }
+
+    public static void setPowerRestorationCooldown(int v) {
+        powerRestorationCooldown = Math.max(0, v);
+        save();
+    }
+
+    public static int getRefreshWeaponCooldownPrice() {
+        return refreshWeaponCooldownPrice;
+    }
+
+    public static void setRefreshWeaponCooldownPrice(int v) {
+        refreshWeaponCooldownPrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getRefreshWeaponCooldownCooldown() {
+        return refreshWeaponCooldownCooldown;
+    }
+
+    public static void setRefreshWeaponCooldownCooldown(int v) {
+        refreshWeaponCooldownCooldown = Math.max(0, v);
+        save();
+    }
+
+    public static int getRefreshAbilityCooldownPrice() {
+        return refreshAbilityCooldownPrice;
+    }
+
+    public static void setRefreshAbilityCooldownPrice(int v) {
+        refreshAbilityCooldownPrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getRefreshAbilityCooldownCooldown() {
+        return refreshAbilityCooldownCooldown;
+    }
+
+    public static void setRefreshAbilityCooldownCooldown(int v) {
+        refreshAbilityCooldownCooldown = Math.max(0, v);
+        save();
+    }
+
+    public static int getRefreshPotionEffectPrice() {
+        return refreshPotionEffectPrice;
+    }
+
+    public static void setRefreshPotionEffectPrice(int v) {
+        refreshPotionEffectPrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getRefreshPotionEffectCooldown() {
+        return refreshPotionEffectCooldown;
+    }
+
+    public static void setRefreshPotionEffectCooldown(int v) {
+        refreshPotionEffectCooldown = Math.max(0, v);
+        save();
+    }
+
+    public static int getTapePrice() {
+        return tapePrice;
+    }
+
+    public static void setTapePrice(int v) {
+        tapePrice = Math.max(0, v);
+        save();
+    }
+
+    public static int getTapeCooldown() {
+        return tapeCooldown;
+    }
+
+    public static void setTapeCooldown(int v) {
+        tapeCooldown = Math.max(0, v);
+        save();
+    }
+
+    public static int getJerryCanCooldown() {
+        return jerryCanCooldown;
+    }
+
+    public static void setJerryCanCooldown(int v) {
+        jerryCanCooldown = Math.max(0, v);
+        save();
+    }
+
+    public static int getLighterCooldown() {
+        return lighterCooldown;
+    }
+
+    public static void setLighterCooldown(int v) {
+        lighterCooldown = Math.max(0, v);
         save();
     }
 }

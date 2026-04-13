@@ -48,7 +48,6 @@ public final class GameComponents {
     public static int getAutoStart(World world) {
         if (world == null) return 0;
         try {
-            // startTime is stored in ticks; the command accepts seconds
             return AutoStartComponent.KEY.get(world).startTime / 20;
         } catch (Throwable t) {
             return 0;

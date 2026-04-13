@@ -5,6 +5,7 @@ import dev.doctor4t.wathe.index.WatheEntities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Box;
@@ -25,7 +26,7 @@ public final class ItemBoundsChecker {
             if (playArea == null) return;
 
             TARGETS.clear();
-            for (net.minecraft.entity.player.PlayerEntity player : world.getPlayers()) {
+            for (PlayerEntity player : world.getPlayers()) {
                 if (player instanceof ServerPlayerEntity p && p.isAlive() && !p.isSpectator() && !p.isCreative()) {
                     TARGETS.add(player);
                 }
@@ -37,8 +38,8 @@ public final class ItemBoundsChecker {
             for (ItemEntity item : world.getEntitiesByType(EntityType.ITEM, e -> !playArea.contains(e.getPos()))) {
                 Entity closest = findClosest(item.getPos(), TARGETS);
                 if (closest == null) continue;
-                Vec3d dest = closest.getPos();
-                item.requestTeleport(dest.x, dest.y, dest.z);
+                Vec3d dist = closest.getPos();
+                item.requestTeleport(dist.x, dist.y, dist.z);
             }
         } catch (Throwable ignored) {
         }

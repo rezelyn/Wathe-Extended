@@ -7,8 +7,8 @@ public class GameStatus {
     public static boolean State(World world) {
         if (world == null) return false;
         try {
-            GameWorldComponent component = GameWorldComponent.KEY.get(world);
-            GameWorldComponent.GameStatus status = component.getGameStatus();
+            GameWorldComponent game = GameWorldComponent.KEY.get(world);
+            GameWorldComponent.GameStatus status = game.getGameStatus();
             return status == GameWorldComponent.GameStatus.ACTIVE || status == GameWorldComponent.GameStatus.STOPPING || status == GameWorldComponent.GameStatus.STARTING;
         } catch (Throwable t) {
             return false;
@@ -18,8 +18,8 @@ public class GameStatus {
     public static boolean isActive(World world) {
         if (world == null) return false;
         try {
-            GameWorldComponent component = GameWorldComponent.KEY.get(world);
-            return component != null && component.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE;
+            GameWorldComponent game = GameWorldComponent.KEY.get(world);
+            return game != null && game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE;
         } catch (Throwable t) {
             return false;
         }
@@ -28,8 +28,8 @@ public class GameStatus {
     public static boolean isStarting(World world) {
         if (world == null) return false;
         try {
-            GameWorldComponent component = GameWorldComponent.KEY.get(world);
-            return component != null && component.getGameStatus() == GameWorldComponent.GameStatus.STARTING;
+            GameWorldComponent game = GameWorldComponent.KEY.get(world);
+            return game != null && game.getGameStatus() == GameWorldComponent.GameStatus.STARTING;
         } catch (Throwable t) {
             return false;
         }
@@ -38,8 +38,8 @@ public class GameStatus {
     public static boolean isStopping(World world) {
         if (world == null) return false;
         try {
-            GameWorldComponent component = GameWorldComponent.KEY.get(world);
-            return component != null && component.getGameStatus() == GameWorldComponent.GameStatus.STOPPING;
+            GameWorldComponent game = GameWorldComponent.KEY.get(world);
+            return game != null && game.getGameStatus() == GameWorldComponent.GameStatus.STOPPING;
         } catch (Throwable t) {
             return false;
         }
@@ -48,8 +48,8 @@ public class GameStatus {
     public static boolean isInactive(World world) {
         if (world == null) return true;
         try {
-            GameWorldComponent component = GameWorldComponent.KEY.get(world);
-            return component == null || component.getGameStatus() == GameWorldComponent.GameStatus.INACTIVE;
+            GameWorldComponent game = GameWorldComponent.KEY.get(world);
+            return game == null || game.getGameStatus() == GameWorldComponent.GameStatus.INACTIVE;
         } catch (Throwable t) {
             return true;
         }

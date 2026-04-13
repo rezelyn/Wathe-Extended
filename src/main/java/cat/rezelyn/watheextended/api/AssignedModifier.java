@@ -19,10 +19,10 @@ public class AssignedModifier {
             World world = player.getWorld();
             if (world == null) return Collections.emptyList();
 
-            WorldModifierComponent component = WorldModifierComponent.KEY.get(world);
-            if (component == null) return Collections.emptyList();
+            WorldModifierComponent game = WorldModifierComponent.KEY.get(world);
+            if (game == null) return Collections.emptyList();
 
-            List<?> modifiers = component.getModifiers(player);
+            List<?> modifiers = game.getModifiers(player);
             if (modifiers == null || modifiers.isEmpty()) return Collections.emptyList();
 
             Map<String, ModifiersDisplay.ModifierDisplay> display = ModifiersDisplay.get();

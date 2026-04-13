@@ -75,7 +75,7 @@ public final class RolesCategory {
             case "kinswathe:bellringer" -> {
                 if (!cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) return;
                 /// ABILITY - PRICE
-                builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xFF5555))));
+                builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xAAAAAA))));
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.text.price"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.bellringer.price.desc")))
@@ -92,7 +92,7 @@ public final class RolesCategory {
             case "kinswathe:bodymaker" -> {
                 if (!cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) return;
                 /// ABILITY - COOLDOWN
-                builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xFF5555))));
+                builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xAAAAAA))));
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.text.cooldown"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.bodymaker.cooldown.desc")))
@@ -110,7 +110,7 @@ public final class RolesCategory {
             case "kinswathe:cleaner" -> {
                 if (!cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) return;
                 /// ABILITY - PRICE
-                builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xFF5555))));
+                builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xAAAAAA))));
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.text.price"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.cleaner.price.desc")))
@@ -132,7 +132,7 @@ public final class RolesCategory {
             // Detective
             case "kinswathe:detective" -> {
                 if (!cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) return;
-                builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xFF5555))));
+                builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xAAAAAA))));
                 /// ABILITY - PRICE
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.text.price"))
@@ -204,7 +204,7 @@ public final class RolesCategory {
             case "kinswathe:hunter" -> {
                 if (!cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) return;
                 /// ABILITY - PRICE
-                builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xFF5555))));
+                builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xAAAAAA))));
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.text.price"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.hunter.price.desc")))
@@ -221,7 +221,7 @@ public final class RolesCategory {
             case "kinswathe:judge" -> {
                 if (!cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) return;
                 /// ABILITY - PRICE
-                builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xFF5555))));
+                builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xAAAAAA))));
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.text.price"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.judge.price.desc")))
@@ -254,7 +254,7 @@ public final class RolesCategory {
             case "kinswathe:robot" -> {
                 if (!cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) return;
                 /// ABILITY - COOLDOWN
-                builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xFF5555))));
+                builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xAAAAAA))));
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.text.cooldown"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.robot.cooldown.desc")))
@@ -277,7 +277,7 @@ public final class RolesCategory {
                         .binding(true, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getVoodooShotLikeEvil, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.voodooShotLikeEvil", value))
                         .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build());
                 /// ABILITY - VOODOO ON NATURAL DEATHS
-                builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xFF5555))));
+                builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xAAAAAA))));
                 builder.option(Option.<Boolean>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.voodoo.nonkillerdeaths"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.voodoo.nonkillerdeaths.desc")))
@@ -344,7 +344,7 @@ public final class RolesCategory {
             case "starexpress:starstruck" -> {
                 if (!cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.isLoaded()) return;
                 /// ABILITY - COOLDOWN
-                builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xFF5555))));
+                builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xAAAAAA))));
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.text.cooldown"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.starstruck.cooldown.desc")))
@@ -386,46 +386,6 @@ public final class RolesCategory {
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.starstruck.sprintspeed.desc")))
                         .binding(0.15f, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getStarstruckAbilitySprintSpeed, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.abilitySprintSpeed", value))
                         .controller(ScreenUtils::floatController).build());
-            }
-            // Muzzler
-            case "starexpress:muzzler" -> {
-                if (!cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.isLoaded()) return;
-                /// TAPE COOLDOWN
-                builder.option(Option.<Integer>createBuilder()
-                        .name(Text.translatable("gui.watheextended.config.category.roles.opt.muzzler.tapecooldown"))
-                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.muzzler.tapecooldown.desc")))
-                        .binding(20, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getMuzzlerTapeCooldown, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.tapeCooldown", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
-                /// TAPE SUFFOCATION TIME
-                builder.option(Option.<Integer>createBuilder()
-                        .name(Text.translatable("gui.watheextended.config.category.roles.opt.muzzler.suffocationtime"))
-                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.muzzler.suffocationtime.desc")))
-                        .binding(60, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getMuzzlerSuffocationTime, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.suffocationTime", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
-                /// TAPE TEAR CHECK COUNT
-                builder.option(Option.<Integer>createBuilder()
-                        .name(Text.translatable("gui.watheextended.config.category.roles.opt.muzzler.tapetearcheckcount"))
-                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.muzzler.tapetearcheckcount.desc")))
-                        .binding(5, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getMuzzlerTapeTearCheckCount, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.tapeTearCheckCount", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
-                /// TAPE TEAR MOOD CHANGE
-                builder.option(Option.<Float>createBuilder()
-                        .name(Text.translatable("gui.watheextended.config.category.roles.opt.muzzler.tapetearmoodchange"))
-                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.muzzler.tapetearmoodchange.desc")))
-                        .binding(0.1f, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getMuzzlerTapeTearMoodChange, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.tapeTearMoodChange", value))
-                        .controller(ScreenUtils::floatController).build());
-                /// TAPE KILL IF CHECK AT ZERO
-                builder.option(Option.<Boolean>createBuilder()
-                        .name(Text.translatable("gui.watheextended.config.category.roles.opt.muzzler.killifcheckedatzero"))
-                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.muzzler.killifcheckedatzero.desc")))
-                        .binding(true, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getMuzzlerKillIfCheckedAtZero, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.killIfCheckedAtZero", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build());
-                /// TAPE DISPLAY SILENCED TIP DELAY
-                builder.option(Option.<Integer>createBuilder()
-                        .name(Text.translatable("gui.watheextended.config.category.roles.opt.muzzler.displaysilencedtipdelay"))
-                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.muzzler.displaysilencedtipdelay.desc")))
-                        .binding(120, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getMuzzlerDisplaySilencedTipDelay, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.displaySilencedTipDelay", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
             }
         }
     }

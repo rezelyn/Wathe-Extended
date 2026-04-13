@@ -16,9 +16,9 @@ public class MapVariables {
     public static Box getPlayArea(World world) {
         if (world == null) return null;
         try {
-            MapVariablesWorldComponent mvc = MapVariablesWorldComponent.KEY.get(world);
-            return mvc != null ? mvc.getPlayArea() : null;
-        } catch (Throwable t) {
+            MapVariablesWorldComponent component = MapVariablesWorldComponent.KEY.get(world);
+            return component != null ? component.getPlayArea() : null;
+        } catch (Throwable throwable) {
             return null;
         }
     }
@@ -27,9 +27,9 @@ public class MapVariables {
     public static Vec3i getPlayAreaOffset(World world) {
         if (world == null) return null;
         try {
-            MapVariablesWorldComponent mvc = MapVariablesWorldComponent.KEY.get(world);
-            return mvc != null ? mvc.getPlayAreaOffset() : null;
-        } catch (Throwable t) {
+            MapVariablesWorldComponent component = MapVariablesWorldComponent.KEY.get(world);
+            return component != null ? component.getPlayAreaOffset() : null;
+        } catch (Throwable throwable) {
             return null;
         }
     }
@@ -38,9 +38,9 @@ public class MapVariables {
     public static Box getReadyArea(World world) {
         if (world == null) return null;
         try {
-            MapVariablesWorldComponent mvc = MapVariablesWorldComponent.KEY.get(world);
-            return mvc != null ? mvc.getReadyArea() : null;
-        } catch (Throwable t) {
+            MapVariablesWorldComponent component = MapVariablesWorldComponent.KEY.get(world);
+            return component != null ? component.getReadyArea() : null;
+        } catch (Throwable throwable) {
             return null;
         }
     }
@@ -49,9 +49,9 @@ public class MapVariables {
     public static Vec3i getResetPasteOffset(World world) {
         if (world == null) return null;
         try {
-            MapVariablesWorldComponent mvc = MapVariablesWorldComponent.KEY.get(world);
-            return mvc != null ? mvc.getResetPasteOffset() : null;
-        } catch (Throwable t) {
+            MapVariablesWorldComponent component = MapVariablesWorldComponent.KEY.get(world);
+            return component != null ? component.getResetPasteOffset() : null;
+        } catch (Throwable throwable) {
             return null;
         }
     }
@@ -60,9 +60,9 @@ public class MapVariables {
     public static MapVariablesWorldComponent.PosWithOrientation getSpawnPosition(World world) {
         if (world == null) return null;
         try {
-            MapVariablesWorldComponent mvc = MapVariablesWorldComponent.KEY.get(world);
-            return mvc != null ? mvc.getSpawnPos() : null;
-        } catch (Throwable t) {
+            MapVariablesWorldComponent component = MapVariablesWorldComponent.KEY.get(world);
+            return component != null ? component.getSpawnPos() : null;
+        } catch (Throwable throwable) {
             return null;
         }
     }
@@ -71,9 +71,9 @@ public class MapVariables {
     public static MapVariablesWorldComponent.PosWithOrientation getSpectatorSpawnPosition(World world) {
         if (world == null) return null;
         try {
-            MapVariablesWorldComponent mvc = MapVariablesWorldComponent.KEY.get(world);
-            return mvc != null ? mvc.getSpectatorSpawnPos() : null;
-        } catch (Throwable t) {
+            MapVariablesWorldComponent component = MapVariablesWorldComponent.KEY.get(world);
+            return component != null ? component.getSpectatorSpawnPos() : null;
+        } catch (Throwable throwable) {
             return null;
         }
     }
@@ -90,26 +90,26 @@ public class MapVariables {
 
     public static String formatPosWithOrientation(@Nullable MapVariablesWorldComponent.PosWithOrientation pos) {
         if (pos == null) return "N/A";
-        return fmt(pos.pos.x) + " " + fmt(pos.pos.y) + " " + fmt(pos.pos.z) + " " + fmt(pos.yaw) + " " + fmt(pos.pitch);
+        return format(pos.pos.x) + " " + format(pos.pos.y) + " " + format(pos.pos.z) + " " + format(pos.yaw) + " " + format(pos.pitch);
     }
 
-    private static String fmt(double v) {
-        String s = new BigDecimal(Double.toString(v)).setScale(2, RoundingMode.DOWN).toPlainString();
-        return s.replaceAll("0+$", "").replaceAll("\\.$", "");
+    private static String format(double v) {
+        String string = new BigDecimal(Double.toString(v)).setScale(2, RoundingMode.DOWN).toPlainString();
+        return string.replaceAll("0+$", "").replaceAll("\\.$", "");
     }
 
-    private static String fmt(float v) {
-        String s = new BigDecimal(Float.toString(v)).setScale(2, RoundingMode.DOWN).toPlainString();
-        return s.replaceAll("0+$", "").replaceAll("\\.$", "");
+    private static String format(float v) {
+        String string = new BigDecimal(Float.toString(v)).setScale(2, RoundingMode.DOWN).toPlainString();
+        return string.replaceAll("0+$", "").replaceAll("\\.$", "");
     }
 
     @Nullable
     public static MapVariablesWorldComponent.PosWithOrientation getReadyAreaSpawnPosition(World world) {
         if (world == null) return null;
         try {
-            WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(world);
-            return wec != null ? wec.getReadyAreaSpawnPos() : null;
-        } catch (Throwable t) {
+            WatheExtendedWorldComponent component = WatheExtendedWorldComponent.KEY.get(world);
+            return component != null ? component.getReadyAreaSpawnPos() : null;
+        } catch (Throwable throwable) {
             return null;
         }
     }
@@ -117,9 +117,9 @@ public class MapVariables {
     public static Box getLobbyArea(World world) {
         if (world == null) return WatheExtendedWorldComponent.DEFAULT_LOBBY_AREA;
         try {
-            WatheExtendedWorldComponent wec = WatheExtendedWorldComponent.KEY.get(world);
-            return wec != null ? wec.getLobbyArea() : WatheExtendedWorldComponent.DEFAULT_LOBBY_AREA;
-        } catch (Throwable t) {
+            WatheExtendedWorldComponent component = WatheExtendedWorldComponent.KEY.get(world);
+            return component != null ? component.getLobbyArea() : WatheExtendedWorldComponent.DEFAULT_LOBBY_AREA;
+        } catch (Throwable throwable) {
             return WatheExtendedWorldComponent.DEFAULT_LOBBY_AREA;
         }
     }

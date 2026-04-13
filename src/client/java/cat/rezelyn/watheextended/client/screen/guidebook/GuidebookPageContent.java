@@ -54,8 +54,8 @@ public final class GuidebookPageContent {
                     for (int i = 0; i < autoItems.size(); i++) {
                         GuidebookEntryItems.RoleItem item = autoItems.get(i);
                         result.add(item.toText());
-                        Text desc = item.descText();
-                        if (desc != null) result.add(desc);
+                        String desc = item.descString();
+                        if (desc != null) result.add(parseLine("§7" + desc.replace("§r", "§7")));
                         if (i < autoItems.size() - 1) result.add(Text.literal(""));
                     }
                 }

@@ -78,6 +78,9 @@ public final class ScreenUtils {
         map.put("icon_ability_cooldown_refresh", "\uE21A");
         map.put("icon_potion_effect_refresh", "\uE21B");
         map.put("icon_weapon_cooldown_refresh", "\uE21C");
+        map.put("wrench", "\uE21D");
+        map.put("capture_device", "\uE21E");
+        map.put("icon_power_restoration", "\uE21F");
 
         // abilities
         map.put("adrenaline", "\uE300");

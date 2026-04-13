@@ -8,7 +8,7 @@ import cat.rezelyn.watheextended.client.render.LastStandRenderer;
 import cat.rezelyn.watheextended.client.screen.GuidebookScreen;
 import cat.rezelyn.watheextended.client.screen.ConfigScreen;
 import cat.rezelyn.watheextended.client.screen.config.ClientCategory;
-import cat.rezelyn.watheextended.game.LastStandManager;
+import cat.rezelyn.watheextended.game.LastStand;
 import cat.rezelyn.watheextended.game.PronounsManager;
 import cat.rezelyn.watheextended.index.WatheExtendedBlockEntities;
 import cat.rezelyn.watheextended.index.WatheExtendedBlocks;
@@ -60,7 +60,7 @@ public class WatheExtendedClient implements ClientModInitializer {
                 WatheExtendedBlocks.SNOWY_FLOWERING_AZALEA_LEAVES
         );
 
-        ClientPlayNetworking.registerGlobalReceiver(LastStandManager.LastStandPayload.ID,
+        ClientPlayNetworking.registerGlobalReceiver(LastStand.LastStandPayload.ID,
                 (payload, context) -> context.client().execute(() -> LastStandRenderer.start(payload.totalTicks())));
 
         ClientPlayNetworking.registerGlobalReceiver(ServerConfig.SyncPayload.ID,

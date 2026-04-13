@@ -55,18 +55,6 @@ public final class ConfigHelper {
             } catch (Throwable ignored) {
             }
         }));
-        ServerConfig.register(Entry.globalInt("noellesroles.defenseVialPrice", 200, () -> ConfigUtils.readInt(CONFIG_CLASS, "defenseVialPrice", 200), v -> {
-            try {
-                ConfigUtils.writeInt(CONFIG_CLASS, "defenseVialPrice", v);
-            } catch (Throwable ignored) {
-            }
-        }));
-        ServerConfig.register(Entry.globalInt("noellesroles.roleMinePrice", 100, () -> ConfigUtils.readInt(CONFIG_CLASS, "roleMinePrice", 100), v -> {
-            try {
-                ConfigUtils.writeInt(CONFIG_CLASS, "roleMinePrice", v);
-            } catch (Throwable ignored) {
-            }
-        }));
         ServerConfig.register(Entry.globalString("noellesroles.guesserDiesAfterIncorrectGuess", "none", () -> ConfigUtils.readString(CONFIG_CLASS, "guesserDiesAfterIncorrectGuess", "none"), v -> {
             try {
                 ConfigUtils.writeString(CONFIG_CLASS, "guesserDiesAfterIncorrectGuess", v);
@@ -145,5 +133,13 @@ public final class ConfigHelper {
 
     public static void setGuesserDiesAfterIncorrectGuess(String v) throws Exception {
         ConfigUtils.apply("noellesroles.guesserDiesAfterIncorrectGuess", v, null);
+    }
+
+    public static int getDelusionVialPrice() {
+        return ConfigUtils.clientInt("noellesroles.delusionVialPrice", 30);
+    }
+
+    public static void setDelusionVialPrice(int v) throws Exception {
+        ConfigUtils.apply("noellesroles.delusionVialPrice", v, null);
     }
 }

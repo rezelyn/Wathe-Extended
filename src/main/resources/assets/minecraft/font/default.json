@@ -275,6 +275,27 @@
     },
     {
       "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/wrench.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE21D"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/capture_device.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE21E"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/items/icon_power_restoration.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE21F"]
+    },
+    {
+      "type": "bitmap",
       "file": "watheextended:gui/guidebook/sprites/abilities/adrenaline.png",
       "ascent": 9,
       "height": 12,

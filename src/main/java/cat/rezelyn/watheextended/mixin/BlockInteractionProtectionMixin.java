@@ -7,9 +7,11 @@ import dev.doctor4t.wathe.block.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DoorBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.network.ServerPlayerInteractionManager;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -24,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class BlockInteractionProtectionMixin {
 
     @Inject(method = "interactBlock", at = @At("HEAD"), cancellable = true)
-    private void watheExtended$blockInteraction(ServerPlayerEntity player, World world, net.minecraft.item.ItemStack stack, net.minecraft.util.Hand hand, BlockHitResult hitResult, CallbackInfoReturnable<ActionResult> cir) {
+    private void watheExtended$blockInteraction(ServerPlayerEntity player, World world, ItemStack stack, Hand hand, BlockHitResult hitResult, CallbackInfoReturnable<ActionResult> cir) {
         try {
             WatheExtendedWorldComponent component = WatheExtendedWorldComponent.KEY.get(world);
             if (!component.isBlockInteractionsProtected()) return;

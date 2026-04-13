@@ -15,8 +15,8 @@ public class PlayerCollisionMixin {
         Entity self = (Entity) (Object) this;
 
         if (other instanceof PlayerEntity player && self instanceof PlayerEntity) {
-            WatheExtendedWorldComponent compenent = WatheExtendedWorldComponent.KEY.get(player.getWorld());
-            if (!compenent.isPlayerCollisionsEnabled()) {
+            WatheExtendedWorldComponent world = WatheExtendedWorldComponent.KEY.get(player.getWorld());
+            if (!world.isPlayerCollisionsEnabled()) {
                 return false;
             }
         }
