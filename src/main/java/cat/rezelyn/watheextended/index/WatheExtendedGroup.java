@@ -77,15 +77,6 @@ public class WatheExtendedGroup {
 
                     // Items
                     entries.add(WatheExtendedItems.GUIDEBOOK);
-                    entries.add(WatheExtendedItems.PRIDE_PUNCH);
-                    entries.add(WatheExtendedItems.SUNSET_PRISM);
-                    entries.add(WatheExtendedItems.MINT_OCEAN);
-                    entries.add(WatheExtendedItems.GALAXY_FIZZ);
-                    entries.add(WatheExtendedItems.COTTON_CANDY_SHAKE);
-                    entries.add(WatheExtendedItems.HONEY_LEMONADE);
-                    entries.add(WatheExtendedItems.NEON_SPLASH);
-                    entries.add(WatheExtendedItems.THE_AMETHYST);
-                    entries.add(WatheExtendedItems.VELVET_ACE);
 
                     // Plushies
                     entries.add(WatheExtendedBlocks.ISH_PLUSH);

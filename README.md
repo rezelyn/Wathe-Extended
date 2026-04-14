@@ -16,16 +16,6 @@ Soon™
 ## Items & Blocks
 - **Guidebook**
   - An in-game book item that replaces Wathe's Letter item, opens a custom GUI containing descriptions, abilities, and items for every registered roles and modifiers.
-- **LGBTQIA+ Pride-themed Cocktails**
-  - Cotton Candy Shake *(Trans)*
-  - Galaxy Fizz *(Bi)*
-  - Honey Lemonade *(Non-binary)*
-  - Mint Ocean *(Gay)*
-  - Neon Splash *(Pan)*
-  - Pride Punch *(Rainbow)*
-  - Sunset Prism *(Lesbian)*
-  - The Amethyst *(Intersex)*
-  - Velvet Ace *(Asexual)*
 - **More Panel block variants**
 - **More Moquette color variants**
 - **Steel Ornament variants**
@@ -95,7 +85,6 @@ On top of what the mod adds, the mod also includes a number of bug fixes for iss
 
 ## ⚖️ Credits
 - **[Wathe: Murder Mystery](https://modrinth.com/mod/wathe)** by [@RAT](https://modrinth.com/user/RAT)
-- **[WathExtras](https://modrinth.com/mod/wathextras)** by [ColorInk](https://modrinth.com/organization/color-ink)
 
 #### ❤️ Special thanks
 - The **D.R. Harpy Transportation Ltd.** Discord server for being psychopaths
