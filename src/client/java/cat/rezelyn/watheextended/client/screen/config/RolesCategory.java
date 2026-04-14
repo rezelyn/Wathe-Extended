@@ -109,6 +109,21 @@ public final class RolesCategory {
             // Cleaner
             case "kinswathe:cleaner" -> {
                 if (!cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) return;
+                /// ACID BARREL - COIN BONUS TOGGLE
+                builder.option(Option.<Boolean>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.category.roles.opt.cleaner.acidbarrelbonusenabled"))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.cleaner.acidbarrelbonusenabled.desc")))
+                        .binding(false, () -> ClientConfig.getBool("watheextended.cleaner.acidBarrelCoinBonusEnabled", false), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.cleaner.acidBarrelCoinBonusEnabled", value))
+                        .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled")))
+                        .build());
+                /// ACID BARREL - COIN REWARD
+                builder.option(Option.<Integer>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.category.roles.opt.cleaner.acidbarrelcoins"))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.cleaner.acidbarrelcoins.desc")))
+                        .binding(50, () -> ClientConfig.getInt("watheextended.cleaner.acidBarrelCoins", 50), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.cleaner.acidBarrelCoins", value))
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .available(ClientConfig.getBool("watheextended.cleaner.acidBarrelCoinBonusEnabled", false))
+                        .build());
                 /// ABILITY - PRICE
                 builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xAAAAAA))));
                 builder.option(Option.<Integer>createBuilder()

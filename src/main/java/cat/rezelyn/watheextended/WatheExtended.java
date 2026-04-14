@@ -173,6 +173,12 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.cleaner.playerLimit", 10,
                 WatheExtendedServerConfig::getCleanerPlayerLimit,
                 WatheExtendedServerConfig::setCleanerPlayerLimit));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.cleaner.acidBarrelCoins", 50,
+                WatheExtendedServerConfig::getCleanerAcidBarrelCoins,
+                value -> { WatheExtendedServerConfig.setCleanerAcidBarrelCoins(value); ItemPrices.applyAll(); }));
+        ServerConfig.register(ServerConfig.Entry.globalBool("watheextended.cleaner.acidBarrelCoinBonusEnabled", false,
+                WatheExtendedServerConfig::isCleanerAcidBarrelCoinBonusEnabled,
+                value -> { WatheExtendedServerConfig.setCleanerAcidBarrelCoinBonusEnabled(value); ItemPrices.applyAll(); }));
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.killIncreaseTime", 60,
                 WatheExtendedServerConfig::getKillIncreaseTime,
                 WatheExtendedServerConfig::setKillIncreaseTime));

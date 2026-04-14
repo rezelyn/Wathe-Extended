@@ -75,6 +75,7 @@ public final class ItemPrices {
 
         if (cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) {
             register(() -> {
+                setConfigPrice("org.BsXinQin.kinswathe.KinsWatheConfig", "CleanerGetCoins", WatheExtendedServerConfig.cleanerAcidBarrelCoinBonusEnabled ? WatheExtendedServerConfig.cleanerAcidBarrelCoins : 0);
                 setConfigPrice("org.BsXinQin.kinswathe.KinsWatheConfig", "CookPanPrice", WatheExtendedServerConfig.panPrice);
                 setConfigPrice("org.BsXinQin.kinswathe.KinsWatheConfig", "PhysicianPillPrice", WatheExtendedServerConfig.pillPrice);
                 setConfigPrice("org.BsXinQin.kinswathe.KinsWatheConfig", "LicensedVillainRevolverPrice", WatheExtendedServerConfig.revolverPrice);

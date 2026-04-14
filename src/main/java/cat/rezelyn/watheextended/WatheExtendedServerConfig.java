@@ -28,6 +28,8 @@ public final class WatheExtendedServerConfig {
     public static boolean suppressAbilityVfxSfx = false;
     public static String jumpMode = "LOBBY";
     public static int cleanerPlayerLimit = 10;
+    public static boolean cleanerAcidBarrelCoinBonusEnabled = false;
+    public static int cleanerAcidBarrelCoins = 50;
     public static int killIncreaseTime = 60;
     public static boolean lastStandEnabled = false;
     public static int lastStandCooldown = 30;
@@ -167,6 +169,8 @@ public final class WatheExtendedServerConfig {
         forbiddenLoversEnabled = config.getBool("modifiers.lovers.forbiddenLovers", false);
         forbiddenLoversChance = config.getFloat("modifiers.lovers.chance", 0.25f);
         cleanerPlayerLimit = config.getInt("roles.cleaner.playerLimit", 10);
+        cleanerAcidBarrelCoinBonusEnabled = config.getBool("roles.cleaner.acidBarrelCoinBonusEnabled", false);
+        cleanerAcidBarrelCoins = config.getInt("roles.cleaner.acidBarrelCoins", 50);
     }
 
     public static void save() {
@@ -346,7 +350,13 @@ public final class WatheExtendedServerConfig {
                     "      // Minimum number of alive players required for the Cleaner's Deep Cleaning ability to be active.\n" +
                     "      // Set to 0 to disable this limit.\n" +
                     "      // Default: 10\n" +
-                    "      \"playerLimit\": " + cleanerPlayerLimit + "\n" +
+                    "      \"playerLimit\": " + cleanerPlayerLimit + ",\n" +
+                    "      // When enabled, the Cleaner receives extra coins upon using the Sulfuric Acid Barrel on a dead body.\n" +
+                    "      // Default: false\n" +
+                    "      \"acidBarrelCoinBonusEnabled\": " + cleanerAcidBarrelCoinBonusEnabled + ",\n" +
+                    "      // Extra coins granted to the Cleaner when using the Sulfuric Acid Barrel.\n" +
+                    "      // Default: 50\n" +
+                    "      \"acidBarrelCoins\": " + cleanerAcidBarrelCoins + "\n" +
                     "    }\n" +
                     "  },\n" +
                     "  \"addons\": {\n" +
@@ -665,6 +675,24 @@ public final class WatheExtendedServerConfig {
 
     public static void setCleanerPlayerLimit(int value) {
         cleanerPlayerLimit = Math.max(0, value);
+        save();
+    }
+
+    public static boolean isCleanerAcidBarrelCoinBonusEnabled() {
+        return cleanerAcidBarrelCoinBonusEnabled;
+    }
+
+    public static void setCleanerAcidBarrelCoinBonusEnabled(boolean value) {
+        cleanerAcidBarrelCoinBonusEnabled = value;
+        save();
+    }
+
+    public static int getCleanerAcidBarrelCoins() {
+        return cleanerAcidBarrelCoins;
+    }
+
+    public static void setCleanerAcidBarrelCoins(int value) {
+        cleanerAcidBarrelCoins = Math.max(0, value);
         save();
     }
 
