@@ -16,6 +16,7 @@
     "ability.StarstruckComponentMixin",
     "fix.CursorSlotMixin",
     "fix.DisabledKillerRoleConversionMixin",
+    "fix.InitiateRemoteDeathMixin",
     "fix.KillShieldConditionMixin",
     "fix.PersistentTaskNbtMixin",
     "fix.RevivalItemGivingMixin",
