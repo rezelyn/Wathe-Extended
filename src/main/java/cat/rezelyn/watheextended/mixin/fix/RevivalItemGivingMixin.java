@@ -22,15 +22,15 @@ import pro.fazeclan.river.stupid_express.role.necromancer.RevivalSelectionHandle
 public class RevivalItemGivingMixin {
 
     @Inject(method = "lambda$init$1", at = @At("RETURN"), remap = false)
-    private static void watheextended$giveRevivalRoleItems(PlayerEntity interactingPlayer, World world, Hand hand, Entity entity, EntityHitResult hitResult, CallbackInfoReturnable<ActionResult> cir) {
+    private static void watheextended$giveRevivalRoleItems(PlayerEntity player, World level, Hand interactionHand, Entity entity, EntityHitResult entityHitResult, CallbackInfoReturnable<ActionResult> cir) {
         if (cir.getReturnValue() != ActionResult.CONSUME) return;
         if (!(entity instanceof PlayerBodyEntity body)) return;
-        if (!(world instanceof ServerWorld serverWorld)) return;
+        if (!(level instanceof ServerWorld serverWorld)) return;
 
         PlayerEntity revivedPlayer = serverWorld.getPlayerByUuid(body.getPlayerUuid());
         if (revivedPlayer == null) return;
 
-        GameWorldComponent role = GameWorldComponent.KEY.get(world);
+        GameWorldComponent role = GameWorldComponent.KEY.get(level);
         Role assignedRole = role.getRole(revivedPlayer);
         if (assignedRole == null) return;
 
