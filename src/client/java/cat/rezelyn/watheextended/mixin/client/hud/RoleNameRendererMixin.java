@@ -2,6 +2,8 @@ package cat.rezelyn.watheextended.mixin.client.hud;
 
 import cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper;
 import cat.rezelyn.watheextended.client.pronouns.PronounsCache;
+import net.fabricmc.loader.api.FabricLoader;
+import org.ladysnake.cca.api.v3.component.ComponentKey;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
 import dev.doctor4t.wathe.client.WatheClient;
 import dev.doctor4t.wathe.client.gui.RoleNameRenderer;
@@ -16,11 +18,15 @@ import net.minecraft.text.Text;
 import net.minecraft.util.hit.EntityHitResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.lang.reflect.Field;
+import java.util.UUID;
 
 @Mixin(value = RoleNameRenderer.class, priority = 999)
 public class RoleNameRendererMixin {
@@ -54,7 +60,9 @@ public class RoleNameRendererMixin {
             return;
         }
 
-        String pronouns = PronounsCache.get(target.getUuid());
+        UUID pronounsSource = watheextended$getMorphlingDisguise(target);
+        if (pronounsSource == null) pronounsSource = target.getUuid();
+        String pronouns = PronounsCache.get(pronounsSource);
         if (pronouns.isEmpty()) return;
         if (target.isInvisible()) return;
 
@@ -67,5 +75,26 @@ public class RoleNameRendererMixin {
         context.getMatrices().scale(0.6f, 0.6f, 1f);
         context.drawTextWithShadow(renderer, pronounsText, -pronounsWidth / 2, 16 + renderer.fontHeight + 2, color);
         context.getMatrices().pop();
+    }
+
+    // compat: noelle's roles morphling disguise
+    private static UUID watheextended$getMorphlingDisguise(PlayerEntity target) {
+        if (!FabricLoader.getInstance().isModLoaded("noellesroles")) return null;
+        try {
+            Class<?> cls = Class.forName("org.agmas.noellesroles.morphling.MorphlingPlayerComponent");
+            Field keyField = cls.getDeclaredField("KEY");
+            keyField.setAccessible(true);
+            @SuppressWarnings({"unchecked", "rawtypes"})
+            ComponentKey key = (ComponentKey) keyField.get(null);
+            Object component = key.get(target);
+            Field morphTicksField = cls.getDeclaredField("morphTicks");
+            morphTicksField.setAccessible(true);
+            if ((int) morphTicksField.get(component) <= 0) return null;
+            Field disguiseField = cls.getDeclaredField("disguise");
+            disguiseField.setAccessible(true);
+            return (UUID) disguiseField.get(component);
+        } catch (Exception ignored) {
+            return null;
+        }
     }
 }
