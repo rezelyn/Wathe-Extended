@@ -40,7 +40,6 @@ public final class ModifiersCategory {
                             .description(OptionDescription.of(Text.literal(id).styled(style -> style.withColor(0x505050))))
                             .binding(state, () -> pendingState.containsKey(id) ? pendingState.get(id) : !ConfigHelper.getDisabledModifiers().contains(id), enabled -> {
                                 pendingState.put(id, enabled);
-                                sendCommand.accept("setEnabledModifier " + id + " " + enabled, parent);
                             })
                             .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
                             .build());

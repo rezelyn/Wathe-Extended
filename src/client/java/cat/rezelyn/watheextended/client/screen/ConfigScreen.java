@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.client.screen;
 
+import cat.rezelyn.watheextended.api.config.ClientConfig;
 import cat.rezelyn.watheextended.api.config.ServerConfig;
 import cat.rezelyn.watheextended.client.screen.config.*;
 import dev.isxander.yacl3.api.YetAnotherConfigLib;
@@ -115,6 +116,22 @@ public final class ConfigScreen {
     }
 
     private static void flushPendingChanges() {
+        if (!pendingRoleState.isEmpty()) {
+            java.util.List<String> disabled = new java.util.ArrayList<>(ClientConfig.getStringList("hml.disabled"));
+            pendingRoleState.forEach((id, enabled) -> {
+                if (enabled) disabled.remove(id);
+                else if (!disabled.contains(id)) disabled.add(id);
+            });
+            pendingChanges.put("hml.disabled", String.join(",", disabled));
+        }
+        if (!pendingModifierState.isEmpty()) {
+            java.util.List<String> disabled = new java.util.ArrayList<>(ClientConfig.getStringList("hml.disabledModifiers"));
+            pendingModifierState.forEach((id, enabled) -> {
+                if (enabled) disabled.remove(id);
+                else if (!disabled.contains(id)) disabled.add(id);
+            });
+            pendingChanges.put("hml.disabledModifiers", String.join(",", disabled));
+        }
         if (pendingChanges.isEmpty()) return;
         try {
             ClientPlayNetworking.send(new ServerConfig.ChangePayload(new HashMap<>(pendingChanges)));

