@@ -45,7 +45,7 @@ public final class IntrovertedModifier {
                 if (nearbyPlayers >= WatheExtendedServerConfig.getIntrovertedCrowdCount()) {
                     mood.setMood(mood.getMood() - GameConstants.MOOD_DRAIN * WatheExtendedServerConfig.getIntrovertedCrowdDrainMultiplier());
                 } else {
-                    // alone or with one other player = mood recovers
+                    // alone or with one other player = slower drain
                     float newMood = Math.clamp(mood.getMood() + GameConstants.MOOD_DRAIN * WatheExtendedServerConfig.getIntrovertedAloneDrainMultiplier(), 0.0f, 1.0f);
                     ((PlayerMoodDirectAccessor) mood).watheextended$setMoodDirect(newMood);
                 }

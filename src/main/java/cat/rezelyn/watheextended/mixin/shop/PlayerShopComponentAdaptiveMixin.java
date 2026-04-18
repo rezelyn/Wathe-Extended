@@ -20,24 +20,24 @@ public class PlayerShopComponentAdaptiveMixin {
     @Shadow @Final
     private PlayerEntity player;
 
-    @ModifyVariable(method = "addToBalance(I)V", at = @At("HEAD"), argsOnly = true)
+    @ModifyVariable(method = "addToBalance(I)V", at = @At("HEAD"), argsOnly = true, name = "amount")
     private int watheextended$applyAdaptive(int amount) {
         try {
             if (amount <= 0) return amount;
-            if (!(this.player instanceof ServerPlayerEntity player)) return amount;
+            if (!(this.player instanceof ServerPlayerEntity p)) return amount;
 
-            ServerWorld world = player.getServerWorld();
-            GameWorldComponent component = GameWorldComponent.KEY.get(world);
+            ServerWorld world = p.getServerWorld();
+            GameWorldComponent game = GameWorldComponent.KEY.get(world);
 
-            if (!component.isRunning()) return amount;
-            if (!component.canUseKillerFeatures(player)) return amount;
+            if (!game.isRunning()) return amount;
+            if (!game.canUseKillerFeatures(p)) return amount;
 
             WorldModifierComponent modifier = WorldModifierComponent.KEY.get(world);
 
-            if (!modifier.isModifier(player, WatheExtendedModifiers.ADAPTIVE)) return amount;
+            if (!modifier.isModifier(p, WatheExtendedModifiers.ADAPTIVE)) return amount;
             if (AdaptiveModifier.CURRENT_KILL.get() == null) return amount;
 
-            return AdaptiveModifier.applyAdaptive(player, amount);
+            return AdaptiveModifier.applyAdaptive(p, amount);
         } catch (Throwable t) {
             return amount;
         }

@@ -1,4 +1,4 @@
-package cat.rezelyn.watheextended.mixin.client.hud.inventory;
+package cat.rezelyn.watheextended.mixin.client.role;
 
 import cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper;
 import dev.doctor4t.wathe.cca.GameWorldComponent;

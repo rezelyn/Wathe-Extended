@@ -21,27 +21,27 @@ public class PlayerShopComponentTaxedMixin {
     @Shadow @Final
     private PlayerEntity player;
 
-    @ModifyVariable(method = "addToBalance(I)V", at = @At("HEAD"), argsOnly = true)
+    @ModifyVariable(method = "addToBalance(I)V", at = @At("HEAD"), argsOnly = true, name = "amount")
     private int watheextended$applyTax(int amount) {
         try {
             if (amount <= 0) return amount;
-            if (!(this.player instanceof ServerPlayerEntity player)) return amount;
+            if (!(this.player instanceof ServerPlayerEntity p)) return amount;
 
-            ServerWorld world = player.getServerWorld();
+            ServerWorld world = p.getServerWorld();
             GameWorldComponent game = GameWorldComponent.KEY.get(world);
 
             if (!game.isRunning()) return amount;
-            if (!game.canUseKillerFeatures(player)) return amount;
+            if (!game.canUseKillerFeatures(p)) return amount;
 
             WorldModifierComponent modifier = WorldModifierComponent.KEY.get(world);
 
-            if (!modifier.isModifier(player, WatheExtendedModifiers.TAXED)) return amount;
+            if (!modifier.isModifier(p, WatheExtendedModifiers.TAXED)) return amount;
 
             AdaptiveModifier.KillContext kill = AdaptiveModifier.CURRENT_KILL.get();
 
-            if (kill == null || !kill.killerUuid().equals(player.getUuid())) return amount;
+            if (kill == null || !kill.killerUuid().equals(p.getUuid())) return amount;
 
-            return TaxedModifier.applyTaxIfEligible(player.getUuid(), amount);
+            return TaxedModifier.applyTaxIfEligible(p.getUuid(), amount);
         } catch (Throwable t) {
             return amount;
         }
