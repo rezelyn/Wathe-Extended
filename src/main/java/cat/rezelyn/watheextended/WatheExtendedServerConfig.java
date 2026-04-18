@@ -33,6 +33,12 @@ public final class WatheExtendedServerConfig {
     public static int killIncreaseTime = 60;
     public static boolean lastStandEnabled = false;
     public static int lastStandCooldown = 30;
+    public static boolean morphlingCanCancelAbility = true;
+    public static int morphlingAbilityDuration = 35;
+    public static int morphlingAbilityCooldown = 60;
+    public static boolean phantomCanCancelAbility = true;
+    public static int phantomAbilityDuration = 30;
+    public static int phantomAbilityCooldown = 0;
     public static int grenadeCooldown = 90;
     public static int knifeCooldown = 60;
     public static int revolverCooldown = 10;
@@ -171,6 +177,13 @@ public final class WatheExtendedServerConfig {
         cleanerPlayerLimit = config.getInt("roles.cleaner.playerLimit", 10);
         cleanerAcidBarrelCoinBonusEnabled = config.getBool("roles.cleaner.acidBarrelCoinBonusEnabled", false);
         cleanerAcidBarrelCoins = config.getInt("roles.cleaner.acidBarrelCoins", 50);
+        morphlingCanCancelAbility = config.getBool("roles.morphling.canCancelAbility", true);
+        morphlingAbilityDuration = config.getInt("roles.morphling.abilityDuration", 35);
+        morphlingAbilityCooldown = config.getInt("roles.morphling.abilityCooldown", 60);
+        phantomCanCancelAbility = config.getBool("roles.phantom.canCancelAbility", true);
+        phantomAbilityDuration = config.getInt("roles.phantom.abilityDuration", 30);
+        phantomAbilityCooldown = config.getInt("roles.phantom.abilityCooldown", 0);
+        save();
     }
 
     public static void save() {
@@ -356,9 +369,31 @@ public final class WatheExtendedServerConfig {
                     "      \"acidBarrelCoinBonusEnabled\": " + cleanerAcidBarrelCoinBonusEnabled + ",\n" +
                     "      // Extra coins granted to the Cleaner when using the Sulfuric Acid Barrel.\n" +
                     "      // Default: 50\n" +
-                    "      \"acidBarrelCoins\": " + cleanerAcidBarrelCoins + "\n" +
-                    "    }\n" +
-                    "  },\n" +
+                     "      \"acidBarrelCoins\": " + cleanerAcidBarrelCoins + "\n" +
+                     "    },\n" +
+                     "    \"morphling\": {\n" +
+                     "      // When enabled, the Morphling can cancel their morph by pressing the ability key again.\n" +
+                     "      // Default: true\n" +
+                     "      \"canCancelAbility\": " + morphlingCanCancelAbility + ",\n" +
+                     "      // Duration in seconds of the Morphling's active morph.\n" +
+                     "      // Default: 35\n" +
+                     "      \"abilityDuration\": " + morphlingAbilityDuration + ",\n" +
+                     "      // Cooldown in seconds after the morph ends before it can be used again.\n" +
+                     "      // Default: 60\n" +
+                     "      \"abilityCooldown\": " + morphlingAbilityCooldown + "\n" +
+                     "    },\n" +
+                     "    \"phantom\": {\n" +
+                     "      // When enabled, the Phantom can cancel their invisibility by pressing the ability key again.\n" +
+                     "      // Default: true\n" +
+                     "      \"canCancelAbility\": " + phantomCanCancelAbility + ",\n" +
+                     "      // Duration in seconds of the Phantom's invisibility ability.\n" +
+                     "      // Default: 30\n" +
+                     "      \"abilityDuration\": " + phantomAbilityDuration + ",\n" +
+                     "      // Cooldown in seconds after invisibility ends before it can be used again.\n" +
+                     "      // Default: 0\n" +
+                     "      \"abilityCooldown\": " + phantomAbilityCooldown + "\n" +
+                     "    }\n" +
+                     "  },\n" +
                     "  \"addons\": {\n" +
                     "    \"kinswathe\": {\n" +
                     "      \"sulfuricAcidBarrel\": {\n" +
@@ -720,6 +755,60 @@ public final class WatheExtendedServerConfig {
 
     public static void setLastStandCooldown(int value) {
         lastStandCooldown = Math.max(1, value);
+        save();
+    }
+
+    public static boolean isMorphlingCanCancelAbility() {
+        return morphlingCanCancelAbility;
+    }
+
+    public static void setMorphlingCanCancelAbility(boolean value) {
+        morphlingCanCancelAbility = value;
+        save();
+    }
+
+    public static int getMorphlingAbilityDuration() {
+        return morphlingAbilityDuration;
+    }
+
+    public static void setMorphlingAbilityDuration(int value) {
+        morphlingAbilityDuration = Math.max(1, value);
+        save();
+    }
+
+    public static int getMorphlingAbilityCooldown() {
+        return morphlingAbilityCooldown;
+    }
+
+    public static void setMorphlingAbilityCooldown(int value) {
+        morphlingAbilityCooldown = Math.max(0, value);
+        save();
+    }
+
+    public static boolean isPhantomCanCancelAbility() {
+        return phantomCanCancelAbility;
+    }
+
+    public static void setPhantomCanCancelAbility(boolean value) {
+        phantomCanCancelAbility = value;
+        save();
+    }
+
+    public static int getPhantomAbilityDuration() {
+        return phantomAbilityDuration;
+    }
+
+    public static void setPhantomAbilityDuration(int value) {
+        phantomAbilityDuration = Math.max(1, value);
+        save();
+    }
+
+    public static int getPhantomAbilityCooldown() {
+        return phantomAbilityCooldown;
+    }
+
+    public static void setPhantomAbilityCooldown(int value) {
+        phantomAbilityCooldown = Math.max(0, value);
         save();
     }
 

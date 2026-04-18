@@ -188,6 +188,24 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.lastStand.cooldown", 30,
                 WatheExtendedServerConfig::getLastStandCooldown,
                 WatheExtendedServerConfig::setLastStandCooldown));
+        ServerConfig.register(ServerConfig.Entry.globalBool("watheextended.morphling.canCancelAbility", true,
+                WatheExtendedServerConfig::isMorphlingCanCancelAbility,
+                WatheExtendedServerConfig::setMorphlingCanCancelAbility));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.morphling.abilityDuration", 35,
+                WatheExtendedServerConfig::getMorphlingAbilityDuration,
+                WatheExtendedServerConfig::setMorphlingAbilityDuration));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.morphling.abilityCooldown", 60,
+                WatheExtendedServerConfig::getMorphlingAbilityCooldown,
+                WatheExtendedServerConfig::setMorphlingAbilityCooldown));
+        ServerConfig.register(ServerConfig.Entry.globalBool("watheextended.phantom.canCancelAbility", true,
+                WatheExtendedServerConfig::isPhantomCanCancelAbility,
+                WatheExtendedServerConfig::setPhantomCanCancelAbility));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.phantom.abilityDuration", 30,
+                WatheExtendedServerConfig::getPhantomAbilityDuration,
+                WatheExtendedServerConfig::setPhantomAbilityDuration));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.phantom.abilityCooldown", 0,
+                WatheExtendedServerConfig::getPhantomAbilityCooldown,
+                WatheExtendedServerConfig::setPhantomAbilityCooldown));
     }
 
     private static void registerNetworking() {

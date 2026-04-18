@@ -125,6 +125,7 @@
   "gui.watheextended.config.text.cooldown": "Cooldown",
   "gui.watheextended.config.text.duration": "Duration",
   "gui.watheextended.config.text.playerlimit": "Player Limit",
+  "gui.watheextended.config.text.cancancelability": "Can Cancel Ability",
   "gui.watheextended.config.text.hasshop": "Has Shop",
 
   "gui.watheextended.config.category.client": "Client",
@@ -396,6 +397,12 @@
   "gui.watheextended.config.category.roles.opt.licensedvillain.playerlimit.desc": "The minimum number of players required for the Licensed Villain role to be enabled.\n\n§6Default: §e10",
   "gui.watheextended.config.category.roles.opt.robot.duration.desc": "Adjust Robot's ability duration.\n\n§6Default: §e10",
   "gui.watheextended.config.category.roles.opt.robot.cooldown.desc": "Adjust Robot's ability cooldown.\n\n§6Default: §e90",
+  "gui.watheextended.config.category.roles.opt.morphling.cancancelability.desc": "When enabled, the Morphling can cancel their active morph by pressing the ability key again.\n\n§6Default: §aON",
+  "gui.watheextended.config.category.roles.opt.morphling.duration.desc": "Duration in seconds of the Morphling's active morph.\n\n§6Default: §e35",
+  "gui.watheextended.config.category.roles.opt.morphling.cooldown.desc": "Cooldown in seconds after the morph ends before it can be used again.\n\n§6Default: §e60",
+  "gui.watheextended.config.category.roles.opt.phantom.cancancelability.desc": "When enabled, the Phantom can cancel their active invisibility by pressing the ability key again.\n\n§6Default: §aON",
+  "gui.watheextended.config.category.roles.opt.phantom.duration.desc": "Duration in seconds of the Phantom's invisibility ability.\n\n§6Default: §e30",
+  "gui.watheextended.config.category.roles.opt.phantom.cooldown.desc": "Cooldown in seconds after invisibility ends before it can be used again.\n\n§6Default: §e0",
   "gui.watheextended.config.category.roles.opt.voodoo.nonkillerdeaths": "Voodoo on Natural Deaths",
   "gui.watheextended.config.category.roles.opt.voodoo.nonkillerdeaths.desc": "Allow natural deaths to trigger Voodoo.\n\n§6Default: §cOFF",
   "gui.watheextended.config.category.roles.opt.voodoo.shotlikeevil": "Shot Like Evil",
@@ -494,6 +501,7 @@
 
 
   "gui.watheextended.hud.ability.ready": "Ready",
+  "gui.watheextended.hud.ability.cancel": "Cancel",
   "gui.watheextended.hud.ability.disabled": "Ability disabled!",
 
 

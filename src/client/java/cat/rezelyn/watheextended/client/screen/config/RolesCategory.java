@@ -298,6 +298,58 @@ public final class RolesCategory {
                         .binding(false, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getVoodooNonKillerDeaths, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.voodooNonKillerDeaths", value))
                         .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build());
             }
+            // Morphling
+            case "noellesroles:morphling" -> {
+                if (!cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.isLoaded()) return;
+                /// ABILITY - CANCEL
+                builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xAAAAAA))));
+                builder.option(Option.<Boolean>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.text.cancancelability"))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.morphling.cancancelability.desc")))
+                        .binding(true, () -> ClientConfig.getBool("watheextended.morphling.canCancelAbility", true), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.morphling.canCancelAbility", value))
+                        .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled")))
+                        .build());
+                /// ABILITY - COOLDOWN
+                builder.option(Option.<Integer>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.text.cooldown"))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.morphling.cooldown.desc")))
+                        .binding(60, () -> ClientConfig.getInt("watheextended.morphling.abilityCooldown", 60), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.morphling.abilityCooldown", value))
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
+                /// ABILITY - DURATION
+                builder.option(Option.<Integer>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.text.duration"))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.morphling.duration.desc")))
+                        .binding(35, () -> ClientConfig.getInt("watheextended.morphling.abilityDuration", 35), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.morphling.abilityDuration", value))
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
+            }
+            // Phantom
+            case "noellesroles:phantom" -> {
+                if (!cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.isLoaded()) return;
+                /// ABILITY - CANCEL
+                builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xAAAAAA))));
+                builder.option(Option.<Boolean>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.text.cancancelability"))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.phantom.cancancelability.desc")))
+                        .binding(true, () -> ClientConfig.getBool("watheextended.phantom.canCancelAbility", true), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.phantom.canCancelAbility", value))
+                        .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled")))
+                        .build());
+                /// ABILITY - COOLDOWN
+                builder.option(Option.<Integer>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.text.cooldown"))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.phantom.cooldown.desc")))
+                        .binding(0, () -> ClientConfig.getInt("watheextended.phantom.abilityCooldown", 0), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.phantom.abilityCooldown", value))
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
+                /// ABILITY - DURATION
+                builder.option(Option.<Integer>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.text.duration"))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.phantom.duration.desc")))
+                        .binding(30, () -> ClientConfig.getInt("watheextended.phantom.abilityDuration", 30), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.phantom.abilityDuration", value))
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
+            }
             // Conductor
             case "noellesroles:conductor" -> {
                 if (!cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.isLoaded()) return;

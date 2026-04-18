@@ -1,4 +1,4 @@
-package cat.rezelyn.watheextended.mixin.client.hud.inventory;
+package cat.rezelyn.watheextended.mixin.client.hud;
 
 import cat.rezelyn.watheextended.api.config.ClientConfig;
 import cat.rezelyn.watheextended.client.screen.ScreenUtils;
@@ -10,6 +10,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableTextContent;
@@ -70,6 +71,10 @@ public class AbilityHudMixin {
         // cooldown
         else if (ABILITY_COOLDOWN_KEYS.contains(key)) {
             if (args == null || args.length == 0) return;
+            if ("tip.noellesroles.cooldown".equals(key) && watheextended$isPhantomActive()) {
+                cir.setReturnValue(0);
+                return;
+            }
             String seconds = String.valueOf(args[0]);
             MutableText styled = Text.literal("§4⏱ §c" + seconds + "s");
             cir.setReturnValue(watheextended$drawAbilityHudText(context, renderer, styled, color));
@@ -99,6 +104,19 @@ public class AbilityHudMixin {
             String required = String.valueOf(args[1]);
             MutableText styled = Text.literal("✦ " + counts + "/" + required);
             cir.setReturnValue(watheextended$drawAbilityHudText(context, renderer, styled, 0xE5CCFF));
+        }
+    }
+
+    @Unique
+    private static boolean watheextended$isPhantomActive() {
+        try {
+            MinecraftClient client = MinecraftClient.getInstance();
+            if (client.world == null || client.player == null) return false;
+            Role role = GameWorldComponent.KEY.get(client.world).getRole(client.player);
+            if (role == null || !role.identifier().toString().equals("noellesroles:phantom")) return false;
+            return client.player.hasStatusEffect(StatusEffects.INVISIBILITY);
+        } catch (Throwable ignored) {
+            return false;
         }
     }
 
