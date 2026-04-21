@@ -1,5 +1,86 @@
 > #### This changelog also documents changes that are related to ***The Harpy Express: Extended*** modpack.
 
+# stable-3.5.132
+
+### 🆕 What's New
+- New "Items" tab inside the Wathe Extended Configuration Screen that allows you to view and edit the prices and cooldowns of every usable items from Wathe and supported add-ons
+- OP players can now clear other players pronouns using `/pronouns clear <targets>` ([@Basinity](https://github.com/rezelyn/Wathe-Extended/pull/70))
+- Added "Teleport to Scenery" item for creative OP players that will teleport to the Spectator Spawn Position upon use
+- Added new Moquette blocks color variants
+- Added new configurable options:
+  - **Kill Increase Time**
+    - Changes the amount of seconds that are added to the timer when a Killer gets a kill
+  - **Jump Mode**
+    - Changes the behavior of the jump restriction mechanic: **Default**, **Lobby Only** and **Everywhere**
+  - **Item Prices & Cooldowns**
+    - Configurable prices and cooldowns for every shop items from Wathe and supported add-ons, see "Items" tab in the configuration screen
+  - **Role Abilities**
+    - Added configurable "Cancel Ability" for the Phantom and Morphling, allowing them to cancel their ability at any time by pressing the ability key again instead of having to wait for the full duration to end
+    - Added configurable ability duration for the 
+      - Phantom
+      - Morphling
+    - Added configurable ability cooldown for:
+      - Phantom
+      - Morphling
+- New optional mechanic: "Last Stand"
+  - If enabled, this will change the behavior of any remote death mechanics (e.g. Guesser correct guess, Voodoo trigger Voodoo Doll, Lovers heartbreak).
+    <br> Instead of immediately killing the damned player, they will be noticed and have a short period of time before they will actually die (Default: 30s)
+- New entries in the Guidebook:
+  - Awesome Binglus
+  - The Insane Damned Paranoid Killer
+  - Better Vigilante
+- New roles: *(More information in-game)*
+  - **Technician**
+
+### 📋 Changes
+- Major rework of the configuration screen:
+  - Roles and Modifiers specific options are now grouped into their own role/modifier unique groups within both "Roles" and "Modifiers" tabs, instead of being all mixed together in the "Game" category
+  - Couple visual and readability improvements
+  - Renamed some options names and descriptions to be more clear about what they do
+- Using the inventory key while being inside the Guidebook screen will now close the screen
+- Improved item tooltips, now being more clear about what the item does, styled cooldowns if there is any, and how to use it correctly
+- Added new HUD elements for the Arsonist, now showing the required number of doused players before being able to ignite.
+- Removed [WathExtras](https://modrinth.com/mod/wathextras)' LGBTQIA+ Pride themed cocktails assets. Make sure to check out their mod!
+- Gameplay balancing:
+  - Roles:
+    - **Hunter**
+      - No longer have the ability to buy the default Knife, Poison Vial and Scorpion from the shop
+    - **Kidnapper**
+      - No longer have the ability to buy the Crowbar from the shop
+    - **Physician**
+      - Pill is now invisible in hand for other players.
+    - **Cleaner**
+      - No longer receives bonus coins for using the Sulfuric Acid Barrel on dead bodies by default (Configurable)
+      - Bonus coins value for using the Sulfuric Acid Barrel on dead bodies is now configurable (Default: 50 coins)
+    - **Awesome Binglus**
+      - Now starts with 4 Notes
+      - Gains 50 coins per task completed
+      - Can buy Notes in the shop
+      - Can stack up to 64 Notes
+      - Can see Notes through walls using Instinct
+    - **Morphling**
+      - Can now cancel their ability at anytime by pressing the ability key again, instead of having to wait for the full duration to end
+    - **Phantom**
+      - Can now cancel their ability at anytime by pressing the ability key again, instead of having to wait for the full duration to end
+  - Items:
+    - **Grenade**
+      - Will now be set under cooldown after being thrown, preventing players from spamming it. (Default: 1m30s)
+
+### 🔧 Fixes
+- Fixed missing localization entries for some new blocks that were added in the previous update
+- Fixed tasks not being completed even though the player has correctly done the required action
+- Fixed Grenade not being set under cooldown after being thrown
+- Fixed Guesser player-picker row having a gap in the row if Mimic was present in a game
+- Fixed Guesser player-picker row not wrapping into multiple rows if there were too many players in a game, causing the row to overflow outside the screen
+- Fixed Initiate not correctly converting to Amnesiac when dying from self-inflicted causes or when killed by a non-Initiate, and fixed surviving Initiates not converting either in those cases (#52, #58)
+- Fixed neutral roles converting into killer roles that were disabled in the configuration (#60, #68)
+- Fixed role announcement displaying a different role than the one the player actually has upon converting into a different role
+- Fixed role announcement displaying a different role than the one the player actually has specifically when using the `/forceRole` command
+- Fixed pronouns not switching to the morphed player's correct pronouns when using Morphling ability (#69)
+- Fixed Introverted modifier effect being active before receiving the first task of a game
+- Fixed Moquette blocks face culling issues (#57)
+- Fixed color formatting issues in the Guidebook
+
 # stable-3.4.132
 
 ### 🆕 What's New
