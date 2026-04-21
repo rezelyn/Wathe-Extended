@@ -73,6 +73,7 @@ public final class ItemPrices {
                 WatheExtendedServerConfig::getNotePrice,
                 value -> { WatheExtendedServerConfig.setNotePrice(value); applyAll(); }));
 
+        // compat: Kin's Wathe
         if (cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) {
             register(() -> {
                 setConfigPrice("org.BsXinQin.kinswathe.KinsWatheConfig", "CleanerGetCoins", WatheExtendedServerConfig.cleanerAcidBarrelCoinBonusEnabled ? WatheExtendedServerConfig.cleanerAcidBarrelCoins : 0);
@@ -144,6 +145,7 @@ public final class ItemPrices {
                     value -> { WatheExtendedServerConfig.setRefreshPotionEffectPrice(value); applyAll(); }));
         }
 
+        // compat: Noelle's Roles
         if (cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.isLoaded()) {
             register(() -> {
                 setConfigPrice("org.agmas.noellesroles.config.NoellesRolesConfig", "defenseVialPrice", WatheExtendedServerConfig.defenseVialPrice);
@@ -162,6 +164,7 @@ public final class ItemPrices {
                     value -> { WatheExtendedServerConfig.setDelusionVialPrice(value); applyAll(); }));
         }
 
+        // compat: Starry Express
         if (cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.isLoaded()) {
             register(() -> setShopListPrice(org.aussiebox.starexpress.StarryExpressConstants.MUZZLER_SHOP, org.aussiebox.starexpress.item.StarryExpressItems.TAPE, WatheExtendedServerConfig.tapePrice));
 

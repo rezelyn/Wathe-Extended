@@ -76,6 +76,7 @@ public final class ItemCooldowns {
                     applyAll();
                 }));
 
+        // compat: Kin's Wathe
         if (cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) {
             register(() -> {
                 setCooldown("kinswathe", "sulfuric_acid_barrel", WatheExtendedServerConfig.sulfuricAcidBarrelCooldown);
@@ -180,6 +181,7 @@ public final class ItemCooldowns {
                     }));
         }
 
+        // compat: Starry Express
         if (cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.isLoaded()) {
             register(() -> cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.applyMuzzlerTapeCooldown(WatheExtendedServerConfig.tapeCooldown));
 
@@ -191,6 +193,7 @@ public final class ItemCooldowns {
                     }));
         }
 
+        // compat: Stupid Express
         if (cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper.isLoaded()) {
             ServerConfig.register(ServerConfig.Entry.globalInt("stupidexpress.jerryCan.cooldown", 0,
                     WatheExtendedServerConfig::getJerryCanCooldown,
@@ -221,5 +224,9 @@ public final class ItemCooldowns {
     public static void setCooldown(String namespace, String path, int seconds) {
         Item item = Registries.ITEM.get(Identifier.of(namespace, path));
         if (item != Items.AIR) GameConstants.ITEM_COOLDOWNS.put(item, seconds * 20);
+    }
+
+    public static int getTimeOnCivilianKill() {
+        return 600;
     }
 }

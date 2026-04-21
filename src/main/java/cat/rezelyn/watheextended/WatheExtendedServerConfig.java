@@ -92,6 +92,26 @@ public final class WatheExtendedServerConfig {
     public static int tapeCooldown = 20;
     public static int jerryCanCooldown = 0;
     public static int lighterCooldown = 0;
+    public static int moneyStartKillers = 100;
+    public static int moneyStartCivilians = 0;
+    public static int moneyStartNeutrals = 0;
+    public static int moneyPerKill = 100;
+    public static int blackoutMinDuration = 5;
+    public static int blackoutMaxDuration = 90;
+    public static int psychoModeArmour = 50;
+    public static int psychoTimer = 5;
+    public static int firecrackerTimer = 45;
+    public static int timeToFirstTask = 9;
+    public static int minTaskCooldown = 10;
+    public static int maxTaskCooldown = 60;
+    public static int sleepTaskDuration = 120;
+    public static int outsideTaskDuration = 300;
+    public static int moodGain = 5;
+    public static int moodDrain = 3;
+    public static int midMoodThreshold = 30;
+    public static int depressiveMoodThreshold = 15;
+    public static float itemPsychosisChance = 0.3f;
+    public static boolean itemPsychosisChanceEnabled = true;
 
     private WatheExtendedServerConfig() {}
 
@@ -183,6 +203,26 @@ public final class WatheExtendedServerConfig {
         phantomCanCancelAbility = config.getBool("roles.phantom.canCancelAbility", true);
         phantomAbilityDuration = config.getInt("roles.phantom.abilityDuration", 30);
         phantomAbilityCooldown = config.getInt("roles.phantom.abilityCooldown", 0);
+        moneyStartKillers = config.getInt("gamerules.moneyStartKillers", 100);
+        moneyStartCivilians = config.getInt("gamerules.moneyStartCivilians", 0);
+        moneyStartNeutrals = config.getInt("gamerules.moneyStartNeutrals", 0);
+        moneyPerKill = config.getInt("gamerules.moneyPerKill", 100);
+        blackoutMinDuration = config.getInt("gamerules.blackoutMinDuration", 5);
+        blackoutMaxDuration = config.getInt("gamerules.blackoutMaxDuration", 90);
+        psychoModeArmour = config.getInt("gamerules.psychoModeArmour", 50);
+        psychoTimer = config.getInt("gamerules.psychoTimer", 5);
+        firecrackerTimer = config.getInt("gamerules.firecrackerTimer", 45);
+        timeToFirstTask = config.getInt("gamerules.timeToFirstTask", 9);
+        minTaskCooldown = config.getInt("gamerules.minTaskCooldown", 10);
+        maxTaskCooldown = config.getInt("gamerules.maxTaskCooldown", 60);
+        sleepTaskDuration = config.getInt("gamerules.sleepTaskDuration", 120);
+        outsideTaskDuration = config.getInt("gamerules.outsideTaskDuration", 300);
+        moodGain = config.getInt("gamerules.moodGain", 5);
+        moodDrain = config.getInt("gamerules.moodDrain", 3);
+        midMoodThreshold = config.getInt("gamerules.midMoodThreshold", 30);
+        depressiveMoodThreshold = config.getInt("gamerules.depressiveMoodThreshold", 15);
+        itemPsychosisChanceEnabled = config.getBool("gamerules.itemPsychosisChanceEnabled", true);
+        itemPsychosisChance = config.getFloat("gamerules.itemPsychosisChance", 0.3f);
         save();
     }
 
@@ -221,6 +261,68 @@ public final class WatheExtendedServerConfig {
                     "    // Options: DEFAULT (Wathe default behavior), LOBBY (only in lobby), EVERYWHERE (always)\n" +
                     "    // Default: LOBBY\n" +
                     "    \"jumpMode\": \"" + jumpMode + "\"\n" +
+                    "  },\n" +
+                    "  \"gameConstants\": {\n" +
+                    "    // Starting money for Killers\n" +
+                    "    // Default: 100\n" +
+                    "    \"moneyStartKillers\": " + moneyStartKillers + ",\n" +
+                    "    // Starting money for Civilians\n" +
+                    "    // Default: 0\n" +
+                    "    \"moneyStartCivilians\": " + moneyStartCivilians + ",\n" +
+                    "    // Starting money for Neutrals\n" +
+                    "    // Default: 0\n" +
+                    "    \"moneyStartNeutrals\": " + moneyStartNeutrals + ",\n" +
+                    "    // Money granted per kill\n" +
+                    "    // Default: 100\n" +
+                    "    \"moneyPerKill\": " + moneyPerKill + ",\n" +
+                    "    // Blackout minimum duration in seconds\n" +
+                    "    // Default: 5\n" +
+                    "    \"blackoutMinDuration\": " + blackoutMinDuration + ",\n" +
+                    "    // Blackout maximum duration in seconds\n" +
+                    "    // Default: 90\n" +
+                    "    \"blackoutMaxDuration\": " + blackoutMaxDuration + ",\n" +
+                    "    // Psycho Mode additional armour in points\n" +
+                    "    // Default: 50\n" +
+                    "    \"psychoModeArmour\": " + psychoModeArmour + ",\n" +
+                    "    // Psycho Mode duration in seconds\n" +
+                    "    // Default: 5\n" +
+                    "    \"psychoTimer\": " + psychoTimer + ",\n" +
+                    "    // Firecracker duration in seconds\n" +
+                    "    // Default: 45\n" +
+                    "    \"firecrackerTimer\": " + firecrackerTimer + ",\n" +
+                    "    // Time to first task in seconds\n" +
+                    "    // Default: 9\n" +
+                    "    \"timeToFirstTask\": " + timeToFirstTask + ",\n" +
+                    "    // Minimum duration between normal tasks in seconds\n" +
+                    "    // Default: 10\n" +
+                    "    \"minTaskCooldown\": " + minTaskCooldown + ",\n" +
+                    "    // Maximum duration between normal tasks in seconds\n" +
+                    "    // Default: 60\n" +
+                    "    \"maxTaskCooldown\": " + maxTaskCooldown + ",\n" +
+                    "    // Sleep task duration in seconds\n" +
+                    "    // Default: 120\n" +
+                    "    \"sleepTaskDuration\": " + sleepTaskDuration + ",\n" +
+                    "    // Outside task duration in seconds\n" +
+                    "    // Default: 300\n" +
+                    "    \"outsideTaskDuration\": " + outsideTaskDuration + ",\n" +
+                    "    // Mood gain per kill\n" +
+                    "    // Default: 5\n" +
+                    "    \"moodGain\": " + moodGain + ",\n" +
+                    "    // Mood drain per second\n" +
+                    "    // Default: 3\n" +
+                    "    \"moodDrain\": " + moodDrain + ",\n" +
+                    "    // Mid mood threshold\n" +
+                    "    // Default: 30\n" +
+                    "    \"midMoodThreshold\": " + midMoodThreshold + ",\n" +
+                    "    // Depressive mood threshold\n" +
+                    "    // Default: 15\n" +
+                    "    \"depressiveMoodThreshold\": " + depressiveMoodThreshold + ",\n" +
+                    "    // Enables item psychosis chance\n" +
+                    "    // Default: true\n" +
+                    "    \"itemPsychosisChanceEnabled\": " + itemPsychosisChanceEnabled + ",\n" +
+                    "    // Item psychosis chance\n" +
+                    "    // Default: 0.3\n" +
+                    "    \"itemPsychosisChance\": " + itemPsychosisChance + "\n" +
                     "  },\n" +
                     "  \"items\": {\n" +
                     "    \"knife\": {\n" +
@@ -544,7 +646,69 @@ public final class WatheExtendedServerConfig {
                 "        \"cooldown\": " + lighterCooldown + "\n" +
                 "      }\n" +
                 "    }\n" +
-                "  }\n" +
+                    "  },\n" +
+                    "  \"gameConstants\": {\n" +
+                    "    // Starting money for Killers\n" +
+                    "    // Default: 100\n" +
+                    "    \"moneyStartKillers\": " + moneyStartKillers + ",\n" +
+                    "    // Starting money for Civilians\n" +
+                    "    // Default: 0\n" +
+                    "    \"moneyStartCivilians\": " + moneyStartCivilians + ",\n" +
+                    "    // Starting money for Neutrals\n" +
+                    "    // Default: 0\n" +
+                    "    \"moneyStartNeutrals\": " + moneyStartNeutrals + ",\n" +
+                    "    // Money granted per kill\n" +
+                    "    // Default: 100\n" +
+                    "    \"moneyPerKill\": " + moneyPerKill + ",\n" +
+                    "    // Blackout minimum duration in seconds\n" +
+                    "    // Default: 5\n" +
+                    "    \"blackoutMinDuration\": " + blackoutMinDuration + ",\n" +
+                    "    // Blackout maximum duration in seconds\n" +
+                    "    // Default: 90\n" +
+                    "    \"blackoutMaxDuration\": " + blackoutMaxDuration + ",\n" +
+                    "    // Psycho Mode additional armour in points\n" +
+                    "    // Default: 50\n" +
+                    "    \"psychoModeArmour\": " + psychoModeArmour + ",\n" +
+                    "    // Psycho Mode duration in seconds\n" +
+                    "    // Default: 5\n" +
+                    "    \"psychoTimer\": " + psychoTimer + ",\n" +
+                    "    // Firecracker duration in seconds\n" +
+                    "    // Default: 45\n" +
+                    "    \"firecrackerTimer\": " + firecrackerTimer + ",\n" +
+                    "    // Time to first task in seconds\n" +
+                    "    // Default: 9\n" +
+                    "    \"timeToFirstTask\": " + timeToFirstTask + ",\n" +
+                    "    // Minimum duration between normal tasks in seconds\n" +
+                    "    // Default: 10\n" +
+                    "    \"minTaskCooldown\": " + minTaskCooldown + ",\n" +
+                    "    // Maximum duration between normal tasks in seconds\n" +
+                    "    // Default: 60\n" +
+                    "    \"maxTaskCooldown\": " + maxTaskCooldown + ",\n" +
+                    "    // Sleep task duration in seconds\n" +
+                    "    // Default: 120\n" +
+                    "    \"sleepTaskDuration\": " + sleepTaskDuration + ",\n" +
+                    "    // Outside task duration in seconds\n" +
+                    "    // Default: 300\n" +
+                    "    \"outsideTaskDuration\": " + outsideTaskDuration + ",\n" +
+                    "    // Mood gain per kill\n" +
+                    "    // Default: 5\n" +
+                    "    \"moodGain\": " + moodGain + ",\n" +
+                    "    // Mood drain per second\n" +
+                    "    // Default: 3\n" +
+                    "    \"moodDrain\": " + moodDrain + ",\n" +
+                    "    // Mid mood threshold\n" +
+                    "    // Default: 30\n" +
+                    "    \"midMoodThreshold\": " + midMoodThreshold + ",\n" +
+                    "    // Depressive mood threshold\n" +
+                    "    // Default: 15\n" +
+                    "    \"depressiveMoodThreshold\": " + depressiveMoodThreshold + ",\n" +
+                    "    // Enables item psychosis chance\n" +
+                    "    // Default: true\n" +
+                    "    \"itemPsychosisChanceEnabled\": " + itemPsychosisChanceEnabled + ",\n" +
+                    "    // Item psychosis chance\n" +
+                    "    // Default: 0.3\n" +
+                    "    \"itemPsychosisChance\": " + itemPsychosisChance + "\n" +
+                    "  }\n" +
                     "}\n";
             Files.writeString(CONFIG_FILE.toPath(), content);
         } catch (IOException ignored) {
@@ -809,6 +973,186 @@ public final class WatheExtendedServerConfig {
 
     public static void setPhantomAbilityCooldown(int value) {
         phantomAbilityCooldown = Math.max(0, value);
+        save();
+    }
+
+    public static boolean isMoneyPsychosisEnabled() {
+        return itemPsychosisChanceEnabled;
+    }
+
+    public static void setMoneyPsychosisEnabled(boolean value) {
+        itemPsychosisChanceEnabled = value;
+        save();
+    }
+
+    public static int getMoneyStartKillers() {
+        return moneyStartKillers;
+    }
+
+    public static void setMoneyStartKillers(int value) {
+        moneyStartKillers = Math.max(0, value);
+        save();
+    }
+
+    public static int getMoneyStartCivilians() {
+        return moneyStartCivilians;
+    }
+
+    public static void setMoneyStartCivilians(int value) {
+        moneyStartCivilians = Math.max(0, value);
+        save();
+    }
+
+    public static int getMoneyStartNeutrals() {
+        return moneyStartNeutrals;
+    }
+
+    public static void setMoneyStartNeutrals(int value) {
+        moneyStartNeutrals = Math.max(0, value);
+        save();
+    }
+
+    public static int getMoneyPerKill() {
+        return moneyPerKill;
+    }
+
+    public static void setMoneyPerKill(int value) {
+        moneyPerKill = Math.max(0, value);
+        save();
+    }
+
+    public static int getBlackoutMinDuration() {
+        return blackoutMinDuration;
+    }
+
+    public static void setBlackoutMinDuration(int value) {
+        blackoutMinDuration = Math.max(0, value);
+        save();
+    }
+
+    public static int getBlackoutMaxDuration() {
+        return blackoutMaxDuration;
+    }
+
+    public static void setBlackoutMaxDuration(int v) {
+        blackoutMaxDuration = Math.max(0, v);
+        save();
+    }
+
+    public static int getPsychoModeArmour() {
+        return psychoModeArmour;
+    }
+
+    public static void setPsychoModeArmour(int value) {
+        psychoModeArmour = Math.max(0, value);
+        save();
+    }
+
+    public static int getPsychoTimer() {
+        return psychoTimer;
+    }
+
+    public static void setPsychoTimer(int value) {
+        psychoTimer = Math.max(0, value);
+        save();
+    }
+
+    public static int getFirecrackerTimer() {
+        return firecrackerTimer;
+    }
+
+    public static void setFirecrackerTimer(int v) {
+        firecrackerTimer = Math.max(0, v);
+        save();
+    }
+
+    public static int getTimeToFirstTask() {
+        return timeToFirstTask;
+    }
+
+    public static void setTimeToFirstTask(int value) {
+        timeToFirstTask = Math.max(0, value);
+        save();
+    }
+
+    public static int getMinTaskCooldown() {
+        return minTaskCooldown;
+    }
+
+    public static void setMinTaskCooldown(int value) {
+        minTaskCooldown = Math.max(0, value);
+        save();
+    }
+
+    public static int getMaxTaskCooldown() {
+        return maxTaskCooldown;
+    }
+
+    public static void setMaxTaskCooldown(int value) {
+        maxTaskCooldown = Math.max(0, value);
+        save();
+    }
+
+    public static int getSleepTaskDuration() {
+        return sleepTaskDuration;
+    }
+
+    public static void setSleepTaskDuration(int value) {
+        sleepTaskDuration = Math.max(0, value);
+        save();
+    }
+
+    public static int getOutsideTaskDuration() {
+        return outsideTaskDuration;
+    }
+
+    public static void setOutsideTaskDuration(int value) {
+        outsideTaskDuration = Math.max(0, value);
+        save();
+    }
+
+    public static int getMoodGain() {
+        return moodGain;
+    }
+
+    public static void setMoodGain(int value) {
+        moodGain = Math.max(0, value);
+        save();
+    }
+
+    public static int getMoodDrain() {
+        return moodDrain;
+    }
+
+    public static void setMoodDrain(int value) {
+        moodDrain = Math.max(0, value);
+        save();
+    }
+
+    public static int getMidMoodThreshold() {
+        return midMoodThreshold;
+    }
+
+    public static void setMidMoodThreshold(int value) {
+        midMoodThreshold = Math.max(0, value);
+        save();
+    }
+
+    public static int getDepressiveMoodThreshold() {
+        return depressiveMoodThreshold;
+    }
+
+    public static void setDepressiveMoodThreshold(int value) {
+        depressiveMoodThreshold = Math.max(0, value);
+        save();
+    }
+
+    public static float getItemPsychosisChance() {
+        return itemPsychosisChance;
+    }
+
+    public static void setItemPsychosisChance(float value) {
+        itemPsychosisChance = Math.max(0.0f, Math.min(1.0f, value));
         save();
     }
 

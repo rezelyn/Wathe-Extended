@@ -100,6 +100,9 @@ public final class OptionsCategory {
         return group.build();
     }
 
+    /**
+     * TODO: Refactor lines <b>211-246</b> into {@link ItemsCategory}
+     */
     private static OptionGroup watheOptionsGroup(Screen parent, BiConsumer<String, Screen> sendCommand) {
         OptionGroup.Builder group = OptionGroup.createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options"))
@@ -108,17 +111,26 @@ public final class OptionsCategory {
 
         World world = MinecraftClient.getInstance().world;
 
+        // Global
         group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.label.global").styled(style -> style.withColor(0xAAAAAA))));
+        /// KILL TIME INCREASE
         group.option(Option.<Integer>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.killincreasetime"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.gamerules.opt.killincreasetime.desc")))
                 .binding(60, () -> ClientConfig.getInt("watheextended.killIncreaseTime", 60), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.killIncreaseTime", value))
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
+        /// BACKFIRE CHANCE
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.backfire"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.backfire.desc")))
+                .binding(GameComponents.getBackfire(world), () -> GameComponents.getBackfire(MinecraftClient.getInstance().world), value -> sendCommand.accept("wathe:gameSettings set backfire " + (value / 100f), parent))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
 
         if (cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper.isLoaded()) {
             final String[] punishmentModes = cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper.getPunishmentModes();
-
+            /// SHOOTER PUNISHEMENT
             group.option(Option.<String>createBuilder()
                     .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.shooterpunishment"))
                     .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.shooterpunishment.desc")))
@@ -130,21 +142,16 @@ public final class OptionsCategory {
                     .build());
         }
 
-        group.option(Option.<Integer>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.backfire"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.backfire.desc")))
-                .binding(GameComponents.getBackfire(world), () -> GameComponents.getBackfire(MinecraftClient.getInstance().world), value -> sendCommand.accept("wathe:gameSettings set backfire " + (value / 100f), parent))
-                .controller(IntegerFieldControllerBuilder::create)
-                .build());
-
+        // Roles
         group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.roles").styled(style -> style.withColor(0xAAAAAA))));
+        /// KILLER DIVIDEND
         group.option(Option.<Integer>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.roledividend_killer"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.roledividend_killer.desc")))
                 .binding(GameComponents.getKillerDividend(world), () -> GameComponents.getKillerDividend(MinecraftClient.getInstance().world), value -> sendCommand.accept("wathe:gameSettings set roleDividend killer " + value, parent))
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
-
+        /// VIGILANTE DIVIDEND
         group.option(Option.<Integer>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.roledividend_vigilante"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.roledividend_vigilante.desc")))
@@ -152,14 +159,16 @@ public final class OptionsCategory {
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
 
+        // Modifiers
         group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.modifiers").styled(style -> style.withColor(0xAAAAAA))));
+        /// MODIFIER MAXIMUM
         group.option(Option.<Integer>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.modifiers_maximum"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.modifiers_maximum.desc")))
                 .binding(1, ConfigHelper::getModifierMaximum, value -> ScreenUtils.stage(sendCommand, parent, "hml.modifierMaximum", value))
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
-
+        /// MODIFIER MULTIPLIER
         group.option(Option.<Integer>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.modifiers_multiplier"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.modifiers_multiplier.desc")))
@@ -167,7 +176,155 @@ public final class OptionsCategory {
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
 
-         return group.build();
+        // Money
+        group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.label.money").styled(style -> style.withColor(0xAAAAAA))));
+        /// MONEY START - KILLERS
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.money_start_killers"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.money_start_killers.desc")))
+                .binding(100, () -> ClientConfig.getInt("gamerules.moneyStartKillers", 100), value -> ScreenUtils.stage(sendCommand, parent, "gamerules.moneyStartKillers", value))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+        /// MONEY START - CIVILIANS
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.money_start_civilians"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.money_start_civilians.desc")))
+                .binding(0, () -> ClientConfig.getInt("gamerules.moneyStartCivilians", 0), value -> ScreenUtils.stage(sendCommand, parent, "gamerules.moneyStartCivilians", value))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+        /// MONEY START - NEUTRALS
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.money_start_neutrals"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.money_start_neutrals.desc")))
+                .binding(0, () -> ClientConfig.getInt("gamerules.moneyStartNeutrals", 0), value -> ScreenUtils.stage(sendCommand, parent, "gamerules.moneyStartNeutrals", value))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+        /// MONEY PER KILL
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.money_per_kill"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.money_per_kill.desc")))
+                .binding(100, () -> ClientConfig.getInt("gamerules.moneyPerKill", 100), value -> ScreenUtils.stage(sendCommand, parent, "gamerules.moneyPerKill", value))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        // Items
+        group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.label.timers").styled(style -> style.withColor(0xAAAAAA))));
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.blackout_timer"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.blackout_timer.desc")))
+                .binding(5, () -> ClientConfig.getInt("gamerules.blackoutMinDuration", 5), value -> ScreenUtils.stage(sendCommand, parent, "gamerules.blackoutMinDuration", value))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.blackout_max"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.blackout_max.desc")))
+                .binding(90, () -> ClientConfig.getInt("gamerules.blackoutMaxDuration", 90), value -> ScreenUtils.stage(sendCommand, parent, "gamerules.blackoutMaxDuration", value))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.psycho_armour"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.psycho_armour.desc")))
+                .binding(50, () -> ClientConfig.getInt("gamerules.psychoModeArmour", 50), value -> ScreenUtils.stage(sendCommand, parent, "gamerules.psychoModeArmour", value))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.psycho_timer"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.psycho_timer.desc")))
+                .binding(5, () -> ClientConfig.getInt("gamerules.psychoTimer", 5), value -> ScreenUtils.stage(sendCommand, parent, "gamerules.psychoTimer", value))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.firecracker_timer"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.firecracker_timer.desc")))
+                .binding(45, () -> ClientConfig.getInt("gamerules.firecrackerTimer", 45), value -> ScreenUtils.stage(sendCommand, parent, "gamerules.firecrackerTimer", value))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.label.task").styled(style -> style.withColor(0xAAAAAA))));
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.time_to_first_task"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.time_to_first_task.desc")))
+                .binding(9, () -> ClientConfig.getInt("gamerules.timeToFirstTask", 9), value -> ScreenUtils.stage(sendCommand, parent, "gamerules.timeToFirstTask", value))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.min_task_cooldown"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.min_task_cooldown.desc")))
+                .binding(10, () -> ClientConfig.getInt("gamerules.minTaskCooldown", 10), value -> ScreenUtils.stage(sendCommand, parent, "gamerules.minTaskCooldown", value))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.max_task_cooldown"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.max_task_cooldown.desc")))
+                .binding(60, () -> ClientConfig.getInt("gamerules.maxTaskCooldown", 60), value -> ScreenUtils.stage(sendCommand, parent, "gamerules.maxTaskCooldown", value))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.sleep_task_duration"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.sleep_task_duration.desc")))
+                .binding(120, () -> ClientConfig.getInt("gamerules.sleepTaskDuration", 120), value -> ScreenUtils.stage(sendCommand, parent, "gamerules.sleepTaskDuration", value))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.outside_task_duration"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.outside_task_duration.desc")))
+                .binding(300, () -> ClientConfig.getInt("gamerules.outsideTaskDuration", 300), value -> ScreenUtils.stage(sendCommand, parent, "gamerules.outsideTaskDuration", value))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.label.mood").styled(style -> style.withColor(0xAAAAAA))));
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.mood_gain"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.mood_gain.desc")))
+                .binding(5, () -> ClientConfig.getInt("gamerules.moodGain", 5), value -> ScreenUtils.stage(sendCommand, parent, "gamerules.moodGain", value))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.mood_drain"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.mood_drain.desc")))
+                .binding(3, () -> ClientConfig.getInt("gamerules.moodDrain", 3), value -> ScreenUtils.stage(sendCommand, parent, "gamerules.moodDrain", value))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options opt.mid_mood_threshold"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.mid_mood_threshold.desc")))
+                .binding(30, () -> ClientConfig.getInt("gamerules.midMoodThreshold", 30), value -> ScreenUtils.stage(sendCommand, parent, "gamerules.midMoodThreshold", value))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.depressive_mood_threshold"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.depressive_mood_threshold.desc")))
+                .binding(15, () -> ClientConfig.getInt("gamerules.depressiveMoodThreshold", 15), value -> ScreenUtils.stage(sendCommand, parent, "gamerules.depressiveMoodThreshold", value))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.psychosis_chance"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.psychosis_chance.desc")))
+                .binding(30, () -> ClientConfig.getInt("gamerules.itemPsychosisChance", 30), value -> ScreenUtils.stage(sendCommand, parent, "gamerules.itemPsychosisChance", value))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        group.option(Option.<Boolean>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.psychosis_enabled"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.psychosis_enabled.desc")))
+                .binding(true, () -> ClientConfig.getBool("gamerules.itemPsychosisChanceEnabled", true), value -> ScreenUtils.stage(sendCommand, parent, "gamerules.itemPsychosisChanceEnabled", value))
+                .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled")))
+                .build());
+
+        return group.build();
     }
 
     private static OptionGroup extraOptionsGroup(Screen parent, BiConsumer<String, Screen> sendCommand) {

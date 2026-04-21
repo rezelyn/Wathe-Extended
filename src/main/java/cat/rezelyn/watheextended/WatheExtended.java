@@ -206,6 +206,66 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.phantom.abilityCooldown", 0,
                 WatheExtendedServerConfig::getPhantomAbilityCooldown,
                 WatheExtendedServerConfig::setPhantomAbilityCooldown));
+        ServerConfig.register(ServerConfig.Entry.globalInt("gameConstants.moneyStartKillers", 100,
+                WatheExtendedServerConfig::getMoneyStartKillers,
+                WatheExtendedServerConfig::setMoneyStartKillers));
+        ServerConfig.register(ServerConfig.Entry.globalInt("gameConstants.moneyStartCivilians", 0,
+                WatheExtendedServerConfig::getMoneyStartCivilians,
+                WatheExtendedServerConfig::setMoneyStartCivilians));
+        ServerConfig.register(ServerConfig.Entry.globalInt("gameConstants.moneyStartNeutrals", 0,
+                WatheExtendedServerConfig::getMoneyStartNeutrals,
+                WatheExtendedServerConfig::setMoneyStartNeutrals));
+        ServerConfig.register(ServerConfig.Entry.globalInt("gameConstants.moneyPerKill", 100,
+                WatheExtendedServerConfig::getMoneyPerKill,
+                WatheExtendedServerConfig::setMoneyPerKill));
+        ServerConfig.register(ServerConfig.Entry.globalInt("gameConstants.blackoutMinDuration", 5,
+                WatheExtendedServerConfig::getBlackoutMinDuration,
+                WatheExtendedServerConfig::setBlackoutMinDuration));
+        ServerConfig.register(ServerConfig.Entry.globalInt("gameConstants.blackoutMaxDuration", 90,
+                WatheExtendedServerConfig::getBlackoutMaxDuration,
+                WatheExtendedServerConfig::setBlackoutMaxDuration));
+        ServerConfig.register(ServerConfig.Entry.globalInt("gameConstants.psychoModeArmour", 50,
+                WatheExtendedServerConfig::getPsychoModeArmour,
+                WatheExtendedServerConfig::setPsychoModeArmour));
+        ServerConfig.register(ServerConfig.Entry.globalInt("gameConstants.psychoTimer", 5,
+                WatheExtendedServerConfig::getPsychoTimer,
+                WatheExtendedServerConfig::setPsychoTimer));
+        ServerConfig.register(ServerConfig.Entry.globalInt("gameConstants.firecrackerTimer", 45,
+                WatheExtendedServerConfig::getFirecrackerTimer,
+                WatheExtendedServerConfig::setFirecrackerTimer));
+        ServerConfig.register(ServerConfig.Entry.globalInt("gameConstants.timeToFirstTask", 9,
+                WatheExtendedServerConfig::getTimeToFirstTask,
+                WatheExtendedServerConfig::setTimeToFirstTask));
+        ServerConfig.register(ServerConfig.Entry.globalInt("gameConstants.minTaskCooldown", 10,
+                WatheExtendedServerConfig::getMinTaskCooldown,
+                WatheExtendedServerConfig::setMinTaskCooldown));
+        ServerConfig.register(ServerConfig.Entry.globalInt("gameConstants.maxTaskCooldown", 60,
+                WatheExtendedServerConfig::getMaxTaskCooldown,
+                WatheExtendedServerConfig::setMaxTaskCooldown));
+        ServerConfig.register(ServerConfig.Entry.globalInt("gameConstants.sleepTaskDuration", 120,
+                WatheExtendedServerConfig::getSleepTaskDuration,
+                WatheExtendedServerConfig::setSleepTaskDuration));
+        ServerConfig.register(ServerConfig.Entry.globalInt("gameConstants.outsideTaskDuration", 300,
+                WatheExtendedServerConfig::getOutsideTaskDuration,
+                WatheExtendedServerConfig::setOutsideTaskDuration));
+        ServerConfig.register(ServerConfig.Entry.globalInt("gameConstants.moodGain", 5,
+                WatheExtendedServerConfig::getMoodGain,
+                WatheExtendedServerConfig::setMoodGain));
+        ServerConfig.register(ServerConfig.Entry.globalInt("gameConstants.moodDrain", 3,
+                WatheExtendedServerConfig::getMoodDrain,
+                WatheExtendedServerConfig::setMoodDrain));
+        ServerConfig.register(ServerConfig.Entry.globalInt("gameConstants.midMoodThreshold", 30,
+                WatheExtendedServerConfig::getMidMoodThreshold,
+                WatheExtendedServerConfig::setMidMoodThreshold));
+        ServerConfig.register(ServerConfig.Entry.globalInt("gameConstants.depressiveMoodThreshold", 15,
+                WatheExtendedServerConfig::getDepressiveMoodThreshold,
+                WatheExtendedServerConfig::setDepressiveMoodThreshold));
+        ServerConfig.register(ServerConfig.Entry.globalFloat("gameConstants.itemPsychosisChance", 0.3f,
+                WatheExtendedServerConfig::getItemPsychosisChance,
+                WatheExtendedServerConfig::setItemPsychosisChance));
+        ServerConfig.register(ServerConfig.Entry.globalBool("gameConstants.itemPsychosisChanceEnabled", true,
+                WatheExtendedServerConfig::isMoneyPsychosisEnabled,
+                WatheExtendedServerConfig::setMoneyPsychosisEnabled));
     }
 
     private static void registerNetworking() {
