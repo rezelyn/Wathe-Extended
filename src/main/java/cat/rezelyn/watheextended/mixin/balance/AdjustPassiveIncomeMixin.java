@@ -1,0 +1,70 @@
+package cat.rezelyn.watheextended.mixin.balance;
+
+import java.util.List;
+
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
+
+import cat.rezelyn.watheextended.WatheExtendedServerConfig;
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.cca.PlayerShopComponent;
+import dev.doctor4t.wathe.game.gamemode.MurderGameMode;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
+
+@Mixin(MurderGameMode.class)
+public abstract class AdjustPassiveIncomeMixin{
+  private double getDistanceToClosestPlayer(ServerPlayerEntity target){
+    List<? extends PlayerEntity> players = target.getWorld().getPlayers();
+    double closest = 999;
+    for(PlayerEntity candidate : players){
+      if(candidate == target)
+        continue;
+      double distance = target.distanceTo(candidate);
+      if(distance < closest)
+        closest = distance;
+    }
+    return closest;
+  }
+
+  private boolean playerIsInnocent(ServerPlayerEntity player){
+    GameWorldComponent gameWorldComponent = GameWorldComponent.KEY.get(player.getWorld());
+    Role role = gameWorldComponent.getRole(player);
+    return role.isInnocent();
+  }
+
+  @WrapOperation(
+    method = "tickServerGameLoop",
+    at = @At(value = "INVOKE",
+      target = "Ldev/doctor4t/wathe/cca/PlayerShopComponent;addToBalance(I)V")
+  )
+  private void useDynamicIncome(PlayerShopComponent shop, int originalAmount, Operation<Void> mark,
+  @Local ServerPlayerEntity player){
+    // Granting a way to boost player income if you're innocent is broken
+    // thus not allowed
+    if(!WatheExtendedServerConfig.getAdjustPassiveIncome() || playerIsInnocent(player)){
+      mark.call(shop, originalAmount);
+      return;
+    }
+
+    double MAX_DISTANCE = WatheExtendedServerConfig.getMaxPassiveIncomeDistance();
+
+    // linear scale where being on top of another player yields double income
+    // and being at a distance greater than MAX_DISTANCE is 0 income
+    int newAmount = (int) Math.round((double) 
+      originalAmount * (1 - getDistanceToClosestPlayer(player) / MAX_DISTANCE) * 2
+    );
+
+    int MINIMUM_INCOME = WatheExtendedServerConfig.getMinPassiveIncome();
+    if(newAmount < MINIMUM_INCOME)
+      newAmount = MINIMUM_INCOME;
+
+
+    mark.call(shop, newAmount);
+  }
+}

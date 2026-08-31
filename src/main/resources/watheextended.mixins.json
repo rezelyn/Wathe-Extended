@@ -17,6 +17,7 @@
     "ability.RobotAbilityMixin",
     "ability.StarstruckAbilityMixin",
     "ability.StarstruckComponentMixin",
+    "balance.AdjustPassiveIncomeMixin",
     "fix.CursorSlotMixin",
     "fix.DisabledKillerRoleConversionMixin",
     "fix.InitiateRemoteDeathMixin",

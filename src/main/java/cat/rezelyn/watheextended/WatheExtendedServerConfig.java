@@ -10,11 +10,22 @@ import java.nio.file.Files;
 public final class WatheExtendedServerConfig {
 
     private static final File CONFIG_FILE = FabricLoader.getInstance().getConfigDir().resolve("watheextended").resolve("server.json5").toFile();
+
+    // WATHE-EXTENDED INTERNAL SETTINGS
     public static boolean playerCollisionsEnabled = true;
     public static boolean rtpEnabled = true;
     public static boolean blockProtectionEnabled = true;
     public static boolean itemBoundsCheckEnabled = true;
-    public static boolean forbiddenLoversEnabled = false;
+    public static int killIncreaseTime = 60;
+    public static boolean lastStandEnabled = false;
+    public static int lastStandCooldown = 30;
+    public static String jumpMode = "LOBBY";
+    public static boolean suppressAbilityVfxSfx = false;
+    public static boolean adjustPassiveIncome = false;
+    public static int maxPassiveIncomeDistance = 10;
+    public static int minPassiveIncome = 0;
+
+    // WATHE-EXTENDED INTERNAL ROLES/MODIFIERS
     public static float forbiddenLoversChance = 0.25f;
     public static int introvertedCrowdCount = 3;
     public static float introvertedCrowdRange = 5.0f;
@@ -25,14 +36,24 @@ public final class WatheExtendedServerConfig {
     public static int taxedKillWindowSeconds = 60;
     public static float adaptivePenaltyReduction = 0.50f;
     public static float adaptiveBonusMultiplier = 0.50f;
-    public static boolean suppressAbilityVfxSfx = false;
-    public static String jumpMode = "LOBBY";
-    public static int cleanerPlayerLimit = 10;
-    public static boolean cleanerAcidBarrelCoinBonusEnabled = false;
-    public static int cleanerAcidBarrelCoins = 50;
-    public static int killIncreaseTime = 60;
-    public static boolean lastStandEnabled = false;
-    public static int lastStandCooldown = 30;
+
+    // ITEM PRICES & COOLDOWNS
+    // - VANILLA
+    public static int knifePrice = 100;
+    public static int revolverPrice = 300;
+    public static int grenadePrice = 350;
+    public static int psychoModePrice = 300;
+    public static int poisonVialPrice = 100;
+    public static int scorpionPrice = 50;
+    public static int firecrackerPrice = 10;
+    public static int lockpickPrice = 50;
+    public static int crowbarPrice = 25;
+    public static int bodyBagPrice = 200;
+    public static int blackoutPrice = 200;
+    public static int notePrice = 10;
+
+    // - ADDON
+    public static boolean forbiddenLoversEnabled = false;
     public static boolean morphlingCanCancelAbility = true;
     public static int morphlingAbilityDuration = 35;
     public static int morphlingAbilityCooldown = 60;
@@ -55,18 +76,9 @@ public final class WatheExtendedServerConfig {
     public static int pillCooldown = 180;
     public static int blowgunCooldown = 60;
     public static int knockoutDrugCooldown = 60;
-    public static int knifePrice = 100;
-    public static int revolverPrice = 300;
-    public static int grenadePrice = 350;
-    public static int psychoModePrice = 300;
-    public static int poisonVialPrice = 100;
-    public static int scorpionPrice = 50;
-    public static int firecrackerPrice = 10;
-    public static int lockpickPrice = 50;
-    public static int crowbarPrice = 25;
-    public static int bodyBagPrice = 200;
-    public static int blackoutPrice = 200;
-    public static int notePrice = 10;
+    public static int cleanerPlayerLimit = 10;
+    public static boolean cleanerAcidBarrelCoinBonusEnabled = false;
+    public static int cleanerAcidBarrelCoins = 50;
     public static int huntingKnifePrice = 100;
     public static int poisonInjectorPrice = 125;
     public static int blowgunPrice = 175;
@@ -108,6 +120,9 @@ public final class WatheExtendedServerConfig {
         suppressAbilityVfxSfx = config.getBool("gamerules.suppressVfxSfx", false);
         jumpMode = config.getString("gamerules.jumpMode", "LOBBY");
         killIncreaseTime = config.getInt("gamerules.killIncreaseSeconds", 60);
+        adjustPassiveIncome = config.getBool("balance.adjustPassiveIncome", false);
+        maxPassiveIncomeDistance = config.getInt("balance.maxPassiveIncomeDistance", 10);
+        minPassiveIncome = config.getInt("balance.minPassiveIncome", 0);
         lastStandEnabled = config.getBool("gamerules.lastStandEnabled", false);
         lastStandCooldown = config.getInt("gamerules.lastStandDuration", 30);
         knifeCooldown = config.getInt("items.knife.cooldown", 60);
@@ -221,6 +236,19 @@ public final class WatheExtendedServerConfig {
                     "    // Options: DEFAULT (Wathe default behavior), LOBBY (only in lobby), EVERYWHERE (always)\n" +
                     "    // Default: LOBBY\n" +
                     "    \"jumpMode\": \"" + jumpMode + "\"\n" +
+                    "  },\n" +
+                    "  \"balance\": {\n" +
+                    "    // When enabled, passive income scales with the distance to the nearest player.\n" +
+                    "    // Only applies to non-innocent players.\n" +
+                    "    // Default: false\n" +
+                    "    \"adjustPassiveIncome\": " + adjustPassiveIncome + ",\n" +
+                    "    // Distance in blocks at which scaled passive income reaches zero.\n" +
+                    "    // Standing on top of another player yields double income.\n" +
+                    "    // Default: 10\n" +
+                    "    \"maxPassiveIncomeDistance\": " + maxPassiveIncomeDistance + ",\n" +
+                    "    // Lower bound applied to scaled passive income.\n" +
+                    "    // Default: 0\n" +
+                    "    \"minPassiveIncome\": " + minPassiveIncome + "\n" +
                     "  },\n" +
                     "  \"items\": {\n" +
                     "    \"knife\": {\n" +
@@ -1288,4 +1316,32 @@ public final class WatheExtendedServerConfig {
         lighterCooldown = Math.max(0, v);
         save();
     }
+
+    public static boolean getAdjustPassiveIncome(){
+        return adjustPassiveIncome;
+    }
+
+    public static void setAdjustPassiveIncome(boolean v){
+        adjustPassiveIncome = v;
+        save();
+    }
+
+    public static int getMaxPassiveIncomeDistance(){
+        return maxPassiveIncomeDistance;
+    }
+
+    public static void setMaxPassiveIncomeDistance(int v){
+        maxPassiveIncomeDistance = Math.max(1, v);
+        save();
+    }
+
+    public static int getMinPassiveIncome(){
+        return minPassiveIncome;
+    }
+
+    public static void setMinPassiveIncome(int v){
+        minPassiveIncome = Math.max(0, v);
+        save();
+    }
+
 }
