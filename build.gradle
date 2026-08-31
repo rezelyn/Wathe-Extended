@@ -116,6 +116,7 @@ dependencies {
     // Optional dependencies
     modRuntimeOnly "maven.modrinth:modmenu:${project.modmenu_version}"
     modRuntimeOnly "maven.modrinth:carpet:${project.carpet_version}"
+    modRuntimeOnly "maven.modrinth:playercontrol:${project.playercontrol_version}"
 }
 
 processResources {
