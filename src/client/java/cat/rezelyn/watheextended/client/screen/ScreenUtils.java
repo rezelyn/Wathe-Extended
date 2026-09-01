@@ -106,6 +106,7 @@ public final class ScreenUtils {
         map.put("time", "\uE321");
         map.put("undercover", "\uE322");
         map.put("voodoo", "\uE323");
+        map.put("infection", "\uE324");
 
         ICONS = Map.copyOf(map);
     }
