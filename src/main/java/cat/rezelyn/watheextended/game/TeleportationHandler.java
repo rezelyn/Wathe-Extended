@@ -60,6 +60,11 @@ public final class TeleportationHandler {
                 ServerPlayerEntity player = eligible.get(i);
                 TeleportationSlot slot = slots.get(i);
                 TeleportTarget target = new TeleportTarget(world, new Vec3d(slot.x, slot.y, slot.z), Vec3d.ZERO, slot.yaw, slot.pitch, TeleportTarget.NO_OP);
+
+                if (player.hasVehicle()) {
+                    player.stopRiding();
+                }
+
                 player.teleportTo(target);
             }
         } catch (Throwable ignored) {
