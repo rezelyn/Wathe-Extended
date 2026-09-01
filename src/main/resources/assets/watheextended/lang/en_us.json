@@ -624,7 +624,7 @@
   "gui.watheextended.guidebook.role.abilities.noellesroles.swapper": "{icon:swap} §lSwap§r\nSwap the positions of two chosen players.\n\n{icon:instinct} §lInstinct§r\nSee players and §4Killer Cohorts§r through walls.\n\n{icon:athletic} §lAthletic§r\nHas infinite stamina.",
   "gui.watheextended.guidebook.role.abilities.noellesroles.the_insane_damned_paranoid_killer": "{icon:instinct} §lInstinct§r\nSee players and §4Killer Cohorts§r through walls.\n\n{icon:athletic} §lAthletic§r\nHas infinite stamina.",
   "gui.watheextended.guidebook.role.abilities.noellesroles.voodoo": "{icon:voodoo} §lVoodoo Doll§r\nLink a player as your voodoo doll. When you die, the currently linked player dies with you.",
-  "gui.watheextended.guidebook.role.abilities.noellesroles.vulture": "{icon:cannibal} §lCannibal§r\nEat enough corpses to satisfy your hunger and become a §4Killer Role§r.\n\n{icon:instinct} §lInstinct§r\nSee players and §4Killer Cohorts§r through walls.\n\n{icon:athletic} §lAthletic§r\nHas infinite stamina.",
+  "gui.watheextended.guidebook.role.abilities.noellesroles.vulture": "{icon:cannibal} §lCannibal§r\nEat enough corpses to satisfy your hunger and become a §4Killer Role§r.",
   "gui.watheextended.guidebook.role.abilities.noellesroles.infected": "{icon:infection} §lInfected§r\nUse to infect a player. Applies a slow poison to them.",
   "gui.watheextended.guidebook.role.abilities.starexpress.muzzler": "{icon:instinct} §lInstinct§r\nSee players and §4Killer Cohorts§r through walls.\n\n{icon:athletic} §lAthletic§r\nHas infinite stamina.",
   "gui.watheextended.guidebook.role.abilities.starexpress.starstruck": "{icon:starstruck} §lStarstruck§r\nGrant a boost of speed for a short period of time, with an audible cue and particles effects upon activation.",
