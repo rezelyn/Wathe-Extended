@@ -301,6 +301,12 @@ public final class RolesCategory {
             // Morphling
             case "noellesroles:morphling" -> {
                 if (!cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.isLoaded()) return;
+                /// INSANE PLAYERS SEE MORPHS
+                builder.option(Option.<Boolean>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.category.roles.opt.morphling.morphpsychosis"))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.morphling.morphpsychosis.desc")))
+                        .binding(false, () -> cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.getInsanePlayersSeeMorphs(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.insanePlayersSeeMorphs", value))
+                        .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build());
                 /// ABILITY - CANCEL
                 builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xAAAAAA))));
                 builder.option(Option.<Boolean>createBuilder()
@@ -369,6 +375,80 @@ public final class RolesCategory {
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.bartender.maxdefensevials.desc")))
                         .binding(1, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getMaximumDefenseVials, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.maximumDefenseVials", value))
                         .controller(IntegerFieldControllerBuilder::create).build());
+                /// DEFENSE VIAL PRICE
+                builder.option(Option.<Integer>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.category.roles.opt.bartender.defensevialprice"))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.bartender.defensevialprice.desc")))
+                        .binding(200, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getDefenseVialPrice, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.defenseVialPrice", value))
+                        .controller(IntegerFieldControllerBuilder::create).build());
+                /// DEFENSE MAXIMUM TIME
+                builder.option(Option.<Integer>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.category.roles.opt.bartender.defensemaximumtime"))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.bartender.defensemaximumtime.desc")))
+                        .binding(-1, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getDefenseMaximumTime, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.defenseMaximumTime", value))
+                        .controller(IntegerFieldControllerBuilder::create).build());
+            }
+            // Trapper
+            case "noellesroles:trapper" -> {
+                if (!cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.isLoaded()) return;
+                /// SEES NAMES
+                builder.option(Option.<Boolean>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.category.roles.opt.trapper.seesnames"))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.trapper.seesnames.desc")))
+                        .binding(false, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getTrapperSeesNames, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.trapperSeesNames", value))
+                        .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build());
+                /// ROLE MINE PRICE
+                builder.option(Option.<Integer>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.category.roles.opt.trapper.mineprice"))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.trapper.mineprice.desc")))
+                        .binding(100, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getRoleMinePrice, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.roleMinePrice", value))
+                        .controller(IntegerFieldControllerBuilder::create).build());
+            }
+            // Guesser
+            case "noellesroles:guesser" -> {
+                if (!cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.isLoaded()) return;
+                /// CAN USE INSTINCT
+                builder.option(Option.<Boolean>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.category.roles.opt.guesser.canuseinstinct"))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.guesser.canuseinstinct.desc")))
+                        .binding(true, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getGuesserCanUseInstinct, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.guesserCanUseInstinct", value))
+                        .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build());
+            }
+            // Infected
+            case "noellesroles:infected" -> {
+                if (!cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.isLoaded()) return;
+                /// KILL TIME
+                builder.option(Option.<Integer>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.category.roles.opt.infected.killtime"))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.infected.killtime.desc")))
+                        .binding(1100, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getInfectedKillTime, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.infectedKillTime", value))
+                        .controller(IntegerFieldControllerBuilder::create).build());
+                /// COUGH CHANCE
+                builder.option(Option.<Integer>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.category.roles.opt.infected.coughchance"))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.infected.coughchance.desc")))
+                        .binding(5, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getInfectedCoughChance, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.infectedCoughChance", value))
+                        .controller(IntegerFieldControllerBuilder::create).build());
+            }
+            // Recon
+            case "noellesroles:recon" -> {
+                if (!cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.isLoaded()) return;
+                /// SEES NAMES
+                builder.option(Option.<Boolean>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.category.roles.opt.recon.seesnames"))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.recon.seesnames.desc")))
+                        .binding(false, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getReconsSeeNames, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.reconsSeeNames", value))
+                        .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build());
+            }
+            // Executioner
+            case "noellesroles:executioner" -> {
+                if (!cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.isLoaded()) return;
+                /// CAN PICK UP GUN
+                builder.option(Option.<Boolean>createBuilder()
+                        .name(Text.translatable("gui.watheextended.config.category.roles.opt.executioner.canpickupgun"))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.executioner.canpickupgun.desc")))
+                        .binding(true, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getExecutionCanPickUpGun, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.executionCanPickUpGun", value))
+                        .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build());
             }
             // Necromancer
             case "stupid_express:necromancer" -> {

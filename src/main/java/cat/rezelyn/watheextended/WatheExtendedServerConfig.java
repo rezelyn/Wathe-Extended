@@ -8,6 +8,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 public final class WatheExtendedServerConfig {
+    // TODO: simplify this class so I don't have to write 4 times.
+    // 1. variable
+    // 2. getters and setters
+    // 3. loading config
+    // 4. saving config
 
     private static final File CONFIG_FILE = FabricLoader.getInstance().getConfigDir().resolve("watheextended").resolve("server.json5").toFile();
 
