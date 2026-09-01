@@ -43,12 +43,14 @@ public abstract class AdjustPassiveIncomeMixin{
     at = @At(value = "INVOKE",
       target = "Ldev/doctor4t/wathe/cca/PlayerShopComponent;addToBalance(I)V")
   )
-  private void useDynamicIncome(PlayerShopComponent shop, int originalAmount, Operation<Void> mark,
+  private void useDynamicIncome(PlayerShopComponent shop, int baseIncome, Operation<Void> mark,
   @Local ServerPlayerEntity player){
+    baseIncome = WatheExtendedServerConfig.getBasePassiveIncome();
+
     // Granting a way to boost player income if you're innocent is broken
     // thus not allowed
     if(!WatheExtendedServerConfig.getAdjustPassiveIncome() || playerIsInnocent(player)){
-      mark.call(shop, originalAmount);
+      mark.call(shop, baseIncome);
       return;
     }
 
@@ -57,7 +59,7 @@ public abstract class AdjustPassiveIncomeMixin{
     // linear scale where being on top of another player yields double income
     // and being at a distance greater than MAX_DISTANCE is 0 income
     int newAmount = (int) Math.round((double) 
-      originalAmount * (1 - getDistanceToClosestPlayer(player) / MAX_DISTANCE) * 2
+      baseIncome * (1 - getDistanceToClosestPlayer(player) / MAX_DISTANCE) * 2
     );
 
     int MINIMUM_INCOME = WatheExtendedServerConfig.getMinPassiveIncome();

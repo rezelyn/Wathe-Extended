@@ -206,6 +206,9 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.phantom.abilityCooldown", 0,
                 WatheExtendedServerConfig::getPhantomAbilityCooldown,
                 WatheExtendedServerConfig::setPhantomAbilityCooldown));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.balance.basePassiveIncome", 5,
+                WatheExtendedServerConfig::getBasePassiveIncome,
+                WatheExtendedServerConfig::setBasePassiveIncome));
         ServerConfig.register(ServerConfig.Entry.globalBool("watheextended.balance.adjustPassiveIncome", false, 
                 WatheExtendedServerConfig::getAdjustPassiveIncome,
                 WatheExtendedServerConfig::setAdjustPassiveIncome));

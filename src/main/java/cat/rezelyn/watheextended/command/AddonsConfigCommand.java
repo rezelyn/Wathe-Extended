@@ -40,7 +40,7 @@ public class AddonsConfigCommand {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         var root = CommandManager.literal("watheextended:config").requires(source -> source.hasPermissionLevel(2));
         // Kin's Wathe
-        if (ConfigHelper.isLoaded()) {
+        if (cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) {
             root.then(
                 CommandManager.literal("kinswathe")
                         .then(CommandManager.literal("setStartingCooldown").then(CommandManager.argument("seconds", IntegerArgumentType.integer(0))

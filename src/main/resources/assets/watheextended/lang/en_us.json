@@ -213,6 +213,8 @@
   "gui.watheextended.config.category.options.group.extra_options.opt.conductorinstinct.desc": "§cWill not be applied if \"Enable Noelle's Roles Tweaks\" is disabled.§r\n\nWhen enabled, modifies the Conductor's instinct ability to see dropped items.\n\n§6Default: §cOFF",
   "gui.watheextended.config.category.options.group.extra_options.opt.coronerinstinct": "Modify Coroner Instinct",
   "gui.watheextended.config.category.options.group.extra_options.opt.coronerinstinct.desc": "§cWill not be applied if \"Enable Noelle's Roles Tweaks\" is disabled.§r\n\nWhen enabled, modifies the Coroner's instinct ability to see player bodies.\n\n§6Default: §cOFF",
+  "gui.watheextended.config.category.options.group.wathe_options.opt.base_passive_income": "Base Passive Income",
+  "gui.watheextended.config.category.options.group.wathe_options.opt.adjust_passive_income.desc": "Adjusts the passive income increment. §6Default: 5§",
   "gui.watheextended.config.category.options.group.wathe_options.opt.adjust_passive_income": "Adjust Passive Income",
   "gui.watheextended.config.category.options.group.wathe_options.opt.adjust_passive_income.desc": "When enabled, modifies to vanilla passive income to scale with the the distance to the nearest player. Only applies to non-innocents.\n\n§6Default: §cDisabled",
   "gui.watheextended.config.category.options.group.wathe_options.opt.max_passive_income_distance": "Max Passive Income Distance",

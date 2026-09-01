@@ -167,6 +167,14 @@ public final class OptionsCategory {
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
 
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.base_passive_income"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.base_passive_income.desc")))
+                .binding(10, () -> ClientConfig.getInt("watheextended.balance.basePassiveIncome", 10),
+                        v -> ScreenUtils.stage(sendCommand, parent, "watheextended.balance.basePassiveIncome", v))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
         final boolean adjustPassiveIncomeEnabled = ClientConfig.getBool("watheextended.balance.adjustPassiveIncome", false);
         group.option(Option.<Boolean>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.adjust_passive_income"))

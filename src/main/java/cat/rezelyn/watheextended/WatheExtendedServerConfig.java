@@ -21,6 +21,7 @@ public final class WatheExtendedServerConfig {
     public static int lastStandCooldown = 30;
     public static String jumpMode = "LOBBY";
     public static boolean suppressAbilityVfxSfx = false;
+    public static int basePassiveIncome = 5;
     public static boolean adjustPassiveIncome = false;
     public static int maxPassiveIncomeDistance = 10;
     public static int minPassiveIncome = 0;
@@ -120,6 +121,7 @@ public final class WatheExtendedServerConfig {
         suppressAbilityVfxSfx = config.getBool("gamerules.suppressVfxSfx", false);
         jumpMode = config.getString("gamerules.jumpMode", "LOBBY");
         killIncreaseTime = config.getInt("gamerules.killIncreaseSeconds", 60);
+        basePassiveIncome = config.getInt("balance.basePassiveIncome", 5);
         adjustPassiveIncome = config.getBool("balance.adjustPassiveIncome", false);
         maxPassiveIncomeDistance = config.getInt("balance.maxPassiveIncomeDistance", 10);
         minPassiveIncome = config.getInt("balance.minPassiveIncome", 0);
@@ -238,6 +240,9 @@ public final class WatheExtendedServerConfig {
                     "    \"jumpMode\": \"" + jumpMode + "\"\n" +
                     "  },\n" +
                     "  \"balance\": {\n" +
+                    "    // Coins granted to each player per passive income tick.\n" +
+                    "    // Default: 5\n" +
+                    "    \"basePassiveIncome\": " + basePassiveIncome + ",\n" +
                     "    // When enabled, passive income scales with the distance to the nearest player.\n" +
                     "    // Only applies to non-innocent players.\n" +
                     "    // Default: false\n" +
@@ -1314,6 +1319,15 @@ public final class WatheExtendedServerConfig {
 
     public static void setLighterCooldown(int v) {
         lighterCooldown = Math.max(0, v);
+        save();
+    }
+
+    public static int getBasePassiveIncome(){
+        return basePassiveIncome;
+    }
+
+    public static void setBasePassiveIncome(int v){
+        basePassiveIncome = v;
         save();
     }
 
