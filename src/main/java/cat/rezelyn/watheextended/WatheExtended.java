@@ -31,7 +31,7 @@ import java.util.UUID;
 
 public class WatheExtended implements ModInitializer {
     public static final String MOD_ID = "watheextended";
-    private static final Logger LOGGER = LoggerFactory.getLogger(WatheExtended.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(WatheExtended.class);
 
     public static @NotNull Identifier id(String name) {
         return Identifier.of(MOD_ID, name);

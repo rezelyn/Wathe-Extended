@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="SysOut" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{HH:mm:ss}] [%t/%level] [%logger{1}]: %msg%n%throwable"/>
+        </Console>
+        <RollingRandomAccessFile name="LatestFile" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="[%d{HH:mm:ss}] [%t/%level] [%logger{1}]: %msg%n%throwable"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <OnStartupTriggeringPolicy/>
+            </Policies>
+            <DefaultRolloverStrategy max="1000"/>
+        </RollingRandomAccessFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- Wathe Extended: everything the mod logs, down to DEBUG. -->
+        <Logger name="cat.rezelyn.watheextended" level="DEBUG" additivity="false">
+            <AppenderRef ref="SysOut"/>
+            <AppenderRef ref="LatestFile"/>
+        </Logger>
+
+        <!-- Simple Voice Chat: silenced even if Root is raised for diagnostics.
+             It logs under both its package and a plain "voicechat" logger. -->
+        <Logger name="de.maxhenkel" level="OFF"/>
+        <Logger name="voicechat" level="OFF"/>
+
+        <!-- Everything else (Minecraft, Fabric, other mods) is silenced.
+             Raise this to WARN or ERROR if you need crash/startup diagnostics. -->
+        <Root level="OFF">
+            <AppenderRef ref="SysOut"/>
+            <AppenderRef ref="LatestFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
