@@ -33,6 +33,21 @@ public final class PlayerItem {
         player.getInventory().insertStack(new ItemStack(WatheExtendedItems.TELEPORT_TO_SCENERY));
     }
 
+    public static void giveCreateRtpSlotItem(ServerPlayerEntity player) {
+        for (int i = 0; i < player.getInventory().size(); i++) {
+            if (player.getInventory().getStack(i).isOf(WatheExtendedItems.CREATE_RTP_SLOT)) return;
+        }
+        player.getInventory().insertStack(new ItemStack(WatheExtendedItems.CREATE_RTP_SLOT));
+    }
+
+    public static void removeCreateRtpSlotItem(ServerPlayerEntity player) {
+        for (int i = 0; i < player.getInventory().size(); i++) {
+            if (player.getInventory().getStack(i).isOf(WatheExtendedItems.CREATE_RTP_SLOT)) {
+                player.getInventory().setStack(i, ItemStack.EMPTY);
+            }
+        }
+    }
+
     public static void removeTeleportItem(ServerPlayerEntity player) {
         for (int i = 0; i < player.getInventory().size(); i++) {
             if (player.getInventory().getStack(i).isOf(WatheExtendedItems.TELEPORT_TO_READY_AREA)) {
@@ -55,12 +70,15 @@ public final class PlayerItem {
         if (gameRunning) {
             removeTeleportItem(player);
             removeTeleportToSceneryItem(player);
+            removeCreateRtpSlotItem(player);
         } else {
             boolean isCreativeOp = player.isCreative() && player.hasPermissionLevel(2);
             if (isCreativeOp) {
                 giveTeleportToSceneryItem(player);
+                giveCreateRtpSlotItem(player);
             } else {
                 removeTeleportToSceneryItem(player);
+                removeCreateRtpSlotItem(player);
             }
 
             Box readyArea = MapVariables.getReadyArea(world);

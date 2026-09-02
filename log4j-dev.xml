@@ -21,6 +21,10 @@
             <AppenderRef ref="LatestFile"/>
         </Logger>
 
+        <!-- Wathe: game lifecycle and train reset diagnostics. Logs under a plain
+             "wathe" logger, so it is not covered by the package name above. -->
+        <Logger name="wathe" level="INFO"/>
+
         <!-- Simple Voice Chat: silenced even if Root is raised for diagnostics.
              It logs under both its package and a plain "voicechat" logger. -->
         <Logger name="de.maxhenkel" level="OFF"/>
