@@ -1,5 +1,56 @@
 > #### This changelog also documents changes that are related to ***The Harpy Express: Extended*** modpack.
 
+# stable-3.6.132
+
+### 🆕 What's New
+- Added new creative OP only items to help setting up and testing a map:
+  - **Create RTP Slot**
+    - Saves your current position and rotation as a new random teleportation slot, as long as you are standing inside the Ready Area
+  - **Trigger RTP**
+    - Teleports every player to the registered teleportation slots
+    - Useful players are slow to board the train
+  - **Add Players** / **Remove Players**
+    - Spawns and despawns fake players to test the game with, requires the [Carpet](https://modrinth.com/mod/carpet) mod
+- Added new configurable options:
+  - **Passive Income**
+    - I've been getting feedback that killers too often choose to immediately run from everyone and go to the top of the train.
+    Below are some options that help to combat this by rewarding killers that spend more time learning about their victims.
+    - **Base Passive Income**
+      - Changes the amount of coins granted by the vanilla passive income
+    - **Adjust Passive Income**
+      - When enabled, the passive income scales with the distance to the nearest player, only applies to non-innocents
+    - **Max Passive Income Distance**
+      - Distance in blocks from the nearest player at which the scaled passive income drops to zero (Default: 10)
+    - **Minimum Passive Income**
+      - Lower bound applied to the scaled passive income, so distant players still earn something (Default: 0)
+  - **Role Options** *(from [Noelle's Roles](https://modrinth.com/mod/noelles-roles) 1.7.1)*
+    - Added the ability to config via command or gui
+    - **Morphling**
+      - Morph Psychosis: insane players see morphed players as their real selves
+    - **Bartender**
+      - Defense Vial Price and Defense Maximum Time
+    - **Trapper**
+      - Sees Names and Role Mine Price
+    - **Guesser**
+      - Can Use Instinct
+    - **Infected**
+      - Kill Time and Cough Chance
+    - **Recon**
+      - Sees Names
+    - **Executioner**
+      - Can Pick Up Gun
+- New entries in the Guidebook:
+  - Infected
+  - Introvert
+  - Stealth
+
+### 📋 Changes
+- Updated the [Noelle's Roles](https://modrinth.com/mod/noelles-roles) support to `1.7.1-h1.3`
+
+### 🔧 Fixes
+- Fixed players staying mounted on an entity when being randomly teleported
+- Fixed the Vulture guidebook entry claiming it has the Instinct and Athletic abilities
+
 # stable-3.5.132
 
 ### 🆕 What's New
