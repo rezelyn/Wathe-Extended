@@ -48,6 +48,21 @@ public final class PlayerItem {
         }
     }
 
+    public static void giveTriggerRtpItem(ServerPlayerEntity player) {
+        for (int i = 0; i < player.getInventory().size(); i++) {
+            if (player.getInventory().getStack(i).isOf(WatheExtendedItems.TRIGGER_RTP)) return;
+        }
+        player.getInventory().insertStack(new ItemStack(WatheExtendedItems.TRIGGER_RTP));
+    }
+
+    public static void removeTriggerRtpItem(ServerPlayerEntity player) {
+        for (int i = 0; i < player.getInventory().size(); i++) {
+            if (player.getInventory().getStack(i).isOf(WatheExtendedItems.TRIGGER_RTP)) {
+                player.getInventory().setStack(i, ItemStack.EMPTY);
+            }
+        }
+    }
+
     public static void removeTeleportItem(ServerPlayerEntity player) {
         for (int i = 0; i < player.getInventory().size(); i++) {
             if (player.getInventory().getStack(i).isOf(WatheExtendedItems.TELEPORT_TO_READY_AREA)) {
@@ -71,14 +86,17 @@ public final class PlayerItem {
             removeTeleportItem(player);
             removeTeleportToSceneryItem(player);
             removeCreateRtpSlotItem(player);
+            removeTriggerRtpItem(player);
         } else {
             boolean isCreativeOp = player.isCreative() && player.hasPermissionLevel(2);
             if (isCreativeOp) {
                 giveTeleportToSceneryItem(player);
                 giveCreateRtpSlotItem(player);
+                giveTriggerRtpItem(player);
             } else {
                 removeTeleportToSceneryItem(player);
                 removeCreateRtpSlotItem(player);
+                removeTriggerRtpItem(player);
             }
 
             Box readyArea = MapVariables.getReadyArea(world);
