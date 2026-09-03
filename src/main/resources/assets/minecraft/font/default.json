@@ -454,6 +454,13 @@
       "ascent": 9,
       "height": 12,
       "chars": ["\uE323"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/abilities/infection.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE324"]
     }
   ]
 }

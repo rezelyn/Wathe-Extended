@@ -40,29 +40,40 @@ public final class TeleportationHandler {
 
     private static void perform(ServerWorld world) {
         try {
-            WatheExtendedWorldComponent component = WatheExtendedWorldComponent.KEY.get(world);
-            if (!component.isRtpEnabled()) return;
-
-            List<TeleportationSlot> slots = new ArrayList<>(component.getTeleportationSlots().values());
-            if (slots.isEmpty()) return;
-
-            List<ServerPlayerEntity> eligible = new ArrayList<>();
-            for (net.minecraft.entity.player.PlayerEntity player : world.getPlayers()) {
-                if (player instanceof ServerPlayerEntity sp) eligible.add(sp);
-            }
-            if (eligible.isEmpty()) return;
-
-            Collections.shuffle(eligible);
-            Collections.shuffle(slots);
-
-            int count = Math.min(eligible.size(), slots.size());
-            for (int i = 0; i < count; i++) {
-                ServerPlayerEntity player = eligible.get(i);
-                TeleportationSlot slot = slots.get(i);
-                TeleportTarget target = new TeleportTarget(world, new Vec3d(slot.x, slot.y, slot.z), Vec3d.ZERO, slot.yaw, slot.pitch, TeleportTarget.NO_OP);
-                player.teleportTo(target);
-            }
+            if (!WatheExtendedWorldComponent.KEY.get(world).isRtpEnabled()) return;
+            teleportAll(world);
         } catch (Throwable ignored) {
         }
+    }
+
+    // RTP
+    public static int teleportAll(ServerWorld world) {
+        WatheExtendedWorldComponent component = WatheExtendedWorldComponent.KEY.get(world);
+
+        List<TeleportationSlot> slots = new ArrayList<>(component.getTeleportationSlots().values());
+        if (slots.isEmpty()) return 0;
+
+        List<ServerPlayerEntity> eligible = new ArrayList<>();
+        for (net.minecraft.entity.player.PlayerEntity player : world.getPlayers()) {
+            if (player instanceof ServerPlayerEntity sp) eligible.add(sp);
+        }
+        if (eligible.isEmpty()) return 0;
+
+        Collections.shuffle(eligible);
+        Collections.shuffle(slots);
+
+        int count = Math.min(eligible.size(), slots.size());
+        for (int i = 0; i < count; i++) {
+            ServerPlayerEntity player = eligible.get(i);
+            TeleportationSlot slot = slots.get(i);
+            TeleportTarget target = new TeleportTarget(world, new Vec3d(slot.x, slot.y, slot.z), Vec3d.ZERO, slot.yaw, slot.pitch, TeleportTarget.NO_OP);
+
+            if (player.hasVehicle()) {
+                player.stopRiding();
+            }
+
+            player.teleportTo(target);
+        }
+        return count;
     }
 }

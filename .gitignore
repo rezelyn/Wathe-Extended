@@ -9,6 +9,11 @@
 out/
 # mpeltonen/sbt-idea plugin
 .idea_modules/
+# jdtls
+.classpath
+.factorypath
+.project
+.settings/
 
 # JIRA plugin
 atlassian-ide-plugin.xml
@@ -103,6 +108,7 @@ $RECYCLE.BIN/
 
 .gradle
 build/
+bin/
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -118,3 +124,6 @@ runs/
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
+
+# Personal notes
+notes/

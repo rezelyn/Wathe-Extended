@@ -31,7 +31,7 @@ import java.util.UUID;
 
 public class WatheExtended implements ModInitializer {
     public static final String MOD_ID = "watheextended";
-    private static final Logger LOGGER = LoggerFactory.getLogger(WatheExtended.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(WatheExtended.class);
 
     public static @NotNull Identifier id(String name) {
         return Identifier.of(MOD_ID, name);
@@ -206,6 +206,18 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.phantom.abilityCooldown", 0,
                 WatheExtendedServerConfig::getPhantomAbilityCooldown,
                 WatheExtendedServerConfig::setPhantomAbilityCooldown));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.balance.basePassiveIncome", 5,
+                WatheExtendedServerConfig::getBasePassiveIncome,
+                WatheExtendedServerConfig::setBasePassiveIncome));
+        ServerConfig.register(ServerConfig.Entry.globalBool("watheextended.balance.adjustPassiveIncome", false, 
+                WatheExtendedServerConfig::getAdjustPassiveIncome,
+                WatheExtendedServerConfig::setAdjustPassiveIncome));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.balance.maxPassiveIncomeDistance", 10,
+                WatheExtendedServerConfig::getMaxPassiveIncomeDistance,
+                WatheExtendedServerConfig::setMaxPassiveIncomeDistance));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.balance.minPassiveIncome", 0,
+                WatheExtendedServerConfig::getMinPassiveIncome,
+                WatheExtendedServerConfig::setMinPassiveIncome));
     }
 
     private static void registerNetworking() {

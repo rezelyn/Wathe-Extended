@@ -13,6 +13,9 @@ base {
 loom {
     splitEnvironmentSourceSets()
 
+    // Dev-only logging config: only Wathe Extended's own log output is shown.
+    log4jConfigs.setFrom(file("log4j-dev.xml"))
+
     mods {
         "watheextended" {
             sourceSet sourceSets.main
@@ -116,6 +119,7 @@ dependencies {
     // Optional dependencies
     modRuntimeOnly "maven.modrinth:modmenu:${project.modmenu_version}"
     modRuntimeOnly "maven.modrinth:carpet:${project.carpet_version}"
+    modRuntimeOnly "maven.modrinth:playercontrol:${project.playercontrol_version}"
 }
 
 processResources {

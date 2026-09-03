@@ -167,6 +167,41 @@ public final class OptionsCategory {
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
 
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.base_passive_income"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.base_passive_income.desc")))
+                .binding(10, () -> ClientConfig.getInt("watheextended.balance.basePassiveIncome", 10),
+                        v -> ScreenUtils.stage(sendCommand, parent, "watheextended.balance.basePassiveIncome", v))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+
+        final boolean adjustPassiveIncomeEnabled = ClientConfig.getBool("watheextended.balance.adjustPassiveIncome", false);
+        group.option(Option.<Boolean>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.adjust_passive_income"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.adjust_passive_income.desc")))
+                .binding(false, () -> ClientConfig.getBool("watheextended.balance.adjustPassiveIncome", false),
+                        v -> ScreenUtils.stage(sendCommand, parent, "watheextended.balance.adjustPassiveIncome", v))
+                .controller(opt -> BooleanControllerBuilder.create(opt).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled")))
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.max_passive_income_distance"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.max_passive_income_distance.desc")))
+                .binding(10, () -> ClientConfig.getInt("watheextended.balance.maxPassiveIncomeDistance", 10),
+                        v -> ScreenUtils.stage(sendCommand, parent, "watheextended.balance.maxPassiveIncomeDistance", v))
+                .controller(IntegerFieldControllerBuilder::create)
+                .available(adjustPassiveIncomeEnabled)
+                .build());
+
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.min_passive_income"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.min_passive_income.desc")))
+                .binding(0, () -> ClientConfig.getInt("watheextended.balance.minPassiveIncome", 0),
+                        v -> ScreenUtils.stage(sendCommand, parent, "watheextended.balance.minPassiveIncome", v))
+                .controller(IntegerFieldControllerBuilder::create)
+                .available(adjustPassiveIncomeEnabled)
+                .build());
+
          return group.build();
     }
 

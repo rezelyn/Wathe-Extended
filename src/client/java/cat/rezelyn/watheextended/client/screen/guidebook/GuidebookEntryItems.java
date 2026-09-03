@@ -58,6 +58,7 @@ public final class GuidebookEntryItems {
         ));
         register("kinswathe:cook", () -> List.of(
                 shop("pan", "item.kinswathe.pan", ClientConfig.getInt("watheextended.pan.price", 250))
+                // TODO: add food
         ));
         register("kinswathe:dreamer", () -> List.of(
                 starting("dream_imprint", "item.kinswathe.dream_imprint")

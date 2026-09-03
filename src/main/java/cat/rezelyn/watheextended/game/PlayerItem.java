@@ -33,6 +33,57 @@ public final class PlayerItem {
         player.getInventory().insertStack(new ItemStack(WatheExtendedItems.TELEPORT_TO_SCENERY));
     }
 
+    public static void giveCreateRtpSlotItem(ServerPlayerEntity player) {
+        for (int i = 0; i < player.getInventory().size(); i++) {
+            if (player.getInventory().getStack(i).isOf(WatheExtendedItems.CREATE_RTP_SLOT)) return;
+        }
+        player.getInventory().insertStack(new ItemStack(WatheExtendedItems.CREATE_RTP_SLOT));
+    }
+
+    public static void removeCreateRtpSlotItem(ServerPlayerEntity player) {
+        for (int i = 0; i < player.getInventory().size(); i++) {
+            if (player.getInventory().getStack(i).isOf(WatheExtendedItems.CREATE_RTP_SLOT)) {
+                player.getInventory().setStack(i, ItemStack.EMPTY);
+            }
+        }
+    }
+
+    public static void giveTriggerRtpItem(ServerPlayerEntity player) {
+        for (int i = 0; i < player.getInventory().size(); i++) {
+            if (player.getInventory().getStack(i).isOf(WatheExtendedItems.TRIGGER_RTP)) return;
+        }
+        player.getInventory().insertStack(new ItemStack(WatheExtendedItems.TRIGGER_RTP));
+    }
+
+    public static void removeTriggerRtpItem(ServerPlayerEntity player) {
+        for (int i = 0; i < player.getInventory().size(); i++) {
+            if (player.getInventory().getStack(i).isOf(WatheExtendedItems.TRIGGER_RTP)) {
+                player.getInventory().setStack(i, ItemStack.EMPTY);
+            }
+        }
+    }
+
+    public static void giveFakePlayerItems(ServerPlayerEntity player) {
+        boolean hasAdd = false;
+        boolean hasRemove = false;
+        for (int i = 0; i < player.getInventory().size(); i++) {
+            ItemStack stack = player.getInventory().getStack(i);
+            if (stack.isOf(WatheExtendedItems.ADD_PLAYERS)) hasAdd = true;
+            if (stack.isOf(WatheExtendedItems.REMOVE_PLAYERS)) hasRemove = true;
+        }
+        if (!hasAdd) player.getInventory().insertStack(new ItemStack(WatheExtendedItems.ADD_PLAYERS));
+        if (!hasRemove) player.getInventory().insertStack(new ItemStack(WatheExtendedItems.REMOVE_PLAYERS));
+    }
+
+    public static void removeFakePlayerItems(ServerPlayerEntity player) {
+        for (int i = 0; i < player.getInventory().size(); i++) {
+            ItemStack stack = player.getInventory().getStack(i);
+            if (stack.isOf(WatheExtendedItems.ADD_PLAYERS) || stack.isOf(WatheExtendedItems.REMOVE_PLAYERS)) {
+                player.getInventory().setStack(i, ItemStack.EMPTY);
+            }
+        }
+    }
+
     public static void removeTeleportItem(ServerPlayerEntity player) {
         for (int i = 0; i < player.getInventory().size(); i++) {
             if (player.getInventory().getStack(i).isOf(WatheExtendedItems.TELEPORT_TO_READY_AREA)) {
@@ -55,12 +106,21 @@ public final class PlayerItem {
         if (gameRunning) {
             removeTeleportItem(player);
             removeTeleportToSceneryItem(player);
+            removeCreateRtpSlotItem(player);
+            removeTriggerRtpItem(player);
+            removeFakePlayerItems(player);
         } else {
             boolean isCreativeOp = player.isCreative() && player.hasPermissionLevel(2);
             if (isCreativeOp) {
                 giveTeleportToSceneryItem(player);
+                giveCreateRtpSlotItem(player);
+                giveTriggerRtpItem(player);
+                giveFakePlayerItems(player);
             } else {
                 removeTeleportToSceneryItem(player);
+                removeCreateRtpSlotItem(player);
+                removeTriggerRtpItem(player);
+                removeFakePlayerItems(player);
             }
 
             Box readyArea = MapVariables.getReadyArea(world);
