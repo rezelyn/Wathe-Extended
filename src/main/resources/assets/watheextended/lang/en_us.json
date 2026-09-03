@@ -58,6 +58,8 @@
   "item.watheextended.guidebook": "Guidebook",
   "item.watheextended.create_rtp_slot": "Create RTP Slot",
   "item.watheextended.trigger_rtp": "Trigger RTP",
+  "item.watheextended.add_players": "Add Players",
+  "item.watheextended.remove_players": "Remove Players",
   "item.watheextended.teleport_to_ready_area": "Teleport to Ready Area",
   "item.watheextended.teleport_to_scenery": "Teleport to Scenery",
 
@@ -114,6 +116,10 @@
   "command.watheextended.rtp_slot.outside_ready_area": "Cannot place slot at %s\nPosition is outside the Ready Area boundaries.",
   "command.watheextended.rtp_slot.removed": "Removed teleportation slot #%d (%s)",
   "command.watheextended.rtp_slot.teleported": "Teleported %d player(s) to teleportation slots.",
+
+  "message.watheextended.fake_players.added": "Fake players added",
+  "message.watheextended.fake_players.removed": "Fake players removed",
+  "message.watheextended.fake_players.unavailable": "Fake players require the Carpet mod",
 
 
 

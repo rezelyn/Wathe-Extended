@@ -46,16 +46,7 @@ public final class TeleportationHandler {
         }
     }
 
-    /**
-     * Assigns each player in the world a distinct teleportation slot and teleports them there.
-     * Both lists are shuffled so the pairing is random and no slot is used twice; when there are
-     * more players than slots, the surplus players stay where they are.
-     *
-     * <p>This ignores the RTP map variable, so callers that trigger it manually (such as the
-     * Trigger RTP item) work even when automatic RTP at game start is disabled.
-     *
-     * @return the number of players teleported
-     */
+    // RTP
     public static int teleportAll(ServerWorld world) {
         WatheExtendedWorldComponent component = WatheExtendedWorldComponent.KEY.get(world);
 
