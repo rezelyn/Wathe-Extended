@@ -16,14 +16,20 @@ import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import dev.doctor4t.wathe.game.gamemode.MurderGameMode;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.world.World;
 
 @Mixin(MurderGameMode.class)
 public abstract class AdjustPassiveIncomeMixin{
-  private double getDistanceToClosestPlayer(ServerPlayerEntity target){
-    List<? extends PlayerEntity> players = target.getWorld().getPlayers();
+  private double getDistanceToClosestInnocentPlayer(ServerPlayerEntity target){
+    World world = target.getWorld();
+    List<? extends PlayerEntity> players = world.getPlayers();
+    GameWorldComponent gameWorldComponent = GameWorldComponent.KEY.get(world);
+
     double closest = 999;
     for(PlayerEntity candidate : players){
       if(candidate == target)
+        continue;
+      if(gameWorldComponent.getRole(candidate).isInnocent())
         continue;
       double distance = target.distanceTo(candidate);
       if(distance < closest)
@@ -59,7 +65,7 @@ public abstract class AdjustPassiveIncomeMixin{
     // linear scale where being on top of another player yields double income
     // and being at a distance greater than MAX_DISTANCE is 0 income
     int newAmount = (int) Math.round((double) 
-      baseIncome * (1 - getDistanceToClosestPlayer(player) / MAX_DISTANCE) * 2
+      baseIncome * (1 - getDistanceToClosestInnocentPlayer(player) / MAX_DISTANCE) * 2
     );
 
     int MINIMUM_INCOME = WatheExtendedServerConfig.getMinPassiveIncome();
