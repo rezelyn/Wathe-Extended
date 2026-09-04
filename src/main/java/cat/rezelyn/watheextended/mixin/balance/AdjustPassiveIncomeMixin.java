@@ -29,7 +29,9 @@ public abstract class AdjustPassiveIncomeMixin{
     for(PlayerEntity candidate : players){
       if(candidate == target)
         continue;
-      if(gameWorldComponent.getRole(candidate).isInnocent())
+
+      Role role = gameWorldComponent.getRole(candidate);
+      if(role != null && role.isInnocent())
         continue;
       double distance = target.distanceTo(candidate);
       if(distance < closest)
