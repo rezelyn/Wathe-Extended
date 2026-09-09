@@ -22,6 +22,13 @@ loom {
             sourceSet sourceSets.client
         }
     }
+
+    // Debug-only: verbose injector reporting, and dump every transformed class to
+    // run/.mixin.out so applied handlers can be inspected directly.
+    // runs.configureEach {
+    //     vmArg "-Dmixin.debug.verbose=true"
+    //     vmArg "-Dmixin.debug.export=true"
+    // }
 }
 
 fabricApi {
@@ -88,7 +95,8 @@ dependencies {
     // Harpy Mod Loader and Addons
     modApi "maven.modrinth:harpymodloader:${project.harpymodloader_version}"
 
-    modApi "maven.modrinth:noelles-roles-tmm:${project.noelles_roles_version}"
+    // disabled currently in favor on the local fork jar
+    // modApi "maven.modrinth:noelles-roles-tmm:${project.noelles_roles_version}"
     modApi "maven.modrinth:stupid-express:${project.stupid_express_version}"
     modApi "maven.modrinth:starexpress:${project.starexpress_version}"
     modApi "maven.modrinth:kinswathe:${project.kinswathe_version}"

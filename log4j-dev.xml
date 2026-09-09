@@ -25,6 +25,10 @@
              "wathe" logger, so it is not covered by the package name above. -->
         <Logger name="wathe" level="INFO"/>
 
+        <!-- Mixin: injection/apply diagnostics. Root is OFF, so without this any
+             refused or unbound injector fails completely silently. -->
+        <!-- <Logger name="mixin" level="DEBUG"/> -->
+
         <!-- Simple Voice Chat: silenced even if Root is raised for diagnostics.
              It logs under both its package and a plain "voicechat" logger. -->
         <Logger name="de.maxhenkel" level="OFF"/>
