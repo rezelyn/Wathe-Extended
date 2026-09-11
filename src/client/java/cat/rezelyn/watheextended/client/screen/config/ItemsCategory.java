@@ -59,11 +59,12 @@ public class ItemsCategory {
                         .binding(10, () -> ClientConfig.getInt("watheextended.revolver.cooldown", 10), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.revolver.cooldown", value))
                         .controller(IntegerFieldControllerBuilder::create).build())
                 /// BACKFIRE CHANCE
-                .option(Option.<Integer>createBuilder()
-                        .name(Text.translatable("gui.watheextended.config.category.items.group.revolver.backfire"))
-                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.revolver.backfire.desc")))
-                        .binding(GameComponents.getBackfire(world), () -> GameComponents.getBackfire(MinecraftClient.getInstance().world), value -> sendCommand.accept("wathe:gameSettings set backfire " + (value / 100f), parent))
-                        .controller(IntegerFieldControllerBuilder::create).build())
+// TODO: update old getBackfireChance to wathe's 1.4 new backfire mechanic
+//                .option(Option.<Integer>createBuilder()
+//                        .name(Text.translatable("gui.watheextended.config.category.items.group.revolver.backfire"))
+//                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.revolver.backfire.desc")))
+//                        .binding(GameComponents.getBackfire(world), () -> GameComponents.getBackfire(MinecraftClient.getInstance().world), value -> sendCommand.accept("wathe:gameSettings set backfire " + (value / 100f), parent))
+//                        .controller(IntegerFieldControllerBuilder::create).build())
                 .build());
 
         // Grenade

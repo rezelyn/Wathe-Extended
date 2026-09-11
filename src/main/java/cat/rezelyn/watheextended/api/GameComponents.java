@@ -18,14 +18,15 @@ public final class GameComponents {
         }
     }
 
-    public static int getBackfire(World world) {
-        if (world == null) return 0;
-        try {
-            return Math.round(GameWorldComponent.KEY.get(world).getBackfireChance() * 100);
-        } catch (Throwable t) {
-            return 0;
-        }
-    }
+// TODO: update old getBackfireChance to wathe's 1.4 new backfire mechanic
+//    public static int getBackfire(World world) {
+//        if (world == null) return 0;
+//        try {
+//            return Math.round(GameWorldComponent.KEY.get(world).getBackfireChance() * 100);
+//        } catch (Throwable t) {
+//            return 0;
+//        }
+//    }
 
     public static int getKillerDividend(World world) {
         if (world == null) return 5;
