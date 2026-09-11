@@ -95,7 +95,8 @@ dependencies {
     // Harpy Mod Loader and Addons
     modApi "maven.modrinth:harpymodloader:${project.harpymodloader_version}"
 
-    modApi "maven.modrinth:noelles-roles-tmm:${project.noelles_roles_version}"
+    modApi files("libs/noellesroles-1.7.2-h1.4.jar")
+    // modApi "maven.modrinth:noelles-roles-tmm:${project.noelles_roles_version}"
     modApi "maven.modrinth:stupid-express:${project.stupid_express_version}"
     modApi "maven.modrinth:starexpress:${project.starexpress_version}"
     modApi "maven.modrinth:kinswathe:${project.kinswathe_version}"
@@ -114,8 +115,8 @@ dependencies {
     annotationProcessor modImplementation("io.wispforest:owo-lib:${project.owo_version}")
     include "io.wispforest:owo-sentinel:${project.owo_version}"
 
-    // Local jars
-    modCompileOnly fileTree(dir: 'libs', include: '*.jar')
+    // Local jars (noellesroles is declared explicitly above as modApi, so exclude it here)
+    modCompileOnly fileTree(dir: 'libs', include: '*.jar', exclude: 'noellesroles-*.jar')
 
     // Simple Voice Chat
     implementation "de.maxhenkel.voicechat:voicechat-api:${voicechat_api_version}"
