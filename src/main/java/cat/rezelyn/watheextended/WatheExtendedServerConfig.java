@@ -26,7 +26,7 @@ public final class WatheExtendedServerConfig {
     public static int lastStandCooldown = 30;
     public static String jumpMode = "LOBBY";
     public static boolean suppressAbilityVfxSfx = false;
-    public static int basePassiveIncome = 10;
+    public static int basePassiveIncome = 5;
     public static boolean adjustPassiveIncome = false;
     public static int maxPassiveIncomeDistance = 10;
     public static int minPassiveIncome = 0;
