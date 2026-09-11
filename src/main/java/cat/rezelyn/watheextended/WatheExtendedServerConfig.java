@@ -26,7 +26,7 @@ public final class WatheExtendedServerConfig {
     public static int lastStandCooldown = 30;
     public static String jumpMode = "LOBBY";
     public static boolean suppressAbilityVfxSfx = false;
-    public static int basePassiveIncome = 5;
+    public static int basePassiveIncome = 10;
     public static boolean adjustPassiveIncome = false;
     public static int maxPassiveIncomeDistance = 10;
     public static int minPassiveIncome = 0;
@@ -120,8 +120,8 @@ public final class WatheExtendedServerConfig {
         }
         ClientConfig.Reader config = ClientConfig.reader(CONFIG_FILE);
         playerCollisionsEnabled = config.getBool("gamerules.playerCollisions", true);
-        rtpEnabled = config.getBool("gamerules.randomTeleportation", true);
-        blockProtectionEnabled = config.getBool("gamerules.worldProtection", true);
+        rtpEnabled = config.getBool("gamerules.randomTeleportation", false);
+        blockProtectionEnabled = config.getBool("gamerules.worldProtection", false);
         itemBoundsCheckEnabled = config.getBool("gamerules.itemBoundsCheck", true);
         suppressAbilityVfxSfx = config.getBool("gamerules.suppressVfxSfx", false);
         jumpMode = config.getString("gamerules.jumpMode", "LOBBY");

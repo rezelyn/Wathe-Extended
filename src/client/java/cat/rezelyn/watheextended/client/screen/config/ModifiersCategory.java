@@ -100,7 +100,7 @@ public final class ModifiersCategory {
                 builder.option(Option.<Float>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.adaptive.penaltyreduction"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.adaptive.penaltyreduction.desc")))
-                        .binding(0.25f, () -> ClientConfig.getFloat("watheextended.adaptive.penaltyReduction", 0.25f), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.adaptive.penaltyReduction", value))
+                        .binding(0.50f, () -> ClientConfig.getFloat("watheextended.adaptive.penaltyReduction", 0.50f), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.adaptive.penaltyReduction", value))
                         .controller(ScreenUtils::floatController).build());
                 builder.option(Option.<Float>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.adaptive.bonusmultiplier"))
