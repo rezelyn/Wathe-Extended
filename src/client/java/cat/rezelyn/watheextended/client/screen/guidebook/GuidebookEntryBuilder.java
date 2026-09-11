@@ -41,52 +41,6 @@ public final class GuidebookEntryBuilder {
         return GuidebookEntryBuilder::buildGameGuide;
     }
 
-    // section header icons are placeholders reused from the existing font sheet
-    private record GuideSection(String headerKey, int headerColor, String iconName, List<String> topics) {
-    }
-
-    private static final int GUIDE_HEADER_COLOR = 0xB07B2E;
-    private static final int GUIDE_ENTRY_COLOR = 0x4A3728;
-    private static final int GUIDE_CIVILIAN_COLOR = 0x75A743;
-    private static final int GUIDE_KILLER_COLOR = 0xDC001E;
-
-    private static final List<GuideSection> GUIDE_SECTIONS = List.of(
-            new GuideSection("gui.watheextended.guidebook.left_page.guide.section.overview", GUIDE_HEADER_COLOR, "question",
-                    List.of("overview", "sides", "round_flow", "voice_chat", "doors", "coins", "abilities", "bodies")),
-            new GuideSection("gui.watheextended.guidebook.left_page.guide.section.civilians", GUIDE_CIVILIAN_COLOR, "civilian",
-                    List.of("mood", "vigilante", "civilian_tips", "poison_tip", "shootouts")),
-            new GuideSection("gui.watheextended.guidebook.left_page.guide.section.killers", GUIDE_KILLER_COLOR, "killer",
-                    List.of("instinct", "killer_tips", "knife_tip", "lockpick_tip", "grenade_tip", "blackout_tip", "psycho_tip", "countering_grouping"))
-    );
-
-    private static List<GuidebookEntry> buildGameGuide() {
-        List<GuidebookEntry> list = new ArrayList<>();
-        try {
-            boolean first = true;
-            for (GuideSection section : GUIDE_SECTIONS) {
-                if (!first) list.add(GuidebookEntry.spacer());
-                first = false;
-
-                int color = section.headerColor();
-                Text header = ScreenUtils.icon(section.iconName()).copy()
-                        .append(Text.literal(" ").styled(style -> style.withFont(null).withColor(color)))
-                        .append(Text.translatable(section.headerKey()).styled(style -> style.withBold(true).withColor(color)));
-                list.add(GuidebookEntry.header(header, color));
-
-                for (String topic : section.topics()) {
-                    Text title = Text.translatable("gui.watheextended.guidebook.guide.title." + topic);
-                    String descKey = "gui.watheextended.guidebook.guide.desc." + topic;
-                    Text text = ScreenUtils.icon("enabled").copy()
-                            .append(Text.literal(" ").styled(style -> style.withFont(null)))
-                            .append(title.copy().styled(style -> style.withColor(GUIDE_ENTRY_COLOR)));
-                    list.add(GuidebookEntry.entry(text, GUIDE_ENTRY_COLOR, "guide:" + topic, descKey, title, true));
-                }
-            }
-        } catch (Throwable ignored) {
-        }
-        return list;
-    }
-
     private static List<GuidebookEntry> buildRoles() {
         List<GuidebookEntry> list = new ArrayList<>();
         try {
@@ -153,6 +107,52 @@ public final class GuidebookEntryBuilder {
                         .append(Text.literal(" ").styled(style -> style.withFont(null)))
                         .append(display.display().copy().styled(style -> style.withColor(display.color())));
                 list.add(GuidebookEntry.entry(text, display.color(), display.id(), descKey, display.display(), active));
+            }
+        } catch (Throwable ignored) {
+        }
+        return list;
+    }
+
+    // section header icons are placeholders reused from the existing font sheet
+    private record GuideSection(String headerKey, int headerColor, String iconName, List<String> topics) {
+    }
+
+    private static final int GUIDE_HEADER_COLOR = 0xB07B2E;
+    private static final int GUIDE_ENTRY_COLOR = 0x4A3728;
+    private static final int GUIDE_CIVILIAN_COLOR = 0x75A743;
+    private static final int GUIDE_KILLER_COLOR = 0xDC001E;
+
+    private static final List<GuideSection> GUIDE_SECTIONS = List.of(
+            new GuideSection("gui.watheextended.guidebook.left_page.guide.section.overview", GUIDE_HEADER_COLOR, "question",
+                    List.of("overview", "sides", "round_flow", "voice_chat", "doors", "coins", "abilities", "bodies")),
+            new GuideSection("gui.watheextended.guidebook.left_page.guide.section.civilians", GUIDE_CIVILIAN_COLOR, "civilian",
+                    List.of("mood", "vigilante", "civilian_tips", "poison_tip", "shootouts")),
+            new GuideSection("gui.watheextended.guidebook.left_page.guide.section.killers", GUIDE_KILLER_COLOR, "killer",
+                    List.of("instinct", "killer_tips", "knife_tip", "lockpick_tip", "grenade_tip", "blackout_tip", "psycho_tip", "countering_grouping"))
+    );
+
+    private static List<GuidebookEntry> buildGameGuide() {
+        List<GuidebookEntry> list = new ArrayList<>();
+        try {
+            boolean first = true;
+            for (GuideSection section : GUIDE_SECTIONS) {
+                if (!first) list.add(GuidebookEntry.spacer());
+                first = false;
+
+                int color = section.headerColor();
+                Text header = ScreenUtils.icon(section.iconName()).copy()
+                        .append(Text.literal(" ").styled(style -> style.withFont(null).withColor(color)))
+                        .append(Text.translatable(section.headerKey()).styled(style -> style.withBold(true).withColor(color)));
+                list.add(GuidebookEntry.header(header, color));
+
+                for (String topic : section.topics()) {
+                    Text title = Text.translatable("gui.watheextended.guidebook.guide.title." + topic);
+                    String descKey = "gui.watheextended.guidebook.guide.desc." + topic;
+                    Text text = ScreenUtils.icon("enabled").copy()
+                            .append(Text.literal(" ").styled(style -> style.withFont(null)))
+                            .append(title.copy().styled(style -> style.withColor(GUIDE_ENTRY_COLOR)));
+                    list.add(GuidebookEntry.entry(text, GUIDE_ENTRY_COLOR, "guide:" + topic, descKey, title, true));
+                }
             }
         } catch (Throwable ignored) {
         }
