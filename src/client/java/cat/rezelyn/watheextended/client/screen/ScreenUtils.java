@@ -123,10 +123,10 @@ public final class ScreenUtils {
         return ICONS.containsKey(name);
     }
 
-    public static boolean isBlacklisted(String id, Set<String> blacklist) {
+    public static boolean isDenied(String id, Set<String> denylist) {
         int colon = id.indexOf(':');
         String local = colon >= 0 ? id.substring(colon + 1) : id;
-        return blacklist.contains(local);
+        return denylist.contains(local);
     }
 
     public static void stage(BiConsumer<String, Screen> command, Screen parent, String key, Object value) {

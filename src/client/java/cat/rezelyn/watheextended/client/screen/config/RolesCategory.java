@@ -19,7 +19,7 @@ public final class RolesCategory {
     private RolesCategory() {
     }
 
-    public static ConfigCategory build(Screen parent, Set<String> blacklist, Map<String, Boolean> pendingState, BiConsumer<String, Screen> sendCommand) {
+    public static ConfigCategory build(Screen parent, Set<String> denylist, Map<String, Boolean> pendingState, BiConsumer<String, Screen> sendCommand) {
         ConfigCategory.Builder builder = ConfigCategory.createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.roles"))
                 .tooltip(Text.translatable("gui.watheextended.config.category.roles.tooltip"));
@@ -27,7 +27,7 @@ public final class RolesCategory {
         try {
             Set<String> roleId = new LinkedHashSet<>();
             for (String ID : RolesId.get()) {
-                if (!ScreenUtils.isBlacklisted(ID, blacklist)) roleId.add(ID);
+                if (!ScreenUtils.isDenied(ID, denylist)) roleId.add(ID);
             }
 
             if (roleId.isEmpty()) {

@@ -14,18 +14,19 @@ import java.util.Set;
 public final class GuidebookEntryBuilder {
 
     // roles/modifiers that shouldn't appear in the guidebook
-    private static final Set<String> BLACKLIST = Set.of(
-            "discovery_civilian",
-            "loose_end"
+    private static final Set<String> DENYLIST = Set.of(
+            "discovery_civilian", // used in the discovery map effect
+            "loose_end",          // used in the loose end map effect
+            "secret_killer"       // used in the special murder-only round, same as killer
     );
 
     private GuidebookEntryBuilder() {
     }
 
-    private static boolean isBlacklisted(String id) {
+    private static boolean isDenied(String id) {
         int colon = id.indexOf(':');
         String local = colon >= 0 ? id.substring(colon + 1) : id;
-        return BLACKLIST.contains(local);
+        return DENYLIST.contains(local);
     }
 
     public static GuidebookEntrySource roles() {
@@ -97,7 +98,7 @@ public final class GuidebookEntryBuilder {
             List<RolesDisplay.RoleDisplay> neutrals = new ArrayList<>();
 
             for (RolesDisplay.RoleDisplay display : roles.values()) {
-                if (isBlacklisted(display.id())) continue;
+                if (isDenied(display.id())) continue;
                 switch (display.side()) {
                     case KILLER -> killers.add(display);
                     case INNOCENT -> innocents.add(display);
@@ -144,7 +145,7 @@ public final class GuidebookEntryBuilder {
             Map<String, ModifiersDisplay.ModifierDisplay> modifiers = ModifiersDisplay.get();
             if (modifiers.isEmpty()) return list;
             for (ModifiersDisplay.ModifierDisplay display : modifiers.values()) {
-                if (isBlacklisted(display.id())) continue;
+                if (isDenied(display.id())) continue;
                 String descKey = "gui.watheextended.guidebook.modifier.desc." + display.id().replace(":", ".");
                 boolean active = !ConfigHelper.getDisabledModifiers().contains(display.id());
                 Text icon = ScreenUtils.icon(active ? "enabled" : "disabled");
