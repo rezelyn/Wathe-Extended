@@ -130,13 +130,12 @@ public final class OptionsCategory {
                     .build());
         }
 
-// TODO: update old getBackfireChance to wathe's 1.4 new backfire mechanic
-//        group.option(Option.<Integer>createBuilder()
-//                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.backfire"))
-//                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.backfire.desc")))
-//                .binding(GameComponents.getBackfire(world), () -> GameComponents.getBackfire(MinecraftClient.getInstance().world), value -> sendCommand.accept("wathe:gameSettings set backfire " + (value / 100f), parent))
-//                .controller(IntegerFieldControllerBuilder::create)
-//                .build());
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.backfire"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.backfire.desc")))
+                .binding(GameComponents.getBackfire(world), () -> GameComponents.getBackfire(MinecraftClient.getInstance().world), value -> sendCommand.accept("wathe:gameSettings set backfireChancePerInnocentKill " + (value / 100f), parent))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
 
         group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.roles").styled(style -> style.withColor(0xAAAAAA))));
         group.option(Option.<Integer>createBuilder()

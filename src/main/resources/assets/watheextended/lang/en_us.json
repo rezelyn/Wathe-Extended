@@ -196,7 +196,7 @@
   "gui.watheextended.config.category.options.group.wathe_options.tooltip": "Configure various core options related to WATHE gameplay and mechanics.",
   "gui.watheextended.config.category.options.group.wathe_options.label.global": "Global",
   "gui.watheextended.config.category.options.group.wathe_options.opt.backfire": "Backfire Chance",
-  "gui.watheextended.config.category.options.group.wathe_options.opt.backfire.desc": "The percentage chance that a shot will backfire and kill the shooter instead of the target.\nSet to 0 to disable backfire.\n\n§6Default: §e0",
+  "gui.watheextended.config.category.options.group.wathe_options.opt.backfire.desc": "The percentage chance increase, per innocent kill, that a shot will backfire and kill the shooter instead of the target.\nSet to 0 to disable backfire.\n\n§6Default: §e0",
   "gui.watheextended.config.category.options.group.wathe_options.opt.shooterpunishment": "Shooter Punishment",
   "gui.watheextended.config.category.options.group.wathe_options.opt.shooterpunishment.desc": "Controls what happens when someone shoots an innocent player with a Revolver.\n\n• Default: Shooter will drop their Revolver and cannot pick it back up. Can still pick up guns other players drop.\n• Prevent Gun Pickup: Shooter will drop their Revolver and cannot pick up any guns for the rest of the game.\n• Kill Shooter: Shooter will be instantly killed alongside the target they shot.",
   "gui.watheextended.config.category.options.group.wathe_options.opt.roledividend_killer": "Killer Role Dividend",
