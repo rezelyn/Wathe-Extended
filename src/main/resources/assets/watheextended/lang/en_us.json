@@ -98,6 +98,11 @@
   "tooltip.watheextended.item.cooldown.minutes": "minutes",
 
 
+
+  "announcement.role.secret_killer": "Killer",
+
+
+
   "announcement.modifier.watheextended.introverted": "Introverted",
   "announcement.modifier.watheextended.taxed": "Taxed",
   "announcement.modifier.watheextended.adaptive": "Adaptive",
