@@ -42,6 +42,9 @@ public final class GuidebookEntryItems {
         register("noellesroles:mimic", () -> List.of(
                 starting("fake_knife", "item.noellesroles.fake_knife")
         ));
+        register("noellesroles:recon", () -> List.of(
+                starting("role_mine", "item.noellesroles.role_mine")
+        ));
         register("noellesroles:executioner", GuidebookEntryItems::framingShop);
         register("noellesroles:morphling", GuidebookEntryItems::framingShop);
         register("noellesroles:phantom", GuidebookEntryItems::framingShop);
