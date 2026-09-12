@@ -355,11 +355,9 @@ public class AddonsConfigCommand {
                 CommandManager.literal("shooterpunishments")
                         .then(CommandManager.literal("setMode").then(CommandManager.argument("mode", com.mojang.brigadier.arguments.StringArgumentType.word())
                         .executes(update(
-                                context -> {
-                                    String mode = com.mojang.brigadier.arguments.StringArgumentType.getString(context, "mode");
-                                    context.getSource().getServer().getCommandManager().getDispatcher().execute("setShootInnocentPunishment " + mode, context.getSource());
-                                    cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper.setLastKnownMode(mode);
-                                }
+                                context -> cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper.setMode(
+                                        com.mojang.brigadier.arguments.StringArgumentType.getString(context, "mode")
+                                )
                         ))))
             );
         }

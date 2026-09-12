@@ -122,7 +122,9 @@ public final class OptionsCategory {
             group.option(Option.<String>createBuilder()
                     .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.shooterpunishment"))
                     .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.shooterpunishment.desc")))
-                    .binding(cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper.getCurrentPunishment(), cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper::getCurrentPunishment, value -> ScreenUtils.stage(sendCommand, parent, "shooterpunishments.currentMode", value))
+                    .binding(cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper.getPunishmentModes()[0],
+                                cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper::getCurrentPunishment,
+                                value -> ScreenUtils.stage(sendCommand, parent, "shooterpunishments.currentMode", value))
                     .controller(option -> CyclingListControllerBuilder.create(option).values(Arrays.asList(punishmentModes)).formatValue(value -> {
                         String string = value.replaceAll("([A-Z])", " $1");
                         return Text.literal(Character.toUpperCase(string.charAt(0)) + string.substring(1));
