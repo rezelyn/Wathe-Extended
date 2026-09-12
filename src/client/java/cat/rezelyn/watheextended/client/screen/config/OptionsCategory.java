@@ -1,6 +1,5 @@
 package cat.rezelyn.watheextended.client.screen.config;
 
-import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import cat.rezelyn.watheextended.api.GameComponents;
 import cat.rezelyn.watheextended.api.config.ClientConfig;
 import cat.rezelyn.watheextended.api.config.hml.ConfigHelper;
