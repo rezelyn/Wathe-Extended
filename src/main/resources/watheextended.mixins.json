@@ -24,6 +24,7 @@
     "fix.KillShieldConditionMixin",
     "fix.PersistentTaskNbtMixin",
     "fix.RevivalItemGivingMixin",
+    "fix.PoisonNullGuardMixin",
     "item.ArsonistItemsUseMixin",
     "item.GrenadeItemUseMixin",
     "item.ThiefItemRulesMixin",

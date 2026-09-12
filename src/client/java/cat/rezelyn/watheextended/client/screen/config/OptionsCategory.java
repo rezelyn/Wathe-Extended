@@ -172,7 +172,7 @@ public final class OptionsCategory {
         group.option(Option.<Integer>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.base_passive_income"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.base_passive_income.desc")))
-                .binding(10, () -> ClientConfig.getInt("watheextended.balance.basePassiveIncome", 10),
+                .binding(5, () -> ClientConfig.getInt("watheextended.balance.basePassiveIncome", 5),
                         v -> ScreenUtils.stage(sendCommand, parent, "watheextended.balance.basePassiveIncome", v))
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
