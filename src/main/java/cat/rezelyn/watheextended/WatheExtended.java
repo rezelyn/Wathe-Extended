@@ -76,7 +76,6 @@ public class WatheExtended implements ModInitializer {
         cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.registerEntries();
         cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper.registerEntries();
         cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.registerEntries();
-        cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper.registerEntries();
 
         // core
         registerServerConfigEntries();
@@ -170,6 +169,9 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalString("watheextended.jumpMode", "LOBBY",
                 WatheExtendedServerConfig::getJumpMode,
                 WatheExtendedServerConfig::setJumpMode));
+        ServerConfig.register(ServerConfig.Entry.globalString("watheextended.shootInnocentPunishmentMode", "DEFAULT",
+                WatheExtendedServerConfig::getShootInnocentPunishmentMode,
+                WatheExtendedServerConfig::setShootInnocentPunishmentMode));
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.cleaner.playerLimit", 10,
                 WatheExtendedServerConfig::getCleanerPlayerLimit,
                 WatheExtendedServerConfig::setCleanerPlayerLimit));

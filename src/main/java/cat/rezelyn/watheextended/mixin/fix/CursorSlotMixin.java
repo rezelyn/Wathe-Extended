@@ -1,6 +1,9 @@
 package cat.rezelyn.watheextended.mixin.fix;
 
+import cat.rezelyn.watheextended.WatheExtendedServerConfig;
+import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.index.WatheItems;
 import dev.doctor4t.wathe.index.tag.WatheItemTags;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,6 +30,13 @@ public class CursorSlotMixin {
             return;
         }
         if (game == null || !game.isRunning()) return;
+
+        if ("PREVENT_PICKUP".equals(WatheExtendedServerConfig.getShootInnocentPunishmentMode())
+                && groundStack.isOf(WatheItems.REVOLVER)
+                && WatheExtendedWorldComponent.KEY.get(player.getWorld()).isRevolverPickupBlocked(player.getUuid())) {
+            ci.cancel();
+            return;
+        }
 
         ItemStack cursor = player.currentScreenHandler.getCursorStack();
         if (!cursor.isEmpty() && cursor.isIn(WatheItemTags.GUNS)) {

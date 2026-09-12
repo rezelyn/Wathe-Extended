@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.client.screen.config;
 
+import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import cat.rezelyn.watheextended.api.GameComponents;
 import cat.rezelyn.watheextended.api.config.ClientConfig;
 import cat.rezelyn.watheextended.api.config.hml.ConfigHelper;
@@ -11,7 +12,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 
-import java.util.Arrays;
 import java.util.function.BiConsumer;
 
 import static cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getEnableNoellesRolesModify;
@@ -115,21 +115,12 @@ public final class OptionsCategory {
                 .binding(60, () -> ClientConfig.getInt("watheextended.killIncreaseTime", 60), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.killIncreaseTime", value))
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
-
-        if (cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper.isLoaded()) {
-            final String[] punishmentModes = cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper.getPunishmentModes();
-
-            group.option(Option.<String>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.shooterpunishment"))
-                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.shooterpunishment.desc")))
-                    .binding(cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper.getCurrentPunishment(), cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper::getCurrentPunishment, value -> ScreenUtils.stage(sendCommand, parent, "shooterpunishments.currentMode", value))
-                    .controller(option -> CyclingListControllerBuilder.create(option).values(Arrays.asList(punishmentModes)).formatValue(value -> {
-                        String string = value.replaceAll("([A-Z])", " $1");
-                        return Text.literal(Character.toUpperCase(string.charAt(0)) + string.substring(1));
-                    }))
-                    .build());
-        }
-
+        group.option(Option.<String>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.shooterpunishment"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.shooterpunishment.desc")))
+                .binding("DEFAULT", () -> ClientConfig.getString("watheextended.shootInnocentPunishmentMode", "DEFAULT"), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.shootInnocentPunishmentMode", value))
+                .controller(option -> CyclingListControllerBuilder.create(option).values(java.util.Arrays.asList("DEFAULT", "PREVENT_PICKUP", "KILL_SHOOTER", "KILL_BOTH")).formatValue(Text::literal))
+                .build());
         group.option(Option.<Integer>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.backfire"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.backfire.desc")))
