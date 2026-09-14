@@ -95,8 +95,9 @@ dependencies {
     // Harpy Mod Loader and Addons
     modApi "maven.modrinth:harpymodloader:${project.harpymodloader_version}"
 
-    // modApi files("libs/noellesroles-1.7.2-h1.4.jar")
-    // modApi "maven.modrinth:noelles-roles-tmm:${project.noelles_roles_version}"
+    modApi files("libs/noellesroles-1.7.2-h1.4.jar")
+    modApi "maven.modrinth:noelles-roles-tmm:${project.noelles_roles_version}"
+
     modApi "maven.modrinth:stupid-express:${project.stupid_express_version}"
     modApi "maven.modrinth:starexpress:${project.starexpress_version}"
     modApi "maven.modrinth:kinswathe:${project.kinswathe_version}"
