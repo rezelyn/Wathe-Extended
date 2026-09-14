@@ -349,24 +349,11 @@ public class AddonsConfigCommand {
             );
         }
 
-        // More Shooter Punishements
-        if (cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper.isLoaded()) {
-            root.then(
-                CommandManager.literal("shooterpunishments")
-                        .then(CommandManager.literal("setMode").then(CommandManager.argument("mode", com.mojang.brigadier.arguments.StringArgumentType.word())
-                        .executes(update(
-                                context -> cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper.setMode(
-                                        com.mojang.brigadier.arguments.StringArgumentType.getString(context, "mode")
-                                )
-                        ))))
-            );
-        }
-
         // Starry Express
         if (cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.isLoaded()) {
             root.then(
                 CommandManager.literal("starexpress")
-                        /// STARSTUCK
+                        /// STARSTRUCK
                         .then(CommandManager.literal("setStarstruckTaskReducesCooldown").then(CommandManager.argument("enabled", BoolArgumentType.bool())
                         .executes(update(
                                 context -> cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.setStarstruckTaskReducesCooldown(BoolArgumentType.getBool(context, "enabled"))

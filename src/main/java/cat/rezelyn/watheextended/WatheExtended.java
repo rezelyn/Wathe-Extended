@@ -9,7 +9,9 @@ import cat.rezelyn.watheextended.index.*;
 import cat.rezelyn.watheextended.modifiers.WatheExtendedModifiers;
 import cat.rezelyn.watheextended.modifiers.IntrovertedModifier;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.cca.PlayerPoisonComponent;
 import net.fabricmc.api.ModInitializer;
+import org.agmas.noellesroles.infected.InfectedPlayerComponent;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -43,9 +45,25 @@ public class WatheExtended implements ModInitializer {
             GameWorldComponent gwc = GameWorldComponent.KEY.get(world);
             if (gwc == null) return;
             if (gwc.getGameStatus() == GameWorldComponent.GameStatus.STOPPING) {
+                // clear all potion effects
                 List<StatusEffectInstance> effects = new java.util.ArrayList<>(player.getStatusEffects());
                 for (StatusEffectInstance effect : effects) {
                     player.removeStatusEffect(effect.getEffectType());
+                }
+                // clear poison effect
+                try {
+                    PlayerPoisonComponent poison = PlayerPoisonComponent.KEY.get(player);
+                    if (poison != null) {
+                        poison.poisoner = null;
+                        poison.reset();
+                    }
+                } catch (Throwable ignored) {
+                }
+                // clear infected effect
+                try {
+                    InfectedPlayerComponent infected = InfectedPlayerComponent.KEY.get(player);
+                    if (infected != null) infected.reset();
+                } catch (Throwable ignored) {
                 }
             }
         } catch (Throwable ignored) {
@@ -76,7 +94,6 @@ public class WatheExtended implements ModInitializer {
         cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.registerEntries();
         cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper.registerEntries();
         cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.registerEntries();
-        cat.rezelyn.watheextended.api.config.shooterpunishments.ConfigHelper.registerEntries();
 
         // core
         registerServerConfigEntries();
@@ -170,6 +187,9 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalString("watheextended.jumpMode", "LOBBY",
                 WatheExtendedServerConfig::getJumpMode,
                 WatheExtendedServerConfig::setJumpMode));
+        ServerConfig.register(ServerConfig.Entry.globalString("watheextended.shootInnocentPunishmentMode", "DEFAULT",
+                WatheExtendedServerConfig::getShootInnocentPunishmentMode,
+                WatheExtendedServerConfig::setShootInnocentPunishmentMode));
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.cleaner.playerLimit", 10,
                 WatheExtendedServerConfig::getCleanerPlayerLimit,
                 WatheExtendedServerConfig::setCleanerPlayerLimit));
@@ -299,6 +319,12 @@ public class WatheExtended implements ModInitializer {
             if (game == null) return;
 
             GameWorldComponent.GameStatus status = game.getGameStatus();
+
+            if (status == GameWorldComponent.GameStatus.STOPPING) {
+                for (ServerPlayerEntity player : serverWorld.getPlayers()) {
+                    clearEffects(serverWorld, player);
+                }
+            }
 
             TeleportationHandler.tick(serverWorld, status, worldTime);
 

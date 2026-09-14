@@ -5,7 +5,9 @@ import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import cat.rezelyn.watheextended.game.TeleportationSlot;
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtString;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -31,6 +33,7 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
     private final World world;
     private final Map<Integer, TeleportationSlot> teleportationSlots = new LinkedHashMap<>();
     private final Set<UUID> killedPlayers = new HashSet<>();
+    private final Set<UUID> revolverPickupBlockedPlayers = new HashSet<>();
     private int nextSlotId = 1;
     private MapVariablesWorldComponent.PosWithOrientation readyAreaSpawnPos = DEFAULT_READY_AREA_SPAWN_POS;
     private Box lobbyArea = DEFAULT_LOBBY_AREA;
@@ -53,6 +56,22 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
     }
     public void clearKilledPlayers() {
         killedPlayers.clear();
+    }
+
+    public void blockRevolverPickup(UUID uuid) {
+        revolverPickupBlockedPlayers.add(uuid);
+    }
+
+    public void unblockRevolverPickup(UUID uuid) {
+        revolverPickupBlockedPlayers.remove(uuid);
+    }
+
+    public boolean isRevolverPickupBlocked(UUID uuid) {
+        return revolverPickupBlockedPlayers.contains(uuid);
+    }
+
+    public void clearRevolverPickupBlocks() {
+        revolverPickupBlockedPlayers.clear();
     }
 
     private static MapVariablesWorldComponent.PosWithOrientation getPosWithOrientationFromNbt(NbtCompound tag, String name) {
@@ -219,6 +238,17 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
             }
         }
         this.nextSlotId = teleportationSlots.isEmpty() ? 1 : Collections.max(teleportationSlots.keySet()) + 1;
+
+        this.revolverPickupBlockedPlayers.clear();
+        if (tag.contains("revolverPickupBlockedPlayers")) {
+            NbtList list = tag.getList("revolverPickupBlockedPlayers", NbtElement.STRING_TYPE);
+            for (int i = 0; i < list.size(); i++) {
+                try {
+                    this.revolverPickupBlockedPlayers.add(UUID.fromString(list.getString(i)));
+                } catch (Throwable ignored) {
+                }
+            }
+        }
     }
 
     @Override
@@ -245,5 +275,11 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
             list.add(slotTag);
         }
         tag.put("teleportationSlots", list);
+
+        NbtList blockedPlayers = new NbtList();
+        for (UUID uuid : this.revolverPickupBlockedPlayers) {
+            blockedPlayers.add(NbtString.of(uuid.toString()));
+        }
+        tag.put("revolverPickupBlockedPlayers", blockedPlayers);
     }
 }

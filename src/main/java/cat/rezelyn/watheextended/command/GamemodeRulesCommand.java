@@ -33,6 +33,19 @@ public class GamemodeRulesCommand {
             WatheExtendedServerConfig.setJumpMode("EVERYWHERE");
             return sync(ctx);
         })));
+        dispatcher.register(CommandManager.literal("watheextended:shootInnocentPunishmentMode").requires(source -> source.hasPermissionLevel(2)).then(CommandManager.literal("DEFAULT").executes(ctx -> {
+            WatheExtendedServerConfig.setShootInnocentPunishmentMode("DEFAULT");
+            return sync(ctx);
+        })).then(CommandManager.literal("PREVENT_PICKUP").executes(ctx -> {
+            WatheExtendedServerConfig.setShootInnocentPunishmentMode("PREVENT_PICKUP");
+            return sync(ctx);
+        })).then(CommandManager.literal("KILL_SHOOTER").executes(ctx -> {
+            WatheExtendedServerConfig.setShootInnocentPunishmentMode("KILL_SHOOTER");
+            return sync(ctx);
+        })).then(CommandManager.literal("KILL_BOTH").executes(ctx -> {
+            WatheExtendedServerConfig.setShootInnocentPunishmentMode("KILL_BOTH");
+            return sync(ctx);
+        })));
     }
 
     private static int setPlayerCollisions(CommandContext<ServerCommandSource> context) {
