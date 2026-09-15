@@ -117,8 +117,8 @@ public final class GuidebookEntryBuilder {
     private record GuideSection(String headerKey, int headerColor, String iconName, List<String> topics) {
     }
 
-    private static final int GUIDE_HEADER_COLOR = 0xB07B2E;
-    private static final int GUIDE_ENTRY_COLOR = 0x4A3728;
+    private static final int GUIDE_HEADER_COLOR = 0x9B8B6B;
+    private static final int GUIDE_ENTRY_COLOR = 0x404040;
     private static final int GUIDE_CIVILIAN_COLOR = 0x75A743;
     private static final int GUIDE_KILLER_COLOR = 0xDC001E;
 
