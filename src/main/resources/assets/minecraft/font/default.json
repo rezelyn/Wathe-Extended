@@ -16,6 +16,13 @@
     },
     {
       "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/mood.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE504"]
+    },
+    {
+      "type": "bitmap",
       "file": "watheextended:gui/guidebook/sprites/items/knife.png",
       "ascent": 9,
       "height": 12,

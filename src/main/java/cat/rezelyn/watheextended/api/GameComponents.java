@@ -21,7 +21,7 @@ public final class GameComponents {
     public static int getBackfire(World world) {
         if (world == null) return 0;
         try {
-            return Math.round(GameWorldComponent.KEY.get(world).getBackfireChance() * 100);
+            return Math.round(GameWorldComponent.KEY.get(world).getBackfireChancePerInnocentKill() * 100);
         } catch (Throwable t) {
             return 0;
         }

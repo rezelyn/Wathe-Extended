@@ -18,7 +18,7 @@ public final class WatheExtendedModifiers {
     public static Modifier ADAPTIVE;
 
     // roles that should never receive the Introverted modifier
-    private static final Set<String> INTROVERTED_ROLE_BLACKLIST = Set.of(
+    private static final Set<String> INTROVERTED_ROLE_DENYLIST = Set.of(
             "kinswathe:robot",
             "kinswathe:dreamer",
             "stupid_express:thief"
@@ -32,7 +32,7 @@ public final class WatheExtendedModifiers {
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             for (Role role : WatheRoles.ROLES) {
                 if (role != null && role.identifier() != null
-                        && INTROVERTED_ROLE_BLACKLIST.contains(role.identifier().toString())
+                        && INTROVERTED_ROLE_DENYLIST.contains(role.identifier().toString())
                         && !INTROVERTED.cannotBeAppliedTo.contains(role)) {
                     INTROVERTED.cannotBeAppliedTo.add(role);
                 }

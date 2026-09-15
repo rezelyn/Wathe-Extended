@@ -3,6 +3,7 @@ package cat.rezelyn.watheextended.client.screen;
 import cat.rezelyn.watheextended.api.GameStatus;
 import cat.rezelyn.watheextended.client.screen.guidebook.GuidebookEntry;
 import cat.rezelyn.watheextended.client.screen.guidebook.GuidebookEntryBuilder;
+import cat.rezelyn.watheextended.client.screen.guidebook.GuidebookEntrySource;
 import cat.rezelyn.watheextended.client.screen.guidebook.GuidebookPageContent;
 import cat.rezelyn.watheextended.index.WatheExtendedSounds;
 import dev.doctor4t.wathe.api.Role;
@@ -16,7 +17,9 @@ import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 public class GuidebookScreen extends Screen {
 
@@ -108,8 +111,7 @@ public class GuidebookScreen extends Screen {
     // state
     private Tab activeTab = Tab.ROLES;
     private boolean firstOpen = true;
-    private List<GuidebookEntry> rolesEntries = null;
-    private List<GuidebookEntry> modifierEntries = null;
+    private final Map<Tab, List<GuidebookEntry>> entryCache = new EnumMap<>(Tab.class);
     private String selectedId = null;
     private Text selectedTitle = null;
     private int selectedColor = 0xFF3B2A1A;
@@ -556,8 +558,7 @@ public class GuidebookScreen extends Screen {
     public static void invalidateIfOpen() {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.currentScreen instanceof GuidebookScreen screen) {
-            screen.rolesEntries = null;
-            screen.modifierEntries = null;
+            screen.entryCache.clear();
             screen.refreshEntries();
         }
     }
@@ -609,22 +610,17 @@ public class GuidebookScreen extends Screen {
     }
 
     private void refreshEntries() {
-        switch (activeTab) {
-            case ROLES -> {
-                if (rolesEntries == null) rolesEntries = GuidebookEntryBuilder.roles().build();
-            }
-            case MODIFIERS -> {
-                if (modifierEntries == null) modifierEntries = GuidebookEntryBuilder.modifiers().build();
-            }
-        }
+        loadEntries(activeTab);
         recalcLeftHeight();
     }
 
+    // builds a tab's entries on first use, then serves them from the cache
+    private List<GuidebookEntry> loadEntries(Tab tab) {
+        return entryCache.computeIfAbsent(tab, key -> key.source.build());
+    }
+
     private List<GuidebookEntry> currentEntries() {
-        return switch (activeTab) {
-            case ROLES -> rolesEntries != null ? rolesEntries : List.of();
-            case MODIFIERS -> modifierEntries != null ? modifierEntries : List.of();
-        };
+        return entryCache.getOrDefault(activeTab, List.of());
     }
 
     private void recalcLeftHeight() {
@@ -679,8 +675,7 @@ public class GuidebookScreen extends Screen {
             String roleId = role.identifier().toString();
             if (activeTab != Tab.ROLES) {
                 activeTab = Tab.ROLES;
-                if (rolesEntries == null) rolesEntries = GuidebookEntryBuilder.roles().build();
-                recalcLeftHeight();
+                refreshEntries();
             }
             for (GuidebookEntry entry : currentEntries()) {
                 if (roleId.equals(entry.id())) {
@@ -818,21 +813,24 @@ public class GuidebookScreen extends Screen {
     }
 
     private enum Tab {
-        ROLES(Text.translatable("gui.watheextended.guidebook.tab.roles"), Identifier.of("watheextended", "textures/gui/guidebook/role.png"), Identifier.of("watheextended", "textures/gui/guidebook/role_unselected.png"), 12, 10),
-        MODIFIERS(Text.translatable("gui.watheextended.guidebook.tab.modifiers"), Identifier.of("watheextended", "textures/gui/guidebook/modifier.png"), Identifier.of("watheextended", "textures/gui/guidebook/modifier_unselected.png"), 12, 10);
+        ROLES(Text.translatable("gui.watheextended.guidebook.tab.roles"), Identifier.of("watheextended", "textures/gui/guidebook/role.png"), Identifier.of("watheextended", "textures/gui/guidebook/role_unselected.png"), 12, 10, GuidebookEntryBuilder.roles()),
+        MODIFIERS(Text.translatable("gui.watheextended.guidebook.tab.modifiers"), Identifier.of("watheextended", "textures/gui/guidebook/modifier.png"), Identifier.of("watheextended", "textures/gui/guidebook/modifier_unselected.png"), 12, 10, GuidebookEntryBuilder.modifiers()),
+        GAME_GUIDE(Text.translatable("gui.watheextended.guidebook.tab.game_guide"), Identifier.of("watheextended", "textures/gui/guidebook/game_guide.png"), Identifier.of("watheextended", "textures/gui/guidebook/game_guide_unselected.png"), 12, 10, GuidebookEntryBuilder.gameGuide());
 
         final Text label;
         final Identifier icon;
         final Identifier iconUnselected;
         final int iconW;
         final int iconH;
+        final GuidebookEntrySource source;
 
-        Tab(Text label, Identifier icon, Identifier iconUnselected, int iconW, int iconH) {
+        Tab(Text label, Identifier icon, Identifier iconUnselected, int iconW, int iconH, GuidebookEntrySource source) {
             this.label = label;
             this.icon = icon;
             this.iconUnselected = iconUnselected;
             this.iconW = iconW;
             this.iconH = iconH;
+            this.source = source;
         }
     }
 }

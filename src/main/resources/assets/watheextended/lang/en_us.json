@@ -66,7 +66,7 @@
 
 
   "tooltip.watheextended.item.knife": "Right-click (Hold) and prepare the knife to stab a player\nLeft-click to push a player",
-  "tooltip.watheextended.item.revolver": "Right-click to shoot\nDrops if you shoot an innocent player",
+  "tooltip.watheextended.item.revolver": "Left-click to shoot\nDrops if you shoot an innocent player",
   "tooltip.watheextended.item.grenade": "Right-click to throw, explodes on impact\nGood to clear groups of people, but be wary of the blast radius!\nSingle use",
   "tooltip.watheextended.item.psycho_mode": "\"Do you like hurting other people?\"\nHides your identity and allows you to go crazy with a bat for 30 seconds\nBat kills on full swing and cannot be unselected for the duration of the ability\nActivated instantly upon purchase",
   "tooltip.watheextended.item.lockpick": "Right-click on any locked door to open it\nSneak + Right-click on a door to jam it for 1 minute",
@@ -96,6 +96,11 @@
   "tooltip.watheextended.item.cooldown.seconds": "seconds",
   "tooltip.watheextended.item.cooldown.minute": "minute",
   "tooltip.watheextended.item.cooldown.minutes": "minutes",
+
+
+
+  "announcement.role.secret_killer": "Killer",
+
 
 
   "announcement.modifier.watheextended.introverted": "Introverted",
@@ -147,6 +152,9 @@
   "gui.watheextended.config.category.client.opt.showchat.desc": "When enabled, restore the chat HUD in read-only mode during an active game.\n\nOP players are still able to send messages and commands during a game.\n\n§6Default: §aON",
   "gui.watheextended.config.category.client.opt.staminabar": "Stamina Bar",
   "gui.watheextended.config.category.client.opt.staminabar.desc": "When enabled, displays the stamina bar HUD element.\n\n§6Default: §cOFF",
+  "gui.watheextended.config.category.client.label.keybinds": "Keybinds",
+  "gui.watheextended.config.category.client.opt.instinctmode": "Instinct Mode",
+  "gui.watheextended.config.category.client.opt.instinctmode.desc": "Choose whether the Instinct keybind must be held or can be toggled on and off.\n\n§6Default: §eHOLD",
   "gui.watheextended.config.category.client.label.visual": "Visuals",
   "gui.watheextended.config.category.client.opt.screenshake": "Screen Shake",
   "gui.watheextended.config.category.client.opt.screenshake.desc": "Toggle the screen shake effect completely.\n\n§6Default: §aON",
@@ -191,9 +199,9 @@
   "gui.watheextended.config.category.options.group.wathe_options.tooltip": "Configure various core options related to WATHE gameplay and mechanics.",
   "gui.watheextended.config.category.options.group.wathe_options.label.global": "Global",
   "gui.watheextended.config.category.options.group.wathe_options.opt.backfire": "Backfire Chance",
-  "gui.watheextended.config.category.options.group.wathe_options.opt.backfire.desc": "The percentage chance that a shot will backfire and kill the shooter instead of the target.\nSet to 0 to disable backfire.\n\n§6Default: §e0",
+  "gui.watheextended.config.category.options.group.wathe_options.opt.backfire.desc": "The percentage chance increase, per innocent kill, that a shot will backfire and kill the shooter instead of the target.\nSet to 0 to disable backfire.\n\n§6Default: §e0",
   "gui.watheextended.config.category.options.group.wathe_options.opt.shooterpunishment": "Shooter Punishment",
-  "gui.watheextended.config.category.options.group.wathe_options.opt.shooterpunishment.desc": "Controls what happens when someone shoots an innocent player with a Revolver.\n\n• Default: Shooter will drop their Revolver and cannot pick it back up. Can still pick up guns other players drop.\n• Prevent Gun Pickup: Shooter will drop their Revolver and cannot pick up any guns for the rest of the game.\n• Kill Shooter: Shooter will be instantly killed alongside the target they shot.",
+  "gui.watheextended.config.category.options.group.wathe_options.opt.shooterpunishment.desc": "Controls what happens when someone shoots an innocent player with a Revolver.\n\n• DEFAULT:\n §7Target will be killed, Shooter will drop their Revolver and cannot pick it back up. Can still pick up guns other players drop.§r\n• PREVENT PICKUP:\n §7Target will be killed, Shooter will drop their Revolver and will be unable to pick up any more Revolvers for the rest of the game.§r\n• KILL SHOOTER:\n §7Target will survive, Shooter will be killed instead while droping their Revolver.§r\n• KILL BOTH:\n §7Target & Shooter will both be killed while droping the Revolver.",
   "gui.watheextended.config.category.options.group.wathe_options.opt.roledividend_killer": "Killer Role Dividend",
   "gui.watheextended.config.category.options.group.wathe_options.opt.roledividend_killer.desc": "The dividend value used to determine how many Killers are assigned per number of players.\n\n§6Default: §e5",
   "gui.watheextended.config.category.options.group.wathe_options.opt.roledividend_vigilante": "Vigilante Role Dividend",
@@ -545,12 +553,65 @@
 
   "gui.watheextended.guidebook.title": "Guidebook",
 
+  "gui.watheextended.guidebook.tab.game_guide": "Game Guide",
   "gui.watheextended.guidebook.tab.modifiers": "Modifiers",
   "gui.watheextended.guidebook.tab.roles": "Roles",
 
   "gui.watheextended.guidebook.left_page.roles.side.civilian": "Civilian Roles",
   "gui.watheextended.guidebook.left_page.roles.side.killer": "Killer Roles",
   "gui.watheextended.guidebook.left_page.roles.side.neutral": "Neutral Roles",
+
+  "gui.watheextended.guidebook.left_page.guide.section.overview": "The Basics",
+  "gui.watheextended.guidebook.left_page.guide.section.civilians": "For Civilians",
+  "gui.watheextended.guidebook.left_page.guide.section.killers": "For Killers",
+
+  "gui.watheextended.guidebook.guide.title.overview": "Overview",
+  "gui.watheextended.guidebook.guide.title.sides": "Sides",
+  "gui.watheextended.guidebook.guide.title.round_flow": "The Journey",
+  "gui.watheextended.guidebook.guide.title.voice_chat": "Proximity Voice Chat",
+  "gui.watheextended.guidebook.guide.title.doors": "Doors & Keys",
+  "gui.watheextended.guidebook.guide.title.coins": "Coins",
+  "gui.watheextended.guidebook.guide.title.abilities": "Abilities",
+  "gui.watheextended.guidebook.guide.title.bodies": "Bodies",
+
+  "gui.watheextended.guidebook.guide.title.mood": "Mood",
+  "gui.watheextended.guidebook.guide.title.vigilante": "Vigilantes",
+  "gui.watheextended.guidebook.guide.title.civilian_tips": "Civilian Tips",
+  "gui.watheextended.guidebook.guide.title.poison_tip": "Poison",
+  "gui.watheextended.guidebook.guide.title.shootouts": "Shootouts",
+
+  "gui.watheextended.guidebook.guide.title.instinct": "Instinct",
+  "gui.watheextended.guidebook.guide.title.killer_tips": "Killer Tips",
+  "gui.watheextended.guidebook.guide.title.knife_tip": "The Knife",
+  "gui.watheextended.guidebook.guide.title.lockpick_tip": "The Lockpick",
+  "gui.watheextended.guidebook.guide.title.grenade_tip": "The Grenade",
+  "gui.watheextended.guidebook.guide.title.blackout_tip": "The Blackout",
+  "gui.watheextended.guidebook.guide.title.psycho_tip": "Psycho Mode",
+  "gui.watheextended.guidebook.guide.title.countering_grouping": "Countering Groups",
+
+  "gui.watheextended.guidebook.guide.desc.overview": "Every passenger boards the Harpy Express with a secret §orole§r and, sometimes, a §omodifier§r. Nobody is told who anyone else is. Your role decides your goal, your equipment and your abilities.\n\nOpen this guidebook at any time to look up your own role, everyone else's, and the modifiers currently in play.",
+  "gui.watheextended.guidebook.guide.desc.sides": "Roles belong to one of three sides:\n\n{icon:civilian} §2Civilians§r win by either surviving the journey or by killing both of the killers.\n{icon:killer} §4Killers§r eliminate everyone aboard, often working together.\n{icon:neutral} §6Neutrals§r may have their own objective to win, or may win alongside either the killers or the innocents.\n\nA role marked with {icon:disabled} in the Roles tab is disabled on this server and will not appear.",
+  "gui.watheextended.guidebook.guide.desc.round_flow": "Each round begins in the ready area, where players gather before departure.\n\nTo play the game, you must be boarded on the train before departure. Passengers not boarded will spectate the round.\n\nOnce the train sets off, roles are handed out and the journey proper begins.",
+  "gui.watheextended.guidebook.guide.desc.voice_chat": "Passengers talk to each other with §oproximity voice chat§r: you are heard by the people around you, and the further away someone stands, the quieter they get. Step out of range and they cannot hear you at all.\n\nYou can configure the voice chat by opening the menu for it using §6§l[V]§r by default, use either push-to-talk or switch to voice activation in the voice chat settings.\n\nThe same menu holds your microphone, volume and whisper controls, and lets you mute individual passengers.",
+  "gui.watheextended.guidebook.guide.desc.doors": "Not every door aboard is open to everyone. Some are locked to a unique room key given to one or more random passengers at departure, some can be jammed shut with a {icon:lockpick} §lLockpick§r, and some open only to a specific item.\n\nThe doors on a connector carriage open onto a ladder up to the roof of the train, useful as a hiding spot and as an escape route.",
+  "gui.watheextended.guidebook.guide.desc.coins": "{icon:coin} §6Coins§r are the currency of the Harpy Express. All killers earn money, as well as some passengers.\n\nMoney can be seen in the top-right corner of your screen, if do not see anything or if there's no items for sale in your inventory, you do not earn money.\n\nYour main source of income as a killer is getting kills, and as a passengers, you can gain coins by either keeping your {icon:mood} §2mood§r, completing tasks or, depending on the game settings and your role, earn some income passively over time.",
+  "gui.watheextended.guidebook.guide.desc.abilities": "Many roles carry an active or passive ability. Actives are bound to your ability key: §6§l[G]§r by default, and go on cooldown once used; passives simply work.\n\nThe Abilities page of a role lists everything it can do.",
+  "gui.watheextended.guidebook.guide.desc.bodies": "A dead passenger leaves a body behind. Bodies are evidence, as well as interactable for some abilities and items.\n\nAfter some time decaying however, only the skeleton will remain.",
+
+  "gui.watheextended.guidebook.guide.desc.mood": "Your {icon:mood} §2mood§r is the bar and icon in the top-left corner your HUD, and it drains slowly for the whole journey. Left alone it only ever falls, you keep it up by doing the small human things, eating, drinking, sleeping, taking a breath outside...\nYour current task will appear written beside the bar.\n\nLet it sink far enough and you become §odepressed§r, and may hallucinate items in other passengers' hands, be unable to use your ability or, depending on the settings of the game, be unable to recognise familiar faces.",
+  "gui.watheextended.guidebook.guide.desc.vigilante": "§bVigilantes§r start with a {icon:revolver} §lRevolver§r. Left-click to shoot; it kills instantly within somewhat of a long range, and it is the only reliable answer to a killer who has already reached you.\n\n§cBe certain before you fire.§r Shooting an innocent is punished.\n\nBy default you drop your {icon:revolver} §lRevolver§r and can never pick that exact same one up again, though you may still take one somebody else drops. Stricter game rules settings may stop you picking up §oany§r {icon:revolver} §lRevolvers§r for the rest of the round, or kill you outright alongside the passenger you shot.\n\nA dead §bVigilantes§r drops their {icon:revolver} §lRevolver§r where they fell, so the gun stays in play for whoever finds it.",
+  "gui.watheextended.guidebook.guide.desc.civilian_tips": "The best strategy as a survivor is to find and stick to those you trust. §bVigilantes§r are best, but any group will do.\n\nJust be careful not to bunch up too tightly. A crowd standing shoulder to shoulder is exactly what a killer wants for a {icon:grenade} §lGrenade§r or going {icon:psycho_mode} §lPsycho Mode§r.",
+  "gui.watheextended.guidebook.guide.desc.poison_tip": "Killers may {icon:poison_vial} §lPoison§r beds, drinks and food. If you can, interact with those items directly after someone else, the second drink is never poisoned!\n\nCarrying spare food and drink is also worth it, late in the round it may be the {icon:mood} §2mood§r boost you need at a moment when you cannot safely go and fetch another.",
+  "gui.watheextended.guidebook.guide.desc.shootouts": "If you are one of the last few survivors, your first priority is finding a {icon:revolver} §lRevolver§r. Dead §bVigilantes§r drop theirs where they fell, so it is worth searching the train.\n\nHiding and timing the killer out is the alternative, but some of them may have {icon:instinct} §4Instinct§r and can see you through walls, so hiding rarely holds. Taking risks to find the {icon:revolver} §lRevolver§r is usually the better bet.\n\nOnce you have one, hold a long line of sight down a carriage rather than a corner. The extra distance is the time you need to react and shoot first.",
+
+  "gui.watheextended.guidebook.guide.desc.instinct": "{icon:instinct} §4Instinct§r is your most important tool. Hold §6§l[Left-Alt]§r to see every player and fallen items through the walls of the train, your §4Killer Cohorts§r included.\n\nUse it before you commit to anything: check that a carriage is empty before you draw a weapon, count how many passengers are grouped in the next car, follow a target through a wall instead of down a corridor, and pick your moment on a straggler.\nIt is also the only way to see anything during a {icon:blackout} §lBlackout§r.",
+  "gui.watheextended.guidebook.guide.desc.killer_tips": "The best strategy as a killer is to use your {icon:instinct} §4Instinct§r as much as possible. As soon as you spot a lone player, take the opportunity.\n\nIf you can work out who the §bVigilantes§r are, stay away from them entirely, you lose nothing by waiting, they'll kill you instantly if they get the shot!",
+  "gui.watheextended.guidebook.guide.desc.knife_tip": "The {icon:knife} §lKnife§r is your most useful item in the game. Hold §6§l[Right-Click]§r to brandish it, then release while your crosshair is on your victim once the sound finishes to kill them.\n\nLeft-click applies knockback instead, on no cooldown at all, enough to shove a passenger off the train.\n\nThe {icon:knife} §lKnife§r makes sounds when being branded and when stabbing someone, be sure to be separated from lurkers when killing a passenger.\nOn a side-note, you can't just brand the {icon:knife} §lKnife§r indefinitely, after 3 seconds of branding it continuously, your arm will drop of fatigue forcing you to rebrand the {icon:knife} §lKnife§r.",
+  "gui.watheextended.guidebook.guide.desc.lockpick_tip": "If your identity has been revealed and you need to get away, buy the {icon:lockpick} §lLockpick§r. You can open the connector doors up onto the roof of the train by doing §6§l[Right-Click]§r on it.\nYou can also temporally jam doors behind you using §6§l[Shift] + [Right-Click]§r",
+  "gui.watheextended.guidebook.guide.desc.grenade_tip": "The {icon:grenade} §lGrenade§r can kill multiple grouped passengers at once, which is both a boon and a curse, it will take a group in the next carriage, and it will take you as well if you are too close. Mind your own position before you throw.",
+  "gui.watheextended.guidebook.guide.desc.blackout_tip": "The {icon:blackout} §lBlackout§r cuts every light aboard.\n\nUse {icon:instinct} §4Instinct§r to see your surroundings and the passengers while it lasts, they'll have a hard time seeing you at all.",
+  "gui.watheextended.guidebook.guide.desc.psycho_tip": "In {icon:psycho_mode} §lPsycho Mode§r, do not spam click. Time each swing with the attack indicator instead.\n\nWhile being in that form, you cannot interact with anything except lamps and unlocked doors, you cannot switch off the {icon:bat} §lBat§r until the end of it.\n\nYou are also invulnerable to one {icon:revolver} §lRevolver§r shot, after being shot once, the second shot will be fatal.",
+  "gui.watheextended.guidebook.guide.desc.countering_grouping": "You may find that the survivors group up so heavily that a kill is almost impossible.\n\nIf that happens, work for one kill first so you can afford an expensive option:\nThe {icon:blackout} §lBlackout§r, {icon:psycho_mode} §lPsycho Mode§r or the {icon:grenade} §lGrenade§r all deal with a crowd far better than a {icon:knife} §lKnife§r does.",
 
   "gui.watheextended.guidebook.right_page.hint.select": "Select an entry",
   "gui.watheextended.guidebook.right_page.roles.subtitle.abilities": "Abilities",
@@ -578,6 +639,7 @@
   "gui.watheextended.guidebook.role.desc.kinswathe.physician": "The Physician is a renowned figure in science, particularly in the study of deadly plants, poisons, and toxins. Globally recognized for discovering a cure for methanol poisoning, their presence aboard the Harpy Express is essential to safeguard its high-class passengers, especially those who may be targeted by malintentioned individuals from any assassination attempts involving poison.",
   "gui.watheextended.guidebook.role.desc.kinswathe.robot": "A highly advanced and sophisticated machine, the Robot is a \"passenger\" that serves as a source of entertainment and amusement for the other passengers. Deprived of any emotions the Robot will never feel depressed, lonely or scared, making it the perfect candidate for testing dangerous and risky stuff without any consequences.",
   "gui.watheextended.guidebook.role.desc.kinswathe.hacker": "The Hacker, a skilled black hat that work alongside well-known serial-killers. With their expertise in technology and computer systems, they can setup private and secured communication systems to work with their Killer Cohorts. Their abilities allow them to help their fellow companions on having the job done faster than usual and to gather valuable information about other passengers, must stay safe over the Internet...",
+  "gui.watheextended.guidebook.role.desc.kinswathe.technician": "The technician is prepared for any scenario, able to fix jammed doors, blackouts, and has a capture device to trap passing players.",
   "gui.watheextended.guidebook.role.desc.noellesroles.awesome_binglus": "As silly as they can be, they love to have fun and make jokes, often by writing down ridiculous things on their Notes and sticking them all around the place for whatever reason. How many Notes do they have? Can someone please tell them to stop sticking those Notes everywhere?",
   "gui.watheextended.guidebook.role.desc.noellesroles.bartender": "The Bartender is a skilled mixologist who serves up a variety of cocktails to the passengers. However, the Bartender's talents extend beyond just mixing drinks, they also have a keen sense for detecting when someone has recently enjoyed one of their cocktails, how is this even possible?",
   "gui.watheextended.guidebook.role.desc.noellesroles.better_vigilante": "Just like the Vigilante, the Better Vigilante is the highest class of security personnel aboard the Harpy Express, responsible for ensuring the safety and well-being of all passengers. Since the Better Vigilante is a more experienced and skilled version of the Vigilante, they are given access to an additional tool alongside their Revolver to ensure the safety of the passengers inside the train, a... GRENADE?!",
@@ -595,7 +657,8 @@
   "gui.watheextended.guidebook.role.desc.noellesroles.trapper": "A formerly retired hunter, the Trapper has a knack for setting up traps to ensnare and catch small animals. However, their skills have taken a darker turn as they now use their expertise to set up traps to spy and stalk on unsuspecting victims. With a deep understanding of the terrain and a keen eye for detail, the Trapper can strategically place traps in tactical areas, allowing them to gather valuable information about other people's privacy.",
   "gui.watheextended.guidebook.role.desc.noellesroles.voodoo": "A sinister and malevolent entity, embodying the dark arts of voodoo magic. The Voodoo is capable to establish a mystical connection with another being, linking their fates together in a twisted bond. Everything that can happen to the Voodoo will also happen to the linked being, making them a puppet in the Voodoo's hands.",
   "gui.watheextended.guidebook.role.desc.noellesroles.vulture": "Some people may also call them, the Cannibal, as they have an insatiable hunger for dead corpses. Their primary objective is to eat the remains of fallen players, consuming enough corpses to satisfy their hunger and ultimately transform into a formidable §4Killer§r. Gross...",
-  "gui.watheextended.guidebook.role.desc.noellesroles.infected": "A doomed soul, the infected perfers company in the afterlife. Its objective is to infect the entire train. Their primary ability is to infect nearby players. Cursing them to a a very slow death.\n Infection may also spread when players interact with items dropped by the infected. The infection can be cured by a defense vial.",
+  "gui.watheextended.guidebook.role.desc.noellesroles.infected": "A doomed soul, the infected prefers company in the afterlife. Its objective is to infect the entire train. Their primary ability is to infect nearby players. Cursing them to a a very slow death.\n Infection may also spread when players interact with items dropped by the infected. The infection can be cured by a defense vial.",
+  "gui.watheextended.guidebook.role.desc.noellesroles.recon": "An intelligent killer that chooses his victims carefully, the Recon spawns with three role mines that can reveal the roles of their victims before their untimely demise.",
   "gui.watheextended.guidebook.role.desc.starexpress.muzzler": "Silence is key, the Muzzler favors a stealthy and silent approach, using their unique approach: muzzle their victim or witnesses so they can't call for help, often killing them in the process.",
   "gui.watheextended.guidebook.role.desc.starexpress.starstruck": "A supernatural athlete, the Starstruck is capable of achieving incredible feats of agility and speed, making them a formidable competitor in any physical challenge. With their extraordinary abilities, the Starstruck can flee from danger with ease, that the cost of flashing everyone close to them as they start running, close your eyes!",
   "gui.watheextended.guidebook.role.desc.stupid_express.amnesiac": "Waking up in an unfamiliar train with no memory of who they are or how they got there, the Amnesiac is a passenger plagued by a complete loss of identity. Struggling to piece together fragments of their past, they navigate the train with a sense of confusion and vulnerability. Upon looking at other people, they may experience brief flashes of memory, but these glimpses are fleeting and often leave them with more questions than answers. They may find a way to retrieve their memories, but how?",
@@ -619,7 +682,7 @@
   "gui.watheextended.guidebook.role.abilities.kinswathe.kidnapper": "{icon:instinct} §lInstinct§r\nSee players and §4Killer Cohorts§r through walls.\n\n{icon:athletic} §lAthletic§r\nHas infinite stamina.",
   "gui.watheextended.guidebook.role.abilities.kinswathe.licensed_villain": "{icon:nemesis} §lUnsentimental§r\nCan shoot at any passengers without ever dropping their Revolver",
   "gui.watheextended.guidebook.role.abilities.kinswathe.physician": "{icon:sense} §lPoison Sense§r\nSee players who've recently been poisoned through walls.",
-  "gui.watheextended.guidebook.role.abilities.kinswathe.robot": "{icon:last_words} §lReboot§r\nWhen triggered, you will have the ability to see in the dark for a short period of time.\n\n{icon:undercover} §lMachine§r\nYou don't have any emotions, no mood system. You're also immune to poisoning.\n\n{icon:athletic} §lAthletic§r\nHas infinite stamina.",
+  "gui.watheextended.guidebook.role.abilities.kinswathe.robot": "{icon:last_words} §lReboot§r\nWhen triggered, you will have the ability to see in the dark for a short period of time.\n\n{icon:undercover} §lMachine§r\nYou don't have any emotions, no {icon:mood} §2mood§r system. You're also immune to poisoning.\n\n{icon:athletic} §lAthletic§r\nHas infinite stamina.",
   "gui.watheextended.guidebook.role.abilities.noellesroles.awesome_binglus": "{icon:instinct} §lInstinct§r\nSee Notes through walls.",
   "gui.watheextended.guidebook.role.abilities.noellesroles.bartender": "{icon:sense} §lCocktail Sense§r\nSee players who've recently consumed a cocktail and players that have a §9Defense Shield§r through walls.",
   "gui.watheextended.guidebook.role.abilities.noellesroles.coroner": "{icon:autopsy} §lAutopsy§r\nInspect a dead body to learn the victim's role, cause of death, and time of death.",
@@ -635,6 +698,7 @@
   "gui.watheextended.guidebook.role.abilities.noellesroles.voodoo": "{icon:voodoo} §lVoodoo Doll§r\nLink a player as your voodoo doll. When you die, the currently linked player dies with you.",
   "gui.watheextended.guidebook.role.abilities.noellesroles.vulture": "{icon:cannibal} §lCannibal§r\nEat enough corpses to satisfy your hunger and become a §4Killer Role§r.",
   "gui.watheextended.guidebook.role.abilities.noellesroles.infected": "{icon:infection} §lInfected§r\nUse to infect a player. Applies a slow poison to them.",
+  "gui.watheextended.guidebook.role.abilities.noellesroles.recon": "{icon:instinct} §lInstinct§r\nSee players and §4Killer Cohorts§r through walls.\n\n{icon:athletic} §lAthletic§r\nHas infinite stamina.",
   "gui.watheextended.guidebook.role.abilities.starexpress.muzzler": "{icon:instinct} §lInstinct§r\nSee players and §4Killer Cohorts§r through walls.\n\n{icon:athletic} §lAthletic§r\nHas infinite stamina.",
   "gui.watheextended.guidebook.role.abilities.starexpress.starstruck": "{icon:starstruck} §lStarstruck§r\nGrant a boost of speed for a short period of time, with an audible cue and particles effects upon activation.",
   "gui.watheextended.guidebook.role.abilities.stupid_express.amnesiac": "{icon:undercover} §lImpersonate§r\nInteract with a dead body to steal their role, therefore becoming that role and switching to the side of the role.",
@@ -694,7 +758,7 @@
   "gui.watheextended.guidebook.modifier.desc.noellesroles.stealth": "Invisible to instinct unless the target >10 blocks away",
   "gui.watheextended.guidebook.modifier.desc.starexpress.allergic": "Gives a random allergy type, upon consuming their affected consumable type, the Allergic will receive one of the following effects:\n• §2Nothing§r\n  (?/? chance)\n• §aInstinct§r\n  (?/? chance)\n• §9Defense Shield§r\n  (?/? chance)\n• §4Poison§r\n  (?/? chance)",
   "gui.watheextended.guidebook.modifier.desc.stupid_express.lovers": "Will assign pair of players as lovers, if one of the lovers dies, the other one dies of heartbreak.\nTheir goal is to be the last two standing, but they can win alongside the §2Civilians§r if they are both §2Civilians§r.",
-  "gui.watheextended.guidebook.modifier.desc.watheextended.introverted": "You hate being into large crowds.\nIf more than %s players are around you inside a radius of %s blocks you will start feeling anxious, your mood will decrease faster.\nIf you are alone or with only one player, your mood will decrease slower.",
+  "gui.watheextended.guidebook.modifier.desc.watheextended.introverted": "You hate being into large crowds.\nIf more than %s players are around you inside a radius of %s blocks you will start feeling anxious, your {icon:mood} §2mood§r will decrease faster.\nIf you are alone or with only one player, your {icon:mood} §2mood§r will decrease slower.",
   "gui.watheextended.guidebook.modifier.desc.watheextended.taxed": "The IRS is watching.\nKill more than %s player(s) within %s seconds and your kill rewards will be taxed by %s%.\nPassive income is not affected.",
   "gui.watheextended.guidebook.modifier.desc.watheextended.adaptive": "Variety is the spice of death.\nConsecutive kills with the same method award only %s% of your kill income.\nConsecutive kills using different methods award +%s% of your kill income."
 }

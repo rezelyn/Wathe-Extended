@@ -25,7 +25,7 @@ import java.util.Set;
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
 
-    private static final Set<Item> BLACKLIST = Set.of(
+    private static final Set<Item> DENYLIST = Set.of(
             WatheItems.LETTER
     );
 
@@ -52,7 +52,7 @@ public class InGameHudMixin {
             return;
         }
 
-        if (BLACKLIST.contains(this.currentStack.getItem())) {
+        if (DENYLIST.contains(this.currentStack.getItem())) {
             return;
         }
 

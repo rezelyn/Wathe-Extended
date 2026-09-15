@@ -41,6 +41,7 @@
     "client.item.ItemRendererMixin",
     "client.item.ItemTooltipsMixin",
     "client.item.ModelLoaderMixin",
+    "client.keybinds.InstinctModeMixin",
     "client.keybinds.KeyChatRestoreMixin",
     "client.keybinds.KeyInventoryScreenMixin",
     "client.keybinds.KeyJumpMixin"

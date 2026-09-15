@@ -5,10 +5,10 @@ import cat.rezelyn.watheextended.api.GameComponents;
 import cat.rezelyn.watheextended.client.WatheExtendedClientConfig;
 import cat.rezelyn.watheextended.client.pronouns.PronounsCache;
 import cat.rezelyn.watheextended.client.render.BoxDebugRenderer;
-import cat.rezelyn.watheextended.client.screen.ScreenUtils;
 import cat.rezelyn.watheextended.game.PronounsManager;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
+import dev.isxander.yacl3.api.controller.CyclingListControllerBuilder;
 import dev.isxander.yacl3.api.controller.StringControllerBuilder;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
@@ -70,6 +70,16 @@ public final class ClientCategory {
                     .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
                     .build());
         }
+
+        // Keybinds
+        builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.client.label.keybinds").styled(style -> style.withColor(0xAAAAAA))));
+        // INSTINCT
+        builder.option(Option.<String>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.client.opt.instinctmode"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.opt.instinctmode.desc")))
+                .binding("HOLD", WatheExtendedClientConfig::getInstinctMode, WatheExtendedClientConfig::setInstinctMode)
+                .controller(option -> CyclingListControllerBuilder.create(option).values(java.util.List.of("HOLD", "TOGGLE")).formatValue(Text::literal))
+                .build());
 
         // Visual
         builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.client.label.visual").styled(style -> style.withColor(0xAAAAAA))));

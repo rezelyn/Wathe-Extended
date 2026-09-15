@@ -25,6 +25,7 @@ public final class WatheExtendedServerConfig {
     public static boolean lastStandEnabled = false;
     public static int lastStandCooldown = 30;
     public static String jumpMode = "LOBBY";
+    public static String shootInnocentPunishmentMode = "DEFAULT";
     public static boolean suppressAbilityVfxSfx = false;
     public static int basePassiveIncome = 5;
     public static boolean adjustPassiveIncome = false;
@@ -120,11 +121,12 @@ public final class WatheExtendedServerConfig {
         }
         ClientConfig.Reader config = ClientConfig.reader(CONFIG_FILE);
         playerCollisionsEnabled = config.getBool("gamerules.playerCollisions", true);
-        rtpEnabled = config.getBool("gamerules.randomTeleportation", true);
-        blockProtectionEnabled = config.getBool("gamerules.worldProtection", true);
+        rtpEnabled = config.getBool("gamerules.randomTeleportation", false);
+        blockProtectionEnabled = config.getBool("gamerules.worldProtection", false);
         itemBoundsCheckEnabled = config.getBool("gamerules.itemBoundsCheck", true);
         suppressAbilityVfxSfx = config.getBool("gamerules.suppressVfxSfx", false);
         jumpMode = config.getString("gamerules.jumpMode", "LOBBY");
+        shootInnocentPunishmentMode = config.getString("gamerules.shootInnocentPunishmentMode", "DEFAULT");
         killIncreaseTime = config.getInt("gamerules.killIncreaseSeconds", 60);
         basePassiveIncome = config.getInt("balance.basePassiveIncome", 5);
         adjustPassiveIncome = config.getBool("balance.adjustPassiveIncome", false);
@@ -242,7 +244,11 @@ public final class WatheExtendedServerConfig {
                     "    // Controls when players are allowed to jump.\n" +
                     "    // Options: DEFAULT (Wathe default behavior), LOBBY (only in lobby), EVERYWHERE (always)\n" +
                     "    // Default: LOBBY\n" +
-                    "    \"jumpMode\": \"" + jumpMode + "\"\n" +
+                    "    \"jumpMode\": \"" + jumpMode + "\",\n" +
+                    "    // Controls what happens when an innocent shooter kills an innocent target.\n" +
+                    "    // Options: DEFAULT, PREVENT_PICKUP, KILL_SHOOTER, KILL_BOTH\n" +
+                    "    // Default: DEFAULT\n" +
+                    "    \"shootInnocentPunishmentMode\": \"" + shootInnocentPunishmentMode + "\"\n" +
                     "  },\n" +
                     "  \"balance\": {\n" +
                     "    // Coins granted to each player per passive income tick.\n" +
@@ -739,6 +745,15 @@ public final class WatheExtendedServerConfig {
 
     public static void setJumpMode(String value) {
         if ("DEFAULT".equals(value) || "LOBBY".equals(value) || "EVERYWHERE".equals(value)) jumpMode = value;
+        save();
+    }
+
+    public static String getShootInnocentPunishmentMode() {
+        return shootInnocentPunishmentMode;
+    }
+
+    public static void setShootInnocentPunishmentMode(String value) {
+        if ("DEFAULT".equals(value) || "PREVENT_PICKUP".equals(value) || "KILL_SHOOTER".equals(value) || "KILL_BOTH".equals(value)) shootInnocentPunishmentMode = value;
         save();
     }
 
