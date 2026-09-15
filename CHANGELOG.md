@@ -17,6 +17,7 @@
 - Updated Wathe support to `1.4.1-1.21.1`
     - [Wathe Changelog](https://modrinth.com/mod/wathe/version/1.4-1.21.1)
 - Updated "Backfire Chance" configuration screen option to be compatible with the new backfire per innocent kill mechanic
+- Rewrote README page
 
 ### 🔧 Fixes
 - Fixed various typos and outdated information for some items lore descriptions
@@ -24,9 +25,11 @@
 - Fixed Violator modifier not being able to jump in-game ([#84](https://github.com/rezelyn/Wathe-Extended/issues/84)/[#83](https://github.com/rezelyn/Wathe-Extended/issues/83))
 - Fixed Jump Mode option not being applied correctly in-game
 - Fixed a crash caused by Noelle's Roles when sleeping in a poisoned bed ([#86](https://github.com/rezelyn/Wathe-Extended/issues/86))
+- Fixed all poison methods not working correctly
 - Fixed outdated and missing entries for various roles in the Guidebook ([#84](https://github.com/rezelyn/Wathe-Extended/issues/84)/[#83](https://github.com/rezelyn/Wathe-Extended/issues/83))
 - Fixed issues of not being able to pick up dropped revolvers ([#73](https://github.com/rezelyn/Wathe-Extended/issues/73))
- 
+- Fixed compatibility issues from Stupid Express with Wathe 1.4
+
 # stable-3.6.132
 
 ### 🆕 What's New
