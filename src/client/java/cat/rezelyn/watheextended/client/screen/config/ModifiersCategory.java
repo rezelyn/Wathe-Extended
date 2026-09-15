@@ -34,7 +34,7 @@ public final class ModifiersCategory {
 
                     boolean state = pendingState.containsKey(id) ? pendingState.get(id) : !ConfigHelper.getDisabledModifiers().contains(id);
 
-                    OptionGroup.Builder group = OptionGroup.createBuilder().name(label);
+                    OptionGroup.Builder group = OptionGroup.createBuilder().name(label).collapsed(true);
                     group.option(Option.<Boolean>createBuilder()
                             .name(Text.translatable("gui.watheextended.config.text.enabled"))
                             .description(OptionDescription.of(Text.literal(id).styled(style -> style.withColor(0x505050))))

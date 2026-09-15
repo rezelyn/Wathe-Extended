@@ -20,9 +20,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-public final class MapVariablesCategory {
+public final class MapCategory {
 
-    private MapVariablesCategory() {
+    private MapCategory() {
     }
 
     public static ConfigCategory build(Screen parent, BiConsumer<String, Screen> sendCommand) {
@@ -104,7 +104,7 @@ public final class MapVariablesCategory {
         OptionGroup.Builder group = OptionGroup.createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.tooltip")))
-                .collapsed(false);
+                .collapsed(true);
         /// LOBBY AREA
         group.option(Option.<String>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.lobbyarea"))

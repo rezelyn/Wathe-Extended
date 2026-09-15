@@ -15,9 +15,9 @@ import java.util.function.BiConsumer;
 
 import static cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getEnableNoellesRolesModify;
 
-public final class OptionsCategory {
+public final class GameCategory {
 
-    private OptionsCategory() {}
+    private GameCategory() {}
 
     public static ConfigCategory build(Screen parent, BiConsumer<String, Screen> sendCommand) {
         ConfigCategory.Builder builder = ConfigCategory.createBuilder()
