@@ -516,7 +516,7 @@ public class ItemsCategory {
                             .name(Text.translatable("gui.watheextended.config.category.items.group.tape.killifcheckedatzero"))
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.tape.killifcheckedatzero.desc")))
                             .binding(true, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getMuzzlerKillIfCheckedAtZero, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.killIfCheckedAtZero", value))
-                            .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build())
+                            .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build())
                     /// DISPLAY SILENCED TIP DELAY
                     .option(Option.<Integer>createBuilder()
                             .name(Text.translatable("gui.watheextended.config.category.items.group.tape.displaysilencedtipdelay"))

@@ -59,7 +59,7 @@ public final class ClientCategory {
                 .name(Text.translatable("gui.watheextended.config.category.client.opt.showchat"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.opt.showchat.desc")))
                 .binding(true, WatheExtendedClientConfig::getShowChatDuringGame, WatheExtendedClientConfig::setShowChatDuringGame)
-                .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
                 .build());
         if (ConfigHelper.isLoaded()) {
             /// STAMINA BAR
@@ -67,7 +67,7 @@ public final class ClientCategory {
                     .name(Text.translatable("gui.watheextended.config.category.client.opt.staminabar"))
                     .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.opt.staminabar.desc")))
                     .binding(false, ConfigHelper::getEnableStaminaBar, ConfigHelper::setEnableStaminaBar)
-                    .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                    .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
                     .build());
         }
 
@@ -100,7 +100,7 @@ public final class ClientCategory {
                         .text(Text.translatable("gui.watheextended.config.category.client.opt.fog.desc"))
                         .webpImage(Identifier.of("watheextended", "textures/gui/config/fog.webp"))
                         .build()).binding(true, () -> GameComponents.getFog(MinecraftClient.getInstance().world), value -> sendCommand.accept("wathe:setVisual fog " + value, parent))
-                .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
                 .build());
         /// TOGGLE HUD
         builder.option(Option.<Boolean>createBuilder()
@@ -109,7 +109,7 @@ public final class ClientCategory {
                         .text(Text.translatable("gui.watheextended.config.category.client.opt.hud.desc"))
                         .webpImage(Identifier.of("watheextended", "textures/gui/config/hud.webp"))
                         .build()).binding(true, () -> GameComponents.getHud(MinecraftClient.getInstance().world), value -> sendCommand.accept("wathe:setVisual hud " + value, parent))
-                .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
                 .build());
         /// TOGGLE SNOWFLAKES
         builder.option(Option.<Boolean>createBuilder()
@@ -119,14 +119,14 @@ public final class ClientCategory {
                         .webpImage(Identifier.of("watheextended", "textures/gui/config/snowflakes.webp"))
                         .build())
                 .binding(true, () -> GameComponents.getSnow(MinecraftClient.getInstance().world), value -> sendCommand.accept("wathe:setVisual snow " + value, parent))
-                .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
                 .build());
         /// ULTRA PERFORMANCE MODE
         builder.option(Option.<Boolean>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.client.opt.ultraperfmode"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.opt.ultraperfmode.desc")))
                 .binding(false, cat.rezelyn.watheextended.api.config.wathe.ConfigHelper::getUltraPerfMode, cat.rezelyn.watheextended.api.config.wathe.ConfigHelper::setUltraPerfMode)
-                .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
                 .build());
         if (isOp) {
             builder.group(buildDebugGroup());
@@ -146,21 +146,21 @@ public final class ClientCategory {
                         .name(Text.translatable("gui.watheextended.config.category.client.group.debug.opt.showboxboundaries"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.group.debug.opt.showboxboundaries.desc")))
                         .binding(false, () -> BoxDebugRenderer.showBoxBoundaries, value -> BoxDebugRenderer.showBoxBoundaries = value)
-                        .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
                         .build())
                 /// SHOW RTP SLOTS
                 .option(Option.<Boolean>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.client.group.debug.opt.showrtpslots"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.group.debug.opt.showrtpslots.desc")))
                         .binding(false, () -> BoxDebugRenderer.showRtpSlots, value -> BoxDebugRenderer.showRtpSlots = value)
-                        .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
                         .build())
                 /// SHOW KEY ASSIGNMENTS
                 .option(Option.<Boolean>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.client.group.debug.opt.showkeyassignments"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.group.debug.opt.showkeyassignments.desc")))
                         .binding(false, () -> BoxDebugRenderer.showKeyAssignments, value -> BoxDebugRenderer.showKeyAssignments = value)
-                        .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
                         .build())
 
                 .build();
