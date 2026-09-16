@@ -8,6 +8,7 @@
     "client.fix.LoversHudNullPlayerMixin",
     "client.fix.PlayerBodyNullRendererMixin",
     "client.fix.PsychosisItemsRenderMixin",
+    "client.fix.WheelRendererNullTrainComponentMixin",
     "client.hud.ArsonistHudMixin",
     "client.hud.ClientChatMixin",
     "client.hud.ClientChatRestoreMixin",
