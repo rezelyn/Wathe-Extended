@@ -308,7 +308,7 @@
   "gui.watheextended.config.category.items.group.pan": "\uE206 Poêle",
   "gui.watheextended.config.category.items.group.pan.cooldown": "Durée en secondes du temps de recharge appliqué à la Poêle après son utilisation.\n\n§6Par défaut :§r §e45§r",
   "gui.watheextended.config.category.items.group.pan.price": "Prix de la Poêle dans le shop du Cook.\n\n§6Par défaut :§r §e250§r",
-  "gui.watheextended.config.category.items.group.poisoninjector": "\uE208Injecteur de poison",
+  "gui.watheextended.config.category.items.group.poisoninjector": "\uE208 Injecteur de poison",
   "gui.watheextended.config.category.items.group.poisoninjector.cooldown": "Durée en secondes du temps de recharge appliqué à l'Injecteur de poison après son utilisation.\n\n§6Par défaut :§r §e60§r",
   "gui.watheextended.config.category.items.group.poisoninjector.price": "Prix de l'Injecteur de poison dans le shop du Drugmaker.\n\n§6Par défaut :§r §e125§r",
   "gui.watheextended.config.category.items.group.pill": "\uE207 Pilule",
