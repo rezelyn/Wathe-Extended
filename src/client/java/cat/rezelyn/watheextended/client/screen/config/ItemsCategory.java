@@ -61,8 +61,8 @@ public class ItemsCategory {
                         .controller(IntegerFieldControllerBuilder::create).build())
                 /// BACKFIRE CHANCE
                 .option(Option.<Integer>createBuilder()
-                        .name(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.backfire"))
-                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.options.group.wathe_options.opt.backfire.desc")))
+                        .name(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.backfire"))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.backfire.desc")))
                         .binding(GameComponents.getBackfire(world), () -> GameComponents.getBackfire(MinecraftClient.getInstance().world), value -> sendCommand.accept("wathe:gameSettings set backfireChancePerInnocentKill " + (value / 100f), parent))
                         .controller(IntegerFieldControllerBuilder::create).build())
                 .collapsed(true)
