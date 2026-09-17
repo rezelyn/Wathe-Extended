@@ -20,15 +20,15 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-public final class MapVariablesCategory {
+public final class MapCategory {
 
-    private MapVariablesCategory() {
+    private MapCategory() {
     }
 
     public static ConfigCategory build(Screen parent, BiConsumer<String, Screen> sendCommand) {
         ConfigCategory.Builder builder = ConfigCategory.createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.mapvariables.title"))
-                .tooltip(Text.translatable("gui.watheextended.config.category.mapvariables.tooltip"));
+                .name(Text.translatable("gui.watheextended.config.category.map.title"))
+                .tooltip(Text.translatable("gui.watheextended.config.category.map.tooltip"));
 
         World world = MinecraftClient.getInstance().world;
         String lobbyAreaDefault = ScreenUtils.boxToArgs(MapVariables.getLobbyArea(world));
@@ -42,8 +42,8 @@ public final class MapVariablesCategory {
 
         /// WORLD PROTECTION
         builder.option(Option.<Boolean>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.mapvariables.opt.worldprotection"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.opt.worldprotection.desc")))
+                .name(Text.translatable("gui.watheextended.config.category.map.opt.worldprotection"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.opt.worldprotection.desc")))
                 .binding(false, () -> {
                     try {
                         World w = MinecraftClient.getInstance().world;
@@ -53,12 +53,12 @@ public final class MapVariablesCategory {
                         return true;
                     }
                 }, value -> sendCommand.accept("watheextended:enableWorldProtection " + value, parent))
-                .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled")))
+                .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
                 .build());
         /// RANDOM TELEPORTATION
         builder.option(Option.<Boolean>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.mapvariables.opt.rtp"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.opt.rtp.desc")))
+                .name(Text.translatable("gui.watheextended.config.category.map.opt.rtp"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.opt.rtp.desc")))
                 .binding(false, () -> {
                     try {
                         World w = MinecraftClient.getInstance().world;
@@ -68,12 +68,12 @@ public final class MapVariablesCategory {
                         return true;
                     }
                 }, value -> sendCommand.accept("watheextended:rtp " + (value ? "enable" : "disable"), parent))
-                .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled": "gui.watheextended.config.text.disabled")))
+                .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on": "gui.watheextended.config.text.off")))
                 .build());
         /// ITEM BOUNDS CHECK
         builder.option(Option.<Boolean>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.mapvariables.opt.itemboundscheck"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.opt.itemboundscheck.desc")))
+                .name(Text.translatable("gui.watheextended.config.category.map.opt.itemboundscheck"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.opt.itemboundscheck.desc")))
                 .binding(true, () -> {
                     try {
                         World w = MinecraftClient.getInstance().world;
@@ -83,32 +83,32 @@ public final class MapVariablesCategory {
                         return true;
                     }
                 }, value -> sendCommand.accept("watheextended:enableItemBoundsCheck " + value, parent))
-                .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled")))
+                .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
                 .build());
         /// JUMP MODE
         builder.option(Option.<String>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.mapvariables.opt.jumpmode"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.opt.jumpmode.desc")))
+                .name(Text.translatable("gui.watheextended.config.category.map.opt.jumpmode"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.opt.jumpmode.desc")))
                 .binding("LOBBY", () -> ClientConfig.getString("watheextended.jumpMode", "LOBBY"), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.jumpMode", value))
                 .controller(opt -> CyclingListControllerBuilder.create(opt).values(java.util.Arrays.asList("DEFAULT", "LOBBY", "EVERYWHERE")).formatValue(Text::literal))
                 .build());
         /// AUTO START
         builder.option(Option.<Integer>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.mapvariables.opt.autostart"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.opt.autostart.desc")))
+                .name(Text.translatable("gui.watheextended.config.category.map.opt.autostart"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.opt.autostart.desc")))
                 .binding(GameComponents.getAutoStart(world), () -> GameComponents.getAutoStart(MinecraftClient.getInstance().world), value -> sendCommand.accept("wathe:gameSettings set autoStart " + value, parent))
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
 
         // Variables
         OptionGroup.Builder group = OptionGroup.createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.tooltip")))
-                .collapsed(false);
+                .name(Text.translatable("gui.watheextended.config.category.map.group.variables"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.group.variables.tooltip")))
+                .collapsed(true);
         /// LOBBY AREA
         group.option(Option.<String>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.lobbyarea"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.lobbyarea.desc").styled(s -> s.withColor(0x757575))))
+                .name(Text.translatable("gui.watheextended.config.category.map.group.variables.opt.lobbyarea"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.group.variables.opt.lobbyarea.desc").styled(s -> s.withColor(0x757575))))
                 .binding(lobbyAreaDefault,
                         () -> ScreenUtils.boxToArgs(MapVariables.getLobbyArea(MinecraftClient.getInstance().world)),
                         value -> {
@@ -119,56 +119,56 @@ public final class MapVariablesCategory {
                 .controller(StringControllerBuilder::create).build());
         /// PLAY AREA
         group.option(Option.<String>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.playarea"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.playarea.desc").styled(s -> s.withColor(0x757575))))
+                .name(Text.translatable("gui.watheextended.config.category.map.group.variables.opt.playarea"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.group.variables.opt.playarea.desc").styled(s -> s.withColor(0x757575))))
                 .binding(playAreaDefault,
                         () -> ScreenUtils.boxToArgs(MapVariables.getPlayArea(MinecraftClient.getInstance().world)),
                         value -> sendCommand.accept("wathe:mapVariables set playArea " + value.trim(), parent))
                 .controller(StringControllerBuilder::create).build());
         /// PLAY AREA OFFSET
         group.option(Option.<String>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.playareaoffset"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.playareaoffset.desc").styled(s -> s.withColor(0x757575))))
+                .name(Text.translatable("gui.watheextended.config.category.map.group.variables.opt.playareaoffset"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.group.variables.opt.playareaoffset.desc").styled(s -> s.withColor(0x757575))))
                 .binding(playAreaOffsetDefault,
                         () -> ScreenUtils.vec3iToArgs(MapVariables.getPlayAreaOffset(MinecraftClient.getInstance().world)),
                         value -> sendCommand.accept("wathe:mapVariables set playAreaOffset " + value.trim(), parent))
                 .controller(StringControllerBuilder::create).build());
         /// READY AREA
         group.option(Option.<String>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.readyarea"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.readyarea.desc").styled(s -> s.withColor(0x757575))))
+                .name(Text.translatable("gui.watheextended.config.category.map.group.variables.opt.readyarea"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.group.variables.opt.readyarea.desc").styled(s -> s.withColor(0x757575))))
                 .binding(readyAreaDefault,
                         () -> ScreenUtils.boxToArgs(MapVariables.getReadyArea(MinecraftClient.getInstance().world)),
                         value -> sendCommand.accept("wathe:mapVariables set readyArea " + value.trim(), parent))
                 .controller(StringControllerBuilder::create).build());
         /// RESET PASTE OFFSET
         group.option(Option.<String>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.resetpasteoffset"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.resetpasteoffset.desc").styled(s -> s.withColor(0x757575))))
+                .name(Text.translatable("gui.watheextended.config.category.map.group.variables.opt.resetpasteoffset"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.group.variables.opt.resetpasteoffset.desc").styled(s -> s.withColor(0x757575))))
                 .binding(resetPasteOffsetDefault,
                         () -> ScreenUtils.vec3iToArgs(MapVariables.getResetPasteOffset(MinecraftClient.getInstance().world)),
                         value -> sendCommand.accept("wathe:mapVariables set resetPasteOffset " + value.trim(), parent))
                 .controller(StringControllerBuilder::create).build());
         /// SPAWN POSITION
         group.option(Option.<String>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.spawnpos"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.spawnpos.desc").styled(s -> s.withColor(0x757575))))
+                .name(Text.translatable("gui.watheextended.config.category.map.group.variables.opt.spawnpos"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.group.variables.opt.spawnpos.desc").styled(s -> s.withColor(0x757575))))
                 .binding(spawnPosDefault,
                         () -> ScreenUtils.posToArgs(MapVariables.getSpawnPosition(MinecraftClient.getInstance().world)),
                         value -> sendCommand.accept("wathe:mapVariables set spawnPosition " + value.trim(), parent))
                 .controller(StringControllerBuilder::create).build());
         /// SPAWN POSITION - READY AREA
         group.option(Option.<String>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.readyareaspawnpos"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.readyareaspawnpos.desc").styled(s -> s.withColor(0x757575))))
+                .name(Text.translatable("gui.watheextended.config.category.map.group.variables.opt.readyareaspawnpos"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.group.variables.opt.readyareaspawnpos.desc").styled(s -> s.withColor(0x757575))))
                 .binding(readyAreaSpawnDefault,
                         () -> ScreenUtils.posToArgs(MapVariables.getReadyAreaSpawnPosition(MinecraftClient.getInstance().world)),
                         value -> sendCommand.accept("watheextended:mapVariables set readyAreaSpawnPosition " + value.trim(), parent))
                 .controller(StringControllerBuilder::create).build());
         /// SPAWN POSITION - SPECTATOR
         group.option(Option.<String>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.spectatorspawnpos"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.variables.opt.spectatorspawnpos.desc").styled(s -> s.withColor(0x757575))))
+                .name(Text.translatable("gui.watheextended.config.category.map.group.variables.opt.spectatorspawnpos"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.group.variables.opt.spectatorspawnpos.desc").styled(s -> s.withColor(0x757575))))
                 .binding(spectatorSpawnDefault,
                         () -> ScreenUtils.posToArgs(MapVariables.getSpectatorSpawnPosition(MinecraftClient.getInstance().world)),
                         value -> sendCommand.accept("wathe:mapVariables set spectatorSpawnPosition " + value.trim(), parent))
@@ -181,8 +181,8 @@ public final class MapVariablesCategory {
 
     private static OptionGroup buildRtpSlotsGroup(Screen parent, BiConsumer<String, Screen> sendCommand) {
         OptionGroup.Builder group = OptionGroup.createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.rtp_slots"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.rtp_slots.tooltip")))
+                .name(Text.translatable("gui.watheextended.config.category.map.group.rtp_slots"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.group.rtp_slots.tooltip")))
                 .collapsed(true);
 
         World world = MinecraftClient.getInstance().world;
@@ -197,15 +197,15 @@ public final class MapVariablesCategory {
 
         if (slots.isEmpty()) {
             group.option(LabelOption.create(
-                    Text.translatable("gui.watheextended.config.category.mapvariables.group.rtp_slots.none").styled(style -> style.withColor(0xFF5555))));
+                    Text.translatable("gui.watheextended.config.category.map.group.rtp_slots.none").styled(style -> style.withColor(0xFF5555))));
         } else {
             for (Map.Entry<Integer, TeleportationSlot> entry : slots.entrySet()) {
                 final int slotId = entry.getKey();
                 final String slotDefault = entry.getValue().toCommandArgs();
 
                 group.option(Option.<String>createBuilder()
-                        .name(Text.translatable("gui.watheextended.config.category.mapvariables.group.rtp_slots.slot", slotId))
-                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.mapvariables.group.rtp_slots.slot.desc").styled(style -> style.withColor(0x757575))))
+                        .name(Text.translatable("gui.watheextended.config.category.map.group.rtp_slots.slot", slotId))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.group.rtp_slots.slot.desc").styled(style -> style.withColor(0x757575))))
                         .binding(slotDefault, () -> {
                             try {
                                 World w = MinecraftClient.getInstance().world;

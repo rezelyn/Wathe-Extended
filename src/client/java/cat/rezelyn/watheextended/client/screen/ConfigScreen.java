@@ -64,8 +64,8 @@ public final class ConfigScreen {
                 .save(ConfigScreen::flushPendingChanges);
 
         if (op) {
-            builder.category(OptionsCategory.build(parent, ConfigScreen::stageCommand));
-            builder.category(MapVariablesCategory.build(parent, ConfigScreen::stageCommand));
+            builder.category(GameCategory.build(parent, ConfigScreen::stageCommand));
+            builder.category(MapCategory.build(parent, ConfigScreen::stageCommand));
             builder.category(ItemsCategory.build(parent, ConfigScreen::stageCommand));
             builder.category(RolesCategory.build(parent, DENYLIST, pendingRoleState, ConfigScreen::stageCommand));
             builder.category(ModifiersCategory.build(parent, pendingModifierState, ConfigScreen::stageCommand));

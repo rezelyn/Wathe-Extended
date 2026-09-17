@@ -16,6 +16,41 @@
     },
     {
       "type": "bitmap",
+      "file": "watheextended:gui/config/save.png",
+      "ascent": 9,
+      "height": 13,
+      "chars": ["\uE500"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/config/refresh.png",
+      "ascent": 9,
+      "height": 13,
+      "chars": ["\uE501"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/config/load.png",
+      "ascent": 9,
+      "height": 13,
+      "chars": ["\uE502"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/config/delete.png",
+      "ascent": 9,
+      "height": 13,
+      "chars": ["\uE503"]
+    },
+    {
+      "type": "bitmap",
+      "file": "watheextended:gui/guidebook/sprites/mood.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": ["\uE504"]
+    },
+    {
+      "type": "bitmap",
       "file": "watheextended:gui/guidebook/sprites/items/knife.png",
       "ascent": 9,
       "height": 12,

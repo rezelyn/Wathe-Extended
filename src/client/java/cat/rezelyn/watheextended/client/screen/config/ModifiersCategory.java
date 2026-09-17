@@ -34,14 +34,14 @@ public final class ModifiersCategory {
 
                     boolean state = pendingState.containsKey(id) ? pendingState.get(id) : !ConfigHelper.getDisabledModifiers().contains(id);
 
-                    OptionGroup.Builder group = OptionGroup.createBuilder().name(label);
+                    OptionGroup.Builder group = OptionGroup.createBuilder().name(label).collapsed(true);
                     group.option(Option.<Boolean>createBuilder()
                             .name(Text.translatable("gui.watheextended.config.text.enabled"))
                             .description(OptionDescription.of(Text.literal(id).styled(style -> style.withColor(0x505050))))
                             .binding(state, () -> pendingState.containsKey(id) ? pendingState.get(id) : !ConfigHelper.getDisabledModifiers().contains(id), enabled -> {
                                 pendingState.put(id, enabled);
                             })
-                            .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                            .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
                             .build());
 
                     modifierOptions(id, group, parent, sendCommand);
@@ -100,7 +100,7 @@ public final class ModifiersCategory {
                 builder.option(Option.<Float>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.adaptive.penaltyreduction"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.adaptive.penaltyreduction.desc")))
-                        .binding(0.50f, () -> ClientConfig.getFloat("watheextended.adaptive.penaltyReduction", 0.50f), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.adaptive.penaltyReduction", value))
+                        .binding(0.25f, () -> ClientConfig.getFloat("watheextended.adaptive.penaltyReduction", 0.25f), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.adaptive.penaltyReduction", value))
                         .controller(ScreenUtils::floatController).build());
                 builder.option(Option.<Float>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.adaptive.bonusmultiplier"))
@@ -114,7 +114,7 @@ public final class ModifiersCategory {
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.guesser.allowcivillian"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.guesser.allowcivillian.desc")))
                         .binding(false, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getAllowCivillianGuessers, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.allowCivillianGuessers", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build());
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build());
                 builder.option(Option.<String>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.guesser.wrongguessmode"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.guesser.wrongguessmode.desc")))
@@ -127,7 +127,7 @@ public final class ModifiersCategory {
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.forbidden"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.forbidden.desc")))
                         .binding(false, () -> ClientConfig.getBool("watheextended.forbiddenLovers", false), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.forbiddenLovers", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build());
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build());
                 builder.option(Option.<Float>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.forbidden.chance"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.forbidden.chance.desc")))
@@ -137,22 +137,22 @@ public final class ModifiersCategory {
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.knowimmediately"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.knowimmediately.desc")))
                         .binding(true, cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper::getLoversKnowImmediately, value -> ScreenUtils.stage(sendCommand, parent, "stupidexpress.loversKnowImmediately", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build());
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build());
                 builder.option(Option.<Boolean>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.winwithkillers"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.winwithkillers.desc")))
                         .binding(false, cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper::getLoversWinWithKillers, value -> ScreenUtils.stage(sendCommand, parent, "stupidexpress.loversWinWithKillers", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build());
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build());
                 builder.option(Option.<Boolean>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.winwithcivilians"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.winwithcivilians.desc")))
                         .binding(true, cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper::getLoversWinWithCivilians, value -> ScreenUtils.stage(sendCommand, parent, "stupidexpress.loversWinWithCivilians", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build());
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build());
                 builder.option(Option.<Boolean>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.glowtoeachother"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.modifiers.opt.lovers.glowtoeachother.desc")))
                         .binding(true, cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper::getLoversGlowToEachother, value -> ScreenUtils.stage(sendCommand, parent, "stupidexpress.loversGlowToEachother", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build());
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build());
             }
             case "starexpress:allergic" -> {
                 if (!cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.isLoaded()) return;

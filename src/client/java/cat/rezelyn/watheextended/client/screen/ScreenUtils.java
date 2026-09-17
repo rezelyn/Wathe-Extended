@@ -37,8 +37,7 @@ public final class ScreenUtils {
         // misc
         map.put("enabled", "\uE400");
         map.put("disabled", "\uE401");
-        // TODO: replace with a dedicated mood glyph, this reuses the civilian icon
-        map.put("mood", "\uE213");
+        map.put("mood", "\uE504");
 
         // items
         map.put("knife", "\uE100");

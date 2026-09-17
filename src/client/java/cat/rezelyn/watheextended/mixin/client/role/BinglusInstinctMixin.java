@@ -1,6 +1,7 @@
 package cat.rezelyn.watheextended.mixin.client.role;
 
 import cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper;
+import cat.rezelyn.watheextended.client.WatheExtendedClient;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.WatheClient;
 import dev.doctor4t.wathe.entity.NoteEntity;
@@ -29,7 +30,7 @@ public class BinglusInstinctMixin {
             return;
         }
 
-        if (!WatheClient.instinctKeybind.isPressed() || !WatheClient.isPlayerAliveAndInSurvival()) {
+        if (!WatheExtendedClient.isInstinctActive() || !WatheClient.isPlayerAliveAndInSurvival()) {
             cir.setReturnValue(-1);
             cir.cancel();
             return;
