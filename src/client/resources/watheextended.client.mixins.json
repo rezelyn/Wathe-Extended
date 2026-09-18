@@ -8,6 +8,7 @@
     "client.fix.LoversHudNullPlayerMixin",
     "client.fix.PlayerBodyNullRendererMixin",
     "client.fix.PsychosisItemsRenderMixin",
+    "client.fix.WheelRendererNullTrainComponentMixin",
     "client.hud.ArsonistHudMixin",
     "client.hud.ClientChatMixin",
     "client.hud.ClientChatRestoreMixin",
@@ -41,6 +42,7 @@
     "client.item.ItemRendererMixin",
     "client.item.ItemTooltipsMixin",
     "client.item.ModelLoaderMixin",
+    "client.keybinds.InstinctModeMixin",
     "client.keybinds.KeyChatRestoreMixin",
     "client.keybinds.KeyInventoryScreenMixin",
     "client.keybinds.KeyJumpMixin"

@@ -12,6 +12,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
+// TODO: write a abstract ConfigHelper class
+
 public final class ConfigHelper {
 
     private ConfigHelper() {

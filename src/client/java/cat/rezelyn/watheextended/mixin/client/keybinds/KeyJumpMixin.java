@@ -1,45 +1,54 @@
 package cat.rezelyn.watheextended.mixin.client.keybinds;
 
-import cat.rezelyn.watheextended.api.config.ClientConfig;
 import cat.rezelyn.watheextended.api.GameStatus;
+import cat.rezelyn.watheextended.api.config.ClientConfig;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.doctor4t.wathe.client.WatheClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(value = KeyBinding.class, priority = 6000)
-public class KeyJumpMixin {
+@Mixin(value = KeyBinding.class, priority = 9000)
+public abstract class KeyJumpMixin {
 
     @Shadow private boolean pressed;
     @Shadow private int timesPressed;
 
-    @Inject(method = "isPressed", at = @At("HEAD"), cancellable = true)
-    private void watheextended$jumpModeIsPressed(CallbackInfoReturnable<Boolean> cir) {
+    @ModifyReturnValue(method = "isPressed", at = @At("RETURN"))
+    private boolean watheextended$jumpModeIsPressed(boolean input) {
         MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player == null) return;
-        if (!((KeyBinding) (Object) this).equals(client.options.jumpKey)) return;
-        if (!WatheClient.isPlayerAliveAndInSurvival()) return;
+        if (client.player == null) return input;
 
-        String mode = ClientConfig.getString("watheextended.jumpMode", "DEFAULT");
-        boolean allowJump = "EVERYWHERE".equals(mode) || ("LOBBY".equals(mode) && !GameStatus.State(client.world));
-        cir.setReturnValue(allowJump && this.pressed);
+        KeyBinding key = (KeyBinding) (Object) this;
+        if (!key.equals(client.options.jumpKey)) return input;
+        if (!WatheClient.isPlayerAliveAndInSurvival()) return input;
+
+        String mode = ClientConfig.getString("watheextended.jumpMode", "LOBBY");
+        if ("EVERYWHERE".equals(mode)) return this.pressed || input;
+        if ("LOBBY".equals(mode)) return !GameStatus.State(client.world) && (this.pressed || input);
+        return input;
     }
 
-    @Inject(method = "wasPressed", at = @At("HEAD"), cancellable = true)
-    private void watheextended$jumpModeWasPressed(CallbackInfoReturnable<Boolean> cir) {
+    @ModifyReturnValue(method = "wasPressed", at = @At("RETURN"))
+    private boolean watheextended$jumpModeWasPressed(boolean input) {
         MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player == null) return;
-        if (!((KeyBinding) (Object) this).equals(client.options.jumpKey)) return;
-        if (!WatheClient.isPlayerAliveAndInSurvival()) return;
+        if (client.player == null) return input;
 
-        String mode = ClientConfig.getString("watheextended.jumpMode", "DEFAULT");
-        boolean allowJump = "EVERYWHERE".equals(mode) || ("LOBBY".equals(mode) && !GameStatus.State(client.world));
-        boolean pressed = this.timesPressed > 0;
-        if (pressed) this.timesPressed--;
-        cir.setReturnValue(allowJump && pressed);
+        KeyBinding key = (KeyBinding) (Object) this;
+        if (!key.equals(client.options.jumpKey)) return input;
+        if (!WatheClient.isPlayerAliveAndInSurvival()) return input;
+
+        String mode = ClientConfig.getString("watheextended.jumpMode", "LOBBY");
+        if ("EVERYWHERE".equals(mode)) return this.timesPressed > 0 || input;
+        if ("LOBBY".equals(mode)) {
+            if (GameStatus.State(client.world)) {
+                if (this.timesPressed > 0) this.timesPressed = 0;
+                return false;
+            }
+            return this.timesPressed > 0 || input;
+        }
+        return input;
     }
 }

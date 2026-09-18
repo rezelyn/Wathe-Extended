@@ -52,7 +52,7 @@ public class BlockInteractionProtectionMixin {
                 return;
             }
 
-            // playArea whitelist: allow lamps, doors, buttons
+            // playArea allowlist: allow lamps, doors, buttons
             if (inPlayArea) {
                 Block block = state.getBlock();
                 boolean isLamp = block instanceof ToggleableFacingLightBlock || block instanceof NeonTubeBlock || block instanceof NeonPillarBlock;
@@ -62,7 +62,7 @@ public class BlockInteractionProtectionMixin {
                 if (isLamp || isDoor || isOrnament || isButton) return;
             }
 
-            // readyArea whitelist: allow doors only
+            // readyArea allowlist: allow doors only
             if (inReadyArea) {
                 Block block = state.getBlock();
                 boolean isDoor = block instanceof DoorBlock || block instanceof SmallDoorBlock;

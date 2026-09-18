@@ -37,6 +37,7 @@ public final class ScreenUtils {
         // misc
         map.put("enabled", "\uE400");
         map.put("disabled", "\uE401");
+        map.put("mood", "\uE504");
 
         // items
         map.put("knife", "\uE100");
@@ -121,10 +122,10 @@ public final class ScreenUtils {
         return ICONS.containsKey(name);
     }
 
-    public static boolean isBlacklisted(String id, Set<String> blacklist) {
+    public static boolean isDenied(String id, Set<String> denylist) {
         int colon = id.indexOf(':');
         String local = colon >= 0 ? id.substring(colon + 1) : id;
-        return blacklist.contains(local);
+        return denylist.contains(local);
     }
 
     public static void stage(BiConsumer<String, Screen> command, Screen parent, String key, Object value) {

@@ -1,5 +1,40 @@
 > #### This changelog also documents changes that are related to ***The Harpy Express: Extended*** modpack.
 
+# stable-3.7.141
+
+### 🆕 What's New
+- Added a new Game Guide tab to the Guidebook, providing players with an in-game reference for the game's mechanics, features, and how gameplay works.
+- Added new shooter punishment modes with refined logic:
+
+|        Mode        | Action                                                                                                                                     |
+|:------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------|
+|    **Default**     | **Target** will be killed, **Shooter** will drop their Revolver and cannot pick it back up. Can still pick up guns other players drop.     |
+| **Prevent Pickup** | **Target** will be killed, **Shooter** will drop their Revolver and will be unable to pick up any more Revolvers for the rest of the game. |
+|  **Kill Shooter**  | **Target** will survive, **Shooter** will be killed instead while droping their Revolver.                                                  |
+|   **Kill Both**    | **Target** & **Shooter** will both be killed while droping the Revolver.                                                                   |
+
+- GUI rework with new UI and button looks.
+- Added translations for some of the newer language keys in french, and chinese
+
+### 📋 Changes
+- Updated Wathe support to `1.4.1-1.21.1`
+    - [Wathe Changelog](https://modrinth.com/mod/wathe/version/1.4-1.21.1)
+- Updated Noelles Roles to `1.7.4-h1.4`
+- No longer utilizing "Harpy Express - More Shooter Punishments"
+- Updated "Backfire Chance" configuration screen option to be compatible with the new backfire per innocent kill mechanic
+- Rewrote README page
+
+### 🔧 Fixes
+- Fixed various typos and outdated information for some items lore descriptions
+- Fixed various default configuration screen options values being outdated or incorrect to the default values set by the mod
+- Fixed Violator modifier not being able to jump in-game ([#84](https://github.com/rezelyn/Wathe-Extended/issues/84)/[#83](https://github.com/rezelyn/Wathe-Extended/issues/83))
+- Fixed Jump Mode option not being applied correctly in-game
+- Fixed a crash caused by Noelle's Roles when sleeping in a poisoned bed ([#86](https://github.com/rezelyn/Wathe-Extended/issues/86))
+- Fixed all poison methods not working correctly
+- Fixed outdated and missing entries for various roles in the Guidebook ([#84](https://github.com/rezelyn/Wathe-Extended/issues/84)/[#83](https://github.com/rezelyn/Wathe-Extended/issues/83))
+- Fixed issues of not being able to pick up dropped revolvers ([#73](https://github.com/rezelyn/Wathe-Extended/issues/73))
+- Fixed compatibility issues from Stupid Express with Wathe 1.4
+
 # stable-3.6.132
 
 ### 🆕 What's New
@@ -289,7 +324,7 @@
         - Initial Neutral Income
         - Initial Killer Income
         - Enable/Disabled Killer Drop Revolver
-        - Revolver Shooting Punishement Mode
+        - Revolver Shooting Punishment Mode
     - **Roles Options:**
         - Ability Prices
         - Ability Cooldowns
@@ -300,7 +335,7 @@
 ### 📋 Changes
 - The **Hunter** can now buy the default Knife, alongside the Hunting Knife
 - The **Cleaner** will now receive coins when using the Sulfuric Acid Barrel
-- The **Kidnapper** will now gain additional coins if they personnaly kill the player they've dazed
+- The **Kidnapper** will now gain additional coins if they personally kill the player they've dazed
 - The **Thief** can now steal more items, including:
     - Pan
     - Blowgun
@@ -564,7 +599,7 @@ This update adds several new roles and couple fixes, and includes a new holiday 
   - **Delusion Vial**
     - Mimics poison by applying visual effects but does not cause death.
 - Added an item that fast teleports you to the Lobby train
-- Added a system preventing players from standing close/inside train doors before the game starts (wich was allowing them to exit the train without needing a Master Key, Lockpick, or Crowbar).
+- Added a system preventing players from standing close/inside train doors before the game starts (which was allowing them to exit the train without needing a Master Key, Lockpick, or Crowbar).
 
 ### 📋 Changes
 - Gameplay balancing:
@@ -578,7 +613,7 @@ This update adds several new roles and couple fixes, and includes a new holiday 
     - Can purchase *Firecrackers*, *Lockpicks*, *Notes*, and *Delusion Vials*.
   - **Coroner**
     - Can see the roles of dead players (also visible to spectators).
-  - **Executionner**
+  - **Executioner**
     - Gains coins passively over time.
     - Can purchase *Firecrackers*, *Lockpicks*, *Notes*, and *Delusion Vials*.
     - Their target's skin can now be seen on the UI

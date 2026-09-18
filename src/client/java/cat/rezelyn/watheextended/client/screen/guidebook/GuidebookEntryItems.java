@@ -42,11 +42,13 @@ public final class GuidebookEntryItems {
         register("noellesroles:mimic", () -> List.of(
                 starting("fake_knife", "item.noellesroles.fake_knife")
         ));
+        register("noellesroles:recon", () -> List.of(
+                starting("role_mine", "item.noellesroles.role_mine")
+        ));
         register("noellesroles:executioner", GuidebookEntryItems::framingShop);
         register("noellesroles:morphling", GuidebookEntryItems::framingShop);
         register("noellesroles:phantom", GuidebookEntryItems::framingShop);
         register("noellesroles:swapper", GuidebookEntryItems::framingShop);
-        register("noellesroles:voodoo", GuidebookEntryItems::framingShop);
         register("kinswathe:hacker", () -> List.of(
                 starting("phone", "item.kinswathe.phone"),
                 shop("icon_weapon_cooldown_refresh", "item.kinswathe.icon_weapon_cooldown_refresh", ClientConfig.getInt("watheextended.refreshWeaponCooldown.price", 300)),

@@ -42,6 +42,7 @@ public class ItemsCategory {
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.knife.cooldown")))
                         .binding(60, () -> ClientConfig.getInt("watheextended.knife.cooldown", 60), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.knife.cooldown", value))
                         .controller(IntegerFieldControllerBuilder::create).build())
+                .collapsed(true)
                 .build());
 
         // Revolver
@@ -60,11 +61,13 @@ public class ItemsCategory {
                         .controller(IntegerFieldControllerBuilder::create).build())
                 /// BACKFIRE CHANCE
                 .option(Option.<Integer>createBuilder()
-                        .name(Text.translatable("gui.watheextended.config.category.items.group.revolver.backfire"))
-                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.revolver.backfire.desc")))
-                        .binding(GameComponents.getBackfire(world), () -> GameComponents.getBackfire(MinecraftClient.getInstance().world), value -> sendCommand.accept("wathe:gameSettings set backfire " + (value / 100f), parent))
+                        .name(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.backfire"))
+                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.backfire.desc")))
+                        .binding(GameComponents.getBackfire(world), () -> GameComponents.getBackfire(MinecraftClient.getInstance().world), value -> sendCommand.accept("wathe:gameSettings set backfireChancePerInnocentKill " + (value / 100f), parent))
                         .controller(IntegerFieldControllerBuilder::create).build())
+                .collapsed(true)
                 .build());
+
 
         // Grenade
         builder.group(OptionGroup.createBuilder().name(withIcon("gui.watheextended.config.category.items.group.grenade"))
@@ -80,6 +83,7 @@ public class ItemsCategory {
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.grenade.cooldown")))
                         .binding(90, () -> ClientConfig.getInt("watheextended.grenade.cooldown", 90), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.grenade.cooldown", value))
                         .controller(IntegerFieldControllerBuilder::create).build())
+                .collapsed(true)
                 .build());
 
         // Psycho Mode
@@ -96,6 +100,7 @@ public class ItemsCategory {
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.psychomode.cooldown")))
                         .binding(300, () -> ClientConfig.getInt("watheextended.psychoMode.cooldown", 300), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.psychoMode.cooldown", value))
                         .controller(IntegerFieldControllerBuilder::create).build())
+                .collapsed(true)
                 .build());
 
         // Poison Vial
@@ -106,6 +111,7 @@ public class ItemsCategory {
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.poison_vial.price")))
                         .binding(100, () -> ClientConfig.getInt("watheextended.poisonVial.price", 100), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.poisonVial.price", value))
                         .controller(IntegerFieldControllerBuilder::create).build())
+                .collapsed(true)
                 .build());
 
         // Scorpion
@@ -116,6 +122,7 @@ public class ItemsCategory {
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.scorpion.price")))
                         .binding(50, () -> ClientConfig.getInt("watheextended.scorpion.price", 50), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.scorpion.price", value))
                         .controller(IntegerFieldControllerBuilder::create).build())
+                .collapsed(true)
                 .build());
 
         // Firecracker
@@ -126,6 +133,7 @@ public class ItemsCategory {
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.firecracker.price")))
                         .binding(10, () -> ClientConfig.getInt("watheextended.firecracker.price", 10), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.firecracker.price", value))
                         .controller(IntegerFieldControllerBuilder::create).build())
+                .collapsed(true)
                 .build());
 
         // Note
@@ -136,6 +144,7 @@ public class ItemsCategory {
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.note.price")))
                         .binding(10, () -> ClientConfig.getInt("watheextended.note.price", 10), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.note.price", value))
                         .controller(IntegerFieldControllerBuilder::create).build())
+                .collapsed(true)
                 .build());
 
         // Lockpick
@@ -152,6 +161,7 @@ public class ItemsCategory {
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.lockpick.cooldown")))
                         .binding(180, () -> ClientConfig.getInt("watheextended.lockpick.cooldown", 180), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.lockpick.cooldown", value))
                         .controller(IntegerFieldControllerBuilder::create).build())
+                .collapsed(true)
                 .build());
 
         // Crowbar
@@ -168,6 +178,7 @@ public class ItemsCategory {
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.crowbar.cooldown")))
                         .binding(10, () -> ClientConfig.getInt("watheextended.crowbar.cooldown", 10), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.crowbar.cooldown", value))
                         .controller(IntegerFieldControllerBuilder::create).build())
+                .collapsed(true)
                 .build());
 
         // Body Bag
@@ -184,6 +195,7 @@ public class ItemsCategory {
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.bodybag.cooldown")))
                         .binding(300, () -> ClientConfig.getInt("watheextended.bodyBag.cooldown", 300), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.bodyBag.cooldown", value))
                         .controller(IntegerFieldControllerBuilder::create).build())
+                .collapsed(true)
                 .build());
 
         // Blackout
@@ -200,6 +212,7 @@ public class ItemsCategory {
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.blackout.cooldown")))
                         .binding(300, () -> ClientConfig.getInt("watheextended.blackout.cooldown", 300), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.blackout.cooldown", value))
                         .controller(IntegerFieldControllerBuilder::create).build())
+                .collapsed(true)
                 .build());
 
         if (cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) {
@@ -211,7 +224,8 @@ public class ItemsCategory {
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.sulfuricacidbarrel.cooldown")))
                             .binding(60, () -> ClientConfig.getInt("watheextended.sulfuricAcidBarrel.cooldown", 60), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.sulfuricAcidBarrel.cooldown", value))
                             .controller(IntegerFieldControllerBuilder::create).build())
-                    .build());
+                    .collapsed(true)
+                .build());
 
             // Hunting Knife
             builder.group(OptionGroup.createBuilder().name(withIcon("gui.watheextended.config.category.items.group.huntingknife"))
@@ -227,7 +241,8 @@ public class ItemsCategory {
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.huntingknife.cooldown")))
                             .binding(45, () -> ClientConfig.getInt("watheextended.huntingKnife.cooldown", 45), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.huntingKnife.cooldown", value))
                             .controller(IntegerFieldControllerBuilder::create).build())
-                    .build());
+                    .collapsed(true)
+                .build());
 
             // Medical Kit
             builder.group(OptionGroup.createBuilder().name(withIcon("gui.watheextended.config.category.items.group.medicalkit"))
@@ -237,7 +252,8 @@ public class ItemsCategory {
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.medicalkit.cooldown")))
                             .binding(60, () -> ClientConfig.getInt("watheextended.medicalKit.cooldown", 60), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.medicalKit.cooldown", value))
                             .controller(IntegerFieldControllerBuilder::create).build())
-                    .build());
+                    .collapsed(true)
+                .build());
 
             // Pan
             builder.group(OptionGroup.createBuilder().name(withIcon("gui.watheextended.config.category.items.group.pan"))
@@ -253,7 +269,8 @@ public class ItemsCategory {
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.pan.cooldown")))
                             .binding(45, () -> ClientConfig.getInt("watheextended.pan.cooldown", 45), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.pan.cooldown", value))
                             .controller(IntegerFieldControllerBuilder::create).build())
-                    .build());
+                    .collapsed(true)
+                .build());
 
             // Poison Injector
             builder.group(OptionGroup.createBuilder().name(withIcon("gui.watheextended.config.category.items.group.poisoninjector"))
@@ -269,7 +286,8 @@ public class ItemsCategory {
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.poisoninjector.cooldown")))
                             .binding(60, () -> ClientConfig.getInt("watheextended.poisonInjector.cooldown", 60), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.poisonInjector.cooldown", value))
                             .controller(IntegerFieldControllerBuilder::create).build())
-                    .build());
+                    .collapsed(true)
+                .build());
 
             // Pill
             builder.group(OptionGroup.createBuilder().name(withIcon("gui.watheextended.config.category.items.group.pill"))
@@ -285,7 +303,8 @@ public class ItemsCategory {
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.pill.cooldown")))
                             .binding(180, () -> ClientConfig.getInt("watheextended.pill.cooldown", 180), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.pill.cooldown", value))
                             .controller(IntegerFieldControllerBuilder::create).build())
-                    .build());
+                    .collapsed(true)
+                .build());
 
             // Blowgun
             builder.group(OptionGroup.createBuilder().name(withIcon("gui.watheextended.config.category.items.group.blowgun"))
@@ -301,7 +320,8 @@ public class ItemsCategory {
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.blowgun.cooldown")))
                             .binding(60, () -> ClientConfig.getInt("watheextended.blowgun.cooldown", 60), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.blowgun.cooldown", value))
                             .controller(IntegerFieldControllerBuilder::create).build())
-                    .build());
+                    .collapsed(true)
+                .build());
 
             // Knockout Drug
             builder.group(OptionGroup.createBuilder().name(withIcon("gui.watheextended.config.category.items.group.knockoutdrug"))
@@ -317,7 +337,8 @@ public class ItemsCategory {
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.knockoutdrug.cooldown")))
                             .binding(60, () -> ClientConfig.getInt("watheextended.knockoutDrug.cooldown", 60), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.knockoutDrug.cooldown", value))
                             .controller(IntegerFieldControllerBuilder::create).build())
-                    .build());
+                    .collapsed(true)
+                .build());
 
             // Capture Device
             builder.group(OptionGroup.createBuilder().name(withIcon("gui.watheextended.config.category.items.group.capturedevice"))
@@ -333,7 +354,8 @@ public class ItemsCategory {
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.capturedevice.cooldown")))
                             .binding(60, () -> ClientConfig.getInt("watheextended.captureDevice.cooldown", 60), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.captureDevice.cooldown", value))
                             .controller(IntegerFieldControllerBuilder::create).build())
-                    .build());
+                    .collapsed(true)
+                .build());
 
             // Wrench
             builder.group(OptionGroup.createBuilder().name(withIcon("gui.watheextended.config.category.items.group.wrench"))
@@ -349,7 +371,8 @@ public class ItemsCategory {
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.wrench.cooldown")))
                             .binding(120, () -> ClientConfig.getInt("watheextended.wrench.cooldown", 120), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.wrench.cooldown", value))
                             .controller(IntegerFieldControllerBuilder::create).build())
-                    .build());
+                    .collapsed(true)
+                .build());
 
             // Power Restoration
             builder.group(OptionGroup.createBuilder().name(withIcon("gui.watheextended.config.category.items.group.powerrestoration"))
@@ -365,7 +388,8 @@ public class ItemsCategory {
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.powerrestoration.cooldown")))
                             .binding(180, () -> ClientConfig.getInt("watheextended.powerRestoration.cooldown", 180), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.powerRestoration.cooldown", value))
                             .controller(IntegerFieldControllerBuilder::create).build())
-                    .build());
+                    .collapsed(true)
+                .build());
 
             // Refresh Weapon Cooldown
             builder.group(OptionGroup.createBuilder().name(withIcon("gui.watheextended.config.category.items.group.refreshweaponcooldown"))
@@ -381,7 +405,8 @@ public class ItemsCategory {
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.refreshweaponcooldown.cooldown")))
                             .binding(180, () -> ClientConfig.getInt("watheextended.refreshWeaponCooldown.cooldown", 180), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.refreshWeaponCooldown.cooldown", value))
                             .controller(IntegerFieldControllerBuilder::create).build())
-                    .build());
+                    .collapsed(true)
+                .build());
 
             // Refresh Ability Cooldown
             builder.group(OptionGroup.createBuilder().name(withIcon("gui.watheextended.config.category.items.group.refreshabilitycooldown"))
@@ -397,7 +422,8 @@ public class ItemsCategory {
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.refreshabilitycooldown.cooldown")))
                             .binding(300, () -> ClientConfig.getInt("watheextended.refreshAbilityCooldown.cooldown", 300), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.refreshAbilityCooldown.cooldown", value))
                             .controller(IntegerFieldControllerBuilder::create).build())
-                    .build());
+                    .collapsed(true)
+                .build());
 
             // Refresh Potion Effect
             builder.group(OptionGroup.createBuilder().name(withIcon("gui.watheextended.config.category.items.group.refreshpotioneffect"))
@@ -413,7 +439,8 @@ public class ItemsCategory {
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.refreshpotioneffect.cooldown")))
                             .binding(180, () -> ClientConfig.getInt("watheextended.refreshPotionEffect.cooldown", 180), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.refreshPotionEffect.cooldown", value))
                             .controller(IntegerFieldControllerBuilder::create).build())
-                    .build());
+                    .collapsed(true)
+                .build());
         }
 
         if (cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.isLoaded()) {
@@ -425,7 +452,8 @@ public class ItemsCategory {
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.defense_vial.price")))
                             .binding(200, () -> ClientConfig.getInt("noellesroles.defenseVialPrice", 200), value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.defenseVialPrice", value))
                             .controller(IntegerFieldControllerBuilder::create).build())
-                    .build());
+                    .collapsed(true)
+                .build());
 
             // Delusion Vial
             builder.group(OptionGroup.createBuilder().name(withIcon("gui.watheextended.config.category.items.group.delusion_vial"))
@@ -435,7 +463,8 @@ public class ItemsCategory {
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.delusion_vial.price")))
                             .binding(30, () -> ClientConfig.getInt("noellesroles.delusionVialPrice", 30), value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.delusionVialPrice", value))
                             .controller(IntegerFieldControllerBuilder::create).build())
-                    .build());
+                    .collapsed(true)
+                .build());
 
             // Role Mine
             builder.group(OptionGroup.createBuilder().name(withIcon("gui.watheextended.config.category.items.group.role_mine"))
@@ -445,7 +474,8 @@ public class ItemsCategory {
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.role_mine.price")))
                             .binding(100, () -> ClientConfig.getInt("noellesroles.roleMinePrice", 100), value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.roleMinePrice", value))
                             .controller(IntegerFieldControllerBuilder::create).build())
-                    .build());
+                    .collapsed(true)
+                .build());
         }
 
         if (cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.isLoaded()) {
@@ -486,14 +516,15 @@ public class ItemsCategory {
                             .name(Text.translatable("gui.watheextended.config.category.items.group.tape.killifcheckedatzero"))
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.tape.killifcheckedatzero.desc")))
                             .binding(true, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getMuzzlerKillIfCheckedAtZero, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.killIfCheckedAtZero", value))
-                            .controller(option -> BooleanControllerBuilder.create(option).coloured(true).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.disabled"))).build())
+                            .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build())
                     /// DISPLAY SILENCED TIP DELAY
                     .option(Option.<Integer>createBuilder()
                             .name(Text.translatable("gui.watheextended.config.category.items.group.tape.displaysilencedtipdelay"))
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.tape.displaysilencedtipdelay.desc")))
                             .binding(120, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getMuzzlerDisplaySilencedTipDelay, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.displaySilencedTipDelay", value))
                             .controller(IntegerFieldControllerBuilder::create).build())
-                    .build());
+                    .collapsed(true)
+                .build());
         }
 
         if (cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper.isLoaded()) {
@@ -505,7 +536,8 @@ public class ItemsCategory {
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.jerry_can.cooldown")))
                             .binding(0, () -> ClientConfig.getInt("stupidexpress.jerryCan.cooldown", 0), value -> ScreenUtils.stage(sendCommand, parent, "stupidexpress.jerryCan.cooldown", value))
                             .controller(IntegerFieldControllerBuilder::create).build())
-                    .build());
+                    .collapsed(true)
+                .build());
 
             // Lighter
             builder.group(OptionGroup.createBuilder().name(withIcon("gui.watheextended.config.category.items.group.lighter"))
@@ -515,7 +547,8 @@ public class ItemsCategory {
                             .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.lighter.cooldown")))
                             .binding(0, () -> ClientConfig.getInt("stupidexpress.lighter.cooldown", 0), value -> ScreenUtils.stage(sendCommand, parent, "stupidexpress.lighter.cooldown", value))
                             .controller(IntegerFieldControllerBuilder::create).build())
-                    .build());
+                    .collapsed(true)
+                .build());
         }
 
         return builder.build();

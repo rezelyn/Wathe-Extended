@@ -5,13 +5,21 @@
   "name": "Wathe Extended",
   "description": "Add-on mod for Wathe: Murder Mystery, made for \"The Harpy Express: Extended\" modpack.",
   "authors": [
-    "Rezelyn (Owner), yoy333 (Maintainer)",
-    "\nTranslators:\n- @haiman233 (Simplified Chinese)\n- @math730 (French)",
-    "\nSpecial thanks:\n- The D.R. Harpy Transportation Ltd. Discord server for being psychopaths\n- @Celemimphar (Ish Plush model/texture)",
-    "\nAdditional assets from:\n- LadySnake (Wathe: Murder Mystery)"
+    "Rezelyn (Owner)",
+    "yoy333 (Maintainer)"
+  ],
+  "contributors": [
+    "ItsSyfe",
+    "Basinity",
+    "math730 (French localization)",
+    "haiman233 (Chinese localization)",
+    "Celemimphar (Ish Plush model & texture)",
+    "\nSpecial thanks:\n- The D.R. Harpy Transportation Ltd. Discord server for being psychopaths",
+    "\nAdditional assets:\n- LadySnake (Wathe: Murder Mystery)\n- Arkane® Studios (Dishonored)"
   ],
   "contact": {
-    "sources": "https://github.com/rezelyn/Wathe-Extended"
+    "sources": "https://github.com/rezelyn/Wathe-Extended",
+    "issues": "https://github.com/rezelyn/Wathe-Extended/issues"
   },
   "license": "GPL-3.0",
   "icon": "assets/watheextended/icon.png",
@@ -41,9 +49,9 @@
     "fabricloader": ">=${loader_version}",
     "fabric-api": "*",
     "minecraft": "${minecraft_version}",
-    "yet_another_config_lib_v3": ">=3.8.0+1.21.1-fabric",
-    "wathe": ">=1.3.2-1.21.1",
-    "harpymodloader": ">=1.2.4-h1.3"
+    "yet_another_config_lib_v3": ">=3.8.2+1.21.1-fabric",
+    "wathe": ">=1.4-1.21.1",
+    "harpymodloader": ">=1.2.5-h1.4"
   },
   "custom": {
     "cardinal-components": [

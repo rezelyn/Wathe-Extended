@@ -21,14 +21,15 @@ public final class ConfigScreen {
     private static final Map<String, Boolean> pendingRoleState = new HashMap<>();
     private static final Map<String, Boolean> pendingModifierState = new HashMap<>();
 
-    // Blacklist of roles that shouldn't be shown in the config screen
-    // As these are needed by WATHE to function properly and so are not meant to be disabled
-    private static final Set<String> BLACKLIST = Set.of(
-            "civilian",
-            "killer",
-            "vigilante",
-            "discovery_civilian",
-            "loose_end"
+    // roles that shouldn't be shown in the config screen
+    // as these are needed by WATHE to function properly and so are not meant to be disabled
+    private static final Set<String> DENYLIST = Set.of(
+            "civilian",           // default role from the base map effect
+            "killer",             // default role from the base map effect
+            "vigilante",          // default role from the base map effect
+            "discovery_civilian", // used in the discovery map effect
+            "loose_end",          // used in the loose end map effect
+            "secret_killer"       // used in the special murder-only round, same as killer
     );
 
     private static Screen savedParent = null;
@@ -63,10 +64,10 @@ public final class ConfigScreen {
                 .save(ConfigScreen::flushPendingChanges);
 
         if (op) {
-            builder.category(OptionsCategory.build(parent, ConfigScreen::stageCommand));
-            builder.category(MapVariablesCategory.build(parent, ConfigScreen::stageCommand));
+            builder.category(GameCategory.build(parent, ConfigScreen::stageCommand));
+            builder.category(MapCategory.build(parent, ConfigScreen::stageCommand));
             builder.category(ItemsCategory.build(parent, ConfigScreen::stageCommand));
-            builder.category(RolesCategory.build(parent, BLACKLIST, pendingRoleState, ConfigScreen::stageCommand));
+            builder.category(RolesCategory.build(parent, DENYLIST, pendingRoleState, ConfigScreen::stageCommand));
             builder.category(ModifiersCategory.build(parent, pendingModifierState, ConfigScreen::stageCommand));
         }
 

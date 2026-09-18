@@ -21,6 +21,7 @@ public final class GameEvents {
             try {
                 WatheExtendedWorldComponent game = WatheExtendedWorldComponent.KEY.get(world);
                 game.clearKilledPlayers();
+                game.clearRevolverPickupBlocks();
                 game.setGameStartWorldTime(world.getTime());
             } catch (Throwable ignored) {
             }
@@ -57,7 +58,9 @@ public final class GameEvents {
 
         dev.doctor4t.wathe.api.event.GameEvents.ON_FINISH_FINALIZE.register((world, gameWorldComponent) -> {
             try {
-                WatheExtendedWorldComponent.KEY.get(world).clearKilledPlayers();
+                WatheExtendedWorldComponent game = WatheExtendedWorldComponent.KEY.get(world);
+                game.clearKilledPlayers();
+                game.clearRevolverPickupBlocks();
             } catch (Throwable ignored) {
             }
             AdaptiveModifier.clearAll();
