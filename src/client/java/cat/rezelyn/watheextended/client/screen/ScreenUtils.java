@@ -3,6 +3,7 @@ package cat.rezelyn.watheextended.client.screen;
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.controller.FloatFieldControllerBuilder;
+import dev.isxander.yacl3.api.controller.FloatSliderControllerBuilder;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -37,6 +38,10 @@ public final class ScreenUtils {
         // misc
         map.put("enabled", "\uE400");
         map.put("disabled", "\uE401");
+        map.put("save", "\uE500");
+        map.put("refresh", "\uE501");
+        map.put("load", "\uE502");
+        map.put("delete", "\uE503");
         map.put("mood", "\uE504");
 
         // items

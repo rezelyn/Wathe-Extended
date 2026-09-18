@@ -10,6 +10,14 @@
   },
   "ish.plush": {
     "sounds": [ "watheextended:ish_plush" ]
+  },
+  "instinct.in": {
+    "sounds": [ "watheextended:instinct_in" ]
+  },
+  "instinct.out": {
+    "sounds": [ "watheextended:instinct_out" ]
+  },
+  "instinct.loop": {
+    "sounds": [ "watheextended:instinct_loop" ]
   }
 }
-

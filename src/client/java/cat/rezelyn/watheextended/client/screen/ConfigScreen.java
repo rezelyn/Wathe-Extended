@@ -3,6 +3,7 @@ package cat.rezelyn.watheextended.client.screen;
 import cat.rezelyn.watheextended.api.config.ClientConfig;
 import cat.rezelyn.watheextended.api.config.ServerConfig;
 import cat.rezelyn.watheextended.client.screen.config.*;
+import cat.rezelyn.watheextended.game.PresetManager;
 import dev.isxander.yacl3.api.YetAnotherConfigLib;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -14,12 +15,14 @@ import net.minecraft.text.Text;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.List;
 
 public final class ConfigScreen {
 
     private static final Map<String, String> pendingChanges = new HashMap<>();
     private static final Map<String, Boolean> pendingRoleState = new HashMap<>();
     private static final Map<String, Boolean> pendingModifierState = new HashMap<>();
+    private static List<PresetManager.PresetMetadata> presets = List.of();
 
     // roles that shouldn't be shown in the config screen
     // as these are needed by WATHE to function properly and so are not meant to be disabled
@@ -69,6 +72,7 @@ public final class ConfigScreen {
             builder.category(ItemsCategory.build(parent, ConfigScreen::stageCommand));
             builder.category(RolesCategory.build(parent, DENYLIST, pendingRoleState, ConfigScreen::stageCommand));
             builder.category(ModifiersCategory.build(parent, pendingModifierState, ConfigScreen::stageCommand));
+            builder.category(PresetsCategory.build(parent, presets));
         }
 
         return builder.build().generateScreen(parent);
@@ -81,6 +85,39 @@ public final class ConfigScreen {
         savedParent = null;
         awaitingSync = false;
         reopenAtTick = -1;
+        presets = List.of();
+    }
+
+    public static void requestPresetList() {
+        ClientPlayNetworking.send(new PresetManager.ActionPayload("list", "", "", ""));
+    }
+
+    public static void requestPresetSave(String name, String description) {
+        ClientPlayNetworking.send(new PresetManager.ActionPayload("save", "", name, description));
+    }
+
+    public static void requestPresetLoad(String id) {
+        ClientPlayNetworking.send(new PresetManager.ActionPayload("load", id, "", ""));
+    }
+
+    public static void confirmPresetDelete(String id, String name, Screen screen) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        client.setScreen(new net.minecraft.client.gui.screen.ConfirmScreen(confirmed -> {
+            if (confirmed) ClientPlayNetworking.send(new PresetManager.ActionPayload("delete", id, "", ""));
+            client.setScreen(screen);
+        }, Text.translatable("gui.watheextended.config.category.presets.delete"), Text.translatable("gui.watheextended.config.category.presets.delete.confirm", name)));
+    }
+
+    public static void onPresetList(PresetManager.ListPayload payload) {
+        presets = PresetManager.fromNbt(payload.data());
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (savedParent != null && client.currentScreen != null) {
+            client.setScreen(create(savedParent));
+        }
+    }
+
+    public static void onPresetResult(PresetManager.ResultPayload payload) {
+        if (payload.success()) requestPresetList();
     }
 
     public static void onCacheUpdated() {

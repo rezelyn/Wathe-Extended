@@ -79,13 +79,15 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.text.price"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.bellringer.price.desc")))
                         .binding(200, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getBellringerAbilityPrice(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.BellringerAbilityPrice", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
                 /// ABILITY - COOLDOWN
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.text.cooldown"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.bellringer.cooldown.desc")))
                         .binding(120, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getBellringerAbilityCooldown(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.BellringerAbilityCooldown", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
             }
             // Bodymaker
             case "kinswathe:bodymaker" -> {
@@ -96,7 +98,8 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.text.cooldown"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.bodymaker.cooldown.desc")))
                         .binding(90, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getBodymakerAbilityCooldown(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.BodymakerAbilityCooldown", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
                 /// ABILITY - ALLOW FAKE ROLE
                 builder.option(Option.<Boolean>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.bodymaker.fakerole"))
@@ -129,19 +132,22 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.text.price"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.cleaner.price.desc")))
                         .binding(200, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getCleanerAbilityPrice(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.CleanerAbilityPrice", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
                 /// ABILITY - COOLDOWN
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.text.cooldown"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.cleaner.cooldown.desc")))
                         .binding(150, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getCleanerAbilityCooldown(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.CleanerAbilityCooldown", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
                 /// ABILITY - PLAYER LIMIT
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.text.playerlimit"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.cleaner.playerlimit.desc")))
                         .binding(10, () -> ClientConfig.getInt("watheextended.cleaner.playerLimit", 10), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.cleaner.playerLimit", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
             }
             // Detective
             case "kinswathe:detective" -> {
@@ -152,13 +158,15 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.text.price"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.detective.price.desc")))
                         .binding(200, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getDetectiveAbilityPrice(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.DetectiveAbilityPrice", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
                 /// ABILITY - COOLDOWN
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.text.cooldown"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.detective.cooldown.desc")))
                         .binding(90, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getDetectiveAbilityCooldown(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.DetectiveAbilityCooldown", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
             }
             // Dreamer
             case "kinswathe:dreamer" -> {
@@ -168,7 +176,8 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.dreamer.initialquantity"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.dreamer.initialquantity.desc")))
                         .binding(1, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getDreamerInitialItemQuantity(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.DreamerInitialItemQuantity", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
             }
             // Drugmaker
             case "kinswathe:drugmaker" -> {
@@ -178,13 +187,15 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.text.playerlimit"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.drugmaker.playerlimit.desc")))
                         .binding(10, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getDrugmakerPlayerLimit(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.DrugmakerPlayerLimit", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
                 /// POISON KILL INCOME
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.drugmaker.killincome"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.drugmaker.killincome.desc")))
                         .binding(50, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getDrugmakerGetCoins(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.DrugmakerGetCoins", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
             }
             // Hacker
             case "kinswathe:hacker" -> {
@@ -194,13 +205,15 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.text.playerlimit"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.hacker.playerlimit.desc")))
                         .binding(10, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getHackerPlayerLimit(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.HackerPlayerLimit", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
                 /// GENERATE WITH MIMIC
                 builder.option(Option.<Boolean>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.hacker.generatewithmimic"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.hacker.generatewithmimic.desc")))
                         .binding(false, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getHackerGenerateWithMimic(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.HackerGenerateWithMimic", value))
-                        .controller(TickBoxControllerBuilder::create).build());
+                        .controller(TickBoxControllerBuilder::create)
+                        .build());
                 /// HACKING TIME
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.hacker.hackingtime"))
@@ -212,7 +225,8 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.text.hasshop"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.hacker.hasshop.desc")))
                         .binding(true, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getHackerHasShop(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.HackerHasShop", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.enabled" : "gui.watheextended.config.text.enabled"))).build());
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                        .build());
             }
             // Hunter
             case "kinswathe:hunter" -> {
@@ -223,13 +237,15 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.text.price"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.hunter.price.desc")))
                         .binding(125, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getHunterAbilityPrice(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.HunterAbilityPrice", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
                 /// ABILITY - COOLDOWN
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.text.cooldown"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.hunter.cooldown.desc")))
                         .binding(5, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getHunterAbilityCooldown(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.HunterAbilityCooldown", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
             }
             // Judge
             case "kinswathe:judge" -> {
@@ -240,19 +256,22 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.text.price"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.judge.price.desc")))
                         .binding(300, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getJudgeAbilityPrice(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.JudgeAbilityPrice", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
                 /// ABILITY - COOLDOWN
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.text.cooldown"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.judge.cooldown.desc")))
                         .binding(180, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getJudgeAbilityCooldown(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.JudgeAbilityCooldown", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
                 /// ABILITY - DURATION
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.text.duration"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.judge.duration.desc")))
                         .binding(90, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getJudgeAbilityGlowing(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.JudgeAbilityGlowing", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
             }
             // Licensed Villian
             case "kinswathe:licensed_villain" -> {
@@ -262,7 +281,8 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.text.playerlimit"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.licensedvillain.playerlimit.desc")))
                         .binding(10, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getLicensedVillainPlayerLimit(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.LicensedVillainPlayerLimit", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
             }
             // Robot
             case "kinswathe:robot" -> {
@@ -273,13 +293,15 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.text.cooldown"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.robot.cooldown.desc")))
                         .binding(90, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getRobotAbilityCooldown(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.RobotAbilityCooldown", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
                 /// ABILITY - DURATION
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.text.duration"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.robot.duration.desc")))
                         .binding(10, () -> cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getRobotAbilityDuration(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "kinswathe.RobotAbilityDuration", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
             }
             // Voodoo
             case "noellesroles:voodoo" -> {
@@ -289,14 +311,16 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.voodoo.shotlikeevil"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.voodoo.shotlikeevil.desc")))
                         .binding(true, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getVoodooShotLikeEvil, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.voodooShotLikeEvil", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build());
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                        .build());
                 /// ABILITY - VOODOO ON NATURAL DEATHS
                 builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xAAAAAA))));
                 builder.option(Option.<Boolean>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.voodoo.nonkillerdeaths"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.voodoo.nonkillerdeaths.desc")))
                         .binding(false, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getVoodooNonKillerDeaths, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.voodooNonKillerDeaths", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build());
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                        .build());
             }
             // Morphling
             case "noellesroles:morphling" -> {
@@ -306,7 +330,8 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.morphling.morphpsychosis"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.morphling.morphpsychosis.desc")))
                         .binding(false, () -> cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.getInsanePlayersSeeMorphs(MinecraftClient.getInstance().world), value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.insanePlayersSeeMorphs", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build());
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                        .build());
                 /// ABILITY - CANCEL
                 builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.text.ability").styled(style -> style.withColor(0xAAAAAA))));
                 builder.option(Option.<Boolean>createBuilder()
@@ -364,7 +389,8 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.conductor.keycountvisible"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.conductor.keycountvisible.desc")))
                         .binding(10, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getPlayerCountToMakeConducterKeyVisible, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.playerCountToMakeConducterKeyVisible", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
             }
             // Bartender
             case "noellesroles:bartender" -> {
@@ -374,19 +400,22 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.bartender.maxdefensevials"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.bartender.maxdefensevials.desc")))
                         .binding(1, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getMaximumDefenseVials, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.maximumDefenseVials", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
                 /// DEFENSE VIAL PRICE
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.bartender.defensevialprice"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.bartender.defensevialprice.desc")))
                         .binding(200, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getDefenseVialPrice, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.defenseVialPrice", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
                 /// DEFENSE MAXIMUM TIME
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.bartender.defensemaximumtime"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.bartender.defensemaximumtime.desc")))
                         .binding(-1, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getDefenseMaximumTime, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.defenseMaximumTime", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
             }
             // Trapper
             case "noellesroles:trapper" -> {
@@ -396,13 +425,15 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.trapper.seesnames"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.trapper.seesnames.desc")))
                         .binding(false, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getTrapperSeesNames, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.trapperSeesNames", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build());
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                        .build());
                 /// ROLE MINE PRICE
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.trapper.mineprice"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.trapper.mineprice.desc")))
                         .binding(100, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getRoleMinePrice, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.roleMinePrice", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
             }
             // Guesser
             case "noellesroles:guesser" -> {
@@ -412,7 +443,8 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.guesser.canuseinstinct"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.guesser.canuseinstinct.desc")))
                         .binding(true, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getGuesserCanUseInstinct, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.guesserCanUseInstinct", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build());
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                        .build());
             }
             // Infected
             case "noellesroles:infected" -> {
@@ -422,13 +454,15 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.infected.killtime"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.infected.killtime.desc")))
                         .binding(1100, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getInfectedKillTime, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.infectedKillTime", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
                 /// COUGH CHANCE
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.infected.coughchance"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.infected.coughchance.desc")))
                         .binding(5, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getInfectedCoughChance, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.infectedCoughChance", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
             }
             // Recon
             case "noellesroles:recon" -> {
@@ -438,7 +472,8 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.recon.seesnames"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.recon.seesnames.desc")))
                         .binding(false, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getReconsSeeNames, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.reconsSeeNames", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build());
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                        .build());
             }
             // Executioner
             case "noellesroles:executioner" -> {
@@ -448,7 +483,8 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.executioner.canpickupgun"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.executioner.canpickupgun.desc")))
                         .binding(true, cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper::getExecutionCanPickUpGun, value -> ScreenUtils.stage(sendCommand, parent, "noellesroles.executionCanPickUpGun", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build());
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                        .build());
             }
             // Necromancer
             case "stupid_express:necromancer" -> {
@@ -458,7 +494,8 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.text.hasshop"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.necromancer.hasshop.desc")))
                         .binding(false, cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper::getNecromancerHasShop, value -> ScreenUtils.stage(sendCommand, parent, "stupidexpress.necromancerHasShop", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build());
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                        .build());
             }
             // Arsonist
             case "stupid_express:arsonist" -> {
@@ -468,7 +505,8 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.arsonist.keepsgamegoing"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.arsonist.keepsgamegoing.desc")))
                         .binding(true, cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper::getArsonistKeepsGameGoing, value -> ScreenUtils.stage(sendCommand, parent, "stupidexpress.arsonistKeepsGameGoing", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build());
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                        .build());
             }
             // Amnesiac
             case "stupid_express:amnesiac" -> {
@@ -478,13 +516,15 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.amnesiac.bodiesglow"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.amnesiac.bodiesglow.desc")))
                         .binding(true, cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper::getBodiesGlowToAmnesiac, value -> ScreenUtils.stage(sendCommand, parent, "stupidexpress.bodiesGlowToAmnesiac", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build());
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                        .build());
                 /// GLOWS DIFFERENTLY
                 builder.option(Option.<Boolean>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.amnesiac.glowsdifferently"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.amnesiac.glowsdifferently.desc")))
                         .binding(false, cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper::getAmnesiacGlowsDifferently, value -> ScreenUtils.stage(sendCommand, parent, "stupidexpress.amnesiacGlowsDifferently", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build());
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                        .build());
             }
             // Starstruck
             case "starexpress:starstruck" -> {
@@ -495,43 +535,50 @@ public final class RolesCategory {
                         .name(Text.translatable("gui.watheextended.config.text.cooldown"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.starstruck.cooldown.desc")))
                         .binding(90, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getStarstruckAbilityCooldown, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.abilityCooldown", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
                 /// ABILITY - DURATION
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.text.duration"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.starstruck.duration.desc")))
                         .binding(15, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getStarstruckAbilityDuration, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.abilityDuration", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
                 /// ABILITY - TASK REDUCE COOLDOWN
                 builder.option(Option.<Boolean>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.starstruck.taskreducescooldown"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.starstruck.taskreducescooldown.desc")))
                         .binding(true, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getStarstruckTaskReducesCooldown, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.taskReducesCooldown", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build());
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                        .build());
                 /// ABILITY - TASK COOLDOWN REDUCTION
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.starstruck.taskcooldownreduction"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.starstruck.taskcooldownreduction.desc")))
                         .binding(5, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getStarstruckTaskCooldownReduction, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.taskCooldownReduction", value))
-                        .controller(IntegerFieldControllerBuilder::create).build());
+                        .controller(IntegerFieldControllerBuilder::create)
+                        .build());
                 /// ABILITY - AFFECTS MOVEMENT SPEED
                 builder.option(Option.<Boolean>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.starstruck.affectsmovementspeed"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.starstruck.affectsmovementspeed.desc")))
                         .binding(true, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getStarstruckAbilityAffectsMovementSpeed, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.abilityAffectsMovementSpeed", value))
-                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off"))).build());
+                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                        .build());
                 /// ABILITY - WALK SPEED
                 builder.option(Option.<Float>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.starstruck.walkspeed"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.starstruck.walkspeed.desc")))
                         .binding(0.12f, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getStarstruckAbilityWalkSpeed, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.abilityWalkSpeed", value))
-                        .controller(ScreenUtils::floatController).build());
+                        .controller(ScreenUtils::floatController)
+                        .build());
                 /// ABILITY - SPRINT SPEED
                 builder.option(Option.<Float>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.category.roles.opt.starstruck.sprintspeed"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.starstruck.sprintspeed.desc")))
                         .binding(0.15f, cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper::getStarstruckAbilitySprintSpeed, value -> ScreenUtils.stage(sendCommand, parent, "starexpress.abilitySprintSpeed", value))
-                        .controller(ScreenUtils::floatController).build());
+                        .controller(ScreenUtils::floatController)
+                        .build());
             }
         }
     }

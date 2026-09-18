@@ -122,6 +122,13 @@ public final class ServerConfig {
                 }
             });
         }
+
+        public static Entry<Float> worldFloat(String key, float def, Function<World, Float> reader, BiConsumer<World, Float> world) {
+            return worldScoped(key, def, reader, world, Object::toString, string -> {
+                try { return Float.parseFloat(string); }
+                catch (NumberFormatException exception) { return def; }
+            });
+        }
     }
 
     private static final Map<String, Entry<?>> ENTRIES = new LinkedHashMap<>();
@@ -148,6 +155,18 @@ public final class ServerConfig {
             }
         }
         return nbt;
+    }
+
+    public static Map<String, String> snapshot(World world) {
+        Map<String, String> result = new LinkedHashMap<>();
+        for (Map.Entry<String, Entry<?>> e : ENTRIES.entrySet()) {
+            try {
+                Entry<Object> entry = (Entry<Object>) e.getValue();
+                result.put(e.getKey(), entry.serialize(entry.readServer(world)));
+            } catch (Throwable ignored) {
+            }
+        }
+        return result;
     }
 
     @SuppressWarnings("unchecked")

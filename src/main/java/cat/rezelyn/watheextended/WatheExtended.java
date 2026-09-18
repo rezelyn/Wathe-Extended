@@ -208,6 +208,15 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.lastStand.cooldown", 30,
                 WatheExtendedServerConfig::getLastStandCooldown,
                 WatheExtendedServerConfig::setLastStandCooldown));
+        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.instinct.capacity", 100.0f,
+                WatheExtendedServerConfig::getInstinctCapacity,
+                WatheExtendedServerConfig::setInstinctCapacity));
+        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.instinct.drainRate", 25.0f,
+                WatheExtendedServerConfig::getInstinctDrainRate,
+                WatheExtendedServerConfig::setInstinctDrainRate));
+        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.instinct.reloadRate", 25.0f,
+                WatheExtendedServerConfig::getInstinctReloadRate,
+                WatheExtendedServerConfig::setInstinctReloadRate));
         ServerConfig.register(ServerConfig.Entry.globalBool("watheextended.morphling.canCancelAbility", true,
                 WatheExtendedServerConfig::isMorphlingCanCancelAbility,
                 WatheExtendedServerConfig::setMorphlingCanCancelAbility));
@@ -246,6 +255,9 @@ public class WatheExtended implements ModInitializer {
         PayloadTypeRegistry.playC2S().register(PronounsManager.UpdatePayload.ID, PronounsManager.UpdatePayload.CODEC);
         PayloadTypeRegistry.playS2C().register(PronounsManager.SyncPayload.ID, PronounsManager.SyncPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(LastStand.LastStandPayload.ID, LastStand.LastStandPayload.CODEC);
+        PayloadTypeRegistry.playC2S().register(PresetManager.ActionPayload.ID, PresetManager.ActionPayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(PresetManager.ListPayload.ID, PresetManager.ListPayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(PresetManager.ResultPayload.ID, PresetManager.ResultPayload.CODEC);
 
         ServerPlayNetworking.registerGlobalReceiver(ServerConfig.ChangePayload.ID, (payload, context) -> {
             if (!context.player().hasPermissionLevel(2)) return;
@@ -280,6 +292,35 @@ public class WatheExtended implements ModInitializer {
                 }
             });
         });
+
+        ServerPlayNetworking.registerGlobalReceiver(PresetManager.ActionPayload.ID, (payload, context) -> {
+            if (!context.player().hasPermissionLevel(2)) return;
+            context.server().execute(() -> {
+                try {
+                    switch (payload.action()) {
+                        case "list" -> PresetManager.sendList(context.player());
+                        case "save" -> {
+                            PresetManager.save(payload.name(), payload.description(), context.player(),
+                                    ServerConfig.snapshot(context.server().getOverworld()));
+                            PresetManager.sendList(context.player());
+                        }
+                        case "load" -> {
+                            PresetManager.apply(PresetManager.load(payload.id()), context.server().getOverworld());
+                            ServerConfig.broadcastToAll(context.server());
+                            ServerPlayNetworking.send(context.player(), new PresetManager.ResultPayload(true, "load", ""));
+                        }
+                        case "delete" -> {
+                            PresetManager.delete(payload.id());
+                            PresetManager.sendList(context.player());
+                        }
+                        default -> throw new IllegalArgumentException("Unknown preset action");
+                    }
+                } catch (Exception exception) {
+                    LOGGER.warn("Preset action failed", exception);
+                    ServerPlayNetworking.send(context.player(), new PresetManager.ResultPayload(false, payload.action(), exception.getMessage() == null ? "Preset action failed" : exception.getMessage()));
+                }
+            });
+        });
     }
 
     private static void registerConnectionEvents() {
@@ -287,6 +328,7 @@ public class WatheExtended implements ModInitializer {
             ServerPlayerEntity joining = handler.player;
             server.execute(() -> {
                 ServerConfig.sendToPlayer(joining);
+                PresetManager.sendList(joining);
                 PronounsManager.getAll().forEach((uuid, pronouns) ->
                         ServerPlayNetworking.send(joining, new PronounsManager.SyncPayload(uuid, pronouns)));
                 try {

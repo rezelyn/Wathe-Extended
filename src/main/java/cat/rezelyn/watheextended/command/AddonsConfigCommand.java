@@ -1,10 +1,12 @@
 package cat.rezelyn.watheextended.command;
 
+import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper;
 import cat.rezelyn.watheextended.api.config.ServerConfig;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
+import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import net.minecraft.server.command.CommandManager;
@@ -39,6 +41,18 @@ public class AddonsConfigCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         var root = CommandManager.literal("watheextended:config").requires(source -> source.hasPermissionLevel(2));
+        root.then(
+                CommandManager.literal("instinct")
+                        .then(CommandManager.literal("setCapacity").then(CommandManager.argument("amount", FloatArgumentType.floatArg(0.0f))
+                                .executes(update(context -> WatheExtendedServerConfig.setInstinctCapacity(FloatArgumentType.getFloat(context, "amount")))))
+                        )
+                        .then(CommandManager.literal("setDrainRate").then(CommandManager.argument("amount", FloatArgumentType.floatArg(0.1f))
+                                .executes(update(context -> WatheExtendedServerConfig.setInstinctDrainRate(FloatArgumentType.getFloat(context, "amount")))))
+                        )
+                        .then(CommandManager.literal("setReloadRate").then(CommandManager.argument("amount", FloatArgumentType.floatArg(0.1f))
+                                .executes(update(context -> WatheExtendedServerConfig.setInstinctReloadRate(FloatArgumentType.getFloat(context, "amount")))))
+                        )
+        );
         // Kin's Wathe
         if (cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) {
             root.then(
