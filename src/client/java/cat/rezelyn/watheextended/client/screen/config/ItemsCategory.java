@@ -68,7 +68,6 @@ public class ItemsCategory {
                 .collapsed(true)
                 .build());
 
-
         // Grenade
         builder.group(OptionGroup.createBuilder().name(withIcon("gui.watheextended.config.category.items.group.grenade"))
                 /// PRICE
