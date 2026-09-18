@@ -122,6 +122,13 @@ public final class ServerConfig {
                 }
             });
         }
+
+        public static Entry<Float> worldFloat(String key, float def, Function<World, Float> reader, BiConsumer<World, Float> world) {
+            return worldScoped(key, def, reader, world, Object::toString, string -> {
+                try { return Float.parseFloat(string); }
+                catch (NumberFormatException exception) { return def; }
+            });
+        }
     }
 
     private static final Map<String, Entry<?>> ENTRIES = new LinkedHashMap<>();

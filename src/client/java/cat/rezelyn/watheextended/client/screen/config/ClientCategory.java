@@ -9,6 +9,7 @@ import cat.rezelyn.watheextended.game.PronounsManager;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import dev.isxander.yacl3.api.controller.CyclingListControllerBuilder;
+import dev.isxander.yacl3.api.controller.FloatSliderControllerBuilder;
 import dev.isxander.yacl3.api.controller.StringControllerBuilder;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
@@ -70,6 +71,34 @@ public final class ClientCategory {
                     .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
                     .build());
         }
+        // INSTINCT
+        builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.client.label.instinct").styled(style -> style.withColor(0xAAAAAA))));
+        /// HUD STYLE
+        builder.option(Option.<String>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.client.opt.instinct.hudstyle"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.opt.instinct.hudstyle.desc")))
+                .binding("HALF_LEFT", WatheExtendedClientConfig::getInstinctHudStyle, WatheExtendedClientConfig::setInstinctHudStyle)
+                .controller(option -> CyclingListControllerBuilder.create(option)
+                        .values(java.util.List.of("FULL", "HALF_LEFT", "HALF_RIGHT"))
+                        .formatValue(value -> Text.translatable("gui.watheextended.config.category.client.opt.instinct.hudstyle." + value.toLowerCase(java.util.Locale.ROOT))))
+                .build());
+        /// HUD OPACITY
+        builder.option(Option.<Float>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.client.opt.instinct.hudopacity"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.opt.instinct.hudopacity.desc")))
+                .binding(0.15f, WatheExtendedClientConfig::getInstinctHudOpacity, WatheExtendedClientConfig::setInstinctHudOpacity)
+                .controller(option -> FloatSliderControllerBuilder.create(option)
+                        .range(0.0f, 1.0f)
+                        .step(0.01f)
+                        .formatValue(value -> Text.literal(Math.round(value * 100.0f) + "%")))
+                .build());
+        /// ALWAYS SHOW INSTINCT HUD
+        builder.option(Option.<Boolean>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.client.opt.instinct.hudalwaysshow"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.opt.instinct.hudalwaysshow.desc")))
+                .binding(false, WatheExtendedClientConfig::getAlwaysShowInstinctHud, WatheExtendedClientConfig::setAlwaysShowInstinctHud)
+                .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                .build());
 
         // Keybinds
         builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.client.label.keybinds").styled(style -> style.withColor(0xAAAAAA))));

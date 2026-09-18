@@ -24,6 +24,9 @@ public final class WatheExtendedServerConfig {
     public static int killIncreaseTime = 60;
     public static boolean lastStandEnabled = false;
     public static int lastStandCooldown = 30;
+    public static float instinctCapacity = 100.0f;
+    public static float instinctDrainRate = 30.0f;
+    public static float instinctReloadRate = 10.0f;
     public static String jumpMode = "LOBBY";
     public static String shootInnocentPunishmentMode = "DEFAULT";
     public static boolean suppressAbilityVfxSfx = false;
@@ -134,6 +137,9 @@ public final class WatheExtendedServerConfig {
         minPassiveIncome = config.getInt("balance.minPassiveIncome", 0);
         lastStandEnabled = config.getBool("gamerules.lastStandEnabled", false);
         lastStandCooldown = config.getInt("gamerules.lastStandDuration", 30);
+        instinctCapacity = Math.clamp(config.getFloat("gamerules.instinct.capacity", 100.0f), 0.0f, 100.0f);
+        instinctDrainRate = Math.max(0.0f, config.getFloat("gamerules.instinct.drainRate", 30.0f));
+        instinctReloadRate = Math.max(0.0f, config.getFloat("gamerules.instinct.reloadRate", 10.0f));
         knifeCooldown = config.getInt("items.knife.cooldown", 60);
         revolverCooldown = config.getInt("items.revolver.cooldown", 10);
         grenadeCooldown = config.getInt("items.grenade.cooldown", 90);
@@ -241,6 +247,17 @@ public final class WatheExtendedServerConfig {
                     "    // Duration in seconds of the Last Stand countdown before the player dies.\n" +
                     "    // Default: 30\n" +
                     "    \"lastStandDuration\": " + lastStandCooldown + ",\n" +
+                    "    // Total Instinct charge capacity.\n" +
+                    "    // Default: 100\n" +
+                    "    \"instinct\": {\n" +
+                    "      \"capacity\": " + instinctCapacity + ",\n" +
+                    "      // Percentage of total capacity drained per second while active.\n" +
+                    "      // Default: 30\n" +
+                    "      \"drainRate\": " + instinctDrainRate + ",\n" +
+                    "      // Percentage of total capacity restored per second while inactive.\n" +
+                    "      // Default: 10\n" +
+                    "      \"reloadRate\": " + instinctReloadRate + "\n" +
+                    "    },\n" +
                     "    // Controls when players are allowed to jump.\n" +
                     "    // Options: DEFAULT (Wathe default behavior), LOBBY (only in lobby), EVERYWHERE (always)\n" +
                     "    // Default: LOBBY\n" +
@@ -808,6 +825,33 @@ public final class WatheExtendedServerConfig {
 
     public static void setLastStandCooldown(int value) {
         lastStandCooldown = Math.max(1, value);
+        save();
+    }
+
+    public static float getInstinctCapacity() {
+        return instinctCapacity;
+    }
+
+    public static void setInstinctCapacity(float value) {
+        instinctCapacity = Math.clamp(value, 0.0f, 100.0f);
+        save();
+    }
+
+    public static float getInstinctDrainRate() {
+        return instinctDrainRate;
+    }
+
+    public static void setInstinctDrainRate(float value) {
+        instinctDrainRate = Math.max(0.0f, value);
+        save();
+    }
+
+    public static float getInstinctReloadRate() {
+        return instinctReloadRate;
+    }
+
+    public static void setInstinctReloadRate(float value) {
+        instinctReloadRate = Math.max(0.0f, value);
         save();
     }
 

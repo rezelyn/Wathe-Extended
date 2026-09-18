@@ -79,6 +79,35 @@ public final class GameCategory {
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
 
+        group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.client.label.instinct").styled(style -> style.withColor(0xAAAAAA))));
+        group.option(Option.<Float>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.game.group.gamerules.opt.instinctcapacity"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.game.group.gamerules.opt.instinctcapacity.desc")))
+                .binding(100.0f, () -> ClientConfig.getFloat("watheextended.instinct.capacity", 100.0f), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.instinct.capacity", value))
+                .controller(option -> FloatSliderControllerBuilder.create(option)
+                        .range(0.0f, 100.0f)
+                        .step(1.0f)
+                        .formatValue(value -> Text.literal(String.format(java.util.Locale.ROOT, "%.0f%%", value))))
+                .build());
+        group.option(Option.<Float>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.game.group.gamerules.opt.instinctdrainrate"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.game.group.gamerules.opt.instinctdrainrate.desc")))
+                .binding(30.0f, () -> ClientConfig.getFloat("watheextended.instinct.drainRate", 30.0f), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.instinct.drainRate", value))
+                .controller(option -> FloatSliderControllerBuilder.create(option)
+                        .range(0.0f, 100.0f)
+                        .step(1.0f)
+                        .formatValue(value -> Text.literal(String.format(java.util.Locale.ROOT, "%.0f%%", value))))
+                .build());
+        group.option(Option.<Float>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.game.group.gamerules.opt.instinctreloadrate"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.game.group.gamerules.opt.instinctreloadrate.desc")))
+                .binding(10.0f, () -> ClientConfig.getFloat("watheextended.instinct.reloadRate", 10.0f), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.instinct.reloadRate", value))
+                .controller(option -> FloatSliderControllerBuilder.create(option)
+                        .range(0.0f, 100.0f)
+                        .step(1.0f)
+                        .formatValue(value -> Text.literal(String.format(java.util.Locale.ROOT, "%.0f%%", value))))
+                .build());
+
         if (cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) {
             final boolean startSafeTimeDefault = cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getEnableStartSafeTime(client);
             group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.game.group.gamerules.label.safepreptime").styled(style -> style.withColor(0xAAAAAA))));

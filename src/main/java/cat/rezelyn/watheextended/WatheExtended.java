@@ -208,6 +208,15 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.lastStand.cooldown", 30,
                 WatheExtendedServerConfig::getLastStandCooldown,
                 WatheExtendedServerConfig::setLastStandCooldown));
+        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.instinct.capacity", 100.0f,
+                WatheExtendedServerConfig::getInstinctCapacity,
+                WatheExtendedServerConfig::setInstinctCapacity));
+        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.instinct.drainRate", 25.0f,
+                WatheExtendedServerConfig::getInstinctDrainRate,
+                WatheExtendedServerConfig::setInstinctDrainRate));
+        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.instinct.reloadRate", 25.0f,
+                WatheExtendedServerConfig::getInstinctReloadRate,
+                WatheExtendedServerConfig::setInstinctReloadRate));
         ServerConfig.register(ServerConfig.Entry.globalBool("watheextended.morphling.canCancelAbility", true,
                 WatheExtendedServerConfig::isMorphlingCanCancelAbility,
                 WatheExtendedServerConfig::setMorphlingCanCancelAbility));
@@ -246,6 +255,9 @@ public class WatheExtended implements ModInitializer {
         PayloadTypeRegistry.playC2S().register(PronounsManager.UpdatePayload.ID, PronounsManager.UpdatePayload.CODEC);
         PayloadTypeRegistry.playS2C().register(PronounsManager.SyncPayload.ID, PronounsManager.SyncPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(LastStand.LastStandPayload.ID, LastStand.LastStandPayload.CODEC);
+        PayloadTypeRegistry.playC2S().register(PresetManager.ActionPayload.ID, PresetManager.ActionPayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(PresetManager.ListPayload.ID, PresetManager.ListPayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(PresetManager.ResultPayload.ID, PresetManager.ResultPayload.CODEC);
 
         ServerPlayNetworking.registerGlobalReceiver(ServerConfig.ChangePayload.ID, (payload, context) -> {
             if (!context.player().hasPermissionLevel(2)) return;
