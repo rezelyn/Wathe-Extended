@@ -157,6 +157,18 @@ public final class ServerConfig {
         return nbt;
     }
 
+    public static Map<String, String> snapshot(World world) {
+        Map<String, String> result = new LinkedHashMap<>();
+        for (Map.Entry<String, Entry<?>> e : ENTRIES.entrySet()) {
+            try {
+                Entry<Object> entry = (Entry<Object>) e.getValue();
+                result.put(e.getKey(), entry.serialize(entry.readServer(world)));
+            } catch (Throwable ignored) {
+            }
+        }
+        return result;
+    }
+
     @SuppressWarnings("unchecked")
     public static void applyChanges(Map<String, String> changes, World world) {
         for (Map.Entry<String, String> change : changes.entrySet()) {

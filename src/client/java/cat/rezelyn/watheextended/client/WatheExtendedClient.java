@@ -6,7 +6,7 @@ import cat.rezelyn.watheextended.client.pronouns.PronounsCache;
 import cat.rezelyn.watheextended.client.render.BoxDebugRenderer;
 import cat.rezelyn.watheextended.client.render.IshPlushBlockEntityRenderer;
 import cat.rezelyn.watheextended.client.render.InstinctHudRenderer;
-import cat.rezelyn.watheextended.api.InstinctAccess;
+import cat.rezelyn.watheextended.game.InstinctAccess;
 import cat.rezelyn.watheextended.client.render.LastStandRenderer;
 import cat.rezelyn.watheextended.client.sound.InstinctLoopSound;
 import cat.rezelyn.watheextended.client.screen.GuidebookScreen;
@@ -14,6 +14,7 @@ import cat.rezelyn.watheextended.client.screen.ConfigScreen;
 import cat.rezelyn.watheextended.client.screen.config.ClientCategory;
 import cat.rezelyn.watheextended.game.LastStand;
 import cat.rezelyn.watheextended.game.PronounsManager;
+import cat.rezelyn.watheextended.game.PresetManager;
 import cat.rezelyn.watheextended.index.WatheExtendedBlockEntities;
 import cat.rezelyn.watheextended.index.WatheExtendedBlocks;
 import cat.rezelyn.watheextended.index.WatheExtendedItems;
@@ -92,6 +93,8 @@ public class WatheExtendedClient implements ClientModInitializer {
             GuidebookScreen.invalidateIfOpen();
         });
         ClientPlayNetworking.registerGlobalReceiver(PronounsManager.SyncPayload.ID, (payload, context) -> context.client().execute(() -> PronounsCache.set(payload.uuid(), payload.pronouns())));
+        ClientPlayNetworking.registerGlobalReceiver(PresetManager.ListPayload.ID, (payload, context) -> context.client().execute(() -> ConfigScreen.onPresetList(payload)));
+        ClientPlayNetworking.registerGlobalReceiver(PresetManager.ResultPayload.ID, (payload, context) -> context.client().execute(() -> ConfigScreen.onPresetResult(payload)));
 
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             resetInstinctState();

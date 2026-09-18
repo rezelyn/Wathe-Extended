@@ -292,6 +292,35 @@ public class WatheExtended implements ModInitializer {
                 }
             });
         });
+
+        ServerPlayNetworking.registerGlobalReceiver(PresetManager.ActionPayload.ID, (payload, context) -> {
+            if (!context.player().hasPermissionLevel(2)) return;
+            context.server().execute(() -> {
+                try {
+                    switch (payload.action()) {
+                        case "list" -> PresetManager.sendList(context.player());
+                        case "save" -> {
+                            PresetManager.save(payload.name(), payload.description(), context.player(),
+                                    ServerConfig.snapshot(context.server().getOverworld()));
+                            PresetManager.sendList(context.player());
+                        }
+                        case "load" -> {
+                            PresetManager.apply(PresetManager.load(payload.id()), context.server().getOverworld());
+                            ServerConfig.broadcastToAll(context.server());
+                            ServerPlayNetworking.send(context.player(), new PresetManager.ResultPayload(true, "load", ""));
+                        }
+                        case "delete" -> {
+                            PresetManager.delete(payload.id());
+                            PresetManager.sendList(context.player());
+                        }
+                        default -> throw new IllegalArgumentException("Unknown preset action");
+                    }
+                } catch (Exception exception) {
+                    LOGGER.warn("Preset action failed", exception);
+                    ServerPlayNetworking.send(context.player(), new PresetManager.ResultPayload(false, payload.action(), exception.getMessage() == null ? "Preset action failed" : exception.getMessage()));
+                }
+            });
+        });
     }
 
     private static void registerConnectionEvents() {
@@ -299,6 +328,7 @@ public class WatheExtended implements ModInitializer {
             ServerPlayerEntity joining = handler.player;
             server.execute(() -> {
                 ServerConfig.sendToPlayer(joining);
+                PresetManager.sendList(joining);
                 PronounsManager.getAll().forEach((uuid, pronouns) ->
                         ServerPlayNetworking.send(joining, new PronounsManager.SyncPayload(uuid, pronouns)));
                 try {
