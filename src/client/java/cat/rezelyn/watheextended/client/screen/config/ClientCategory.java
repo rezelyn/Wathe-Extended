@@ -78,7 +78,9 @@ public final class ClientCategory {
                 .name(Text.translatable("gui.watheextended.config.category.client.opt.instinctmode"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.opt.instinctmode.desc")))
                 .binding("HOLD", WatheExtendedClientConfig::getInstinctMode, WatheExtendedClientConfig::setInstinctMode)
-                .controller(option -> CyclingListControllerBuilder.create(option).values(java.util.List.of("HOLD", "TOGGLE")).formatValue(Text::literal))
+                .controller(option -> CyclingListControllerBuilder.create(option)
+                        .values(java.util.List.of("HOLD", "TOGGLE"))
+                        .formatValue(value -> Text.translatable("gui.watheextended.config.category.client.opt.instinctmode." + value.toLowerCase(java.util.Locale.ROOT))))
                 .build());
 
         // Visual
@@ -91,7 +93,7 @@ public final class ClientCategory {
                         .webpImage(Identifier.of("watheextended", "textures/gui/config/screenshake.webp"))
                         .build())
                 .binding(false, cat.rezelyn.watheextended.api.config.wathe.ConfigHelper::getDisableScreenShake, cat.rezelyn.watheextended.api.config.wathe.ConfigHelper::setDisableScreenShake)
-                .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.off" : "gui.watheextended.config.text.on").copy().formatted(value ? net.minecraft.util.Formatting.RED : net.minecraft.util.Formatting.GREEN)))
+                .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.off" : "gui.watheextended.config.text.on")))
                 .build());
         /// TOGGLE FOG
         builder.option(Option.<Boolean>createBuilder()

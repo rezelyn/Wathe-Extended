@@ -90,7 +90,9 @@ public final class MapCategory {
                 .name(Text.translatable("gui.watheextended.config.category.map.opt.jumpmode"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.opt.jumpmode.desc")))
                 .binding("LOBBY", () -> ClientConfig.getString("watheextended.jumpMode", "LOBBY"), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.jumpMode", value))
-                .controller(opt -> CyclingListControllerBuilder.create(opt).values(java.util.Arrays.asList("DEFAULT", "LOBBY", "EVERYWHERE")).formatValue(Text::literal))
+                .controller(option -> CyclingListControllerBuilder.create(option)
+                        .values(java.util.List.of("DEFAULT", "LOBBY", "EVERYWHERE"))
+                        .formatValue(value -> Text.translatable("gui.watheextended.config.category.map.opt.jumpmode." + value.toLowerCase(java.util.Locale.ROOT))))
                 .build());
         /// AUTO START
         builder.option(Option.<Integer>createBuilder()
