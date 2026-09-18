@@ -12,6 +12,9 @@ public class WatheExtendedSounds {
     public static final SoundEvent GUIDEBOOK_CLOSE = register("guidebook.close");
     public static final SoundEvent GUIDEBOOK_PAGE = register("guidebook.page");
     public static final SoundEvent ISH_PLUSH = register("ish.plush");
+    public static final SoundEvent INSTINCT_IN = register("instinct.in");
+    public static final SoundEvent INSTINCT_OUT = register("instinct.out");
+    public static final SoundEvent INSTINCT_LOOP = register("instinct.loop");
 
     private static SoundEvent register(String name) {
         Identifier id = WatheExtended.id(name);
