@@ -23,6 +23,7 @@
     "fix.DisabledKillerRoleConversionMixin",
     "fix.InitiateRemoteDeathMixin",
     "fix.KillShieldConditionMixin",
+    "fix.LegacyAnnounceWelcomePayloadMixin",
     "fix.PersistentTaskNbtMixin",
     "fix.PoisonNullGuardMixin",
     "fix.RevivalItemGivingMixin",

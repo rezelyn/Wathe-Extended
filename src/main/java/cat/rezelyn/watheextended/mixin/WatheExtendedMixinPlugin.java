@@ -1,7 +1,9 @@
 package cat.rezelyn.watheextended.mixin;
 
 import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
+import org.objectweb.asm.tree.MultiANewArrayInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -10,7 +12,6 @@ import java.util.List;
 import java.util.Set;
 
 public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
-    private static final String TARGET = "dev.doctor4t.wathe.game.GameFunctions";
     private static final String OLD = "dev/doctor4t/wathe/util/AnnounceWelcomePayload";
     private static final String NEW = "dev/doctor4t/wathe/network/AnnounceWelcomePayload";
 
@@ -40,15 +41,7 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
-        if (!TARGET.equals(targetClassName)) {
-            return;
-        }
-
         for (var method : targetClass.methods) {
-            if (!method.name.matches("handler\\$[^$]+\\$stupid_express\\$(initiateKill|initiateKillNonInitiate)")) {
-                continue;
-            }
-
             for (var insn : method.instructions) {
                 if (insn instanceof TypeInsnNode typeInsn && OLD.equals(typeInsn.desc)) {
                     typeInsn.desc = NEW;
@@ -56,6 +49,14 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
 
                 if (insn instanceof MethodInsnNode methodInsn && OLD.equals(methodInsn.owner)) {
                     methodInsn.owner = NEW;
+                }
+
+                if (insn instanceof FieldInsnNode fieldInsn && OLD.equals(fieldInsn.owner)) {
+                    fieldInsn.owner = NEW;
+                }
+
+                if (insn instanceof MultiANewArrayInsnNode arrayInsn) {
+                    arrayInsn.desc = arrayInsn.desc.replace(OLD, NEW);
                 }
             }
         }
