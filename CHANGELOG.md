@@ -13,9 +13,14 @@
 |  **Kill Shooter**  | **Target** will survive, **Shooter** will be killed instead while droping their Revolver.                                                  |
 |   **Kill Both**    | **Target** & **Shooter** will both be killed while droping the Revolver.                                                                   |
 
+- GUI rework with new UI and button looks.
+- Added translations for some of the newer language keys in french, and chinese
+
 ### 📋 Changes
 - Updated Wathe support to `1.4.1-1.21.1`
     - [Wathe Changelog](https://modrinth.com/mod/wathe/version/1.4-1.21.1)
+- Updated Noelles Roles to `1.7.4-h1.4`
+- No longer utilizing "Harpy Express - More Shooter Punishments"
 - Updated "Backfire Chance" configuration screen option to be compatible with the new backfire per innocent kill mechanic
 - Rewrote README page
 
