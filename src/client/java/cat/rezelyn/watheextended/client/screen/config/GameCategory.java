@@ -126,7 +126,10 @@ public final class GameCategory {
                 .name(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.backfire"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.backfire.desc")))
                 .binding(GameComponents.getBackfire(world), () -> GameComponents.getBackfire(MinecraftClient.getInstance().world), value -> sendCommand.accept("wathe:gameSettings set backfireChancePerInnocentKill " + (value / 100f), parent))
-                .controller(IntegerFieldControllerBuilder::create)
+                .controller(option -> IntegerSliderControllerBuilder.create(option)
+                        .range(0, 100)
+                        .step(1)
+                        .formatValue(value -> Text.literal(String.format(java.util.Locale.ROOT, "%d%%", value))))
                 .build());
 
         group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.roles").styled(style -> style.withColor(0xAAAAAA))));
@@ -151,7 +154,6 @@ public final class GameCategory {
                 .binding(1, ConfigHelper::getModifierMaximum, value -> ScreenUtils.stage(sendCommand, parent, "hml.modifierMaximum", value))
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
-
         group.option(Option.<Integer>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.modifiers_multiplier"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.modifiers_multiplier.desc")))
@@ -159,37 +161,30 @@ public final class GameCategory {
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
 
+        final boolean adjustPassiveIncomeEnabled = ClientConfig.getBool("watheextended.balance.adjustPassiveIncome", false);
         group.option(Option.<Integer>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.base_passive_income"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.base_passive_income.desc")))
-                .binding(5, () -> ClientConfig.getInt("watheextended.balance.basePassiveIncome", 5),
-                        v -> ScreenUtils.stage(sendCommand, parent, "watheextended.balance.basePassiveIncome", v))
+                .binding(5, () -> ClientConfig.getInt("watheextended.balance.basePassiveIncome", 5), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.balance.basePassiveIncome", value))
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
-
-        final boolean adjustPassiveIncomeEnabled = ClientConfig.getBool("watheextended.balance.adjustPassiveIncome", false);
         group.option(Option.<Boolean>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.adjust_passive_income"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.adjust_passive_income.desc")))
-                .binding(false, () -> ClientConfig.getBool("watheextended.balance.adjustPassiveIncome", false),
-                        v -> ScreenUtils.stage(sendCommand, parent, "watheextended.balance.adjustPassiveIncome", v))
-                .controller(opt -> BooleanControllerBuilder.create(opt).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                .binding(false, () -> ClientConfig.getBool("watheextended.balance.adjustPassiveIncome", false), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.balance.adjustPassiveIncome", value))
+                .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
                 .build());
-
         group.option(Option.<Integer>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.max_passive_income_distance"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.max_passive_income_distance.desc")))
-                .binding(10, () -> ClientConfig.getInt("watheextended.balance.maxPassiveIncomeDistance", 10),
-                        v -> ScreenUtils.stage(sendCommand, parent, "watheextended.balance.maxPassiveIncomeDistance", v))
+                .binding(10, () -> ClientConfig.getInt("watheextended.balance.maxPassiveIncomeDistance", 10), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.balance.maxPassiveIncomeDistance", value))
                 .controller(IntegerFieldControllerBuilder::create)
                 .available(adjustPassiveIncomeEnabled)
                 .build());
-
         group.option(Option.<Integer>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.min_passive_income"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.min_passive_income.desc")))
-                .binding(0, () -> ClientConfig.getInt("watheextended.balance.minPassiveIncome", 0),
-                        v -> ScreenUtils.stage(sendCommand, parent, "watheextended.balance.minPassiveIncome", v))
+                .binding(0, () -> ClientConfig.getInt("watheextended.balance.minPassiveIncome", 0), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.balance.minPassiveIncome", value))
                 .controller(IntegerFieldControllerBuilder::create)
                 .available(adjustPassiveIncomeEnabled)
                 .build());

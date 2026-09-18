@@ -7,10 +7,7 @@ import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.client.screen.ScreenUtils;
 import cat.rezelyn.watheextended.game.TeleportationSlot;
 import dev.isxander.yacl3.api.*;
-import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
-import dev.isxander.yacl3.api.controller.CyclingListControllerBuilder;
-import dev.isxander.yacl3.api.controller.IntegerFieldControllerBuilder;
-import dev.isxander.yacl3.api.controller.StringControllerBuilder;
+import dev.isxander.yacl3.api.controller.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
@@ -99,7 +96,10 @@ public final class MapCategory {
                 .name(Text.translatable("gui.watheextended.config.category.map.opt.autostart"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.opt.autostart.desc")))
                 .binding(GameComponents.getAutoStart(world), () -> GameComponents.getAutoStart(MinecraftClient.getInstance().world), value -> sendCommand.accept("wathe:gameSettings set autoStart " + value, parent))
-                .controller(IntegerFieldControllerBuilder::create)
+                .controller(option -> IntegerSliderControllerBuilder.create(option)
+                        .range(0, 60) // max 60s because who wants it to be higher?
+                        .step(1)
+                        .formatValue(value -> Text.literal(String.format(java.util.Locale.ROOT, "%ds", value))))
                 .build());
 
         // Variables
