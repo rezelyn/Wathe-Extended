@@ -3,7 +3,17 @@
 # stable-3.7.141
 
 ### 🆕 What's New
-- Added a new Game Guide tab to the Guidebook, providing players with an in-game reference for the game's mechanics, features, and how gameplay works.
+- Introduced a configuration preset manager, found in the configuration screen under the "Presets" category:
+  - Presets store every value from the current config file, meaning anything under the "Map" or "Client" categories is excluded
+  - Presets are stored server-side, so any player with full access to the configuration screen can load or delete them
+- Reworked the Instinct mechanic so it now plays a meaningful role for Killers and Neutrals:
+  - Instinct is no longer unlimited (Default: 60s)
+  - Instinct depletes over time while active (Default: -3s/s)
+  - Instinct regenerates over time while unused (Default: +1s/s)
+  - Added new ambience sound effects that play while Instinct is active
+  - Added a new (configurable) HUD element displaying the current Instinct capacity
+- Added a new Game Guide tab to the Guidebook, providing players with an in-game reference for the game's mechanics, features, and how gameplay works
+- Added a new option to change the Instinct keybind activation method, either **Hold** or **Toggle** ON/OFF
 - Added new shooter punishment modes with refined logic:
 
 |        Mode        | Action                                                                                                                                     |
@@ -13,15 +23,14 @@
 |  **Kill Shooter**  | **Target** will survive, **Shooter** will be killed instead while droping their Revolver.                                                  |
 |   **Kill Both**    | **Target** & **Shooter** will both be killed while droping the Revolver.                                                                   |
 
-- GUI rework with new UI and button looks.
-- Added translations for some of the newer language keys in french, and chinese
+- GUI rework with new UI and button looks
 
 ### 📋 Changes
 - Updated Wathe support to `1.4.1-1.21.1`
     - [Wathe Changelog](https://modrinth.com/mod/wathe/version/1.4-1.21.1)
-- Updated Noelles Roles to `1.7.4-h1.4`
-- No longer utilizing "Harpy Express - More Shooter Punishments"
 - Updated "Backfire Chance" configuration screen option to be compatible with the new backfire per innocent kill mechanic
+- Updated missing translations for French and Simplified Chinese
+- Replaced some raw **float**/**integer** settings with **sliders** on the config screen, slightly less flexible, but more accessible.
 - Rewrote README page
 
 ### 🔧 Fixes
@@ -34,6 +43,7 @@
 - Fixed outdated and missing entries for various roles in the Guidebook ([#84](https://github.com/rezelyn/Wathe-Extended/issues/84)/[#83](https://github.com/rezelyn/Wathe-Extended/issues/83))
 - Fixed issues of not being able to pick up dropped revolvers ([#73](https://github.com/rezelyn/Wathe-Extended/issues/73))
 - Fixed compatibility issues from Stupid Express with Wathe 1.4
+- Fixed compatibility issues from Kin's Wathe with Wathe 1.4
 
 # stable-3.6.132
 
@@ -80,7 +90,7 @@
   - Stealth
 
 ### 📋 Changes
-- Updated the [Noelle's Roles](https://modrinth.com/mod/noelles-roles) support to `1.7.1-h1.3`
+- Updated [Noelle's Roles](https://modrinth.com/mod/noelles-roles) support to `1.7.1-h1.3`
 
 ### 🔧 Fixes
 - Fixed players staying mounted on an entity when being randomly teleported
