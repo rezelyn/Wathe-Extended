@@ -1,4 +1,4 @@
-package cat.rezelyn.watheextended.api;
+package cat.rezelyn.watheextended.game;
 
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -9,13 +9,14 @@ import net.minecraft.util.Identifier;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-// central compatibility check for every role that can use Instinct
+// central compatibility check for every role that can use the new Instinct mechanic
 public final class InstinctAccess {
     private static final Set<Identifier> NON_KILLER_ROLES = ConcurrentHashMap.newKeySet();
     static {
         register(Identifier.of("noellesroles", "jester"));
         register(Identifier.of("noellesroles", "awesome_binglus"));
         register(Identifier.of("stupid_express", "arsonist"));
+        register(Identifier.of("kinswathe", "hacker"));
     }
 
     private InstinctAccess() {}
