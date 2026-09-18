@@ -119,7 +119,9 @@ public final class GameCategory {
                 .name(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.shooterpunishment"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.shooterpunishment.desc")))
                 .binding("DEFAULT", () -> ClientConfig.getString("watheextended.shootInnocentPunishmentMode", "DEFAULT"), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.shootInnocentPunishmentMode", value))
-                .controller(option -> CyclingListControllerBuilder.create(option).values(java.util.Arrays.asList("DEFAULT", "PREVENT_PICKUP", "KILL_SHOOTER", "KILL_BOTH")).formatValue(Text::literal))
+                .controller(option -> CyclingListControllerBuilder.create(option)
+                        .values(java.util.List.of("DEFAULT", "PREVENT_PICKUP", "KILL_SHOOTER", "KILL_BOTH"))
+                        .formatValue(value -> Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.shooterpunishment." + value.toLowerCase(java.util.Locale.ROOT))))
                 .build());
 
         group.option(Option.<Integer>createBuilder()
