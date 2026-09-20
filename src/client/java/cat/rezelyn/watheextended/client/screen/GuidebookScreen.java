@@ -17,6 +17,7 @@ import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,8 @@ public class GuidebookScreen extends Screen {
     private static final Identifier NAV_NEXT_HOVERED = Identifier.of("watheextended", "textures/gui/guidebook/sprites/next_hovered.png");
     private static final Identifier TAB_SELECTED = Identifier.of("watheextended", "textures/gui/guidebook/tab_selected.png");
     private static final Identifier TAB_UNSELECTED = Identifier.of("watheextended", "textures/gui/guidebook/tab_unselected.png");
+    private static final Identifier FILTER_ICON_ON = Identifier.of("watheextended", "textures/gui/guidebook/sprites/enabled.png");
+    private static final Identifier FILTER_ICON_OFF = Identifier.of("watheextended", "textures/gui/guidebook/sprites/disabled.png");
     private static final Identifier CLOSE_BTN = Identifier.of("watheextended", "textures/gui/guidebook/close.png");
     private static final Identifier CLOSE_BTN_HOVERED = Identifier.of("watheextended", "textures/gui/guidebook/close_selected.png");
     private static final Identifier BOTTOM_LAYER = Identifier.of("watheextended", "textures/gui/guidebook/book1.png");
@@ -64,6 +67,13 @@ public class GuidebookScreen extends Screen {
     private static final int TAB_UNSELECTED_X = 6;
     private static final int TAB_ICON_ANCHOR_X = 11;
     private static final int TAB_ICON_ANCHOR_Y = 4;
+
+    // filter tab (same bookmark sprite as the tabs, parked at the bottom of the left edge)
+    private static final int FILTER_OFFSET_X = TAB_OFFSET_X;
+    private static final int FILTER_OFFSET_Y = BOOK_HEIGHT - TAB_OFFSET_Y - TAB_SPRITE_H;
+    private static final int FILTER_ICON_W = 12;
+    private static final int FILTER_ICON_ON_H = 11;
+    private static final int FILTER_ICON_OFF_H = 12;
 
     // nav-bar
     private static final int PAGE_COUNT = GuidebookPageContent.PAGE_LABELS.length;
@@ -112,6 +122,8 @@ public class GuidebookScreen extends Screen {
     private Tab activeTab = Tab.ROLES;
     private boolean firstOpen = true;
     private final Map<Tab, List<GuidebookEntry>> entryCache = new EnumMap<>(Tab.class);
+    private boolean hideDisabled = true;
+    private List<GuidebookEntry> visibleEntries = List.of();
     private String selectedId = null;
     private Text selectedTitle = null;
     private int selectedColor = 0xFF3B2A1A;
@@ -206,6 +218,7 @@ public class GuidebookScreen extends Screen {
         context.fill(0, 0, width, height, 0xB0000000);
         context.drawTexture(BOTTOM_LAYER, bookX, bookY, BOOK_WIDTH, BOOK_HEIGHT, 0, 0, BOOK_TEX_W, BOOK_TEX_H, BOOK_TEX_W, BOOK_TEX_H);
         renderTabButtons(context);
+        renderFilterTab(context);
         context.drawTexture(TOP_LAYER, bookX, bookY, BOOK_WIDTH, BOOK_HEIGHT, 0, 0, BOOK_TEX_W, BOOK_TEX_H, BOOK_TEX_W, BOOK_TEX_H);
         renderLeftPage(context, mouseX, mouseY);
         renderRightPage(context);
@@ -427,6 +440,11 @@ public class GuidebookScreen extends Screen {
             return true;
         }
 
+        if (button == 0 && isInsideFilterTab(mouseX, mouseY)) {
+            toggleFilter();
+            return true;
+        }
+
         if (button == 0) {
             Tab[] tabs = Tab.values();
             for (int i = 0; i < tabs.length; i++) {
@@ -610,8 +628,40 @@ public class GuidebookScreen extends Screen {
     }
 
     private void refreshEntries() {
-        loadEntries(activeTab);
+        List<GuidebookEntry> entries = loadEntries(activeTab);
+        visibleEntries = hideDisabled ? withoutDisabled(entries) : entries;
         recalcLeftHeight();
+    }
+
+    // drops disabled entries, then any header or spacer left with nothing under it
+    private static List<GuidebookEntry> withoutDisabled(List<GuidebookEntry> entries) {
+        List<GuidebookEntry> kept = new ArrayList<>();
+        for (GuidebookEntry entry : entries) {
+            if (entry.id() != null && !entry.active()) continue;
+            kept.add(entry);
+        }
+
+        List<GuidebookEntry> result = new ArrayList<>();
+        for (int i = 0; i < kept.size(); i++) {
+            GuidebookEntry entry = kept.get(i);
+            if (entry.isHeader()) {
+                if (!hasEntriesUnder(kept, i)) continue;
+            } else if (entry.id() == null && (result.isEmpty() || result.getLast().id() == null)) {
+                continue;
+            }
+            result.add(entry);
+        }
+        while (!result.isEmpty() && result.getLast().id() == null) result.removeLast();
+        return result;
+    }
+
+    private static boolean hasEntriesUnder(List<GuidebookEntry> entries, int headerIndex) {
+        for (int i = headerIndex + 1; i < entries.size(); i++) {
+            GuidebookEntry entry = entries.get(i);
+            if (entry.isHeader()) return false;
+            if (entry.id() != null) return true;
+        }
+        return false;
     }
 
     // builds a tab's entries on first use, then serves them from the cache
@@ -620,7 +670,7 @@ public class GuidebookScreen extends Screen {
     }
 
     private List<GuidebookEntry> currentEntries() {
-        return entryCache.getOrDefault(activeTab, List.of());
+        return visibleEntries;
     }
 
     private void recalcLeftHeight() {
@@ -749,6 +799,45 @@ public class GuidebookScreen extends Screen {
                 context.drawTooltip(textRenderer, tabs[i].label, mouseX, mouseY);
             }
         }
+        if (isInsideFilterTab(mouseX, mouseY)) {
+            context.drawTooltip(textRenderer, Text.translatable("gui.watheextended.guidebook.tab.filter"), mouseX, mouseY);
+        }
+    }
+
+    private int filterTabX() {
+        return bookX + FILTER_OFFSET_X + (hideDisabled ? 0 : TAB_UNSELECTED_X);
+    }
+
+    private int filterTabY() {
+        return bookY + FILTER_OFFSET_Y;
+    }
+
+    private boolean isInsideFilterTab(double mouseX, double mouseY) {
+        int hitX = filterTabX() + (hideDisabled ? 0 : TAB_UNSELECTED_X);
+        int hitW = hideDisabled ? TAB_SPRITE_W : TAB_SPRITE_W - TAB_UNSELECTED_X;
+        int tabY = filterTabY();
+        return mouseX >= hitX && mouseX <= hitX + hitW && mouseY >= tabY && mouseY <= tabY + TAB_SPRITE_H;
+    }
+
+    private void renderFilterTab(DrawContext context) {
+        Identifier texture = hideDisabled ? TAB_SELECTED : TAB_UNSELECTED;
+        Identifier icon = hideDisabled ? FILTER_ICON_ON : FILTER_ICON_OFF;
+        int iconH = hideDisabled ? FILTER_ICON_ON_H : FILTER_ICON_OFF_H;
+        int tabX = filterTabX();
+        int tabY = filterTabY();
+
+        context.drawTexture(texture, tabX, tabY, 0, 0, TAB_SPRITE_W, TAB_SPRITE_H, TAB_SPRITE_W, TAB_SPRITE_H);
+        context.drawTexture(icon, tabX + TAB_ICON_ANCHOR_X, tabY + (TAB_SPRITE_H - iconH) / 2, 0, 0, FILTER_ICON_W, iconH, FILTER_ICON_W, iconH);
+    }
+
+    private void toggleFilter() {
+        playSound(WatheExtendedSounds.GUIDEBOOK_PAGE);
+        hideDisabled = !hideDisabled;
+        resetScrollBoth();
+        refreshEntries();
+        if (selectedId != null && currentEntries().stream().noneMatch(entry -> selectedId.equals(entry.id()))) {
+            clearSelection();
+        }
     }
 
     private boolean isInsideBook(double mouseX, double mouseY) {
@@ -813,9 +902,18 @@ public class GuidebookScreen extends Screen {
     }
 
     private enum Tab {
-        ROLES(Text.translatable("gui.watheextended.guidebook.tab.roles"), Identifier.of("watheextended", "textures/gui/guidebook/role.png"), Identifier.of("watheextended", "textures/gui/guidebook/role_unselected.png"), 12, 10, GuidebookEntryBuilder.roles()),
-        MODIFIERS(Text.translatable("gui.watheextended.guidebook.tab.modifiers"), Identifier.of("watheextended", "textures/gui/guidebook/modifier.png"), Identifier.of("watheextended", "textures/gui/guidebook/modifier_unselected.png"), 12, 10, GuidebookEntryBuilder.modifiers()),
-        GAME_GUIDE(Text.translatable("gui.watheextended.guidebook.tab.game_guide"), Identifier.of("watheextended", "textures/gui/guidebook/game_guide.png"), Identifier.of("watheextended", "textures/gui/guidebook/game_guide_unselected.png"), 12, 10, GuidebookEntryBuilder.gameGuide());
+        ROLES(Text.translatable("gui.watheextended.guidebook.tab.roles"),
+            Identifier.of("watheextended", "textures/gui/guidebook/role.png"),
+            Identifier.of("watheextended", "textures/gui/guidebook/role_unselected.png"),
+            12, 10, GuidebookEntryBuilder.roles()),
+        MODIFIERS(Text.translatable("gui.watheextended.guidebook.tab.modifiers"),
+            Identifier.of("watheextended", "textures/gui/guidebook/modifier.png"),
+            Identifier.of("watheextended", "textures/gui/guidebook/modifier_unselected.png"),
+            12, 10, GuidebookEntryBuilder.modifiers()),
+        GAME_GUIDE(Text.translatable("gui.watheextended.guidebook.tab.game_guide"),
+            Identifier.of("watheextended", "textures/gui/guidebook/game_guide.png"),
+            Identifier.of("watheextended", "textures/gui/guidebook/game_guide_unselected.png"),
+            12, 10, GuidebookEntryBuilder.gameGuide());
 
         final Text label;
         final Identifier icon;

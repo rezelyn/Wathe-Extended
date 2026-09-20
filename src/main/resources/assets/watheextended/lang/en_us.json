@@ -567,6 +567,7 @@
   "gui.watheextended.guidebook.tab.game_guide": "Game Guide",
   "gui.watheextended.guidebook.tab.modifiers": "Modifiers",
   "gui.watheextended.guidebook.tab.roles": "Roles",
+  "gui.watheextended.guidebook.tab.filter": "Show only enabled roles",
   "gui.watheextended.guidebook.left_page.roles.side.civilian": "Civilian Roles",
   "gui.watheextended.guidebook.left_page.roles.side.killer": "Killer Roles",
   "gui.watheextended.guidebook.left_page.roles.side.neutral": "Neutral Roles",
