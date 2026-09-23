@@ -22,7 +22,8 @@ public final class WatheExtendedModifiers {
             "kinswathe:robot",
             "kinswathe:dreamer",
             "stupid_express:thief",
-            "noellesroles:vulture"
+            "noellesroles:vulture",
+            "noellesroles:infected"
     );
 
     public static void initialize() {
