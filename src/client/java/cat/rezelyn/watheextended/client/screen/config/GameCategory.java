@@ -17,6 +17,8 @@ import static cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getEna
 
 public final class GameCategory {
 
+    private static final float TICKS_PER_SECOND = 20.0f;
+
     private GameCategory() {}
 
     public static ConfigCategory build(Screen parent, BiConsumer<String, Screen> sendCommand) {
@@ -83,29 +85,29 @@ public final class GameCategory {
         group.option(Option.<Float>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.game.group.gamerules.opt.instinctcapacity"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.game.group.gamerules.opt.instinctcapacity.desc")))
-                .binding(100.0f, () -> ClientConfig.getFloat("watheextended.instinct.capacity", 100.0f), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.instinct.capacity", value))
+                .binding(60.0f, () -> ClientConfig.getFloat("watheextended.instinct.capacity", 1200.0f) / TICKS_PER_SECOND, value -> ScreenUtils.stage(sendCommand, parent, "watheextended.instinct.capacity", value * TICKS_PER_SECOND))
                 .controller(option -> FloatSliderControllerBuilder.create(option)
-                        .range(0.0f, 100.0f)
+                        .range(0.0f, 60.0f)
                         .step(1.0f)
-                        .formatValue(value -> Text.literal(String.format(java.util.Locale.ROOT, "%.0f%%", value))))
+                        .formatValue(value -> Text.literal(String.format(java.util.Locale.ROOT, "%.0fs", value))))
                 .build());
         group.option(Option.<Float>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.game.group.gamerules.opt.instinctdrainrate"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.game.group.gamerules.opt.instinctdrainrate.desc")))
-                .binding(30.0f, () -> ClientConfig.getFloat("watheextended.instinct.drainRate", 30.0f), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.instinct.drainRate", value))
+                .binding(3.0f, () -> ClientConfig.getFloat("watheextended.instinct.drainRate", 60.0f) / TICKS_PER_SECOND, value -> ScreenUtils.stage(sendCommand, parent, "watheextended.instinct.drainRate", value * TICKS_PER_SECOND))
                 .controller(option -> FloatSliderControllerBuilder.create(option)
-                        .range(0.0f, 100.0f)
-                        .step(1.0f)
-                        .formatValue(value -> Text.literal(String.format(java.util.Locale.ROOT, "%.0f%%", value))))
+                        .range(0.0f, 10.0f)
+                        .step(0.1f)
+                        .formatValue(value -> Text.literal(String.format(java.util.Locale.ROOT, "-%.1fs/s", value))))
                 .build());
         group.option(Option.<Float>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.game.group.gamerules.opt.instinctreloadrate"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.game.group.gamerules.opt.instinctreloadrate.desc")))
-                .binding(10.0f, () -> ClientConfig.getFloat("watheextended.instinct.reloadRate", 10.0f), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.instinct.reloadRate", value))
+                .binding(1.0f, () -> ClientConfig.getFloat("watheextended.instinct.reloadRate", 20.0f) / TICKS_PER_SECOND, value -> ScreenUtils.stage(sendCommand, parent, "watheextended.instinct.reloadRate", value * TICKS_PER_SECOND))
                 .controller(option -> FloatSliderControllerBuilder.create(option)
-                        .range(0.0f, 100.0f)
-                        .step(1.0f)
-                        .formatValue(value -> Text.literal(String.format(java.util.Locale.ROOT, "%.0f%%", value))))
+                        .range(0.0f, 10.0f)
+                        .step(0.1f)
+                        .formatValue(value -> Text.literal(String.format(java.util.Locale.ROOT, "+%.1fs/s", value))))
                 .build());
 
         if (cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) {

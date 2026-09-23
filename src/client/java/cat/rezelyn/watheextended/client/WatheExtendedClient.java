@@ -137,14 +137,15 @@ public class WatheExtendedClient implements ClientModInitializer {
         }
     }
 
-    private static final float DEFAULT_INSTINCT_CAPACITY = 100.0f;
-    private static final float DEFAULT_INSTINCT_DRAIN_RATE = 25.0f;
-    private static final float DEFAULT_INSTINCT_RELOAD_RATE = 25.0f;
-    private static final float INSTINCT_FULL_CAPACITY_SECONDS = 60.0f;
+    private static final float TICKS_PER_SECOND = 20.0f;
+    private static final float DEFAULT_INSTINCT_CAPACITY_TICKS = 1200.0f;
+    private static final float DEFAULT_INSTINCT_DRAIN_RATE_TICKS_PER_SECOND = 60.0f;
+    private static final float DEFAULT_INSTINCT_RELOAD_RATE_TICKS_PER_SECOND = 20.0f;
+    private static final float MAX_INSTINCT_CAPACITY_TICKS = 1200.0f;
     private static boolean instinctToggled;
     private static boolean instinctKeyWasDown;
     private static boolean previousInstinctActive;
-    private static float instinctCharge = INSTINCT_FULL_CAPACITY_SECONDS;
+    private static float instinctCharge = DEFAULT_INSTINCT_CAPACITY_TICKS;
     private static int instinctBlockedTicks;
     private static int instinctHudIdleTicks;
     private static float instinctHudOpacity;
@@ -153,17 +154,17 @@ public class WatheExtendedClient implements ClientModInitializer {
     private static void tickInstinct(MinecraftClient client) {
         boolean activeBeforeTick = isInstinctActive();
         if (hasUnlimitedInstinct()) {
-            instinctCharge = getInstinctCapacitySeconds();
+            instinctCharge = getInstinctCapacity();
             instinctBlockedTicks = 0;
         } else {
             if (instinctBlockedTicks > 0) instinctBlockedTicks--;
             if (activeBeforeTick) {
-                instinctCharge -= getInstinctDrainRate() / 10.0f / 20.0f;
+                instinctCharge -= getInstinctDrainRate() / TICKS_PER_SECOND;
             } else {
-                instinctCharge += getInstinctReloadRate() / 10.0f / 20.0f;
+                instinctCharge += getInstinctReloadRate() / TICKS_PER_SECOND;
             }
         }
-        instinctCharge = Math.max(0.0f, Math.min(getInstinctCapacitySeconds(), instinctCharge));
+        instinctCharge = Math.max(0.0f, Math.min(getInstinctCapacity(), instinctCharge));
 
         if (!hasUnlimitedInstinct() && activeBeforeTick && instinctCharge <= 0.0f) {
             instinctCharge = 0.0f;
@@ -213,23 +214,19 @@ public class WatheExtendedClient implements ClientModInitializer {
     }
 
     private static float getInstinctCapacity() {
-        return Math.clamp(ClientConfig.getFloat("watheextended.instinct.capacity", DEFAULT_INSTINCT_CAPACITY), 0.0f, 100.0f);
-    }
-
-    private static float getInstinctCapacitySeconds() {
-        return INSTINCT_FULL_CAPACITY_SECONDS * getInstinctCapacity() / 100.0f;
+        return Math.clamp(ClientConfig.getFloat("watheextended.instinct.capacity", DEFAULT_INSTINCT_CAPACITY_TICKS), 0.0f, MAX_INSTINCT_CAPACITY_TICKS);
     }
 
     private static float getInstinctDrainRate() {
-        return Math.max(0.0f, ClientConfig.getFloat("watheextended.instinct.drainRate", DEFAULT_INSTINCT_DRAIN_RATE));
+        return Math.max(0.0f, ClientConfig.getFloat("watheextended.instinct.drainRate", DEFAULT_INSTINCT_DRAIN_RATE_TICKS_PER_SECOND));
     }
 
     private static float getInstinctReloadRate() {
-        return Math.max(0.0f, ClientConfig.getFloat("watheextended.instinct.reloadRate", DEFAULT_INSTINCT_RELOAD_RATE));
+        return Math.max(0.0f, ClientConfig.getFloat("watheextended.instinct.reloadRate", DEFAULT_INSTINCT_RELOAD_RATE_TICKS_PER_SECOND));
     }
 
     public static float getInstinctCharge() {
-        float capacity = getInstinctCapacitySeconds();
+        float capacity = getInstinctCapacity();
         return capacity <= 0.0f ? 1.0f : instinctCharge / capacity;
     }
 
@@ -274,7 +271,7 @@ public class WatheExtendedClient implements ClientModInitializer {
         instinctToggled = false;
         instinctKeyWasDown = false;
         previousInstinctActive = false;
-        instinctCharge = getInstinctCapacitySeconds();
+        instinctCharge = getInstinctCapacity();
         instinctBlockedTicks = 0;
         instinctHudIdleTicks = 0;
         instinctHudOpacity = 0.0f;
