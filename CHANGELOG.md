@@ -7,12 +7,20 @@
 
 ### 📋 Changes
 - Instinct configuration values are now defined in ticks and displayed as seconds in the configuration screen instead of percentages
+- Fog, Snowflakes, and HUD settings are now fully client-side and persistent, adjustable by any player via the Client configuration category
+- Added extra context to the ability UI counter text for Vulture and Dreamer
+- Added custom ability UI for the Infected from Noelle's Roles
+
 
 ### 🔧 Fixes
 - Fixed Phantom ability cooldown being set to 0 seconds instead of 60 seconds by default
 - Fixed "Killer Cohorts" text display not being drawn when looking at other Killers and some killer-sided Neutrals
 - Fixed Thief not being affected to the new Instinct mechanic
-- Fixed Scorpion (bed poisonning) not working at all
+- Fixed Recaller ability UI text
+- Fixed pronouns text display fading animations not applying correctly
+- Fixed Introverted modifier being assigned to the Vulture
+- Fixed Introverted modifier being assigned to the Infected
+- Fixed Infected not being able to see players they've infected through walls
 
 # stable-3.7.141
 
