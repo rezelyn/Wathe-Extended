@@ -11,6 +11,9 @@ public final class WatheExtendedClientConfig {
 
     private static final File CONFIG_FILE = FabricLoader.getInstance().getConfigDir().resolve("watheextended").resolve("client.json5").toFile();
     public static boolean showChatDuringGame = true;
+    private static boolean showWatheHud = true;
+    private static boolean showSnowflakes = true;
+    private static boolean showFog = true;
     private static String instinctMode = "HOLD";
     private static String instinctHudStyle = "HALF_LEFT";
     private static float instinctHudOpacity = 0.25f;
@@ -29,6 +32,9 @@ public final class WatheExtendedClientConfig {
         instinctHudStyle = normalizeInstinctHudStyle(reader.getString("instinct.hudStyle", "HALF_LEFT"));
         instinctHudOpacity = normalizeInstinctHudOpacity(reader.getFloat("instinct.hudOpacity", 0.25f));
         alwaysShowInstinctHud = reader.getBool("instinct.alwaysShowHud", false);
+        showWatheHud = reader.getBool("hud.showWatheHud", true);
+        showSnowflakes = reader.getBool("hud.showSnowflakes", true);
+        showFog = reader.getBool("hud.showFog", true);
     }
 
     public static void save() {
@@ -40,6 +46,14 @@ public final class WatheExtendedClientConfig {
                             "    // Show the chat HUD.\n" +
                             "    // Non-OP players will still be restricted to send messages and commands while a game is active.\n" +
                             "    \"showChatDuringGame\": " + showChatDuringGame + "\n" +
+                            "  },\n" +
+                            "  \"visuals\": {\n" +
+                            "    // Show Wathe's custom HUD elements.\n" +
+                            "    \"hud\": " + showWatheHud + ",\n" +
+                            "    // Show Wathe's custom snowflake particles.\n" +
+                            "    \"snowflakes\": " + showSnowflakes + ",\n" +
+                            "    // Show Wathe's custom fog.\n" +
+                            "    \"fog\": " + showFog + "\n" +
                             "  },\n" +
                             "  \"instinct\": {\n" +
                             "    // How the Instinct keybind is activated.\n" +
@@ -86,6 +100,33 @@ public final class WatheExtendedClientConfig {
 
     public static void setInstinctHudStyle(String value) {
         instinctHudStyle = normalizeInstinctHudStyle(value);
+        save();
+    }
+
+    public static boolean getShowWatheHud() {
+        return showWatheHud;
+    }
+
+    public static void setShowWatheHud(boolean value) {
+        showWatheHud = value;
+        save();
+    }
+
+    public static boolean getShowSnowflakes() {
+        return showSnowflakes;
+    }
+
+    public static void setShowSnowflakes(boolean value) {
+        showSnowflakes = value;
+        save();
+    }
+
+    public static boolean getShowFog() {
+        return showFog;
+    }
+
+    public static void setShowFog(boolean value) {
+        showFog = value;
         save();
     }
 

@@ -1,7 +1,6 @@
 package cat.rezelyn.watheextended.client.screen.config;
 
 import cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper;
-import cat.rezelyn.watheextended.api.GameComponents;
 import cat.rezelyn.watheextended.client.WatheExtendedClientConfig;
 import cat.rezelyn.watheextended.client.pronouns.PronounsCache;
 import cat.rezelyn.watheextended.client.render.BoxDebugRenderer;
@@ -12,7 +11,6 @@ import dev.isxander.yacl3.api.controller.CyclingListControllerBuilder;
 import dev.isxander.yacl3.api.controller.FloatSliderControllerBuilder;
 import dev.isxander.yacl3.api.controller.StringControllerBuilder;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -130,7 +128,7 @@ public final class ClientCategory {
                 .description(OptionDescription.createBuilder()
                         .text(Text.translatable("gui.watheextended.config.category.client.opt.fog.desc"))
                         .webpImage(Identifier.of("watheextended", "textures/gui/config/fog.webp"))
-                        .build()).binding(true, () -> GameComponents.getFog(MinecraftClient.getInstance().world), value -> sendCommand.accept("wathe:setVisual fog " + value, parent))
+                .build()).binding(true, WatheExtendedClientConfig::getShowFog, WatheExtendedClientConfig::setShowFog)
                 .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
                 .build());
         /// TOGGLE HUD
@@ -139,7 +137,7 @@ public final class ClientCategory {
                 .description(OptionDescription.createBuilder()
                         .text(Text.translatable("gui.watheextended.config.category.client.opt.hud.desc"))
                         .webpImage(Identifier.of("watheextended", "textures/gui/config/hud.webp"))
-                        .build()).binding(true, () -> GameComponents.getHud(MinecraftClient.getInstance().world), value -> sendCommand.accept("wathe:setVisual hud " + value, parent))
+                        .build()).binding(true, WatheExtendedClientConfig::getShowWatheHud, WatheExtendedClientConfig::setShowWatheHud)
                 .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
                 .build());
         /// TOGGLE SNOWFLAKES
@@ -149,7 +147,7 @@ public final class ClientCategory {
                         .text(Text.translatable("gui.watheextended.config.category.client.opt.snowflakes.desc"))
                         .webpImage(Identifier.of("watheextended", "textures/gui/config/snowflakes.webp"))
                         .build())
-                .binding(true, () -> GameComponents.getSnow(MinecraftClient.getInstance().world), value -> sendCommand.accept("wathe:setVisual snow " + value, parent))
+                .binding(true, WatheExtendedClientConfig::getShowSnowflakes, WatheExtendedClientConfig::setShowSnowflakes)
                 .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
                 .build());
         /// ULTRA PERFORMANCE MODE
