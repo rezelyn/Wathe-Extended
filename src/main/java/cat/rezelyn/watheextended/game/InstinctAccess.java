@@ -13,10 +13,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class InstinctAccess {
     private static final Set<Identifier> NON_KILLER_ROLES = ConcurrentHashMap.newKeySet();
     static {
-        register(Identifier.of("noellesroles", "jester"));
-        register(Identifier.of("noellesroles", "awesome_binglus"));
-        register(Identifier.of("stupid_express", "arsonist"));
         register(Identifier.of("kinswathe", "hacker"));
+        register(Identifier.of("noellesroles", "awesome_binglus"));
+        register(Identifier.of("noellesroles", "jester"));
+        register(Identifier.of("stupid_express", "arsonist"));
+        register(Identifier.of("stupid_express", "thief"));
     }
 
     private InstinctAccess() {}
