@@ -1,5 +1,19 @@
 > #### This changelog also documents changes that are related to ***The Harpy Express: Extended*** modpack.
 
+# stable-3.8.141
+
+### 🆕 What's New
+- Added a new filter in the Guidebook to only show enabled entries for roles & modifiers
+
+### 📋 Changes
+- Instinct configuration values are now defined in ticks and displayed as seconds in the configuration screen instead of percentages
+
+### 🔧 Fixes
+- Fixed Phantom ability cooldown being set to 0 seconds instead of 60 seconds by default
+- Fixed "Killer Cohorts" text display not being drawn when looking at other Killers and some killer-sided Neutrals
+- Fixed Thief not being affected to the new Instinct mechanic
+- Fixed Scorpion (bed poisonning) not working at all
+
 # stable-3.7.141
 
 ### 🆕 What's New
