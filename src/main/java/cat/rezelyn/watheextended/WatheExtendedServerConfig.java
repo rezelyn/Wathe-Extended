@@ -37,6 +37,7 @@ public final class WatheExtendedServerConfig {
 
     // WATHE-EXTENDED INTERNAL ROLES/MODIFIERS
     public static float forbiddenLoversChance = 0.25f;
+    public static int secretMurderChance = 0;
     public static int introvertedCrowdCount = 3;
     public static float introvertedCrowdRange = 5.0f;
     public static float introvertedCrowdDrainMultiplier = 2.0f;
@@ -204,6 +205,7 @@ public final class WatheExtendedServerConfig {
         adaptiveBonusMultiplier = config.getFloat("modifiers.adaptive.bonusMultiplier", 0.50f);
         forbiddenLoversEnabled = config.getBool("modifiers.lovers.forbiddenLovers", false);
         forbiddenLoversChance = config.getFloat("modifiers.lovers.chance", 0.25f);
+        secretMurderChance = Math.clamp(config.getInt("wathe.secretMurderChance", 0), 0, 100);
         cleanerPlayerLimit = config.getInt("roles.cleaner.playerLimit", 10);
         cleanerAcidBarrelCoinBonusEnabled = config.getBool("roles.cleaner.acidBarrelCoinBonusEnabled", false);
         cleanerAcidBarrelCoins = config.getInt("roles.cleaner.acidBarrelCoins", 50);
@@ -418,6 +420,11 @@ public final class WatheExtendedServerConfig {
                     "      // Default: 0.25\n" +
                     "      \"chance\": " + forbiddenLoversChance + "\n" +
                     "    }\n" +
+                    "  },\n" +
+                    "  \"wathe\": {\n" +
+                    "    // Percentage chance that a game starts as Secret Murder instead of the selected gamemode.\n" +
+                    "    // Default: 0\n" +
+                    "    \"secretMurderChance\": " + secretMurderChance + "\n" +
                     "  },\n" +
                     "  \"roles\": {\n" +
                     "    \"cleaner\": {\n" +
@@ -663,6 +670,15 @@ public final class WatheExtendedServerConfig {
 
     public static void setForbiddenLoversChance(float value) {
         forbiddenLoversChance = Math.max(0.0f, Math.min(1.0f, value));
+        save();
+    }
+
+    public static int getSecretMurderChance() {
+        return secretMurderChance;
+    }
+
+    public static void setSecretMurderChance(int value) {
+        secretMurderChance = Math.clamp(value, 0, 100);
         save();
     }
 

@@ -166,6 +166,18 @@ public final class GameCategory {
                         .formatValue(value -> Text.literal(String.format(java.util.Locale.ROOT, "%d%%", value))))
                 .build());
 
+        group.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.secretmurder"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.secretmurder.desc")))
+                .binding(ClientConfig.getInt("watheextended.secretMurderChance", 0),
+                        () -> ClientConfig.getInt("watheextended.secretMurderChance", 0),
+                        value -> ScreenUtils.stage(sendCommand, parent, "watheextended.secretMurderChance", value))
+                .controller(option -> IntegerSliderControllerBuilder.create(option)
+                        .range(0, 100)
+                        .step(1)
+                        .formatValue(value -> Text.literal(String.format(java.util.Locale.ROOT, "%d%%", value))))
+                .build());
+
         group.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.roles").styled(style -> style.withColor(0xAAAAAA))));
         group.option(Option.<Integer>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.game.group.wathe_options.opt.roledividend_killer"))
