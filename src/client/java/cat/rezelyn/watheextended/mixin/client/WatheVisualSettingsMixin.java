@@ -11,16 +11,16 @@ public abstract class WatheVisualSettingsMixin {
 
     @ModifyReturnValue(method = "hasHud", at = @At("RETURN"))
     private boolean watheextended$applyHudPreference(boolean original) {
-        return original && WatheExtendedClientConfig.getShowWatheHud();
+        return WatheExtendedClientConfig.getShowWatheHud();
     }
 
     @ModifyReturnValue(method = "isSnowing", at = @At("RETURN"))
     private boolean watheextended$applySnowflakePreference(boolean original) {
-        return original && WatheExtendedClientConfig.getShowSnowflakes();
+        return WatheExtendedClientConfig.getShowSnowflakes();
     }
 
     @ModifyReturnValue(method = "isFoggy", at = @At("RETURN"))
     private boolean watheextended$applyFogPreference(boolean original) {
-        return original && WatheExtendedClientConfig.getShowFog();
+        return WatheExtendedClientConfig.getShowFog();
     }
 }

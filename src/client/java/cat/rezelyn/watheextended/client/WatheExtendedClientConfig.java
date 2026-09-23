@@ -32,9 +32,9 @@ public final class WatheExtendedClientConfig {
         instinctHudStyle = normalizeInstinctHudStyle(reader.getString("instinct.hudStyle", "HALF_LEFT"));
         instinctHudOpacity = normalizeInstinctHudOpacity(reader.getFloat("instinct.hudOpacity", 0.25f));
         alwaysShowInstinctHud = reader.getBool("instinct.alwaysShowHud", false);
-        showWatheHud = reader.getBool("hud.showWatheHud", true);
-        showSnowflakes = reader.getBool("hud.showSnowflakes", true);
-        showFog = reader.getBool("hud.showFog", true);
+        showWatheHud = reader.getBool("visuals.hud", true);
+        showSnowflakes = reader.getBool("visuals.snowflakes", true);
+        showFog = reader.getBool("visuals.fog", true);
     }
 
     public static void save() {
