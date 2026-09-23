@@ -562,6 +562,8 @@
   "gui.watheextended.hud.ability.ready": "Ready",
   "gui.watheextended.hud.ability.cancel": "Cancel",
   "gui.watheextended.hud.ability.disabled": "Ability disabled!",
+  "gui.watheextended.hud.ability.vulture": "bodies eaten",
+  "gui.watheextended.hud.ability.dreamer": "dreams collected",
 
   "gui.watheextended.guidebook.title": "Guidebook",
   "gui.watheextended.guidebook.tab.game_guide": "Game Guide",

@@ -55,7 +55,7 @@ public class AbilityHudMixin {
 
         // cleaner player limit
         if (CLEANER_ABILITY_KEYS.contains(key) && watheextended$isCleanerAbilityDisabledByLimit()) {
-            MutableText styled = Text.literal("§6⚠  ").append(Text.translatable("gui.watheextended.hud.ability.disabled").formatted(Formatting.YELLOW));
+            MutableText styled = Text.literal("§6⚠ ").append(Text.translatable("gui.watheextended.hud.ability.disabled").formatted(Formatting.YELLOW));
             cir.setReturnValue(watheextended$drawAbilityHudText(context, renderer, styled, color));
             return;
         }
@@ -93,7 +93,7 @@ public class AbilityHudMixin {
             if (args == null || args.length < 2) return;
             String eaten = String.valueOf(args[0]);
             String required = String.valueOf(args[1]);
-            MutableText styled = Text.literal("☠ " + eaten + "/" + required);
+            MutableText styled = Text.literal("☠ " + eaten + "/" + required).append(Text.translatable("gui.watheextended.hud.ability.vulture"));
             cir.setReturnValue(watheextended$drawAbilityHudText(context, renderer, styled, 0xB56700));
         }
 
@@ -102,7 +102,7 @@ public class AbilityHudMixin {
             if (args == null || args.length < 2) return;
             String counts = String.valueOf(args[0]);
             String required = String.valueOf(args[1]);
-            MutableText styled = Text.literal("✦ " + counts + "/" + required);
+            MutableText styled = Text.literal("✦ " + counts + "/" + required).append(Text.translatable("gui.watheextended.hud.ability.dreamer"));
             cir.setReturnValue(watheextended$drawAbilityHudText(context, renderer, styled, 0xE5CCFF));
         }
     }
