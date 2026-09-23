@@ -82,8 +82,13 @@ public class AbilityHudMixin {
 
         // cost
         else if (ABILITY_COST_KEYS.contains(key)) {
-            if (args == null || args.length == 0) return;
-            String price = args[0] instanceof Text t ? t.getString() : String.valueOf(args[0]);
+            String price;
+            if ("tip.recaller.not_enough_money".equals(key) && (args == null || args.length == 0)) {
+                price = "100";
+            } else {
+                if (args == null || args.length == 0) return;
+                price = args[0] instanceof Text t ? t.getString() : String.valueOf(args[0]);
+            }
             MutableText styled = Text.literal("§4✘ §c" + price).append(ScreenUtils.icon("coin"));
             cir.setReturnValue(watheextended$drawAbilityHudText(context, renderer, styled, color));
         }
@@ -93,7 +98,7 @@ public class AbilityHudMixin {
             if (args == null || args.length < 2) return;
             String eaten = String.valueOf(args[0]);
             String required = String.valueOf(args[1]);
-            MutableText styled = Text.literal("☠ " + eaten + "/" + required).append(Text.translatable("gui.watheextended.hud.ability.vulture"));
+            MutableText styled = Text.literal("☠ " + eaten + "/" + required).append(Text.translatable(" " + "gui.watheextended.hud.ability.vulture"));
             cir.setReturnValue(watheextended$drawAbilityHudText(context, renderer, styled, 0xB56700));
         }
 
@@ -102,7 +107,7 @@ public class AbilityHudMixin {
             if (args == null || args.length < 2) return;
             String counts = String.valueOf(args[0]);
             String required = String.valueOf(args[1]);
-            MutableText styled = Text.literal("✦ " + counts + "/" + required).append(Text.translatable("gui.watheextended.hud.ability.dreamer"));
+            MutableText styled = Text.literal("✦ " + counts + "/" + required).append(Text.translatable(" " + "gui.watheextended.hud.ability.dreamer"));
             cir.setReturnValue(watheextended$drawAbilityHudText(context, renderer, styled, 0xE5CCFF));
         }
     }
