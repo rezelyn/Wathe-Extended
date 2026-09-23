@@ -53,6 +53,14 @@ public class AbilityHudMixin {
         Object[] args = content.getArgs();
         DrawContext context = (DrawContext) (Object) this;
 
+        if (watheextended$isAbilityHudKey(key)) {
+            MinecraftClient client = MinecraftClient.getInstance();
+            if (client.player != null && client.player.isSpectator()) {
+                cir.setReturnValue(0);
+                return;
+            }
+        }
+
         // cleaner player limit
         if (CLEANER_ABILITY_KEYS.contains(key) && watheextended$isCleanerAbilityDisabledByLimit()) {
             MutableText styled = Text.literal("§6⚠ ").append(Text.translatable("gui.watheextended.hud.ability.disabled").formatted(Formatting.YELLOW));
@@ -110,6 +118,15 @@ public class AbilityHudMixin {
             MutableText styled = Text.literal("✦ " + counts + "/" + required).append(Text.literal(" ").append(Text.translatable("gui.watheextended.hud.ability.dreamer")));
             cir.setReturnValue(watheextended$drawAbilityHudText(context, renderer, styled, 0xE5CCFF));
         }
+    }
+
+    @Unique
+    private static boolean watheextended$isAbilityHudKey(String key) {
+        return ABILITY_READY_KEYS.contains(key)
+                || ABILITY_COOLDOWN_KEYS.contains(key)
+                || ABILITY_COST_KEYS.contains(key)
+                || ABILITY_VULTURE_KEYS.contains(key)
+                || ABILITY_DREAMER_KEYS.contains(key);
     }
 
     @Unique
