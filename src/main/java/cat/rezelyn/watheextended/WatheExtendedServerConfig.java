@@ -69,7 +69,7 @@ public final class WatheExtendedServerConfig {
     public static int morphlingAbilityCooldown = 60;
     public static boolean phantomCanCancelAbility = true;
     public static int phantomAbilityDuration = 30;
-    public static int phantomAbilityCooldown = 0;
+    public static int phantomAbilityCooldown = 60;
     public static int grenadeCooldown = 90;
     public static int knifeCooldown = 60;
     public static int revolverCooldown = 10;
@@ -212,7 +212,7 @@ public final class WatheExtendedServerConfig {
         morphlingAbilityCooldown = config.getInt("roles.morphling.abilityCooldown", 60);
         phantomCanCancelAbility = config.getBool("roles.phantom.canCancelAbility", true);
         phantomAbilityDuration = config.getInt("roles.phantom.abilityDuration", 30);
-        phantomAbilityCooldown = config.getInt("roles.phantom.abilityCooldown", 0);
+        phantomAbilityCooldown = config.getInt("roles.phantom.abilityCooldown", 60);
         save();
     }
 
