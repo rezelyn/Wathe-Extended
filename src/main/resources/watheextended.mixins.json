@@ -22,6 +22,7 @@
     "fix.CursorSlotMixin",
     "fix.DisabledKillerRoleConversionMixin",
     "fix.InitiateRemoteDeathMixin",
+    "fix.InfectedNullGuardMixin",
     "fix.KillShieldConditionMixin",
     "fix.LegacyAnnounceWelcomePayloadMixin",
     "fix.PersistentTaskNbtMixin",

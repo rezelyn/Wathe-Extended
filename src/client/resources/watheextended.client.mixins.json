@@ -25,6 +25,7 @@
     "client.hud.BinglusStoreRendererMixin",
     "client.hud.inventory.AbilityRowsMixin",
     "client.role.BinglusInstinctMixin",
+    "client.role.InfectedInstinctMixin",
     "client.role.BinglusShopMixin",
     "client.hud.inventory.BodymakerDeathReasonSlotTextureMixin",
     "client.hud.inventory.BodymakerRolePickerMixin",
