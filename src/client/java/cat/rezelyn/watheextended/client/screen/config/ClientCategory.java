@@ -69,7 +69,7 @@ public final class ClientCategory {
                     .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
                     .build());
         }
-        // INSTINCT
+        // Instinct
         builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.client.label.instinct").styled(style -> style.withColor(0xAAAAAA))));
         /// HUD STYLE
         builder.option(Option.<String>createBuilder()
@@ -84,7 +84,7 @@ public final class ClientCategory {
         builder.option(Option.<Float>createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.client.opt.instinct.hudopacity"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.opt.instinct.hudopacity.desc")))
-                .binding(0.15f, WatheExtendedClientConfig::getInstinctHudOpacity, WatheExtendedClientConfig::setInstinctHudOpacity)
+                .binding(0.25f, WatheExtendedClientConfig::getInstinctHudOpacity, WatheExtendedClientConfig::setInstinctHudOpacity)
                 .controller(option -> FloatSliderControllerBuilder.create(option)
                         .range(0.0f, 1.0f)
                         .step(0.01f)
