@@ -25,7 +25,6 @@
     "fix.KillShieldConditionMixin",
     "fix.LegacyAnnounceWelcomePayloadMixin",
     "fix.PersistentTaskNbtMixin",
-    "fix.PoisonNullGuardMixin",
     "fix.RevivalItemGivingMixin",
     "fix.ShooterPunishmentMixin",
     "item.ArsonistItemsUseMixin",
