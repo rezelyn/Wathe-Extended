@@ -312,6 +312,12 @@ public class WatheExtended implements ModInitializer {
                             ServerConfig.broadcastToAll(context.server());
                             ServerPlayNetworking.send(context.player(), new PresetManager.ResultPayload(true, "load", ""));
                         }
+                        case "override" -> {
+                            PresetManager.Preset preset = PresetManager.load(payload.id());
+                            PresetManager.save(preset.metadata().name(), preset.metadata().description(), context.player(), ServerConfig.snapshot(context.server().getOverworld()));
+                            PresetManager.sendList(context.player());
+                            ServerPlayNetworking.send(context.player(), new PresetManager.ResultPayload(true, "override", ""));
+                        }
                         case "delete" -> {
                             PresetManager.delete(payload.id());
                             PresetManager.sendList(context.player());

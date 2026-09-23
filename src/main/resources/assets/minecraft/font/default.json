@@ -44,6 +44,13 @@
     },
     {
       "type": "bitmap",
+      "file": "watheextended:gui/config/override.png",
+      "ascent": 9,
+      "height": 13,
+      "chars": ["\uE505"]
+    },
+    {
+      "type": "bitmap",
       "file": "watheextended:gui/guidebook/sprites/mood.png",
       "ascent": 9,
       "height": 12,

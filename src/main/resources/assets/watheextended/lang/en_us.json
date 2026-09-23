@@ -538,6 +538,8 @@
   "gui.watheextended.config.category.presets.empty": "§cNo presets found! Click '§eSave New Preset§c' to create one.",
   "gui.watheextended.config.category.presets.author": "Created by: %s",
   "gui.watheextended.config.category.presets.load": "Load Preset",
+  "gui.watheextended.config.category.presets.override": "Override Preset",
+  "gui.watheextended.config.category.presets.override.confirm": "Save the current configuration over the preset '%s'?\nThis will replace all values currently stored in that preset.",
   "gui.watheextended.config.category.presets.delete": "Delete Preset",
   "gui.watheextended.config.category.presets.delete.confirm": "Are you sure you want to delete the preset '%s'?\nThis action is irreversible.",
   "gui.watheextended.config.category.presets.save.title": "Save Preset",

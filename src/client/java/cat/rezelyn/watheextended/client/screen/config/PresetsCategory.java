@@ -24,13 +24,14 @@ public final class PresetsCategory {
         ConfigCategory.Builder builder = ConfigCategory.createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.presets"))
                 .tooltip(Text.translatable("gui.watheextended.config.category.presets.tooltip"));
-
+        /// SAVE NEW PRESET
         builder.option(ButtonOption.createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.presets.save"))
                 .text(ScreenUtils.icon("save"))
                 .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.presets.save.desc")))
                 .action(screen -> MinecraftClient.getInstance().setScreen(new PresetSaveScreen(screen)))
                 .build());
+        /// REFRESH PRESET LIST
         builder.option(ButtonOption.createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.presets.refresh"))
                 .text(ScreenUtils.icon("refresh"))
@@ -47,22 +48,25 @@ public final class PresetsCategory {
         for (PresetManager.PresetMetadata preset : presets) {
             OptionGroup.Builder group = OptionGroup.createBuilder()
                     .name(Text.literal(preset.name()))
-                    .description(OptionDescription.of(Text.literal(metadataText(preset))))
+                    .description(OptionDescription.of(metadataText(preset)))
                     .collapsed(true);
-            group.option(LabelOption.create(Text.literal(preset.description().isBlank()
-                    ? "No description"
-                    : preset.description())));
-            group.option(LabelOption.create(Text.translatable(
-                    "gui.watheextended.config.category.presets.author", preset.authorName())));
+            /// LOAD PRESET
             group.option(ButtonOption.createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.category.presets.load"))
+                    .name(Text.translatable("gui.watheextended.config.category.presets.load").styled(style -> style.withColor(Formatting.GREEN)))
                     .text(ScreenUtils.icon("load"))
                     .action(screen -> ConfigScreen.requestPresetLoad(preset.id()))
                     .build());
+            /// DELETE PRESET
             group.option(ButtonOption.createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.category.presets.delete"))
+                    .name(Text.translatable("gui.watheextended.config.category.presets.delete").styled(style -> style.withColor(Formatting.RED)))
                     .text(ScreenUtils.icon("delete"))
                     .action(screen -> ConfigScreen.confirmPresetDelete(preset.id(), preset.name(), screen))
+                    .build());
+            /// OVERRIDE PRESET
+            group.option(ButtonOption.createBuilder()
+                    .name(Text.translatable("gui.watheextended.config.category.presets.override").styled(style -> style.withColor(Formatting.YELLOW)))
+                    .text(ScreenUtils.icon("override"))
+                    .action(screen -> ConfigScreen.confirmPresetOverride(preset.id(), preset.name(), screen))
                     .build());
             builder.group(group.build());
         }
