@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 // central compatibility check for every role that can use the new Instinct mechanic
 public final class InstinctAccess {
     private static final Set<Identifier> NON_KILLER_ROLES = ConcurrentHashMap.newKeySet();
+    private static final Identifier DREAMER_ROLE = Identifier.of("kinswathe", "dreamer");
     static {
         register(Identifier.of("kinswathe", "hacker"));
         register(Identifier.of("noellesroles", "awesome_binglus"));
@@ -32,6 +33,7 @@ public final class InstinctAccess {
         if (!GameFunctions.isPlayerAliveAndSurvival(player)) return false;
 
         Role role = GameWorldComponent.KEY.get(player.getWorld()).getRole(player);
+        if (role != null && DREAMER_ROLE.equals(role.identifier())) return false;
         return role != null && (role.canUseKiller() || NON_KILLER_ROLES.contains(role.identifier()));
     }
 }

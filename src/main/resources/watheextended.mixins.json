@@ -21,6 +21,8 @@
     "balance.AdjustPassiveIncomeMixin",
     "fix.CursorSlotMixin",
     "fix.DisabledKillerRoleConversionMixin",
+    "fix.DreamerKillerConversionMixin",
+    "fix.DreamerImprintRecoveryMixin",
     "fix.InitiateRemoteDeathMixin",
     "fix.InfectedNullGuardMixin",
     "fix.KillShieldConditionMixin",
