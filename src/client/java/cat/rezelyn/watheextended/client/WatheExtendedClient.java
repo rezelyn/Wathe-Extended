@@ -6,6 +6,7 @@ import cat.rezelyn.watheextended.client.pronouns.PronounsCache;
 import cat.rezelyn.watheextended.client.render.BoxDebugRenderer;
 import cat.rezelyn.watheextended.client.render.IshPlushBlockEntityRenderer;
 import cat.rezelyn.watheextended.client.render.InstinctHudRenderer;
+import cat.rezelyn.watheextended.client.render.KillerCohortOverlayRenderer;
 import cat.rezelyn.watheextended.game.InstinctAccess;
 import cat.rezelyn.watheextended.client.render.LastStandRenderer;
 import cat.rezelyn.watheextended.client.sound.InstinctLoopSound;
@@ -63,6 +64,7 @@ public class WatheExtendedClient implements ClientModInitializer {
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> ClientCategory.loadImages());
         HudRenderCallback.EVENT.register((context, tickCounter) -> LastStandRenderer.render(context));
         HudRenderCallback.EVENT.register(InstinctHudRenderer::render);
+        HudRenderCallback.EVENT.register(KillerCohortOverlayRenderer::render);
         ClientTickEvents.END_CLIENT_TICK.register(client -> LastStandRenderer.tick());
 
         BlockEntityRendererFactories.register(WatheExtendedBlockEntities.ISH_PLUSH, IshPlushBlockEntityRenderer::new);

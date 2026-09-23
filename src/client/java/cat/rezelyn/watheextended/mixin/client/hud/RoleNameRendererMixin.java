@@ -18,7 +18,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.hit.EntityHitResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import org.spongepowered.asm.mixin.injection.At;
@@ -34,14 +33,28 @@ public class RoleNameRendererMixin {
     @Shadow
     private static float nametagAlpha;
 
-    @WrapOperation(method = "renderHud", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)I", ordinal = 1))
-    private static int watheextended$lowerCohortText(DrawContext context, TextRenderer renderer, Text text, int x, int y, int color, Operation<Integer> op) {
-        return op.call(context, renderer, text, x, y + 10, color);
+    @WrapOperation(method = "renderHud", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getDisplayName()Lnet/minecraft/text/Text"), require = 0)
+    private static Text watheextended$protectDisplayName(PlayerEntity target, Operation<Text> op) {
+        try {
+            return op.call(target);
+        } catch (Throwable ignored) {
+            return Text.literal(target.getGameProfile().getName());
+        }
+    }
+
+    @org.spongepowered.asm.mixin.injection.Redirect(method = "renderHud", at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/client/gui/RoleNameRenderer;displayCohortOverlay(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/client/gui/DrawContext;)V"), require = 0)
+    private static void watheextended$replaceWatheCohortOverlay(TextRenderer renderer, DrawContext context) {
     }
 
     @Inject(method = "renderHud", at = @At("TAIL"))
     private static void watheExtended$renderPronouns(TextRenderer renderer, ClientPlayerEntity player, DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+        try {
+            watheExtended$renderPronounsInternal(renderer, player, context);
+        } catch (Throwable ignored) {
+        }
+    }
 
+    private static void watheExtended$renderPronounsInternal(TextRenderer renderer, ClientPlayerEntity player, DrawContext context) {
         if (nametagAlpha <= 0.05f) return;
 
         float range = GameFunctions.isPlayerSpectatingOrCreative(player) ? 8f : 2f;
