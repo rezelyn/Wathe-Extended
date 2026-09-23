@@ -36,7 +36,7 @@ public class RoleNameRendererMixin {
     @Unique
     private static PlayerEntity watheextended$pronounsTarget;
 
-    @WrapOperation(method = "renderHud", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getDisplayName()Lnet/minecraft/text/Text"), require = 0)
+    @WrapOperation(method = "renderHud", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getDisplayName()Lnet/minecraft/text/Text;"), require = 0)
     private static Text watheextended$protectDisplayName(PlayerEntity target, Operation<Text> op) {
         try {
             return op.call(target);

@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = KeyBinding.class, priority = 2000)
 public class KeyChatRestoreMixin {
 
-    @ModifyReturnValue(method = "shouldSuppressKey", at = @At("RETURN"))
+    @ModifyReturnValue(method = "shouldSuppressKey", at = @At("RETURN"), remap = false)
     private boolean watheextended$restoreChatKeys(boolean original) {
         if (!original) return false;
 
