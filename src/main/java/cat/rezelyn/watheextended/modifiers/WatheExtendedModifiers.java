@@ -21,7 +21,8 @@ public final class WatheExtendedModifiers {
     private static final Set<String> INTROVERTED_ROLE_DENYLIST = Set.of(
             "kinswathe:robot",
             "kinswathe:dreamer",
-            "stupid_express:thief"
+            "stupid_express:thief",
+            "noellesroles:vulture"
     );
 
     public static void initialize() {
