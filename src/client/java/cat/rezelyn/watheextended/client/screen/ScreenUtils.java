@@ -3,7 +3,6 @@ package cat.rezelyn.watheextended.client.screen;
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
 import dev.isxander.yacl3.api.Option;
 import dev.isxander.yacl3.api.controller.FloatFieldControllerBuilder;
-import dev.isxander.yacl3.api.controller.FloatSliderControllerBuilder;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -43,6 +42,7 @@ public final class ScreenUtils {
         map.put("load", "\uE502");
         map.put("delete", "\uE503");
         map.put("mood", "\uE504");
+        map.put("override", "\uE505");
 
         // items
         map.put("knife", "\uE100");

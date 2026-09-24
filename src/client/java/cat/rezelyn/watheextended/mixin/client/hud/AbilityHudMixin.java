@@ -27,7 +27,7 @@ import java.util.Set;
 @Mixin(DrawContext.class)
 public class AbilityHudMixin {
 
-    private static final Set<String> ABILITY_READY_KEYS = Set.of("tip.starexpress.starstruck", "tip.phantom", "tip.recaller.teleport", "tip.recaller.place", "tip.kinswathe.ability.can_use", "hud.stupid_express.thief.ready");
+    private static final Set<String> ABILITY_READY_KEYS = Set.of("tip.starexpress.starstruck", "tip.phantom", "tip.infected", "tip.recaller.teleport", "tip.recaller.place", "tip.kinswathe.ability.can_use", "hud.stupid_express.thief.ready");
     private static final Set<String> ABILITY_COOLDOWN_KEYS = Set.of("tip.starexpress.cooldown", "tip.noellesroles.cooldown", "tip.kinswathe.cooldown", "hud.stupid_express.thief.cooldown");
     private static final Set<String> ABILITY_COST_KEYS = Set.of("tip.kinswathe.ability.not_enough_money", "tip.recaller.not_enough_money");
     private static final Set<String> ABILITY_VULTURE_KEYS = Set.of("tip.vulture");
@@ -53,9 +53,17 @@ public class AbilityHudMixin {
         Object[] args = content.getArgs();
         DrawContext context = (DrawContext) (Object) this;
 
+        if (watheextended$isAbilityHudKey(key)) {
+            MinecraftClient client = MinecraftClient.getInstance();
+            if (client.player != null && client.player.isSpectator()) {
+                cir.setReturnValue(0);
+                return;
+            }
+        }
+
         // cleaner player limit
         if (CLEANER_ABILITY_KEYS.contains(key) && watheextended$isCleanerAbilityDisabledByLimit()) {
-            MutableText styled = Text.literal("§6⚠  ").append(Text.translatable("gui.watheextended.hud.ability.disabled").formatted(Formatting.YELLOW));
+            MutableText styled = Text.literal("§6⚠ ").append(Text.translatable("gui.watheextended.hud.ability.disabled").formatted(Formatting.YELLOW));
             cir.setReturnValue(watheextended$drawAbilityHudText(context, renderer, styled, color));
             return;
         }
@@ -82,8 +90,13 @@ public class AbilityHudMixin {
 
         // cost
         else if (ABILITY_COST_KEYS.contains(key)) {
-            if (args == null || args.length == 0) return;
-            String price = args[0] instanceof Text t ? t.getString() : String.valueOf(args[0]);
+            String price;
+            if ("tip.recaller.not_enough_money".equals(key) && (args == null || args.length == 0)) {
+                price = "100";
+            } else {
+                if (args == null || args.length == 0) return;
+                price = args[0] instanceof Text t ? t.getString() : String.valueOf(args[0]);
+            }
             MutableText styled = Text.literal("§4✘ §c" + price).append(ScreenUtils.icon("coin"));
             cir.setReturnValue(watheextended$drawAbilityHudText(context, renderer, styled, color));
         }
@@ -93,7 +106,7 @@ public class AbilityHudMixin {
             if (args == null || args.length < 2) return;
             String eaten = String.valueOf(args[0]);
             String required = String.valueOf(args[1]);
-            MutableText styled = Text.literal("☠ " + eaten + "/" + required);
+            MutableText styled = Text.literal("☠ " + eaten + "/" + required).append(Text.literal(" ").append(Text.translatable("gui.watheextended.hud.ability.vulture")));
             cir.setReturnValue(watheextended$drawAbilityHudText(context, renderer, styled, 0xB56700));
         }
 
@@ -102,9 +115,18 @@ public class AbilityHudMixin {
             if (args == null || args.length < 2) return;
             String counts = String.valueOf(args[0]);
             String required = String.valueOf(args[1]);
-            MutableText styled = Text.literal("✦ " + counts + "/" + required);
+            MutableText styled = Text.literal("✦ " + counts + "/" + required).append(Text.literal(" ").append(Text.translatable("gui.watheextended.hud.ability.dreamer")));
             cir.setReturnValue(watheextended$drawAbilityHudText(context, renderer, styled, 0xE5CCFF));
         }
+    }
+
+    @Unique
+    private static boolean watheextended$isAbilityHudKey(String key) {
+        return ABILITY_READY_KEYS.contains(key)
+                || ABILITY_COOLDOWN_KEYS.contains(key)
+                || ABILITY_COST_KEYS.contains(key)
+                || ABILITY_VULTURE_KEYS.contains(key)
+                || ABILITY_DREAMER_KEYS.contains(key);
     }
 
     @Unique

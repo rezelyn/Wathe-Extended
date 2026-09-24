@@ -154,6 +154,9 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.forbiddenLovers.chance", 0.25f,
                 WatheExtendedServerConfig::getForbiddenLoversChance,
                 WatheExtendedServerConfig::setForbiddenLoversChance));
+        ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.secretMurderChance", 0,
+                WatheExtendedServerConfig::getSecretMurderChance,
+                WatheExtendedServerConfig::setSecretMurderChance));
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.introverted.crowdCount", 3,
                 WatheExtendedServerConfig::getIntrovertedCrowdCount,
                 WatheExtendedServerConfig::setIntrovertedCrowdCount));
@@ -208,13 +211,13 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.lastStand.cooldown", 30,
                 WatheExtendedServerConfig::getLastStandCooldown,
                 WatheExtendedServerConfig::setLastStandCooldown));
-        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.instinct.capacity", 100.0f,
+        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.instinct.capacity", 1200.0f,
                 WatheExtendedServerConfig::getInstinctCapacity,
                 WatheExtendedServerConfig::setInstinctCapacity));
-        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.instinct.drainRate", 25.0f,
+        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.instinct.drainRate", 60.0f,
                 WatheExtendedServerConfig::getInstinctDrainRate,
                 WatheExtendedServerConfig::setInstinctDrainRate));
-        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.instinct.reloadRate", 25.0f,
+        ServerConfig.register(ServerConfig.Entry.globalFloat("watheextended.instinct.reloadRate", 20.0f,
                 WatheExtendedServerConfig::getInstinctReloadRate,
                 WatheExtendedServerConfig::setInstinctReloadRate));
         ServerConfig.register(ServerConfig.Entry.globalBool("watheextended.morphling.canCancelAbility", true,
@@ -312,6 +315,12 @@ public class WatheExtended implements ModInitializer {
                             PresetManager.apply(PresetManager.load(payload.id()), context.server().getOverworld());
                             ServerConfig.broadcastToAll(context.server());
                             ServerPlayNetworking.send(context.player(), new PresetManager.ResultPayload(true, "load", ""));
+                        }
+                        case "override" -> {
+                            PresetManager.Preset preset = PresetManager.load(payload.id());
+                            PresetManager.save(preset.metadata().name(), preset.metadata().description(), context.player(), ServerConfig.snapshot(context.server().getOverworld()));
+                            PresetManager.sendList(context.player());
+                            ServerPlayNetworking.send(context.player(), new PresetManager.ResultPayload(true, "override", ""));
                         }
                         case "delete" -> {
                             PresetManager.delete(payload.id());

@@ -370,7 +370,7 @@ public final class RolesCategory {
                 builder.option(Option.<Integer>createBuilder()
                         .name(Text.translatable("gui.watheextended.config.text.cooldown"))
                         .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.roles.opt.phantom.cooldown.desc")))
-                        .binding(0, () -> ClientConfig.getInt("watheextended.phantom.abilityCooldown", 0), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.phantom.abilityCooldown", value))
+                        .binding(60, () -> ClientConfig.getInt("watheextended.phantom.abilityCooldown", 60), value -> ScreenUtils.stage(sendCommand, parent, "watheextended.phantom.abilityCooldown", value))
                         .controller(IntegerFieldControllerBuilder::create)
                         .build());
                 /// ABILITY - DURATION

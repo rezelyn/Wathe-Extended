@@ -15,9 +15,9 @@ import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.hit.EntityHitResult;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -31,23 +31,45 @@ import java.util.UUID;
 @Mixin(value = RoleNameRenderer.class, priority = 999)
 public class RoleNameRendererMixin {
 
-    @Shadow
-    private static float nametagAlpha;
+    @Unique
+    private static float watheextended$pronounsAlpha;
+    @Unique
+    private static PlayerEntity watheextended$pronounsTarget;
 
-    @WrapOperation(method = "renderHud", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)I", ordinal = 1))
-    private static int watheextended$lowerCohortText(DrawContext context, TextRenderer renderer, Text text, int x, int y, int color, Operation<Integer> op) {
-        return op.call(context, renderer, text, x, y + 10, color);
+    @WrapOperation(method = "renderHud", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getDisplayName()Lnet/minecraft/text/Text;"), require = 0)
+    private static Text watheextended$protectDisplayName(PlayerEntity target, Operation<Text> op) {
+        try {
+            return op.call(target);
+        } catch (Throwable ignored) {
+            return Text.literal(target.getGameProfile().getName());
+        }
+    }
+
+    @org.spongepowered.asm.mixin.injection.Redirect(method = "renderHud", at = @At(value = "INVOKE", target = "Ldev/doctor4t/wathe/client/gui/RoleNameRenderer;displayCohortOverlay(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/client/gui/DrawContext;)V"), require = 0)
+    private static void watheextended$replaceWatheCohortOverlay(TextRenderer renderer, DrawContext context) {
     }
 
     @Inject(method = "renderHud", at = @At("TAIL"))
     private static void watheExtended$renderPronouns(TextRenderer renderer, ClientPlayerEntity player, DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+        try {
+            watheExtended$renderPronounsInternal(renderer, player, context, tickCounter);
+        } catch (Throwable ignored) {
+        }
+    }
 
-        if (nametagAlpha <= 0.05f) return;
-
+    private static void watheExtended$renderPronounsInternal(TextRenderer renderer, ClientPlayerEntity player, DrawContext context, RenderTickCounter tickCounter) {
         float range = GameFunctions.isPlayerSpectatingOrCreative(player) ? 8f : 2f;
+        boolean targetAcquired = false;
+        PlayerEntity target = watheextended$pronounsTarget;
 
-        if (!(ProjectileUtil.getCollision(player, entity -> entity instanceof PlayerEntity, range) instanceof EntityHitResult hit && hit.getEntity() instanceof PlayerEntity target))
-            return;
+        if (ProjectileUtil.getCollision(player, entity -> entity instanceof PlayerEntity, range) instanceof EntityHitResult hit && hit.getEntity() instanceof PlayerEntity hitTarget) {
+            target = hitTarget;
+            watheextended$pronounsTarget = hitTarget;
+            targetAcquired = true;
+        }
+
+        watheextended$pronounsAlpha = MathHelper.lerp(tickCounter.getLastFrameDuration() / 4f, watheextended$pronounsAlpha, targetAcquired ? 1f : 0f);
+        if (watheextended$pronounsAlpha <= 0.05f || target == null) return;
 
         // ignore psycho mode
         try {
@@ -68,7 +90,7 @@ public class RoleNameRendererMixin {
 
         Text pronounsText = Text.literal(pronouns);
         int pronounsWidth = renderer.getWidth(pronounsText);
-        int color = 0xAAAAAA | ((int) (nametagAlpha * 255) << 24);
+        int color = 0xAAAAAA | ((int) (watheextended$pronounsAlpha * 255) << 24);
 
         context.getMatrices().push();
         context.getMatrices().translate(context.getScaledWindowWidth() / 2f, context.getScaledWindowHeight() / 2f + 6f, 0f);

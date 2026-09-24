@@ -1,13 +1,14 @@
 <div align="center">
 
-# Wathe: Extended
+![Wathe: Extended](https://shieldcn.dev/header/transparent.svg?title=Wathe%3A+Extended&subtitle=Add-on+mod+for+Wathe%3A+Murder+Mystery&size=wide&mode=dark&border=false&image=https%3A%2F%2Fraw.githubusercontent.com%2Frezelyn%2FWathe-Extended%2Frefs%2Fheads%2Fmain%2Fsrc%2Fmain%2Fresources%2Fassets%2Fwatheextended%2Ficon.png&brand=modrinth)
 
-<img alt="Icon" height="384" width="384" style="border-radius: 24px; margin-bottom: 8px" src="https://raw.githubusercontent.com/rezelyn/Wathe-Extended/refs/heads/main/src/main/resources/assets/watheextended/icon.png"/>
-
----
-
-![GitHub](https://img.shields.io/github/stars/rezelyn/Wathe-Extended?style=for-the-badge&logo=github&labelColor=11111b&color=FFFFFF&label=GitHub) ![Issues](https://img.shields.io/github/issues/rezelyn/Wathe-Extended?style=for-the-badge&labelColor=11111b&color=F08A3A&label=Issues) ![License](https://img.shields.io/github/license/rezelyn/Wathe-Extended?style=for-the-badge&labelColor=11111b&color=3094FF&label=License)
-<br> ![Version](https://img.shields.io/github/release/rezelyn/Wathe-Extended?style=flat-square&logo=git&labelColor=11111b&color=f03c2e&label=Version) ![Modrinth](https://img.shields.io/modrinth/dt/7LadFLDS?style=flat-square&logo=modrinth&labelColor=11111b&color=00AF5C&label=Downloads)
+[![GitHub Stars](https://shieldcn.dev/github/rezelyn/Wathe-Extended/stars.svg?variant=outline&size=sm&font=jetbrains-mono&logo=ri%3AFaStar&label=Stars&gap=8&labelGap=8)](https://github.com/rezelyn/Wathe-Extended)
+[![GitHub Issues](https://shieldcn.dev/github/rezelyn/Wathe-Extended/issues.svg?variant=outline&size=sm&font=jetbrains-mono&logo=ri%3AFaRegDotCircle&label=Issues&gap=8&labelGap=8)](https://github.com/rezelyn/Wathe-Extended/issues)
+[![GitHub License](https://shieldcn.dev/github/rezelyn/Wathe-Extended/license.svg?variant=outline&size=sm&font=jetbrains-mono&logo=ri%3ATbLicense&label=License&gap=8&labelGap=8)](https://github.com/rezelyn/Wathe-Extended)
+<br> [![GitHub Release](https://shieldcn.dev/github/rezelyn/Wathe-Extended/release.svg?variant=outline&size=xs&font=jetbrains-mono&label=Version&gap=4&labelGap=4)](https://github.com/rezelyn/Wathe-Extended/releases)
+[![Modrinth Downloads](https://shieldcn.dev/badge/dynamic/json.svg?url=https%3A%2F%2Fapi.modrinth.com%2Fv2%2Fproject%2Fwathe-extended&query=%24.downloads&variant=outline&size=xs&font=jetbrains-mono&logo=modrinth&label=Downloads&gap=4&labelGap=4)](https://modrinth.com/mod/wathe-extended)
+<br> <picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/github/last-commit/rezelyn/Wathe-Extended.svg?variant=ghost&amp;size=xs&amp;mode=dark&amp;font=jetbrains-mono"><img alt="Last commit" src="https://www.shieldcn.dev/github/last-commit/rezelyn/Wathe-Extended.svg?variant=ghost&amp;size=xs&amp;mode=light&amp;font=jetbrains-mono"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/github/commits/rezelyn/Wathe-Extended.svg?variant=ghost&amp;size=xs&amp;mode=dark&amp;font=jetbrains-mono"><img alt="Commits" src="https://www.shieldcn.dev/github/commits/rezelyn/Wathe-Extended.svg?variant=ghost&amp;size=xs&amp;mode=light&amp;font=jetbrains-mono"></picture>
 
 ---
 
@@ -15,7 +16,9 @@
 <br> Using this mod outside the modpack is not recommended; you are free to do so, but at your own risk.
 <br> Support requests or issues reported by users who choose to use the mod outside the base modpack will be ignored.
 
-## Overview
+---
+
+</div>
 
 <details><summary>Roles</summary>
 
@@ -34,7 +37,6 @@ Soon™
 
 </details>
 
-</div>
 
 ### Gameplay Balancing & Customizability
 Wathe: Extended aims to improve the overall gameplay experience and accessibility of [Wathe: Murder Mystery](https://modrinth.com/mod/wathe) *(and some others add-ons)* by listening to players feedback, it has a lot of new features to make the game more balanced, enjoyable and easily customizable for any types of players:
@@ -129,13 +131,9 @@ On top of what the mod adds, the mod also includes a number of bug fixes for iss
 ---
 
 #### Credits
-- **[Wathe: Murder Mystery](https://modrinth.com/mod/wathe)** by [@RAT](https://modrinth.com/user/RAT)
 
-#### Contributors
-- [@yoy333](https://github.com/yoy333), [@Basinity](https://github.com/Basinity), [@ItsSyfe](https://github.com/ItsSyfe)
-- [@Celemimphar](https://x.com/Celemimphar) (Ish Plush model/texture)
-- [@math730]() (French localization)
-- [@haiman322]() (Chinese localization)
+[![doctor4t/wathe Contributors](https://shieldcn.dev/contributors/doctor4t/wathe.svg?title=Wathe%3A+Murder+Mystery&preset=transparent&size=80&names=true&align=left&limit=1&mode=dark&font=jetbrains-mono&border=false)](https://github.com/doctor4t/wathe/graphs/contributors)
+[![rezelyn/Wathe-Extended Contributors](https://shieldcn.dev/contributors/rezelyn/Wathe-Extended.svg?title=Wathe%3A+Extended&preset=transparent&size=80&names=true&align=left&mode=dark&font=jetbrains-mono&border=false)](https://github.com/rezelyn/Wathe-Extended/graphs/contributors)
 
 #### Special thanks
 - The **D.R. Harpy Transportation Ltd.** Discord server for being psychopaths
