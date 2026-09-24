@@ -6,6 +6,9 @@ import net.fabricmc.loader.api.FabricLoader;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public final class WatheExtendedServerConfig {
     // TODO: simplify this class so I don't have to write 4 times.
@@ -115,6 +118,10 @@ public final class WatheExtendedServerConfig {
     public static int jerryCanCooldown = 0;
     public static int lighterCooldown = 0;
 
+    // ROLEPLAY ITEMS (Wathe Extra Items round-start pool, keyed by item id)
+    public static final Map<String, Boolean> ROLEPLAY_ITEM_DEFAULTS = createRoleplayItemDefaults();
+    private static final Map<String, Boolean> roleplayItems = new LinkedHashMap<>(ROLEPLAY_ITEM_DEFAULTS);
+
     private WatheExtendedServerConfig() {}
 
     public static void load() {
@@ -213,6 +220,7 @@ public final class WatheExtendedServerConfig {
         phantomCanCancelAbility = config.getBool("roles.phantom.canCancelAbility", true);
         phantomAbilityDuration = config.getInt("roles.phantom.abilityDuration", 30);
         phantomAbilityCooldown = config.getInt("roles.phantom.abilityCooldown", 0);
+        ROLEPLAY_ITEM_DEFAULTS.forEach((id, def) -> roleplayItems.put(id, config.getBool("roleplayItems." + id, def)));
         save();
     }
 
@@ -605,11 +613,45 @@ public final class WatheExtendedServerConfig {
                 "        \"cooldown\": " + lighterCooldown + "\n" +
                 "      }\n" +
                 "    }\n" +
-                "  }\n" +
+                "  },\n" +
+                roleplayItemsJson() +
                     "}\n";
             Files.writeString(CONFIG_FILE.toPath(), content);
         } catch (IOException ignored) {
         }
+    }
+
+    private static Map<String, Boolean> createRoleplayItemDefaults() {
+        Map<String, Boolean> defaults = new LinkedHashMap<>();
+        for (String id : new String[]{"cigar", "cigarette", "highball", "coal_coke", "flow_dust", "charge_dust", "pocket_watch"}) {
+            defaults.put(id, true);
+        }
+        for (String id : new String[]{"tmotl", "trhm", "asis", "tmrm", "tm", "tmotyr"}) {
+            defaults.put(id, false);
+        }
+        return Collections.unmodifiableMap(defaults);
+    }
+
+    private static String roleplayItemsJson() {
+        StringBuilder json = new StringBuilder(
+                "  // Items from Wathe Extra Items that can be randomly given to each player at round start.\n" +
+                "  \"roleplayItems\": {\n");
+        int remaining = roleplayItems.size();
+        for (Map.Entry<String, Boolean> entry : roleplayItems.entrySet()) {
+            json.append("    // Default: ").append(ROLEPLAY_ITEM_DEFAULTS.get(entry.getKey())).append("\n")
+                    .append("    \"").append(entry.getKey()).append("\": ").append(entry.getValue())
+                    .append(--remaining > 0 ? ",\n" : "\n");
+        }
+        return json.append("  }\n").toString();
+    }
+
+    public static boolean isRoleplayItemEnabled(String id) {
+        return roleplayItems.getOrDefault(id, false);
+    }
+
+    public static void setRoleplayItemEnabled(String id, boolean value) {
+        roleplayItems.put(id, value);
+        save();
     }
 
     public static boolean isPlayerCollisionsEnabled() {

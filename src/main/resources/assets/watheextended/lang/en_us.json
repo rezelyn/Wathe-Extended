@@ -288,6 +288,10 @@
 
   "gui.watheextended.config.category.items": "Items",
   "gui.watheextended.config.category.items.tooltip": "Control various options related to in-game items",
+  "gui.watheextended.config.category.items.group.roleplay_items": "Roleplay Items",
+  "gui.watheextended.config.category.items.group.roleplay_items.tooltip": "Choose which Wathe Extra Items can be randomly given to each player at round start.",
+  "gui.watheextended.config.category.items.group.roleplay_items.opt.item.desc.on": "Whether this item can be randomly given to a player at round start.\n\n§6Default: §aON",
+  "gui.watheextended.config.category.items.group.roleplay_items.opt.item.desc.off": "Whether this item can be randomly given to a player at round start.\n\n§6Default: §cOFF",
   "gui.watheextended.config.category.items.group.knife": "\uE100 Knife",
   "gui.watheextended.config.category.items.group.knife.cooldown": "Cooldown in seconds applied to the Knife after it is used to kill a player.\n\n§6Default:§r §e60§r",
   "gui.watheextended.config.category.items.group.knife.price": "Shop price of the Knife.\n\n§6Default:§r §e100§r",

@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.client.screen.config;
 
+import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import cat.rezelyn.watheextended.api.GameComponents;
 import cat.rezelyn.watheextended.api.config.ClientConfig;
 import cat.rezelyn.watheextended.client.screen.ScreenUtils;
@@ -9,6 +10,7 @@ import dev.isxander.yacl3.api.OptionDescription;
 import dev.isxander.yacl3.api.OptionGroup;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerFieldControllerBuilder;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.MutableText;
@@ -27,6 +29,25 @@ public class ItemsCategory {
                 .tooltip(Text.translatable("gui.watheextended.config.category.items.tooltip"));
 
         World world = MinecraftClient.getInstance().world;
+
+        // Roleplay Items
+        if (FabricLoader.getInstance().isModLoaded("watheextraitems")) {
+            OptionGroup.Builder roleplayItems = OptionGroup.createBuilder()
+                    .name(withIcon("gui.watheextended.config.category.items.group.roleplay_items"))
+                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.items.group.roleplay_items.tooltip")));
+            WatheExtendedServerConfig.ROLEPLAY_ITEM_DEFAULTS.forEach((id, def) -> {
+                String key = "watheextended.roleplayItems." + id;
+                roleplayItems.option(Option.<Boolean>createBuilder()
+                        .name(Text.translatable("item.watheextraitems." + id))
+                        .description(OptionDescription.of(Text.translatable(def
+                                ? "gui.watheextended.config.category.items.group.roleplay_items.opt.item.desc.on"
+                                : "gui.watheextended.config.category.items.group.roleplay_items.opt.item.desc.off")))
+                        .binding(def, () -> ClientConfig.getBool(key, def), value -> ScreenUtils.stage(sendCommand, parent, key, value))
+                        .controller(opt -> BooleanControllerBuilder.create(opt).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                        .build());
+            });
+            builder.group(roleplayItems.collapsed(true).build());
+        }
 
         // Knife
         builder.group(OptionGroup.createBuilder().name(withIcon("gui.watheextended.config.category.items.group.knife"))

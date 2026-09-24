@@ -21,6 +21,7 @@
     "balance.AdjustPassiveIncomeMixin",
     "fix.CursorSlotMixin",
     "fix.DisabledKillerRoleConversionMixin",
+    "fix.ExtraItemsRoundStartMixin",
     "fix.InitiateRemoteDeathMixin",
     "fix.KillShieldConditionMixin",
     "fix.LegacyAnnounceWelcomePayloadMixin",

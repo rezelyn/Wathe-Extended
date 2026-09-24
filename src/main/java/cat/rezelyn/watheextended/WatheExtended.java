@@ -247,6 +247,10 @@ public class WatheExtended implements ModInitializer {
         ServerConfig.register(ServerConfig.Entry.globalInt("watheextended.balance.minPassiveIncome", 0,
                 WatheExtendedServerConfig::getMinPassiveIncome,
                 WatheExtendedServerConfig::setMinPassiveIncome));
+        WatheExtendedServerConfig.ROLEPLAY_ITEM_DEFAULTS.forEach((id, def) ->
+                ServerConfig.register(ServerConfig.Entry.globalBool("watheextended.roleplayItems." + id, def,
+                        () -> WatheExtendedServerConfig.isRoleplayItemEnabled(id),
+                        value -> WatheExtendedServerConfig.setRoleplayItemEnabled(id, value))));
     }
 
     private static void registerNetworking() {
