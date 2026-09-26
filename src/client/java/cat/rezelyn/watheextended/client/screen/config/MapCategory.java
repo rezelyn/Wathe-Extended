@@ -12,6 +12,9 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.api.WatheGameModes;
+import org.agmas.harpymodloader.Harpymodloader;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -102,6 +105,48 @@ public final class MapCategory {
                         .formatValue(value -> Text.literal(String.format(java.util.Locale.ROOT, "%ds", value))))
                 .build());
 
+        // Map effect
+        OptionGroup.Builder mapEffect = OptionGroup.createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.map.group.map_effect"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.group.map_effect.tooltip")));
+        /// GAMEMODE
+        mapEffect.option(Option.<String>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.map.group.map_effect.opt.gamemode"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.group.map_effect.opt.gamemode.desc")))
+                .binding("MODDED_MURDER", () -> currentGameMode(MinecraftClient.getInstance().world), value -> sendCommand.accept("watheextended.map.gameMode " + value, parent))
+                .controller(option -> CyclingListControllerBuilder.create(option)
+                        .values(java.util.List.of("MODDED_MURDER", "MODDED_SECRET_MURDER", "MURDER", "LOOSE_ENDS", "SECRET_MURDER", "DISCOVERY"))
+                        .formatValue(value -> Text.translatable("gui.watheextended.config.category.map.group.map_effect.opt.gamemode." + value.toLowerCase(java.util.Locale.ROOT))))
+                .build());
+        mapEffect.option(Option.<Boolean>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.map.group.map_effect.opt.generic"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.group.map_effect.opt.generic.desc")))
+                .binding(false, () -> {
+                    try {
+                        return WatheExtendedWorldComponent.KEY.get(MinecraftClient.getInstance().world).isGenericMapEffectEnabled();
+                    } catch (Throwable ignored) { return false; }
+                }, value -> sendCommand.accept("watheextended.map.generic " + value, parent))
+                .controller(option -> BooleanControllerBuilder.create(option)
+                        .formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
+                .build());
+        /// IN-GAME TIME
+        mapEffect.option(mapTimeOption("time", "getGameTimeOfDay", sendCommand, parent));
+        /// LOBBY TIME
+        mapEffect.option(mapTimeOption("lobbytime", "getLobbyTimeOfDay", sendCommand, parent));
+        /// GAME DURATION
+        mapEffect.option(Option.<Integer>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.map.group.map_effect.opt.duration"))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.group.map_effect.opt.duration.desc")))
+                .binding(10, () -> {
+                    try { return WatheExtendedWorldComponent.KEY.get(MinecraftClient.getInstance().world).getGameDurationMinutes(); }
+                    catch (Throwable ignored) { return 10; }
+                }, value -> sendCommand.accept("watheextended.map.duration " + value, parent))
+                .controller(option -> IntegerSliderControllerBuilder.create(option)
+                        .range(1, 60).step(1)
+                        .formatValue(value -> Text.literal(value + "m")))
+                .build());
+        builder.group(mapEffect.build());
+
         // Variables
         OptionGroup.Builder group = OptionGroup.createBuilder()
                 .name(Text.translatable("gui.watheextended.config.category.map.group.variables"))
@@ -179,6 +224,36 @@ public final class MapCategory {
         builder.group(group.build());
         builder.group(buildRtpSlotsGroup(parent, sendCommand));
         return builder.build();
+    }
+
+    private static String currentGameMode(World world) {
+        try {
+            var configured = WatheExtendedWorldComponent.KEY.get(world).getGameModeSelection();
+            if (configured != null) return configured;
+            var mode = GameWorldComponent.KEY.get(world).getGameMode();
+            if (mode == Harpymodloader.MODDED_GAMEMODE) return "MODDED_MURDER";
+            if (mode == Harpymodloader.SECRET_MODDED_GAMEMODE) return "MODDED_SECRET_MURDER";
+            if (mode == WatheGameModes.LOOSE_ENDS) return "LOOSE_ENDS";
+            if (mode == WatheGameModes.SECRET_MURDER) return "SECRET_MURDER";
+            if (mode == WatheGameModes.DISCOVERY) return "DISCOVERY";
+        } catch (Throwable ignored) {}
+        return "MURDER";
+    }
+
+    private static Option<String> mapTimeOption(String key, String getter, BiConsumer<String, Screen> sendCommand, Screen parent) {
+        return Option.<String>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.category.map.group.map_effect.opt." + key))
+                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.map.group.map_effect.opt." + key + ".desc")))
+                .binding(key.equals("lobbytime") ? "DAY" : "NIGHT", () -> {
+                    try {
+                        var component = WatheExtendedWorldComponent.KEY.get(MinecraftClient.getInstance().world);
+                        return getter.equals("getLobbyTimeOfDay") ? component.getLobbyTimeOfDay() : component.getGameTimeOfDay();
+                    } catch (Throwable ignored) { return key.equals("lobbytime") ? "DAY" : "NIGHT"; }
+                }, value -> sendCommand.accept("watheextended.map." + (key.equals("lobbytime") ? "lobbyTime" : "gameTime") + " " + value, parent))
+                .controller(option -> CyclingListControllerBuilder.create(option)
+                        .values(java.util.List.of("DAY", "NIGHT", "SUNDOWN"))
+                        .formatValue(value -> Text.translatable("gui.watheextended.config.category.map.group.map_effect.opt." + key + "." + value.toLowerCase(java.util.Locale.ROOT))))
+                .build();
     }
 
     private static OptionGroup buildRtpSlotsGroup(Screen parent, BiConsumer<String, Screen> sendCommand) {

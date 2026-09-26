@@ -3,26 +3,30 @@ package cat.rezelyn.watheextended.component;
 import cat.rezelyn.watheextended.WatheExtended;
 import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import cat.rezelyn.watheextended.game.TeleportationSlot;
+import dev.doctor4t.wathe.api.GameMode;
+import dev.doctor4t.wathe.api.MapEffect;
+import dev.doctor4t.wathe.api.WatheMapEffects;
+import dev.doctor4t.wathe.api.WatheGameModes;
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.cca.TrainWorldComponent;
+import dev.doctor4t.wathe.game.GameConstants;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.agmas.harpymodloader.Harpymodloader;
 import org.jetbrains.annotations.NotNull;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.component.ComponentRegistry;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class WatheExtendedWorldComponent implements AutoSyncedComponent {
 
@@ -44,6 +48,11 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
     private boolean itemBoundsCheckEnabled = true;
     private boolean forbiddenLoversEnabled = false;
     private long gameStartWorldTime = -1L;
+    private String gameTimeOfDay = "NIGHT";
+    private String lobbyTimeOfDay = "DAY";
+    private boolean genericMapEffectEnabled = false;
+    private String gameModeSelection = "MODDED_MURDER";
+    private int gameDurationMinutes = 10;
 
     public WatheExtendedWorldComponent(World world) {
         this.world = world;
@@ -89,6 +98,95 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
 
     public void sync() {
         KEY.sync(this.world);
+    }
+
+    public String getGameTimeOfDay() { return gameTimeOfDay; }
+    public String getLobbyTimeOfDay() { return lobbyTimeOfDay; }
+    public boolean isGenericMapEffectEnabled() { return genericMapEffectEnabled; }
+    public MapEffect getConfiguredGameMapEffect() { return genericMapEffectEnabled ? WatheMapEffects.GENERIC : mapEffectFor(gameTimeOfDay); }
+    public String getGameModeSelection() { return gameModeSelection; }
+    public int getGameDurationMinutes() { return gameDurationMinutes; }
+    public void setGameDurationMinutes(int value) {
+        gameDurationMinutes = Math.clamp(value, 1, 60);
+        sync();
+    }
+
+    public int getConfiguredGameDurationTicks() {
+        return GameConstants.getInTicks(gameDurationMinutes, 0);
+    }
+    public void setGameModeSelection(String value) {
+        gameModeSelection = value == null ? "MODDED_MURDER" : value.toUpperCase(Locale.ROOT);
+        sync();
+    }
+
+    public void setConfiguredGameMode(String value) {
+        String selection = value == null ? "MODDED_MURDER" : value.toUpperCase(Locale.ROOT);
+        GameMode mode = switch (selection) {
+            case "MODDED_MURDER" -> Harpymodloader.MODDED_GAMEMODE;
+            case "MODDED_SECRET_MURDER" -> Harpymodloader.SECRET_MODDED_GAMEMODE;
+            case "LOOSE_ENDS" -> WatheGameModes.LOOSE_ENDS;
+            case "SECRET_MURDER" -> WatheGameModes.SECRET_MURDER;
+            case "DISCOVERY" -> WatheGameModes.DISCOVERY;
+            default -> WatheGameModes.MURDER;
+        };
+        if (!GameWorldComponent.KEY.get(world).isRunning()) {
+            GameWorldComponent.KEY.get(world).setGameMode(mode);
+            Harpymodloader.wantsToStartVannila = "MURDER".equals(selection);
+        }
+        gameModeSelection = selection;
+        sync();
+    }
+
+    public GameMode getGameModeForStart() {
+        if (WatheExtendedServerConfig.getSecretMurderChance() > 0
+                && world.getRandom().nextInt(100) < WatheExtendedServerConfig.getSecretMurderChance()
+                && !"MODDED_SECRET_MURDER".equals(gameModeSelection)
+                && !"SECRET_MURDER".equals(gameModeSelection)) {
+            return "MODDED_MURDER".equals(gameModeSelection) ? Harpymodloader.SECRET_MODDED_GAMEMODE : WatheGameModes.SECRET_MURDER;
+        }
+        return GameWorldComponent.KEY.get(world).getGameMode();
+    }
+
+    public boolean usesVanillaGameModeAtStart() {
+        return !gameModeSelection.startsWith("MODDED_");
+    }
+
+    public void setGameTimeOfDay(String value) {
+        gameTimeOfDay = normalizeTime(value, "NIGHT");
+        sync();
+    }
+
+    public void setGenericMapEffectEnabled(boolean enabled) {
+        genericMapEffectEnabled = enabled;
+        sync();
+    }
+
+    public void setLobbyTimeOfDay(String value) {
+        lobbyTimeOfDay = normalizeTime(value, "DAY");
+        if (world instanceof ServerWorld serverWorld && !GameWorldComponent.KEY.get(world).isRunning()) {
+            setTrainTime(serverWorld, lobbyTimeOfDay);
+        }
+        sync();
+    }
+
+    public static void setTrainTime(ServerWorld world, String value) {
+        try {
+            TrainWorldComponent.TimeOfDay time = TrainWorldComponent.TimeOfDay.valueOf(normalizeTime(value, "DAY"));
+            TrainWorldComponent.KEY.get(world).setTimeOfDay(time);
+        } catch (Throwable ignored) {}
+    }
+
+    private static String normalizeTime(String value, String fallback) {
+        try { return TrainWorldComponent.TimeOfDay.valueOf(value.toUpperCase(Locale.ROOT)).name(); }
+        catch (Throwable ignored) { return fallback; }
+    }
+
+    private static MapEffect mapEffectFor(String value) {
+        return switch (normalizeTime(value, "NIGHT")) {
+            case "DAY" -> WatheMapEffects.HARPY_EXPRESS_DAY;
+            case "SUNDOWN" -> WatheMapEffects.HARPY_EXPRESS_SUNDOWN;
+            default -> WatheMapEffects.HARPY_EXPRESS_NIGHT;
+        };
     }
 
     public MapVariablesWorldComponent.PosWithOrientation getReadyAreaSpawnPos() {
@@ -213,6 +311,11 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
         this.blockInteractionsProtected = tag.contains("blockInteractionsProtected") ? tag.getBoolean("blockInteractionsProtected") : WatheExtendedServerConfig.isBlockProtectionEnabled();
         this.itemBoundsCheckEnabled = tag.contains("itemBoundsCheckEnabled") ? tag.getBoolean("itemBoundsCheckEnabled") : WatheExtendedServerConfig.isItemBoundsCheckEnabled();
         this.forbiddenLoversEnabled = tag.contains("forbiddenLoversEnabled") ? tag.getBoolean("forbiddenLoversEnabled") : WatheExtendedServerConfig.isForbiddenLoversEnabled();
+        this.gameTimeOfDay = tag.contains("gameTimeOfDay") ? tag.getString("gameTimeOfDay") : "NIGHT";
+        this.lobbyTimeOfDay = tag.contains("lobbyTimeOfDay") ? tag.getString("lobbyTimeOfDay") : "DAY";
+        this.genericMapEffectEnabled = tag.contains("genericMapEffectEnabled") && tag.getBoolean("genericMapEffectEnabled");
+        this.gameModeSelection = tag.contains("gameModeSelection") ? tag.getString("gameModeSelection") : "MODDED_MURDER";
+        this.gameDurationMinutes = Math.clamp(tag.contains("gameDurationMinutes") ? tag.getInt("gameDurationMinutes") : 10, 1, 60);
 
         if (tag.contains("lobbyAreaMinX")) {
             this.lobbyArea = new Box(tag.getDouble("lobbyAreaMinX"), tag.getDouble("lobbyAreaMinY"), tag.getDouble("lobbyAreaMinZ"), tag.getDouble("lobbyAreaMaxX"), tag.getDouble("lobbyAreaMaxY"), tag.getDouble("lobbyAreaMaxZ"));
@@ -260,6 +363,11 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
         tag.putBoolean("blockInteractionsProtected", this.blockInteractionsProtected);
         tag.putBoolean("itemBoundsCheckEnabled", this.itemBoundsCheckEnabled);
         tag.putBoolean("forbiddenLoversEnabled", this.forbiddenLoversEnabled);
+        tag.putString("gameTimeOfDay", this.gameTimeOfDay);
+        tag.putString("lobbyTimeOfDay", this.lobbyTimeOfDay);
+        tag.putBoolean("genericMapEffectEnabled", this.genericMapEffectEnabled);
+        tag.putString("gameModeSelection", this.gameModeSelection);
+        tag.putInt("gameDurationMinutes", this.gameDurationMinutes);
 
         tag.putDouble("lobbyAreaMinX", this.lobbyArea.minX);
         tag.putDouble("lobbyAreaMinY", this.lobbyArea.minY);

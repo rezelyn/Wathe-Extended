@@ -108,6 +108,7 @@ public class WatheExtended implements ModInitializer {
             MapVariablesCommand.register(dispatcher);
             TeleportationSlotsCommand.register(dispatcher);
             GamemodeRulesCommand.register(dispatcher);
+            MapEffectCommand.register(dispatcher);
             AddonsConfigCommand.register(dispatcher);
             PronounsCommand.register(dispatcher);
         });
@@ -116,6 +117,21 @@ public class WatheExtended implements ModInitializer {
     }
 
     private static void registerServerConfigEntries() {
+        ServerConfig.register(ServerConfig.Entry.worldString("watheextended.map.gameMode", "MODDED_MURDER",
+                world -> WatheExtendedWorldComponent.KEY.get(world).getGameModeSelection(),
+                (world, value) -> WatheExtendedWorldComponent.KEY.get(world).setConfiguredGameMode(value)));
+        ServerConfig.register(ServerConfig.Entry.worldString("watheextended.map.gameTime", "NIGHT",
+                world -> WatheExtendedWorldComponent.KEY.get(world).getGameTimeOfDay(),
+                (world, value) -> WatheExtendedWorldComponent.KEY.get(world).setGameTimeOfDay(value)));
+        ServerConfig.register(ServerConfig.Entry.worldBool("watheextended.map.generic", false,
+                world -> WatheExtendedWorldComponent.KEY.get(world).isGenericMapEffectEnabled(),
+                (world, value) -> WatheExtendedWorldComponent.KEY.get(world).setGenericMapEffectEnabled(value)));
+        ServerConfig.register(ServerConfig.Entry.worldString("watheextended.map.lobbyTime", "DAY",
+                world -> WatheExtendedWorldComponent.KEY.get(world).getLobbyTimeOfDay(),
+                (world, value) -> WatheExtendedWorldComponent.KEY.get(world).setLobbyTimeOfDay(value)));
+        ServerConfig.register(ServerConfig.Entry.worldInt("watheextended.map.duration", 10,
+                world -> WatheExtendedWorldComponent.KEY.get(world).getGameDurationMinutes(),
+                (world, value) -> WatheExtendedWorldComponent.KEY.get(world).setGameDurationMinutes(value)));
         ServerConfig.register(ServerConfig.Entry.worldBool("watheextended.playerCollisions", true, world -> {
             try { return WatheExtendedWorldComponent.KEY.get(world).isPlayerCollisionsEnabled(); }
             catch (Throwable throwable) { return true; }

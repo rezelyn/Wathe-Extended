@@ -7,6 +7,10 @@
   "mixins": [
     "BlockInteractionProtectionMixin",
     "HarpyExpressTrainMapEffectMixin",
+    "HornBlockMixin",
+    "GameFunctionsMixin",
+    "AutoStartComponentMixin",
+    "StartCommandMixin",
     "PlayerCollisionMixin",
     "PlayerMoodDirectAccessor",
     "ServerPlayNetworkHandlerChatMixin",

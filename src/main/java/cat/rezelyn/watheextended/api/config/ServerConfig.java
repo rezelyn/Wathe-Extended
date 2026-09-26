@@ -109,6 +109,10 @@ public final class ServerConfig {
             return global(key, def, reader, world, value -> value != null ? value : "", value -> value != null ? value : def);
         }
 
+        public static Entry<String> worldString(String key, String def, Function<World, String> reader, BiConsumer<World, String> writer) {
+            return worldScoped(key, def, reader, writer, value -> value != null ? value : "", value -> value != null ? value : def);
+        }
+
         public static Entry<Boolean> worldBool(String key, boolean def, Function<World, Boolean> reader, BiConsumer<World, Boolean> world) {
             return worldScoped(key, def, reader, world, Object::toString, Boolean::parseBoolean);
         }
