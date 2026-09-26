@@ -49,7 +49,11 @@ public final class PresetManager {
 
     private PresetManager() {}
 
-    public record PresetMetadata(String id, String name, String description, String authorName, UUID authorUuid, String createdAt, String updatedAt) {}
+    public record PresetMetadata(String id, String name, String description, String authorName, UUID authorUuid, String createdAt, String updatedAt, Map<String, String> config) {
+        public PresetMetadata(String id, String name, String description, String authorName, UUID authorUuid, String createdAt, String updatedAt) {
+            this(id, name, description, authorName, authorUuid, createdAt, updatedAt, Map.of());
+        }
+    }
     public record Preset(PresetMetadata metadata, Map<String, String> config) {}
     public record SaveResult(PresetMetadata metadata, boolean overwritten) {}
     public record ApplyResult(int applied, int skipped) {}
@@ -143,6 +147,9 @@ public final class PresetManager {
         nbt.putString("authorUuid", metadata.authorUuid().toString());
         nbt.putString("createdAt", metadata.createdAt());
         nbt.putString("updatedAt", metadata.updatedAt());
+        NbtCompound config = new NbtCompound();
+        metadata.config().forEach(config::putString);
+        nbt.put("config", config);
         return nbt;
     }
 
@@ -160,12 +167,23 @@ public final class PresetManager {
                         nbt.getString("authorName"),
                         UUID.fromString(nbt.getString("authorUuid")),
                         nbt.getString("createdAt"),
-                        nbt.getString("updatedAt")
+                        nbt.getString("updatedAt"),
+                        readConfigFromNbt(nbt)
                 ));
             } catch (Exception ignored) {
             }
         }
         return result;
+    }
+
+    private static Map<String, String> readConfigFromNbt(NbtCompound nbt) {
+        Map<String, String> config = new LinkedHashMap<>();
+        if (!nbt.contains("config", NbtElement.COMPOUND_TYPE)) return config;
+        NbtCompound values = nbt.getCompound("config");
+        for (String key : values.getKeys()) {
+            config.put(key, values.getString(key));
+        }
+        return config;
     }
 
     private static PresetMetadata findByName(String name) {
@@ -225,7 +243,8 @@ public final class PresetManager {
                 authorName,
                 authorUuid,
                 root.has("createdAt") ? root.get("createdAt").getAsString() : "",
-                root.has("updatedAt") ? root.get("updatedAt").getAsString() : ""
+                root.has("updatedAt") ? root.get("updatedAt").getAsString() : "",
+                config
         );
         return new Preset(metadata, config);
     }

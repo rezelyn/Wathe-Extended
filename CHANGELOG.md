@@ -1,5 +1,40 @@
 > #### This changelog also documents changes that are related to ***The Harpy Express: Extended*** modpack.
 
+# stable-3.8.141
+
+### 🆕 What's New
+- Added a new filter in the Guidebook to only show enabled entries for roles & modifiers
+- Added a configurable chance for Secret Murder rounds to occur (default: 0%)
+- Added new settings for gamemode selection and map effects, available under the Map category:
+  - Gamemode (Murder (Modded), Secret Murder (Modded), Murder, Loose Ends, Secret Murder, Discovery)
+  - In-Game Time (Day, Night, Sundown)
+  - Lobby Time (Day, Night, Sundown)
+  - Game Duration (Default: 10m)
+  - Use Generic Map Effect toggle (intended for use with custom maps)
+
+### 📋 Changes
+- Preset manager improvements:
+  - Added a button to directly overwrite an existing preset
+  - Hovering over a preset group now displays some metadata, showing every enabled/disabled roles and modifiers
+- Secret Murder rounds now inherit the Modded ruleset by default when the active gamemode is Modded; if the base Murder gamemode is active instead, Secret Murder rounds will play without modded roles or modifiers
+- Instinct configuration values are now defined in ticks and displayed as seconds in the configuration screen instead of percentages
+- Fog, Snowflakes, and HUD settings are now fully client-side and between rounds, adjustable by any player via the Client configuration category
+- Added extra context to the ability UI counter text for Vulture and Dreamer
+- Added custom ability UI for the Infected from Noelle's Roles
+
+### 🔧 Fixes
+- Fixed Phantom ability cooldown being set to 0 seconds instead of 60 seconds by default
+- Fixed Dreamer that wouldn't receive a new Dream Imprint after successfully saving a player from a hit, which could prevent them from converting into a Killer Role when more than 2 players needed to be imprinted
+- Fixed Dreamer role conversion always resulting to the Cleaner, it now correctly converts into a random enabled killer role
+- Fixed ability UI texts still being displayed when spectating
+- Fixed "Killer Cohorts" text display not being drawn when looking at other Killers and some killer-sided Neutrals
+- Fixed Thief not being affected to the new Instinct mechanic
+- Fixed Recaller ability UI text
+- Fixed pronouns text display fading animations not applying correctly
+- Fixed Introverted modifier being assigned to the Vulture
+- Fixed Introverted modifier being assigned to the Infected
+- Fixed Infected not being able to see players they've infected through walls
+
 # stable-3.7.141
 
 ### 🆕 What's New

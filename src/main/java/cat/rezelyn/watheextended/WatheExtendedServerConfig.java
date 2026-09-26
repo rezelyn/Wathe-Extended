@@ -6,6 +6,9 @@ import net.fabricmc.loader.api.FabricLoader;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public final class WatheExtendedServerConfig {
     // TODO: simplify this class so I don't have to write 4 times.
@@ -24,9 +27,9 @@ public final class WatheExtendedServerConfig {
     public static int killIncreaseTime = 60;
     public static boolean lastStandEnabled = false;
     public static int lastStandCooldown = 30;
-    public static float instinctCapacity = 100.0f;
-    public static float instinctDrainRate = 30.0f;
-    public static float instinctReloadRate = 10.0f;
+    public static float instinctCapacity = 1200.0f;
+    public static float instinctDrainRate = 60.0f;
+    public static float instinctReloadRate = 20.0f;
     public static String jumpMode = "LOBBY";
     public static String shootInnocentPunishmentMode = "DEFAULT";
     public static boolean suppressAbilityVfxSfx = false;
@@ -37,6 +40,7 @@ public final class WatheExtendedServerConfig {
 
     // WATHE-EXTENDED INTERNAL ROLES/MODIFIERS
     public static float forbiddenLoversChance = 0.25f;
+    public static int secretMurderChance = 0;
     public static int introvertedCrowdCount = 3;
     public static float introvertedCrowdRange = 5.0f;
     public static float introvertedCrowdDrainMultiplier = 2.0f;
@@ -69,7 +73,7 @@ public final class WatheExtendedServerConfig {
     public static int morphlingAbilityCooldown = 60;
     public static boolean phantomCanCancelAbility = true;
     public static int phantomAbilityDuration = 30;
-    public static int phantomAbilityCooldown = 0;
+    public static int phantomAbilityCooldown = 60;
     public static int grenadeCooldown = 90;
     public static int knifeCooldown = 60;
     public static int revolverCooldown = 10;
@@ -115,6 +119,10 @@ public final class WatheExtendedServerConfig {
     public static int jerryCanCooldown = 0;
     public static int lighterCooldown = 0;
 
+    // ROLEPLAY ITEMS (Wathe Extra Items round-start pool, keyed by item id)
+    public static final Map<String, Boolean> ROLEPLAY_ITEM_DEFAULTS = createRoleplayItemDefaults();
+    private static final Map<String, Boolean> roleplayItems = new LinkedHashMap<>(ROLEPLAY_ITEM_DEFAULTS);
+
     private WatheExtendedServerConfig() {}
 
     public static void load() {
@@ -137,9 +145,9 @@ public final class WatheExtendedServerConfig {
         minPassiveIncome = config.getInt("balance.minPassiveIncome", 0);
         lastStandEnabled = config.getBool("gamerules.lastStandEnabled", false);
         lastStandCooldown = config.getInt("gamerules.lastStandDuration", 30);
-        instinctCapacity = Math.clamp(config.getFloat("gamerules.instinct.capacity", 100.0f), 0.0f, 100.0f);
-        instinctDrainRate = Math.max(0.0f, config.getFloat("gamerules.instinct.drainRate", 30.0f));
-        instinctReloadRate = Math.max(0.0f, config.getFloat("gamerules.instinct.reloadRate", 10.0f));
+        instinctCapacity = Math.clamp(config.getFloat("gamerules.instinct.capacity", 1200.0f), 0.0f, 1200.0f);
+        instinctDrainRate = Math.max(0.0f, config.getFloat("gamerules.instinct.drainRate", 60.0f));
+        instinctReloadRate = Math.max(0.0f, config.getFloat("gamerules.instinct.reloadRate", 20.0f));
         knifeCooldown = config.getInt("items.knife.cooldown", 60);
         revolverCooldown = config.getInt("items.revolver.cooldown", 10);
         grenadeCooldown = config.getInt("items.grenade.cooldown", 90);
@@ -204,6 +212,7 @@ public final class WatheExtendedServerConfig {
         adaptiveBonusMultiplier = config.getFloat("modifiers.adaptive.bonusMultiplier", 0.50f);
         forbiddenLoversEnabled = config.getBool("modifiers.lovers.forbiddenLovers", false);
         forbiddenLoversChance = config.getFloat("modifiers.lovers.chance", 0.25f);
+        secretMurderChance = Math.clamp(config.getInt("wathe.secretMurderChance", 0), 0, 100);
         cleanerPlayerLimit = config.getInt("roles.cleaner.playerLimit", 10);
         cleanerAcidBarrelCoinBonusEnabled = config.getBool("roles.cleaner.acidBarrelCoinBonusEnabled", false);
         cleanerAcidBarrelCoins = config.getInt("roles.cleaner.acidBarrelCoins", 50);
@@ -212,7 +221,7 @@ public final class WatheExtendedServerConfig {
         morphlingAbilityCooldown = config.getInt("roles.morphling.abilityCooldown", 60);
         phantomCanCancelAbility = config.getBool("roles.phantom.canCancelAbility", true);
         phantomAbilityDuration = config.getInt("roles.phantom.abilityDuration", 30);
-        phantomAbilityCooldown = config.getInt("roles.phantom.abilityCooldown", 0);
+        phantomAbilityCooldown = config.getInt("roles.phantom.abilityCooldown", 60);
         save();
     }
 
@@ -247,15 +256,15 @@ public final class WatheExtendedServerConfig {
                     "    // Duration in seconds of the Last Stand countdown before the player dies.\n" +
                     "    // Default: 30\n" +
                     "    \"lastStandDuration\": " + lastStandCooldown + ",\n" +
-                    "    // Total Instinct charge capacity.\n" +
-                    "    // Default: 100\n" +
+                    "    // Total Instinct charge capacity in ticks (20 ticks = 1 second).\n" +
+                    "    // Default: 1200 (60 seconds)\n" +
                     "    \"instinct\": {\n" +
                     "      \"capacity\": " + instinctCapacity + ",\n" +
-                    "      // Percentage of total capacity drained per second while active.\n" +
-                    "      // Default: 30\n" +
+                    "      // Instinct ticks drained per second while active.\n" +
+                    "      // Default: 60 (3 seconds per second)\n" +
                     "      \"drainRate\": " + instinctDrainRate + ",\n" +
-                    "      // Percentage of total capacity restored per second while inactive.\n" +
-                    "      // Default: 10\n" +
+                    "      // Instinct ticks restored per second while inactive.\n" +
+                    "      // Default: 20 (1 second per second)\n" +
                     "      \"reloadRate\": " + instinctReloadRate + "\n" +
                     "    },\n" +
                     "    // Controls when players are allowed to jump.\n" +
@@ -418,6 +427,11 @@ public final class WatheExtendedServerConfig {
                     "      // Default: 0.25\n" +
                     "      \"chance\": " + forbiddenLoversChance + "\n" +
                     "    }\n" +
+                    "  },\n" +
+                    "  \"wathe\": {\n" +
+                    "    // Percentage chance that a game starts as Secret Murder instead of the selected gamemode.\n" +
+                    "    // Default: 0\n" +
+                    "    \"secretMurderChance\": " + secretMurderChance + "\n" +
                     "  },\n" +
                     "  \"roles\": {\n" +
                     "    \"cleaner\": {\n" +
@@ -605,11 +619,45 @@ public final class WatheExtendedServerConfig {
                 "        \"cooldown\": " + lighterCooldown + "\n" +
                 "      }\n" +
                 "    }\n" +
-                "  }\n" +
+                "  },\n" +
+                roleplayItemsJson() +
                     "}\n";
             Files.writeString(CONFIG_FILE.toPath(), content);
         } catch (IOException ignored) {
         }
+    }
+
+    private static Map<String, Boolean> createRoleplayItemDefaults() {
+        Map<String, Boolean> defaults = new LinkedHashMap<>();
+        for (String id : new String[]{"cigar", "cigarette", "highball", "coal_coke", "flow_dust", "charge_dust", "pocket_watch"}) {
+            defaults.put(id, true);
+        }
+        for (String id : new String[]{"tmotl", "trhm", "asis", "tmrm", "tm", "tmotyr"}) {
+            defaults.put(id, false);
+        }
+        return Collections.unmodifiableMap(defaults);
+    }
+
+    private static String roleplayItemsJson() {
+        StringBuilder json = new StringBuilder(
+                "  // Items from Wathe Extra Items that can be randomly given to each player at round start.\n" +
+                "  \"roleplayItems\": {\n");
+        int remaining = roleplayItems.size();
+        for (Map.Entry<String, Boolean> entry : roleplayItems.entrySet()) {
+            json.append("    // Default: ").append(ROLEPLAY_ITEM_DEFAULTS.get(entry.getKey())).append("\n")
+                    .append("    \"").append(entry.getKey()).append("\": ").append(entry.getValue())
+                    .append(--remaining > 0 ? ",\n" : "\n");
+        }
+        return json.append("  }\n").toString();
+    }
+
+    public static boolean isRoleplayItemEnabled(String id) {
+        return roleplayItems.getOrDefault(id, false);
+    }
+
+    public static void setRoleplayItemEnabled(String id, boolean value) {
+        roleplayItems.put(id, value);
+        save();
     }
 
     public static boolean isPlayerCollisionsEnabled() {
@@ -663,6 +711,15 @@ public final class WatheExtendedServerConfig {
 
     public static void setForbiddenLoversChance(float value) {
         forbiddenLoversChance = Math.max(0.0f, Math.min(1.0f, value));
+        save();
+    }
+
+    public static int getSecretMurderChance() {
+        return secretMurderChance;
+    }
+
+    public static void setSecretMurderChance(int value) {
+        secretMurderChance = Math.clamp(value, 0, 100);
         save();
     }
 
@@ -833,7 +890,7 @@ public final class WatheExtendedServerConfig {
     }
 
     public static void setInstinctCapacity(float value) {
-        instinctCapacity = Math.clamp(value, 0.0f, 100.0f);
+        instinctCapacity = Math.clamp(value, 0.0f, 1200.0f);
         save();
     }
 

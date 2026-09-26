@@ -1,6 +1,7 @@
 plugins {
     id 'fabric-loom' version '1.17.19'
     id 'maven-publish'
+    id 'com.modrinth.minotaur' version '2.+'
 }
 
 version = project.mod_version
@@ -14,7 +15,7 @@ loom {
     splitEnvironmentSourceSets()
 
     // Dev-only logging config: only Wathe Extended's own log output is shown.
-    log4jConfigs.setFrom(file("log4j-dev.xml"))
+    // log4jConfigs.setFrom(file("log4j-dev.xml"))
 
     mods {
         "watheextended" {
@@ -91,21 +92,21 @@ dependencies {
 
     // Wathe
     modApi "dev.doctor4t:wathe:${project.wathe_version}"
+        // Cardinal Components API and Ratatouille
+        modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"
+        modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
+        modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-world:${project.cca_version}"
+        modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-scoreboard:${project.cca_version}"
+        modImplementation "dev.doctor4t:ratatouille:${project.ratatouille_version}"
 
-    // Harpy Mod Loader and Addons
+    // Harpy Mod Loader
     modApi "maven.modrinth:harpymodloader:${project.harpymodloader_version}"
-
-    modApi "maven.modrinth:noelles-roles-tmm:${project.noelles_roles_version}"
-    modApi "maven.modrinth:stupid-express:${project.stupid_express_version}"
-    modApi "maven.modrinth:starexpress:${project.starexpress_version}"
-    modApi "maven.modrinth:kinswathe:${project.kinswathe_version}"
-
-    // Cardinal Components API and Ratatouille
-    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"
-    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
-    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-world:${project.cca_version}"
-    modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-scoreboard:${project.cca_version}"
-    modImplementation "dev.doctor4t:ratatouille:${project.ratatouille_version}"
+        // Addons
+        modApi "maven.modrinth:noelles-roles-tmm:${project.noelles_roles_version}"
+        modApi "maven.modrinth:stupid-express:${project.stupid_express_version}"
+        modApi "maven.modrinth:starexpress:${project.starexpress_version}"
+        modApi "maven.modrinth:kinswathe:${project.kinswathe_version}"
+        modApi "maven.modrinth:watheextraitems:${project.watheextraitems_version}"
 
     // Libraries
     modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
@@ -113,6 +114,7 @@ dependencies {
     annotationProcessor modImplementation("io.wispforest:owo-lib:${project.owo_version}")
     include "io.wispforest:owo-sentinel:${project.owo_version}"
 
+    // Local jars
     modCompileOnly fileTree(dir: 'libs', include: '*.jar')
 
     // Simple Voice Chat
@@ -169,4 +171,36 @@ publishing {
     }
 
     repositories {}
+}
+modrinth{
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = 'wathe-extended'
+    versionNumber = project.version
+    versionName = "Release $project.version"
+    uploadFile = remapJar
+    // deploy.sh extracts the newest CHANGELOG.md section into this file
+    changelog = providers.provider {
+        def path = System.getenv("MODRINTH_CHANGELOG_FILE")
+        path ? file(path).text : ""
+    }
+    gameVersions = ['1.21.1']
+    loaders = ['fabric']
+
+    // use the modrinth slug, not the maven-id's
+    dependencies {
+        // Wathe
+        required.project "wathe"
+
+        // Harpy Mod Loader and Addons
+        required.project "harpymodloader"
+
+        optional.project "noelles-roles-tmm"
+        optional.project "stupid-express"
+        optional.project "starexpress"
+        optional.project "kinswathe"
+        optional.project "watheextraitems"
+
+        // YACL
+        required.project "yacl"
+    }
 }

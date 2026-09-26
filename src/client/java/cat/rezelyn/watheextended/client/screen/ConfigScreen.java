@@ -8,14 +8,12 @@ import dev.isxander.yacl3.api.YetAnotherConfigLib;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.text.Text;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.List;
+import java.util.*;
 
 public final class ConfigScreen {
 
@@ -100,9 +98,17 @@ public final class ConfigScreen {
         ClientPlayNetworking.send(new PresetManager.ActionPayload("load", id, "", ""));
     }
 
+    public static void confirmPresetOverride(String id, String name, Screen screen) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        client.setScreen(new ConfirmScreen(confirmed -> {
+            if (confirmed) ClientPlayNetworking.send(new PresetManager.ActionPayload("override", id, "", ""));
+            client.setScreen(screen);
+        }, Text.translatable("gui.watheextended.config.category.presets.override"), Text.translatable("gui.watheextended.config.category.presets.override.confirm", name)));
+    }
+
     public static void confirmPresetDelete(String id, String name, Screen screen) {
         MinecraftClient client = MinecraftClient.getInstance();
-        client.setScreen(new net.minecraft.client.gui.screen.ConfirmScreen(confirmed -> {
+        client.setScreen(new ConfirmScreen(confirmed -> {
             if (confirmed) ClientPlayNetworking.send(new PresetManager.ActionPayload("delete", id, "", ""));
             client.setScreen(screen);
         }, Text.translatable("gui.watheextended.config.category.presets.delete"), Text.translatable("gui.watheextended.config.category.presets.delete.confirm", name)));
@@ -155,7 +161,7 @@ public final class ConfigScreen {
 
     private static void flushPendingChanges() {
         if (!pendingRoleState.isEmpty()) {
-            java.util.List<String> disabled = new java.util.ArrayList<>(ClientConfig.getStringList("hml.disabled"));
+            List<String> disabled = new ArrayList<>(ClientConfig.getStringList("hml.disabled"));
             pendingRoleState.forEach((id, enabled) -> {
                 if (enabled) disabled.remove(id);
                 else if (!disabled.contains(id)) disabled.add(id);
@@ -163,7 +169,7 @@ public final class ConfigScreen {
             pendingChanges.put("hml.disabled", String.join(",", disabled));
         }
         if (!pendingModifierState.isEmpty()) {
-            java.util.List<String> disabled = new java.util.ArrayList<>(ClientConfig.getStringList("hml.disabledModifiers"));
+            List<String> disabled = new ArrayList<>(ClientConfig.getStringList("hml.disabledModifiers"));
             pendingModifierState.forEach((id, enabled) -> {
                 if (enabled) disabled.remove(id);
                 else if (!disabled.contains(id)) disabled.add(id);

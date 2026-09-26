@@ -25,6 +25,8 @@
     "client.hud.BinglusStoreRendererMixin",
     "client.hud.inventory.AbilityRowsMixin",
     "client.role.BinglusInstinctMixin",
+    "client.role.DreamerInstinctMixin",
+    "client.role.InfectedInstinctMixin",
     "client.role.BinglusShopMixin",
     "client.hud.inventory.BodymakerDeathReasonSlotTextureMixin",
     "client.hud.inventory.BodymakerRolePickerMixin",
@@ -45,7 +47,8 @@
     "client.keybinds.InstinctModeMixin",
     "client.keybinds.KeyChatRestoreMixin",
     "client.keybinds.KeyInventoryScreenMixin",
-    "client.keybinds.KeyJumpMixin"
+    "client.keybinds.KeyJumpMixin",
+    "client.WatheVisualSettingsMixin"
   ],
   "injectors": {
     "defaultRequire": 1
