@@ -5,10 +5,18 @@
 ### 🆕 What's New
 - Added a new filter in the Guidebook to only show enabled entries for roles & modifiers
 - Added a configurable chance for Secret Murder rounds to occur (default: 0%)
+- Added new settings for gamemode selection and map effects, available under the Map category:
+  - Gamemode (Murder (Modded), Secret Murder (Modded), Murder, Loose Ends, Secret Murder, Discovery)
+  - In-Game Time (Day, Night, Sundown)
+  - Lobby Time (Day, Night, Sundown)
+  - Game Duration (Default: 10m)
+  - Use Generic Map Effect toggle (intended for use with custom maps)
 
 ### 📋 Changes
 - Preset manager improvements:
   - Added a button to directly overwrite an existing preset
+  - Hovering over a preset group now displays some metadata, showing every enabled/disabled roles and modifiers
+- Secret Murder rounds now inherit the Modded ruleset by default when the active gamemode is Modded; if the base Murder gamemode is active instead, Secret Murder rounds will play without modded roles or modifiers
 - Instinct configuration values are now defined in ticks and displayed as seconds in the configuration screen instead of percentages
 - Fog, Snowflakes, and HUD settings are now fully client-side and between rounds, adjustable by any player via the Client configuration category
 - Added extra context to the ability UI counter text for Vulture and Dreamer
