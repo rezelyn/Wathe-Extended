@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.mixin;
 
+import net.fabricmc.loader.api.FabricLoader;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
@@ -25,6 +26,9 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
+        if (mixinClassName.endsWith(".ExtraItemsRoundStartMixin")) {
+            return FabricLoader.getInstance().isModLoaded("watheextraitems");
+        }
         return true;
     }
 

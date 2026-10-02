@@ -27,6 +27,7 @@
     "fix.DisabledKillerRoleConversionMixin",
     "fix.DreamerKillerConversionMixin",
     "fix.DreamerImprintRecoveryMixin",
+    "fix.ExtraItemsRoundStartMixin",
     "fix.InitiateRemoteDeathMixin",
     "fix.InfectedNullGuardMixin",
     "fix.KillShieldConditionMixin",
