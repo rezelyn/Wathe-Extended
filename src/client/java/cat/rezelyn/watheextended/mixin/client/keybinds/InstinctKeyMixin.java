@@ -7,11 +7,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(WatheClient.class)
-public class InstinctModeMixin {
+@Mixin(value = WatheClient.class, priority = 2000)
+public class InstinctKeyMixin {
 
-    @Inject(method = "isInstinctEnabled", at = @At("HEAD"), cancellable = true, require = 0)
-    private static void watheextended$instinctMode(CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(WatheExtendedClient.isInstinctActive());
-    }
+  @Inject(method = "isInstinctEnabled", at = @At("HEAD"), cancellable = true, require = 0)
+  private static void watheextended$instinctMode(CallbackInfoReturnable<Boolean> cir) {
+    cir.setReturnValue(WatheExtendedClient.isInstinctActive());
+  }
 }
