@@ -13,49 +13,49 @@ import net.minecraft.world.World;
 
 public class IshPlushBlockEntity extends BlockEntity {
 
-    public double squash = 0.0;
+  public double squash = 0.0;
 
-    public IshPlushBlockEntity(BlockPos pos, BlockState state) {
-        super(WatheExtendedBlockEntities.ISH_PLUSH, pos, state);
-    }
+  public IshPlushBlockEntity(BlockPos pos, BlockState state) {
+    super(WatheExtendedBlockEntities.ISH_PLUSH, pos, state);
+  }
 
-    public static void tick(World world, BlockPos pos, BlockState state, IshPlushBlockEntity block) {
-        if (block.squash > 0.0) {
-            block.squash /= 3.0;
-            if (block.squash < 0.01) {
-                block.squash = 0.0;
-                if (world != null) {
-                    world.updateListeners(pos, state, state, 2);
-                }
-            }
+  public static void tick(World world, BlockPos pos, BlockState state, IshPlushBlockEntity block) {
+    if (block.squash > 0.0) {
+      block.squash /= 3.0;
+      if (block.squash < 0.01) {
+        block.squash = 0.0;
+        if (world != null) {
+          world.updateListeners(pos, state, state, 2);
         }
+      }
     }
+  }
 
-    public void squish(int amount) {
-        this.squash += amount;
-        if (this.world != null) {
-            this.world.updateListeners(this.pos, this.getCachedState(), this.getCachedState(), 2);
-        }
-        this.markDirty();
+  public void squish(int amount) {
+    this.squash += amount;
+    if (this.world != null) {
+      this.world.updateListeners(this.pos, this.getCachedState(), this.getCachedState(), 2);
     }
+    this.markDirty();
+  }
 
-    @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        nbt.putDouble("squash", this.squash);
-    }
+  @Override
+  protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
+    nbt.putDouble("squash", this.squash);
+  }
 
-    @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        this.squash = nbt.getDouble("squash");
-    }
+  @Override
+  protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
+    this.squash = nbt.getDouble("squash");
+  }
 
-    @Override
-    public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create(this);
-    }
+  @Override
+  public Packet<ClientPlayPacketListener> toUpdatePacket() {
+    return BlockEntityUpdateS2CPacket.create(this);
+  }
 
-    @Override
-    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registries) {
-        return createNbt(registries);
-    }
+  @Override
+  public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registries) {
+    return createNbt(registries);
+  }
 }
