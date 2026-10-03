@@ -17,23 +17,34 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import pro.fazeclan.river.stupid_express.role.necromancer.RevivalSelectionHandler;
 
-// fix: players revived by the Necromancer not receiving specific-role items
+/**
+ * <b>Fix:</b> Players revived by the Necromancer not receiving their role-specific items
+ *
+ * <p>Fires {@link ModdedRoleAssigned} for the revived player after a successful revival so their
+ * role starting items are given
+ */
 @Mixin(value = RevivalSelectionHandler.class, remap = false)
 public class RevivalItemGivingMixin {
 
-    @Inject(method = "lambda$init$1", at = @At("RETURN"), remap = false)
-    private static void watheextended$giveRevivalRoleItems(PlayerEntity player, World level, Hand interactionHand, Entity entity, EntityHitResult entityHitResult, CallbackInfoReturnable<ActionResult> cir) {
-        if (cir.getReturnValue() != ActionResult.CONSUME) return;
-        if (!(entity instanceof PlayerBodyEntity body)) return;
-        if (!(level instanceof ServerWorld serverWorld)) return;
+  @Inject(method = "lambda$init$0", at = @At("RETURN"), remap = false)
+  private static void watheextended$giveRevivalRoleItems(
+      PlayerEntity player,
+      World level,
+      Hand interactionHand,
+      Entity entity,
+      EntityHitResult entityHitResult,
+      CallbackInfoReturnable<ActionResult> cir) {
+    if (cir.getReturnValue() != ActionResult.CONSUME) return;
+    if (!(entity instanceof PlayerBodyEntity body)) return;
+    if (!(level instanceof ServerWorld serverWorld)) return;
 
-        PlayerEntity revivedPlayer = serverWorld.getPlayerByUuid(body.getPlayerUuid());
-        if (revivedPlayer == null) return;
+    PlayerEntity revivedPlayer = serverWorld.getPlayerByUuid(body.getPlayerUuid());
+    if (revivedPlayer == null) return;
 
-        GameWorldComponent role = GameWorldComponent.KEY.get(level);
-        Role assignedRole = role.getRole(revivedPlayer);
-        if (assignedRole == null) return;
+    GameWorldComponent role = GameWorldComponent.KEY.get(level);
+    Role assignedRole = role.getRole(revivedPlayer);
+    if (assignedRole == null) return;
 
-        ModdedRoleAssigned.EVENT.invoker().assignModdedRole(revivedPlayer, assignedRole);
-    }
+    ModdedRoleAssigned.EVENT.invoker().assignModdedRole(revivedPlayer, assignedRole);
+  }
 }
