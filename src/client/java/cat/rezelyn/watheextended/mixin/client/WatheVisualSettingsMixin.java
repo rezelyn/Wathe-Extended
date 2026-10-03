@@ -9,18 +9,18 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(TrainWorldComponent.class)
 public abstract class WatheVisualSettingsMixin {
 
-    @ModifyReturnValue(method = "hasHud", at = @At("RETURN"))
-    private boolean watheextended$applyHudPreference(boolean original) {
-        return WatheExtendedClientConfig.getShowWatheHud();
-    }
+  @ModifyReturnValue(method = "hasHud", at = @At("RETURN"))
+  private boolean watheextended$applyHudPreference(boolean original) {
+    return WatheExtendedClientConfig.showWatheHud;
+  }
 
-    @ModifyReturnValue(method = "isSnowing", at = @At("RETURN"))
-    private boolean watheextended$applySnowflakePreference(boolean original) {
-        return WatheExtendedClientConfig.getShowSnowflakes();
-    }
+  @ModifyReturnValue(method = "isSnowing", at = @At("RETURN"))
+  private boolean watheextended$applySnowflakePreference(boolean original) {
+    return WatheExtendedClientConfig.showSnowflakes;
+  }
 
-    @ModifyReturnValue(method = "isFoggy", at = @At("RETURN"))
-    private boolean watheextended$applyFogPreference(boolean original) {
-        return WatheExtendedClientConfig.getShowFog();
-    }
+  @ModifyReturnValue(method = "isFoggy", at = @At("RETURN"))
+  private boolean watheextended$applyFogPreference(boolean original) {
+    return WatheExtendedClientConfig.showFog;
+  }
 }
