@@ -9,12 +9,12 @@ import net.minecraft.world.World;
 
 public class GuidebookItem extends Item {
 
-    public GuidebookItem(Settings settings) {
-        super(settings);
-    }
+  public GuidebookItem(Settings settings) {
+    super(settings);
+  }
 
-    @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        return TypedActionResult.fail(user.getStackInHand(hand));
-    }
+  @Override
+  public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+    return TypedActionResult.fail(user.getStackInHand(hand));
+  }
 }
