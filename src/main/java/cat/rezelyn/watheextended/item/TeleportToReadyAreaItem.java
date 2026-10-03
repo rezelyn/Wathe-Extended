@@ -17,35 +17,43 @@ import net.minecraft.world.World;
 
 public class TeleportToReadyAreaItem extends Item {
 
-    public TeleportToReadyAreaItem(Settings settings) {
-        super(settings);
+  public TeleportToReadyAreaItem(Settings settings) {
+    super(settings);
+  }
+
+  @Override
+  public Text getName(ItemStack stack) {
+    return super.getName(stack).copy().setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x20BB20)));
+  }
+
+  @Override
+  public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+    ItemStack stack = user.getStackInHand(hand);
+
+    if (world.isClient()) {
+      return TypedActionResult.pass(stack);
+    }
+    if (GameStatus.State(world)) {
+      return TypedActionResult.fail(stack);
     }
 
-    @Override
-    public Text getName(ItemStack stack) {
-        return super.getName(stack).copy().setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x20BB20)));
+    if (!(user instanceof ServerPlayerEntity serverPlayer)) {
+      return TypedActionResult.pass(stack);
     }
 
-    @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        ItemStack stack = user.getStackInHand(hand);
+    MapVariablesWorldComponent.PosWithOrientation destination =
+        WatheExtendedWorldComponent.KEY.get(world).getReadyAreaSpawnPos();
 
-        if (world.isClient()) {
-            return TypedActionResult.pass(stack);
-        }
-        if (GameStatus.State(world)) {
-            return TypedActionResult.fail(stack);
-        }
+    TeleportTarget target =
+        new TeleportTarget(
+            serverPlayer.getServerWorld(),
+            destination.pos,
+            net.minecraft.util.math.Vec3d.ZERO,
+            destination.yaw,
+            destination.pitch,
+            TeleportTarget.NO_OP);
+    serverPlayer.teleportTo(target);
 
-        if (!(user instanceof ServerPlayerEntity serverPlayer)) {
-            return TypedActionResult.pass(stack);
-        }
-
-        MapVariablesWorldComponent.PosWithOrientation destination = WatheExtendedWorldComponent.KEY.get(world).getReadyAreaSpawnPos();
-
-        TeleportTarget target = new TeleportTarget(serverPlayer.getServerWorld(), destination.pos, net.minecraft.util.math.Vec3d.ZERO, destination.yaw, destination.pitch, TeleportTarget.NO_OP);
-        serverPlayer.teleportTo(target);
-
-        return TypedActionResult.success(stack);
-    }
+    return TypedActionResult.success(stack);
+  }
 }

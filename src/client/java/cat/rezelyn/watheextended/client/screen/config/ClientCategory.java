@@ -4,194 +4,487 @@ import cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper;
 import cat.rezelyn.watheextended.client.WatheExtendedClientConfig;
 import cat.rezelyn.watheextended.client.pronouns.PronounsCache;
 import cat.rezelyn.watheextended.client.render.BoxDebugRenderer;
-import cat.rezelyn.watheextended.game.PronounsManager;
+import cat.rezelyn.watheextended.network.PronounsManager;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import dev.isxander.yacl3.api.controller.CyclingListControllerBuilder;
 import dev.isxander.yacl3.api.controller.FloatSliderControllerBuilder;
 import dev.isxander.yacl3.api.controller.StringControllerBuilder;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.function.BiConsumer;
-
 public final class ClientCategory {
 
-    private ClientCategory() {
-    }
+  private ClientCategory() {}
 
-    public static CompletableFuture<Void> loadImages() {
-        return CompletableFuture.allOf(
-                OptionDescription.createBuilder().webpImage(Identifier.of("watheextended", "textures/gui/config/screenshake.webp")).build().image(),
-                OptionDescription.createBuilder().webpImage(Identifier.of("watheextended", "textures/gui/config/fog.webp")).build().image(),
-                OptionDescription.createBuilder().webpImage(Identifier.of("watheextended", "textures/gui/config/hud.webp")).build().image(),
-                OptionDescription.createBuilder().webpImage(Identifier.of("watheextended", "textures/gui/config/snowflakes.webp")).build().image()
-        );
-    }
+  public static CompletableFuture<Void> loadImages() {
+    return CompletableFuture.allOf(
+        OptionDescription.createBuilder()
+            .webpImage(Identifier.of("watheextended", "textures/gui/config/screenshake.webp"))
+            .build()
+            .image(),
+        OptionDescription.createBuilder()
+            .webpImage(Identifier.of("watheextended", "textures/gui/config/fog.webp"))
+            .build()
+            .image(),
+        OptionDescription.createBuilder()
+            .webpImage(Identifier.of("watheextended", "textures/gui/config/hud.webp"))
+            .build()
+            .image(),
+        OptionDescription.createBuilder()
+            .webpImage(Identifier.of("watheextended", "textures/gui/config/snowflakes.webp"))
+            .build()
+            .image());
+  }
 
-    public static ConfigCategory build(Screen parent, boolean isOp, BiConsumer<String, Screen> sendCommand) {
-        ConfigCategory.Builder builder = ConfigCategory.createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.client"));
+  public static ConfigCategory build(
+      Screen parent, boolean isOp, BiConsumer<String, Screen> sendCommand) {
+    ConfigCategory.Builder builder =
+        ConfigCategory.createBuilder()
+            .name(Text.translatable("gui.watheextended.config.category.client"));
 
-        // Player
-        builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.client.label.player").styled(style -> style.withColor(0xAAAAAA))));
-        /// PRONOUNS
-        builder.option(Option.<String>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.client.opt.pronouns"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.opt.pronouns.desc")))
-                .binding("", PronounsCache::getLocalPronouns, value -> {
-                    try {
-                        ClientPlayNetworking.send(new PronounsManager.UpdatePayload(value.trim()));
-                    } catch (Throwable ignored) {
-                    }
+    // Player
+    builder.option(
+        LabelOption.create(
+            Text.translatable("gui.watheextended.config.category.client.label.player")
+                .styled(style -> style.withColor(0xAAAAAA))));
+    /// PRONOUNS
+    builder.option(
+        Option.<String>createBuilder()
+            .name(Text.translatable("gui.watheextended.config.category.client.opt.pronouns"))
+            .description(
+                OptionDescription.of(
+                    Text.translatable(
+                        "gui.watheextended.config.category.client.opt.pronouns.desc")))
+            .binding(
+                "",
+                PronounsCache::getLocalPronouns,
+                value -> {
+                  try {
+                    ClientPlayNetworking.send(new PronounsManager.UpdatePayload(value.trim()));
+                  } catch (Throwable ignored) {
+                  }
                 })
-                .controller(StringControllerBuilder::create)
-                .build());
+            .controller(StringControllerBuilder::create)
+            .build());
 
-        // HUD
-        builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.client.label.hud").styled(style -> style.withColor(0xAAAAAA))));
-        /// TOGGLE CHAT
-        builder.option(Option.<Boolean>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.client.opt.showchat"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.opt.showchat.desc")))
-                .binding(true, WatheExtendedClientConfig::getShowChatDuringGame, WatheExtendedClientConfig::setShowChatDuringGame)
-                .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
-                .build());
-        if (ConfigHelper.isLoaded()) {
-            /// STAMINA BAR
-            builder.option(Option.<Boolean>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.category.client.opt.staminabar"))
-                    .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.opt.staminabar.desc")))
-                    .binding(false, ConfigHelper::getEnableStaminaBar, ConfigHelper::setEnableStaminaBar)
-                    .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
-                    .build());
-        }
-        // Instinct
-        builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.client.label.instinct").styled(style -> style.withColor(0xAAAAAA))));
-        /// HUD STYLE
-        builder.option(Option.<String>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.client.opt.instinct.hudstyle"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.opt.instinct.hudstyle.desc")))
-                .binding("HALF_LEFT", WatheExtendedClientConfig::getInstinctHudStyle, WatheExtendedClientConfig::setInstinctHudStyle)
-                .controller(option -> CyclingListControllerBuilder.create(option)
+    // HUD
+    builder.option(
+        LabelOption.create(
+            Text.translatable("gui.watheextended.config.category.client.label.hud")
+                .styled(style -> style.withColor(0xAAAAAA))));
+    /// TOGGLE CHAT
+    builder.option(
+        Option.<Boolean>createBuilder()
+            .name(Text.translatable("gui.watheextended.config.category.client.opt.showchat"))
+            .description(
+                OptionDescription.of(
+                    Text.translatable(
+                        "gui.watheextended.config.category.client.opt.showchat.desc")))
+            .binding(
+                true,
+                () -> WatheExtendedClientConfig.showChatDuringGame,
+                value -> WatheExtendedClientConfig.set("showChatDuringGame", value))
+            .controller(
+                option ->
+                    BooleanControllerBuilder.create(option)
+                        .formatValue(
+                            value ->
+                                Text.translatable(
+                                    value
+                                        ? "gui.watheextended.config.text.on"
+                                        : "gui.watheextended.config.text.off")))
+            .build());
+    if (ConfigHelper.isLoaded()) {
+      /// STAMINA BAR
+      builder.option(
+          Option.<Boolean>createBuilder()
+              .name(Text.translatable("gui.watheextended.config.category.client.opt.staminabar"))
+              .description(
+                  OptionDescription.of(
+                      Text.translatable(
+                          "gui.watheextended.config.category.client.opt.staminabar.desc")))
+              .binding(false, ConfigHelper::getEnableStaminaBar, ConfigHelper::setEnableStaminaBar)
+              .controller(
+                  option ->
+                      BooleanControllerBuilder.create(option)
+                          .formatValue(
+                              value ->
+                                  Text.translatable(
+                                      value
+                                          ? "gui.watheextended.config.text.on"
+                                          : "gui.watheextended.config.text.off")))
+              .build());
+    }
+    // Instinct
+    builder.option(
+        LabelOption.create(
+            Text.translatable("gui.watheextended.config.category.client.label.instinct")
+                .styled(style -> style.withColor(0xAAAAAA))));
+    /// HUD STYLE
+    builder.option(
+        Option.<String>createBuilder()
+            .name(
+                Text.translatable("gui.watheextended.config.category.client.opt.instinct.hudstyle"))
+            .description(
+                OptionDescription.of(
+                    Text.translatable(
+                        "gui.watheextended.config.category.client.opt.instinct.hudstyle.desc")))
+            .binding(
+                "HALF_LEFT",
+                () -> WatheExtendedClientConfig.instinctHudStyle,
+                value -> WatheExtendedClientConfig.set("instinctHudStyle", value))
+            .controller(
+                option ->
+                    CyclingListControllerBuilder.create(option)
                         .values(java.util.List.of("FULL", "HALF_LEFT", "HALF_RIGHT"))
-                        .formatValue(value -> Text.translatable("gui.watheextended.config.category.client.opt.instinct.hudstyle." + value.toLowerCase(java.util.Locale.ROOT))))
-                .build());
-        /// HUD OPACITY
-        builder.option(Option.<Float>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.client.opt.instinct.hudopacity"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.opt.instinct.hudopacity.desc")))
-                .binding(0.25f, WatheExtendedClientConfig::getInstinctHudOpacity, WatheExtendedClientConfig::setInstinctHudOpacity)
-                .controller(option -> FloatSliderControllerBuilder.create(option)
+                        .formatValue(
+                            value ->
+                                Text.translatable(
+                                    "gui.watheextended.config.category.client.opt.instinct.hudstyle."
+                                        + value.toLowerCase(java.util.Locale.ROOT))))
+            .build());
+    /// HUD OPACITY
+    builder.option(
+        Option.<Float>createBuilder()
+            .name(
+                Text.translatable(
+                    "gui.watheextended.config.category.client.opt.instinct.hudopacity"))
+            .description(
+                OptionDescription.of(
+                    Text.translatable(
+                        "gui.watheextended.config.category.client.opt.instinct.hudopacity.desc")))
+            .binding(
+                0.25f,
+                () -> WatheExtendedClientConfig.instinctHudOpacity,
+                value -> WatheExtendedClientConfig.set("instinctHudOpacity", value))
+            .controller(
+                option ->
+                    FloatSliderControllerBuilder.create(option)
                         .range(0.0f, 1.0f)
                         .step(0.01f)
                         .formatValue(value -> Text.literal(Math.round(value * 100.0f) + "%")))
-                .build());
-        /// ALWAYS SHOW INSTINCT HUD
-        builder.option(Option.<Boolean>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.client.opt.instinct.hudalwaysshow"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.opt.instinct.hudalwaysshow.desc")))
-                .binding(false, WatheExtendedClientConfig::getAlwaysShowInstinctHud, WatheExtendedClientConfig::setAlwaysShowInstinctHud)
-                .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
-                .build());
+            .build());
+    /// ALWAYS SHOW INSTINCT HUD
+    builder.option(
+        Option.<Boolean>createBuilder()
+            .name(
+                Text.translatable(
+                    "gui.watheextended.config.category.client.opt.instinct.hudalwaysshow"))
+            .description(
+                OptionDescription.of(
+                    Text.translatable(
+                        "gui.watheextended.config.category.client.opt.instinct.hudalwaysshow.desc")))
+            .binding(
+                false,
+                () -> WatheExtendedClientConfig.alwaysShowInstinctHud,
+                value -> WatheExtendedClientConfig.set("alwaysShowInstinctHud", value))
+            .controller(
+                option ->
+                    BooleanControllerBuilder.create(option)
+                        .formatValue(
+                            value ->
+                                Text.translatable(
+                                    value
+                                        ? "gui.watheextended.config.text.on"
+                                        : "gui.watheextended.config.text.off")))
+            .build());
 
-        // Keybinds
-        builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.client.label.keybinds").styled(style -> style.withColor(0xAAAAAA))));
-        // INSTINCT
-        builder.option(Option.<String>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.client.opt.instinctmode"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.opt.instinctmode.desc")))
-                .binding("HOLD", WatheExtendedClientConfig::getInstinctMode, WatheExtendedClientConfig::setInstinctMode)
-                .controller(option -> CyclingListControllerBuilder.create(option)
+    // Keybinds
+    builder.option(
+        LabelOption.create(
+            Text.translatable("gui.watheextended.config.category.client.label.keybinds")
+                .styled(style -> style.withColor(0xAAAAAA))));
+    // INSTINCT
+    builder.option(
+        Option.<String>createBuilder()
+            .name(Text.translatable("gui.watheextended.config.category.client.opt.instinctmode"))
+            .description(
+                OptionDescription.of(
+                    Text.translatable(
+                        "gui.watheextended.config.category.client.opt.instinctmode.desc")))
+            .binding(
+                "HOLD",
+                () -> WatheExtendedClientConfig.instinctMode,
+                value -> WatheExtendedClientConfig.set("instinctMode", value))
+            .controller(
+                option ->
+                    CyclingListControllerBuilder.create(option)
                         .values(java.util.List.of("HOLD", "TOGGLE"))
-                        .formatValue(value -> Text.translatable("gui.watheextended.config.category.client.opt.instinctmode." + value.toLowerCase(java.util.Locale.ROOT))))
-                .build());
+                        .formatValue(
+                            value ->
+                                Text.translatable(
+                                    "gui.watheextended.config.text."
+                                        + value.toLowerCase(java.util.Locale.ROOT))))
+            .build());
 
-        // Visual
-        builder.option(LabelOption.create(Text.translatable("gui.watheextended.config.category.client.label.visual").styled(style -> style.withColor(0xAAAAAA))));
-        /// SCREEN SHAKE
-        builder.option(Option.<Boolean>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.client.opt.screenshake"))
-                .description(OptionDescription.createBuilder()
-                        .text(Text.translatable("gui.watheextended.config.category.client.opt.screenshake.desc"))
-                        .webpImage(Identifier.of("watheextended", "textures/gui/config/screenshake.webp"))
-                        .build())
-                .binding(false, cat.rezelyn.watheextended.api.config.wathe.ConfigHelper::getDisableScreenShake, cat.rezelyn.watheextended.api.config.wathe.ConfigHelper::setDisableScreenShake)
-                .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.off" : "gui.watheextended.config.text.on")))
-                .build());
-        /// TOGGLE FOG
-        builder.option(Option.<Boolean>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.client.opt.fog"))
-                .description(OptionDescription.createBuilder()
-                        .text(Text.translatable("gui.watheextended.config.category.client.opt.fog.desc"))
-                        .webpImage(Identifier.of("watheextended", "textures/gui/config/fog.webp"))
-                .build()).binding(true, WatheExtendedClientConfig::getShowFog, WatheExtendedClientConfig::setShowFog)
-                .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
-                .build());
-        /// TOGGLE HUD
-        builder.option(Option.<Boolean>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.client.opt.hud"))
-                .description(OptionDescription.createBuilder()
-                        .text(Text.translatable("gui.watheextended.config.category.client.opt.hud.desc"))
-                        .webpImage(Identifier.of("watheextended", "textures/gui/config/hud.webp"))
-                        .build()).binding(true, WatheExtendedClientConfig::getShowWatheHud, WatheExtendedClientConfig::setShowWatheHud)
-                .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
-                .build());
-        /// TOGGLE SNOWFLAKES
-        builder.option(Option.<Boolean>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.client.opt.snowflakes"))
-                .description(OptionDescription.createBuilder()
-                        .text(Text.translatable("gui.watheextended.config.category.client.opt.snowflakes.desc"))
-                        .webpImage(Identifier.of("watheextended", "textures/gui/config/snowflakes.webp"))
-                        .build())
-                .binding(true, WatheExtendedClientConfig::getShowSnowflakes, WatheExtendedClientConfig::setShowSnowflakes)
-                .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
-                .build());
-        /// ULTRA PERFORMANCE MODE
-        builder.option(Option.<Boolean>createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.client.opt.ultraperfmode"))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.opt.ultraperfmode.desc")))
-                .binding(false, cat.rezelyn.watheextended.api.config.wathe.ConfigHelper::getUltraPerfMode, cat.rezelyn.watheextended.api.config.wathe.ConfigHelper::setUltraPerfMode)
-                .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
-                .build());
-        if (isOp) {
-            builder.group(buildDebugGroup());
-        }
+    // PRONING
+    builder.option(
+        Option.<String>createBuilder()
+            .name(Text.translatable("gui.watheextended.config.category.client.opt.pronemode"))
+            .description(
+                OptionDescription.of(
+                    Text.translatable(
+                        "gui.watheextended.config.category.client.opt.pronemode.desc")))
+            .binding(
+                "TOGGLE",
+                () -> WatheExtendedClientConfig.proneMode,
+                value -> WatheExtendedClientConfig.set("proneMode", value))
+            .controller(
+                option ->
+                    CyclingListControllerBuilder.create(option)
+                        .values(java.util.List.of("HOLD", "TOGGLE"))
+                        .formatValue(
+                            value ->
+                                Text.translatable(
+                                    "gui.watheextended.config.text."
+                                        + value.toLowerCase(java.util.Locale.ROOT))))
+            .build());
 
-        return builder.build();
+    // Visual
+    builder.option(
+        LabelOption.create(
+            Text.translatable("gui.watheextended.config.category.client.label.visual")
+                .styled(style -> style.withColor(0xAAAAAA))));
+    /// SCREEN SHAKE
+    builder.option(
+        Option.<Boolean>createBuilder()
+            .name(Text.translatable("gui.watheextended.config.category.client.opt.screenshake"))
+            .description(
+                OptionDescription.createBuilder()
+                    .text(
+                        Text.translatable(
+                            "gui.watheextended.config.category.client.opt.screenshake.desc"))
+                    .webpImage(
+                        Identifier.of("watheextended", "textures/gui/config/screenshake.webp"))
+                    .build())
+            .binding(
+                false,
+                cat.rezelyn.watheextended.api.config.wathe.ConfigHelper::getDisableScreenShake,
+                cat.rezelyn.watheextended.api.config.wathe.ConfigHelper::setDisableScreenShake)
+            .controller(
+                option ->
+                    BooleanControllerBuilder.create(option)
+                        .formatValue(
+                            value ->
+                                Text.translatable(
+                                    value
+                                        ? "gui.watheextended.config.text.off"
+                                        : "gui.watheextended.config.text.on")))
+            .build());
+    /// TOGGLE FOG
+    builder.option(
+        Option.<Boolean>createBuilder()
+            .name(Text.translatable("gui.watheextended.config.category.client.opt.fog"))
+            .description(
+                OptionDescription.createBuilder()
+                    .text(
+                        Text.translatable("gui.watheextended.config.category.client.opt.fog.desc"))
+                    .webpImage(Identifier.of("watheextended", "textures/gui/config/fog.webp"))
+                    .build())
+            .binding(
+                true,
+                () -> WatheExtendedClientConfig.showFog,
+                value -> WatheExtendedClientConfig.set("showFog", value))
+            .controller(
+                option ->
+                    BooleanControllerBuilder.create(option)
+                        .formatValue(
+                            value ->
+                                Text.translatable(
+                                    value
+                                        ? "gui.watheextended.config.text.on"
+                                        : "gui.watheextended.config.text.off")))
+            .build());
+    /// TOGGLE HUD
+    builder.option(
+        Option.<Boolean>createBuilder()
+            .name(Text.translatable("gui.watheextended.config.category.client.opt.hud"))
+            .description(
+                OptionDescription.createBuilder()
+                    .text(
+                        Text.translatable("gui.watheextended.config.category.client.opt.hud.desc"))
+                    .webpImage(Identifier.of("watheextended", "textures/gui/config/hud.webp"))
+                    .build())
+            .binding(
+                true,
+                () -> WatheExtendedClientConfig.showWatheHud,
+                value -> WatheExtendedClientConfig.set("showWatheHud", value))
+            .controller(
+                option ->
+                    BooleanControllerBuilder.create(option)
+                        .formatValue(
+                            value ->
+                                Text.translatable(
+                                    value
+                                        ? "gui.watheextended.config.text.on"
+                                        : "gui.watheextended.config.text.off")))
+            .build());
+    /// TOGGLE SNOWFLAKES
+    builder.option(
+        Option.<Boolean>createBuilder()
+            .name(Text.translatable("gui.watheextended.config.category.client.opt.snowflakes"))
+            .description(
+                OptionDescription.createBuilder()
+                    .text(
+                        Text.translatable(
+                            "gui.watheextended.config.category.client.opt.snowflakes.desc"))
+                    .webpImage(
+                        Identifier.of("watheextended", "textures/gui/config/snowflakes.webp"))
+                    .build())
+            .binding(
+                true,
+                () -> WatheExtendedClientConfig.showSnowflakes,
+                value -> WatheExtendedClientConfig.set("showSnowflakes", value))
+            .controller(
+                option ->
+                    BooleanControllerBuilder.create(option)
+                        .formatValue(
+                            value ->
+                                Text.translatable(
+                                    value
+                                        ? "gui.watheextended.config.text.on"
+                                        : "gui.watheextended.config.text.off")))
+            .build());
+    /// ULTRA PERFORMANCE MODE
+    builder.option(
+        Option.<Boolean>createBuilder()
+            .name(Text.translatable("gui.watheextended.config.category.client.opt.ultraperfmode"))
+            .description(
+                OptionDescription.of(
+                    Text.translatable(
+                        "gui.watheextended.config.category.client.opt.ultraperfmode.desc")))
+            .binding(
+                false,
+                cat.rezelyn.watheextended.api.config.wathe.ConfigHelper::getUltraPerfMode,
+                cat.rezelyn.watheextended.api.config.wathe.ConfigHelper::setUltraPerfMode)
+            .controller(
+                option ->
+                    BooleanControllerBuilder.create(option)
+                        .formatValue(
+                            value ->
+                                Text.translatable(
+                                    value
+                                        ? "gui.watheextended.config.text.on"
+                                        : "gui.watheextended.config.text.off")))
+            .build());
+    if (isOp) {
+      builder.group(buildDebugGroup());
     }
 
-    private static OptionGroup buildDebugGroup() {
-        return OptionGroup.createBuilder()
-                .name(Text.translatable("gui.watheextended.config.category.client.group.debug").styled(style -> style.withColor(0xFF5555)))
-                .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.group.debug.tooltip")))
-                .collapsed(false)
+    return builder.build();
+  }
 
-                /// SHOW BOX BOUNDARIES
-                .option(Option.<Boolean>createBuilder()
-                        .name(Text.translatable("gui.watheextended.config.category.client.group.debug.opt.showboxboundaries"))
-                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.group.debug.opt.showboxboundaries.desc")))
-                        .binding(false, () -> BoxDebugRenderer.showBoxBoundaries, value -> BoxDebugRenderer.showBoxBoundaries = value)
-                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
-                        .build())
-                /// SHOW RTP SLOTS
-                .option(Option.<Boolean>createBuilder()
-                        .name(Text.translatable("gui.watheextended.config.category.client.group.debug.opt.showrtpslots"))
-                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.group.debug.opt.showrtpslots.desc")))
-                        .binding(false, () -> BoxDebugRenderer.showRtpSlots, value -> BoxDebugRenderer.showRtpSlots = value)
-                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
-                        .build())
-                /// SHOW KEY ASSIGNMENTS
-                .option(Option.<Boolean>createBuilder()
-                        .name(Text.translatable("gui.watheextended.config.category.client.group.debug.opt.showkeyassignments"))
-                        .description(OptionDescription.of(Text.translatable("gui.watheextended.config.category.client.group.debug.opt.showkeyassignments.desc")))
-                        .binding(false, () -> BoxDebugRenderer.showKeyAssignments, value -> BoxDebugRenderer.showKeyAssignments = value)
-                        .controller(option -> BooleanControllerBuilder.create(option).formatValue(value -> Text.translatable(value ? "gui.watheextended.config.text.on" : "gui.watheextended.config.text.off")))
-                        .build())
+  private static OptionGroup buildDebugGroup() {
+    return OptionGroup.createBuilder()
+        .name(
+            Text.translatable("gui.watheextended.config.category.client.group.debug")
+                .styled(style -> style.withColor(0xFF5555)))
+        .description(
+            OptionDescription.of(
+                Text.translatable("gui.watheextended.config.category.client.group.debug.tooltip")))
+        .collapsed(false)
 
-                .build();
-    }
+        /// SHOW BOX BOUNDARIES
+        .option(
+            Option.<Boolean>createBuilder()
+                .name(
+                    Text.translatable(
+                        "gui.watheextended.config.category.client.group.debug.opt.showboxboundaries"))
+                .description(
+                    OptionDescription.of(
+                        Text.translatable(
+                            "gui.watheextended.config.category.client.group.debug.opt.showboxboundaries.desc")))
+                .binding(
+                    false,
+                    () -> BoxDebugRenderer.showBoxBoundaries,
+                    value -> BoxDebugRenderer.showBoxBoundaries = value)
+                .controller(
+                    option ->
+                        BooleanControllerBuilder.create(option)
+                            .formatValue(
+                                value ->
+                                    Text.translatable(
+                                        value
+                                            ? "gui.watheextended.config.text.on"
+                                            : "gui.watheextended.config.text.off")))
+                .build())
+        /// SHOW SPAWN POSITIONS
+        .option(
+            Option.<Boolean>createBuilder()
+                .name(
+                    Text.translatable(
+                        "gui.watheextended.config.category.client.group.debug.opt.showspawnpositions"))
+                .description(
+                    OptionDescription.of(
+                        Text.translatable(
+                            "gui.watheextended.config.category.client.group.debug.opt.showspawnpositions.desc")))
+                .binding(
+                    false,
+                    () -> BoxDebugRenderer.showSpawnPositions,
+                    value -> BoxDebugRenderer.showSpawnPositions = value)
+                .controller(
+                    option ->
+                        BooleanControllerBuilder.create(option)
+                            .formatValue(
+                                value ->
+                                    Text.translatable(
+                                        value
+                                            ? "gui.watheextended.config.text.on"
+                                            : "gui.watheextended.config.text.off")))
+                .build())
+        /// SHOW RTP SLOTS
+        .option(
+            Option.<Boolean>createBuilder()
+                .name(
+                    Text.translatable(
+                        "gui.watheextended.config.category.client.group.debug.opt.showrtpslots"))
+                .description(
+                    OptionDescription.of(
+                        Text.translatable(
+                            "gui.watheextended.config.category.client.group.debug.opt.showrtpslots.desc")))
+                .binding(
+                    false,
+                    () -> BoxDebugRenderer.showRtpSlots,
+                    value -> BoxDebugRenderer.showRtpSlots = value)
+                .controller(
+                    option ->
+                        BooleanControllerBuilder.create(option)
+                            .formatValue(
+                                value ->
+                                    Text.translatable(
+                                        value
+                                            ? "gui.watheextended.config.text.on"
+                                            : "gui.watheextended.config.text.off")))
+                .build())
+        /// SHOW KEY ASSIGNMENTS
+        .option(
+            Option.<Boolean>createBuilder()
+                .name(
+                    Text.translatable(
+                        "gui.watheextended.config.category.client.group.debug.opt.showkeyassignments"))
+                .description(
+                    OptionDescription.of(
+                        Text.translatable(
+                            "gui.watheextended.config.category.client.group.debug.opt.showkeyassignments.desc")))
+                .binding(
+                    false,
+                    () -> BoxDebugRenderer.showKeyAssignments,
+                    value -> BoxDebugRenderer.showKeyAssignments = value)
+                .controller(
+                    option ->
+                        BooleanControllerBuilder.create(option)
+                            .formatValue(
+                                value ->
+                                    Text.translatable(
+                                        value
+                                            ? "gui.watheextended.config.text.on"
+                                            : "gui.watheextended.config.text.off")))
+                .build())
+        .build();
+  }
 }
