@@ -122,9 +122,8 @@ On top of what the mod adds, the mod also includes a number of bug fixes for iss
   > Player-picker icons (e.g. **Morphling**, **Swapper**, **Voodoo**, ***Guesser***, **Bodymaker**...) are now arranged in wrapping rows based on screen width, preventing them from going off-screen when playing on servers with many players.
 - `Mods Conflicts and Fixes`
   > - Fixed a crash caused by a conflict between [Wathe](https://modrinth.com/mod/wathe) and [Iris Shaders](https://modrinth.com/mod/iris) when certain specific shaders where used.
-  > - Fixed a crash caused by Stupid Express that would throw a `NullPointerException` from the Lovers HUD renderer during spectator mode, ultimately causing the client to crash if a lover died while a spectator was looking at them.
   > - Fixed an issue in Noelle's Roles **Graverobber** modifier, it now displays correctly it's "Coroner" UI death information (time, reason, role) when inspecting a body.
-  > - Fixed a compatibility issue with the **Necromancer** role and it's player revival ability, players who got revived by the **Necromancer** now correctly receive all role-specific items for their newly assigned role.
+  > - Fixed a compatibility issue with the **Necromancer** role, and it's player revival ability, players who got revived by the **Necromancer** now correctly receive all role-specific items for their newly assigned role.
 
 </details>
 
