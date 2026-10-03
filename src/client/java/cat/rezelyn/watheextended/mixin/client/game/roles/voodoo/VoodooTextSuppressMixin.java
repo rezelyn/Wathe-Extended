@@ -1,4 +1,4 @@
-package cat.rezelyn.watheextended.mixin.client.hud.inventory;
+package cat.rezelyn.watheextended.mixin.client.game.roles.voodoo;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -15,10 +15,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(DrawContext.class)
 public class VoodooTextSuppressMixin {
 
-    @Inject(method = "drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)I", at = @At("HEAD"), cancellable = true)
-    private void watheextended$suppressVoodooHintText(TextRenderer tr, Text text, int x, int y, int color, CallbackInfoReturnable<Integer> cir) {
-        if (text.getContent() instanceof TranslatableTextContent tc && tc.getKey().equals("hud.voodoo.player_deaths_only")) {
-            cir.setReturnValue(0);
-        }
+  @Inject(
+      method =
+          "drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)I",
+      at = @At("HEAD"),
+      cancellable = true)
+  private void watheextended$suppressVoodooHintText(
+      TextRenderer tr, Text text, int x, int y, int color, CallbackInfoReturnable<Integer> cir) {
+    if (text.getContent() instanceof TranslatableTextContent tc
+        && tc.getKey().equals("hud.voodoo.player_deaths_only")) {
+      cir.setReturnValue(0);
     }
+  }
 }

@@ -10,10 +10,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(WatheClient.class)
 public class ClientChatMixin {
 
-    @Inject(method = "isPlayerAliveAndInSurvival", at = @At("HEAD"), cancellable = true)
-    private static void watheextended$overrideForChatRender(CallbackInfoReturnable<Boolean> cir) {
-        if (ChatHudRenderHelper.isForcingRender()) {
-            cir.setReturnValue(false);
-        }
+  @Inject(method = "isPlayerAliveAndInSurvival", at = @At("HEAD"), cancellable = true)
+  private static void watheextended$overrideForChatRender(CallbackInfoReturnable<Boolean> cir) {
+    if (ChatHudRenderHelper.isForcingRender()) {
+      cir.setReturnValue(false);
     }
+  }
 }
