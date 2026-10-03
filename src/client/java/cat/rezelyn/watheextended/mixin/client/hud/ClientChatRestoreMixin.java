@@ -11,15 +11,21 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = ChatHud.class, priority = 2000)
 public class ClientChatRestoreMixin {
 
-    @WrapMethod(method = "render")
-    private void watheextended$restoreChatHud(DrawContext context, int currentTick, int mouseX, int mouseY, boolean focused, Operation<Void> original) {
-        if (WatheExtendedClientConfig.showChatDuringGame) {
-            ChatHudRenderHelper.setForcingRender(true);
-        }
-        try {
-            original.call(context, currentTick, mouseX, mouseY, focused);
-        } finally {
-            ChatHudRenderHelper.setForcingRender(false);
-        }
+  @WrapMethod(method = "render")
+  private void watheextended$restoreChatHud(
+      DrawContext context,
+      int currentTick,
+      int mouseX,
+      int mouseY,
+      boolean focused,
+      Operation<Void> original) {
+    if (WatheExtendedClientConfig.showChatDuringGame) {
+      ChatHudRenderHelper.setForcingRender(true);
     }
+    try {
+      original.call(context, currentTick, mouseX, mouseY, focused);
+    } finally {
+      ChatHudRenderHelper.setForcingRender(false);
+    }
+  }
 }
