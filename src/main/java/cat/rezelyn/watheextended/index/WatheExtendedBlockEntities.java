@@ -8,11 +8,12 @@ import net.minecraft.registry.Registry;
 
 public class WatheExtendedBlockEntities {
 
-    public static final BlockEntityType<IshPlushBlockEntity> ISH_PLUSH = Registry.register(
-            Registries.BLOCK_ENTITY_TYPE,
-            WatheExtended.id("ish_plush"),
-            BlockEntityType.Builder.create(IshPlushBlockEntity::new, WatheExtendedBlocks.ISH_PLUSH).build()
-    );
+  public static final BlockEntityType<IshPlushBlockEntity> ISH_PLUSH =
+      Registry.register(
+          Registries.BLOCK_ENTITY_TYPE,
+          WatheExtended.id("ish_plush"),
+          BlockEntityType.Builder.create(IshPlushBlockEntity::new, WatheExtendedBlocks.ISH_PLUSH)
+              .build());
 
-    public static void initialize() {}
+  public static void initialize() {}
 }
