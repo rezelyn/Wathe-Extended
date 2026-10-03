@@ -13,34 +13,43 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * <b>Fix:</b> Prevents players from picking up multiple guns by standing on a grounded revolver
+ * while holding another gun on their inventory cursor
+ *
+ * <p>Also blocks revolver pickups for players restricted by the {@code PREVENT_PICKUP} punishment
+ * mode
+ */
 @Mixin(ItemEntity.class)
 public class CursorSlotMixin {
 
-    @Inject(method = "onPlayerCollision", at = @At("HEAD"), cancellable = true)
-    private void watheextended$preventGunPickup(PlayerEntity player, CallbackInfo ci) {
-        if (player.isCreative()) return;
+  @Inject(method = "onPlayerCollision", at = @At("HEAD"), cancellable = true)
+  private void watheextended$preventGunPickup(PlayerEntity player, CallbackInfo ci) {
+    if (player.isCreative()) return;
 
-        ItemStack groundStack = ((ItemEntity) (Object) this).getStack();
-        if (!groundStack.isIn(WatheItemTags.GUNS)) return;
+    ItemStack groundStack = ((ItemEntity) (Object) this).getStack();
+    if (!groundStack.isIn(WatheItemTags.GUNS)) return;
 
-        GameWorldComponent game;
-        try {
-            game = GameWorldComponent.KEY.get(player.getWorld());
-        } catch (Throwable ignored) {
-            return;
-        }
-        if (game == null || !game.isRunning()) return;
-
-        if ("PREVENT_PICKUP".equals(WatheExtendedServerConfig.getShootInnocentPunishmentMode())
-                && groundStack.isOf(WatheItems.REVOLVER)
-                && WatheExtendedWorldComponent.KEY.get(player.getWorld()).isRevolverPickupBlocked(player.getUuid())) {
-            ci.cancel();
-            return;
-        }
-
-        ItemStack cursor = player.currentScreenHandler.getCursorStack();
-        if (!cursor.isEmpty() && cursor.isIn(WatheItemTags.GUNS)) {
-            ci.cancel(); // shxnji guessed it
-        }
+    GameWorldComponent game;
+    try {
+      game = GameWorldComponent.KEY.get(player.getWorld());
+    } catch (Throwable ignored) {
+      return;
     }
+    if (game == null || !game.isRunning()) return;
+
+    if ("PREVENT_PICKUP".equals(WatheExtendedServerConfig.shootInnocentPunishmentMode)
+        && groundStack.isOf(WatheItems.REVOLVER)
+        && WatheExtendedWorldComponent.KEY
+            .get(player.getWorld())
+            .isRevolverPickupBlocked(player.getUuid())) {
+      ci.cancel();
+      return;
+    }
+
+    ItemStack cursor = player.currentScreenHandler.getCursorStack();
+    if (!cursor.isEmpty() && cursor.isIn(WatheItemTags.GUNS)) {
+      ci.cancel(); // shxnji guessed it
+    }
+  }
 }
