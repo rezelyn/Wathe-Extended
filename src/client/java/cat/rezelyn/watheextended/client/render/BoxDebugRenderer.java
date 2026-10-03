@@ -2,288 +2,325 @@ package cat.rezelyn.watheextended.client.render;
 
 import cat.rezelyn.watheextended.api.MapVariables;
 import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
-import cat.rezelyn.watheextended.game.TeleportationSlot;
+import cat.rezelyn.watheextended.game.utils.TeleportationSlot;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.doctor4t.wathe.block_entity.DoorBlockEntity;
+import java.util.ArrayList;
+import java.util.List;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.world.ClientChunkManager;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.math.*;
 import net.minecraft.world.chunk.WorldChunk;
 import org.joml.Matrix4f;
 
-import java.util.List;
-
 public final class BoxDebugRenderer {
 
-    private static final float BEAM = 0.04f;
-    private static final double HIT_W = 0.3;
-    private static final double HIT_H = 1.8;
-    private static final float[] PLAY_AREA_COLOR = {1.0f, 0.22f, 0.22f, 0.9f};
-    private static final float[] READY_AREA_COLOR = {0.22f, 1.0f, 0.22f, 0.9f};
-    private static final float[] LOBBY_AREA_COLOR = {0.22f, 0.55f, 1.0f, 0.9f};
-    private static final float[] CUBE_COLOR = {1.0f, 1.0f, 1.0f, 0.95f};
-    private static final float[] VIEW_COLOR = {0.0f, 0.9f, 1.0f, 0.95f};
-    private static final float[] KEY_COLOR = {1.0f, 0.6f, 0.0f, 0.9f};
+  private static final float BEAM = 0.04f;
+  private static final float SPAWN_BEAM = 0.012f;
+  private static final double HIT_W = 0.3, HIT_H = 1.8;
+  private static final Color PLAY = new Color(1.0f, 0.22f, 0.22f, 0.9f);
+  private static final Color READY = new Color(0.22f, 1.0f, 0.22f, 0.9f);
+  private static final Color LOBBY = new Color(0.22f, 0.55f, 1.0f, 0.9f);
+  private static final Color ORANGE = new Color(1.0f, 0.6f, 0.0f, 0.9f);
+  private static final Color WHITE = new Color(1.0f, 1.0f, 1.0f, 0.4f);
+  private static final Color CYAN = new Color(0.0f, 0.9f, 1.0f, 0.4f);
+  public static boolean showBoxBoundaries = false;
+  public static boolean showRtpSlots = false;
+  public static boolean showKeyAssignments = false;
+  public static boolean showSpawnPositions = false;
+  private BoxDebugRenderer() {}
 
-    public static boolean showBoxBoundaries = false;
-    public static boolean showRtpSlots = false;
-    public static boolean showKeyAssignments = false;
+  public static void register() {
+    WorldRenderEvents.AFTER_TRANSLUCENT.register(BoxDebugRenderer::onWorldRender);
+  }
 
-    private BoxDebugRenderer() {
+  private static void onWorldRender(WorldRenderContext ctx) {
+    if (!(showBoxBoundaries || showRtpSlots || showKeyAssignments || showSpawnPositions)) return;
+
+    MinecraftClient client = MinecraftClient.getInstance();
+    MatrixStack m = ctx.matrixStack();
+    if (client.world == null || client.player == null || m == null) return;
+
+    Vec3d cam = ctx.camera().getPos();
+    RenderSystem.enableBlend();
+    RenderSystem.defaultBlendFunc();
+    RenderSystem.disableCull();
+    RenderSystem.enableDepthTest();
+
+    m.push();
+    m.translate(-cam.x, -cam.y, -cam.z);
+
+    if (showBoxBoundaries) renderAreas(client, m);
+    if (showSpawnPositions) renderSpawns(client, ctx, m);
+    if (showRtpSlots) renderSlots(client, ctx, m);
+    if (showKeyAssignments) renderKeys(client, ctx, m);
+
+    m.pop();
+    RenderSystem.enableDepthTest();
+    RenderSystem.enableCull();
+    RenderSystem.disableBlend();
+  }
+
+  private static void renderAreas(MinecraftClient client, MatrixStack m) {
+    BufferBuilder buf = beginFill();
+    beams(m, buf, MapVariables.getPlayArea(client.world), PLAY, BEAM);
+    beams(m, buf, MapVariables.getReadyArea(client.world), READY, BEAM);
+    beams(m, buf, MapVariables.getLobbyArea(client.world), LOBBY, BEAM);
+    flush(buf);
+  }
+
+  private static void renderSpawns(MinecraftClient client, WorldRenderContext ctx, MatrixStack m) {
+    var lobby = MapVariables.getSpawnPosition(client.world);
+    var ready = MapVariables.getReadyAreaSpawnPosition(client.world);
+    var spectator = MapVariables.getSpectatorSpawnPosition(client.world);
+
+    List<Spawn> spawns = new ArrayList<>();
+    if (lobby != null) spawns.add(new Spawn(lobby.pos, "Lobby Spawn", LOBBY));
+    if (ready != null) spawns.add(new Spawn(ready.pos, "Ready Area Spawn", READY));
+    if (spectator != null) spawns.add(new Spawn(spectator.pos, "Spectator Spawn", ORANGE));
+    if (spawns.isEmpty()) return;
+
+    BufferBuilder buf = beginFill();
+    for (Spawn s : spawns) {
+      Vec3d p = s.pos();
+      Box box = new Box(p.x - 0.5, p.y, p.z - 0.5, p.x + 0.5, p.y + 1.0, p.z + 0.5);
+      fill(m, buf, box, s.color().withAlpha(0.22f));
+      beams(m, buf, box, s.color(), SPAWN_BEAM);
+    }
+    RenderSystem.depthMask(false);
+    flush(buf);
+    RenderSystem.depthMask(true);
+
+    var text = client.getBufferBuilders().getEntityVertexConsumers();
+    for (Spawn s : spawns) {
+      label(
+          ctx,
+          m,
+          text,
+          s.pos().add(0, 1.6, 0),
+          Text.literal(s.label()),
+          s.color().rgb(),
+          TextRenderer.TextLayerType.SEE_THROUGH);
+    }
+    text.draw();
+  }
+
+  private static void renderSlots(MinecraftClient client, WorldRenderContext ctx, MatrixStack m) {
+    var component = WatheExtendedWorldComponent.KEY.maybeGet(client.world);
+    if (component.isEmpty()) return;
+    var slots = component.get().getTeleportationSlots();
+    if (slots.isEmpty()) return;
+
+    double maxDistSq = Math.pow(client.options.getViewDistance().getValue() * 16.0, 2);
+    Vec3d player = client.player.getPos();
+    Matrix4f pose = m.peek().getPositionMatrix();
+
+    RenderSystem.disableDepthTest();
+    BufferBuilder lines = beginLines();
+    var text = client.getBufferBuilders().getEntityVertexConsumers();
+
+    for (var entry : slots.entrySet()) {
+      TeleportationSlot s = entry.getValue();
+      if (player.squaredDistanceTo(s.x, s.y, s.z) > maxDistSq) continue;
+
+      outline(
+          m,
+          lines,
+          new Box(s.x - HIT_W, s.y, s.z - HIT_W, s.x + HIT_W, s.y + HIT_H, s.z + HIT_W),
+          WHITE);
+
+      double yaw = Math.toRadians(s.yaw), pitch = Math.toRadians(s.pitch), cosP = Math.cos(pitch);
+      float dx = (float) (-Math.sin(yaw) * cosP);
+      float dy = (float) -Math.sin(pitch);
+      float dz = (float) (Math.cos(yaw) * cosP);
+      float ox = (float) s.x, oy = (float) (s.y + 1.62), oz = (float) s.z;
+      lines
+          .vertex(pose, ox, oy, oz)
+          .color(CYAN.r(), CYAN.g(), CYAN.b(), CYAN.a())
+          .normal(dx, dy, dz);
+      lines
+          .vertex(pose, ox + dx * 2, oy + dy * 2, oz + dz * 2)
+          .color(CYAN.r(), CYAN.g(), CYAN.b(), CYAN.a())
+          .normal(dx, dy, dz);
+
+      label(
+          ctx,
+          m,
+          text,
+          new Vec3d(s.x, s.y + HIT_H + 0.3, s.z),
+          Text.literal("Slot #" + entry.getKey()),
+          0xFFFFFF,
+          TextRenderer.TextLayerType.SEE_THROUGH);
     }
 
-    public static void register() {
-        WorldRenderEvents.AFTER_TRANSLUCENT.register(BoxDebugRenderer::onWorldRender);
-    }
+    flush(lines);
+    text.draw();
+  }
 
-    private static void onWorldRender(WorldRenderContext context) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.world == null || client.player == null) return;
+  private static void renderKeys(MinecraftClient client, WorldRenderContext ctx, MatrixStack m) {
+    int viewDist = client.options.getViewDistance().getValue();
+    ChunkPos center = new ChunkPos(client.player.getBlockPos());
 
-        MatrixStack matrices = context.matrixStack();
-        if (matrices == null) return;
+    RenderSystem.disableDepthTest();
+    BufferBuilder lines = beginLines();
+    var text = client.getBufferBuilders().getEntityVertexConsumers();
+    VertexConsumer fill = text.getBuffer(RenderLayer.getDebugFilledBox());
 
-        Vec3d cam = context.camera().getPos();
+    for (int cx = center.x - viewDist; cx <= center.x + viewDist; cx++) {
+      for (int cz = center.z - viewDist; cz <= center.z + viewDist; cz++) {
+        WorldChunk chunk = client.world.getChunkManager().getWorldChunk(cx, cz);
+        if (chunk == null) continue;
 
-        if (!showBoxBoundaries && !showRtpSlots && !showKeyAssignments) return;
+        for (var be : chunk.getBlockEntities().values()) {
+          if (!(be instanceof DoorBlockEntity door)) continue;
+          String keyName = door.getKeyName();
+          if (keyName == null || keyName.isEmpty()) continue;
 
-        List<java.util.Map.Entry<Integer, TeleportationSlot>> slots = null;
-        if (showRtpSlots) {
-            try {
-                slots = new java.util.ArrayList<>(WatheExtendedWorldComponent.KEY.get(client.world).getTeleportationSlots().entrySet());
-            } catch (Throwable ignored) {
-            }
+          BlockPos pos = be.getPos();
+          double x = pos.getX(), y = pos.getY(), z = pos.getZ();
+          Box box =
+              client.world.getBlockState(pos).get(Properties.HORIZONTAL_FACING).getAxis()
+                      == Direction.Axis.X
+                  ? new Box(x + 6 / 16.0, y, z, x + 10 / 16.0, y + 2, z + 1)
+                  : new Box(x, y, z + 6 / 16.0, x + 1, y + 2, z + 10 / 16.0);
+
+          outline(m, lines, box, ORANGE.withAlpha(1.0f));
+          stripFill(m, fill, box, ORANGE.withAlpha(0.25f));
+
+          Vec3d top = box.getCenter().withAxis(Direction.Axis.Y, box.maxY + 0.1);
+          label(
+              ctx,
+              m,
+              text,
+              top.add(0, 0.2, 0),
+              Text.literal(keyName).formatted(Formatting.BOLD),
+              0xFFAA00,
+              TextRenderer.TextLayerType.SEE_THROUGH);
         }
-
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.disableCull();
-        RenderSystem.enableDepthTest();
-        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-
-        matrices.push();
-        matrices.translate(-cam.x, -cam.y, -cam.z);
-
-        Tessellator tess = Tessellator.getInstance();
-
-        if (showBoxBoundaries) {
-            BufferBuilder fill = tess.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-            Box playArea = MapVariables.getPlayArea(client.world);
-            Box readyArea = MapVariables.getReadyArea(client.world);
-            Box lobbyArea = MapVariables.getLobbyArea(client.world);
-            if (playArea != null) drawBox(matrices, fill, playArea, PLAY_AREA_COLOR);
-            if (readyArea != null) drawBox(matrices, fill, readyArea, READY_AREA_COLOR);
-            drawBox(matrices, fill, lobbyArea, LOBBY_AREA_COLOR);
-            BufferRenderer.drawWithGlobalProgram(fill.end());
-        }
-
-        if (slots != null && !slots.isEmpty()) {
-            int viewDist = client.options.getViewDistance().getValue();
-            double maxViewDist = (viewDist * 16.0) * (viewDist * 16.0);
-            double posX = client.player.getX(), posY = client.player.getY(), posZ = client.player.getZ();
-
-            RenderSystem.disableDepthTest();
-            RenderSystem.setShader(GameRenderer::getRenderTypeLinesProgram);
-            RenderSystem.lineWidth(1.5f);
-            BufferBuilder line = tess.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
-
-            boolean anySlot = false;
-            for (java.util.Map.Entry<Integer, TeleportationSlot> entry : slots) {
-                TeleportationSlot slot = entry.getValue();
-                double deltaX = slot.x - posX, deltaY = slot.y - posY, deltaZ = slot.z - posZ;
-                if (deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ > maxViewDist) continue;
-                anySlot = true;
-
-                drawLines(matrices, line, slot.x - HIT_W, slot.y, slot.z - HIT_W, slot.x + HIT_W, slot.y + HIT_H, slot.z + HIT_W, CUBE_COLOR[0], CUBE_COLOR[1], CUBE_COLOR[2], 0.4f);
-
-                double eyeY = slot.y + 1.62;
-                double yawRad = Math.toRadians(slot.yaw);
-                double pitchRad = Math.toRadians(slot.pitch);
-                double cosP = Math.cos(pitchRad);
-                float dx = (float) (-Math.sin(yawRad) * cosP);
-                float dy = (float) (-Math.sin(pitchRad));
-                float dz = (float) (Math.cos(yawRad) * cosP);
-
-                Matrix4f pose = matrices.peek().getPositionMatrix();
-                float originX = (float) slot.x, originY = (float) eyeY, originZ = (float) slot.z;
-                emitLine(line, pose, originX, originY, originZ, originX + dx * 2.0f, originY + dy * 2.0f, originZ + dz * 2.0f, dx, dy, dz, VIEW_COLOR[0], VIEW_COLOR[1], VIEW_COLOR[2], 0.4f);
-            }
-
-            if (anySlot) {
-                BufferRenderer.drawWithGlobalProgram(line.end());
-            } else {
-                try (var buf = line.endNullable()) {
-                }
-            }
-
-            VertexConsumerProvider.Immediate immediate = client.getBufferBuilders().getEntityVertexConsumers();
-            TextRenderer textRenderer = client.textRenderer;
-            for (java.util.Map.Entry<Integer, TeleportationSlot> entry : slots) {
-                TeleportationSlot slot = entry.getValue();
-                double deltaX = slot.x - posX, deltaY = slot.y - posY, deltaZ = slot.z - posZ;
-                if (deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ > maxViewDist) continue;
-
-                matrices.push();
-                matrices.translate(slot.x, slot.y + HIT_H + 0.3, slot.z);
-                matrices.multiply(context.camera().getRotation());
-                matrices.scale(0.025f, -0.025f, 0.025f);
-
-                Text label = Text.literal("Slot #" + entry.getKey()).styled(s -> s.withColor(0xFFFFFF));
-                float offset = -textRenderer.getWidth(label) / 2f;
-                textRenderer.draw(label, offset, 0f, 0xFFFFFF, false, matrices.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.SEE_THROUGH, 0, 0xF000F0);
-
-                matrices.pop();
-            }
-            immediate.draw();
-            RenderSystem.enableDepthTest();
-        }
-
-        if (showKeyAssignments) {
-            ClientChunkManager chunkManager = client.world.getChunkManager();
-            int viewDist = client.options.getViewDistance().getValue();
-            ChunkPos center = new ChunkPos(client.player.getBlockPos());
-
-            RenderSystem.disableDepthTest();
-            RenderSystem.setShader(GameRenderer::getRenderTypeLinesProgram);
-            RenderSystem.lineWidth(1.5f);
-            BufferBuilder line = tess.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
-
-            VertexConsumerProvider.Immediate immediate = client.getBufferBuilders().getEntityVertexConsumers();
-            VertexConsumer fill = immediate.getBuffer(RenderLayer.getDebugFilledBox());
-            TextRenderer textRenderer = client.textRenderer;
-
-            boolean drawn = false;
-            for (int centerX = center.x - viewDist; centerX <= center.x + viewDist; centerX++) {
-                for (int centerZ = center.z - viewDist; centerZ <= center.z + viewDist; centerZ++) {
-                    WorldChunk chunk = chunkManager.getWorldChunk(centerX, centerZ);
-                    if (chunk == null) continue;
-                    for (BlockEntity be : chunk.getBlockEntities().values()) {
-                        if (!(be instanceof DoorBlockEntity door)) continue;
-                        String keyName = door.getKeyName();
-                        if (keyName == null || keyName.isEmpty()) continue;
-
-                        BlockPos pos = be.getPos();
-                        double bx = pos.getX(), by = pos.getY(), bz = pos.getZ();
-
-                        Direction facing = client.world.getBlockState(pos).get(Properties.HORIZONTAL_FACING);
-                        double x0, x1, z0, z1;
-                        if (facing.getAxis() == Direction.Axis.X) {
-                            x0 = bx + 6.0 / 16.0;
-                            x1 = bx + 10.0 / 16.0;
-                            z0 = bz;
-                            z1 = bz + 1.0;
-                        } else {
-                            x0 = bx;
-                            x1 = bx + 1.0;
-                            z0 = bz + 6.0 / 16.0;
-                            z1 = bz + 10.0 / 16.0;
-                        }
-                        double y1 = by + 2.0;
-
-                        drawLines(matrices, line, x0, by, z0, x1, y1, z1, KEY_COLOR[0], KEY_COLOR[1], KEY_COLOR[2], 1.0f);
-
-                        WorldRenderer.renderFilledBox(matrices, fill, x0, by, z0, x1, y1, z1, KEY_COLOR[0], KEY_COLOR[1], KEY_COLOR[2], 0.25f);
-
-                        matrices.push();
-                        matrices.translate((x0 + x1) / 2.0, y1 + 0.1, (z0 + z1) / 2.0);
-                        matrices.multiply(context.camera().getRotation());
-                        matrices.scale(0.025f, -0.025f, 0.025f);
-
-                        Text label = Text.literal(keyName).styled(s -> s.withColor(0xFFAA00).withBold(true));
-                        float offset = -textRenderer.getWidth(label) / 2f;
-                        textRenderer.draw(label, offset, 0f, 0xFFAA00, false, matrices.peek().getPositionMatrix(), immediate, TextRenderer.TextLayerType.SEE_THROUGH, 0, 0xF000F0);
-
-                        matrices.pop();
-                        drawn = true;
-                    }
-                }
-            }
-
-            if (drawn) {
-                BufferRenderer.drawWithGlobalProgram(line.end());
-            } else {
-                try (var buf = line.endNullable()) {
-                }
-            }
-            immediate.draw();
-            RenderSystem.enableDepthTest();
-        }
-
-        matrices.pop();
-
-        RenderSystem.enableCull();
-        RenderSystem.disableBlend();
+      }
     }
 
-    private static void drawBox(MatrixStack matrices, BufferBuilder buf, Box box, float[] color) {
-        float r = color[0], g = color[1], b = color[2], a = color[3];
-        float x0 = (float) box.minX, y0 = (float) box.minY, z0 = (float) box.minZ;
-        float x1 = (float) box.maxX, y1 = (float) box.maxY, z1 = (float) box.maxZ;
-        // bot
-        cuboid(matrices, buf, x0, y0 - BEAM, z0 - BEAM, x1, y0 + BEAM, z0 + BEAM, r, g, b, a);
-        cuboid(matrices, buf, x0, y0 - BEAM, z1 - BEAM, x1, y0 + BEAM, z1 + BEAM, r, g, b, a);
-        cuboid(matrices, buf, x0 - BEAM, y0 - BEAM, z0, x0 + BEAM, y0 + BEAM, z1, r, g, b, a);
-        cuboid(matrices, buf, x1 - BEAM, y0 - BEAM, z0, x1 + BEAM, y0 + BEAM, z1, r, g, b, a);
-        // top
-        cuboid(matrices, buf, x0, y1 - BEAM, z0 - BEAM, x1, y1 + BEAM, z0 + BEAM, r, g, b, a);
-        cuboid(matrices, buf, x0, y1 - BEAM, z1 - BEAM, x1, y1 + BEAM, z1 + BEAM, r, g, b, a);
-        cuboid(matrices, buf, x0 - BEAM, y1 - BEAM, z0, x0 + BEAM, y1 + BEAM, z1, r, g, b, a);
-        cuboid(matrices, buf, x1 - BEAM, y1 - BEAM, z0, x1 + BEAM, y1 + BEAM, z1, r, g, b, a);
-        // vert
-        cuboid(matrices, buf, x0 - BEAM, y0, z0 - BEAM, x0 + BEAM, y1, z0 + BEAM, r, g, b, a);
-        cuboid(matrices, buf, x1 - BEAM, y0, z0 - BEAM, x1 + BEAM, y1, z0 + BEAM, r, g, b, a);
-        cuboid(matrices, buf, x1 - BEAM, y0, z1 - BEAM, x1 + BEAM, y1, z1 + BEAM, r, g, b, a);
-        cuboid(matrices, buf, x0 - BEAM, y0, z1 - BEAM, x0 + BEAM, y1, z1 + BEAM, r, g, b, a);
+    flush(lines);
+    text.draw();
+  }
+
+  private static BufferBuilder beginFill() {
+    RenderSystem.setShader(GameRenderer::getPositionColorProgram);
+    return Tessellator.getInstance()
+        .begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+  }
+
+  private static BufferBuilder beginLines() {
+    RenderSystem.setShader(GameRenderer::getRenderTypeLinesProgram);
+    RenderSystem.lineWidth(1.5f);
+    return Tessellator.getInstance().begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
+  }
+
+  private static void flush(BufferBuilder buf) {
+    BuiltBuffer built = buf.endNullable();
+    if (built != null) BufferRenderer.drawWithGlobalProgram(built);
+  }
+
+  private static void fill(MatrixStack m, VertexConsumer vc, Box b, Color c) {
+    Matrix4f p = m.peek().getPositionMatrix();
+    float x0 = (float) b.minX, y0 = (float) b.minY, z0 = (float) b.minZ;
+    float x1 = (float) b.maxX, y1 = (float) b.maxY, z1 = (float) b.maxZ;
+    quad(vc, p, c, x0, y1, z0, x0, y1, z1, x0, y0, z1, x0, y0, z0); // -x
+    quad(vc, p, c, x1, y1, z1, x1, y1, z0, x1, y0, z0, x1, y0, z1); // +x
+    quad(vc, p, c, x0, y0, z1, x1, y0, z1, x1, y0, z0, x0, y0, z0); // -y
+    quad(vc, p, c, x0, y1, z0, x1, y1, z0, x1, y1, z1, x0, y1, z1); // +y
+    quad(vc, p, c, x1, y1, z0, x0, y1, z0, x0, y0, z0, x1, y0, z0); // -z
+    quad(vc, p, c, x0, y1, z1, x1, y1, z1, x1, y0, z1, x0, y0, z1); // +z
+  }
+
+  private static void quad(
+      VertexConsumer vc,
+      Matrix4f p,
+      Color c,
+      float ax,
+      float ay,
+      float az,
+      float bx,
+      float by,
+      float bz,
+      float cx,
+      float cy,
+      float cz,
+      float dx,
+      float dy,
+      float dz) {
+    vc.vertex(p, ax, ay, az).color(c.r(), c.g(), c.b(), c.a());
+    vc.vertex(p, bx, by, bz).color(c.r(), c.g(), c.b(), c.a());
+    vc.vertex(p, cx, cy, cz).color(c.r(), c.g(), c.b(), c.a());
+    vc.vertex(p, dx, dy, dz).color(c.r(), c.g(), c.b(), c.a());
+  }
+
+  private static void stripFill(MatrixStack m, VertexConsumer vc, Box b, Color c) {
+    WorldRenderer.renderFilledBox(
+        m, vc, b.minX, b.minY, b.minZ, b.maxX, b.maxY, b.maxZ, c.r(), c.g(), c.b(), c.a());
+  }
+
+  private static void outline(MatrixStack m, VertexConsumer vc, Box b, Color c) {
+    WorldRenderer.drawBox(
+        m, vc, b.minX, b.minY, b.minZ, b.maxX, b.maxY, b.maxZ, c.r(), c.g(), c.b(), c.a());
+  }
+
+  private static void beams(MatrixStack m, VertexConsumer vc, Box b, Color c, double t) {
+    if (b == null) return;
+    double[] xs = {b.minX, b.maxX}, ys = {b.minY, b.maxY}, zs = {b.minZ, b.maxZ};
+    for (double y : ys)
+      for (double z : zs) fill(m, vc, new Box(b.minX, y - t, z - t, b.maxX, y + t, z + t), c);
+    for (double x : xs)
+      for (double z : zs) fill(m, vc, new Box(x - t, b.minY, z - t, x + t, b.maxY, z + t), c);
+    for (double x : xs)
+      for (double y : ys) fill(m, vc, new Box(x - t, y - t, b.minZ, x + t, y + t, b.maxZ), c);
+  }
+
+  private static void label(
+      WorldRenderContext ctx,
+      MatrixStack m,
+      VertexConsumerProvider vcp,
+      Vec3d pos,
+      Text text,
+      int rgb,
+      TextRenderer.TextLayerType layer) {
+    TextRenderer tr = MinecraftClient.getInstance().textRenderer;
+    m.push();
+    m.translate(pos.x, pos.y, pos.z);
+    m.multiply(ctx.camera().getRotation());
+    m.scale(0.025f, -0.025f, 0.025f);
+    tr.draw(
+        text,
+        -tr.getWidth(text) / 2f,
+        0f,
+        rgb,
+        false,
+        m.peek().getPositionMatrix(),
+        vcp,
+        layer,
+        0,
+        0xF000F0);
+    m.pop();
+  }
+
+  private record Color(float r, float g, float b, float a) {
+    Color withAlpha(float alpha) {
+      return new Color(r, g, b, alpha);
     }
 
-    private static void cuboid(MatrixStack matrices, BufferBuilder buffer, float x0, float y0, float z0, float x1, float y1, float z1, float r, float g, float b, float a) {
-        Matrix4f matrix = matrices.peek().getPositionMatrix();
-        quad(buffer, matrix, x0, y1, z0, x0, y1, z1, x0, y0, z1, x0, y0, z0, r, g, b, a); // -x
-        quad(buffer, matrix, x1, y1, z1, x1, y1, z0, x1, y0, z0, x1, y0, z1, r, g, b, a); // +x
-        quad(buffer, matrix, x0, y0, z1, x1, y0, z1, x1, y0, z0, x0, y0, z0, r, g, b, a); // -y
-        quad(buffer, matrix, x0, y1, z0, x1, y1, z0, x1, y1, z1, x0, y1, z1, r, g, b, a); // +y
-        quad(buffer, matrix, x1, y1, z0, x0, y1, z0, x0, y0, z0, x1, y0, z0, r, g, b, a); // -z
-        quad(buffer, matrix, x0, y1, z1, x1, y1, z1, x1, y0, z1, x0, y0, z1, r, g, b, a); // +z
+    int rgb() {
+      return (Math.round(r * 255) << 16) | (Math.round(g * 255) << 8) | Math.round(b * 255);
     }
+  }
 
-    private static void quad(BufferBuilder buffer, Matrix4f matrix, float ax, float ay, float az, float bx, float by, float bz, float cx, float cy, float cz, float dx, float dy, float dz, float r, float g, float b, float a) {
-        buffer.vertex(matrix, ax, ay, az).color(r, g, b, a);
-        buffer.vertex(matrix, bx, by, bz).color(r, g, b, a);
-        buffer.vertex(matrix, cx, cy, cz).color(r, g, b, a);
-        buffer.vertex(matrix, dx, dy, dz).color(r, g, b, a);
-    }
-
-    private static void drawLines(MatrixStack matrices, BufferBuilder buffer, double x0, double y0, double z0, double x1, double y1, double z1, float r, float g, float b, float a) {
-        Matrix4f matrix = matrices.peek().getPositionMatrix();
-        float fx0 = (float) x0, fy0 = (float) y0, fz0 = (float) z0;
-        float fx1 = (float) x1, fy1 = (float) y1, fz1 = (float) z1;
-        emitLine(buffer, matrix, fx0, fy0, fz0, fx1, fy0, fz0, 0, -1, 0, r, g, b, a);
-        emitLine(buffer, matrix, fx0, fy0, fz1, fx1, fy0, fz1, 0, -1, 0, r, g, b, a);
-        emitLine(buffer, matrix, fx0, fy1, fz0, fx1, fy1, fz0, 0, 1, 0, r, g, b, a);
-        emitLine(buffer, matrix, fx0, fy1, fz1, fx1, fy1, fz1, 0, 1, 0, r, g, b, a);
-        emitLine(buffer, matrix, fx0, fy0, fz0, fx0, fy1, fz0, -1, 0, 0, r, g, b, a);
-        emitLine(buffer, matrix, fx1, fy0, fz0, fx1, fy1, fz0, 1, 0, 0, r, g, b, a);
-        emitLine(buffer, matrix, fx0, fy0, fz1, fx0, fy1, fz1, -1, 0, 0, r, g, b, a);
-        emitLine(buffer, matrix, fx1, fy0, fz1, fx1, fy1, fz1, 1, 0, 0, r, g, b, a);
-        emitLine(buffer, matrix, fx0, fy0, fz0, fx0, fy0, fz1, 0, 0, -1, r, g, b, a);
-        emitLine(buffer, matrix, fx1, fy0, fz0, fx1, fy0, fz1, 0, 0, 1, r, g, b, a);
-        emitLine(buffer, matrix, fx0, fy1, fz0, fx0, fy1, fz1, 0, 0, -1, r, g, b, a);
-        emitLine(buffer, matrix, fx1, fy1, fz0, fx1, fy1, fz1, 0, 0, 1, r, g, b, a);
-    }
-
-    private static void emitLine(BufferBuilder buffer, Matrix4f matrix, float x0, float y0, float z0, float x1, float y1, float z1, float nx, float ny, float nz, float r, float g, float b, float a) {
-        buffer.vertex(matrix, x0, y0, z0).color(r, g, b, a).normal(nx, ny, nz);
-        buffer.vertex(matrix, x1, y1, z1).color(r, g, b, a).normal(nx, ny, nz);
-    }
-
+  private record Spawn(Vec3d pos, String label, Color color) {}
 }
 
 // i hated it here
