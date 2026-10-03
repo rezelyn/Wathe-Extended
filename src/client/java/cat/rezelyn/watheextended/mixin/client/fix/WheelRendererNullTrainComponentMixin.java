@@ -10,10 +10,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(WheelBlockEntityRenderer.class)
 public class WheelRendererNullTrainComponentMixin {
 
-    @Inject(method = "render", at = @At("HEAD"), cancellable = true)
-    private void watheExtended$skipUntilTrainComponentIsReady(CallbackInfo ci) {
-        if (WatheClient.trainComponent == null) {
-            ci.cancel();
-        }
+  @Inject(method = "render", at = @At("HEAD"), cancellable = true)
+  private void watheExtended$skipUntilTrainComponentIsReady(CallbackInfo ci) {
+    if (WatheClient.trainComponent == null) {
+      ci.cancel();
     }
+  }
 }
