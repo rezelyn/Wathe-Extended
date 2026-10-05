@@ -26,18 +26,20 @@ Issues that have missing information may be closed. Exploits and crashes that ca
 ## 3. Pull Requests
 
 > [!TIP]
-> Pull requests may be opened without prior discussion and will be reviewed at the maintainer's discretion. Large or design-altering changes may be declined regardless of code quality, so opening an issue first is advisable for these types of PRs.
+> Pull requests may be opened without prior discussion and will be reviewed at the maintainers discretion. Large or design-altering changes may be declined regardless of code quality, so opening an issue first is advisable for these types of PRs.
 
 **Every Pull Request must:**
 1. Target the `main` branch.
 2. Build successfully with the Gradle wrapper.
 3. Be tested in-game on both the **client** and a **dedicated server**, where the change affects both.
-    > [!NOTE]
-    > ### Testing environment
-    > The mod and the modpack are intended for use on dedicated servers.
-    > Server-side testing must therefore be performed on a real **dedicated server** (a standalone server process, separate from the game client). Worlds hosted from a client do not count as server testing. This includes singleplayer worlds, worlds opened with "Open to LAN", and worlds shared through "invites" or hosting mods such as Essential. These all run on the **integrated server**, which shares a process with the client, so client-only code leaking onto the server, missing synchronization, and packet handling problems can go unnoticed.
 4. Contain a single, focused change. Unrelated modifications must be submitted separately.
 5. Describe what the change does, why it is needed, and how it was tested.
+
+> [!NOTE]
+>
+> ### Testing environment
+> The mod and the modpack are intended for use on dedicated servers.
+> Server-side testing must therefore be performed on a real **dedicated server** (a standalone server process, separate from the game client). Worlds hosted from a client do not count as server testing. This includes singleplayer worlds, worlds opened with "Open to LAN", and worlds shared through "invites" or hosting mods such as Essential. These all run on the **integrated server**, which shares a process with the client, so client-only code leaking onto the server, missing synchronization, and packet handling problems can go unnoticed.
 
 Pull requests that fail the build or were not tested will not be reviewed.
 
@@ -67,6 +69,9 @@ locale: add French translation
 - Options that server owners may reasonably want to change must be exposed in the configuration screen, with a default that preserves existing behavior.
 - Data that must survive reconnects or restarts must be serialized correctly.
 - Remove debug output, dead code, and commented-out code before submitting.
+
+> [!NOTE]
+> Java code is formatted with [google-java-format](https://github.com/google/google-java-format). Please run it (or enable the IDE plugin) before opening a pull request so reviews can focus on the change itself.
 
 ## 6. Compatibility with Other Add-ons
 
@@ -113,6 +118,6 @@ submission applies.
 
 ## 9. Licensing and Credit
 
-This project is licensed under the GNU General Public License v3.0. By submitting a contribution, you confirm that you have the right to submit it and agree that it will be distributed under the same license.
+This project is licensed under the [GNU General Public License v3.0](https://github.com/rezelyn/Wathe-Extended/blob/main/LICENSE). By submitting a contribution, you confirm that you have the right to submit it and agree that it will be distributed under the same license.
 
 Merged pull requests will be recorded in the changelog of the release that includes them. The authors of merged contributions will also be listed in the Credits section of the README.
