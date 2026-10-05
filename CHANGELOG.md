@@ -18,27 +18,27 @@
     - Show notification from **Arsonist** dousing (Default: Enabled)
         - The doused notification can be delayed by a configurable amount (Default: 10s)
 - New mood mechanics and options:
-    - Prevent players from sprinting while depressed (Default: Enabled)
+    - Prevent players from sprinting while being depressed (Default: Enabled)
     - Disable role abilities after being depressed for a configurable delay in seconds (Default: Enabled, 0s)
-- New proning mechanic, allowing players to crawl on the ground by using the <kbd>C</kbd> key
-- New visual debugger that shows every configured spawn position (Lobby, Ready Area, and Play Area)
+- New proning mechanic, allowing players to crawl on the ground by using the <kbd>C</kbd> key, with configurable keybind option to toggle between **Hold** and **Toggle** modes (Default: Toggle)
+- New visual debugger that shows every configured spawns positions (Lobby, Ready Area, and Play Area)
 - Ability to change perspective (F5) when the game is not active
 - Pressing the inventory key while spectating now opens the Guidebook screen
 - Replaced the separate Wathe and HarpyModLoader name overlays with a new unified player name renderer:
-    - Spectators can see the current role, modifier(s), player name, pronouns, Killer Cohort label, and some role/modifier-specific labels, all in one shared overlay
+    - Spectators can see the current role, modifier(s), player name, pronouns, Killer Cohort label, and some role/modifier-specific labels, all in one shared adaptive overlay
 
 ### Changed
 
-- Improved optional add-on compatibility: mixins for Noelle's Roles, Starry Express, Stupid Express, Kin's Wathe, and Wathe Extra Items are skipped when the corresponding mod is absent
+- Improved optional add-on compatibility: mixins for Noelle's Roles, Starry Express, Stupid Express, Kin's Wathe, and Wathe Extra Items are skipped when the corresponding mod is absent (#100)
 - **Breaking:** simplified the client & server config accessors and switched to pretty-printed JSON configuration files. Old config files and saved presets are no longer supported
 - World protection improvements:
     - World protection now prevents players from breaking or placing blocks inside the lobby, ready, and play area boundaries
     - Added Wathe's Privacy Glasses and the blocks from [Wathe Extra Items](https://modrinth.com/mod/watheextraitems) and [WathExtra](https://modrinth.com/mod/wathextras) to the list of protected blocks
 - Changed & added some visual effects:
-  - A vignette now darkens the screen edges of the Introverted if it is inside a crowd of players - Improved optional add-on compatibility: mixins and related functions for Noelle's Roles, Starry Express, Stupid Express, Kin's Wathe, and Wathe Extra Items are now skipped when the corresponding mod is absent
-  - A vignette will now darken the screen edges of depressed players, and the vignette's intensity increases over time while depressed, goes away when the player is no longer depressed
-  - Improved Last Stand vignette rendering and coloring
-- Updated Chinese translation (@haiman333)
+    - A vignette now darkens the screen edges of the Introverted if it is inside a crowd of players
+    - A vignette will now darken the screen edges of depressed players, and the vignette's intensity increases over time while depressed, goes away when the player is no longer depressed
+    - Improved Last Stand vignette rendering and coloring
+- Updated Chinese translation (@haiman233)
 - Updated Stupid Express to `2026.10.1-h1.4`
     - [Stupid Express Changelog](https://modrinth.com/mod/stupid-express/version/2026.10.1-h1.4)
 - Updated README.md
@@ -54,15 +54,15 @@
 
 - Configured map effects now apply correctly at game start, and the default gamemode is restored correctly after Secret Murder rounds and server restarts
 - Secret Murder chance option not being synced with Wathe's world NBT setting; it now follows that setting
-- Killer Cohort overlay appearing for some Neutral roles (**Arsonist**, **Executioner**, **Jester**, etc.)
+- Killer Cohort overlay appearing for some roles that shouldn't be able to (**Arsonist**, **Executioner**, **Jester**, etc.) (#99)
 - **Licensed Villain** and **Dreamer** having access to Instinct
 - **Licensed Villain** dropping their *Revolver* when shooting innocents
 - **Introverted** modifier being assigned to the **Licensed Villain**
 - **Recaller** ability not teleporting them if they are seated
 - **Swapper** ability not teleporting one of the selected players if they were seated
 - Players' stamina not being reset to maximum when a game starts
-- Players sitting outside the ready area when a game starts being put into the game instead of being set as spectators
-- Wathe Extra Items mixin to randomize enabled items at round start not being applied
+- Players sitting outside the ready area when a game starts being put into the game instead of being set as spectators (#84)
+- Wathe Extra Items mixin to randomize enabled items at round start not being applied (@yoy333)
 
 ## [stable-3.8.141] - Sep 27, 2026
 
