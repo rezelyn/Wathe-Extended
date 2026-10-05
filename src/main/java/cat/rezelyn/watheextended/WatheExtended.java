@@ -1,18 +1,17 @@
 package cat.rezelyn.watheextended;
 
-import cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper;
-import cat.rezelyn.watheextended.network.ConfigSync;
-import cat.rezelyn.watheextended.network.ServerConfig;
 import cat.rezelyn.watheextended.command.*;
 import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.game.*;
 import cat.rezelyn.watheextended.game.modifiers.WatheExtendedModifiers;
 import cat.rezelyn.watheextended.game.modifiers.introverted.IntrovertedModifier;
 import cat.rezelyn.watheextended.game.roles.arsonist.ArsonistDousedNotification;
-import cat.rezelyn.watheextended.network.PresetManager;
-import cat.rezelyn.watheextended.network.PronounsManager;
 import cat.rezelyn.watheextended.game.utils.TeleportationHandler;
 import cat.rezelyn.watheextended.index.*;
+import cat.rezelyn.watheextended.network.ConfigSync;
+import cat.rezelyn.watheextended.network.PresetManager;
+import cat.rezelyn.watheextended.network.PronounsManager;
+import cat.rezelyn.watheextended.network.ServerConfig;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerPoisonComponent;
 import java.io.IOException;
@@ -90,7 +89,7 @@ public class WatheExtended implements ModInitializer {
     cat.rezelyn.watheextended.api.config.hml.ConfigHelper.registerEntries();
     cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.registerEntries();
     cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.registerEntries();
-    ConfigHelper.registerEntries();
+    cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper.registerEntries();
     cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.registerEntries();
   }
 

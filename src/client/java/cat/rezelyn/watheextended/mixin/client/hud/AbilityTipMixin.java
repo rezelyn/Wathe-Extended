@@ -1,8 +1,8 @@
 package cat.rezelyn.watheextended.mixin.client.hud;
 
-import cat.rezelyn.watheextended.network.ClientConfig;
 import cat.rezelyn.watheextended.client.screen.ScreenUtils;
 import cat.rezelyn.watheextended.game.mood.DepressedMoodState;
+import cat.rezelyn.watheextended.network.ClientConfig;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.game.GameConstants;

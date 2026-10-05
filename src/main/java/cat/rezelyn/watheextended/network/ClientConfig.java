@@ -16,6 +16,7 @@ public final class ClientConfig {
 
   private static final Map<String, String> CACHE = new ConcurrentHashMap<>();
   private static volatile boolean remoteServer = false;
+
   private ClientConfig() {}
 
   public static boolean isRemoteServer() {

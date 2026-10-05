@@ -35,6 +35,7 @@ public final class BoxDebugRenderer {
   public static boolean showRtpSlots = false;
   public static boolean showKeyAssignments = false;
   public static boolean showSpawnPositions = false;
+
   private BoxDebugRenderer() {}
 
   public static void register() {

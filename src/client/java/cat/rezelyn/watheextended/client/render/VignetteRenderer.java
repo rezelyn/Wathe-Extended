@@ -22,8 +22,8 @@ public final class VignetteRenderer {
   }
 
   /**
-   * Renders a vignette tinted with an RGB hex color (for example, {@code 0xFF0000} for red).
-   * For a clean tint in {@link Mode#ALPHA_OVERLAY}, use a white vignette mask with transparency.
+   * Renders a vignette tinted with an RGB hex color (for example, {@code 0xFF0000} for red). For a
+   * clean tint in {@link Mode#ALPHA_OVERLAY}, use a white vignette mask with transparency.
    */
   public static void render(
       DrawContext context, Identifier texture, float intensity, int hexColor, Mode mode) {

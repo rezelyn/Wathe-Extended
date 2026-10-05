@@ -16,5 +16,6 @@ import org.spongepowered.asm.mixin.Pseudo;
       // "org.BsXinQin.kinswathe.mixin.host.NeutralAnnouncementMixin",
       "org.BsXinQin.kinswathe.roles.dreamer.DreamerKillerComponent"
     },
-    remap = false, priority = 2000)
+    remap = false,
+    priority = 2000)
 public abstract class LegacyWatheImportsMixin {}

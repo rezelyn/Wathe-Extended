@@ -19,8 +19,7 @@ public class SwapperTeleportMixin {
       at =
           @At(
               value = "INVOKE",
-              target =
-                  "Lnet/minecraft/world/World;isSpaceEmpty(Lnet/minecraft/entity/Entity;)Z",
+              target = "Lnet/minecraft/world/World;isSpaceEmpty(Lnet/minecraft/entity/Entity;)Z",
               ordinal = 0),
       remap = false)
   private static void watheextended$stopRidingBeforeSwap(

@@ -83,7 +83,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setEnableStartSafeTime(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setEnableStartSafeTime(
                                               context.getSource().getWorld(),
                                               BoolArgumentType.getBool(context, "enabled"))))))
               .then(
@@ -93,7 +94,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setStartingCooldown(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setStartingCooldown(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(
                                                   context, "seconds"))))))
@@ -106,7 +108,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setEnableNoellesRolesModify(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setEnableNoellesRolesModify(
                                               context.getSource().getWorld(),
                                               BoolArgumentType.getBool(context, "enabled"))))))
               .then(
@@ -116,7 +119,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setConductorInstinctModify(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setConductorInstinctModify(
                                               context.getSource().getWorld(),
                                               BoolArgumentType.getBool(context, "enabled"))))))
               .then(
@@ -126,7 +130,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setCoronerInstinctModify(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setCoronerInstinctModify(
                                               context.getSource().getWorld(),
                                               BoolArgumentType.getBool(context, "enabled"))))))
 
@@ -138,7 +143,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setEnableWatheModify(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setEnableWatheModify(
                                               context.getSource().getWorld(),
                                               BoolArgumentType.getBool(context, "enabled"))))))
               .then(
@@ -148,7 +154,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setInitialCivilianIncome(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setInitialCivilianIncome(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
@@ -158,7 +165,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setInitialNeutralIncome(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setInitialNeutralIncome(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
@@ -168,7 +176,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setInitialKillerIncome(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setInitialKillerIncome(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
@@ -178,7 +187,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setIncreaseMoneyWhenKill(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setIncreaseMoneyWhenKill(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
@@ -188,7 +198,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setPreventKillerDropRevolver(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setPreventKillerDropRevolver(
                                               context.getSource().getWorld(),
                                               BoolArgumentType.getBool(context, "enabled"))))))
 
@@ -200,7 +211,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setBellringerAbilityPrice(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setBellringerAbilityPrice(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
@@ -210,7 +222,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setBellringerAbilityCooldown(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setBellringerAbilityCooldown(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
 
@@ -222,7 +235,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setBodymakerAbilityCooldown(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setBodymakerAbilityCooldown(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
@@ -232,7 +246,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setBodymakerAbilityFakeRole(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setBodymakerAbilityFakeRole(
                                               context.getSource().getWorld(),
                                               BoolArgumentType.getBool(context, "enabled"))))))
 
@@ -244,7 +259,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setCleanerAbilityPrice(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setCleanerAbilityPrice(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
@@ -254,7 +270,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setCleanerAbilityCooldown(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setCleanerAbilityCooldown(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
 
@@ -266,7 +283,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setCookPanPrice(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setCookPanPrice(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
 
@@ -278,7 +296,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setDetectiveAbilityPrice(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setDetectiveAbilityPrice(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
@@ -288,7 +307,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setDetectiveAbilityCooldown(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setDetectiveAbilityCooldown(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
 
@@ -300,7 +320,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setDreamerInitialItemQuantity(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setDreamerInitialItemQuantity(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
 
@@ -312,7 +333,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setDrugmakerPlayerLimit(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setDrugmakerPlayerLimit(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
@@ -322,7 +344,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setDrugmakerGetCoins(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setDrugmakerGetCoins(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
@@ -332,7 +355,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setDrugmakerPoisonInjectorPrice(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setDrugmakerPoisonInjectorPrice(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
@@ -342,7 +366,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setDrugmakerBlowgunPrice(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setDrugmakerBlowgunPrice(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
 
@@ -354,7 +379,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setHunterAbilityPrice(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setHunterAbilityPrice(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
@@ -364,7 +390,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setHunterAbilityCooldown(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setHunterAbilityCooldown(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
 
@@ -376,7 +403,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setJudgeAbilityPrice(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setJudgeAbilityPrice(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
@@ -386,7 +414,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setJudgeAbilityGlowing(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setJudgeAbilityGlowing(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
@@ -396,7 +425,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setJudgeAbilityCooldown(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setJudgeAbilityCooldown(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
 
@@ -408,7 +438,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setKidnapperKnockoutDrugPrice(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setKidnapperKnockoutDrugPrice(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
 
@@ -420,7 +451,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setLicensedVillainPlayerLimit(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setLicensedVillainPlayerLimit(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
@@ -430,7 +462,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setLicensedVillainRevolverPrice(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setLicensedVillainRevolverPrice(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
 
@@ -442,7 +475,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setPhysicianPillPrice(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setPhysicianPillPrice(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
 
@@ -454,7 +488,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setRobotAbilityDuration(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setRobotAbilityDuration(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
@@ -464,7 +499,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.setRobotAbilityCooldown(
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setRobotAbilityCooldown(
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(
                                                   context, "value")))))));
@@ -482,7 +518,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.setInsanePlayersSeeMorphs(
+                                          cat.rezelyn.watheextended.api.config.noellesroles
+                                              .ConfigHelper.setInsanePlayersSeeMorphs(
                                               null,
                                               BoolArgumentType.getBool(context, "enabled"))))))
               .then(
@@ -492,7 +529,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.setShitpostRoles(
+                                          cat.rezelyn.watheextended.api.config.noellesroles
+                                              .ConfigHelper.setShitpostRoles(
                                               BoolArgumentType.getBool(context, "enabled"))))))
               .then(
                   CommandManager.literal("setGeneralCooldownTicks")
@@ -501,7 +539,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.setGeneralCooldownTicks(
+                                          cat.rezelyn.watheextended.api.config.noellesroles
+                                              .ConfigHelper.setGeneralCooldownTicks(
                                               IntegerArgumentType.getInteger(context, "value"))))))
 
               /// VOODOO
@@ -512,7 +551,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.setVoodooNonKillerDeaths(
+                                          cat.rezelyn.watheextended.api.config.noellesroles
+                                              .ConfigHelper.setVoodooNonKillerDeaths(
                                               BoolArgumentType.getBool(context, "enabled"))))))
               .then(
                   CommandManager.literal("setVoodooShotLikeEvil")
@@ -521,7 +561,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.setVoodooShotLikeEvil(
+                                          cat.rezelyn.watheextended.api.config.noellesroles
+                                              .ConfigHelper.setVoodooShotLikeEvil(
                                               BoolArgumentType.getBool(context, "enabled"))))))
 
               /// CONDUCTOR
@@ -532,7 +573,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.setPlayerCountToMakeConducterKeyVisible(
+                                          cat.rezelyn.watheextended.api.config.noellesroles
+                                              .ConfigHelper.setPlayerCountToMakeConducterKeyVisible(
                                               IntegerArgumentType.getInteger(context, "value"))))))
 
               /// BARTENDER
@@ -543,7 +585,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.setMaximumDefenseVials(
+                                          cat.rezelyn.watheextended.api.config.noellesroles
+                                              .ConfigHelper.setMaximumDefenseVials(
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
                   CommandManager.literal("setDefenseVialPrice")
@@ -552,7 +595,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.setDefenseVialPrice(
+                                          cat.rezelyn.watheextended.api.config.noellesroles
+                                              .ConfigHelper.setDefenseVialPrice(
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
                   CommandManager.literal("setDefenseMaximumTime")
@@ -561,7 +605,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.setDefenseMaximumTime(
+                                          cat.rezelyn.watheextended.api.config.noellesroles
+                                              .ConfigHelper.setDefenseMaximumTime(
                                               IntegerArgumentType.getInteger(context, "value"))))))
 
               /// TRAPPER
@@ -572,7 +617,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.setRoleMinePrice(
+                                          cat.rezelyn.watheextended.api.config.noellesroles
+                                              .ConfigHelper.setRoleMinePrice(
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
                   CommandManager.literal("setTrapperSeesNames")
@@ -581,7 +627,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.setTrapperSeesNames(
+                                          cat.rezelyn.watheextended.api.config.noellesroles
+                                              .ConfigHelper.setTrapperSeesNames(
                                               BoolArgumentType.getBool(context, "enabled"))))))
 
               /// GUESSER
@@ -592,7 +639,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.setAllowCivillianGuessers(
+                                          cat.rezelyn.watheextended.api.config.noellesroles
+                                              .ConfigHelper.setAllowCivillianGuessers(
                                               BoolArgumentType.getBool(context, "enabled"))))))
               .then(
                   CommandManager.literal("setGuesserDiesAfterIncorrectGuess")
@@ -602,7 +650,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.setGuesserDiesAfterIncorrectGuess(
+                                          cat.rezelyn.watheextended.api.config.noellesroles
+                                              .ConfigHelper.setGuesserDiesAfterIncorrectGuess(
                                               com.mojang.brigadier.arguments.StringArgumentType
                                                   .getString(context, "mode"))))))
               .then(
@@ -612,7 +661,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.setGuesserCanUseInstinct(
+                                          cat.rezelyn.watheextended.api.config.noellesroles
+                                              .ConfigHelper.setGuesserCanUseInstinct(
                                               BoolArgumentType.getBool(context, "enabled"))))))
 
               /// INTROVERT
@@ -623,7 +673,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.setIntrovertDisableRange(
+                                          cat.rezelyn.watheextended.api.config.noellesroles
+                                              .ConfigHelper.setIntrovertDisableRange(
                                               IntegerArgumentType.getInteger(context, "value"))))))
 
               /// INFECTED
@@ -634,7 +685,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.setInfectedKillTime(
+                                          cat.rezelyn.watheextended.api.config.noellesroles
+                                              .ConfigHelper.setInfectedKillTime(
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
                   CommandManager.literal("setInfectedCoughChance")
@@ -643,7 +695,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.setInfectedCoughChance(
+                                          cat.rezelyn.watheextended.api.config.noellesroles
+                                              .ConfigHelper.setInfectedCoughChance(
                                               IntegerArgumentType.getInteger(context, "value"))))))
 
               /// RECON
@@ -654,7 +707,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.setReconsSeeNames(
+                                          cat.rezelyn.watheextended.api.config.noellesroles
+                                              .ConfigHelper.setReconsSeeNames(
                                               BoolArgumentType.getBool(context, "enabled"))))))
 
               /// EXECUTIONER
@@ -665,7 +719,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.setExecutionCanPickUpGun(
+                                          cat.rezelyn.watheextended.api.config.noellesroles
+                                              .ConfigHelper.setExecutionCanPickUpGun(
                                               BoolArgumentType.getBool(context, "enabled")))))));
     }
 
@@ -681,7 +736,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.setStarstruckTaskReducesCooldown(
+                                          cat.rezelyn.watheextended.api.config.starexpress
+                                              .ConfigHelper.setStarstruckTaskReducesCooldown(
                                               BoolArgumentType.getBool(context, "enabled"))))))
               .then(
                   CommandManager.literal("setStarstruckTaskCooldownReduction")
@@ -690,7 +746,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.setStarstruckTaskCooldownReduction(
+                                          cat.rezelyn.watheextended.api.config.starexpress
+                                              .ConfigHelper.setStarstruckTaskCooldownReduction(
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
                   CommandManager.literal("setStarstruckAbilityCooldown")
@@ -699,7 +756,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.setStarstruckAbilityCooldown(
+                                          cat.rezelyn.watheextended.api.config.starexpress
+                                              .ConfigHelper.setStarstruckAbilityCooldown(
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
                   CommandManager.literal("setStarstruckAbilityDuration")
@@ -708,7 +766,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.setStarstruckAbilityDuration(
+                                          cat.rezelyn.watheextended.api.config.starexpress
+                                              .ConfigHelper.setStarstruckAbilityDuration(
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
                   CommandManager.literal("setStarstruckAbilityAffectsMovementSpeed")
@@ -717,7 +776,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper
+                                          cat.rezelyn.watheextended.api.config.starexpress
+                                              .ConfigHelper
                                               .setStarstruckAbilityAffectsMovementSpeed(
                                                   BoolArgumentType.getBool(context, "enabled"))))))
               .then(
@@ -729,7 +789,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.setStarstruckAbilityWalkSpeed(
+                                          cat.rezelyn.watheextended.api.config.starexpress
+                                              .ConfigHelper.setStarstruckAbilityWalkSpeed(
                                               com.mojang.brigadier.arguments.FloatArgumentType
                                                   .getFloat(context, "value"))))))
               .then(
@@ -741,7 +802,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.setStarstruckAbilitySprintSpeed(
+                                          cat.rezelyn.watheextended.api.config.starexpress
+                                              .ConfigHelper.setStarstruckAbilitySprintSpeed(
                                               com.mojang.brigadier.arguments.FloatArgumentType
                                                   .getFloat(context, "value"))))))
 
@@ -753,7 +815,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.setMuzzlerTapeCooldown(
+                                          cat.rezelyn.watheextended.api.config.starexpress
+                                              .ConfigHelper.setMuzzlerTapeCooldown(
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
                   CommandManager.literal("setMuzzlerSuffocationTime")
@@ -762,7 +825,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.setMuzzlerSuffocationTime(
+                                          cat.rezelyn.watheextended.api.config.starexpress
+                                              .ConfigHelper.setMuzzlerSuffocationTime(
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
                   CommandManager.literal("setMuzzlerTapeTearCheckCount")
@@ -771,7 +835,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.setMuzzlerTapeTearCheckCount(
+                                          cat.rezelyn.watheextended.api.config.starexpress
+                                              .ConfigHelper.setMuzzlerTapeTearCheckCount(
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
                   CommandManager.literal("setMuzzlerTapeTearMoodChange")
@@ -782,7 +847,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.setMuzzlerTapeTearMoodChange(
+                                          cat.rezelyn.watheextended.api.config.starexpress
+                                              .ConfigHelper.setMuzzlerTapeTearMoodChange(
                                               com.mojang.brigadier.arguments.FloatArgumentType
                                                   .getFloat(context, "value"))))))
               .then(
@@ -792,7 +858,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.setMuzzlerKillIfCheckedAtZero(
+                                          cat.rezelyn.watheextended.api.config.starexpress
+                                              .ConfigHelper.setMuzzlerKillIfCheckedAtZero(
                                               BoolArgumentType.getBool(context, "enabled"))))))
               .then(
                   CommandManager.literal("setMuzzlerDisplaySilencedTipDelay")
@@ -801,7 +868,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.setMuzzlerDisplaySilencedTipDelay(
+                                          cat.rezelyn.watheextended.api.config.starexpress
+                                              .ConfigHelper.setMuzzlerDisplaySilencedTipDelay(
                                               IntegerArgumentType.getInteger(context, "value"))))))
 
               /// ALLERGIC
@@ -812,7 +880,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.setAllergicNothingChance(
+                                          cat.rezelyn.watheextended.api.config.starexpress
+                                              .ConfigHelper.setAllergicNothingChance(
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
                   CommandManager.literal("setAllergicInstinctChance")
@@ -821,7 +890,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.setAllergicInstinctChance(
+                                          cat.rezelyn.watheextended.api.config.starexpress
+                                              .ConfigHelper.setAllergicInstinctChance(
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
                   CommandManager.literal("setAllergicArmorChance")
@@ -830,7 +900,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.setAllergicArmorChance(
+                                          cat.rezelyn.watheextended.api.config.starexpress
+                                              .ConfigHelper.setAllergicArmorChance(
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
                   CommandManager.literal("setAllergicPoisonChance")
@@ -839,7 +910,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.setAllergicPoisonChance(
+                                          cat.rezelyn.watheextended.api.config.starexpress
+                                              .ConfigHelper.setAllergicPoisonChance(
                                               IntegerArgumentType.getInteger(context, "value"))))))
               .then(
                   CommandManager.literal("setAllergicInstinctDuration")
@@ -848,7 +920,8 @@ public class AddonsConfigCommand {
                               .executes(
                                   update(
                                       context ->
-                                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.setAllergicInstinctDuration(
+                                          cat.rezelyn.watheextended.api.config.starexpress
+                                              .ConfigHelper.setAllergicInstinctDuration(
                                               IntegerArgumentType.getInteger(
                                                   context, "value")))))));
     }

@@ -1,8 +1,8 @@
 package cat.rezelyn.watheextended.mixin.client.keybinds;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.doctor4t.wathe.client.WatheClient;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.client.WatheClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.Perspective;

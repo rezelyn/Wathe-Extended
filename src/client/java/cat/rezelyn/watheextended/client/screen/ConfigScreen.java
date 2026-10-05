@@ -1,9 +1,9 @@
 package cat.rezelyn.watheextended.client.screen;
 
-import cat.rezelyn.watheextended.network.ClientConfig;
-import cat.rezelyn.watheextended.network.ServerConfig;
 import cat.rezelyn.watheextended.client.screen.config.*;
+import cat.rezelyn.watheextended.network.ClientConfig;
 import cat.rezelyn.watheextended.network.PresetManager;
+import cat.rezelyn.watheextended.network.ServerConfig;
 import dev.isxander.yacl3.api.YetAnotherConfigLib;
 import java.util.*;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;

@@ -1,15 +1,15 @@
 package cat.rezelyn.watheextended.client.screen.guidebook;
 
-import cat.rezelyn.watheextended.network.ClientConfig;
+import static cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.*;
+
 import cat.rezelyn.watheextended.client.screen.ScreenUtils;
+import cat.rezelyn.watheextended.network.ClientConfig;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-
-import static cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.*;
 
 public final class GuidebookPageContent {
 

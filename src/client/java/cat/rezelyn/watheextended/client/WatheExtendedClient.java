@@ -1,7 +1,5 @@
 package cat.rezelyn.watheextended.client;
 
-import cat.rezelyn.watheextended.network.ClientConfig;
-import cat.rezelyn.watheextended.network.ServerConfig;
 import cat.rezelyn.watheextended.client.pronouns.PronounsCache;
 import cat.rezelyn.watheextended.client.render.*;
 import cat.rezelyn.watheextended.client.render.entity.PlushBlockEntityRenderer;
@@ -13,12 +11,14 @@ import cat.rezelyn.watheextended.game.LastStand;
 import cat.rezelyn.watheextended.game.PlayerMovement;
 import cat.rezelyn.watheextended.game.ProneState;
 import cat.rezelyn.watheextended.game.compat.InstinctAccess;
-import cat.rezelyn.watheextended.network.PresetManager;
-import cat.rezelyn.watheextended.network.PronounsManager;
 import cat.rezelyn.watheextended.index.WatheExtendedBlockEntities;
 import cat.rezelyn.watheextended.index.WatheExtendedBlocks;
 import cat.rezelyn.watheextended.index.WatheExtendedItems;
 import cat.rezelyn.watheextended.index.WatheExtendedSounds;
+import cat.rezelyn.watheextended.network.ClientConfig;
+import cat.rezelyn.watheextended.network.PresetManager;
+import cat.rezelyn.watheextended.network.PronounsManager;
+import cat.rezelyn.watheextended.network.ServerConfig;
 import dev.doctor4t.wathe.client.WatheClient;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;

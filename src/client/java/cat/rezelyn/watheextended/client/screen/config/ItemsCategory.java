@@ -12,7 +12,6 @@ import dev.isxander.yacl3.api.OptionGroup;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import dev.isxander.yacl3.api.controller.FloatSliderControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerFieldControllerBuilder;
-import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
 import java.util.function.BiConsumer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;

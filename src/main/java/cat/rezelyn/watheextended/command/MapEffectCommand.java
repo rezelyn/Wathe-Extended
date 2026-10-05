@@ -1,7 +1,7 @@
 package cat.rezelyn.watheextended.command;
 
-import cat.rezelyn.watheextended.network.ServerConfig;
 import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
+import cat.rezelyn.watheextended.network.ServerConfig;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import dev.doctor4t.wathe.api.GameMode;

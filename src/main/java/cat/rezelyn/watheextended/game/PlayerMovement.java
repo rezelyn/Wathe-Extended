@@ -11,9 +11,9 @@ import net.minecraft.network.packet.CustomPayload;
 public final class PlayerMovement {
   private PlayerMovement() {}
 
-  public static void handleSetProne(
-      SetPronePayload payload, ServerPlayNetworking.Context context) {
-    context.server()
+  public static void handleSetProne(SetPronePayload payload, ServerPlayNetworking.Context context) {
+    context
+        .server()
         .execute(
             () -> {
               PlayerEntity player = context.player();

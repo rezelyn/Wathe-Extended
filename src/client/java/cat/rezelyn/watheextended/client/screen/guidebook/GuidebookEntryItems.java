@@ -1,7 +1,7 @@
 package cat.rezelyn.watheextended.client.screen.guidebook;
 
-import cat.rezelyn.watheextended.network.ClientConfig;
 import cat.rezelyn.watheextended.client.screen.ScreenUtils;
+import cat.rezelyn.watheextended.network.ClientConfig;
 import java.util.*;
 import java.util.function.Supplier;
 import net.minecraft.text.MutableText;

@@ -3,12 +3,11 @@ package cat.rezelyn.watheextended.client.screen.config;
 import cat.rezelyn.watheextended.api.RolesDisplay;
 import cat.rezelyn.watheextended.api.RolesId;
 import cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper;
-import cat.rezelyn.watheextended.network.ClientConfig;
 import cat.rezelyn.watheextended.client.screen.ScreenUtils;
+import cat.rezelyn.watheextended.network.ClientConfig;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerFieldControllerBuilder;
-import dev.isxander.yacl3.api.controller.TickBoxControllerBuilder;
 import java.util.*;
 import java.util.function.BiConsumer;
 import net.minecraft.client.MinecraftClient;
@@ -63,7 +62,8 @@ public final class RolesCategory {
           boolean state =
               pendingState.containsKey(id)
                   ? pendingState.get(id)
-                  : !cat.rezelyn.watheextended.api.config.hml.ConfigHelper.getDisabledRoles().contains(id);
+                  : !cat.rezelyn.watheextended.api.config.hml.ConfigHelper.getDisabledRoles()
+                      .contains(id);
 
           OptionGroup.Builder group = OptionGroup.createBuilder().name(label).collapsed(true);
           group.option(
@@ -77,7 +77,9 @@ public final class RolesCategory {
                       () ->
                           pendingState.containsKey(id)
                               ? pendingState.get(id)
-                              : !cat.rezelyn.watheextended.api.config.hml.ConfigHelper.getDisabledRoles().contains(id),
+                              : !cat.rezelyn.watheextended.api.config.hml.ConfigHelper
+                                  .getDisabledRoles()
+                                  .contains(id),
                       enabled -> {
                         pendingState.put(id, enabled);
                       })
@@ -1223,8 +1225,7 @@ public final class RolesCategory {
                             "gui.watheextended.config.category.roles.opt.necromancer.hasshop.desc")))
                 .binding(
                     false,
-                    ConfigHelper
-                        ::getNecromancerHasShop,
+                    ConfigHelper::getNecromancerHasShop,
                     value ->
                         ScreenUtils.stage(
                             sendCommand, parent, "stupidexpress.necromancerHasShop", value))
@@ -1306,8 +1307,7 @@ public final class RolesCategory {
                             "gui.watheextended.config.category.roles.opt.arsonist.keepsgamegoing.desc")))
                 .binding(
                     true,
-                    ConfigHelper
-                        ::getArsonistKeepsGameGoing,
+                    ConfigHelper::getArsonistKeepsGameGoing,
                     value ->
                         ScreenUtils.stage(
                             sendCommand, parent, "stupidexpress.arsonistKeepsGameGoing", value))
@@ -1337,8 +1337,7 @@ public final class RolesCategory {
                             "gui.watheextended.config.category.roles.opt.amnesiac.bodiesglow.desc")))
                 .binding(
                     true,
-                    ConfigHelper
-                        ::getBodiesGlowToAmnesiac,
+                    ConfigHelper::getBodiesGlowToAmnesiac,
                     value ->
                         ScreenUtils.stage(
                             sendCommand, parent, "stupidexpress.bodiesGlowToAmnesiac", value))
@@ -1364,8 +1363,7 @@ public final class RolesCategory {
                             "gui.watheextended.config.category.roles.opt.amnesiac.glowsdifferently.desc")))
                 .binding(
                     false,
-                    ConfigHelper
-                        ::getAmnesiacGlowsDifferently,
+                    ConfigHelper::getAmnesiacGlowsDifferently,
                     value ->
                         ScreenUtils.stage(
                             sendCommand, parent, "stupidexpress.amnesiacGlowsDifferently", value))

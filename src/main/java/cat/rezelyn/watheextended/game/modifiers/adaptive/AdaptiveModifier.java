@@ -11,6 +11,7 @@ public final class AdaptiveModifier {
 
   public static final ThreadLocal<KillContext> CURRENT_KILL = new ThreadLocal<>();
   private static final Map<UUID, String> lastKillMethod = new ConcurrentHashMap<>();
+
   private AdaptiveModifier() {}
 
   public static int applyAdaptive(ServerPlayerEntity killer, int amount) {

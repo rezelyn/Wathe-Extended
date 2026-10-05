@@ -2,8 +2,8 @@ package cat.rezelyn.watheextended.game;
 
 import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper;
-import cat.rezelyn.watheextended.network.ServerConfig;
 import cat.rezelyn.watheextended.mixin.game.shop.ShopEntryAccessor;
+import cat.rezelyn.watheextended.network.ServerConfig;
 import dev.doctor4t.wathe.game.GameConstants;
 import dev.doctor4t.wathe.index.WatheItems;
 import dev.doctor4t.wathe.util.ShopEntry;

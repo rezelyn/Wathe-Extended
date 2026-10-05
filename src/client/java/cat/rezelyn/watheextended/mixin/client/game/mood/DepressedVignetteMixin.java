@@ -39,7 +39,6 @@ public abstract class DepressedVignetteMixin {
             target == 0f ? FADE_OUT_STEP : 0f);
     if (watheextended$depressedVignetteOpacity <= 0f) return;
 
-    VignetteRenderer.renderTintedMask(
-        context, watheextended$depressedVignetteOpacity, 0x323353);
+    VignetteRenderer.renderTintedMask(context, watheextended$depressedVignetteOpacity, 0x323353);
   }
 }
