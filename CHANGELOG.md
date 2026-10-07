@@ -3,7 +3,7 @@
 
 ## [Unreleased]
 
-## [beta-4.0.0-h1.4] - TBD
+## [4.0.0-h1.4] - TBD
 
 > [!WARNING]
 > **This update may break older instances of the modpack!**
@@ -26,11 +26,14 @@
 - Pressing the inventory key while spectating now opens the Guidebook screen
 - Replaced the separate Wathe and HarpyModLoader name overlays with a new unified player name renderer:
     - Spectators can see the current role, modifier(s), player name, pronouns, Killer Cohort label, and some role/modifier-specific labels, all in one shared adaptive overlay
+- New plushies (they're mostly my friends that are helping me on the mod :3)
+- GitHub issue templates and contributors guidelines documents
 
 ### Changed
 
 - Improved optional add-on compatibility: mixins for Noelle's Roles, Starry Express, Stupid Express, Kin's Wathe, and Wathe Extra Items are skipped when the corresponding mod is absent (#100)
 - **Breaking:** simplified the client & server config accessors and switched to pretty-printed JSON configuration files. Old config files and saved presets are no longer supported
+- **Breaking:** Refactored a lot of the project's code base and packages to improve maintainability and readability, which may break some other mods that depend on Wathe: Extended's code!
 - World protection improvements:
     - World protection now prevents players from breaking or placing blocks inside the lobby, ready, and play area boundaries
     - Added Wathe's Privacy Glasses and the blocks from [Wathe Extra Items](https://modrinth.com/mod/watheextraitems) and [WathExtra](https://modrinth.com/mod/wathextras) to the list of protected blocks
@@ -38,6 +41,7 @@
     - A vignette now darkens the screen edges of the Introverted if it is inside a crowd of players
     - A vignette will now darken the screen edges of depressed players, and the vignette's intensity increases over time while depressed, goes away when the player is no longer depressed
     - Improved Last Stand vignette rendering and coloring
+- Custom plushies sounds are now using a randomized pitch value when squashing them (yea even Ish's meow)
 - Updated Chinese translation (@haiman233)
 - Updated Stupid Express to `2026.10.1-h1.4`
     - [Stupid Express Changelog](https://modrinth.com/mod/stupid-express/version/2026.10.1-h1.4)
@@ -572,8 +576,8 @@ Stable release! This update introduces a wide range of new content, improvements
 - Train reset failing to apply in time at game start, which caused visual bugs
 - Killer Instinct night vision not functioning correctly
 
-[Unreleased]: https://github.com/rezelyn/Wathe-Extended/compare/beta-4.0.0-h1.4...HEAD
-[beta-4.0.0-h1.4]: https://github.com/rezelyn/Wathe-Extended/compare/3.4.132...3.5.132
+[Unreleased]: https://github.com/rezelyn/Wathe-Extended/compare/main...dev/4.0.0-h1.4
+[4.0.0-h1.4]: https://github.com/rezelyn/Wathe-Extended/compare/3.4.132...3.5.132
 [stable-3.8.141]: https://github.com/rezelyn/Wathe-Extended/compare/3.7.141...3.8.141
 [stable-3.7.141]: https://github.com/rezelyn/Wathe-Extended/compare/3.6.132...3.7.141
 [stable-3.6.132]: https://github.com/rezelyn/Wathe-Extended/compare/3.5.132...3.6.132
