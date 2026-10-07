@@ -3,6 +3,7 @@ package cat.rezelyn.watheextended.mixin.client.game.roles.swapper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
@@ -27,5 +28,17 @@ public abstract class SwapperSlotTextureMixin {
   private void watheextended$overrideSwapperSlotTexture(
       DrawContext context, Identifier texture, int x, int y, int width, int height) {
     context.drawGuiTexture(SWAPPER_SLOT, x, y, width, height);
+  }
+
+  @Redirect(
+      method = "lambda$new$0",
+      at =
+          @At(
+              value = "INVOKE",
+              target = "Lnet/minecraft/entity/player/PlayerEntity;hasVehicle()Z",
+              remap = true),
+      remap = false)
+  private static boolean watheextended$allowRidingPlayers(PlayerEntity player) {
+    return false;
   }
 }
