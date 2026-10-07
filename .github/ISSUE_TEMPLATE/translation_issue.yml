@@ -1,0 +1,53 @@
+name: Translation issue
+description: Report a missing, incorrect, or unclear translation
+title: "[Translation] "
+labels:
+  - Documentation
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Read CONTRIBUTORS.md before submitting. Pull requests for translation fixes and new languages are also accepted if you wish to fix it directly yourself.
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched open and closed issues and found no duplicate.
+          required: true
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language
+      options:
+        - English
+        - French
+        - Simplified Chinese
+    validations:
+      required: true
+  - type: textarea
+    id: location
+    attributes:
+      label: Location
+      description: Where does the text appear? Include the translation key if you know it.
+    validations:
+      required: true
+  - type: textarea
+    id: current-text
+    attributes:
+      label: Current text
+      description: The text as it currently appears.
+    validations:
+      required: true
+  - type: textarea
+    id: suggested-text
+    attributes:
+      label: Suggested text
+      description: Your proposed correction, or the English text if the string is untranslated.
+    validations:
+      required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Screenshots, or an explanation of why the current text is incorrect.
