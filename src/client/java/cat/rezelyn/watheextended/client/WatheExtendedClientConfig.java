@@ -1,164 +1,75 @@
 package cat.rezelyn.watheextended.client;
 
-import cat.rezelyn.watheextended.api.config.ClientConfig;
-import net.fabricmc.loader.api.FabricLoader;
+import cat.rezelyn.watheextended.network.ConfigHelper;
+import java.util.Set;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-
+/**
+ * Client-side configuration for Wathe Extended, stored in {@code config/watheextended/client.json}
+ *
+ * <p><b>For contributors:</b> to add an option, declare a {@code public static} field below.
+ * Loading, saving, and get/set are handled automatically through reflection by {@link ConfigHelper}
+ *
+ * <ul>
+ *   <li>The field name is used as the JSON key
+ *   <li>The field's initial value is the default
+ *   <li>Fields marked {@code final} or {@code transient} are not saved
+ * </ul>
+ */
 public final class WatheExtendedClientConfig {
 
-    private static final File CONFIG_FILE = FabricLoader.getInstance().getConfigDir().resolve("watheextended").resolve("client.json5").toFile();
-    public static boolean showChatDuringGame = true;
-    private static boolean showWatheHud = true;
-    private static boolean showSnowflakes = true;
-    private static boolean showFog = true;
-    private static String instinctMode = "HOLD";
-    private static String instinctHudStyle = "HALF_LEFT";
-    private static float instinctHudOpacity = 0.25f;
-    private static boolean alwaysShowInstinctHud;
+  private static final ConfigHelper CONFIG =
+      new ConfigHelper(WatheExtendedClientConfig.class, "client.json");
 
-    private WatheExtendedClientConfig() {}
+  // HUD
+  public static boolean showChatDuringGame = true;
+  // Visuals
+  public static boolean showWatheHud = true;
+  public static boolean showSnowflakes = true;
+  public static boolean showFog = true;
+  // Instinct
+  public static String instinctMode = "HOLD";
+  public static String proneMode = "TOGGLE";
+  public static String instinctHudStyle = "HALF_LEFT";
+  public static float instinctHudOpacity = 0.25f;
+  public static boolean alwaysShowInstinctHud = false;
 
-    public static void load() {
-        if (!CONFIG_FILE.exists()) {
-            save();
-            return;
-        }
-        ClientConfig.Reader reader = ClientConfig.reader(CONFIG_FILE);
-        showChatDuringGame = reader.getBool("hud.showChatDuringGame", true);
-        instinctMode = normalizeInstinctMode(reader.getString("instinct.mode", "HOLD"));
-        instinctHudStyle = normalizeInstinctHudStyle(reader.getString("instinct.hudStyle", "HALF_LEFT"));
-        instinctHudOpacity = normalizeInstinctHudOpacity(reader.getFloat("instinct.hudOpacity", 0.25f));
-        alwaysShowInstinctHud = reader.getBool("instinct.alwaysShowHud", false);
-        showWatheHud = reader.getBool("visuals.hud", true);
-        showSnowflakes = reader.getBool("visuals.snowflakes", true);
-        showFog = reader.getBool("visuals.fog", true);
-    }
+  private WatheExtendedClientConfig() {}
 
-    public static void save() {
-        try {
-            CONFIG_FILE.getParentFile().mkdirs();
-            String content =
-                    "{\n" +
-                            "  \"hud\": {\n" +
-                            "    // Show the chat HUD.\n" +
-                            "    // Non-OP players will still be restricted to send messages and commands while a game is active.\n" +
-                            "    \"showChatDuringGame\": " + showChatDuringGame + "\n" +
-                            "  },\n" +
-                            "  \"visuals\": {\n" +
-                            "    // Show Wathe's custom HUD elements.\n" +
-                            "    \"hud\": " + showWatheHud + ",\n" +
-                            "    // Show Wathe's custom snowflake particles.\n" +
-                            "    \"snowflakes\": " + showSnowflakes + ",\n" +
-                            "    // Show Wathe's custom fog.\n" +
-                            "    \"fog\": " + showFog + "\n" +
-                            "  },\n" +
-                            "  \"instinct\": {\n" +
-                            "    // How the Instinct keybind is activated.\n" +
-                            "    \"mode\": \"" + instinctMode + "\",\n" +
-                            "    // Shape of the Instinct charge HUD.\n" +
-                            "    \"hudStyle\": \"" + instinctHudStyle + "\",\n" +
-                            "    // HUD opacity, from 0.0 (transparent) to 1.0 (opaque).\n" +
-                            "    \"hudOpacity\": " + instinctHudOpacity + ",\n" +
-                            "    // Keep the Instinct HUD visible while Instinct is available.\n" +
-                            "    \"alwaysShowHud\": " + alwaysShowInstinctHud + "\n" +
-                            "  }\n" +
-                            "}\n";
-            Files.writeString(CONFIG_FILE.toPath(), content);
-        } catch (IOException ignored) {
-        }
-    }
+  public static void load() {
+    CONFIG.load();
+  }
 
-    public static boolean getShowChatDuringGame() {
-        return showChatDuringGame;
-    }
+  public static void save() {
+    CONFIG.save();
+  }
 
-    public static void setShowChatDuringGame(boolean value) {
-        showChatDuringGame = value;
-        save();
-    }
+  public static Set<String> keys() {
+    return CONFIG.keys();
+  }
 
-    public static String getInstinctMode() {
-        return instinctMode;
-    }
+  /** Returns the current value of an option, or {@code null} if it doesn't exist */
+  public static Object get(String name) {
+    return CONFIG.get(name);
+  }
 
-    public static void setInstinctMode(String value) {
-        instinctMode = normalizeInstinctMode(value);
-        WatheExtendedClient.resetInstinctToggle();
-        save();
-    }
+  /**
+   * Sets an option and saves the config. Any {@link Number} is converted to the field's numeric
+   * type. Range validation is left to the YACL screen
+   *
+   * @return {@code false} if the option doesn't exist or the value has the wrong type
+   */
+  public static boolean set(String name, Object value) {
+    boolean changed = CONFIG.set(name, value);
+    if (changed && "instinctMode".equals(name)) WatheExtendedClient.resetInstinctToggle();
+    if (changed && "proneMode".equals(name)) WatheExtendedClient.resetProneToggle();
+    return changed;
+  }
 
-    public static boolean isInstinctToggleMode() {
-        return "TOGGLE".equals(instinctMode);
-    }
+  public static boolean isInstinctToggleMode() {
+    return "TOGGLE".equalsIgnoreCase(instinctMode);
+  }
 
-    public static String getInstinctHudStyle() {
-        return instinctHudStyle;
-    }
-
-    public static void setInstinctHudStyle(String value) {
-        instinctHudStyle = normalizeInstinctHudStyle(value);
-        save();
-    }
-
-    public static boolean getShowWatheHud() {
-        return showWatheHud;
-    }
-
-    public static void setShowWatheHud(boolean value) {
-        showWatheHud = value;
-        save();
-    }
-
-    public static boolean getShowSnowflakes() {
-        return showSnowflakes;
-    }
-
-    public static void setShowSnowflakes(boolean value) {
-        showSnowflakes = value;
-        save();
-    }
-
-    public static boolean getShowFog() {
-        return showFog;
-    }
-
-    public static void setShowFog(boolean value) {
-        showFog = value;
-        save();
-    }
-
-    public static float getInstinctHudOpacity() {
-        return instinctHudOpacity;
-    }
-
-    public static void setInstinctHudOpacity(float value) {
-        instinctHudOpacity = normalizeInstinctHudOpacity(value);
-        save();
-    }
-
-    public static boolean getAlwaysShowInstinctHud() {
-        return alwaysShowInstinctHud;
-    }
-
-    public static void setAlwaysShowInstinctHud(boolean value) {
-        alwaysShowInstinctHud = value;
-        save();
-    }
-
-    private static String normalizeInstinctMode(String value) {
-        return "TOGGLE".equalsIgnoreCase(value) ? "TOGGLE" : "HOLD";
-    }
-
-    private static String normalizeInstinctHudStyle(String value) {
-        if ("HALF_LEFT".equalsIgnoreCase(value)) return "HALF_LEFT";
-        if ("HALF_RIGHT".equalsIgnoreCase(value)) return "HALF_RIGHT";
-        return "FULL";
-    }
-
-    private static float normalizeInstinctHudOpacity(float value) {
-        return Math.clamp(value, 0.0f, 1.0f);
-    }
+  public static boolean isProneToggleMode() {
+    return "TOGGLE".equalsIgnoreCase(proneMode);
+  }
 }

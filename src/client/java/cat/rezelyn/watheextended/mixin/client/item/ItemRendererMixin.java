@@ -16,11 +16,25 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(ItemRenderer.class)
 public abstract class ItemRendererMixin {
-    @ModifyVariable(method = "renderItem", at = @At(value = "HEAD"), argsOnly = true)
-    public BakedModel useRubyStaffModel(BakedModel value, ItemStack stack, ModelTransformationMode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        if (stack.isOf(WatheExtendedItems.GUIDEBOOK) && renderMode != ModelTransformationMode.GUI) {
-            return ((ItemRendererAccessor) this).watheextended$getModels().getModelManager().getModel(new ModelIdentifier(Identifier.of(WatheExtended.MOD_ID, "guidebook_3d"), "inventory"));
-        }
-        return value;
+
+  @ModifyVariable(method = "renderItem", at = @At(value = "HEAD"), argsOnly = true)
+  public BakedModel useRubyStaffModel(
+      BakedModel value,
+      ItemStack stack,
+      ModelTransformationMode renderMode,
+      boolean leftHanded,
+      MatrixStack matrices,
+      VertexConsumerProvider vertexConsumers,
+      int light,
+      int overlay) {
+    if (stack.isOf(WatheExtendedItems.GUIDEBOOK) && renderMode != ModelTransformationMode.GUI) {
+      return ((ItemRendererAccessor) this)
+          .watheextended$getModels()
+          .getModelManager()
+          .getModel(
+              new ModelIdentifier(
+                  Identifier.of(WatheExtended.MOD_ID, "guidebook_3d"), "inventory"));
     }
+    return value;
+  }
 }

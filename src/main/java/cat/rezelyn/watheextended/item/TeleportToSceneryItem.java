@@ -16,39 +16,47 @@ import net.minecraft.world.World;
 
 public class TeleportToSceneryItem extends Item {
 
-    public TeleportToSceneryItem(Settings settings) {
-        super(settings);
+  public TeleportToSceneryItem(Settings settings) {
+    super(settings);
+  }
+
+  @Override
+  public Text getName(ItemStack stack) {
+    return super.getName(stack).copy().setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x55AAFF)));
+  }
+
+  @Override
+  public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+    ItemStack stack = user.getStackInHand(hand);
+
+    if (world.isClient()) {
+      return TypedActionResult.pass(stack);
+    }
+    if (GameStatus.State(world)) {
+      return TypedActionResult.fail(stack);
     }
 
-    @Override
-    public Text getName(ItemStack stack) {
-        return super.getName(stack).copy().setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0x55AAFF)));
+    if (!(user instanceof ServerPlayerEntity serverPlayer)) {
+      return TypedActionResult.pass(stack);
     }
 
-    @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        ItemStack stack = user.getStackInHand(hand);
-
-        if (world.isClient()) {
-            return TypedActionResult.pass(stack);
-        }
-        if (GameStatus.State(world)) {
-            return TypedActionResult.fail(stack);
-        }
-
-        if (!(user instanceof ServerPlayerEntity serverPlayer)) {
-            return TypedActionResult.pass(stack);
-        }
-
-        if (!user.isCreative() || !serverPlayer.hasPermissionLevel(2)) {
-            return TypedActionResult.fail(stack);
-        }
-
-        MapVariablesWorldComponent.PosWithOrientation destination = MapVariablesWorldComponent.KEY.get(world).getSpectatorSpawnPos();
-
-        TeleportTarget target = new TeleportTarget(serverPlayer.getServerWorld(), destination.pos, net.minecraft.util.math.Vec3d.ZERO, destination.yaw, destination.pitch, TeleportTarget.NO_OP);
-        serverPlayer.teleportTo(target);
-
-        return TypedActionResult.success(stack);
+    if (!user.isCreative() || !serverPlayer.hasPermissionLevel(2)) {
+      return TypedActionResult.fail(stack);
     }
+
+    MapVariablesWorldComponent.PosWithOrientation destination =
+        MapVariablesWorldComponent.KEY.get(world).getSpectatorSpawnPos();
+
+    TeleportTarget target =
+        new TeleportTarget(
+            serverPlayer.getServerWorld(),
+            destination.pos,
+            net.minecraft.util.math.Vec3d.ZERO,
+            destination.yaw,
+            destination.pitch,
+            TeleportTarget.NO_OP);
+    serverPlayer.teleportTo(target);
+
+    return TypedActionResult.success(stack);
+  }
 }

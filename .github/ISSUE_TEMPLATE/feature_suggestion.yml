@@ -1,0 +1,53 @@
+name: Suggestion or Feature request
+description: Suggest a new feature, or a change to existing gameplay or balance
+title: "[Suggestion] "
+labels:
+  - Enhancement
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Read CONTRIBUTORS.md before submitting. Suggestions must fit The Harpy Express: Extended modpack.
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched open and closed issues and found no duplicate.
+          required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What problem does this solve, or what is missing? Describe the problem, not only the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: proposed-change
+    attributes:
+      label: Proposed change
+      description: Describe the feature or change in detail.
+    validations:
+      required: true
+  - type: textarea
+    id: affected-content
+    attributes:
+      label: Affected content
+      description: Which roles, modifiers, items, or systems are affected? Which sides are impacted (Civilians, Killers, Neutrals)?
+    validations:
+      required: true
+  - type: textarea
+    id: configuration
+    attributes:
+      label: Configuration
+      description: Should server owners be able to adjust this? If so, list the options you would expect.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What other approaches did you consider, and why do you prefer this one?
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Mockups, examples, or anything else that helps.

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+        "model": "watheextended:block/owny_plush",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "watheextended:block/owny_plush"
+    },
+    "facing=south": {
+      "model": "watheextended:block/owny_plush",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "watheextended:block/owny_plush",
+      "y": 270
+    }
+  }
+}

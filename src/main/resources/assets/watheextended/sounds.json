@@ -1,23 +1,57 @@
 {
   "guidebook.open": {
-    "sounds": [ "watheextended:open_book" ]
+    "sounds": [
+      "watheextended:open_book"
+    ]
   },
   "guidebook.close": {
-    "sounds": [ "watheextended:close_book" ]
+    "sounds": [
+      "watheextended:close_book"
+    ]
   },
   "guidebook.page": {
-    "sounds": [ "watheextended:page_book" ]
+    "sounds": [
+      "watheextended:page_book"
+    ]
   },
   "ish.plush": {
-    "sounds": [ "watheextended:ish_plush" ]
+    "sounds": [
+      "watheextended:ish_plush"
+    ]
+  },
+  "jochois.plush": {
+    "sounds": [
+      "watheextended:jochois_plush"
+    ]
+  },
+  "owny.plush": {
+    "sounds": [
+      "watheextended:owny_plush"
+    ]
+  },
+  "rezelyn.plush": {
+    "sounds": [
+      "watheextended:rezelyn_plush"
+    ]
+  },
+  "naganeki.plush": {
+    "sounds": [
+      "watheextended:naganeki_plush"
+    ]
   },
   "instinct.in": {
-    "sounds": [ "watheextended:instinct_in" ]
+    "sounds": [
+      "watheextended:instinct_in"
+    ]
   },
   "instinct.out": {
-    "sounds": [ "watheextended:instinct_out" ]
+    "sounds": [
+      "watheextended:instinct_out"
+    ]
   },
   "instinct.loop": {
-    "sounds": [ "watheextended:instinct_loop" ]
+    "sounds": [
+      "watheextended:instinct_loop"
+    ]
   }
 }

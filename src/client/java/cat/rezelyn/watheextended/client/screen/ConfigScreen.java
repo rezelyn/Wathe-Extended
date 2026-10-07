@@ -1,10 +1,11 @@
 package cat.rezelyn.watheextended.client.screen;
 
-import cat.rezelyn.watheextended.api.config.ClientConfig;
-import cat.rezelyn.watheextended.api.config.ServerConfig;
 import cat.rezelyn.watheextended.client.screen.config.*;
-import cat.rezelyn.watheextended.game.PresetManager;
+import cat.rezelyn.watheextended.network.ClientConfig;
+import cat.rezelyn.watheextended.network.PresetManager;
+import cat.rezelyn.watheextended.network.ServerConfig;
 import dev.isxander.yacl3.api.YetAnotherConfigLib;
+import java.util.*;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
@@ -13,177 +14,189 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.text.Text;
 
-import java.util.*;
-
 public final class ConfigScreen {
 
-    private static final Map<String, String> pendingChanges = new HashMap<>();
-    private static final Map<String, Boolean> pendingRoleState = new HashMap<>();
-    private static final Map<String, Boolean> pendingModifierState = new HashMap<>();
-    private static List<PresetManager.PresetMetadata> presets = List.of();
+  private static final Map<String, String> pendingChanges = new HashMap<>();
+  private static final Map<String, Boolean> pendingRoleState = new HashMap<>();
+  private static final Map<String, Boolean> pendingModifierState = new HashMap<>();
+  // roles that shouldn't be shown in the config screen
+  // as these are needed by WATHE to function properly and so are not meant to be disabled
+  private static final Set<String> DENYLIST =
+      Set.of(
+          "civilian", // default role from the base map effect
+          "killer", // default role from the base map effect
+          "vigilante", // default role from the base map effect
+          "discovery_civilian", // used in the discovery map effect
+          "loose_end", // used in the loose end map effect
+          "secret_killer" // used in the special murder-only round, same as killer
+          );
+  private static final int REOPEN_DELAY_TICKS = 3;
+  private static List<PresetManager.PresetMetadata> presets = List.of();
+  private static Screen savedParent = null;
+  private static boolean awaitingSync = false;
+  private static int reopenAtTick = -1;
+  private static int clientTick = 0;
 
-    // roles that shouldn't be shown in the config screen
-    // as these are needed by WATHE to function properly and so are not meant to be disabled
-    private static final Set<String> DENYLIST = Set.of(
-            "civilian",           // default role from the base map effect
-            "killer",             // default role from the base map effect
-            "vigilante",          // default role from the base map effect
-            "discovery_civilian", // used in the discovery map effect
-            "loose_end",          // used in the loose end map effect
-            "secret_killer"       // used in the special murder-only round, same as killer
-    );
-
-    private static Screen savedParent = null;
-    private static boolean awaitingSync = false;
-
-    private static final int REOPEN_DELAY_TICKS = 3;
-    private static int reopenAtTick = -1;
-    private static int clientTick = 0;
-
-    public static void registerTickHandler() {
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            clientTick++;
-            if (reopenAtTick >= 0 && clientTick >= reopenAtTick && client.currentScreen == null) {
-                reopenAtTick = -1;
-                Screen parent = savedParent;
-                client.setScreen(create(parent));
-            }
+  public static void registerTickHandler() {
+    ClientTickEvents.END_CLIENT_TICK.register(
+        client -> {
+          clientTick++;
+          if (reopenAtTick >= 0 && clientTick >= reopenAtTick && client.currentScreen == null) {
+            reopenAtTick = -1;
+            Screen parent = savedParent;
+            client.setScreen(create(parent));
+          }
         });
+  }
+
+  public static Screen create(Screen parent) {
+    savedParent = parent;
+    pendingChanges.clear();
+    awaitingSync = false;
+    reopenAtTick = -1;
+
+    boolean op = isOp();
+
+    YetAnotherConfigLib.Builder builder =
+        YetAnotherConfigLib.createBuilder()
+            .title(Text.translatable("gui.watheextended.config.title"))
+            .category(ClientCategory.build(parent, op, ConfigScreen::stageCommand))
+            .save(ConfigScreen::flushPendingChanges);
+
+    if (op) {
+      builder.category(GameCategory.build(parent, ConfigScreen::stageCommand));
+      builder.category(MapCategory.build(parent, ConfigScreen::stageCommand));
+      builder.category(ItemsCategory.build(parent, ConfigScreen::stageCommand));
+      builder.category(
+          RolesCategory.build(parent, DENYLIST, pendingRoleState, ConfigScreen::stageCommand));
+      builder.category(
+          ModifiersCategory.build(parent, pendingModifierState, ConfigScreen::stageCommand));
+      builder.category(PresetsCategory.build(parent, presets));
     }
 
-    public static Screen create(Screen parent) {
-        savedParent = parent;
-        pendingChanges.clear();
-        awaitingSync = false;
-        reopenAtTick = -1;
+    return builder.build().generateScreen(parent);
+  }
 
-        boolean op = isOp();
+  public static void clearPendingState() {
+    pendingChanges.clear();
+    pendingRoleState.clear();
+    pendingModifierState.clear();
+    savedParent = null;
+    awaitingSync = false;
+    reopenAtTick = -1;
+    presets = List.of();
+  }
 
-        YetAnotherConfigLib.Builder builder = YetAnotherConfigLib.createBuilder()
-                .title(Text.translatable("gui.watheextended.config.title"))
-                .category(ClientCategory.build(parent, op, ConfigScreen::stageCommand))
-                .save(ConfigScreen::flushPendingChanges);
+  public static void requestPresetList() {
+    ClientPlayNetworking.send(new PresetManager.ActionPayload("list", "", "", ""));
+  }
 
-        if (op) {
-            builder.category(GameCategory.build(parent, ConfigScreen::stageCommand));
-            builder.category(MapCategory.build(parent, ConfigScreen::stageCommand));
-            builder.category(ItemsCategory.build(parent, ConfigScreen::stageCommand));
-            builder.category(RolesCategory.build(parent, DENYLIST, pendingRoleState, ConfigScreen::stageCommand));
-            builder.category(ModifiersCategory.build(parent, pendingModifierState, ConfigScreen::stageCommand));
-            builder.category(PresetsCategory.build(parent, presets));
+  public static void requestPresetSave(String name, String description) {
+    ClientPlayNetworking.send(new PresetManager.ActionPayload("save", "", name, description));
+  }
+
+  public static void requestPresetLoad(String id) {
+    ClientPlayNetworking.send(new PresetManager.ActionPayload("load", id, "", ""));
+  }
+
+  public static void confirmPresetOverride(String id, String name, Screen screen) {
+    MinecraftClient client = MinecraftClient.getInstance();
+    client.setScreen(
+        new ConfirmScreen(
+            confirmed -> {
+              if (confirmed)
+                ClientPlayNetworking.send(new PresetManager.ActionPayload("override", id, "", ""));
+              client.setScreen(screen);
+            },
+            Text.translatable("gui.watheextended.config.category.presets.override"),
+            Text.translatable("gui.watheextended.config.category.presets.override.confirm", name)));
+  }
+
+  public static void confirmPresetDelete(String id, String name, Screen screen) {
+    MinecraftClient client = MinecraftClient.getInstance();
+    client.setScreen(
+        new ConfirmScreen(
+            confirmed -> {
+              if (confirmed)
+                ClientPlayNetworking.send(new PresetManager.ActionPayload("delete", id, "", ""));
+              client.setScreen(screen);
+            },
+            Text.translatable("gui.watheextended.config.category.presets.delete"),
+            Text.translatable("gui.watheextended.config.category.presets.delete.confirm", name)));
+  }
+
+  public static void onPresetList(PresetManager.ListPayload payload) {
+    presets = PresetManager.fromNbt(payload.data());
+    MinecraftClient client = MinecraftClient.getInstance();
+    if (savedParent != null && client.currentScreen != null) {
+      client.setScreen(create(savedParent));
+    }
+  }
+
+  public static void onPresetResult(PresetManager.ResultPayload payload) {
+    if (payload.success()) requestPresetList();
+  }
+
+  public static void onCacheUpdated() {
+    if (!awaitingSync) return;
+    awaitingSync = false;
+    reopenAtTick = clientTick + REOPEN_DELAY_TICKS;
+  }
+
+  private static boolean isOp() {
+    ClientPlayerEntity player = MinecraftClient.getInstance().player;
+    return player != null && player.hasPermissionLevel(2);
+  }
+
+  static void stageCommand(String command, Screen currentScreen) {
+    try {
+      MinecraftClient client = MinecraftClient.getInstance();
+      ClientPlayerEntity player = client.player;
+      if (player == null) return;
+
+      int space = command.indexOf(' ');
+      if (space > 0) {
+        String key = command.substring(0, space);
+        String value = command.substring(space + 1);
+        if (key.contains(".") && !key.contains(":")) {
+          pendingChanges.put(key, value);
+        } else {
+          pendingChanges.put("cmd:" + command, "");
         }
-
-        return builder.build().generateScreen(parent);
+      } else {
+        pendingChanges.put("cmd:" + command, "");
+      }
+    } catch (Throwable ignored) {
     }
+  }
 
-    public static void clearPendingState() {
-        pendingChanges.clear();
-        pendingRoleState.clear();
-        pendingModifierState.clear();
-        savedParent = null;
-        awaitingSync = false;
-        reopenAtTick = -1;
-        presets = List.of();
+  private static void flushPendingChanges() {
+    if (!pendingRoleState.isEmpty()) {
+      List<String> disabled = new ArrayList<>(ClientConfig.getStringList("hml.disabled"));
+      pendingRoleState.forEach(
+          (id, enabled) -> {
+            if (enabled) disabled.remove(id);
+            else if (!disabled.contains(id)) disabled.add(id);
+          });
+      pendingChanges.put("hml.disabled", String.join(",", disabled));
     }
-
-    public static void requestPresetList() {
-        ClientPlayNetworking.send(new PresetManager.ActionPayload("list", "", "", ""));
+    if (!pendingModifierState.isEmpty()) {
+      List<String> disabled = new ArrayList<>(ClientConfig.getStringList("hml.disabledModifiers"));
+      pendingModifierState.forEach(
+          (id, enabled) -> {
+            if (enabled) disabled.remove(id);
+            else if (!disabled.contains(id)) disabled.add(id);
+          });
+      pendingChanges.put("hml.disabledModifiers", String.join(",", disabled));
     }
-
-    public static void requestPresetSave(String name, String description) {
-        ClientPlayNetworking.send(new PresetManager.ActionPayload("save", "", name, description));
+    if (pendingChanges.isEmpty()) return;
+    try {
+      ClientPlayNetworking.send(new ServerConfig.ChangePayload(new HashMap<>(pendingChanges)));
+      pendingChanges.clear();
+      awaitingSync = true;
+      MinecraftClient client = MinecraftClient.getInstance();
+      if (client != null) client.execute(() -> client.setScreen(null));
+    } catch (Throwable ignored) {
     }
-
-    public static void requestPresetLoad(String id) {
-        ClientPlayNetworking.send(new PresetManager.ActionPayload("load", id, "", ""));
-    }
-
-    public static void confirmPresetOverride(String id, String name, Screen screen) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        client.setScreen(new ConfirmScreen(confirmed -> {
-            if (confirmed) ClientPlayNetworking.send(new PresetManager.ActionPayload("override", id, "", ""));
-            client.setScreen(screen);
-        }, Text.translatable("gui.watheextended.config.category.presets.override"), Text.translatable("gui.watheextended.config.category.presets.override.confirm", name)));
-    }
-
-    public static void confirmPresetDelete(String id, String name, Screen screen) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        client.setScreen(new ConfirmScreen(confirmed -> {
-            if (confirmed) ClientPlayNetworking.send(new PresetManager.ActionPayload("delete", id, "", ""));
-            client.setScreen(screen);
-        }, Text.translatable("gui.watheextended.config.category.presets.delete"), Text.translatable("gui.watheextended.config.category.presets.delete.confirm", name)));
-    }
-
-    public static void onPresetList(PresetManager.ListPayload payload) {
-        presets = PresetManager.fromNbt(payload.data());
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (savedParent != null && client.currentScreen != null) {
-            client.setScreen(create(savedParent));
-        }
-    }
-
-    public static void onPresetResult(PresetManager.ResultPayload payload) {
-        if (payload.success()) requestPresetList();
-    }
-
-    public static void onCacheUpdated() {
-        if (!awaitingSync) return;
-        awaitingSync = false;
-        reopenAtTick = clientTick + REOPEN_DELAY_TICKS;
-    }
-
-    private static boolean isOp() {
-        ClientPlayerEntity player = MinecraftClient.getInstance().player;
-        return player != null && player.hasPermissionLevel(2);
-    }
-
-    static void stageCommand(String command, Screen currentScreen) {
-        try {
-            MinecraftClient client = MinecraftClient.getInstance();
-            ClientPlayerEntity player = client.player;
-            if (player == null) return;
-
-            int space = command.indexOf(' ');
-            if (space > 0) {
-                String key = command.substring(0, space);
-                String value = command.substring(space + 1);
-                if (key.contains(".") && !key.contains(":")) {
-                    pendingChanges.put(key, value);
-                } else {
-                    pendingChanges.put("cmd:" + command, "");
-                }
-            } else {
-                pendingChanges.put("cmd:" + command, "");
-            }
-        } catch (Throwable ignored) {
-        }
-    }
-
-    private static void flushPendingChanges() {
-        if (!pendingRoleState.isEmpty()) {
-            List<String> disabled = new ArrayList<>(ClientConfig.getStringList("hml.disabled"));
-            pendingRoleState.forEach((id, enabled) -> {
-                if (enabled) disabled.remove(id);
-                else if (!disabled.contains(id)) disabled.add(id);
-            });
-            pendingChanges.put("hml.disabled", String.join(",", disabled));
-        }
-        if (!pendingModifierState.isEmpty()) {
-            List<String> disabled = new ArrayList<>(ClientConfig.getStringList("hml.disabledModifiers"));
-            pendingModifierState.forEach((id, enabled) -> {
-                if (enabled) disabled.remove(id);
-                else if (!disabled.contains(id)) disabled.add(id);
-            });
-            pendingChanges.put("hml.disabledModifiers", String.join(",", disabled));
-        }
-        if (pendingChanges.isEmpty()) return;
-        try {
-            ClientPlayNetworking.send(new ServerConfig.ChangePayload(new HashMap<>(pendingChanges)));
-            pendingChanges.clear();
-            awaitingSync = true;
-            MinecraftClient client = MinecraftClient.getInstance();
-            if (client != null) client.execute(() -> client.setScreen(null));
-        } catch (Throwable ignored) {
-        }
-    }
+  }
 }

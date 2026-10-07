@@ -1,6 +1,6 @@
 <div align="center">
 
-![Wathe: Extended](https://shieldcn.dev/header/transparent.svg?title=Wathe%3A+Extended&subtitle=Add-on+mod+for+Wathe%3A+Murder+Mystery&size=wide&mode=dark&border=false&image=https%3A%2F%2Fraw.githubusercontent.com%2Frezelyn%2FWathe-Extended%2Frefs%2Fheads%2Fmain%2Fsrc%2Fmain%2Fresources%2Fassets%2Fwatheextended%2Ficon.png&brand=modrinth)
+[![Wathe: Extended](https://shieldcn.dev/header/transparent.svg?title=Wathe%3A+Extended&subtitle=Add-on+mod+for+Wathe%3A+Murder+Mystery&size=wide&mode=dark&border=false&image=https%3A%2F%2Fraw.githubusercontent.com%2Frezelyn%2FWathe-Extended%2Frefs%2Fheads%2Fmain%2Fsrc%2Fmain%2Fresources%2Fassets%2Fwatheextended%2Ficon.png&brand=modrinth)](https://modrinth.com/mod/wathe-extended)
 
 [![GitHub Stars](https://shieldcn.dev/github/rezelyn/Wathe-Extended/stars.svg?variant=outline&size=sm&font=jetbrains-mono&logo=ri%3AFaStar&label=Stars&gap=8&labelGap=8)](https://github.com/rezelyn/Wathe-Extended)
 [![GitHub Issues](https://shieldcn.dev/github/rezelyn/Wathe-Extended/issues.svg?variant=outline&size=sm&font=jetbrains-mono&logo=ri%3AFaRegDotCircle&label=Issues&gap=8&labelGap=8)](https://github.com/rezelyn/Wathe-Extended/issues)
@@ -10,73 +10,94 @@
 <br> <picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/github/last-commit/rezelyn/Wathe-Extended.svg?variant=ghost&amp;size=xs&amp;mode=dark&amp;font=jetbrains-mono"><img alt="Last commit" src="https://www.shieldcn.dev/github/last-commit/rezelyn/Wathe-Extended.svg?variant=ghost&amp;size=xs&amp;mode=light&amp;font=jetbrains-mono"></picture>
 <picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/github/commits/rezelyn/Wathe-Extended.svg?variant=ghost&amp;size=xs&amp;mode=dark&amp;font=jetbrains-mono"><img alt="Commits" src="https://www.shieldcn.dev/github/commits/rezelyn/Wathe-Extended.svg?variant=ghost&amp;size=xs&amp;mode=light&amp;font=jetbrains-mono"></picture>
 
----
-
-⚠️ **Core mod of [The Harpy Express: Extended](https://modrinth.com/modpack/the-harpy-express-extended) modpack outside which, isn't intended to be played with** ⚠️
-<br> Using this mod outside the modpack is not recommended; you are free to do so, but at your own risk.
-<br> Support requests or issues reported by users who choose to use the mod outside the base modpack will be ignored.
-
----
-
 </div>
 
-<details><summary>Roles</summary>
+> [!CAUTION]
+> **Core mod of [The Harpy Express: Extended](https://modrinth.com/modpack/the-harpy-express-extended) modpack outside which, isn't intended to be played with!**
+> <br> Using this mod outside the modpack is not recommended; you are free to do so, but at your own risk.
+> <br> Support requests or issues reported by users who choose to use the mod outside the base modpack will be ignored.
 
-Soon™
+## Roles
 
-</details>
+|   Name    | Side  | Description |
+|:---------:|:-----:|:-----------:|
+| **Soon™** | Soon™ |   *Soon™*   |
 
-<details><summary>Modifiers</summary>
+## Modifiers
 
-|         Name         |           Side            |                                                                                                                                                                          Description                                                                                                                                                                          |
-|:--------------------:|:-------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-|   **Introverted**    |     Innocent/Neutral      |                                                                                               When more than X players are nearby (configurable crowd count + range), mood drains faster. When alone or with only one other player nearby, mood drains slower.                                                                                                |
-|      **Taxed**       |          Killer           |                                                                                                             If a killer exceeds a configurable kill count within a rolling time window, their kill income is reduced by a configurable fraction.                                                                                                              |
-|     **Adaptive**     |          Killer           |                                                                                                      Repeating the same kill method consecutively applies an income penalty. Switching to a different kill method consecutively grants an income bonus.                                                                                                       |
-| **Forbidden Lovers** | Innocent + Neutral/Killer | An alternative way on how the Lovers modifier from [Stupid Express](https://modrinth.com/mod/stupid-express) will work in-game, the lovers will always consist of a civilian/neutral and a killer, the Forbidden Lovers wins by surviving together until the end of the game. Turning this option on will also decrease the chances of lovers being assigned. |
+|         Name         |           Side            |                                                                                                                                                                           Description                                                                                                                                                                           |
+|:--------------------:|:-------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|   **Introverted**    |     Innocent/Neutral      |                                                                                               *When more than X players are nearby (configurable crowd count + range), mood drains faster. When alone or with only one other player nearby, mood drains slower.*                                                                                                |
+|      **Taxed**       |          Killer           |                                                                                                             *If a killer exceeds a configurable kill count within a rolling time window, their kill income is reduced by a configurable fraction.*                                                                                                              |
+|     **Adaptive**     |          Killer           |                                                                                                      *Repeating the same kill method consecutively applies an income penalty. Switching to a different kill method consecutively grants an income bonus.*                                                                                                       |
+| **Forbidden Lovers** | Innocent + Neutral/Killer | *An alternative way on how the Lovers modifier from [Stupid Express](https://modrinth.com/mod/stupid-express) will work in-game, the lovers will always consist of a civilian/neutral and a killer, the Forbidden Lovers wins by surviving together until the end of the game. Turning this option on will also decrease the chances of lovers being assigned.* |
 
-</details>
-
-
-### Gameplay Balancing & Customizability
-Wathe: Extended aims to improve the overall gameplay experience and accessibility of [Wathe: Murder Mystery](https://modrinth.com/mod/wathe) *(and some others add-ons)* by listening to players feedback, it has a lot of new features to make the game more balanced, enjoyable and easily customizable for any types of players:
+## Gameplay Balancing & Customizability
+Wathe: Extended aims to improve the overall gameplay experience and accessibility of [Wathe: Murder Mystery](https://modrinth.com/mod/wathe) *(and some others add-ons)* by listening to players feedback, it has a lot of new features to make the game more balanced, enjoyable and easily customizable for any types of players, here's some of them:
 - `Player Collisions`
   > Default Wathe forces players to collide with each other, this game rule totally disables this, letting the vanilla collisions, could be useful for custom maps.
 - `Item Bounds Check`
   > Items that falls out of the play area boundaries during an active game are automatically teleported back to the nearest alive player or dead body.
 - `World Protection`
   > Prevents player interaction with containers, buttons, levers, trapdoors, doors, and other interactive blocks within the map variables areas, not recommended for custom maps that might use modded blocks/containers!
-- `Ability VFX/SFX Suppression`
-  > A global toggle that suppresses all ability visual and sound effects when being triggered to avoid players abusing this to clear themselves.
 - `Random Teleportation`
   > At game start, players in the ready area are each assigned a unique teleportation slot and teleported on it while the screen fades to black at the start of a game, making the start of the game somewhat balanced with players being spread.
-- `Cleaner Ability Player Limit`
-  > The ability of the **Cleaner** (from Kin's Wathe) will automatically be disabled when the number of alive survival players falls below a configurable threshold, preventing it from being overpowered in the late game when there are very few players left, ultimately soft-locking the remaining players to have a chance to win.
-- `Thief Stealable Items Compatibility`
-  > Allow the **Thief** (from Kin's Wathe) to steal more items: *Pan*, *Poison Injector*, *Blowgun*, *Pill*, *Delusion Vial*, *Defense Vial* and *Tape*.
+- `Customizable items Prices & Cooldowns`
+  > All items prices and cooldowns are now fully customizable, even for the supported add-ons, allowing for more balanced gameplay and better role/item synergy.
+- `Limited Instinct Mechanic`
+  > Replaces Wathe's default instinct mechanic with a new limited version, players can now only use their instinct for a limited amount of time, and it will regenerate over time, this prevents players from abusing it to constantly check for nearby players and their roles, making the game more balanced and strategic.
 
-### Configuration Screen
-A YACL configuration screen accessible from the pause menu that can be used to directly tweak the game that splits into six categories:
+<details>
+<summary>Add-on extras</summary>
+
+- `Ability VFX/SFX Suppression`
+  > A global toggle that suppresses all ability visual and sound effects when being triggered to avoid players abusing this to clear themselves.
+
+<details>
+<summary>Kin's Wathe</summary>
+
+- `Cleaner Ability Player Limit`
+  > The ability of the **Cleaner** will automatically be disabled when the number of alive survival players falls below a configurable threshold, preventing it from being overpowered in the late game when there are very few players left, ultimately soft-locking the remaining players to have a chance to win.
+
+</details>
+
+<details>
+<summary>Stupid Express</summary>
+
+- `Thief Stealable Items Compatibility`
+> Allow the **Thief** to steal more items: *Pan*, *Poison Injector*, *Blowgun*, *Pill*, *Delusion Vial*, *Defense Vial* and *Tape*.
+
+</details>
+
+</details>
+
+## Configuration Screen
+A YACL configuration screen accessible from the pause menu that can be used to directly tweak the game and some add-ons directly in-game, splits into these categories:
   - `CLIENT`
     > Client-side only settings such as keybindings, visual effects, personal pronouns...
-  - `GAME` (OP Only)
+  > [!NOTE]
+  > The following categories won't be shown to players that are not OP (Permission Level =< 2)
+  - `GAME`
     > Extra game rules and gameplay balancing settings, such as player collisions, ability VFX/SFX suppression, roles & modifiers dividends, economy settings...
-  - `MAP` (OP Only)
+  - `MAP`
     > Map-specific settings such as map variables, random teleportation state & slots, item bounds check, world protection...
-  - `ITEMS` (OP Only)
+  - `ITEMS`
     > Item-specific settings like prices, cooldowns, and item-specific effects.
-  - `ROLES` (OP Only)
+  - `ROLES`
     > Role-specific settings, control which roles are enabled/disabled, and tweak role-specific rules, abilities and more...
-  - `MODIFIERS` (OP Only)
+  - `MODIFIERS`
     > Modifier-specific settings, control which modifiers are enabled/disabled, and tweak modifier-specific rules, abilities and more...
+  - `PRESETS`
+    > Save and load configuration presets, allowing for quick switching between different game configurations.
 
-### Players Pronouns System
+## Players Pronouns System
 Displayed under the players username when a nearby player looks at them at close range.
-- **Players** can **set** their pronouns via the configuration screen or with the `/watheextended:pronouns set <pronouns>` command.
-- **OPs** can **clear** other player's pronouns if needed, using the `/watheextended:pronouns clear <target>` command.
-  > Pronouns are saved persistently in `config/watheextended/cache/pronouns.json` on the server and synced to all players via a custom network packet on join.
+> [!TIP]
+> - **Players** can **set** their pronouns via the configuration screen or with the `/watheextended:pronouns set <pronouns>` command.
+> - **OPs** can **clear** other player's pronouns if needed, using the `/watheextended:pronouns clear <target>` command.
+>  > Pronouns are saved persistently in `config/watheextended/cache/pronouns.json` on the server and synced to all players via a custom network packet on join.
 
-### Items & Blocks
+## Items & Blocks
 - **The Guidebook**
   <br> An in-game book item that replaces Wathe's Letter item, opens a custom GUI that contains three tabs:
   - `R0LES`
@@ -88,7 +109,7 @@ Displayed under the players username when a nearby player looks at them at close
 - **Panel block extra variants**
 - **Moquette color extra variants**
 - **Steel Ornament color extra variants**
-- **Ish Plush**
+- **Bunch of plushies of myself and my friends (and [Ish](https://www.youtube.com/@ish/)'s)**
 - **Creative items:**
 
   |            Item            |                                                   Description                                                   | Requires OP |
@@ -100,16 +121,12 @@ Displayed under the players username when a nearby player looks at them at close
   |    **Add Fake Players**    |             Spawns fake players for testing, requires [Carpet](https://modrinth.com/mod/carpet) mod             |     ✅      |
   |  **Remove Fake Players**   |           Kicks all fake players for testing, requires [Carpet](https://modrinth.com/mod/carpet) mod            |     ✅      |
 
-# Extras & Bug Fixes
+## Extras & Bug Fixes
 On top of what the mod adds, the mod also includes a number of bug fixes for issues that exist in Wathe and some of the add-ons, improving overall stability and gameplay experience.
 
 <details>
 <summary>Bug fixes list</summary>
 
-- `Defense Shield Hit Condition`
-  > The `AllowPlayerDeath` event is now properly fired before executing a kill, fixing cases where Defense Shields were bypassed (e.g. *Pill*, *Defense Vial*, *Dream Imprint*...), this also resolves problems with role conversion, which were happening when a player got git while having an active Defense Shield, triggering the role conversion even though the player haven't been killed (e.g. **Executioner**, **Initiates**...).
-- `Disabled Roles Conversion`
-  > If a role conversion condition triggers (e.g. **Executioner** succeeding, **Vulture** eating enough bodies, etc...), the affected player will now never convert to a role that is disabled in the current configuration the round is running on.
 - `Duplicate Revolver Pickup`
   > Players could previously pick up extra *Revolvers* by standing on one on the ground while holding a second one with their cursor in their inventory.
 - `Mood Component NBT Persistence`
@@ -118,28 +135,46 @@ On top of what the mod adds, the mod also includes a number of bug fixes for iss
   > Every single active effects from the past round (e.g. Poison, Infection, Invisibility...) are cleared from players when the game is in the stopping phase so it doesn't persist when back at the lobby.
 - `Gamemode Persistence When Reconnecting`
   > If a player gets killed during an ongoing game, then rejoins the server after disconnecting, they will be kept in Spectator instead of being revived.
+- `Defense Shield Hit Condition`
+  > The `AllowPlayerDeath` event is now properly fired before executing a kill, fixing cases where Defense Shields were bypassed (e.g. *Pill*, *Defense Vial*, *Dream Imprint*...), this also resolves problems with role conversion, which were happening when a player got hit while having an active Defense Shield, triggering the role conversion even though the player haven't been killed (e.g. **Executioner**, **Initiates**...).
+- `Disabled Roles Conversion`
+  > If a role conversion condition triggers (e.g. **Executioner** succeeding, **Vulture** eating enough bodies, etc...), the affected player will now never convert to a role that is disabled in the current configuration the round is running on.
 - `Inventory Row Layout`
   > Player-picker icons (e.g. **Morphling**, **Swapper**, **Voodoo**, ***Guesser***, **Bodymaker**...) are now arranged in wrapping rows based on screen width, preventing them from going off-screen when playing on servers with many players.
-- `Mods Conflicts and Fixes`
-  > - Fixed a crash caused by a conflict between [Wathe](https://modrinth.com/mod/wathe) and [Iris Shaders](https://modrinth.com/mod/iris) when certain specific shaders where used.
-  > - Fixed a crash caused by Stupid Express that would throw a `NullPointerException` from the Lovers HUD renderer during spectator mode, ultimately causing the client to crash if a lover died while a spectator was looking at them.
-  > - Fixed an issue in Noelle's Roles **Graverobber** modifier, it now displays correctly it's "Coroner" UI death information (time, reason, role) when inspecting a body.
-  > - Fixed a compatibility issue with the **Necromancer** role and it's player revival ability, players who got revived by the **Necromancer** now correctly receive all role-specific items for their newly assigned role.
 
+<details>
+<summary>Extras</summary>
+
+- Fixed a crash caused by a conflict between [Wathe](https://modrinth.com/mod/wathe) and [Iris Shaders](https://modrinth.com/mod/iris) when certain specific shaders where used.
+- Fixed an issue in Noelle's Roles **Graverobber** modifier, it now displays correctly it's "Coroner" UI death information (time, reason, role) when inspecting a body.
+- Fixed a compatibility issue with the **Necromancer** role, and it's player revival ability, players who got revived by the **Necromancer** now correctly receive all role-specific items for their newly assigned role.
+- Fixed/Reworked the **Dreamer** from Kin's Wathe imprint mechanic not working correctly, the Dreamer will now receive back its Dream Imprint item when the imprinted player successfuly gets hit and teleported to the **Dreamer**, fixing the Dreamer being softlocked when more than 1 player was needed to turn into a Killer.
+
+</details>
 </details>
 
 ---
 
-#### Credits
+## Credits
 
-[![doctor4t/wathe Contributors](https://shieldcn.dev/contributors/doctor4t/wathe.svg?title=Wathe%3A+Murder+Mystery&preset=transparent&size=80&names=true&align=left&limit=1&mode=dark&font=jetbrains-mono&border=false)](https://github.com/doctor4t/wathe/graphs/contributors)
-[![rezelyn/Wathe-Extended Contributors](https://shieldcn.dev/contributors/rezelyn/Wathe-Extended.svg?title=Wathe%3A+Extended&preset=transparent&size=80&names=true&align=left&mode=dark&font=jetbrains-mono&border=false)](https://github.com/rezelyn/Wathe-Extended/graphs/contributors)
+<div align="center">
 
-#### Special thanks
-- The **D.R. Harpy Transportation Ltd.** Discord server for being psychopaths
-- [@doctor4t](https://www.youtube.com/@doctor4t) and all the contributors who worked on making the original [The Last Voyage of the Harpy Express](https://modrinth.com/modpack/harpy-express) modpack and [Wathe: Murder Mystery](https://modrinth.com/mod/wathe).
+### Wathe: Extended
+[![rezelyn/Wathe-Extended Contributors](https://shieldcn.dev/contributors/rezelyn/Wathe-Extended.svg?title=+&preset=transparent&size=80&names=true&align=center&mode=dark&font=jetbrains-mono&border=false)](https://github.com/rezelyn/Wathe-Extended/graphs/contributors)
 
-#### Compatibility
+### Wathe: Murder Mystery
+[![doctor4t/wathe Contributors](https://shieldcn.dev/contributors/doctor4t/wathe.svg?title=+&preset=transparent&size=80&names=true&align=center&mode=dark&font=jetbrains-mono&border=false)](https://github.com/doctor4t/wathe/graphs/contributors)
+
+### Special thanks
+The **D.R. Harpy Transportation Ltd.** Discord server for being psychopaths
+
+[@doctor4t](https://www.youtube.com/@doctor4t) and all the contributors who worked on making the original [The Last Voyage of the Harpy Express](https://modrinth.com/modpack/harpy-express) modpack and [Wathe: Murder Mystery](https://modrinth.com/mod/wathe).
+
+</div>
+
+---
+
+## Compatibility
 
 |    | Mod                                                                                          | Author(s)                                                   |
 |:--:|:---------------------------------------------------------------------------------------------|:------------------------------------------------------------|
@@ -147,4 +182,5 @@ On top of what the mod adds, the mod also includes a number of bug fixes for iss
 | ✅ | [Stupid Express](https://modrinth.com/mod/stupid-express)                                    | [@flowingforever](https://modrinth.com/user/flowingforever) |
 | ✅ | [Starry Express](https://modrinth.com/mod/starexpress)                                       | [@AussieBox](https://modrinth.com/user/AussieBox)           |
 | ✅ | [Kin's Wathe](https://modrinth.com/mod/kinswathe)                                            | [@Bsxin](https://modrinth.com/user/Bsxin)                   |
+| ✅ | [Wathe Extra Items](https://modrinth.com/mod/watheextraitems)                                | [@NicholasCooke](https://modrinth.com/user/NicholasCooke)   |
 | ❌ | [More Shooter Punishements](https://modrinth.com/mod/harpy-express-more-shooter-punishments) | [@TheDeafCreeper](https://modrinth.com/user/TheDeafCreeper) |

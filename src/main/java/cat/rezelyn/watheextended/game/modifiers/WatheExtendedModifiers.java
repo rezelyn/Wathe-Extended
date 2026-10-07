@@ -1,0 +1,70 @@
+package cat.rezelyn.watheextended.game.modifiers;
+
+import cat.rezelyn.watheextended.WatheExtended;
+import dev.doctor4t.wathe.api.Role;
+import dev.doctor4t.wathe.api.WatheRoles;
+import java.util.ArrayList;
+import java.util.Set;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import org.agmas.harpymodloader.modifiers.HMLModifiers;
+import org.agmas.harpymodloader.modifiers.Modifier;
+
+public final class WatheExtendedModifiers {
+
+  // roles that should never receive the Introverted modifier
+  private static final Set<String> INTROVERTED_ROLE_DENYLIST =
+      Set.of(
+          "kinswathe:robot",
+          "kinswathe:dreamer",
+          "kinswathe:licensed_villain",
+          "stupid_express:thief",
+          "noellesroles:vulture",
+          "noellesroles:infected");
+  public static Modifier INTROVERTED;
+  public static Modifier TAXED;
+  public static Modifier ADAPTIVE;
+
+  private WatheExtendedModifiers() {}
+
+  public static void initialize() {
+    INTROVERTED =
+        HMLModifiers.registerModifier(
+            new Modifier(
+                WatheExtended.id("introverted"),
+                0x9B7FD4,
+                new ArrayList<>(),
+                new ArrayList<>(),
+                false,
+                true));
+    TAXED =
+        HMLModifiers.registerModifier(
+            new Modifier(
+                WatheExtended.id("taxed"),
+                0xFC8E26,
+                new ArrayList<>(),
+                new ArrayList<>(),
+                true,
+                false));
+    ADAPTIVE =
+        HMLModifiers.registerModifier(
+            new Modifier(
+                WatheExtended.id("adaptive"),
+                0x4FC978,
+                new ArrayList<>(),
+                new ArrayList<>(),
+                true,
+                false));
+
+    ServerLifecycleEvents.SERVER_STARTED.register(
+        server -> {
+          for (Role role : WatheRoles.ROLES) {
+            if (role != null
+                && role.identifier() != null
+                && INTROVERTED_ROLE_DENYLIST.contains(role.identifier().toString())
+                && !INTROVERTED.cannotBeAppliedTo.contains(role)) {
+              INTROVERTED.cannotBeAppliedTo.add(role);
+            }
+          }
+        });
+  }
+}

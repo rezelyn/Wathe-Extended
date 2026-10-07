@@ -4,54 +4,56 @@ import dev.doctor4t.wathe.cca.GameWorldComponent;
 import net.minecraft.world.World;
 
 public class GameStatus {
-    public static boolean State(World world) {
-        if (world == null) return false;
-        try {
-            GameWorldComponent game = GameWorldComponent.KEY.get(world);
-            GameWorldComponent.GameStatus status = game.getGameStatus();
-            return status == GameWorldComponent.GameStatus.ACTIVE || status == GameWorldComponent.GameStatus.STOPPING || status == GameWorldComponent.GameStatus.STARTING;
-        } catch (Throwable t) {
-            return false;
-        }
+  public static boolean State(World world) {
+    if (world == null) return false;
+    try {
+      GameWorldComponent game = GameWorldComponent.KEY.get(world);
+      GameWorldComponent.GameStatus status = game.getGameStatus();
+      return status == GameWorldComponent.GameStatus.ACTIVE
+          || status == GameWorldComponent.GameStatus.STOPPING
+          || status == GameWorldComponent.GameStatus.STARTING;
+    } catch (Throwable t) {
+      return false;
     }
+  }
 
-    public static boolean isActive(World world) {
-        if (world == null) return false;
-        try {
-            GameWorldComponent game = GameWorldComponent.KEY.get(world);
-            return game != null && game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE;
-        } catch (Throwable t) {
-            return false;
-        }
+  public static boolean isActive(World world) {
+    if (world == null) return false;
+    try {
+      GameWorldComponent game = GameWorldComponent.KEY.get(world);
+      return game != null && game.getGameStatus() == GameWorldComponent.GameStatus.ACTIVE;
+    } catch (Throwable t) {
+      return false;
     }
+  }
 
-    public static boolean isStarting(World world) {
-        if (world == null) return false;
-        try {
-            GameWorldComponent game = GameWorldComponent.KEY.get(world);
-            return game != null && game.getGameStatus() == GameWorldComponent.GameStatus.STARTING;
-        } catch (Throwable t) {
-            return false;
-        }
+  public static boolean isStarting(World world) {
+    if (world == null) return false;
+    try {
+      GameWorldComponent game = GameWorldComponent.KEY.get(world);
+      return game != null && game.getGameStatus() == GameWorldComponent.GameStatus.STARTING;
+    } catch (Throwable t) {
+      return false;
     }
+  }
 
-    public static boolean isStopping(World world) {
-        if (world == null) return false;
-        try {
-            GameWorldComponent game = GameWorldComponent.KEY.get(world);
-            return game != null && game.getGameStatus() == GameWorldComponent.GameStatus.STOPPING;
-        } catch (Throwable t) {
-            return false;
-        }
+  public static boolean isStopping(World world) {
+    if (world == null) return false;
+    try {
+      GameWorldComponent game = GameWorldComponent.KEY.get(world);
+      return game != null && game.getGameStatus() == GameWorldComponent.GameStatus.STOPPING;
+    } catch (Throwable t) {
+      return false;
     }
+  }
 
-    public static boolean isInactive(World world) {
-        if (world == null) return true;
-        try {
-            GameWorldComponent game = GameWorldComponent.KEY.get(world);
-            return game == null || game.getGameStatus() == GameWorldComponent.GameStatus.INACTIVE;
-        } catch (Throwable t) {
-            return true;
-        }
+  public static boolean isInactive(World world) {
+    if (world == null) return true;
+    try {
+      GameWorldComponent game = GameWorldComponent.KEY.get(world);
+      return game == null || game.getGameStatus() == GameWorldComponent.GameStatus.INACTIVE;
+    } catch (Throwable t) {
+      return true;
     }
+  }
 }
