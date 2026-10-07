@@ -3,7 +3,7 @@ package cat.rezelyn.watheextended.index;
 import static cat.rezelyn.watheextended.WatheExtended.LOGGER;
 
 import cat.rezelyn.watheextended.WatheExtended;
-import cat.rezelyn.watheextended.block.IshPlushBlock;
+import cat.rezelyn.watheextended.block.WathePlushBlock;
 import dev.doctor4t.wathe.block.OrnamentBlock;
 import dev.doctor4t.wathe.block.PanelBlock;
 import net.minecraft.block.AbstractBlock;
@@ -190,6 +190,14 @@ public class WatheExtendedBlocks {
   public static final Block NAVY_STEEL_ORNAMENT =
       register("navy_steel_ornament", new OrnamentBlock(ornamentBlock()));
 
+  private static AbstractBlock.Settings ornamentBlock() {
+    return AbstractBlock.Settings.create()
+        .nonOpaque()
+        .noCollision()
+        .strength(0.25f)
+        .sounds(BlockSoundGroup.COPPER);
+  }
+
   // Moquettes
   public static final Block WHITE_MOQUETTE = register("white_moquette", new Block(moquetteBlock()));
   public static final Block LIGHT_GRAY_MOQUETTE =
@@ -210,6 +218,10 @@ public class WatheExtendedBlocks {
   public static final Block MAGENTA_MOQUETTE =
       register("magenta_moquette", new Block(moquetteBlock()));
   public static final Block PINK_MOQUETTE = register("pink_moquette", new Block(moquetteBlock()));
+
+  private static AbstractBlock.Settings moquetteBlock() {
+    return AbstractBlock.Settings.create().strength(0.5f).sounds(BlockSoundGroup.WOOL);
+  }
 
   // Snowy Leaves
   public static final Block SNOWY_OAK_LEAVES =
@@ -233,34 +245,69 @@ public class WatheExtendedBlocks {
   public static final Block SNOWY_FLOWERING_AZALEA_LEAVES =
       register("snowy_flowering_azalea_leaves", new LeavesBlock(leavesBlock()));
 
-  // Plushies
-  public static final Block ISH_PLUSH =
-      register(
-          "ish_plush",
-          new IshPlushBlock(
-              AbstractBlock.Settings.create()
-                  .nonOpaque()
-                  .strength(0.5f)
-                  .sounds(BlockSoundGroup.WOOL)));
-
-  private static AbstractBlock.Settings ornamentBlock() {
-    return AbstractBlock.Settings.create()
-        .nonOpaque()
-        .noCollision()
-        .strength(0.25f)
-        .sounds(BlockSoundGroup.COPPER);
-  }
-
-  private static AbstractBlock.Settings moquetteBlock() {
-    return AbstractBlock.Settings.create().strength(0.5f).sounds(BlockSoundGroup.WOOL);
-  }
-
   private static AbstractBlock.Settings leavesBlock() {
     return AbstractBlock.Settings.create()
         .nonOpaque()
         .ticksRandomly()
         .strength(0.2f)
         .sounds(BlockSoundGroup.GRASS);
+  }
+
+  // Plushies
+  public static final Block ISH_PLUSH =
+      register(
+          "ish_plush",
+          new WathePlushBlock(
+              plushBlock(),
+              () -> WatheExtendedBlockEntities.ISH_PLUSH,
+              WatheExtendedSounds.ISH_PLUSH));
+  public static final Block REZELYN_PLUSH =
+      register(
+          "rezelyn_plush",
+          new WathePlushBlock(
+              plushBlock(),
+              () -> WatheExtendedBlockEntities.REZELYN_PLUSH,
+              WatheExtendedSounds.REZELYN_PLUSH));
+  public static final Block OWNY_PLUSH =
+      register(
+          "owny_plush",
+          new WathePlushBlock(
+              plushBlock(),
+              () -> WatheExtendedBlockEntities.OWNY_PLUSH,
+              WatheExtendedSounds.OWNY_PLUSH));
+  public static final Block JOCHOIS_PLUSH =
+      register(
+          "jochois_plush",
+          new WathePlushBlock(
+              plushBlock(),
+              () -> WatheExtendedBlockEntities.JOCHOIS_PLUSH,
+              WatheExtendedSounds.JOCHOIS_PLUSH));
+  public static final Block NAGANEKI_PLUSH =
+      register(
+          "naganeki_plush",
+          new WathePlushBlock(
+              plushBlock(),
+              () -> WatheExtendedBlockEntities.NAGANEKI_PLUSH,
+              WatheExtendedSounds.NAGANEKI_PLUSH));
+  public static final Block AAOKI_PLUSH =
+      register(
+          "aaoki_plush",
+          new WathePlushBlock(plushBlock(), () -> WatheExtendedBlockEntities.AAOKI_PLUSH, null));
+  public static final Block KAMTA_PLUSH =
+      register(
+          "kamta_plush",
+          new WathePlushBlock(plushBlock(), () -> WatheExtendedBlockEntities.KAMTA_PLUSH, null));
+  public static final Block ZORIVIEK_PLUSH =
+      register(
+          "zoriviek_plush",
+          new WathePlushBlock(plushBlock(), () -> WatheExtendedBlockEntities.ZORIVIEK_PLUSH, null));
+  public static final Block JEANBADA_PLUSH =
+      register(
+          "jeanbada_plush",
+          new WathePlushBlock(plushBlock(), () -> WatheExtendedBlockEntities.JEANBADA_PLUSH, null));
+
+  private static AbstractBlock.Settings plushBlock() {
+    return AbstractBlock.Settings.create().nonOpaque().strength(0.5f).sounds(BlockSoundGroup.WOOL);
   }
 
   private static <T extends Block> T register(String id, T block) {

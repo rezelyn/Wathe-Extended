@@ -19,6 +19,26 @@
       "watheextended:ish_plush"
     ]
   },
+  "jochois.plush": {
+    "sounds": [
+      "watheextended:jochois_plush"
+    ]
+  },
+  "owny.plush": {
+    "sounds": [
+      "watheextended:owny_plush"
+    ]
+  },
+  "rezelyn.plush": {
+    "sounds": [
+      "watheextended:rezelyn_plush"
+    ]
+  },
+  "naganeki.plush": {
+    "sounds": [
+      "watheextended:naganeki_plush"
+    ]
+  },
   "instinct.in": {
     "sounds": [
       "watheextended:instinct_in"

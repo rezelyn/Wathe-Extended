@@ -1,9 +1,8 @@
 package cat.rezelyn.watheextended.client.render.entity;
 
-import cat.rezelyn.watheextended.block.IshPlushBlockEntity;
+import cat.rezelyn.watheextended.block.PlushBlockEntity;
 import dev.doctor4t.ratatouille.mixin.client.BlockRenderManagerAccessor;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.render.RenderLayers;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.BlockRenderManager;
@@ -12,7 +11,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 
-public class PlushBlockEntityRenderer<T extends BlockEntity> implements BlockEntityRenderer<T> {
+public class PlushBlockEntityRenderer implements BlockEntityRenderer<PlushBlockEntity> {
 
   private final BlockRenderManager renderManager;
 
@@ -22,7 +21,7 @@ public class PlushBlockEntityRenderer<T extends BlockEntity> implements BlockEnt
 
   @Override
   public void render(
-      T entity,
+      PlushBlockEntity entity,
       float tickDelta,
       MatrixStack matrices,
       VertexConsumerProvider vertexConsumers,
@@ -30,11 +29,7 @@ public class PlushBlockEntityRenderer<T extends BlockEntity> implements BlockEnt
       int overlay) {
     matrices.push();
 
-    double squash = 0.0;
-    if (entity instanceof IshPlushBlockEntity plushBE) {
-      squash = plushBE.squash;
-    }
-
+    double squash = entity.squash;
     double prevSquash = squash * 3.0;
     double lerpVal = MathHelper.lerp((double) tickDelta, prevSquash, squash);
     float squashF = (float) Math.pow(1.0 - 1.0 / (1.0 + lerpVal), 2.0);

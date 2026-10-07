@@ -85,6 +85,14 @@ public class WatheExtendedGroup {
 
                   // Plushies
                   entries.add(WatheExtendedBlocks.ISH_PLUSH);
+                  entries.add(WatheExtendedBlocks.REZELYN_PLUSH);
+                  entries.add(WatheExtendedBlocks.OWNY_PLUSH);
+                  entries.add(WatheExtendedBlocks.JOCHOIS_PLUSH);
+                  entries.add(WatheExtendedBlocks.NAGANEKI_PLUSH);
+                  entries.add(WatheExtendedBlocks.AAOKI_PLUSH);
+                  entries.add(WatheExtendedBlocks.KAMTA_PLUSH);
+                  entries.add(WatheExtendedBlocks.ZORIVIEK_PLUSH);
+                  entries.add(WatheExtendedBlocks.JEANBADA_PLUSH);
                 })
             .build());
   }

@@ -2,7 +2,7 @@ package cat.rezelyn.watheextended.client;
 
 import cat.rezelyn.watheextended.client.pronouns.PronounsCache;
 import cat.rezelyn.watheextended.client.render.*;
-import cat.rezelyn.watheextended.client.render.entity.PlushBlockEntityRenderer;
+import cat.rezelyn.watheextended.client.render.entity.*;
 import cat.rezelyn.watheextended.client.screen.ConfigScreen;
 import cat.rezelyn.watheextended.client.screen.GuidebookScreen;
 import cat.rezelyn.watheextended.client.screen.config.ClientCategory;
@@ -396,6 +396,22 @@ public class WatheExtendedClient implements ClientModInitializer {
 
     BlockEntityRendererFactories.register(
         WatheExtendedBlockEntities.ISH_PLUSH, PlushBlockEntityRenderer::new);
+    BlockEntityRendererFactories.register(
+        WatheExtendedBlockEntities.REZELYN_PLUSH, PlushBlockEntityRenderer::new);
+    BlockEntityRendererFactories.register(
+        WatheExtendedBlockEntities.OWNY_PLUSH, PlushBlockEntityRenderer::new);
+    BlockEntityRendererFactories.register(
+        WatheExtendedBlockEntities.JOCHOIS_PLUSH, PlushBlockEntityRenderer::new);
+    BlockEntityRendererFactories.register(
+        WatheExtendedBlockEntities.NAGANEKI_PLUSH, PlushBlockEntityRenderer::new);
+    BlockEntityRendererFactories.register(
+        WatheExtendedBlockEntities.AAOKI_PLUSH, PlushBlockEntityRenderer::new);
+    BlockEntityRendererFactories.register(
+        WatheExtendedBlockEntities.KAMTA_PLUSH, PlushBlockEntityRenderer::new);
+    BlockEntityRendererFactories.register(
+        WatheExtendedBlockEntities.JEANBADA_PLUSH, PlushBlockEntityRenderer::new);
+    BlockEntityRendererFactories.register(
+        WatheExtendedBlockEntities.ZORIVIEK_PLUSH, PlushBlockEntityRenderer::new);
 
     BlockRenderLayerMap.INSTANCE.putBlocks(
         RenderLayer.getCutout(),

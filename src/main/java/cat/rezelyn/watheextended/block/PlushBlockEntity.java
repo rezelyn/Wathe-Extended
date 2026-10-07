@@ -1,6 +1,5 @@
 package cat.rezelyn.watheextended.block;
 
-import cat.rezelyn.watheextended.index.WatheExtendedBlockEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -11,15 +10,15 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class IshPlushBlockEntity extends BlockEntity {
+public class PlushBlockEntity extends BlockEntity {
 
   public double squash = 0.0;
 
-  public IshPlushBlockEntity(BlockPos pos, BlockState state) {
-    super(WatheExtendedBlockEntities.ISH_PLUSH, pos, state);
+  public PlushBlockEntity(BlockPos pos, BlockState state) {
+    super(((WathePlushBlock) state.getBlock()).getBlockEntityType(), pos, state);
   }
 
-  public static void tick(World world, BlockPos pos, BlockState state, IshPlushBlockEntity block) {
+  public static void tick(World world, BlockPos pos, BlockState state, PlushBlockEntity block) {
     if (block.squash > 0.0) {
       block.squash /= 3.0;
       if (block.squash < 0.01) {
