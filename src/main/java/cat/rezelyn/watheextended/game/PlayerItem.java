@@ -4,6 +4,7 @@ import cat.rezelyn.watheextended.api.GameStatus;
 import cat.rezelyn.watheextended.api.MapVariables;
 import cat.rezelyn.watheextended.index.WatheExtendedItems;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -13,91 +14,16 @@ public final class PlayerItem {
 
   private PlayerItem() {}
 
-  public static void giveGuidebook(ServerPlayerEntity player) {
+  public static void giveItem(Item item, ServerPlayerEntity player) {
     for (int i = 0; i < player.getInventory().size(); i++) {
-      if (player.getInventory().getStack(i).isOf(WatheExtendedItems.GUIDEBOOK)) return;
+      if (player.getInventory().getStack(i).isOf(item)) return;
     }
-    player.getInventory().insertStack(new ItemStack(WatheExtendedItems.GUIDEBOOK));
+    player.getInventory().insertStack(new ItemStack(item));
   }
 
-  public static void giveTeleportItem(ServerPlayerEntity player) {
+  public static void removeItem(Item item, ServerPlayerEntity player) {
     for (int i = 0; i < player.getInventory().size(); i++) {
-      if (player.getInventory().getStack(i).isOf(WatheExtendedItems.TELEPORT_TO_READY_AREA)) return;
-    }
-    player.getInventory().insertStack(new ItemStack(WatheExtendedItems.TELEPORT_TO_READY_AREA));
-  }
-
-  public static void giveTeleportToSceneryItem(ServerPlayerEntity player) {
-    for (int i = 0; i < player.getInventory().size(); i++) {
-      if (player.getInventory().getStack(i).isOf(WatheExtendedItems.TELEPORT_TO_SCENERY)) return;
-    }
-    player.getInventory().insertStack(new ItemStack(WatheExtendedItems.TELEPORT_TO_SCENERY));
-  }
-
-  public static void giveCreateRtpSlotItem(ServerPlayerEntity player) {
-    for (int i = 0; i < player.getInventory().size(); i++) {
-      if (player.getInventory().getStack(i).isOf(WatheExtendedItems.CREATE_RTP_SLOT)) return;
-    }
-    player.getInventory().insertStack(new ItemStack(WatheExtendedItems.CREATE_RTP_SLOT));
-  }
-
-  public static void removeCreateRtpSlotItem(ServerPlayerEntity player) {
-    for (int i = 0; i < player.getInventory().size(); i++) {
-      if (player.getInventory().getStack(i).isOf(WatheExtendedItems.CREATE_RTP_SLOT)) {
-        player.getInventory().setStack(i, ItemStack.EMPTY);
-      }
-    }
-  }
-
-  public static void giveTriggerRtpItem(ServerPlayerEntity player) {
-    for (int i = 0; i < player.getInventory().size(); i++) {
-      if (player.getInventory().getStack(i).isOf(WatheExtendedItems.TRIGGER_RTP)) return;
-    }
-    player.getInventory().insertStack(new ItemStack(WatheExtendedItems.TRIGGER_RTP));
-  }
-
-  public static void removeTriggerRtpItem(ServerPlayerEntity player) {
-    for (int i = 0; i < player.getInventory().size(); i++) {
-      if (player.getInventory().getStack(i).isOf(WatheExtendedItems.TRIGGER_RTP)) {
-        player.getInventory().setStack(i, ItemStack.EMPTY);
-      }
-    }
-  }
-
-  public static void giveFakePlayerItems(ServerPlayerEntity player) {
-    boolean hasAdd = false;
-    boolean hasRemove = false;
-    for (int i = 0; i < player.getInventory().size(); i++) {
-      ItemStack stack = player.getInventory().getStack(i);
-      if (stack.isOf(WatheExtendedItems.ADD_PLAYERS)) hasAdd = true;
-      if (stack.isOf(WatheExtendedItems.REMOVE_PLAYERS)) hasRemove = true;
-    }
-    if (!hasAdd) player.getInventory().insertStack(new ItemStack(WatheExtendedItems.ADD_PLAYERS));
-    if (!hasRemove)
-      player.getInventory().insertStack(new ItemStack(WatheExtendedItems.REMOVE_PLAYERS));
-  }
-
-  public static void removeFakePlayerItems(ServerPlayerEntity player) {
-    for (int i = 0; i < player.getInventory().size(); i++) {
-      ItemStack stack = player.getInventory().getStack(i);
-      if (stack.isOf(WatheExtendedItems.ADD_PLAYERS)
-          || stack.isOf(WatheExtendedItems.REMOVE_PLAYERS)) {
-        player.getInventory().setStack(i, ItemStack.EMPTY);
-      }
-    }
-  }
-
-  public static void removeTeleportItem(ServerPlayerEntity player) {
-    for (int i = 0; i < player.getInventory().size(); i++) {
-      if (player.getInventory().getStack(i).isOf(WatheExtendedItems.TELEPORT_TO_READY_AREA)) {
-        player.getInventory().setStack(i, ItemStack.EMPTY);
-      }
-    }
-  }
-
-  public static void removeTeleportToSceneryItem(ServerPlayerEntity player) {
-    for (int i = 0; i < player.getInventory().size(); i++) {
-      if (player.getInventory().getStack(i).isOf(WatheExtendedItems.TELEPORT_TO_SCENERY)) {
+      if (player.getInventory().getStack(i).isOf(item)) {
         player.getInventory().setStack(i, ItemStack.EMPTY);
       }
     }
@@ -107,33 +33,35 @@ public final class PlayerItem {
     boolean gameRunning = GameStatus.State(world);
 
     if (gameRunning) {
-      removeTeleportItem(player);
-      removeTeleportToSceneryItem(player);
-      removeCreateRtpSlotItem(player);
-      removeTriggerRtpItem(player);
-      removeFakePlayerItems(player);
+      removeItem(WatheExtendedItems.TELEPORT_TO_READY_AREA, player);
+      removeItem(WatheExtendedItems.TELEPORT_TO_SCENERY, player);
+      removeItem(WatheExtendedItems.CREATE_RTP_SLOT, player);
+      removeItem(WatheExtendedItems.TRIGGER_RTP, player);
+      removeItem(WatheExtendedItems.ADD_PLAYERS, player);
+      removeItem(WatheExtendedItems.REMOVE_PLAYERS, player);
     } else {
       boolean isCreativeOp = player.isCreative() && player.hasPermissionLevel(2);
       if (isCreativeOp) {
-        giveTeleportToSceneryItem(player);
-        giveCreateRtpSlotItem(player);
-        giveTriggerRtpItem(player);
-        giveFakePlayerItems(player);
+        giveItem(WatheExtendedItems.TELEPORT_TO_SCENERY, player);
+        giveItem(WatheExtendedItems.CREATE_RTP_SLOT, player);
+        giveItem(WatheExtendedItems.TRIGGER_RTP, player);
+        giveItem(WatheExtendedItems.ADD_PLAYERS, player);
+        giveItem(WatheExtendedItems.REMOVE_PLAYERS, player);
       } else {
-        removeTeleportToSceneryItem(player);
-        removeCreateRtpSlotItem(player);
-        removeTriggerRtpItem(player);
-        removeFakePlayerItems(player);
+        removeItem(WatheExtendedItems.TELEPORT_TO_SCENERY, player);
+        removeItem(WatheExtendedItems.CREATE_RTP_SLOT, player);
+        removeItem(WatheExtendedItems.TRIGGER_RTP, player);
+        removeItem(WatheExtendedItems.ADD_PLAYERS, player);
+        removeItem(WatheExtendedItems.REMOVE_PLAYERS, player);
       }
 
       Box readyArea = MapVariables.getReadyArea(world);
       if (readyArea != null && readyArea.contains(player.getPos())) {
-        removeTeleportItem(player);
-        giveGuidebook(player);
+        removeItem(WatheExtendedItems.TELEPORT_TO_READY_AREA, player);
       } else {
-        giveTeleportItem(player);
-        giveGuidebook(player);
+        giveItem(WatheExtendedItems.TELEPORT_TO_READY_AREA, player);
       }
+      giveItem(WatheExtendedItems.GUIDEBOOK, player);
     }
   }
 
