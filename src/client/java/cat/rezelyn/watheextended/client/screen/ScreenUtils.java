@@ -1,14 +1,18 @@
 package cat.rezelyn.watheextended.client.screen;
 
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
+import dev.isxander.yacl3.api.ButtonOption;
 import dev.isxander.yacl3.api.Option;
+import dev.isxander.yacl3.api.OptionDescription;
 import dev.isxander.yacl3.api.controller.FloatFieldControllerBuilder;
+import dev.isxander.yacl3.api.controller.StringControllerBuilder;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -139,6 +143,79 @@ public final class ScreenUtils {
     command.accept(key + " " + value, parent);
   }
 
+  public static Option<String> textField(Text name, Text description, Consumer<String> onValue) {
+    return Option.<String>createBuilder()
+        .name(name)
+        .description(OptionDescription.of(description))
+        .binding("", () -> "", onValue)
+        .controller(StringControllerBuilder::create)
+        .build();
+  }
+
+  public static ButtonOption deleteButton(
+      Text name, Text description, Text confirmTitle, Text confirmMessage, String command) {
+    return ButtonOption.createBuilder()
+        .name(name)
+        .text(icon("delete"))
+        .description(OptionDescription.of(description))
+        .action(
+            (screen, button) ->
+                ConfigScreen.confirmCommand(command, confirmTitle, confirmMessage, screen))
+        .build();
+  }
+
+  public static String areaLabel(String id, @Nullable String displayName) {
+    return displayName == null || displayName.isBlank() ? id : displayName;
+  }
+
+  public interface AreaSaveCommand {
+    String build(String name, Box box);
+  }
+
+  // Collects the name and both corners from two text fields and stages the save command once both
+  // are filled in and valid
+  public static final class NewAreaDraft {
+    private final Screen parent;
+    private final BiConsumer<String, Screen> sendCommand;
+    private final AreaSaveCommand command;
+    private String name = "";
+    private Box box;
+
+    public NewAreaDraft(
+        Screen parent, BiConsumer<String, Screen> sendCommand, AreaSaveCommand command) {
+      this.parent = parent;
+      this.sendCommand = sendCommand;
+      this.command = command;
+    }
+
+    public Option<String> nameField(Text label, Text description) {
+      return textField(
+          label,
+          description,
+          value -> {
+            name = value.trim();
+            stageIfComplete();
+          });
+    }
+
+    // Takes both corners at once as x1 y1 z1 x2 y2 z2
+    public Option<String> boxField(Text label, Text description) {
+      return textField(
+          label,
+          description,
+          value -> {
+            int[] c = parseInts(value, 6);
+            box = c == null ? null : new Box(c[0], c[1], c[2], c[3], c[4], c[5]);
+            stageIfComplete();
+          });
+    }
+
+    private void stageIfComplete() {
+      if (name.isEmpty() || box == null) return;
+      sendCommand.accept(command.build(name, box), parent);
+    }
+  }
+
   public static FloatFieldControllerBuilder floatController(Option<Float> option) {
     return FloatFieldControllerBuilder.create(option)
         .formatValue(value -> Text.literal(format(value)));
@@ -171,6 +248,18 @@ public final class ScreenUtils {
         + format(box.maxY)
         + " "
         + format(box.maxZ);
+  }
+
+  public static int @Nullable [] parseInts(String value, int count) {
+    String[] parts = value.trim().split("[\\s,]+");
+    if (parts.length != count) return null;
+    int[] out = new int[count];
+    try {
+      for (int i = 0; i < count; i++) out[i] = Integer.parseInt(parts[i]);
+    } catch (NumberFormatException e) {
+      return null;
+    }
+    return out;
   }
 
   public static String vec3iToArgs(@Nullable Vec3i vec) {

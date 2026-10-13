@@ -506,6 +506,10 @@ public final class MapCategory {
             .build());
 
     builder.group(group.build());
+    if (cat.rezelyn.watheextended.api.config.moodswings.ConfigHelper.isLoaded()) {
+      builder.group(TaskAreaCategory.build(parent, sendCommand));
+      builder.group(LockdownCategory.build(parent, sendCommand));
+    }
     builder.group(buildRtpSlotsGroup(parent, sendCommand));
     return builder.build();
   }

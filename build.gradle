@@ -108,6 +108,10 @@ dependencies {
         modApi "maven.modrinth:kinswathe:${project.kinswathe_version}"
         modApi "maven.modrinth:watheextraitems:${project.watheextraitems_version}"
 
+    // modApi "maven.modrinth:mood-swings:${project.mood_swings_version}"
+    modApi files("libs/mood-swings-1.5.0.jar")
+        modRuntimeOnly "maven.modrinth:cloth-config:${project.cloth_config_version}"
+
     // Libraries
     modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
     modImplementation "me.fzzyhmstrs:fzzy_config:${project.fzzyConfigVersion}"

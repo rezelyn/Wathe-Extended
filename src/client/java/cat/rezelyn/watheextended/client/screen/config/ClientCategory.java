@@ -4,6 +4,7 @@ import cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper;
 import cat.rezelyn.watheextended.client.WatheExtendedClientConfig;
 import cat.rezelyn.watheextended.client.pronouns.PronounsCache;
 import cat.rezelyn.watheextended.client.render.BoxDebugRenderer;
+import cat.rezelyn.watheextended.client.render.MoodSwingsAreaBorders;
 import cat.rezelyn.watheextended.network.PronounsManager;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
@@ -380,7 +381,7 @@ public final class ClientCategory {
   }
 
   private static OptionGroup buildDebugGroup() {
-    return OptionGroup.createBuilder()
+    OptionGroup.Builder group = OptionGroup.createBuilder()
         .name(
             Text.translatable("gui.watheextended.config.category.client.group.debug")
                 .styled(style -> style.withColor(0xFF5555)))
@@ -484,7 +485,30 @@ public final class ClientCategory {
                                         value
                                             ? "gui.watheextended.config.text.on"
                                             : "gui.watheextended.config.text.off")))
-                .build())
-        .build();
+                .build());
+    if (cat.rezelyn.watheextended.api.config.moodswings.ConfigHelper.isLoaded()) {
+      /// SHOW MOOD SWINGS AREAS
+      group.option(
+          Option.<Boolean>createBuilder()
+              .name(
+                  Text.translatable(
+                      "gui.watheextended.config.category.client.group.debug.opt.showmoodswingsareas"))
+              .description(
+                  OptionDescription.of(
+                      Text.translatable(
+                          "gui.watheextended.config.category.client.group.debug.opt.showmoodswingsareas.desc")))
+              .binding(false, MoodSwingsAreaBorders::isVisible, MoodSwingsAreaBorders::setVisible)
+              .controller(
+                  option ->
+                      BooleanControllerBuilder.create(option)
+                          .formatValue(
+                              value ->
+                                  Text.translatable(
+                                      value
+                                          ? "gui.watheextended.config.text.on"
+                                          : "gui.watheextended.config.text.off")))
+              .build());
+    }
+    return group.build();
   }
 }
