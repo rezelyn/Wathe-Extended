@@ -44,6 +44,7 @@
     "client.hud.LobbyPlayersRendererMixin",
     "client.hud.RoleNameRendererMixin",
     "client.item.AddonsItemTooltipsMixin",
+    "client.item.CopyPositionAttackMixin",
     "client.item.ItemRendererAccessor",
     "client.item.ItemRendererMixin",
     "client.item.ItemTooltipsMixin",

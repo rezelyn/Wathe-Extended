@@ -24,6 +24,8 @@ public class WatheExtendedItems {
       register("add_players", new AddPlayersItem(new Item.Settings().maxCount(1)));
   public static final Item REMOVE_PLAYERS =
       register("remove_players", new RemovePlayersItem(new Item.Settings().maxCount(1)));
+  public static final Item COPY_POSITION =
+      register("copy_position", new CopyPositionItem(new Item.Settings().maxCount(1)));
 
   private static <T extends Item> T register(String id, T item) {
     return Registry.register(Registries.ITEM, WatheExtended.id(id), item);

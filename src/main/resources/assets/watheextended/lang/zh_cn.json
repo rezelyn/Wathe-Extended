@@ -54,6 +54,7 @@
   "item.watheextended.trigger_rtp": "触发随机传送",
   "item.watheextended.add_players": "添加玩家",
   "item.watheextended.remove_players": "移除玩家",
+  "item.watheextended.copy_position": "复制坐标",
   "item.watheextended.teleport_to_ready_area": "传送至就绪区域",
   "item.watheextended.teleport_to_scenery": "传送至场景",
   "tooltip.watheextended.item.knife": "[右键]（按住）准备刀具以刺伤玩家\n[左键]推开玩家",
@@ -106,6 +107,10 @@
 
   "message.watheextended.fake_players.added": "已添加假玩家",
   "message.watheextended.fake_players.removed": "已移除假玩家",
+  "message.watheextended.copy_position": "已复制坐标到剪贴板：%s",
+  "message.watheextended.copy_position.first": "已保存第一个坐标：%s",
+  "message.watheextended.copy_position.mode.point": "已切换到单点模式",
+  "message.watheextended.copy_position.mode.box": "已切换到区域模式",
   "message.watheextended.fake_players.unavailable": "假玩家需要 Carpet 模组",
 
   "gui.watheextended.config.title": "Wathe: Extended 选项",

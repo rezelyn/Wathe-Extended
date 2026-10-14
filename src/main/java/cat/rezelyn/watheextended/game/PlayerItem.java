@@ -39,15 +39,16 @@ public final class PlayerItem {
       removeItem(WatheExtendedItems.TRIGGER_RTP, player);
       removeItem(WatheExtendedItems.ADD_PLAYERS, player);
       removeItem(WatheExtendedItems.REMOVE_PLAYERS, player);
+      removeItem(WatheExtendedItems.COPY_POSITION, player);
     } else {
       boolean isCreativeOp = player.isCreative() && player.hasPermissionLevel(2);
       if (isCreativeOp) {
         giveItem(WatheExtendedItems.TELEPORT_TO_SCENERY, player);
-        giveItem(WatheExtendedItems.CREATE_RTP_SLOT, player);
-        giveItem(WatheExtendedItems.TRIGGER_RTP, player);
         giveItem(WatheExtendedItems.ADD_PLAYERS, player);
         giveItem(WatheExtendedItems.REMOVE_PLAYERS, player);
+        giveItem(WatheExtendedItems.COPY_POSITION, player);
       } else {
+        removeItem(WatheExtendedItems.COPY_POSITION, player);
         removeItem(WatheExtendedItems.TELEPORT_TO_SCENERY, player);
         removeItem(WatheExtendedItems.CREATE_RTP_SLOT, player);
         removeItem(WatheExtendedItems.TRIGGER_RTP, player);
