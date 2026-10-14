@@ -2,6 +2,9 @@
 > #### This changelog also documents changes that are related to ***The Harpy Express: Extended*** modpack.
 
 ## [Unreleased]
+- Copy position item
+ - Left click to switch between point and box modes
+ - Right click to copy positions to clipboard for easy pasting into configs
 
 ## [4.0.0-h1.4] - TBD
 
