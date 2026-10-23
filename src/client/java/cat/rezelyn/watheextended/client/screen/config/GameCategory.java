@@ -31,9 +31,6 @@ public final class GameCategory {
     if (cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) {
       builder.group(extraOptionsGroup(parent, sendCommand));
     }
-    if (cat.rezelyn.watheextended.api.config.moodswings.ConfigHelper.isLoaded()) {
-      builder.group(TaskListCategory.build(parent, sendCommand));
-    }
 
     return builder.build();
   }
