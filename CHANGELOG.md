@@ -31,7 +31,6 @@
     - Spectators can see the current role, modifier(s), player name, pronouns, Killer Cohort label, and some role/modifier-specific labels, all in one shared adaptive overlay
 - New plushies (they're mostly my friends that are helping me on the mod :3)
 - GitHub issue templates and contributors guidelines documents
-- A new Prone keybind that allows a player to enter swim mode
 
 ### Changed
 
