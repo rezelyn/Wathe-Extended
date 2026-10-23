@@ -16,6 +16,9 @@ public final class KillerCohortAccess {
           Identifier.of("noellesroles", "mimic"),
           Identifier.of("noellesroles", "vulture"));
 
+  // fake killers are seen has killer cohorts by real killers but fake killers can't see any killer cohorts
+  private static final Identifier FAKE_KILLER_ROLES = Identifier.of("noellesroles", "mimic");
+
   private KillerCohortAccess() {}
 
   public static boolean isKillerCohort(GameWorldComponent game, PlayerEntity player) {
@@ -27,6 +30,12 @@ public final class KillerCohortAccess {
   }
 
   public static boolean canSeeCohorts(GameWorldComponent game, PlayerEntity player) {
+    if (game == null || player == null || isFakeKiller(game, player)) return false;
     return isKillerCohort(game, player) || InstinctAccess.canUse(player);
+  }
+
+  private static boolean isFakeKiller(GameWorldComponent game, PlayerEntity player) {
+    var role = game.getRole(player);
+    return role != null && FAKE_KILLER_ROLES.equals(role.identifier());
   }
 }
