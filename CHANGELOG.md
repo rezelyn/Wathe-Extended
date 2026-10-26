@@ -1,39 +1,9 @@
 # Changelog
 > [!NOTE]
-> All notable changes to this project will be documented in this file, changelogs from version under [stable-3.5.132] also documents changes made to the modpack. <br>
+> All notable changes to this project will be documented in this file, changelogs from version under [stable-3.5.132](#stable-35132---sep-3-2026) also documents changes made to the modpack. <br>
 > *The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).*
 
 ## [Unreleased]
-
-### Added
-
-- New configurable options:
-    - **Physician** (#63)
-        - Medical Kit Visible Player Count (Default: 10)
-            - Set the threshold of the minimum number of players for the Medical Kit to look like a Medical Kit instead of a Lockpick
-        - Hide Death Info (Default: Disabled)
-            - Enable or disable the Autopsy ability from the Physician, hiding the death reason and time of death when looking at a dead body
-- New creative item:
-    - **Copy Position item**
-        - Left-Click to switch between point and box modes
-        - Right-Click to copy positions to clipboard for easy pasting into configs
-
-### Changed
-
-- Updated Gradle to `9.8.0`
-- Updated Fabric Loader support to `0.19.5`
-- Updated Fabric API support to `0.116.17`
-- Updated some entries in the Guidebook that were missing context
-
-### Removed
-
-- Removed RTP management creative items (Create RTP slot & Trigger RTP) in favor of the Copy Position item
-
-### Fixed
-
-- **Mimic** & **Awesome Binglus** being able to see Killer Cohorts (#105)
-- `poisonedTicks` and `initialPoisonedTicks` not being triggered and updated upon consuming poisonned drinks/foods, ultimately making any poison methods not working like they should (#102)
-- Guidebook Game's Guide tab state icons being drawn next to entries
 
 ## [4.0.0-h1.4] - TBD
 <!-- THIS IS THE CHANGELOG FOR THE STABLE RELEASE, IT CONTAINS RELEVANT ENTRIES FROM PRE-RELEASES AND SHOULD BE UPDATED ALONGSIDE BETA RELEASES -->
@@ -632,7 +602,7 @@ Stable release! This update introduces a wide range of new content, improvements
 - Killer Instinct night vision not functioning correctly
 
 [Unreleased]: https://github.com/rezelyn/Wathe-Extended/compare/main...dev/4.0.0-h1.4
-[4.0.0-h1.4]: https://github.com/rezelyn/Wathe-Extended/compare/3.4.132...3.5.132
+[4.0.0-h1.4]: https://github.com/rezelyn/Wathe-Extended/compare/3.8.141...dev/4.0.0-h1.4
 [stable-3.8.141]: https://github.com/rezelyn/Wathe-Extended/compare/3.7.141...3.8.141
 [stable-3.7.141]: https://github.com/rezelyn/Wathe-Extended/compare/3.6.132...3.7.141
 [stable-3.6.132]: https://github.com/rezelyn/Wathe-Extended/compare/3.5.132...3.6.132
@@ -640,5 +610,3 @@ Stable release! This update introduces a wide range of new content, improvements
 [stable-3.4.132]: https://github.com/rezelyn/Wathe-Extended/compare/3.3.132...3.4.132
 [stable-3.3.132]: https://github.com/rezelyn/Wathe-Extended/compare/3.2.132...3.3.132
 [stable-3.2.132]: https://github.com/rezelyn/Wathe-Extended/compare/3.1.132...3.2.132
-[stable-3.1.132]: https://github.com/rezelyn/Wathe-Extended/compare/3.0.132...3.1.132
-[stable-3.0.132]: https://github.com/rezelyn/Wathe-Extended/releases/tag/3.0.132
