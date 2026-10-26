@@ -85,11 +85,13 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
   private static final Set<String> KINS_WATHE_MIXINS =
       Set.of(
           "client.hud.DreamImprintOverlayMixin",
+          "client.item.MedicalKitVisibilityMixin",
           "client.game.roles.bodymaker.BodymakerDeathReasonSlotTextureMixin",
           "client.game.roles.bodymaker.BodymakerRolePickerMixin",
           "client.game.roles.bodymaker.BodymakerSlotTextureMixin",
           "client.game.roles.dreamer.DreamerInstinctMixin",
           "client.game.roles.judge.JudgeSlotTextureMixin",
+          "client.game.roles.physician.PhysicianDeathReasonTextMixin",
           "game.roles.bellringer.BellringerAbilityMixin",
           "game.roles.cleaner.CleanerAbilityMixin",
           "game.mood.KinsBellringerAbilityMixin",

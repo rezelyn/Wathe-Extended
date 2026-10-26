@@ -68,6 +68,8 @@ public final class WatheExtendedServerConfig {
   public static int cleanerAcidBarrelCoins = 50;
   // Dreamer
   public static boolean dreamerImprintNotificationEnabled = true;
+  // Physician
+  public static boolean disablePhysicianDeathReason = false;
 
   // MODIFIERS
   // Arsonist
@@ -136,6 +138,7 @@ public final class WatheExtendedServerConfig {
   public static int huntingKnifeCooldown = 45;
   // Medical Kit
   public static int medicalKitCooldown = 60;
+  public static int medicalKitVisiblePlayerCount = 10;
   // Pan
   public static int panPrice = 250;
   public static int panCooldown = 45;
