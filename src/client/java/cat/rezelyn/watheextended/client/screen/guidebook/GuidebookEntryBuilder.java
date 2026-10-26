@@ -206,11 +206,7 @@ public final class GuidebookEntryBuilder {
         for (String topic : section.topics()) {
           Text title = Text.translatable("gui.watheextended.guidebook.guide.title." + topic);
           String descKey = "gui.watheextended.guidebook.guide.desc." + topic;
-          Text text =
-              ScreenUtils.icon("enabled")
-                  .copy()
-                  .append(Text.literal(" ").styled(style -> style.withFont(null)))
-                  .append(title.copy().styled(style -> style.withColor(GUIDE_ENTRY_COLOR)));
+          Text text = title.copy().styled(style -> style.withColor(GUIDE_ENTRY_COLOR));
           list.add(
               GuidebookEntry.entry(
                   text, GUIDE_ENTRY_COLOR, "guide:" + topic, descKey, title, true));
