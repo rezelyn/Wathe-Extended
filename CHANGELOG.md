@@ -1,9 +1,42 @@
 # Changelog
-> #### This changelog also documents changes that are related to ***The Harpy Express: Extended*** modpack.
+> [!NOTE]
+> All notable changes to this project will be documented in this file, changelogs from version under [stable-3.5.132] also documents changes made to the modpack. <br>
+> *The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).*
 
 ## [Unreleased]
 
+### Added
+
+- New configurable options:
+    - **Physician** (#63)
+        - Medical Kit Visible Player Count (Default: 10)
+            - Set the threshold of the minimum number of players for the Medical Kit to look like a Medical Kit instead of a Lockpick
+        - Hide Death Info (Default: Disabled)
+            - Enable or disable the Autopsy ability from the Physician, hiding the death reason and time of death when looking at a dead body
+- New creative item:
+    - **Copy Position item**
+        - Left-Click to switch between point and box modes
+        - Right-Click to copy positions to clipboard for easy pasting into configs
+
+### Changed
+
+- Updated Gradle to `9.8.0`
+- Updated Fabric Loader support to `0.19.5`
+- Updated Fabric API support to `0.116.17`
+- Updated some entries in the Guidebook that were missing context
+
+### Removed
+
+- Removed RTP management creative items (Create RTP slot & Trigger RTP) in favor of the Copy Position item
+
+### Fixed
+
+- **Mimic** & **Awesome Binglus** being able to see Killer Cohorts (#105)
+- `poisonedTicks` and `initialPoisonedTicks` not being triggered and updated upon consuming poisonned drinks/foods, ultimately making any poison methods not working like they should (#102)
+- Guidebook Game's Guide tab state icons being drawn next to entries
+
 ## [4.0.0-h1.4] - TBD
+<!-- THIS IS THE CHANGELOG FOR THE STABLE RELEASE, IT CONTAINS RELEVANT ENTRIES FROM PRE-RELEASES AND SHOULD BE UPDATED ALONGSIDE BETA RELEASES -->
 
 > [!WARNING]
 > **This update may break older instances of the modpack!**
@@ -14,13 +47,27 @@
 ### Added
 
 - New configurable options:
-    - Show notification from **Dreamer** imprints (Default: Disabled)
-    - Show notification from **Arsonist** dousing (Default: Enabled)
-        - The doused notification can be delayed by a configurable amount (Default: 10s)
+    - **Dreamer**
+      - Imprint notification (Default: Disabled)
+        - Display a message in the action bar whenever the player got imprinted by the Dreamer
+    - **Arsonist**
+      - Doused notification (Default: Enabled)
+        - Display a message in the action bar whenever the player got doused by the Arnoist
+      - Doused notification delay (Default: Enabled)
+        - Set the amount of time to wait for which the message will be sent to the doused player (Default: 10s)
+    - **Physician** (#63)
+      - Medical Kit Visible Player Count (Default: 10)
+        - Set the threshold of the minimum number of players for the Medical Kit to look like a Medical Kit instead of a Lockpick
+      - Hide Death Info (Default: Disabled)
+        - Enable or disable the Autopsy ability from the Physician, hiding the death reason and time of death when looking at a dead body
 - New mood mechanics and options:
     - Prevent players from sprinting while being depressed (Default: Enabled)
     - Disable role abilities after being depressed for a configurable delay in seconds (Default: Enabled, 0s)
 - New proning mechanic, allowing players to crawl on the ground by using the <kbd>C</kbd> key, with configurable keybind option to toggle between **Hold** and **Toggle** modes (Default: Toggle)
+- New creative item:
+    - **Copy Position item**
+        - Left-Click to switch between point and box modes
+        - Right-Click to copy positions to clipboard for easy pasting into configs
 - New visual debugger that shows every configured spawns positions (Lobby, Ready Area, and Play Area)
 - Ability to change perspective (F5) when the game is not active
 - Pressing the inventory key while spectating now opens the Guidebook screen
@@ -43,16 +90,21 @@
     - Improved Last Stand vignette rendering and coloring
 - Custom plushies sounds are now using a randomized pitch value when squashing them (yea even Ish's meow)
 - Updated Chinese translation (@haiman233)
-- Updated Stupid Express to `2026.10.1-h1.4`
+- Updated Gradle to `9.8.0`
+- Updated Fabric Loader support to `0.19.5`
+- Updated Fabric API support to `0.116.17`
+- Updated Stupid Express support to `2026.10.1-h1.4`
     - [Stupid Express Changelog](https://modrinth.com/mod/stupid-express/version/2026.10.1-h1.4)
-- Updated README.md
-- Updated CHANGELOG.md
+- Updated some entries in the Guidebook that were missing context
+- Updated `README.md`
+- Updated `CHANGELOG.md`
 - Changed versioning format
 
 ### Removed
 
 - Removed the shaking animations to the mood HUD when the Introverted was inside a crowd of players
 - Reverted the mixin patches for Stupid Express stale imports and the Lovers modifier spectator crash
+- Removed RTP management creative items (Create RTP slot & Trigger RTP) in favor of the Copy Position item
 
 ### Fixed
 
@@ -67,6 +119,9 @@
 - Players' stamina not being reset to maximum when a game starts
 - Players sitting outside the ready area when a game starts being put into the game instead of being set as spectators (#84)
 - Wathe Extra Items mixin to randomize enabled items at round start not being applied (@yoy333)
+- **Mimic** & **Awesome Binglus** being able to see Killer Cohorts (#105)
+- `poisonedTicks` and `initialPoisonedTicks` not being triggered and updated upon consuming poisonned drinks/foods, ultimately making any poison methods not working like they should (#102)
+- Guidebook Game's Guide tab state icons being drawn next to entries
 
 ## [stable-3.8.141] - Sep 27, 2026
 

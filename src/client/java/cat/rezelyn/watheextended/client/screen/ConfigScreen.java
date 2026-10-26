@@ -125,6 +125,24 @@ public final class ConfigScreen {
             Text.translatable("gui.watheextended.config.category.presets.delete.confirm", name)));
   }
 
+  public static void confirmCommand(String command, Text title, Text message, Screen screen) {
+    MinecraftClient client = MinecraftClient.getInstance();
+    client.setScreen(
+        new ConfirmScreen(
+            confirmed -> {
+              if (!confirmed) {
+                client.setScreen(screen);
+                return;
+              }
+              ClientPlayNetworking.send(
+                  new ServerConfig.ChangePayload(Map.of("cmd:" + command, "")));
+              awaitingSync = true;
+              client.setScreen(null);
+            },
+            title,
+            message));
+  }
+
   public static void onPresetList(PresetManager.ListPayload payload) {
     presets = PresetManager.fromNbt(payload.data());
     MinecraftClient client = MinecraftClient.getInstance();

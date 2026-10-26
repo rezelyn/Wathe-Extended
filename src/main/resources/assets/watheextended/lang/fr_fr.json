@@ -56,6 +56,7 @@
   "item.watheextended.trigger_rtp": "Déclencher la téléportation aléatoire",
   "item.watheextended.add_players": "Ajouter des bots",
   "item.watheextended.remove_players": "Retirer les bots",
+  "item.watheextended.copy_position": "Copier la position",
   "item.watheextended.teleport_to_ready_area": "Se téléporter à la zone de préparation",
   "item.watheextended.teleport_to_scenery": "Se téléporter au décor",
 
@@ -112,6 +113,10 @@
 
   "message.watheextended.fake_players.added": "Bots ajoutés avec succès",
   "message.watheextended.fake_players.removed": "Bots retirés avec succès",
+  "message.watheextended.copy_position": "Position copiée dans le presse-papiers : %s",
+  "message.watheextended.copy_position.first": "Première position enregistrée : %s",
+  "message.watheextended.copy_position.mode.point": "Mode Point activé",
+  "message.watheextended.copy_position.mode.box": "Mode Zone activé",
   "message.watheextended.fake_players.unavailable": "Les bots nécessitent le mod Carpet d'installé",
 
   "gui.watheextended.config.title": "Options Wathe: Extended",

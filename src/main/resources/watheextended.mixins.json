@@ -9,7 +9,6 @@
     "compat.LegacyWatheImportsMixin",
     "fix.CursorSlotMixin",
     "fix.DisabledKillerRoleConversionMixin",
-    "fix.InfectedNullGuardMixin",
     "fix.InitiateRemoteDeathMixin",
     "fix.KillShieldConditionMixin",
     "fix.PersistentTaskNbtMixin",

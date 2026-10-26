@@ -17,12 +17,11 @@ import java.util.*;
  */
 public final class WatheExtendedServerConfig {
 
-  // GENERAL
-
-  // Roleplay items
-  public static final Map<String, Boolean> ROLEPLAY_ITEM_DEFAULTS = createRoleplayItemDefaults();
   private static final ConfigHelper CONFIG =
       new ConfigHelper(WatheExtendedServerConfig.class, "server.json");
+
+  // GENERAL
+
   // World
   public static boolean playerCollisionsEnabled = true;
   public static boolean rtpEnabled = true;
@@ -48,12 +47,13 @@ public final class WatheExtendedServerConfig {
   public static boolean moodDisableAbilityWhenDepressed = true;
   public static int moodDisableAbilityWhenDepressedDelay = 0;
   public static boolean moodDisableSprintingWhenDepressed = true;
-
-  // ROLES
   // Suppress ability VFX/SFX
   public static boolean suppressAbilityVfxSfx = false;
   // Kill Time Increase
   public static int killIncreaseTime = 60;
+
+  // ROLES
+
   // Morphling
   public static boolean morphlingCanCancelAbility = true;
   public static int morphlingAbilityDuration = 35;
@@ -68,8 +68,11 @@ public final class WatheExtendedServerConfig {
   public static int cleanerAcidBarrelCoins = 50;
   // Dreamer
   public static boolean dreamerImprintNotificationEnabled = true;
+  // Physician
+  public static boolean disablePhysicianDeathReason = false;
 
   // MODIFIERS
+
   // Arsonist
   public static boolean arsonistDousedNotificationEnabled = true;
   public static int arsonistDousedNotificationDelay = 10;
@@ -85,11 +88,12 @@ public final class WatheExtendedServerConfig {
   public static float taxedCoinReduction = 0.50f;
   public static int taxedKillThreshold = 1;
   public static int taxedKillWindowSeconds = 60;
-
-  // ITEMS
   // Adaptive
   public static float adaptivePenaltyReduction = 0.50f;
   public static float adaptiveBonusMultiplier = 0.50f;
+
+  // ITEMS
+
   // Knife
   public static int knifePrice = 100;
   public static int knifeCooldown = 60;
@@ -136,6 +140,7 @@ public final class WatheExtendedServerConfig {
   public static int huntingKnifeCooldown = 45;
   // Medical Kit
   public static int medicalKitCooldown = 60;
+  public static int medicalKitVisiblePlayerCount = 10;
   // Pan
   public static int panPrice = 250;
   public static int panCooldown = 45;
@@ -175,6 +180,8 @@ public final class WatheExtendedServerConfig {
   public static int jerryCanCooldown = 0;
   // Lighter
   public static int lighterCooldown = 0;
+  // Roleplay items
+  public static final Map<String, Boolean> ROLEPLAY_ITEM_DEFAULTS = createRoleplayItemDefaults();
   public static Map<String, Boolean> roleplayItems = new LinkedHashMap<>(ROLEPLAY_ITEM_DEFAULTS);
 
   private WatheExtendedServerConfig() {}

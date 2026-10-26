@@ -531,6 +531,9 @@ public class WatheExtendedClient implements ClientModInitializer {
     if (world.isClient() && stack.getItem() == WatheExtendedItems.GUIDEBOOK) {
       MinecraftClient.getInstance().setScreen(new GuidebookScreen());
     }
+    if (world.isClient() && player.isCreative() && stack.isOf(WatheExtendedItems.COPY_POSITION)) {
+      CopyPositionHandler.use(player);
+    }
     return TypedActionResult.pass(stack);
   }
 

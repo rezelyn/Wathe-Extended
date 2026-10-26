@@ -1,12 +1,14 @@
 package cat.rezelyn.watheextended.game.compat;
 
 import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.game.GameFunctions;
 import java.util.Set;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 
 // shared killer-sided visibility rules used by the cohort overlay
 public final class KillerCohortAccess {
+
   // mirrors noellesroles KILLER_SIDED_NEUTRALS
   private static final Set<Identifier> KILLER_SIDED_ROLES =
       Set.of(
@@ -16,17 +18,38 @@ public final class KillerCohortAccess {
           Identifier.of("noellesroles", "mimic"),
           Identifier.of("noellesroles", "vulture"));
 
+  // fake killers are seen has killer cohorts by real killers, fake killers don't see any label
+  private static final Identifier FAKE_KILLERS_ROLES = Identifier.of("noellesroles", "mimic");
+
+  // list of roles that shouldn't be able to see killer cohorts, for compatibility purposes
+  private static final Identifier EXCLUDED_ROLES =
+      Identifier.of("noellesroles", "awesome_binglus");
+
   private KillerCohortAccess() {}
 
   public static boolean isKillerCohort(GameWorldComponent game, PlayerEntity player) {
-    return player != null
-        && game != null
-        && (game.canUseKillerFeatures(player)
-            || (game.getRole(player) != null
-                && KILLER_SIDED_ROLES.contains(game.getRole(player).identifier())));
+    if (player == null || game == null || isExcluded(game, player)) return false;
+    var role = game.getRole(player);
+    return game.canUseKillerFeatures(player)
+        || (role != null && KILLER_SIDED_ROLES.contains(role.identifier()));
   }
 
   public static boolean canSeeCohorts(GameWorldComponent game, PlayerEntity player) {
+    if (game == null
+        || player == null
+        || isFakeKiller(game, player)
+        || isExcluded(game, player)) return false;
     return isKillerCohort(game, player) || InstinctAccess.canUse(player);
+  }
+
+  private static boolean isExcluded(GameWorldComponent game, PlayerEntity player) {
+    if (!GameFunctions.isPlayerAliveAndSurvival(player)) return false;
+    var role = game.getRole(player);
+    return role != null && EXCLUDED_ROLES.equals(role.identifier());
+  }
+
+  private static boolean isFakeKiller(GameWorldComponent game, PlayerEntity player) {
+    var role = game.getRole(player);
+    return role != null && FAKE_KILLERS_ROLES.equals(role.identifier());
   }
 }

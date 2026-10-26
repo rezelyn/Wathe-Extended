@@ -480,6 +480,17 @@ public class AddonsConfigCommand {
                                               context.getSource().getWorld(),
                                               IntegerArgumentType.getInteger(context, "value"))))))
 
+              .then(
+                  CommandManager.literal("setDisablePhysicianDeathReason")
+                      .then(
+                          CommandManager.argument("enabled", BoolArgumentType.bool())
+                              .executes(
+                                  update(
+                                      context ->
+                                          cat.rezelyn.watheextended.api.config.kinswathe
+                                              .ConfigHelper.setDisablePhysicianDeathReason(
+                                              BoolArgumentType.getBool(context, "enabled"))))))
+
               /// ROBOT
               .then(
                   CommandManager.literal("setRobotAbilityDuration")

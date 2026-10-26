@@ -64,6 +64,7 @@
   "item.watheextended.trigger_rtp": "Trigger RTP",
   "item.watheextended.add_players": "Add Players",
   "item.watheextended.remove_players": "Remove Players",
+  "item.watheextended.copy_position": "Copy Position",
   "item.watheextended.teleport_to_ready_area": "Teleport to Ready Area",
   "item.watheextended.teleport_to_scenery": "Teleport to Scenery",
 
@@ -120,6 +121,10 @@
 
   "message.watheextended.fake_players.added": "Fake players added",
   "message.watheextended.fake_players.removed": "Fake players removed",
+  "message.watheextended.copy_position": "Copied position to clipboard: %s",
+  "message.watheextended.copy_position.first": "First position saved: %s",
+  "message.watheextended.copy_position.mode.point": "Switched to Point mode",
+  "message.watheextended.copy_position.mode.box": "Switched to Box mode",
   "message.watheextended.fake_players.unavailable": "Fake players require the Carpet mod",
 
   "gui.watheextended.config.title": "Wathe Extended Options",
@@ -485,6 +490,10 @@
   "gui.watheextended.config.category.roles.opt.phantom.cancancelability.desc": "When enabled, the Phantom can cancel their active invisibility by pressing the ability key again.\n\n§6Default:§r \uE400",
   "gui.watheextended.config.category.roles.opt.phantom.duration.desc": "Duration in seconds of the Phantom's invisibility ability.\n\n§6Default:§r §e30",
   "gui.watheextended.config.category.roles.opt.phantom.cooldown.desc": "Cooldown in seconds after invisibility ends before it can be used again.\n\n§6Default:§r §e60",
+  "gui.watheextended.config.category.roles.opt.physician.disabledeathreason": "Hide Death Info",
+  "gui.watheextended.config.category.roles.opt.physician.disabledeathreason.desc": "When enabled, hides the entire death info line, including cause and time, while the Physician looks at a dead body.\n\n§6Default:§r \uE401",
+  "gui.watheextended.config.category.roles.opt.physician.medicalkitcountvisible": "Medical Kit Visible Player Count",
+  "gui.watheextended.config.category.roles.opt.physician.medicalkitcountvisible.desc": "Minimum number of players for the Medical Kit to look like a Medical Kit instead of a Lockpick.\n\n§6Default:§r §e10",
   "gui.watheextended.config.category.roles.opt.voodoo.nonkillerdeaths": "Voodoo on Natural Deaths",
   "gui.watheextended.config.category.roles.opt.voodoo.nonkillerdeaths.desc": "Allow natural deaths to trigger Voodoo.\n\n§6Default:§r \uE401",
   "gui.watheextended.config.category.roles.opt.voodoo.shotlikeevil": "Shot Like Evil",

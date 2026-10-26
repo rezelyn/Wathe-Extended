@@ -636,17 +636,19 @@ public class WatheExtended implements ModInitializer {
         });
   }
 
-  /** Runs a command requested by the config screen */
+  /** Runs a command requested by the config screen; newline-separated commands run in order */
   private static void runConfigCommand(
       MinecraftServer server, ServerPlayerEntity player, String command) {
-    try {
-      server
-          .getCommandManager()
-          .getDispatcher()
-          .execute(
-              command,
-              player.getCommandSource().withLevel(CONFIG_COMMAND_PERMISSION_LEVEL).withSilent());
-    } catch (Throwable ignored) {
+    for (String single : command.split("\n")) {
+      try {
+        server
+            .getCommandManager()
+            .getDispatcher()
+            .execute(
+                single,
+                player.getCommandSource().withLevel(CONFIG_COMMAND_PERMISSION_LEVEL).withSilent());
+      } catch (Throwable ignored) {
+      }
     }
   }
 
