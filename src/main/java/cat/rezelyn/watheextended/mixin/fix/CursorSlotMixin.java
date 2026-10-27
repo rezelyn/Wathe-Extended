@@ -2,6 +2,7 @@ package cat.rezelyn.watheextended.mixin.fix;
 
 import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
+import cat.rezelyn.watheextended.index.WatheExtendedItems;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.index.WatheItems;
 import dev.doctor4t.wathe.index.tag.WatheItemTags;
@@ -9,6 +10,7 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -28,6 +30,14 @@ public class CursorSlotMixin {
     if (player.isCreative()) return;
 
     ItemStack groundStack = ((ItemEntity) (Object) this).getStack();
+    ItemStack cursor = player.currentScreenHandler.getCursorStack();
+    if (!cursor.isEmpty()
+        && cursor.isOf(groundStack.getItem())
+        && isManagedItem(groundStack)) {
+      ci.cancel();
+      return;
+    }
+
     if (!groundStack.isIn(WatheItemTags.GUNS)) return;
 
     GameWorldComponent game;
@@ -47,9 +57,18 @@ public class CursorSlotMixin {
       return;
     }
 
-    ItemStack cursor = player.currentScreenHandler.getCursorStack();
     if (!cursor.isEmpty() && cursor.isIn(WatheItemTags.GUNS)) {
       ci.cancel(); // shxnji guessed it
     }
+  }
+
+  @Unique
+  private static boolean isManagedItem(ItemStack stack) {
+    return stack.isOf(WatheExtendedItems.GUIDEBOOK)
+        || stack.isOf(WatheExtendedItems.TELEPORT_TO_READY_AREA)
+        || stack.isOf(WatheExtendedItems.TELEPORT_TO_SCENERY)
+        || stack.isOf(WatheExtendedItems.COPY_POSITION)
+        || stack.isOf(WatheExtendedItems.REMOVE_PLAYERS)
+        || stack.isOf(WatheExtendedItems.ADD_PLAYERS);
   }
 }
