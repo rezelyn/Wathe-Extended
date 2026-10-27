@@ -107,6 +107,7 @@
   "announcement.modifier.watheextended.adaptive": "Adaptive",
 
   "command.watheextended.pronouns.set": "Your pronouns have been set to: %s",
+  "command.watheextended.pronouns.set_other": "%s's pronouns have been set to: %s",
   "command.watheextended.pronouns.cleared": "Your pronouns have been cleared.",
   "command.watheextended.pronouns.cleared_other": "%ss pronouns have been cleared.",
   "command.watheextended.mapvariables.lobbyarea.set": "Map variable lobbyArea successfully set to:\n%s.",
