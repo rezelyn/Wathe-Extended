@@ -5,6 +5,15 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Changed the `/pronouns set <field>` command to allow selecting a target using `/pronouns set <field> [target]`, primarly made for testing, available for OP players only. 
+- Set an ordering on the lobby items and creative utility items give, Guidebook will always be given in the first slot followed by the Teleport to Ready Area item, creative items are now always given to the opposite side of the hotbar.
+
+### Fixed
+
+- Lobby items (Guidebook, Teleport to Ready Area) and creative utility items being duplicated when picking them with the cursor; prevented duplicate pickups when the same item is held on the cursor.
+
 ## [4.0.0-h1.4] - TBD
 <!-- THIS IS THE CHANGELOG FOR THE STABLE RELEASE, IT CONTAINS RELEVANT ENTRIES FROM PRE-RELEASES AND SHOULD BE UPDATED ALONGSIDE BETA RELEASES -->
 
@@ -59,6 +68,8 @@
     - A vignette will now darken the screen edges of depressed players, and the vignette's intensity increases over time while depressed, goes away when the player is no longer depressed
     - Improved Last Stand vignette rendering and coloring
 - Custom plushies sounds are now using a randomized pitch value when squashing them (yea even Ish's meow)
+- Changed the `/pronouns set <field>` command to allow selecting a target using `/pronouns set <field> [target]`, primarly made for testing, available for OP players only.
+- Set an ordering on the lobby items and creative utility items give, Guidebook will always be given in the first slot followed by the Teleport to Ready Area item, creative items are now always given to the opposite side of the hotbar.
 - Updated Chinese translation (@haiman233)
 - Updated Gradle to `9.8.0`
 - Updated Fabric Loader support to `0.19.5`
@@ -92,6 +103,7 @@
 - **Mimic** & **Awesome Binglus** being able to see Killer Cohorts (#105)
 - `poisonedTicks` and `initialPoisonedTicks` not being triggered and updated upon consuming poisonned drinks/foods, ultimately making any poison methods not working like they should (#102)
 - Guidebook Game's Guide tab state icons being drawn next to entries
+- Lobby items (Guidebook, Teleport to Ready Area) and creative utility items being duplicated when picking them with the cursor
 
 ## [stable-3.8.141] - Sep 27, 2026
 
