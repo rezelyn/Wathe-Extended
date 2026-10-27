@@ -15,16 +15,12 @@ public final class PlayerItem {
   private PlayerItem() {}
 
   private static void giveItem(Item item, int hotbarSlot, ServerPlayerEntity player) {
+    for (int i = 0; i < player.getInventory().size(); i++) {
+      if (player.getInventory().getStack(i).isOf(item)) return;
+    }
+
     ItemStack cursor = player.currentScreenHandler.getCursorStack();
     if (cursor.isOf(item)) return;
-
-    ItemStack existing = ItemStack.EMPTY;
-    for (int i = 0; i < player.getInventory().size(); i++) {
-      ItemStack stack = player.getInventory().getStack(i);
-      if (!stack.isOf(item)) continue;
-      if (existing.isEmpty()) existing = stack.copy();
-      player.getInventory().setStack(i, ItemStack.EMPTY);
-    }
 
     ItemStack displaced = player.getInventory().getStack(hotbarSlot);
     if (!displaced.isEmpty() && !displaced.isOf(item)) {
@@ -41,8 +37,7 @@ public final class PlayerItem {
       }
     }
 
-    if (existing.isEmpty()) existing = new ItemStack(item);
-    player.getInventory().setStack(hotbarSlot, existing);
+    player.getInventory().setStack(hotbarSlot, new ItemStack(item));
   }
 
   public static void removeItem(Item item, ServerPlayerEntity player) {

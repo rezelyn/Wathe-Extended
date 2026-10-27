@@ -27,8 +27,6 @@ public class CursorSlotMixin {
 
   @Inject(method = "onPlayerCollision", at = @At("HEAD"), cancellable = true)
   private void watheextended$preventGunPickup(PlayerEntity player, CallbackInfo ci) {
-    if (player.isCreative()) return;
-
     ItemStack groundStack = ((ItemEntity) (Object) this).getStack();
     ItemStack cursor = player.currentScreenHandler.getCursorStack();
     if (!cursor.isEmpty()
@@ -38,6 +36,7 @@ public class CursorSlotMixin {
       return;
     }
 
+    if (player.isCreative()) return;
     if (!groundStack.isIn(WatheItemTags.GUNS)) return;
 
     GameWorldComponent game;
