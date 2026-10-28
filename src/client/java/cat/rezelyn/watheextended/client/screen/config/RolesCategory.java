@@ -1377,6 +1377,32 @@ public final class RolesCategory {
       // Amnesiac
       case "stupid_express:amnesiac" -> {
         if (!ConfigHelper.isLoaded()) return;
+        /// KEEPS GAME GOING
+        builder.option(
+            Option.<Boolean>createBuilder()
+                .name(
+                    Text.translatable(
+                        "gui.watheextended.config.category.roles.opt.amnesiac.keepsgamegoing"))
+                .description(
+                    OptionDescription.of(
+                        Text.translatable(
+                            "gui.watheextended.config.category.roles.opt.amnesiac.keepsgamegoing.desc")))
+                .binding(
+                    true,
+                    ConfigHelper::getAmnesiacKeepsGameGoing,
+                    value ->
+                        ScreenUtils.stage(
+                            sendCommand, parent, "stupidexpress.amnesiacKeepsGameGoing", value))
+                .controller(
+                    option ->
+                        BooleanControllerBuilder.create(option)
+                            .formatValue(
+                                value ->
+                                    Text.translatable(
+                                        value
+                                            ? "gui.watheextended.config.text.on"
+                                            : "gui.watheextended.config.text.off")))
+                .build());
         /// BODIES GLOW
         builder.option(
             Option.<Boolean>createBuilder()

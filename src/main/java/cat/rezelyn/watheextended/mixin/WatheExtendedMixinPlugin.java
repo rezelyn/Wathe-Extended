@@ -78,6 +78,7 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
           "fix.RevivalItemGivingMixin",
           "game.item.ArsonistItemsUseMixin",
           "game.item.ThiefItemRulesMixin",
+          "game.roles.amnesiac.AmnesiacKeepAliveMixin",
           "game.roles.arsonist.DousedPlayerNotificationMixin");
 
   /** Mixins that need the Kin's Wathe add-on (mod id {@code kinswathe}) */

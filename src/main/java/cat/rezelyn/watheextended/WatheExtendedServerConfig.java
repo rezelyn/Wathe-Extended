@@ -54,6 +54,8 @@ public final class WatheExtendedServerConfig {
 
   // ROLES
 
+  // Amnesiac
+  public static boolean amnesiacKeepsGameGoing = true;
   // Morphling
   public static boolean morphlingCanCancelAbility = true;
   public static int morphlingAbilityDuration = 35;

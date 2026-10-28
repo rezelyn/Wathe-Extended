@@ -526,6 +526,8 @@
   "gui.watheextended.config.category.roles.opt.necromancer.hasshop.desc": "Whether the Necromancer has access to a shop.\n\n§6Default:§r \uE401",
   "gui.watheextended.config.category.roles.opt.arsonist.keepsgamegoing": "Keeps Game Going",
   "gui.watheextended.config.category.roles.opt.arsonist.keepsgamegoing.desc": "When enabled, the game won't end while the Arsonist is still alive.\nMeaning that the Arsonist needs be the last alive in order to win the game.\n\n§6Default:§r \uE400",
+  "gui.watheextended.config.category.roles.opt.amnesiac.keepsgamegoing": "Keeps Game Going",
+  "gui.watheextended.config.category.roles.opt.amnesiac.keepsgamegoing.desc": "When enabled, the game won't end while the Amnesiac is still alive.\nMeaning that the Amnesiac can still pick a role even after all the Killers are dead.\n\n§6Default:§r \uE400",
   "gui.watheextended.config.category.roles.opt.amnesiac.bodiesglow": "Bodies Glow",
   "gui.watheextended.config.category.roles.opt.amnesiac.bodiesglow.desc": "Do dead bodies glows for the Amnesiac?\n\n§6Default:§r \uE400",
   "gui.watheextended.config.category.roles.opt.amnesiac.glowsdifferently": "Glows Differently",
