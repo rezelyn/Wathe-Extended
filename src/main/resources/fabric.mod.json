@@ -5,17 +5,17 @@
   "name": "Wathe Extended",
   "description": "Add-on mod for Wathe: Murder Mystery, made for \"The Harpy Express: Extended\" modpack.",
   "authors": [
-    "Rezelyn (Owner)",
-    "yoy333 (Maintainer)"
+    "Rezelyn"
   ],
   "contributors": [
+    "yoy333",
     "ItsSyfe",
     "Basinity",
     "math730 (French localization)",
     "haiman233 (Chinese localization)",
     "Celemimphar (Ish Plush model & texture)",
     "\nSpecial thanks:\n- The D.R. Harpy Transportation Ltd. Discord server for being psychopaths",
-    "\nAdditional assets:\n- LadySnake (Wathe: Murder Mystery)\n- Arkane® Studios (Dishonored)"
+    "\nAdditional assets:\n- LadySnake (Wathe: Murder Mystery)\n- Arkane® Studios (Dishonored)\n- Justin Arnold (Justin's 16x16 Icon Pack)"
   ],
   "contact": {
     "sources": "https://github.com/rezelyn/Wathe-Extended",
