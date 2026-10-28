@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "watheextended",
   "version": "${version}",
-  "name": "Wathe Extended",
+  "name": "Wathe: Extended",
   "description": "Add-on mod for Wathe: Murder Mystery, made for \"The Harpy Express: Extended\" modpack.",
   "authors": [
     "Rezelyn"
