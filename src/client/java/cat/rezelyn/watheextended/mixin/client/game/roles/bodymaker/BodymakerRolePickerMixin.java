@@ -126,6 +126,11 @@ public abstract class BodymakerRolePickerMixin extends Screen {
       String deathReason = (String) reasonField.get(roleWidget);
 
       this.remove(roleWidget);
+      for (Element child : List.copyOf(this.children())) {
+        if (bodymakerPicker.isInstance(child) || bodymakerReason.isInstance(child)) {
+          this.remove(child);
+        }
+      }
 
       int pickerX = this.width / 2 - 100;
       int pickerY = (this.height - 32) / 2 + 32 + 20;

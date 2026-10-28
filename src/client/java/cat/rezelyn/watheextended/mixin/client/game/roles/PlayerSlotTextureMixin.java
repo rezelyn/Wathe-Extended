@@ -1,5 +1,6 @@
-package cat.rezelyn.watheextended.mixin.client.game.roles.bodymaker;
+package cat.rezelyn.watheextended.mixin.client.game.roles;
 
+import cat.rezelyn.watheextended.client.render.PlayerSlotRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
@@ -12,11 +13,15 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Pseudo
 @Environment(EnvType.CLIENT)
 @Mixin(
-    targets = "org.BsXinQin.kinswathe.client.roles.bodymaker.BodymakerDeathReasonWidget",
+    targets = {
+      "org.agmas.noellesroles.client.ui.MorphlingPlayerWidget",
+      "org.agmas.noellesroles.client.ui.VoodooPlayerWidget",
+      "org.BsXinQin.kinswathe.client.roles.judge.JudgePlayerWidget",
+      "org.BsXinQin.kinswathe.client.roles.bodymaker.BodymakerPlayerWidget",
+      "org.BsXinQin.kinswathe.client.roles.bodymaker.BodymakerDeathReasonWidget"
+    },
     remap = false)
-public abstract class BodymakerDeathReasonSlotTextureMixin {
-
-  private static final Identifier BODYMAKER_SLOT = Identifier.of("watheextended", "bodymaker_slot");
+public abstract class PlayerSlotTextureMixin {
 
   @Redirect(
       method = "renderWidget",
@@ -26,8 +31,8 @@ public abstract class BodymakerDeathReasonSlotTextureMixin {
               target =
                   "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"),
       require = 0)
-  private void watheextended$overrideBodymakerDeathReasonSlotTexture(
+  private void watheextended$drawTintedRoleSlot(
       DrawContext context, Identifier texture, int x, int y, int width, int height) {
-    context.drawGuiTexture(BODYMAKER_SLOT, x, y, width, height);
+    PlayerSlotRenderer.drawRoleSlot(context, x, y, width, height);
   }
 }

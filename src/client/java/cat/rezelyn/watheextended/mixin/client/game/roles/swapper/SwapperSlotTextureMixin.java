@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.mixin.client.game.roles.swapper;
 
+import cat.rezelyn.watheextended.client.render.PlayerSlotRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
@@ -15,8 +16,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(targets = "org.agmas.noellesroles.client.ui.SwapperPlayerWidget", remap = false)
 public abstract class SwapperSlotTextureMixin {
 
-  private static final Identifier SWAPPER_SLOT = Identifier.of("watheextended", "swapper_slot");
-
   @Redirect(
       method = "renderWidget",
       at =
@@ -27,7 +26,7 @@ public abstract class SwapperSlotTextureMixin {
       require = 0)
   private void watheextended$overrideSwapperSlotTexture(
       DrawContext context, Identifier texture, int x, int y, int width, int height) {
-    context.drawGuiTexture(SWAPPER_SLOT, x, y, width, height);
+    PlayerSlotRenderer.drawRoleSlot(context, x, y, width, height);
   }
 
   @Redirect(

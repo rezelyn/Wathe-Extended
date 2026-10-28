@@ -46,11 +46,10 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
           "client.fix.GraverobberCoronerHudMixin",
           "client.game.roles.infected.InfectedInstinctMixin",
           "client.game.roles.morphling.MorphlingCancelHudMixin",
-          "client.game.roles.morphling.MorphlingSlotTextureMixin",
+          "client.game.roles.morphling.MorphlingActiveRowMixin",
           "client.game.roles.swapper.SwapperSlotTextureMixin",
           "client.game.modifiers.guesser.GuesserRolePickerMixin",
           "client.game.modifiers.guesser.GuesserSlotTextureMixin",
-          "client.game.roles.voodoo.VoodooSlotTextureMixin",
           "client.game.roles.awesomebinglus.BinglusShopRendererMixin",
           "client.game.roles.awesomebinglus.BinglusInstinctMixin",
           "fix.InfectedNullGuardMixin",
@@ -86,11 +85,8 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
       Set.of(
           "client.hud.DreamImprintOverlayMixin",
           "client.item.MedicalKitVisibilityMixin",
-          "client.game.roles.bodymaker.BodymakerDeathReasonSlotTextureMixin",
           "client.game.roles.bodymaker.BodymakerRolePickerMixin",
-          "client.game.roles.bodymaker.BodymakerSlotTextureMixin",
           "client.game.roles.dreamer.DreamerInstinctMixin",
-          "client.game.roles.judge.JudgeSlotTextureMixin",
           "client.game.roles.physician.PhysicianDeathReasonTextMixin",
           "game.roles.bellringer.BellringerAbilityMixin",
           "game.roles.cleaner.CleanerAbilityMixin",
@@ -109,6 +105,7 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
       Set.of("compat.ExtraItemsRoundStartMixin");
 
   private static final String LEGACY_IMPORTS_MIXIN = "compat.LegacyWatheImportsMixin";
+  private static final String PLAYER_SLOT_TEXTURE_MIXIN = "client.game.roles.PlayerSlotTextureMixin";
 
   private static boolean matches(String mixinClassName, Set<String> suffixes) {
     return suffixes.stream().anyMatch(mixinClassName::endsWith);
@@ -128,6 +125,9 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
   @Override
   public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
     FabricLoader loader = FabricLoader.getInstance();
+    if (mixinClassName.endsWith(PLAYER_SLOT_TEXTURE_MIXIN)) {
+      return loader.isModLoaded("noellesroles") || loader.isModLoaded("kinswathe");
+    }
     if (matches(mixinClassName, NOELLES_ROLES_MIXINS) && !loader.isModLoaded("noellesroles"))
       return false;
     if (matches(mixinClassName, STARRY_EXPRESS_MIXINS) && !loader.isModLoaded("starexpress"))

@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.mixin.client.game.modifiers.guesser;
 
+import cat.rezelyn.watheextended.client.render.PlayerSlotRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
@@ -14,8 +15,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(targets = "org.agmas.noellesroles.client.ui.guesser.GuesserPlayerWidget", remap = false)
 public abstract class GuesserSlotTextureMixin {
 
-  private static final Identifier GUESSER_SLOT = Identifier.of("watheextended", "guesser_slot");
-
   @Redirect(
       method = "renderWidget",
       at =
@@ -26,6 +25,6 @@ public abstract class GuesserSlotTextureMixin {
       require = 0)
   private void watheextended$overrideGuesserSlotTexture(
       DrawContext context, Identifier texture, int x, int y, int width, int height) {
-    context.drawGuiTexture(GUESSER_SLOT, x, y, width, height);
+    PlayerSlotRenderer.drawGuesserSlot(context, x, y, width, height);
   }
 }
