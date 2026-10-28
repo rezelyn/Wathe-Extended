@@ -46,14 +46,6 @@ public final class UnifiedNameRenderer {
   private static final float NORMAL_RANGE = 2f;
   private static final float PRIVILEGED_RANGE = 8f;
 
-  // Roles that should not see the Killer Cohort text
-  private static final Set<Identifier> KILLER_COHORT_DENYLIST =
-      Set.of(
-          Identifier.of("stupid_express", "arsonist"),
-          Identifier.of("noellesroles", "executioner"),
-          Identifier.of("stupid_express", "thief"),
-          Identifier.of("noellesroles", "jester"));
-
   private static float fade;
   private static PlayerEntity lastTarget;
   private static boolean drawingCompatibilityStatus;
@@ -395,9 +387,7 @@ public final class UnifiedNameRenderer {
   }
 
   private static boolean canSeeKillerCohort(GameWorldComponent game, PlayerEntity viewer) {
-    Role viewerRole = game.getRole(viewer);
-    return (viewerRole == null || !KILLER_COHORT_DENYLIST.contains(viewerRole.identifier()))
-        && KillerCohortAccess.canSeeCohorts(game, viewer);
+    return KillerCohortAccess.canSeeCohorts(game, viewer);
   }
 
   private static boolean shouldShowKillerCohort(
