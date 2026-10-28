@@ -43,6 +43,10 @@
     {
       "config": "watheextended.client.mixins.json",
       "environment": "client"
+    },
+    {
+      "config": "watheextended.accessors.client.mixins.json",
+      "environment": "client"
     }
   ],
   "depends": {
