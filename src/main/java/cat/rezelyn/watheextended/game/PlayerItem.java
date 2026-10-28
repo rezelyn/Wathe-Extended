@@ -55,8 +55,6 @@ public final class PlayerItem {
     if (gameRunning) {
       removeItem(WatheExtendedItems.TELEPORT_TO_READY_AREA, player);
       removeItem(WatheExtendedItems.TELEPORT_TO_SCENERY, player);
-      removeItem(WatheExtendedItems.CREATE_RTP_SLOT, player);
-      removeItem(WatheExtendedItems.TRIGGER_RTP, player);
       removeItem(WatheExtendedItems.ADD_PLAYERS, player);
       removeItem(WatheExtendedItems.REMOVE_PLAYERS, player);
       removeItem(WatheExtendedItems.COPY_POSITION, player);
@@ -70,8 +68,6 @@ public final class PlayerItem {
       } else {
         removeItem(WatheExtendedItems.COPY_POSITION, player);
         removeItem(WatheExtendedItems.TELEPORT_TO_SCENERY, player);
-        removeItem(WatheExtendedItems.CREATE_RTP_SLOT, player);
-        removeItem(WatheExtendedItems.TRIGGER_RTP, player);
         removeItem(WatheExtendedItems.ADD_PLAYERS, player);
         removeItem(WatheExtendedItems.REMOVE_PLAYERS, player);
       }
