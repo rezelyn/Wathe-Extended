@@ -107,6 +107,7 @@ dependencies {
         modApi "maven.modrinth:starexpress:${project.starexpress_version}"
         modApi "maven.modrinth:kinswathe:${project.kinswathe_version}"
         modApi "maven.modrinth:watheextraitems:${project.watheextraitems_version}"
+        modApi "maven.modrinth:wathextras:${project.wathextras_version}"
 
     // Libraries
     modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
