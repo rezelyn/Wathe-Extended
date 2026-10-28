@@ -6,6 +6,7 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "client.WatheVisualSettingsMixin",
+    "client.compat.GuidebookButtonMixin",
     "client.fix.GraverobberCoronerHudMixin",
     "client.fix.PlayerBodyNullRendererMixin",
     "client.fix.PsychosisItemsRenderMixin",
@@ -39,7 +40,6 @@
     "client.hud.ClientChatMixin",
     "client.hud.ClientChatRestoreMixin",
     "client.hud.GameMenuScreenMixin",
-    "client.hud.GuidebookButtonMixin",
     "client.hud.HeldItemTooltipMixin",
     "client.hud.LimitedInventoryScreenMixin",
     "client.hud.LobbyPlayersRendererMixin",

@@ -65,7 +65,7 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
   /** Mixins that need the Starry Express add-on (mod id {@code starexpress}) */
   private static final Set<String> STARRY_EXPRESS_MIXINS =
       Set.of(
-          "client.hud.GuidebookButtonMixin",
+          "client.compat.GuidebookButtonMixin",
           "game.mood.StarryExpressAbilityMixin",
           "game.roles.starstruck.StarstruckAbilityMixin",
           "game.roles.starstruck.StarstruckComponentMixin");

@@ -1,4 +1,4 @@
-package cat.rezelyn.watheextended.mixin.client.hud;
+package cat.rezelyn.watheextended.mixin.client.compat;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ClickableWidget;
