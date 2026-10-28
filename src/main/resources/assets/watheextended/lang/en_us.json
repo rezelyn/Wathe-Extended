@@ -614,7 +614,7 @@
   "gui.watheextended.config.category.presets.description.placeholder": "Custom configuration for my server",
 
   "gui.watheextended.inventory.role": "Role:",
-  "gui.watheextended.inventory.modifiers": "Modifiers:",
+  "gui.watheextended.inventory.modifiers": "Modifier(s):",
   "gui.watheextended.inventory.no_modifiers": "No Modifiers",
   "gui.watheextended.inventory.guesser.guess": "Select a player to guess their role.",
   "gui.watheextended.inventory.swapper.swap": "Select two players to swap them.",
