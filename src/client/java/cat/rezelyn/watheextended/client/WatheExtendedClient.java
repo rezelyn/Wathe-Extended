@@ -1,6 +1,7 @@
 package cat.rezelyn.watheextended.client;
 
-import cat.rezelyn.watheextended.client.pronouns.PronounsCache;
+import cat.rezelyn.watheextended.client.utils.CopyPositionHandler;
+import cat.rezelyn.watheextended.client.utils.PronounsCache;
 import cat.rezelyn.watheextended.client.render.*;
 import cat.rezelyn.watheextended.client.render.entity.*;
 import cat.rezelyn.watheextended.client.screen.ConfigScreen;

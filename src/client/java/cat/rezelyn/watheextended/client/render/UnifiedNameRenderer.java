@@ -5,7 +5,7 @@ import cat.rezelyn.watheextended.api.RolesDisplay;
 import cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper;
 import cat.rezelyn.watheextended.client.compat.KinsWatheAccess;
 import cat.rezelyn.watheextended.client.compat.StupidExpressAccess;
-import cat.rezelyn.watheextended.client.pronouns.PronounsCache;
+import cat.rezelyn.watheextended.client.utils.PronounsCache;
 import cat.rezelyn.watheextended.game.compat.KillerCohortAccess;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheGameModes;

@@ -1,4 +1,4 @@
-package cat.rezelyn.watheextended.client;
+package cat.rezelyn.watheextended.client.utils;
 
 import cat.rezelyn.watheextended.index.WatheExtendedItems;
 import java.util.Locale;

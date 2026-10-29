@@ -1,4 +1,4 @@
-package cat.rezelyn.watheextended.client.pronouns;
+package cat.rezelyn.watheextended.client.utils;
 
 import java.util.Map;
 import java.util.UUID;
