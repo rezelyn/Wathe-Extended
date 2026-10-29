@@ -2,11 +2,9 @@ package cat.rezelyn.watheextended.mixin.game;
 
 import cat.rezelyn.watheextended.api.MapVariables;
 import cat.rezelyn.watheextended.block.ProtectedBlocks;
+import cat.rezelyn.watheextended.block.ProtectedBlocks.Category;
 import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
-import dev.doctor4t.wathe.block.*;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.DoorBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -40,6 +38,17 @@ public class BlockInteractionProtectionMixin {
         || (lobbyArea != null && lobbyArea.contains(center));
   }
 
+  /**
+   * Blocks protected interactions in configured areas, while allowing selected block categories in
+   * the Play Area and Ready Area
+   *
+   * @param player the player interacting with the block
+   * @param world the world containing the block
+   * @param stack the item held during the interaction
+   * @param hand the hand used for the interaction
+   * @param hitResult the block hit by the interaction
+   * @param cir the callback used to cancel the interaction
+   */
   @Inject(method = "interactBlock", at = @At("HEAD"), cancellable = true)
   private void watheExtended$blockInteraction(
       ServerPlayerEntity player,
@@ -85,24 +94,20 @@ public class BlockInteractionProtectionMixin {
         return;
       }
 
-      // playArea allowlist: allow lamps, doors, buttons
+      // playArea allowlist: allow lamps, doors, buttons and privacy glass
       if (inPlayArea) {
-        Block block = state.getBlock();
-        boolean isLamp =
-            block instanceof ToggleableFacingLightBlock
-                || block instanceof NeonTubeBlock
-                || block instanceof NeonPillarBlock;
-        boolean isDoor = block instanceof DoorBlock || block instanceof SmallDoorBlock;
-        boolean isButton = block instanceof WatheButtonBlock;
-        boolean isOrnament = block instanceof OrnamentBlock;
-        if (isLamp || isDoor || isOrnament || isButton) return;
+        if (ProtectedBlocks.isInAnyCategory(
+            state,
+            Category.LAMPS,
+            Category.DOORS,
+            Category.BUTTONS,
+            Category.DECORATIONS,
+            Category.PRIVACY_GLASS)) return;
       }
 
       // readyArea allowlist: allow doors only
       if (inReadyArea) {
-        Block block = state.getBlock();
-        boolean isDoor = block instanceof DoorBlock || block instanceof SmallDoorBlock;
-        if (isDoor) return;
+        if (ProtectedBlocks.isInCategory(state, Category.DOORS)) return;
       }
 
       cir.setReturnValue(ActionResult.FAIL);
@@ -110,6 +115,12 @@ public class BlockInteractionProtectionMixin {
     }
   }
 
+  /**
+   * Prevents breaking blocks inside configured protected areas while block protection is enabled
+   *
+   * @param pos the position of the block to break
+   * @param cir the callback used to cancel the break
+   */
   @Inject(method = "tryBreakBlock", at = @At("HEAD"), cancellable = true)
   private void watheExtended$blockBreak(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
     try {
