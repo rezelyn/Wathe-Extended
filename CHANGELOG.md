@@ -2,7 +2,7 @@
 
 > [!NOTE]
 > All notable changes to this project will be documented in this file. Changelogs from version
-> [stable-3.5.132](#stable-3.5.132---sep-3-2026) onward also document changes made to the modpack. <br>
+> [stable-3.5.132](#stable-35132---sep-3-2026) onward also document changes made to the modpack. <br>
 > *The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres
 > to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).*
 
