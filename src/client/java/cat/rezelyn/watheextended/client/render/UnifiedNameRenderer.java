@@ -41,6 +41,7 @@ import org.ladysnake.cca.api.v3.component.ComponentKey;
  * username, pronouns (if any) and extra info, stacked from top to bottom
  */
 public final class UnifiedNameRenderer {
+  private static final float START_Y = 16f;
   private static final float SECTION_GAP = 2.5f;
   private static final int LINE_SPACING = 2;
   private static final float NORMAL_RANGE = 2f;
@@ -84,7 +85,9 @@ public final class UnifiedNameRenderer {
     context
         .getMatrices()
         .translate(
-            context.getScaledWindowWidth() / 2f, context.getScaledWindowHeight() / 2f + 6f, 0f);
+            context.getScaledWindowWidth() / 2f,
+            context.getScaledWindowHeight() / 2f + START_Y,
+            0f);
     context.getMatrices().scale(0.6f, 0.6f, 1f);
 
     int y = 0;
@@ -175,9 +178,12 @@ public final class UnifiedNameRenderer {
       PlayerEntity target,
       int y,
       int alphaMask) {
+    UUID disguiseUuid = getMorphlingDisguise(target);
     Text username;
     try {
-      username = target.getDisplayName();
+      PlayerEntity appearance =
+          disguiseUuid == null ? null : target.getWorld().getPlayerByUuid(disguiseUuid);
+      username = appearance == null ? target.getDisplayName() : appearance.getDisplayName();
     } catch (Throwable ignored) {
       username = Text.literal(target.getGameProfile().getName());
     }
@@ -190,9 +196,7 @@ public final class UnifiedNameRenderer {
 
     // Compat: Morphling' ability shows the pronouns of the player they took the appearance from, if
     // any
-    UUID pronounsUuid = getMorphlingDisguise(target);
-    if (pronounsUuid == null) pronounsUuid = target.getUuid();
-    String pronouns = PronounsCache.get(pronounsUuid);
+    String pronouns = PronounsCache.get(disguiseUuid == null ? target.getUuid() : disguiseUuid);
     if (!target.isInvisible()
         && !shouldHidePronouns(viewer)
         && pronouns != null
@@ -351,6 +355,30 @@ public final class UnifiedNameRenderer {
         viewer,
         entity -> entity instanceof PlayerEntity,
         isSpectating(viewer) ? PRIVILEGED_RANGE : NORMAL_RANGE);
+  }
+
+  /**
+   * Checks whether text is Noelle's separate draw of the current Morphling appearance name.
+   *
+   * @param viewer the player looking at the target
+   * @param text the text about to be drawn by Wathe's name renderer
+   * @return {@code true} if the text duplicates the unified Morphling name
+   */
+  public static boolean isMorphedAppearanceName(ClientPlayerEntity viewer, Text text) {
+    PlayerEntity target = getTarget(viewer);
+    if (target == null) target = lastTarget;
+    if (target == null) return false;
+
+    UUID disguiseUuid = getMorphlingDisguise(target);
+    if (disguiseUuid == null) return false;
+
+    PlayerEntity appearance = target.getWorld().getPlayerByUuid(disguiseUuid);
+    if (appearance == null) return false;
+    try {
+      return appearance.getDisplayName().getString().equals(text.getString());
+    } catch (Throwable ignored) {
+      return false;
+    }
   }
 
   /** Finds the player Kin's Wathe would target */

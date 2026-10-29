@@ -3,6 +3,7 @@ package cat.rezelyn.watheextended.client.mixin.hud;
 import cat.rezelyn.watheextended.client.render.UnifiedNameRenderer;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import dev.doctor4t.wathe.client.gui.RoleNameRenderer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
@@ -35,7 +36,10 @@ public class RoleNameRendererMixin {
     }
   }
 
-  /** Wathe's target draw remains in place for compatibility, but its player line is hidden */
+  /**
+   * Keep Wathe's target draw in place for compatibility, but suppress its normal player line.
+   * {@link UnifiedNameRenderer} draws the username and pronouns instead.
+   */
   @WrapOperation(
       method = "renderHud",
       at =
@@ -89,7 +93,7 @@ public class RoleNameRendererMixin {
 
   /**
    * Replaces KinsWathe's independent Killer Cohort text and Hacker draws when the unified rows
-   * cover them
+   * cover them, and suppresses Noelle's duplicate Morphling appearance name.
    */
   @WrapOperation(
       method = "renderHud",
@@ -106,7 +110,9 @@ public class RoleNameRendererMixin {
       int x,
       int y,
       int color,
-      Operation<Integer> original) {
+      Operation<Integer> original,
+      @Local(argsOnly = true) ClientPlayerEntity viewer) {
+    if (y == 16 && UnifiedNameRenderer.isMorphedAppearanceName(viewer, text)) return 0;
     if (FabricLoader.getInstance().isModLoaded("kinswathe")
         && UnifiedNameRenderer.shouldSuppressKinsOverlayDraw(text)) {
       return 0;
