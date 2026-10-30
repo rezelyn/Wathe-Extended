@@ -1,7 +1,8 @@
-package cat.rezelyn.watheextended.client.render;
+package cat.rezelyn.watheextended.client.render.hud;
 
 import cat.rezelyn.watheextended.client.WatheExtendedClient;
 import cat.rezelyn.watheextended.client.WatheExtendedClientConfig;
+import cat.rezelyn.watheextended.client.api.InstinctClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 
@@ -17,12 +18,12 @@ public final class InstinctHudRenderer {
   private InstinctHudRenderer() {}
 
   public static void render(DrawContext context, RenderTickCounter tickCounter) {
-    if (!WatheExtendedClient.shouldRenderInstinctHud()) return;
+    if (!InstinctClient.shouldRenderHud()) return;
 
     int centerX = context.getScaledWindowWidth() / 2;
     int centerY = context.getScaledWindowHeight() / 2;
-    float charge = WatheExtendedClient.getInstinctCharge();
-    float opacity = WatheExtendedClient.getInstinctHudOpacity();
+    float charge = InstinctClient.getCharge();
+    float opacity = InstinctClient.getHudOpacity();
 
     String style = WatheExtendedClientConfig.instinctHudStyle;
     boolean halfRight = "HALF_RIGHT".equals(style);

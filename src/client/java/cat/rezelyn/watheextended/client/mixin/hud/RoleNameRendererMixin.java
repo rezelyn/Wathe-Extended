@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.client.mixin.hud;
 
-import cat.rezelyn.watheextended.client.render.UnifiedNameRenderer;
+import cat.rezelyn.watheextended.client.render.hud.UnifiedNameRenderer;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;

@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.client.mixin.hud;
 
-import cat.rezelyn.watheextended.client.render.ChatHudRenderHelper;
+import cat.rezelyn.watheextended.client.render.hud.ChatHudRenderHelper;
 import dev.doctor4t.wathe.client.WatheClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

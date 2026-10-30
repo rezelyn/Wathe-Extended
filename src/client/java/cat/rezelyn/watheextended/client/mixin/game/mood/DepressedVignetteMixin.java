@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.client.mixin.game.mood;
 
-import cat.rezelyn.watheextended.client.render.VignetteRenderer;
+import cat.rezelyn.watheextended.client.render.hud.VignetteRenderer;
 import cat.rezelyn.watheextended.game.mood.DepressedMoodState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;

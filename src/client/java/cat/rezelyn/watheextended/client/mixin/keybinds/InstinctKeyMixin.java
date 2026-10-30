@@ -1,6 +1,7 @@
 package cat.rezelyn.watheextended.client.mixin.keybinds;
 
 import cat.rezelyn.watheextended.client.WatheExtendedClient;
+import cat.rezelyn.watheextended.client.api.InstinctClient;
 import dev.doctor4t.wathe.client.WatheClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,6 +13,6 @@ public class InstinctKeyMixin {
 
   @Inject(method = "isInstinctEnabled", at = @At("HEAD"), cancellable = true, require = 0)
   private static void watheextended$instinctMode(CallbackInfoReturnable<Boolean> cir) {
-    cir.setReturnValue(WatheExtendedClient.isInstinctActive());
+    cir.setReturnValue(InstinctClient.isActive());
   }
 }

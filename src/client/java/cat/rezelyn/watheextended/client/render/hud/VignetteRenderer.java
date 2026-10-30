@@ -1,4 +1,4 @@
-package cat.rezelyn.watheextended.client.render;
+package cat.rezelyn.watheextended.client.render.hud;
 
 import cat.rezelyn.watheextended.WatheExtended;
 import com.mojang.blaze3d.platform.GlStateManager;

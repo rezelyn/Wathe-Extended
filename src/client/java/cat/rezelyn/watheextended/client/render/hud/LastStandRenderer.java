@@ -1,4 +1,4 @@
-package cat.rezelyn.watheextended.client.render;
+package cat.rezelyn.watheextended.client.render.hud;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

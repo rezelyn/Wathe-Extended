@@ -1,4 +1,4 @@
-package cat.rezelyn.watheextended.client.render;
+package cat.rezelyn.watheextended.client.render.hud;
 
 import cat.rezelyn.watheextended.game.compat.KillerCohortAccess;
 import dev.doctor4t.wathe.api.WatheGameModes;

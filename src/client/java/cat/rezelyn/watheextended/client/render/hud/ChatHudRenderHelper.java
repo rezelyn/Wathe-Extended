@@ -1,4 +1,4 @@
-package cat.rezelyn.watheextended.client.render;
+package cat.rezelyn.watheextended.client.render.hud;
 
 public final class ChatHudRenderHelper {
 

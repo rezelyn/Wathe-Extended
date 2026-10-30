@@ -1,4 +1,4 @@
-package cat.rezelyn.watheextended.client.render;
+package cat.rezelyn.watheextended.client.render.hud;
 
 import cat.rezelyn.watheextended.api.ModifiersDisplay;
 import cat.rezelyn.watheextended.api.RolesDisplay;

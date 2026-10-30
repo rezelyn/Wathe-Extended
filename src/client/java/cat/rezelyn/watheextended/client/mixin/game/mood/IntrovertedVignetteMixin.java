@@ -1,7 +1,7 @@
 package cat.rezelyn.watheextended.client.mixin.game.mood;
 
 import cat.rezelyn.watheextended.WatheExtendedServerConfig;
-import cat.rezelyn.watheextended.client.render.VignetteRenderer;
+import cat.rezelyn.watheextended.client.render.hud.VignetteRenderer;
 import cat.rezelyn.watheextended.game.modifiers.WatheExtendedModifiers;
 import dev.doctor4t.wathe.cca.GameTimeComponent;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;

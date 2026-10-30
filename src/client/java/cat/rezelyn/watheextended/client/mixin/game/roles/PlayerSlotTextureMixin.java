@@ -1,6 +1,6 @@
 package cat.rezelyn.watheextended.client.mixin.game.roles;
 
-import cat.rezelyn.watheextended.client.render.PlayerSlotRenderer;
+import cat.rezelyn.watheextended.client.render.hud.PlayerSlotRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
