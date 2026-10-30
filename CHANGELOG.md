@@ -25,6 +25,8 @@
 ### Changed
 
 - **Breaking:** refactored the client mixins into a new structure
+- **Breaking:** split `WatheExtendedClient` into `InstinctClient`, `ProneClient`, and dedicated client networking and rendering classes
+- **Breaking:** split `WatheExtended` into dedicated config entries, server networking, world tick and `EffectCleaner` classes
 - Changed the `/pronouns set <field>` command to allow selecting a target with `/pronouns set <field> [target]`,
   primarily made for testing and available to OP players only
 - Abstracted custom slot texture replacements to use one shared grayscale texture, tinted with a color mask based on
@@ -87,31 +89,31 @@
     - **Disable role abilities while depressed** after a configurable delay in seconds (Default: Enabled, 0s)
 - New proning mechanic, allowing players to crawl on the ground with the <kbd>C</kbd> key, with a configurable
   keybind option to switch between **Hold** and **Toggle** modes (Default: Toggle)
-- New creative item:
-    - **Copy Position** (@yoy333)
-        - Left-click to switch between point and box modes
-        - Right-click to copy positions to the clipboard for easy pasting into configs
-- New visual debugger showing every configured spawn position (Lobby, Ready Area, and Play Area)
+- New unified player name renderer, replacing the separate Wathe and HarpyModLoader name overlays:
+    - Spectators can see the current role, modifier (s), player name, pronouns, Killer Cohort label, and some
+      role- and modifier-specific labels, all in one shared adaptive overlay
 - New inventory ability row pagination system
     - Instead of splitting player picker rows into multiple lines, rows now fold into multiple pages when there are
       more than 12 players, keeping them on a single line. This should fix rows going off-screen, notably the
       **Guesser** player picker row
+- New creative item:
+    - **Copy Position** (@yoy333)
+        - Left-click to switch between point and box modes
+        - Right-click to copy positions to the clipboard for easy pasting into configs
 - New plushies (they're mostly my friends who are helping me on the mod :3)
 - Restored the ability to change perspective (<kbd>F5</kbd>) when the game is not active
 - Pressing the inventory key while spectating now opens the Guidebook screen
-- New unified player name renderer, replacing the separate Wathe and HarpyModLoader name overlays:
-    - Spectators can see the current role, modifier (s), player name, pronouns, Killer Cohort label, and some
-      role- and modifier-specific labels, all in one shared adaptive overlay
+- Visual debugger showing every configured spawn position (Lobby, Ready Area, and Play Area)
 - GitHub issue templates and contributor guidelines
 
 ### Changed
 
-- Improved optional add-on compatibility: mixins for optional add-ons are now skipped when the corresponding mod is
-  absent, fixing related crashes (#100)
 - **Breaking:** simplified the client and server config accessors and switched to pretty-printed JSON configuration
   files. Old config files and saved presets are no longer supported
 - **Breaking:** refactored a large part of the project's codebase and packages to improve maintainability and
   readability, which may break other mods that depend on Wathe: Extended's code
+- Improved optional add-on compatibility: mixins for optional add-ons are now skipped when the corresponding mod is
+  absent, fixing related crashes (#100)
 - World protection improvements:
     - Players can no longer break or place blocks inside the lobby, ready, and play area boundaries
     - Added Wathe's Privacy Glasses and the blocks from [Wathe Extra Items](https://modrinth.com/mod/watheextraitems)
