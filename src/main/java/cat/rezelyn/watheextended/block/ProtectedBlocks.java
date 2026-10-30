@@ -6,54 +6,117 @@ import sir.nicholascooke.watheextraitems.block.RadioBlock;
 
 public final class ProtectedBlocks {
 
+  /** Categories used to query protected blocks and construct area-specific allowlists */
+  public enum Category {
+    CONTAINERS,
+    WORKSTATIONS,
+    LAMPS,
+    BUTTONS,
+    LEVERS,
+    TRAPDOORS,
+    DOORS,
+    FENCE_GATES,
+    PRIVACY_GLASS,
+    DECORATIONS,
+    MUSIC,
+    FOOD,
+    MISC,
+    RADIO
+  }
+
   private ProtectedBlocks() {}
 
+  /**
+   * Checks whether a block belongs to any protected category
+   *
+   * @param state the block state to check
+   * @return {@code true} if the block is protected
+   */
   public static boolean isProtected(BlockState state) {
+    for (Category category : Category.values()) {
+      if (isInCategory(state, category)) return true;
+    }
+    return false;
+  }
+
+  /**
+   * Checks whether a block belongs to a specific category
+   *
+   * @param state the block state to check
+   * @param category the category to match
+   * @return {@code true} if the block belongs to the category
+   */
+  public static boolean isInCategory(BlockState state, Category category) {
     Block block = state.getBlock();
-    if (block instanceof ChestBlock) return true;
-    if (block instanceof TrappedChestBlock) return true;
-    if (block instanceof BarrelBlock) return true;
-    if (block instanceof ShulkerBoxBlock) return true;
-    if (block instanceof FurnaceBlock) return true;
-    if (block instanceof BlastFurnaceBlock) return true;
-    if (block instanceof SmokerBlock) return true;
-    if (block instanceof DispenserBlock) return true;
-    if (block instanceof HopperBlock) return true;
-    if (block instanceof BrewingStandBlock) return true;
-    if (block instanceof BeehiveBlock) return true;
-    if (block instanceof ChiseledBookshelfBlock) return true;
-    if (block instanceof CraftingTableBlock) return true;
-    if (block instanceof AnvilBlock) return true;
-    if (block instanceof CartographyTableBlock) return true;
-    if (block instanceof GrindstoneBlock) return true;
-    if (block instanceof LoomBlock) return true;
-    if (block instanceof SmithingTableBlock) return true;
-    if (block instanceof StonecutterBlock) return true;
-    if (block instanceof EnchantingTableBlock) return true;
-    if (block instanceof BeaconBlock) return true;
-    if (block instanceof ButtonBlock) return true;
-    if (block instanceof LeverBlock) return true;
-    if (block instanceof TrapdoorBlock) return true;
-    if (block instanceof DoorBlock) return true;
-    if (block instanceof FenceGateBlock) return true;
-    if (block instanceof NoteBlock) return true;
-    if (block instanceof CakeBlock) return true;
-    if (block instanceof CandleCakeBlock) return true;
-    if (block instanceof CandleBlock) return true;
-    if (block instanceof JukeboxBlock) return true;
+    return switch (category) {
+      case CONTAINERS ->
+          block instanceof ChestBlock
+              || block instanceof TrappedChestBlock
+              || block instanceof BarrelBlock
+              || block instanceof ShulkerBoxBlock
+              || block instanceof FurnaceBlock
+              || block instanceof BlastFurnaceBlock
+              || block instanceof SmokerBlock
+              || block instanceof DispenserBlock
+              || block instanceof HopperBlock
+              || block instanceof BrewingStandBlock
+              || block instanceof BeehiveBlock
+              || block instanceof ChiseledBookshelfBlock;
+      case WORKSTATIONS ->
+          block instanceof CraftingTableBlock
+              || block instanceof AnvilBlock
+              || block instanceof CartographyTableBlock
+              || block instanceof GrindstoneBlock
+              || block instanceof LoomBlock
+              || block instanceof SmithingTableBlock
+              || block instanceof StonecutterBlock
+              || block instanceof EnchantingTableBlock;
+      case LAMPS ->
+          block instanceof ToggleableFacingLightBlock
+              || block instanceof NeonTubeBlock
+              || block instanceof NeonPillarBlock
+              || optionalCheck(block, "net.mokus.wathextras.block.custom.CandelabreBlock")
+              || optionalCheck(block, "net.mokus.wathextras.block.custom.StackLightBlock");
+      case BUTTONS -> block instanceof ButtonBlock || block instanceof WatheButtonBlock;
+      case LEVERS -> block instanceof LeverBlock;
+      case TRAPDOORS ->
+          block instanceof TrapdoorBlock
+              || block instanceof VentHatchBlock
+              || optionalCheck(block, "net.mokus.wathextras.block.custom.ButterflyDoorBlock");
+      case DOORS -> block instanceof DoorBlock || block instanceof SmallDoorBlock;
+      case FENCE_GATES -> block instanceof FenceGateBlock;
+      case PRIVACY_GLASS ->
+          block instanceof PrivacyGlassBlock || block instanceof PrivacyGlassPanelBlock;
+      case DECORATIONS -> block instanceof OrnamentBlock;
+      case MUSIC -> block instanceof NoteBlock || block instanceof JukeboxBlock;
+      case FOOD ->
+          block instanceof CakeBlock
+              || block instanceof CandleCakeBlock
+              || block instanceof CandleBlock;
+      case MISC -> block instanceof BeaconBlock;
+      case RADIO -> block instanceof RadioBlock;
+    };
+  }
 
-    // WATHE
-    if (block instanceof WatheButtonBlock) return true;
-    if (block instanceof ToggleableFacingLightBlock) return true;
-    if (block instanceof NeonTubeBlock) return true;
-    if (block instanceof NeonPillarBlock) return true;
-    if (block instanceof PrivacyGlassBlock) return true;
-    if (block instanceof PrivacyGlassPanelBlock) return true;
-    if (block instanceof SmallDoorBlock) return true;
-    if (block instanceof VentHatchBlock) return true;
-    if (block instanceof OrnamentBlock) return true;
+  /**
+   * Checks whether a block belongs to any of the supplied categories
+   *
+   * @param state the block state to check
+   * @param categories the categories to match
+   * @return {@code true} if the block belongs to at least one category
+   */
+  public static boolean isInAnyCategory(BlockState state, Category... categories) {
+    for (Category category : categories) {
+      if (isInCategory(state, category)) return true;
+    }
+    return false;
+  }
 
-    // WathExtraItems
-    return block instanceof RadioBlock;
+  /** Checks for an optional add-on block type without linking to its classes */
+  private static boolean optionalCheck(Block block, String className) {
+    for (Class<?> type = block.getClass(); type != null; type = type.getSuperclass()) {
+      if (type.getName().equals(className)) return true;
+    }
+    return false;
   }
 }

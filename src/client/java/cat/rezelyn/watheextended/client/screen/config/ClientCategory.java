@@ -2,7 +2,7 @@ package cat.rezelyn.watheextended.client.screen.config;
 
 import cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper;
 import cat.rezelyn.watheextended.client.WatheExtendedClientConfig;
-import cat.rezelyn.watheextended.client.pronouns.PronounsCache;
+import cat.rezelyn.watheextended.client.utils.PronounsCache;
 import cat.rezelyn.watheextended.client.render.BoxDebugRenderer;
 import cat.rezelyn.watheextended.network.PronounsManager;
 import dev.isxander.yacl3.api.*;

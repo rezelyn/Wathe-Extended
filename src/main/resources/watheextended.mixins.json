@@ -43,6 +43,7 @@
     "game.mood.PlayerMoodDirectAccessor",
     "game.mood.StarstuckAbilityMixin",
     "game.roles.arsonist.DousedPlayerNotificationMixin",
+    "game.roles.amnesiac.AmnesiacKeepAliveMixin",
     "game.roles.bellringer.BellringerAbilityMixin",
     "game.roles.cleaner.CleanerAbilityMixin",
     "game.roles.dreamer.DreamerImprintRecoveryMixin",

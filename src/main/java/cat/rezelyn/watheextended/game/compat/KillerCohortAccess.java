@@ -18,8 +18,15 @@ public final class KillerCohortAccess {
           Identifier.of("noellesroles", "mimic"),
           Identifier.of("noellesroles", "vulture"));
 
-  // fake killers are seen has killer cohorts by real killers, fake killers don't see any label
-  private static final Identifier FAKE_KILLERS_ROLES = Identifier.of("noellesroles", "mimic");
+  // Roles that should not see killer cohort labels, across all client overlays
+  private static final Set<Identifier> COHORT_VISIBILITY_DENYLIST =
+      Set.of(
+          Identifier.of("stupid_express", "arsonist"),
+          Identifier.of("stupid_express", "thief"),
+          Identifier.of("noellesroles", "executioner"),
+          Identifier.of("noellesroles", "mimic"),
+          Identifier.of("noellesroles", "awesome_binglus"),
+          Identifier.of("noellesroles", "jester"));
 
   // list of roles that shouldn't be able to see killer cohorts, for compatibility purposes
   private static final Identifier EXCLUDED_ROLES =
@@ -37,9 +44,13 @@ public final class KillerCohortAccess {
   public static boolean canSeeCohorts(GameWorldComponent game, PlayerEntity player) {
     if (game == null
         || player == null
-        || isFakeKiller(game, player)
-        || isExcluded(game, player)) return false;
+        || isCohortVisibilityDenied(game, player)) return false;
     return isKillerCohort(game, player) || InstinctAccess.canUse(player);
+  }
+
+  private static boolean isCohortVisibilityDenied(GameWorldComponent game, PlayerEntity player) {
+    var role = game.getRole(player);
+    return role != null && COHORT_VISIBILITY_DENYLIST.contains(role.identifier());
   }
 
   private static boolean isExcluded(GameWorldComponent game, PlayerEntity player) {
@@ -48,8 +59,4 @@ public final class KillerCohortAccess {
     return role != null && EXCLUDED_ROLES.equals(role.identifier());
   }
 
-  private static boolean isFakeKiller(GameWorldComponent game, PlayerEntity player) {
-    var role = game.getRole(player);
-    return role != null && FAKE_KILLERS_ROLES.equals(role.identifier());
-  }
 }

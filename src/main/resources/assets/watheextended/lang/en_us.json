@@ -107,6 +107,7 @@
   "announcement.modifier.watheextended.adaptive": "Adaptive",
 
   "command.watheextended.pronouns.set": "Your pronouns have been set to: %s",
+  "command.watheextended.pronouns.set_other": "%s's pronouns have been set to: %s",
   "command.watheextended.pronouns.cleared": "Your pronouns have been cleared.",
   "command.watheextended.pronouns.cleared_other": "%ss pronouns have been cleared.",
   "command.watheextended.mapvariables.lobbyarea.set": "Map variable lobbyArea successfully set to:\n%s.",
@@ -525,6 +526,8 @@
   "gui.watheextended.config.category.roles.opt.necromancer.hasshop.desc": "Whether the Necromancer has access to a shop.\n\n§6Default:§r \uE401",
   "gui.watheextended.config.category.roles.opt.arsonist.keepsgamegoing": "Keeps Game Going",
   "gui.watheextended.config.category.roles.opt.arsonist.keepsgamegoing.desc": "When enabled, the game won't end while the Arsonist is still alive.\nMeaning that the Arsonist needs be the last alive in order to win the game.\n\n§6Default:§r \uE400",
+  "gui.watheextended.config.category.roles.opt.amnesiac.keepsgamegoing": "Keeps Game Going",
+  "gui.watheextended.config.category.roles.opt.amnesiac.keepsgamegoing.desc": "When enabled, the game won't end while the Amnesiac is still alive.\nMeaning that the Amnesiac can still pick a role even after all the Killers are dead.\n\n§6Default:§r \uE400",
   "gui.watheextended.config.category.roles.opt.amnesiac.bodiesglow": "Bodies Glow",
   "gui.watheextended.config.category.roles.opt.amnesiac.bodiesglow.desc": "Do dead bodies glows for the Amnesiac?\n\n§6Default:§r \uE400",
   "gui.watheextended.config.category.roles.opt.amnesiac.glowsdifferently": "Glows Differently",
@@ -613,8 +616,9 @@
   "gui.watheextended.config.category.presets.description.placeholder": "Custom configuration for my server",
 
   "gui.watheextended.inventory.role": "Role:",
-  "gui.watheextended.inventory.modifiers": "Modifiers:",
+  "gui.watheextended.inventory.modifiers": "Modifier(s):",
   "gui.watheextended.inventory.no_modifiers": "No Modifiers",
+  "gui.watheextended.inventory.picker.page": "%1$d / %2$d",
   "gui.watheextended.inventory.guesser.guess": "Select a player to guess their role.",
   "gui.watheextended.inventory.swapper.swap": "Select two players to swap them.",
   "gui.watheextended.inventory.judge.judgement": "Select a player to judge them.",

@@ -1,5 +1,7 @@
 package cat.rezelyn.watheextended.client;
 
+import cat.rezelyn.watheextended.client.api.InstinctClient;
+import cat.rezelyn.watheextended.client.api.ProneClient;
 import cat.rezelyn.watheextended.network.ConfigHelper;
 import java.util.Set;
 
@@ -60,8 +62,8 @@ public final class WatheExtendedClientConfig {
    */
   public static boolean set(String name, Object value) {
     boolean changed = CONFIG.set(name, value);
-    if (changed && "instinctMode".equals(name)) WatheExtendedClient.resetInstinctToggle();
-    if (changed && "proneMode".equals(name)) WatheExtendedClient.resetProneToggle();
+    if (changed && "instinctMode".equals(name)) InstinctClient.resetToggle();
+    if (changed && "proneMode".equals(name)) ProneClient.resetToggle();
     return changed;
   }
 

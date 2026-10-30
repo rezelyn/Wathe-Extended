@@ -963,6 +963,16 @@ public class AddonsConfigCommand {
                                           ConfigHelper.setArsonistKeepsGameGoing(
                                               BoolArgumentType.getBool(context, "enabled"))))))
 
+              .then(
+                  CommandManager.literal("setAmnesiacKeepsGameGoing")
+                      .then(
+                          CommandManager.argument("enabled", BoolArgumentType.bool())
+                              .executes(
+                                  update(
+                                      context ->
+                                          ConfigHelper.setAmnesiacKeepsGameGoing(
+                                              BoolArgumentType.getBool(context, "enabled"))))))
+
               /// AMNESIAC
               .then(
                   CommandManager.literal("setBodiesGlowToAmnesiac")

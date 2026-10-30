@@ -5,6 +5,8 @@ import java.util.function.Consumer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.ClickableWidget;
@@ -38,6 +40,14 @@ public class RolePickerWidget extends ClickableWidget {
     super(x, y, width, height, Text.empty());
     this.allEntries = allEntries;
     this.onSelect = onSelect;
+  }
+
+  /** Returns whether this screen currently has a visible role picker */
+  public static boolean isOpen(Screen screen) {
+    for (Element child : screen.children()) {
+      if (child instanceof RolePickerWidget picker && picker.visible) return true;
+    }
+    return false;
   }
 
   private List<RoleEntry> filtered() {
