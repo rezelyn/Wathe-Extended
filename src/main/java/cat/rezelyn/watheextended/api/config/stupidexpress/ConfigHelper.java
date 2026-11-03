@@ -3,6 +3,7 @@ package cat.rezelyn.watheextended.api.config.stupidexpress;
 import cat.rezelyn.watheextended.game.utils.ConfigUtils;
 import cat.rezelyn.watheextended.network.ServerConfig;
 import cat.rezelyn.watheextended.network.ServerConfig.Entry;
+import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import net.fabricmc.loader.api.FabricLoader;
 
 public final class ConfigHelper {
@@ -61,6 +62,15 @@ public final class ConfigHelper {
                 writeBoolServer("rolesSection", "arsonistSection", "arsonistKeepsGameGoing", v);
               } catch (Throwable ignored) {
               }
+            }));
+    ServerConfig.register(
+        Entry.globalBool(
+            "stupidexpress.amnesiacKeepsGameGoing",
+            true,
+            () -> WatheExtendedServerConfig.amnesiacKeepsGameGoing,
+            v -> {
+              WatheExtendedServerConfig.amnesiacKeepsGameGoing = v;
+              WatheExtendedServerConfig.save();
             }));
     ServerConfig.register(
         Entry.globalBool(
@@ -150,6 +160,14 @@ public final class ConfigHelper {
 
   public static void setArsonistKeepsGameGoing(boolean v) throws Exception {
     ConfigUtils.apply("stupidexpress.arsonistKeepsGameGoing", v, null);
+  }
+
+  public static boolean getAmnesiacKeepsGameGoing() {
+    return ConfigUtils.clientBool("stupidexpress.amnesiacKeepsGameGoing", true);
+  }
+
+  public static void setAmnesiacKeepsGameGoing(boolean v) throws Exception {
+    ConfigUtils.apply("stupidexpress.amnesiacKeepsGameGoing", v, null);
   }
 
   public static boolean getBodiesGlowToAmnesiac() {

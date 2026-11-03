@@ -3,6 +3,7 @@ package cat.rezelyn.watheextended.command;
 import cat.rezelyn.watheextended.network.PronounsManager;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import java.util.UUID;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.command.argument.EntityArgumentType;
@@ -22,26 +23,35 @@ public final class PronounsCommand {
             .then(
                 CommandManager.literal("set")
                     .then(
-                        CommandManager.argument("pronouns", StringArgumentType.greedyString())
+                        CommandManager.argument("field", StringArgumentType.string())
                             .executes(
                                 context -> {
                                   ServerPlayerEntity player =
                                       context.getSource().getPlayerOrThrow();
-                                  String raw =
-                                      StringArgumentType.getString(context, "pronouns").trim();
-                                  UUID uuid = player.getUuid();
-                                  PronounsManager.set(uuid, raw);
-                                  String pronouns = PronounsManager.get(uuid);
-                                  broadcastAll(context.getSource(), uuid, pronouns);
-                                  context
-                                      .getSource()
-                                      .sendFeedback(
-                                          () ->
-                                              Text.translatable(
-                                                  "command.watheextended.pronouns.set", pronouns),
-                                          false);
-                                  return 1;
-                                })))
+                                  return setPronouns(
+                                      context.getSource(),
+                                      player,
+                                      StringArgumentType.getString(context, "field"));
+                                })
+                            .then(
+                                CommandManager.argument("target", EntityArgumentType.player())
+                                    .executes(
+                                        context -> {
+                                          ServerPlayerEntity sourcePlayer =
+                                              context.getSource().getPlayerOrThrow();
+                                          ServerPlayerEntity target =
+                                              EntityArgumentType.getPlayer(context, "target");
+                                          if (!sourcePlayer.getUuid().equals(target.getUuid())
+                                              && !context.getSource().hasPermissionLevel(2)) {
+                                            throw new SimpleCommandExceptionType(
+                                                    Text.translatable("commands.generic.permission"))
+                                                .create();
+                                          }
+                                          return setPronouns(
+                                              context.getSource(),
+                                              target,
+                                              StringArgumentType.getString(context, "field"));
+                                        }))))
             /// CLEAR PRONOUNS
             .then(
                 CommandManager.literal("clear")
@@ -80,6 +90,26 @@ public final class PronounsCommand {
                                   }
                                   return 1;
                                 }))));
+  }
+
+  private static int setPronouns(
+      ServerCommandSource source, ServerPlayerEntity target, String value) {
+    String raw = value.trim();
+    UUID uuid = target.getUuid();
+    PronounsManager.set(uuid, raw);
+    String pronouns = PronounsManager.get(uuid);
+    broadcastAll(source, uuid, pronouns);
+    if (source.getEntity() == target) {
+      source.sendFeedback(
+          () -> Text.translatable("command.watheextended.pronouns.set", pronouns), false);
+    } else {
+      source.sendFeedback(
+          () ->
+              Text.translatable(
+                  "command.watheextended.pronouns.set_other", target.getName(), pronouns),
+          true);
+    }
+    return 1;
   }
 
   public static void broadcastAll(ServerCommandSource source, UUID uuid, String pronouns) {

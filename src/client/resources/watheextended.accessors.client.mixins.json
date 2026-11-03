@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "cat.rezelyn.watheextended.client.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "hud.DrawContextAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -359,7 +359,7 @@ public class GuidebookScreen extends Screen {
         int color = opaque(entry.color());
         int lineY = y + (rowH - fontH) / 2;
 
-        if (entry.displayTitle() != null) {
+        if (entry.displayTitle() != null && activeTab != Tab.GAME_GUIDE) {
           OrderedText prefixText =
               ScreenUtils.icon(entry.active() ? "enabled" : "disabled")
                   .copy()

@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.17.19'
+    id 'fabric-loom'
     id 'maven-publish'
     id 'com.modrinth.minotaur' version '2.+'
 }
@@ -107,10 +107,7 @@ dependencies {
         modApi "maven.modrinth:starexpress:${project.starexpress_version}"
         modApi "maven.modrinth:kinswathe:${project.kinswathe_version}"
         modApi "maven.modrinth:watheextraitems:${project.watheextraitems_version}"
-
-    // modApi "maven.modrinth:mood-swings:${project.mood_swings_version}"
-    modApi files("libs/mood-swings-1.5.0.jar")
-        modRuntimeOnly "maven.modrinth:cloth-config:${project.cloth_config_version}"
+        modApi "maven.modrinth:wathextras:${project.wathextras_version}"
 
     // Libraries
     modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"

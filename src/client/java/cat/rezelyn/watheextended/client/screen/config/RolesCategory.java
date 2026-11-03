@@ -679,6 +679,58 @@ public final class RolesCategory {
                 .controller(IntegerFieldControllerBuilder::create)
                 .build());
       }
+      // Physician
+      case "kinswathe:physician" -> {
+        if (!cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) return;
+        /// HIDE DEATH INFO
+        builder.option(
+            Option.<Boolean>createBuilder()
+                .name(
+                    Text.translatable(
+                        "gui.watheextended.config.category.roles.opt.physician.disabledeathreason"))
+                .description(
+                    OptionDescription.of(
+                        Text.translatable(
+                            "gui.watheextended.config.category.roles.opt.physician.disabledeathreason.desc")))
+                .binding(
+                    false,
+                    cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper
+                        ::getDisablePhysicianDeathReason,
+                    value ->
+                        ScreenUtils.stage(
+                            sendCommand, parent, "kinswathe.DisablePhysicianDeathReason", value))
+                .controller(
+                    option ->
+                        BooleanControllerBuilder.create(option)
+                            .formatValue(
+                                value ->
+                                    Text.translatable(
+                                        value
+                                            ? "gui.watheextended.config.text.on"
+                                            : "gui.watheextended.config.text.off")))
+                .build());
+        /// VISIBLE MEDICAL KIT PLAYER COUNT
+        builder.option(
+            Option.<Integer>createBuilder()
+                .name(
+                    Text.translatable(
+                        "gui.watheextended.config.category.roles.opt.physician.medicalkitcountvisible"))
+                .description(
+                    OptionDescription.of(
+                        Text.translatable(
+                            "gui.watheextended.config.category.roles.opt.physician.medicalkitcountvisible.desc")))
+                .binding(
+                    10,
+                    () -> ClientConfig.getInt("watheextended.medicalKit.visiblePlayerCount", 10),
+                    value ->
+                        ScreenUtils.stage(
+                            sendCommand,
+                            parent,
+                            "watheextended.medicalKit.visiblePlayerCount",
+                            value))
+                .controller(IntegerFieldControllerBuilder::create)
+                .build());
+      }
       // Robot
       case "kinswathe:robot" -> {
         if (!cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) return;
@@ -1325,6 +1377,32 @@ public final class RolesCategory {
       // Amnesiac
       case "stupid_express:amnesiac" -> {
         if (!ConfigHelper.isLoaded()) return;
+        /// KEEPS GAME GOING
+        builder.option(
+            Option.<Boolean>createBuilder()
+                .name(
+                    Text.translatable(
+                        "gui.watheextended.config.category.roles.opt.amnesiac.keepsgamegoing"))
+                .description(
+                    OptionDescription.of(
+                        Text.translatable(
+                            "gui.watheextended.config.category.roles.opt.amnesiac.keepsgamegoing.desc")))
+                .binding(
+                    true,
+                    ConfigHelper::getAmnesiacKeepsGameGoing,
+                    value ->
+                        ScreenUtils.stage(
+                            sendCommand, parent, "stupidexpress.amnesiacKeepsGameGoing", value))
+                .controller(
+                    option ->
+                        BooleanControllerBuilder.create(option)
+                            .formatValue(
+                                value ->
+                                    Text.translatable(
+                                        value
+                                            ? "gui.watheextended.config.text.on"
+                                            : "gui.watheextended.config.text.off")))
+                .build());
         /// BODIES GLOW
         builder.option(
             Option.<Boolean>createBuilder()

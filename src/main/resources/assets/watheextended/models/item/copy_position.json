@@ -2,7 +2,7 @@
 	"parent": "builtin/generated",
 	"gui_light": "front",
 	"textures": {
-		"layer0": "watheextended:item/teleport_to_scenery"
+		"layer0": "watheextended:item/copy_position"
 	},
 	"display": {
 		"ground": {

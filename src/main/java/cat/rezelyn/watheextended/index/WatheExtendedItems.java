@@ -16,10 +16,6 @@ public class WatheExtendedItems {
           "teleport_to_ready_area", new TeleportToReadyAreaItem(new Item.Settings().maxCount(1)));
   public static final Item TELEPORT_TO_SCENERY =
       register("teleport_to_scenery", new TeleportToSceneryItem(new Item.Settings().maxCount(1)));
-  public static final Item CREATE_RTP_SLOT =
-      register("create_rtp_slot", new CreateRtpSlotItem(new Item.Settings().maxCount(1)));
-  public static final Item TRIGGER_RTP =
-      register("trigger_rtp", new TriggerRtpItem(new Item.Settings().maxCount(1)));
   public static final Item ADD_PLAYERS =
       register("add_players", new AddPlayersItem(new Item.Settings().maxCount(1)));
   public static final Item REMOVE_PLAYERS =

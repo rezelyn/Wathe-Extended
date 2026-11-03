@@ -19,7 +19,7 @@ import net.minecraft.util.math.Vec3d;
  */
 public final class FakePlayerHandler {
 
-  public static final int FAKE_PLAYER_COUNT = 11;
+  public static final int FAKE_PLAYER_COUNT = 23;
   private static final String NAME_PREFIX = "wathe_fp_";
   private static final Vec3d DEFAULT_POS = new Vec3d(-999.5, 1.0, -360.5);
   private static final float DEFAULT_YAW = -90.0F;

@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.api.config.kinswathe;
 
+import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import cat.rezelyn.watheextended.game.utils.ConfigUtils;
 import cat.rezelyn.watheextended.network.ServerConfig;
 import cat.rezelyn.watheextended.network.ServerConfig.Entry;
@@ -172,6 +173,12 @@ public final class ConfigHelper {
               } catch (Throwable ignored) {
               }
             }));
+    ServerConfig.register(
+        Entry.globalBool(
+            "kinswathe.DisablePhysicianDeathReason",
+            false,
+            () -> WatheExtendedServerConfig.disablePhysicianDeathReason,
+            value -> WatheExtendedServerConfig.set("disablePhysicianDeathReason", value)));
     ServerConfig.register(
         Entry.worldInt(
             "kinswathe.StartingCooldown",
@@ -670,6 +677,14 @@ public final class ConfigHelper {
 
   public static int getPhysicianPillPrice(World world) {
     return ConfigUtils.clientInt("kinswathe.PhysicianPillPrice", 300);
+  }
+
+  public static boolean getDisablePhysicianDeathReason() {
+    return ConfigUtils.clientBool("kinswathe.DisablePhysicianDeathReason", false);
+  }
+
+  public static void setDisablePhysicianDeathReason(boolean value) throws Exception {
+    ConfigUtils.apply("kinswathe.DisablePhysicianDeathReason", value, null);
   }
 
   public static int getRobotAbilityDuration(World world) {

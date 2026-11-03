@@ -167,6 +167,12 @@ public final class ItemCooldowns {
               }));
       ServerConfig.register(
           ServerConfig.Entry.globalInt(
+              "watheextended.medicalKit.visiblePlayerCount",
+              10,
+              () -> WatheExtendedServerConfig.medicalKitVisiblePlayerCount,
+              value -> WatheExtendedServerConfig.set("medicalKitVisiblePlayerCount", value)));
+      ServerConfig.register(
+          ServerConfig.Entry.globalInt(
               "watheextended.pan.cooldown",
               45,
               () -> WatheExtendedServerConfig.panCooldown,
