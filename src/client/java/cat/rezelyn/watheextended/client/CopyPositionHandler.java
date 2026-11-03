@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.BlockPos;
 
 // Need to decouple CopyPositionItem from behavior, hence this class
 // CopyPosition is not running actually serverSide events like TPs, but actually client ones, like the clipboard.
@@ -32,8 +33,9 @@ public final class CopyPositionHandler {
   }
 
   public static void use(PlayerEntity player) {
+    BlockPos blockPos = player.getBlockPos();
     String pos =
-        String.format(Locale.ROOT, "%.2f %.2f %.2f", player.getX(), player.getY(), player.getZ());
+        String.format(Locale.ROOT, "%d %d %d", blockPos.getX(), blockPos.getY(), blockPos.getZ());
 
     if (boxMode && firstPos == null) {
       firstPos = pos;
