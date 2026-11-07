@@ -8,6 +8,8 @@
     "WatheVisualSettingsMixin",
     "compat.GuidebookButtonMixin",
     "fix.GraverobberCoronerHudMixin",
+    "fix.MouseSliderFocusMixin",
+    "fix.MouseWidgetFocusMixin",
     "fix.PlayerBodyNullRendererMixin",
     "fix.PsychosisItemsRenderMixin",
     "fix.WheelRendererNullTrainComponentMixin",
