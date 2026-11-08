@@ -54,16 +54,18 @@ public final class RolesCategory {
 
         for (String id : roles) {
           RolesDisplay.RoleDisplay display = roleName.get(id);
-          Text label =
-              display != null
-                  ? display.display().copy().styled(style -> style.withColor(display.color()))
-                  : Text.literal(RolesDisplay.prettyName(id));
 
           boolean state =
               pendingState.containsKey(id)
                   ? pendingState.get(id)
                   : !cat.rezelyn.watheextended.api.config.hml.ConfigHelper.getDisabledRoles()
                       .contains(id);
+
+          Text label =
+              (display != null
+                  ? display.display().copy().styled(style -> style.withColor(display.color()))
+                  : Text.literal(RolesDisplay.prettyName(id)))
+                  .append(Text.literal("  ")).append(ScreenUtils.icon(state ? "enabled" : "disabled")); //Add enabled/Disabled icons
 
           OptionGroup.Builder group = OptionGroup.createBuilder().name(label).collapsed(true);
           group.option(

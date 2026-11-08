@@ -34,16 +34,22 @@ public final class ModifiersCategory {
 
         for (String id : ModifiersId.get()) {
           ModifiersDisplay.ModifierDisplay display = modifierName.get(id);
-          Text label =
-              display != null
-                  ? display.display().copy().styled(style -> style.withColor(display.color()))
-                  : Text.literal(ModifiersDisplay.prettyName(id));
 
           boolean state =
               pendingState.containsKey(id)
                   ? pendingState.get(id)
                   : !cat.rezelyn.watheextended.api.config.hml.ConfigHelper.getDisabledModifiers()
                       .contains(id);
+
+          float chance = pendingChances.containsKey(id)
+                  ? pendingChances.get(id)
+                  : WatheExtendedServerConfig.getModifierChance(id);
+
+          Text label =
+              (display != null
+                  ? display.display().copy().styled(style -> style.withColor(display.color()))
+                  : Text.literal(ModifiersDisplay.prettyName(id)))
+                  .append(Text.literal("  ")).append(ScreenUtils.icon(state ? "enabled" : "disabled"));
 
           OptionGroup.Builder group = OptionGroup.createBuilder().name(label).collapsed(true);
           group.option(
