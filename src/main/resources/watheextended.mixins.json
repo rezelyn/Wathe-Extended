@@ -20,6 +20,7 @@
     "game.GameFunctionsMixin",
     "game.HarpyExpressTrainMapEffectMixin",
     "game.HornBlockMixin",
+    "game.ModifierChancesMixin",
     "game.PlayerCollisionMixin",
     "game.PlayerSprintTimeAccessor",
     "game.ProningPoseMixin",

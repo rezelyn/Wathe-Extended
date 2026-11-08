@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.client.screen.config;
 
+import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import cat.rezelyn.watheextended.api.ModifiersDisplay;
 import cat.rezelyn.watheextended.api.ModifiersId;
 import cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper;
@@ -17,7 +18,7 @@ public final class ModifiersCategory {
   private ModifiersCategory() {}
 
   public static ConfigCategory build(
-      Screen parent, Map<String, Boolean> pendingState, BiConsumer<String, Screen> sendCommand) {
+      Screen parent, Map<String, Boolean> pendingState, Map<String, Float> pendingChances, BiConsumer<String, Screen> sendCommand) {
     ConfigCategory.Builder builder =
         ConfigCategory.createBuilder()
             .name(Text.translatable("gui.watheextended.config.category.modifiers"))
@@ -79,6 +80,29 @@ public final class ModifiersCategory {
                                               ? "gui.watheextended.config.text.on"
                                               : "gui.watheextended.config.text.off")))
                   .build());
+
+          group.option(
+          Option.<Float>createBuilder()
+              .name(Text.translatable("gui.watheextended.config.text.chance"))
+              .description(
+                  OptionDescription.of(
+                      Text.literal(id).styled(style -> style.withColor(0x505050))))
+              .binding(
+                  chance,
+                  () ->
+                      pendingChances.containsKey(id)
+                              ? pendingChances.get(id)
+                      : WatheExtendedServerConfig.getModifierChance(id),
+                  value -> {
+                    pendingChances.put(id, value);
+                  })
+              .controller(
+                  value ->
+                          FloatSliderControllerBuilder.create(value)
+                                  .range(0.0f, 1.0f)
+                                  .step(0.01f)
+                                  .formatValue(inValue -> Text.literal(Math.round(inValue * 100.0f) + "%")))
+              .build());
 
           modifierOptions(id, group, parent, sendCommand);
           builder.group(group.build());

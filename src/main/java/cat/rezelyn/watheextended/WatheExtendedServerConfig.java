@@ -187,6 +187,8 @@ public final class WatheExtendedServerConfig {
   public static Map<String, Boolean> roleplayItems = new LinkedHashMap<>(ROLEPLAY_ITEM_DEFAULTS);
 
   public static Map<String, Float> roleChances = new LinkedHashMap<>();
+  public static Map<String, Float> modifierChances = new LinkedHashMap<>();
+
   private WatheExtendedServerConfig() {}
 
   public static void load() {
@@ -232,6 +234,15 @@ public final class WatheExtendedServerConfig {
     roleChances.put(id, value);
     save();
   }
+
+  public static float getModifierChance (String id) {
+    return modifierChances.getOrDefault(id, 1.0f);
+  }
+  public static void setModifierChance (String id, float value) {
+    modifierChances.put(id, value);
+    save();
+  }
+
   private static Map<String, Boolean> createRoleplayItemDefaults() {
     Map<String, Boolean> defaults = new LinkedHashMap<>();
     for (String id :

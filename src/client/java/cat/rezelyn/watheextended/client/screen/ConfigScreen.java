@@ -21,6 +21,8 @@ public final class ConfigScreen {
   private static final Map<String, Boolean> pendingRoleState = new HashMap<>();
   private static final Map<String, Boolean> pendingModifierState = new HashMap<>();
   private static final Map<String, Float> pendingRoleChances = new HashMap<>();
+  private static final Map<String, Float> pendingModifierChances = new HashMap<>();
+
   // roles that shouldn't be shown in the config screen
   // as these are needed by WATHE to function properly and so are not meant to be disabled
   private static final Set<String> DENYLIST =
@@ -72,7 +74,7 @@ public final class ConfigScreen {
       builder.category(
           RolesCategory.build(parent, DENYLIST, pendingRoleState, pendingRoleChances, ConfigScreen::stageCommand));
       builder.category(
-          ModifiersCategory.build(parent, pendingModifierState, ConfigScreen::stageCommand));
+          ModifiersCategory.build(parent, pendingModifierState, pendingModifierChances, ConfigScreen::stageCommand));
       builder.category(PresetsCategory.build(parent, presets));
     }
 
@@ -84,6 +86,7 @@ public final class ConfigScreen {
     pendingRoleState.clear();
     pendingModifierState.clear();
     pendingRoleChances.clear();
+    pendingModifierChances.clear();
     savedParent = null;
     awaitingSync = false;
     reopenAtTick = -1;
@@ -218,6 +221,15 @@ public final class ConfigScreen {
               WatheExtendedServerConfig::setRoleChance
       );
     }
+
+    if(!pendingModifierChances.isEmpty()) {
+
+      //@TODO Send chances over the network?
+      pendingModifierChances.forEach(
+              WatheExtendedServerConfig::setModifierChance
+      );
+    }
+
     if (pendingChanges.isEmpty()) return;
     try {
       ClientPlayNetworking.send(new ServerConfig.ChangePayload(new HashMap<>(pendingChanges)));
