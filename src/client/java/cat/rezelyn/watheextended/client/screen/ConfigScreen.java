@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.client.screen;
 
+import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import cat.rezelyn.watheextended.client.screen.config.*;
 import cat.rezelyn.watheextended.network.ClientConfig;
 import cat.rezelyn.watheextended.network.PresetManager;
@@ -19,6 +20,7 @@ public final class ConfigScreen {
   private static final Map<String, String> pendingChanges = new HashMap<>();
   private static final Map<String, Boolean> pendingRoleState = new HashMap<>();
   private static final Map<String, Boolean> pendingModifierState = new HashMap<>();
+  private static final Map<String, Float> pendingRoleChances = new HashMap<>();
   // roles that shouldn't be shown in the config screen
   // as these are needed by WATHE to function properly and so are not meant to be disabled
   private static final Set<String> DENYLIST =
@@ -68,7 +70,7 @@ public final class ConfigScreen {
       builder.category(MapCategory.build(parent, ConfigScreen::stageCommand));
       builder.category(ItemsCategory.build(parent, ConfigScreen::stageCommand));
       builder.category(
-          RolesCategory.build(parent, DENYLIST, pendingRoleState, ConfigScreen::stageCommand));
+          RolesCategory.build(parent, DENYLIST, pendingRoleState, pendingRoleChances, ConfigScreen::stageCommand));
       builder.category(
           ModifiersCategory.build(parent, pendingModifierState, ConfigScreen::stageCommand));
       builder.category(PresetsCategory.build(parent, presets));
@@ -81,6 +83,7 @@ public final class ConfigScreen {
     pendingChanges.clear();
     pendingRoleState.clear();
     pendingModifierState.clear();
+    pendingRoleChances.clear();
     savedParent = null;
     awaitingSync = false;
     reopenAtTick = -1;
@@ -206,6 +209,14 @@ public final class ConfigScreen {
             else if (!disabled.contains(id)) disabled.add(id);
           });
       pendingChanges.put("hml.disabledModifiers", String.join(",", disabled));
+    }
+
+    if(!pendingRoleChances.isEmpty()) {
+
+      //@TODO Send chances over the network?
+      pendingRoleChances.forEach(
+              WatheExtendedServerConfig::setRoleChance
+      );
     }
     if (pendingChanges.isEmpty()) return;
     try {

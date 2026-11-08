@@ -130,6 +130,7 @@
 
   "gui.watheextended.config.title": "Wathe Extended Options",
   "gui.watheextended.config.text.enabled": "Enabled",
+  "gui.watheextended.config.text.chance": "Chance",
   "gui.watheextended.config.text.on": "\uE400",
   "gui.watheextended.config.text.off": "\uE401",
   "gui.watheextended.config.text.ability": "Ability",

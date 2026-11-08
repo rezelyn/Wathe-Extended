@@ -23,6 +23,7 @@
     "game.PlayerCollisionMixin",
     "game.PlayerSprintTimeAccessor",
     "game.ProningPoseMixin",
+    "game.RoleChancesMixin",
     "game.SecretMurderRoundMixin",
     "game.ServerPlayNetworkHandlerChatMixin",
     "game.ShooterPunishmentMixin",
