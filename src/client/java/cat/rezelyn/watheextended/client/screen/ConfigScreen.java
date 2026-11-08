@@ -216,17 +216,21 @@ public final class ConfigScreen {
 
     if(!pendingRoleChances.isEmpty()) {
 
-      //@TODO Send chances over the network?
       pendingRoleChances.forEach(
-              WatheExtendedServerConfig::setRoleChance
+          (id, value) ->
+          {
+            pendingChanges.put("watheextended.rolechance." + id, value.toString());
+          }
       );
     }
 
     if(!pendingModifierChances.isEmpty()) {
 
-      //@TODO Send chances over the network?
       pendingModifierChances.forEach(
-              WatheExtendedServerConfig::setModifierChance
+          (id, value) ->
+          {
+            pendingChanges.put("watheextended.modifierchance." + id, value.toString());
+          }
       );
     }
 
