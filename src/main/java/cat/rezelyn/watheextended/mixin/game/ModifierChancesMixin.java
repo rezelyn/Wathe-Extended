@@ -21,7 +21,7 @@ public class ModifierChancesMixin {
         int count = specificDesiredRoleCount;
 
         Random random = Random.create();
-        float chance = WatheExtendedServerConfig.modifierChances.get(stringID);
+        float chance = WatheExtendedServerConfig.getModifierChance(stringID);
 
         for (int i = 0; i < specificDesiredRoleCount; i++) {
             float randomValue = random.nextFloat();
