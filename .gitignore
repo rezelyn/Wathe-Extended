@@ -119,13 +119,8 @@ gradle-app.setting
 **/build/
 
 # Common working directory
-run/*
-
-# Include default testing world
-!saves/
-
-# Avoid Wathe npe crash when starting the game
-!options.txt
+run/
+runs/
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
