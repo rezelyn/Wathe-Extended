@@ -1,12 +1,15 @@
 package cat.rezelyn.watheextended.client.screen.config;
 
+import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import cat.rezelyn.watheextended.api.RolesDisplay;
 import cat.rezelyn.watheextended.api.RolesId;
 import cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper;
 import cat.rezelyn.watheextended.client.screen.ScreenUtils;
 import cat.rezelyn.watheextended.network.ClientConfig;
+import cat.rezelyn.watheextended.network.ServerConfig;
 import dev.isxander.yacl3.api.*;
 import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
+import dev.isxander.yacl3.api.controller.FloatSliderControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerFieldControllerBuilder;
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -22,6 +25,7 @@ public final class RolesCategory {
       Screen parent,
       Set<String> denylist,
       Map<String, Boolean> pendingState,
+      Map<String, Float> pendingChances,
       BiConsumer<String, Screen> sendCommand) {
     ConfigCategory.Builder builder =
         ConfigCategory.createBuilder()
@@ -54,16 +58,22 @@ public final class RolesCategory {
 
         for (String id : roles) {
           RolesDisplay.RoleDisplay display = roleName.get(id);
-          Text label =
-              display != null
-                  ? display.display().copy().styled(style -> style.withColor(display.color()))
-                  : Text.literal(RolesDisplay.prettyName(id));
 
           boolean state =
               pendingState.containsKey(id)
                   ? pendingState.get(id)
                   : !cat.rezelyn.watheextended.api.config.hml.ConfigHelper.getDisabledRoles()
                       .contains(id);
+
+          float chance = pendingChances.containsKey(id)
+                  ? pendingChances.get(id)
+                  : WatheExtendedServerConfig.getRoleChance(id);
+
+          Text label =
+              (display != null
+                  ? display.display().copy().styled(style -> style.withColor(display.color()))
+                  : Text.literal(RolesDisplay.prettyName(id)))
+                  .append(Text.literal("  ")).append(ScreenUtils.icon(state ? "enabled" : "disabled")); //Add enabled/Disabled icons
 
           OptionGroup.Builder group = OptionGroup.createBuilder().name(label).collapsed(true);
           group.option(
@@ -93,6 +103,29 @@ public final class RolesCategory {
                                               ? "gui.watheextended.config.text.on"
                                               : "gui.watheextended.config.text.off")))
                   .build());
+
+         group.option(
+            Option.<Float>createBuilder()
+                .name(Text.translatable("gui.watheextended.config.text.chance"))
+                .description(
+                    OptionDescription.of(
+                        Text.literal(id).styled(style -> style.withColor(0x505050))))
+                .binding(
+                    chance,
+                    () ->
+                        pendingChances.containsKey(id)
+                                ? pendingChances.get(id)
+                        : WatheExtendedServerConfig.getRoleChance(id),
+                    value -> {
+                      pendingChances.put(id, value);
+                    })
+                .controller(
+                    value ->
+                            FloatSliderControllerBuilder.create(value)
+                                    .range(0.0f, 1.0f)
+                                    .step(0.01f)
+                                    .formatValue(inValue -> Text.literal(Math.round(inValue * 100.0f) + "%")))
+                .build());
 
           roleOptions(id, group, parent, sendCommand);
           builder.group(group.build());

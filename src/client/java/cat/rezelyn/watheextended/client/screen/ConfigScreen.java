@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.client.screen;
 
+import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import cat.rezelyn.watheextended.client.screen.config.*;
 import cat.rezelyn.watheextended.network.ClientConfig;
 import cat.rezelyn.watheextended.network.PresetManager;
@@ -19,6 +20,9 @@ public final class ConfigScreen {
   private static final Map<String, String> pendingChanges = new HashMap<>();
   private static final Map<String, Boolean> pendingRoleState = new HashMap<>();
   private static final Map<String, Boolean> pendingModifierState = new HashMap<>();
+  private static final Map<String, Float> pendingRoleChances = new HashMap<>();
+  private static final Map<String, Float> pendingModifierChances = new HashMap<>();
+
   // roles that shouldn't be shown in the config screen
   // as these are needed by WATHE to function properly and so are not meant to be disabled
   private static final Set<String> DENYLIST =
@@ -68,9 +72,9 @@ public final class ConfigScreen {
       builder.category(MapCategory.build(parent, ConfigScreen::stageCommand));
       builder.category(ItemsCategory.build(parent, ConfigScreen::stageCommand));
       builder.category(
-          RolesCategory.build(parent, DENYLIST, pendingRoleState, ConfigScreen::stageCommand));
+          RolesCategory.build(parent, DENYLIST, pendingRoleState, pendingRoleChances, ConfigScreen::stageCommand));
       builder.category(
-          ModifiersCategory.build(parent, pendingModifierState, ConfigScreen::stageCommand));
+          ModifiersCategory.build(parent, pendingModifierState, pendingModifierChances, ConfigScreen::stageCommand));
       builder.category(PresetsCategory.build(parent, presets));
     }
 
@@ -81,6 +85,8 @@ public final class ConfigScreen {
     pendingChanges.clear();
     pendingRoleState.clear();
     pendingModifierState.clear();
+    pendingRoleChances.clear();
+    pendingModifierChances.clear();
     savedParent = null;
     awaitingSync = false;
     reopenAtTick = -1;
@@ -207,6 +213,27 @@ public final class ConfigScreen {
           });
       pendingChanges.put("hml.disabledModifiers", String.join(",", disabled));
     }
+
+    if(!pendingRoleChances.isEmpty()) {
+
+      pendingRoleChances.forEach(
+          (id, value) ->
+          {
+            pendingChanges.put("watheextended.rolechance." + id, value.toString());
+          }
+      );
+    }
+
+    if(!pendingModifierChances.isEmpty()) {
+
+      pendingModifierChances.forEach(
+          (id, value) ->
+          {
+            pendingChanges.put("watheextended.modifierchance." + id, value.toString());
+          }
+      );
+    }
+
     if (pendingChanges.isEmpty()) return;
     try {
       ClientPlayNetworking.send(new ServerConfig.ChangePayload(new HashMap<>(pendingChanges)));
