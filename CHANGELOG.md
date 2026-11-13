@@ -11,45 +11,16 @@
 ### Added
 
 - New configurable options:
-    - **Amnesiac**
-        - **Keeps the game going** (Default: Enabled)
-          <br> *When enabled, the game won't end while the Amnesiac is still alive, meaning the Amnesiac can still
-          pick a role even after all Killers are dead.*
-- New texture for the **Copy Position** creative item
-- New inventory ability row pagination system
-    - Instead of splitting player picker rows into multiple lines, rows now fold into multiple pages when there are
-      more than 12 players, keeping them on a single line. This should fix rows going off-screen, notably the
-      **Guesser** player picker row
-- World protection support for some [WathExtras](https://modrinth.com/mod/wathextras) blocks and lights
+    - **Per role/modifiers appearance chance percentage** (@Albarnie)
 
 ### Changed
 
-- **Breaking:** refactored the client mixins into a new structure
-- **Breaking:** split `WatheExtendedClient` into `InstinctClient`, `ProneClient`, and dedicated client networking and rendering classes
-- **Breaking:** split `WatheExtended` into dedicated config entries, server networking, world tick and `EffectCleaner` classes
-- Changed the `/pronouns set <field>` command to allow selecting a target with `/pronouns set <field> [target]`,
-  primarily made for testing and available to OP players only
-- Abstracted custom slot texture replacements to use one shared grayscale texture, tinted with a color mask based on
-  the current role's color
-- Set an ordering on lobby items and creative utility items: the Guidebook is always given in the first slot, followed
-  by the Teleport to Ready Area item. Creative items are now always given on the opposite side of the hotbar
-- The **Morphling** ability row now stays visible when the ability is triggered; its buttons are grayed out and not
-  interactable
-- Repositioned the unified name renderer further down the center of the screen to prevent it from overlapping with
-  Wathe crosshair elements
-- Updated Gradle to `9.8.2`
-- Updated `CHANGELOG.md`
-
-### Removed
-
-- Custom Minecraft asset textures, in favor of them being bundled within the modpack rather than the mod itself
-- Unused references to unused creative items
-
-### Fixed
-
-- **Morphling** disguise username and pronouns (if any) compatibility with the new unified name renderer
-- Lobby items (Guidebook, Teleport to Ready Area) and creative utility items being duplicated when picking them up
-  with the cursor
+- Added in-line enabled/disabled icons in the configuration screen for roles & modifiers states (@Albarnie)
+- Updated Gradle to `9.9.0`
+- Updated Fabric Loader to `0.20.1`
+- Updated Fabric Loom to `1.19.4`
+    - > [!WARNING]
+      > The project now requires **Java 25**. Gradle itself still runs on **Java 21** to compile it.
 
 ## [4.0.0-h1.4] - TBD
 
@@ -64,7 +35,7 @@
 
 ### Added
 
-- New configurable options:
+- New role options:
     - **Dreamer**
         - **Imprint notification** (Default: Disabled)
           <br> *Displays a message in the action bar whenever a player is imprinted by the Dreamer.*
@@ -84,14 +55,15 @@
         - **Keeps the game going** (Default: Enabled)
           <br> *When enabled, the game won't end while the Amnesiac is still alive, meaning the Amnesiac can still
           pick a role even after all Killers are dead.*
-- New mood mechanics and options:
+- New configurable options:
     - **Prevent sprinting while depressed** (Default: Enabled)
     - **Disable role abilities while depressed** after a configurable delay in seconds (Default: Enabled, 0s)
+    - **Per role/modifiers appearance chance percentage** (@Albarnie)
 - New proning mechanic, allowing players to crawl on the ground with the <kbd>C</kbd> key, with a configurable
   keybind option to switch between **Hold** and **Toggle** modes (Default: Toggle)
 - New unified player name renderer, replacing the separate Wathe and HarpyModLoader name overlays:
-    - Spectators can see the current role, modifier (s), player name, pronouns, Killer Cohort label, and some
-      role- and modifier-specific labels, all in one shared adaptive overlay
+    - Spectators can see the current role, modifier(s), player name, pronouns, Killer Cohort label, and some
+      role/modifier-specific labels, all in one shared adaptive overlay
 - New inventory ability row pagination system
     - Instead of splitting player picker rows into multiple lines, rows now fold into multiple pages when there are
       more than 12 players, keeping them on a single line. This should fix rows going off-screen, notably the
@@ -132,9 +104,13 @@
   by the Teleport to Ready Area item. Creative items are now always given on the opposite side of the hotbar
 - The **Morphling** ability row now stays visible when the ability is triggered; its buttons are grayed out and not
   interactable
+- Added in-line enabled/disabled icons in the configuration screen for roles & modifiers states (@Albarnie)
 - Updated Chinese translation (@haiman233)
-- Updated Gradle to `9.8.2`
-- Updated Fabric Loader support to `0.19.5`
+- Updated Gradle to `9.9.0`
+- Updated Fabric Loader to `0.20.1`
+- Updated Fabric Loom to `1.19.4`
+    - > [!WARNING]
+      > The project now requires **Java 25**. Gradle itself still runs on **Java 21** to compile it.
 - Updated Fabric API support to `0.116.17`
 - Updated Stupid Express support to `2026.10.1-h1.4`
     - [Stupid Express Changelog](https://modrinth.com/mod/stupid-express/version/2026.10.1-h1.4)
