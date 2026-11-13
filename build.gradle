@@ -53,6 +53,18 @@ repositories {
         }
     }
     maven {
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/releases/"
+        content {
+            includeGroup "com.terraformersmc"
+        }
+    }
+    // (not public yet)
+    // maven {
+    //     name = "Rezelyn"
+    //     url = "https://maven.esraniki.space/releases"
+    // }
+    maven {
         name = "Ladysnake Mods"
         url = "https://maven.ladysnake.org/releases"
     }
@@ -89,6 +101,9 @@ dependencies {
 
     // Fabric API
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    // OreLib (Maven repo is not public yet)
+    // modImplementation "cat.rezelyn.fabric:orelib:${project.orelib_version}"
 
     // Wathe
     modApi "dev.doctor4t:wathe:${project.wathe_version}"
@@ -129,16 +144,18 @@ dependencies {
     modRuntimeOnly "maven.modrinth:playercontrol:${project.playercontrol_version}"
 }
 
+def resourceProperties = [
+        version: project.version.toString(),
+        minecraft_version: project.minecraft_version.toString(),
+        loader_version: project.loader_version.toString()
+]
+
 processResources {
-    inputs.property "version", project.version
-    inputs.property "minecraft_version", project.minecraft_version
-    inputs.property "loader_version", project.loader_version
+    inputs.properties(resourceProperties)
     filteringCharset = "UTF-8"
 
     filesMatching("fabric.mod.json") {
-        expand "version": project.version,
-                "minecraft_version": project.minecraft_version,
-                "loader_version": project.loader_version
+        expand resourceProperties
     }
 }
 
@@ -157,27 +174,42 @@ java {
     withSourcesJar()
 }
 
+def licenseArchiveName = project.archives_base_name.toString()
 jar {
     from("LICENSE") {
-        rename { "${it}_${project.archives_base_name}" }
+        rename { "${it}_${licenseArchiveName}" }
     }
 }
 
 publishing {
     publications {
         create("mavenJava", MavenPublication) {
-            artifactId = project.archives_base_name
+            groupId = "${project.maven_group}.${project.environment}"
+            artifactId = 'wathe-extended'
             from components.java
         }
     }
 
-    repositories {}
+    repositories {
+        def reposiliteUrl = providers.gradleProperty('reposiliteUrl')
+                .orElse(providers.environmentVariable('REPOSILITE_URL'))
+                .orElse('https://maven.esraniki.space/releases')
+        maven {
+            name = 'reposilite'
+            url = uri(reposiliteUrl.get())
+            credentials(PasswordCredentials)
+            authentication {
+                basic(BasicAuthentication)
+            }
+        }
+    }
 }
-modrinth{
+
+modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = 'wathe-extended'
     versionNumber = project.version
-    versionName = "Release $project.version"
+    versionName = "$project.version"
     uploadFile = remapJar
     // deploy.sh extracts the newest CHANGELOG.md section into this file
     changelog = providers.provider {
@@ -192,16 +224,20 @@ modrinth{
         // Wathe
         required.project "wathe"
 
-        // Harpy Mod Loader and Addons
+        // OreLib (not yet published on Modrinth, bundled-in
+        // required.project "orelib"
+
+        // Harpy Mod Loader
         required.project "harpymodloader"
 
+        // Supported add-ons
         optional.project "noelles-roles-tmm"
         optional.project "stupid-express"
         optional.project "starexpress"
         optional.project "kinswathe"
         optional.project "watheextraitems"
 
-        // YACL
-        required.project "yacl"
+        // Unsupported add-ons
+        incompatible.project "harpy-express-more-shooter-punishments"
     }
 }
