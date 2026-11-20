@@ -82,6 +82,9 @@ public final class ScreenUtils {
     map.put("wrench", "\uE21D");
     map.put("capture_device", "\uE21E");
     map.put("icon_power_restoration", "\uE21F");
+    map.put("minecraft:cooked_beef", "\uE220");
+    map.put("minecraft:cooked_chicken", "\uE221");
+    map.put("minecraft:cooked_porkchop", "\uE222");
 
     // abilities
     map.put("adrenaline", "\uE300");
