@@ -3,15 +3,12 @@ package cat.rezelyn.watheextended.client.mixin.hud;
 import cat.rezelyn.watheextended.client.render.hud.UnifiedNameRenderer;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
 import dev.doctor4t.wathe.client.gui.RoleNameRenderer;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.RenderTickCounter;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import org.agmas.harpymodloader.client.HarpymodloaderClient;
 import org.spongepowered.asm.mixin.Mixin;
@@ -34,27 +31,6 @@ public class RoleNameRendererMixin {
       HarpymodloaderClient.hudRole = null;
       HarpymodloaderClient.modifiers = null;
     }
-  }
-
-  /**
-   * Keep Wathe's target draw in place for compatibility, but suppress its normal player line.
-   * {@link UnifiedNameRenderer} draws the username and pronouns instead.
-   */
-  @WrapOperation(
-      method = "renderHud",
-      at =
-          @At(
-              value = "INVOKE",
-              target =
-                  "Lnet/minecraft/entity/player/PlayerEntity;getDisplayName()Lnet/minecraft/text/Text;"),
-      require = 0)
-  private static Text watheextended$replaceVanillaUsername(
-      PlayerEntity target, Operation<Text> original) {
-    try {
-      original.call(target);
-    } catch (Throwable ignored) {
-    }
-    return Text.empty();
   }
 
   /** HML uses this local after the same target lookup to draw its role/modifier title. */
@@ -91,33 +67,24 @@ public class RoleNameRendererMixin {
   private static void watheextended$replaceWatheCohortOverlay(
       TextRenderer renderer, DrawContext context) {}
 
-  /**
-   * Replaces KinsWathe's independent Killer Cohort text and Hacker draws when the unified rows
-   * cover them, and suppresses Noelle's duplicate Morphling appearance name.
-   */
+  /** Wathe and Noelle’s Roles share this nametag draw. */
   @WrapOperation(
       method = "renderHud",
       at =
           @At(
               value = "INVOKE",
               target =
-                  "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)I"),
-      require = 0)
-  private static int watheextended$replaceKinsWatheOverlays(
+                  "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)I",
+              ordinal = 0))
+  private static int watheextended$skipOriginalNametag(
       DrawContext context,
       TextRenderer renderer,
       Text text,
       int x,
       int y,
       int color,
-      Operation<Integer> original,
-      @Local(argsOnly = true) ClientPlayerEntity viewer) {
-    if (y == 16 && UnifiedNameRenderer.isMorphedAppearanceName(viewer, text)) return 0;
-    if (FabricLoader.getInstance().isModLoaded("kinswathe")
-        && UnifiedNameRenderer.shouldSuppressKinsOverlayDraw(text)) {
-      return 0;
-    }
-    return original.call(context, renderer, text, x, y, color);
+      Operation<Integer> original) {
+    return 0;
   }
 
   @Inject(method = "renderHud", at = @At("TAIL"))

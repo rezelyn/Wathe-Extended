@@ -186,6 +186,9 @@ public final class WatheExtendedServerConfig {
   public static final Map<String, Boolean> ROLEPLAY_ITEM_DEFAULTS = createRoleplayItemDefaults();
   public static Map<String, Boolean> roleplayItems = new LinkedHashMap<>(ROLEPLAY_ITEM_DEFAULTS);
 
+  public static Map<String, Float> roleChances = new LinkedHashMap<>();
+  public static Map<String, Float> modifierChances = new LinkedHashMap<>();
+
   private WatheExtendedServerConfig() {}
 
   public static void load() {
@@ -207,7 +210,7 @@ public final class WatheExtendedServerConfig {
 
   /**
    * Sets an option and saves the config. Any {@link Number} is converted to the field's numeric
-   * type. Range validation is left to the YACL screen
+   * type. Range validation is handled by the configuration screen.
    *
    * @return {@code false} if the option doesn't exist or the value has the wrong type
    */
@@ -221,6 +224,22 @@ public final class WatheExtendedServerConfig {
 
   public static void setRoleplayItemEnabled(String id, boolean value) {
     roleplayItems.put(id, value);
+    save();
+  }
+
+  public static float getRoleChance (String id) {
+    return roleChances.getOrDefault(id, 1.0f);
+  }
+  public static void setRoleChance (String id, float value) {
+    roleChances.put(id, value);
+    save();
+  }
+
+  public static float getModifierChance (String id) {
+    return modifierChances.getOrDefault(id, 1.0f);
+  }
+  public static void setModifierChance (String id, float value) {
+    modifierChances.put(id, value);
     save();
   }
 

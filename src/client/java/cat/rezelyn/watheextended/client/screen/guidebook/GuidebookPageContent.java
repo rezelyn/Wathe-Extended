@@ -6,10 +6,12 @@ import cat.rezelyn.watheextended.client.screen.ScreenUtils;
 import cat.rezelyn.watheextended.network.ClientConfig;
 import java.util.ArrayList;
 import java.util.List;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 
 public final class GuidebookPageContent {
 
@@ -147,7 +149,7 @@ public final class GuidebookPageContent {
             builder.setLength(0);
           }
           String iconName = line.substring(i + 6, end);
-          Text iconText = ScreenUtils.icon(iconName);
+          Text iconText = resolveIcon(iconName);
           if (iconText.getString().isEmpty()) {
             result.append(Text.literal("{icon:" + iconName + "}").setStyle(currentStyle));
           } else {
@@ -176,6 +178,14 @@ public final class GuidebookPageContent {
       result.append(Text.literal(builder.toString()).setStyle(currentStyle));
     }
     return result;
+  }
+
+  private static Text resolveIcon(String name) {
+    Identifier id = Identifier.tryParse(name.contains(":") ? name : "wathe:" + name);
+    if (id == null) return ScreenUtils.icon(name);
+    return Registries.ITEM.getOrEmpty(id)
+        .map(item -> GuidebookItemIcon.text(item.getDefaultStack()))
+        .orElseGet(() -> ScreenUtils.icon(name));
   }
 
   private static Style applyFormattingCode(Style base, char code) {

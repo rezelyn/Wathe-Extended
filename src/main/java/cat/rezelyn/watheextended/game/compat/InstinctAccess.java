@@ -12,10 +12,11 @@ import net.minecraft.util.Identifier;
 public final class InstinctAccess {
   private static final Set<Identifier> NON_KILLER_ROLES = ConcurrentHashMap.newKeySet();
   private static final Set<Identifier> INSTINCT_DENYLIST =
-      Set.of(Identifier.of("kinswathe", "dreamer"), Identifier.of("kinswathe", "licensed_villain"));
+      Set.of(Identifier.of("kinswathe", "dreamer"));
 
   static {
     register(Identifier.of("kinswathe", "hacker"));
+    register(Identifier.of("kinswathe", "licensed_villain"));
     register(Identifier.of("noellesroles", "awesome_binglus"));
     register(Identifier.of("noellesroles", "jester"));
     register(Identifier.of("stupid_express", "arsonist"));

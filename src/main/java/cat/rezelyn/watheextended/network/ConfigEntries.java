@@ -4,7 +4,10 @@ import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.game.*;
 import cat.rezelyn.watheextended.index.*;
+import cat.rezelyn.watheextended.api.RolesId;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
+import cat.rezelyn.watheextended.api.ModifiersId;
+
 import java.util.function.*;
 
 /**
@@ -36,6 +39,21 @@ public final class ConfigEntries {
                     def,
                     () -> WatheExtendedServerConfig.isRoleplayItemEnabled(id),
                     value -> WatheExtendedServerConfig.setRoleplayItemEnabled(id, value))));
+  }
+
+  static void registerChances(Consumer<ServerConfig.Entry<Float>> register) {
+    for (String id : RolesId.get()) {
+      register.accept(ServerConfig.Entry.globalFloat(
+          "watheextended.roleChance." + id, 1.0f,
+          () -> WatheExtendedServerConfig.getRoleChance(id),
+          value -> WatheExtendedServerConfig.setRoleChance(id, value)));
+    }
+    for (String id : ModifiersId.get()) {
+      register.accept(ServerConfig.Entry.globalFloat(
+          "watheextended.modifierChance." + id, 1.0f,
+          () -> WatheExtendedServerConfig.getModifierChance(id),
+          value -> WatheExtendedServerConfig.setModifierChance(id, value)));
+    }
   }
 
   /** Registers the per-world entries (map setup and game rule toggles) */

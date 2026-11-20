@@ -1,0 +1,1 @@
+viewDistance=32

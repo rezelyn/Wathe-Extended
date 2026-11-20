@@ -1,15 +1,11 @@
 package cat.rezelyn.watheextended.client.screen;
 
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
-import dev.isxander.yacl3.api.Option;
-import dev.isxander.yacl3.api.controller.FloatFieldControllerBuilder;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.BiConsumer;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -86,6 +82,9 @@ public final class ScreenUtils {
     map.put("wrench", "\uE21D");
     map.put("capture_device", "\uE21E");
     map.put("icon_power_restoration", "\uE21F");
+    map.put("minecraft:cooked_beef", "\uE220");
+    map.put("minecraft:cooked_chicken", "\uE221");
+    map.put("minecraft:cooked_porkchop", "\uE222");
 
     // abilities
     map.put("adrenaline", "\uE300");
@@ -132,16 +131,6 @@ public final class ScreenUtils {
     int colon = id.indexOf(':');
     String local = colon >= 0 ? id.substring(colon + 1) : id;
     return denylist.contains(local);
-  }
-
-  public static void stage(
-      BiConsumer<String, Screen> command, Screen parent, String key, Object value) {
-    command.accept(key + " " + value, parent);
-  }
-
-  public static FloatFieldControllerBuilder floatController(Option<Float> option) {
-    return FloatFieldControllerBuilder.create(option)
-        .formatValue(value -> Text.literal(format(value)));
   }
 
   public static String format(double v) {

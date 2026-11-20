@@ -1,36 +1,30 @@
 package cat.rezelyn.watheextended.client.screen.config;
 
+import static cat.rezelyn.watheextended.client.screen.config.ConfigText.*;
+
+import cat.rezelyn.orelib.api.config.ConfigBuilder.CategoryBuilder;
+import cat.rezelyn.orelib.api.config.ConfigBuilder.GroupBuilder;
+import cat.rezelyn.orelib.api.controller.Controllers;
+import cat.rezelyn.orelib.api.model.EntryDefinition;
+import cat.rezelyn.orelib.api.setting.SettingKey;
+import cat.rezelyn.orelib.api.setting.Validation;
 import cat.rezelyn.watheextended.api.GameComponents;
 import cat.rezelyn.watheextended.api.MapVariables;
 import cat.rezelyn.watheextended.client.screen.ScreenUtils;
 import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.game.utils.TeleportationSlot;
-import cat.rezelyn.watheextended.network.ClientConfig;
-import dev.doctor4t.wathe.api.WatheGameModes;
-import dev.doctor4t.wathe.cca.GameWorldComponent;
-import dev.isxander.yacl3.api.*;
-import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
-import dev.isxander.yacl3.api.controller.CyclingListControllerBuilder;
-import dev.isxander.yacl3.api.controller.IntegerSliderControllerBuilder;
-import dev.isxander.yacl3.api.controller.StringControllerBuilder;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.function.BiConsumer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
-import org.agmas.harpymodloader.Harpymodloader;
 
 public final class MapCategory {
 
   private MapCategory() {}
 
-  public static ConfigCategory build(Screen parent, BiConsumer<String, Screen> sendCommand) {
-    ConfigCategory.Builder builder =
-        ConfigCategory.createBuilder()
-            .name(Text.translatable("gui.watheextended.config.category.map.title"))
-            .tooltip(Text.translatable("gui.watheextended.config.category.map.tooltip"));
+  public static void build(CategoryBuilder builder) {
+    builder.name(text("category.map.title")).description(text("category.map.tooltip"));
 
     World world = MinecraftClient.getInstance().world;
     String lobbyAreaDefault = ScreenUtils.boxToArgs(MapVariables.getLobbyArea(world));
@@ -45,539 +39,271 @@ public final class MapCategory {
     String spectatorSpawnDefault =
         ScreenUtils.posToArgs(MapVariables.getSpectatorSpawnPosition(world));
 
-    /// WORLD PROTECTION
     builder.option(
-        Option.<Boolean>createBuilder()
-            .name(Text.translatable("gui.watheextended.config.category.map.opt.worldprotection"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.map.opt.worldprotection.desc")))
-            .binding(
-                false,
-                () -> {
-                  try {
-                    World w = MinecraftClient.getInstance().world;
-                    WatheExtendedWorldComponent component =
-                        w != null ? WatheExtendedWorldComponent.KEY.get(w) : null;
-                    return component == null || component.isBlockInteractionsProtected();
-                  } catch (Throwable t) {
-                    return true;
-                  }
-                },
-                value -> sendCommand.accept("watheextended:enableWorldProtection " + value, parent))
-            .controller(
-                option ->
-                    BooleanControllerBuilder.create(option)
-                        .formatValue(
-                            value ->
-                                Text.translatable(
-                                    value
-                                        ? "gui.watheextended.config.text.on"
-                                        : "gui.watheextended.config.text.off")))
-            .build());
-    /// RANDOM TELEPORTATION
+        SettingKey.of("watheextended.blockProtection", Boolean.class),
+        option ->
+            option
+                .name(text("category.map.opt.worldprotection"))
+                .description(text("category.map.opt.worldprotection.desc"))
+                .defaultValue(false)
+                .controller(Controllers.bool(true))
+                .formatter(ConfigText::onOff));
     builder.option(
-        Option.<Boolean>createBuilder()
-            .name(Text.translatable("gui.watheextended.config.category.map.opt.rtp"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable("gui.watheextended.config.category.map.opt.rtp.desc")))
-            .binding(
-                false,
-                () -> {
-                  try {
-                    World w = MinecraftClient.getInstance().world;
-                    WatheExtendedWorldComponent component =
-                        w != null ? WatheExtendedWorldComponent.KEY.get(w) : null;
-                    return component == null || component.isRtpEnabled();
-                  } catch (Throwable t) {
-                    return true;
-                  }
-                },
-                value ->
-                    sendCommand.accept(
-                        "watheextended:rtp " + (value ? "enable" : "disable"), parent))
-            .controller(
-                option ->
-                    BooleanControllerBuilder.create(option)
-                        .formatValue(
-                            value ->
-                                Text.translatable(
-                                    value
-                                        ? "gui.watheextended.config.text.on"
-                                        : "gui.watheextended.config.text.off")))
-            .build());
-    /// ITEM BOUNDS CHECK
+        SettingKey.of("watheextended.rtpEnabled", Boolean.class),
+        option ->
+            option
+                .name(text("category.map.opt.rtp"))
+                .description(text("category.map.opt.rtp.desc"))
+                .defaultValue(false)
+                .controller(Controllers.bool(true))
+                .formatter(ConfigText::onOff));
     builder.option(
-        Option.<Boolean>createBuilder()
-            .name(Text.translatable("gui.watheextended.config.category.map.opt.itemboundscheck"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.map.opt.itemboundscheck.desc")))
-            .binding(
-                true,
-                () -> {
-                  try {
-                    World w = MinecraftClient.getInstance().world;
-                    WatheExtendedWorldComponent component =
-                        w != null ? WatheExtendedWorldComponent.KEY.get(w) : null;
-                    return component == null || component.isItemBoundsCheckEnabled();
-                  } catch (Throwable t) {
-                    return true;
-                  }
-                },
-                value -> sendCommand.accept("watheextended:enableItemBoundsCheck " + value, parent))
-            .controller(
-                option ->
-                    BooleanControllerBuilder.create(option)
-                        .formatValue(
-                            value ->
-                                Text.translatable(
-                                    value
-                                        ? "gui.watheextended.config.text.on"
-                                        : "gui.watheextended.config.text.off")))
-            .build());
-    /// JUMP MODE
+        SettingKey.of("watheextended.itemBoundsCheck", Boolean.class),
+        option ->
+            option
+                .name(text("category.map.opt.itemboundscheck"))
+                .description(text("category.map.opt.itemboundscheck.desc"))
+                .defaultValue(true)
+                .controller(Controllers.bool(true))
+                .formatter(ConfigText::onOff));
     builder.option(
-        Option.<String>createBuilder()
-            .name(Text.translatable("gui.watheextended.config.category.map.opt.jumpmode"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable("gui.watheextended.config.category.map.opt.jumpmode.desc")))
-            .binding(
-                "LOBBY",
-                () -> ClientConfig.getString("watheextended.jumpMode", "LOBBY"),
-                value -> ScreenUtils.stage(sendCommand, parent, "watheextended.jumpMode", value))
-            .controller(
-                option ->
-                    CyclingListControllerBuilder.create(option)
-                        .values(java.util.List.of("DEFAULT", "LOBBY", "EVERYWHERE"))
-                        .formatValue(
-                            value ->
-                                Text.translatable(
-                                    "gui.watheextended.config.category.map.opt.jumpmode."
-                                        + value.toLowerCase(java.util.Locale.ROOT))))
-            .build());
-    /// AUTO START
+        SettingKey.of("watheextended.jumpMode", String.class),
+        option ->
+            option
+                .name(text("category.map.opt.jumpmode"))
+                .description(text("category.map.opt.jumpmode.desc"))
+                .defaultValue("LOBBY")
+                .controller(
+                    Controllers.cycling(
+                        java.util.List.of("DEFAULT", "LOBBY", "EVERYWHERE"),
+                        value ->
+                            text(
+                                "category.map.opt.jumpmode."
+                                    + value.toLowerCase(java.util.Locale.ROOT))))
+                .formatter(value ->
+                    text("category.map.opt.jumpmode." + value.toLowerCase(java.util.Locale.ROOT)))
+                .validator(
+                    value -> choice(value, java.util.List.of("DEFAULT", "LOBBY", "EVERYWHERE"))));
     builder.option(
-        Option.<Integer>createBuilder()
-            .name(Text.translatable("gui.watheextended.config.category.map.opt.autostart"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable("gui.watheextended.config.category.map.opt.autostart.desc")))
-            .binding(
-                GameComponents.getAutoStart(world),
-                () -> GameComponents.getAutoStart(MinecraftClient.getInstance().world),
-                value -> sendCommand.accept("wathe:gameSettings set autoStart " + value, parent))
-            .controller(
-                option ->
-                    IntegerSliderControllerBuilder.create(option)
-                        .range(0, 60) // max 60s because who wants it to be higher?
-                        .step(1)
-                        .formatValue(
-                            value ->
-                                Text.literal(String.format(java.util.Locale.ROOT, "%ds", value))))
-            .build());
+        SettingKey.of("command.autoStart", Integer.class),
+        option ->
+            option
+                .name(text("category.map.opt.autostart"))
+                .description(text("category.map.opt.autostart.desc"))
+                .defaultValue(GameComponents.getAutoStart(world))
+                .controller(Controllers.numberSlider(Integer.class, 0, 60, 1, false))
+                .formatter(
+                    value -> Text.literal(String.format(java.util.Locale.ROOT, "%ds", value)))
+                .validator(value -> range(value, 0, 60)));
 
     // Map effect
-    OptionGroup.Builder mapEffect =
-        OptionGroup.createBuilder()
-            .name(Text.translatable("gui.watheextended.config.category.map.group.map_effect"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.map.group.map_effect.tooltip")));
-    /// GAMEMODE
-    mapEffect.option(
-        Option.<String>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.map.group.map_effect.opt.gamemode"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.map.group.map_effect.opt.gamemode.desc")))
-            .binding(
-                "MODDED_MURDER",
-                () -> currentGameMode(MinecraftClient.getInstance().world),
-                value -> sendCommand.accept("watheextended.map.gameMode " + value, parent))
-            .controller(
-                option ->
-                    CyclingListControllerBuilder.create(option)
-                        .values(
-                            java.util.List.of(
-                                "MODDED_MURDER",
-                                "MODDED_SECRET_MURDER",
-                                "MURDER",
-                                "LOOSE_ENDS",
-                                "SECRET_MURDER",
-                                "DISCOVERY"))
-                        .formatValue(
-                            value ->
-                                Text.translatable(
-                                    "gui.watheextended.config.category.map.group.map_effect.opt.gamemode."
-                                        + value.toLowerCase(java.util.Locale.ROOT))))
-            .build());
-    mapEffect.option(
-        Option.<Integer>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.map.group.map_effect.opt.secretmurder"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.map.group.map_effect.opt.secretmurder.desc")))
-            .binding(
-                GameComponents.getSecretMurderRoundChance(world),
-                () ->
-                    GameComponents.getSecretMurderRoundChance(MinecraftClient.getInstance().world),
-                value ->
-                    ScreenUtils.stage(
-                        sendCommand, parent, "watheextended.secretMurderChance", value))
-            .controller(
-                option ->
-                    IntegerSliderControllerBuilder.create(option)
-                        .range(0, 100)
-                        .step(1)
-                        .formatValue(
-                            value ->
-                                Text.literal(String.format(java.util.Locale.ROOT, "%d%%", value))))
-            .build());
-    mapEffect.option(
-        Option.<Boolean>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.map.group.map_effect.opt.generic"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.map.group.map_effect.opt.generic.desc")))
-            .binding(
-                false,
-                () -> {
-                  try {
-                    return WatheExtendedWorldComponent.KEY
-                        .get(MinecraftClient.getInstance().world)
-                        .isGenericMapEffectEnabled();
-                  } catch (Throwable ignored) {
-                    return false;
-                  }
-                },
-                value -> sendCommand.accept("watheextended.map.generic " + value, parent))
-            .controller(
-                option ->
-                    BooleanControllerBuilder.create(option)
-                        .formatValue(
-                            value ->
-                                Text.translatable(
-                                    value
-                                        ? "gui.watheextended.config.text.on"
-                                        : "gui.watheextended.config.text.off")))
-            .build());
-    /// IN-GAME TIME
-    mapEffect.option(mapTimeOption("time", "getGameTimeOfDay", sendCommand, parent));
-    /// LOBBY TIME
-    mapEffect.option(mapTimeOption("lobbytime", "getLobbyTimeOfDay", sendCommand, parent));
-    /// GAME DURATION
-    mapEffect.option(
-        Option.<Integer>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.map.group.map_effect.opt.duration"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.map.group.map_effect.opt.duration.desc")))
-            .binding(
-                10,
-                () -> {
-                  try {
-                    return WatheExtendedWorldComponent.KEY
-                        .get(MinecraftClient.getInstance().world)
-                        .getGameDurationMinutes();
-                  } catch (Throwable ignored) {
-                    return 10;
-                  }
-                },
-                value -> sendCommand.accept("watheextended.map.duration " + value, parent))
-            .controller(
-                option ->
-                    IntegerSliderControllerBuilder.create(option)
-                        .range(1, 60)
-                        .step(1)
-                        .formatValue(value -> Text.literal(value + "m")))
-            .build());
-    builder.group(mapEffect.build());
+    builder.group(
+        "map.mapEffect",
+        mapEffect -> {
+          mapEffect
+              .name(text("category.map.group.map_effect"))
+              .description(text("category.map.group.map_effect.tooltip"));
+          mapEffect.option(
+              SettingKey.of("watheextended.map.gameMode", String.class),
+              option ->
+                  option
+                      .name(text("category.map.group.map_effect.opt.gamemode"))
+                      .description(text("category.map.group.map_effect.opt.gamemode.desc"))
+                      .defaultValue("MODDED_MURDER")
+                      .controller(
+                          Controllers.cycling(
+                              java.util.List.of(
+                                  "MODDED_MURDER",
+                                  "MODDED_SECRET_MURDER",
+                                  "MURDER",
+                                  "LOOSE_ENDS",
+                                  "SECRET_MURDER",
+                                  "DISCOVERY"),
+                              value ->
+                                  text(
+                                      "category.map.group.map_effect.opt.gamemode."
+                                          + value.toLowerCase(java.util.Locale.ROOT))))
+                      .formatter(value ->
+                          text(
+                              "category.map.group.map_effect.opt.gamemode."
+                                  + value.toLowerCase(java.util.Locale.ROOT)))
+                      .validator(value ->
+                          choice(
+                              value,
+                              java.util.List.of(
+                                  "MODDED_MURDER",
+                                  "MODDED_SECRET_MURDER",
+                                  "MURDER",
+                                  "LOOSE_ENDS",
+                                  "SECRET_MURDER",
+                                  "DISCOVERY"))));
+          mapEffect.option(
+              SettingKey.of("watheextended.secretMurderChance", Integer.class),
+              option ->
+                  option
+                      .name(text("category.map.group.map_effect.opt.secretmurder"))
+                      .description(text("category.map.group.map_effect.opt.secretmurder.desc"))
+                      .defaultValue(GameComponents.getSecretMurderRoundChance(world))
+                      .controller(Controllers.numberSlider(Integer.class, 0, 100, 1, false))
+                      .formatter(value ->
+                          Text.literal(String.format(java.util.Locale.ROOT, "%d%%", value)))
+                      .validator(value -> range(value, 0, 100)));
+          mapEffect.option(
+              SettingKey.of("watheextended.map.generic", Boolean.class),
+              option ->
+                  option
+                      .name(text("category.map.group.map_effect.opt.generic"))
+                      .description(text("category.map.group.map_effect.opt.generic.desc"))
+                      .defaultValue(false)
+                      .controller(Controllers.bool(true))
+                      .formatter(ConfigText::onOff));
+          mapTimeOption(mapEffect, "time");
+          mapTimeOption(mapEffect, "lobbytime");
+          mapEffect.option(
+              SettingKey.of("watheextended.map.duration", Integer.class),
+              option ->
+                  option
+                      .name(text("category.map.group.map_effect.opt.duration"))
+                      .description(text("category.map.group.map_effect.opt.duration.desc"))
+                      .defaultValue(10)
+                      .controller(Controllers.numberSlider(Integer.class, 1, 60, 1, false))
+                      .formatter(value -> Text.literal(value + "m"))
+                      .validator(value -> range(value, 1, 60)));
+        });
 
     // Variables
-    OptionGroup.Builder group =
-        OptionGroup.createBuilder()
-            .name(Text.translatable("gui.watheextended.config.category.map.group.variables"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.map.group.variables.tooltip")))
-            .collapsed(true);
-    /// LOBBY AREA
-    group.option(
-        Option.<String>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.map.group.variables.opt.lobbyarea"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                            "gui.watheextended.config.category.map.group.variables.opt.lobbyarea.desc")
-                        .styled(s -> s.withColor(0x757575))))
-            .binding(
-                lobbyAreaDefault,
-                () ->
-                    ScreenUtils.boxToArgs(
-                        MapVariables.getLobbyArea(MinecraftClient.getInstance().world)),
-                value -> {
-                  String[] parts = value.trim().split("\\s+");
-                  if (parts.length == 6)
-                    sendCommand.accept(
-                        "watheextended:mapVariables set lobbyArea "
-                            + parts[0]
-                            + " "
-                            + parts[1]
-                            + " "
-                            + parts[2]
-                            + " "
-                            + parts[3]
-                            + " "
-                            + parts[4]
-                            + " "
-                            + parts[5],
-                        parent);
-                })
-            .controller(StringControllerBuilder::create)
-            .build());
-    /// PLAY AREA
-    group.option(
-        Option.<String>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.map.group.variables.opt.playarea"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                            "gui.watheextended.config.category.map.group.variables.opt.playarea.desc")
-                        .styled(s -> s.withColor(0x757575))))
-            .binding(
-                playAreaDefault,
-                () ->
-                    ScreenUtils.boxToArgs(
-                        MapVariables.getPlayArea(MinecraftClient.getInstance().world)),
-                value ->
-                    sendCommand.accept("wathe:mapVariables set playArea " + value.trim(), parent))
-            .controller(StringControllerBuilder::create)
-            .build());
-    /// PLAY AREA OFFSET
-    group.option(
-        Option.<String>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.map.group.variables.opt.playareaoffset"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                            "gui.watheextended.config.category.map.group.variables.opt.playareaoffset.desc")
-                        .styled(s -> s.withColor(0x757575))))
-            .binding(
-                playAreaOffsetDefault,
-                () ->
-                    ScreenUtils.vec3iToArgs(
-                        MapVariables.getPlayAreaOffset(MinecraftClient.getInstance().world)),
-                value ->
-                    sendCommand.accept(
-                        "wathe:mapVariables set playAreaOffset " + value.trim(), parent))
-            .controller(StringControllerBuilder::create)
-            .build());
-    /// READY AREA
-    group.option(
-        Option.<String>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.map.group.variables.opt.readyarea"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                            "gui.watheextended.config.category.map.group.variables.opt.readyarea.desc")
-                        .styled(s -> s.withColor(0x757575))))
-            .binding(
-                readyAreaDefault,
-                () ->
-                    ScreenUtils.boxToArgs(
-                        MapVariables.getReadyArea(MinecraftClient.getInstance().world)),
-                value ->
-                    sendCommand.accept("wathe:mapVariables set readyArea " + value.trim(), parent))
-            .controller(StringControllerBuilder::create)
-            .build());
-    /// RESET PASTE OFFSET
-    group.option(
-        Option.<String>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.map.group.variables.opt.resetpasteoffset"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                            "gui.watheextended.config.category.map.group.variables.opt.resetpasteoffset.desc")
-                        .styled(s -> s.withColor(0x757575))))
-            .binding(
-                resetPasteOffsetDefault,
-                () ->
-                    ScreenUtils.vec3iToArgs(
-                        MapVariables.getResetPasteOffset(MinecraftClient.getInstance().world)),
-                value ->
-                    sendCommand.accept(
-                        "wathe:mapVariables set resetPasteOffset " + value.trim(), parent))
-            .controller(StringControllerBuilder::create)
-            .build());
-    /// SPAWN POSITION
-    group.option(
-        Option.<String>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.map.group.variables.opt.spawnpos"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                            "gui.watheextended.config.category.map.group.variables.opt.spawnpos.desc")
-                        .styled(s -> s.withColor(0x757575))))
-            .binding(
-                spawnPosDefault,
-                () ->
-                    ScreenUtils.posToArgs(
-                        MapVariables.getSpawnPosition(MinecraftClient.getInstance().world)),
-                value ->
-                    sendCommand.accept(
-                        "wathe:mapVariables set spawnPosition " + value.trim(), parent))
-            .controller(StringControllerBuilder::create)
-            .build());
-    /// SPAWN POSITION - READY AREA
-    group.option(
-        Option.<String>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.map.group.variables.opt.readyareaspawnpos"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                            "gui.watheextended.config.category.map.group.variables.opt.readyareaspawnpos.desc")
-                        .styled(s -> s.withColor(0x757575))))
-            .binding(
-                readyAreaSpawnDefault,
-                () ->
-                    ScreenUtils.posToArgs(
-                        MapVariables.getReadyAreaSpawnPosition(
-                            MinecraftClient.getInstance().world)),
-                value ->
-                    sendCommand.accept(
-                        "watheextended:mapVariables set readyAreaSpawnPosition " + value.trim(),
-                        parent))
-            .controller(StringControllerBuilder::create)
-            .build());
-    /// SPAWN POSITION - SPECTATOR
-    group.option(
-        Option.<String>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.map.group.variables.opt.spectatorspawnpos"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                            "gui.watheextended.config.category.map.group.variables.opt.spectatorspawnpos.desc")
-                        .styled(s -> s.withColor(0x757575))))
-            .binding(
-                spectatorSpawnDefault,
-                () ->
-                    ScreenUtils.posToArgs(
-                        MapVariables.getSpectatorSpawnPosition(
-                            MinecraftClient.getInstance().world)),
-                value ->
-                    sendCommand.accept(
-                        "wathe:mapVariables set spectatorSpawnPosition " + value.trim(), parent))
-            .controller(StringControllerBuilder::create)
-            .build());
-
-    builder.group(group.build());
-    builder.group(buildRtpSlotsGroup(parent, sendCommand));
-    return builder.build();
+    builder.group(
+        "map.variables",
+        group -> {
+          group
+              .name(text("category.map.group.variables"))
+              .description(text("category.map.group.variables.tooltip"))
+              .collapsed(true);
+          group.option(
+              SettingKey.of("command.lobbyArea", String.class),
+              option ->
+                  option
+                      .name(text("category.map.group.variables.opt.lobbyarea"))
+                      .description(
+                          text("category.map.group.variables.opt.lobbyarea.desc")
+                              .styled(s -> s.withColor(0x757575)))
+                      .defaultValue(lobbyAreaDefault)
+                      .controller(Controllers.string())
+                      .validator(value -> coordinates(value, 6, false)));
+          group.option(
+              SettingKey.of("command.playArea", String.class),
+              option ->
+                  option
+                      .name(text("category.map.group.variables.opt.playarea"))
+                      .description(
+                          text("category.map.group.variables.opt.playarea.desc")
+                              .styled(s -> s.withColor(0x757575)))
+                      .defaultValue(playAreaDefault)
+                      .controller(Controllers.string())
+                      .validator(value -> coordinates(value, 6, false)));
+          group.option(
+              SettingKey.of("command.playAreaOffset", String.class),
+              option ->
+                  option
+                      .name(text("category.map.group.variables.opt.playareaoffset"))
+                      .description(
+                          text("category.map.group.variables.opt.playareaoffset.desc")
+                              .styled(s -> s.withColor(0x757575)))
+                      .defaultValue(playAreaOffsetDefault)
+                      .controller(Controllers.string())
+                      .validator(value -> coordinates(value, 3, false)));
+          group.option(
+              SettingKey.of("command.readyArea", String.class),
+              option ->
+                  option
+                      .name(text("category.map.group.variables.opt.readyarea"))
+                      .description(
+                          text("category.map.group.variables.opt.readyarea.desc")
+                              .styled(s -> s.withColor(0x757575)))
+                      .defaultValue(readyAreaDefault)
+                      .controller(Controllers.string())
+                      .validator(value -> coordinates(value, 6, false)));
+          group.option(
+              SettingKey.of("command.resetPasteOffset", String.class),
+              option ->
+                  option
+                      .name(text("category.map.group.variables.opt.resetpasteoffset"))
+                      .description(
+                          text("category.map.group.variables.opt.resetpasteoffset.desc")
+                              .styled(s -> s.withColor(0x757575)))
+                      .defaultValue(resetPasteOffsetDefault)
+                      .controller(Controllers.string())
+                      .validator(value -> coordinates(value, 3, false)));
+          group.option(
+              SettingKey.of("command.spawnPosition", String.class),
+              option ->
+                  option
+                      .name(text("category.map.group.variables.opt.spawnpos"))
+                      .description(
+                          text("category.map.group.variables.opt.spawnpos.desc")
+                              .styled(s -> s.withColor(0x757575)))
+                      .defaultValue(spawnPosDefault)
+                      .controller(Controllers.string())
+                      .validator(value -> coordinates(value, 5, false)));
+          group.option(
+              SettingKey.of("command.readyAreaSpawnPosition", String.class),
+              option ->
+                  option
+                      .name(text("category.map.group.variables.opt.readyareaspawnpos"))
+                      .description(
+                          text("category.map.group.variables.opt.readyareaspawnpos.desc")
+                              .styled(s -> s.withColor(0x757575)))
+                      .defaultValue(readyAreaSpawnDefault)
+                      .controller(Controllers.string())
+                      .validator(value -> coordinates(value, 5, false)));
+          group.option(
+              SettingKey.of("command.spectatorSpawnPosition", String.class),
+              option ->
+                  option
+                      .name(text("category.map.group.variables.opt.spectatorspawnpos"))
+                      .description(
+                          text("category.map.group.variables.opt.spectatorspawnpos.desc")
+                              .styled(s -> s.withColor(0x757575)))
+                      .defaultValue(spectatorSpawnDefault)
+                      .controller(Controllers.string())
+                      .validator(value -> coordinates(value, 5, false)));
+        });
+    builder.group("map.rtpSlots", MapCategory::buildRtpSlotsGroup);
   }
 
-  private static String currentGameMode(World world) {
-    try {
-      var configured = WatheExtendedWorldComponent.KEY.get(world).getGameModeSelection();
-      if (configured != null) return configured;
-      var mode = GameWorldComponent.KEY.get(world).getGameMode();
-      if (mode == Harpymodloader.MODDED_GAMEMODE) return "MODDED_MURDER";
-      if (mode == Harpymodloader.SECRET_MODDED_GAMEMODE) return "MODDED_SECRET_MURDER";
-      if (mode == WatheGameModes.LOOSE_ENDS) return "LOOSE_ENDS";
-      if (mode == WatheGameModes.SECRET_MURDER) return "SECRET_MURDER";
-      if (mode == WatheGameModes.DISCOVERY) return "DISCOVERY";
-    } catch (Throwable ignored) {
-    }
-    return "MURDER";
-  }
-
-  private static Option<String> mapTimeOption(
-      String key, String getter, BiConsumer<String, Screen> sendCommand, Screen parent) {
-    return Option.<String>createBuilder()
-        .name(
-            Text.translatable("gui.watheextended.config.category.map.group.map_effect.opt." + key))
-        .description(
-            OptionDescription.of(
-                Text.translatable(
-                    "gui.watheextended.config.category.map.group.map_effect.opt." + key + ".desc")))
-        .binding(
-            key.equals("lobbytime") ? "DAY" : "NIGHT",
-            () -> {
-              try {
-                var component =
-                    WatheExtendedWorldComponent.KEY.get(MinecraftClient.getInstance().world);
-                return getter.equals("getLobbyTimeOfDay")
-                    ? component.getLobbyTimeOfDay()
-                    : component.getGameTimeOfDay();
-              } catch (Throwable ignored) {
-                return key.equals("lobbytime") ? "DAY" : "NIGHT";
-              }
-            },
-            value ->
-                sendCommand.accept(
-                    "watheextended.map."
-                        + (key.equals("lobbytime") ? "lobbyTime" : "gameTime")
-                        + " "
-                        + value,
-                    parent))
-        .controller(
-            option ->
-                CyclingListControllerBuilder.create(option)
-                    .values(java.util.List.of("DAY", "NIGHT", "SUNDOWN"))
-                    .formatValue(
+  private static void mapTimeOption(GroupBuilder group, String key) {
+    group.option(
+        SettingKey.of(
+            "watheextended.map." + (key.equals("lobbytime") ? "lobbyTime" : "gameTime"),
+            String.class),
+        option ->
+            option
+                .name(text("category.map.group.map_effect.opt." + key))
+                .description(text("category.map.group.map_effect.opt." + key + ".desc"))
+                .defaultValue(key.equals("lobbytime") ? "DAY" : "NIGHT")
+                .controller(
+                    Controllers.cycling(
+                        java.util.List.of("DAY", "NIGHT", "SUNDOWN"),
                         value ->
-                            Text.translatable(
-                                "gui.watheextended.config.category.map.group.map_effect.opt."
+                            text(
+                                "category.map.group.map_effect.opt."
                                     + key
                                     + "."
                                     + value.toLowerCase(java.util.Locale.ROOT))))
-        .build();
+                .formatter(value ->
+                    text(
+                        "category.map.group.map_effect.opt."
+                            + key
+                            + "."
+                            + value.toLowerCase(java.util.Locale.ROOT)))
+                .validator(value -> choice(value, java.util.List.of("DAY", "NIGHT", "SUNDOWN"))));
   }
 
-  private static OptionGroup buildRtpSlotsGroup(
-      Screen parent, BiConsumer<String, Screen> sendCommand) {
-    OptionGroup.Builder group =
-        OptionGroup.createBuilder()
-            .name(Text.translatable("gui.watheextended.config.category.map.group.rtp_slots"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.map.group.rtp_slots.tooltip")))
-            .collapsed(true);
+  private static void buildRtpSlotsGroup(GroupBuilder group) {
+    group
+        .name(text("category.map.group.rtp_slots"))
+        .description(text("category.map.group.rtp_slots.tooltip"))
+        .collapsed(true);
 
     World world = MinecraftClient.getInstance().world;
 
@@ -594,68 +320,46 @@ public final class MapCategory {
     }
 
     if (slots.isEmpty()) {
-      group.option(
-          LabelOption.create(
-              Text.translatable("gui.watheextended.config.category.map.group.rtp_slots.none")
-                  .styled(style -> style.withColor(0xFF5555))));
+      group.entry(
+          new EntryDefinition.FullWidthLabel(
+              "category.map.group.rtp_slots.none",
+              text("category.map.group.rtp_slots.none").styled(style -> style.withColor(0xFF5555)),
+              Text.empty(),
+              ctx -> true));
     } else {
       for (Map.Entry<Integer, TeleportationSlot> entry : slots.entrySet()) {
         final int slotId = entry.getKey();
         final String slotDefault = entry.getValue().toCommandArgs();
 
         group.option(
-            Option.<String>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.map.group.rtp_slots.slot", slotId))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                                "gui.watheextended.config.category.map.group.rtp_slots.slot.desc")
-                            .styled(style -> style.withColor(0x757575))))
-                .binding(
-                    slotDefault,
-                    () -> {
-                      try {
-                        World w = MinecraftClient.getInstance().world;
-                        WatheExtendedWorldComponent component =
-                            w != null ? WatheExtendedWorldComponent.KEY.get(w) : null;
-                        TeleportationSlot slot =
-                            component != null
-                                ? component.getTeleportationSlots().get(slotId)
-                                : null;
-                        return slot != null ? slot.toCommandArgs() : slotDefault;
-                      } catch (Throwable t) {
-                        return slotDefault;
-                      }
-                    },
-                    value -> {
-                      String trimmed = value.trim();
-                      String[] parts = trimmed.split("\\s+");
-                      if (parts.length == 5) {
-                        sendCommand.accept(
-                            "watheextended:rtp slot edit "
-                                + slotId
-                                + " "
-                                + parts[0]
-                                + " "
-                                + parts[1]
-                                + " "
-                                + parts[2]
-                                + " "
-                                + parts[3]
-                                + " "
-                                + parts[4],
-                            parent);
-                      } else {
-                        sendCommand.accept("watheextended:rtp slot remove " + slotId, parent);
-                      }
-                    })
-                .controller(StringControllerBuilder::create)
-                .build());
+            SettingKey.of("command.rtp." + slotId, String.class),
+            option ->
+                option
+                    .name(text("category.map.group.rtp_slots.slot", slotId))
+                    .description(
+                        text("category.map.group.rtp_slots.slot.desc")
+                            .styled(style -> style.withColor(0x757575)))
+                    .defaultValue(slotDefault)
+                    .controller(Controllers.string())
+                    .validator(value -> coordinates(value, 5, true)));
       }
     }
+  }
 
-    return group.build();
+  private static Validation<String> coordinates(String value, int count, boolean allowEmpty) {
+    String trimmed = value.strip().replaceAll("\\s+", " ");
+    if (allowEmpty && trimmed.isEmpty()) return Validation.accepted(trimmed);
+    String[] parts = trimmed.split(" ");
+    if (parts.length != count)
+      return Validation.rejected(Text.literal("Expected " + count + " coordinates."));
+    try {
+      for (String part : parts) {
+        if (count == 3) Integer.parseInt(part);
+        else if (!Double.isFinite(Double.parseDouble(part))) throw new NumberFormatException();
+      }
+    } catch (NumberFormatException invalid) {
+      return Validation.rejected(Text.literal("Enter valid coordinates."));
+    }
+    return Validation.accepted(trimmed);
   }
 }

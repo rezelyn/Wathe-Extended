@@ -1,1341 +1,944 @@
 package cat.rezelyn.watheextended.client.screen.config;
 
+import static cat.rezelyn.watheextended.client.screen.config.ConfigText.*;
+
+import cat.rezelyn.orelib.api.config.ConfigBuilder.CategoryBuilder;
+import cat.rezelyn.orelib.api.controller.Controllers;
+import cat.rezelyn.orelib.api.setting.SettingKey;
 import cat.rezelyn.watheextended.WatheExtendedServerConfig;
-import cat.rezelyn.watheextended.api.GameComponents;
 import cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper;
 import cat.rezelyn.watheextended.client.screen.ScreenUtils;
-import cat.rezelyn.watheextended.network.ClientConfig;
-import dev.isxander.yacl3.api.ConfigCategory;
-import dev.isxander.yacl3.api.Option;
-import dev.isxander.yacl3.api.OptionDescription;
-import dev.isxander.yacl3.api.OptionGroup;
-import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
-import dev.isxander.yacl3.api.controller.FloatSliderControllerBuilder;
-import dev.isxander.yacl3.api.controller.IntegerFieldControllerBuilder;
-import java.util.function.BiConsumer;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.world.World;
 
 public class ItemsCategory {
 
   private ItemsCategory() {}
 
-  public static ConfigCategory build(Screen parent, BiConsumer<String, Screen> sendCommand) {
-    ConfigCategory.Builder builder =
-        ConfigCategory.createBuilder()
-            .name(Text.translatable("gui.watheextended.config.category.items"))
-            .tooltip(Text.translatable("gui.watheextended.config.category.items.tooltip"));
-
-    World world = MinecraftClient.getInstance().world;
+  public static void build(CategoryBuilder builder) {
+    builder.name(text("category.items")).description(text("category.items.tooltip"));
 
     // Roleplay Items
     if (FabricLoader.getInstance().isModLoaded("watheextraitems")) {
-      OptionGroup.Builder roleplayItems =
-          OptionGroup.createBuilder()
-              .name(withIcon("gui.watheextended.config.category.items.group.roleplay_items"))
-              .description(
-                  OptionDescription.of(
-                      Text.translatable(
-                          "gui.watheextended.config.category.items.group.roleplay_items.tooltip")));
-      WatheExtendedServerConfig.ROLEPLAY_ITEM_DEFAULTS.forEach(
-          (id, def) -> {
-            String key = "watheextended.roleplayItems." + id;
-            roleplayItems.option(
-                Option.<Boolean>createBuilder()
-                    .name(Text.translatable("item.watheextraitems." + id))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                def
-                                    ? "gui.watheextended.config.category.items.group.roleplay_items.opt.item.desc.on"
-                                    : "gui.watheextended.config.category.items.group.roleplay_items.opt.item.desc.off")))
-                    .binding(
-                        def,
-                        () -> ClientConfig.getBool(key, def),
-                        value -> ScreenUtils.stage(sendCommand, parent, key, value))
-                    .controller(
-                        opt ->
-                            BooleanControllerBuilder.create(opt)
-                                .formatValue(
-                                    value ->
-                                        Text.translatable(
-                                            value
-                                                ? "gui.watheextended.config.text.on"
-                                                : "gui.watheextended.config.text.off")))
-                    .build());
+      builder.group(
+          "items.roleplayItems",
+          roleplayItems -> {
+            roleplayItems
+                .name(withIcon("gui.watheextended.config.category.items.group.roleplay_items"))
+                .description(text("category.items.group.roleplay_items.tooltip"));
+            WatheExtendedServerConfig.ROLEPLAY_ITEM_DEFAULTS.forEach((id, def) -> {
+              String key = "watheextended.roleplayItems." + id;
+              roleplayItems.option(
+                  SettingKey.of(key, Boolean.class),
+                  option ->
+                      option
+                          .name(Text.translatable("item.watheextraitems." + id))
+                          .description(
+                              Text.translatable(
+                                  def
+                                      ? "gui.watheextended.config.category.items.group.roleplay_items.opt.item.desc.on"
+                                      : "gui.watheextended.config.category.items.group.roleplay_items.opt.item.desc.off"))
+                          .defaultValue(def)
+                          .controller(Controllers.bool(true))
+                          .formatter(ConfigText::onOff));
+            });
+            roleplayItems.collapsed(true);
           });
-      builder.group(roleplayItems.collapsed(true).build());
     }
 
     // Knife
     builder.group(
-        OptionGroup.createBuilder()
-            .name(withIcon("gui.watheextended.config.category.items.group.knife"))
-            /// PRICE
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.text.price"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.items.group.knife.price")))
-                    .binding(
-                        100,
-                        () -> ClientConfig.getInt("watheextended.knife.price", 100),
-                        value ->
-                            ScreenUtils.stage(
-                                sendCommand, parent, "watheextended.knife.price", value))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            /// COOLDOWN
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.items.group.knife.cooldown")))
-                    .binding(
-                        60,
-                        () -> ClientConfig.getInt("watheextended.knife.cooldown", 60),
-                        value ->
-                            ScreenUtils.stage(
-                                sendCommand, parent, "watheextended.knife.cooldown", value))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            .collapsed(true)
-            .build());
+        "items.knife",
+        group ->
+            group
+                .name(withIcon("gui.watheextended.config.category.items.group.knife"))
+                .description(Text.empty())
+                .option(
+                    SettingKey.of("watheextended.knife.price", Integer.class),
+                    option ->
+                        option
+                            .name(text("text.price"))
+                            .description(text("category.items.group.knife.price"))
+                            .defaultValue(100)
+                            .controller(
+                                Controllers.numberField(
+                                    Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                .option(
+                    SettingKey.of("watheextended.knife.cooldown", Integer.class),
+                    option ->
+                        option
+                            .name(text("text.cooldown"))
+                            .description(text("category.items.group.knife.cooldown"))
+                            .defaultValue(60)
+                            .controller(
+                                Controllers.numberField(
+                                    Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                .collapsed(true));
 
     // Revolver
     builder.group(
-        OptionGroup.createBuilder()
-            .name(withIcon("gui.watheextended.config.category.items.group.revolver"))
-            /// PRICE
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.text.price"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.items.group.revolver.price")))
-                    .binding(
-                        300,
-                        () -> ClientConfig.getInt("watheextended.revolver.price", 300),
-                        value ->
-                            ScreenUtils.stage(
-                                sendCommand, parent, "watheextended.revolver.price", value))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            /// COOLDOWN
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.items.group.revolver.cooldown")))
-                    .binding(
-                        10,
-                        () -> ClientConfig.getInt("watheextended.revolver.cooldown", 10),
-                        value ->
-                            ScreenUtils.stage(
-                                sendCommand, parent, "watheextended.revolver.cooldown", value))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            /// BACKFIRE CHANCE
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(
-                        Text.translatable(
-                            "gui.watheextended.config.category.game.group.wathe_options.opt.backfire"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.game.group.wathe_options.opt.backfire.desc")))
-                    .binding(
-                        GameComponents.getBackfire(world),
-                        () -> GameComponents.getBackfire(MinecraftClient.getInstance().world),
-                        value ->
-                            sendCommand.accept(
-                                "wathe:gameSettings set backfireChancePerInnocentKill "
-                                    + (value / 100f),
-                                parent))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            .collapsed(true)
-            .build());
+        "items.revolver",
+        group ->
+            group
+                .name(withIcon("gui.watheextended.config.category.items.group.revolver"))
+                .description(Text.empty())
+                .option(
+                    SettingKey.of("watheextended.revolver.price", Integer.class),
+                    option ->
+                        option
+                            .name(text("text.price"))
+                            .description(text("category.items.group.revolver.price"))
+                            .defaultValue(300)
+                            .controller(
+                                Controllers.numberField(
+                                    Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                .option(
+                    SettingKey.of("watheextended.revolver.cooldown", Integer.class),
+                    option ->
+                        option
+                            .name(text("text.cooldown"))
+                            .description(text("category.items.group.revolver.cooldown"))
+                            .defaultValue(10)
+                            .controller(
+                                Controllers.numberField(
+                                    Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                .alias(
+                    "items.command.backfire",
+                    SettingKey.of("command.backfire", Integer.class),
+                    text("category.game.group.wathe_options.opt.backfire"),
+                    text("category.game.group.wathe_options.opt.backfire.desc"))
+                .collapsed(true));
 
     // Grenade
     builder.group(
-        OptionGroup.createBuilder()
-            .name(withIcon("gui.watheextended.config.category.items.group.grenade"))
-            /// PRICE
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.text.price"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.items.group.grenade.price")))
-                    .binding(
-                        350,
-                        () -> ClientConfig.getInt("watheextended.grenade.price", 350),
-                        value ->
-                            ScreenUtils.stage(
-                                sendCommand, parent, "watheextended.grenade.price", value))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            /// COOLDOWN
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.items.group.grenade.cooldown")))
-                    .binding(
-                        90,
-                        () -> ClientConfig.getInt("watheextended.grenade.cooldown", 90),
-                        value ->
-                            ScreenUtils.stage(
-                                sendCommand, parent, "watheextended.grenade.cooldown", value))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            .collapsed(true)
-            .build());
+        "items.grenade",
+        group ->
+            group
+                .name(withIcon("gui.watheextended.config.category.items.group.grenade"))
+                .description(Text.empty())
+                .option(
+                    SettingKey.of("watheextended.grenade.price", Integer.class),
+                    option ->
+                        option
+                            .name(text("text.price"))
+                            .description(text("category.items.group.grenade.price"))
+                            .defaultValue(350)
+                            .controller(
+                                Controllers.numberField(
+                                    Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                .option(
+                    SettingKey.of("watheextended.grenade.cooldown", Integer.class),
+                    option ->
+                        option
+                            .name(text("text.cooldown"))
+                            .description(text("category.items.group.grenade.cooldown"))
+                            .defaultValue(90)
+                            .controller(
+                                Controllers.numberField(
+                                    Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                .collapsed(true));
 
     // Psycho Mode
     builder.group(
-        OptionGroup.createBuilder()
-            .name(withIcon("gui.watheextended.config.category.items.group.psychomode"))
-            /// PRICE
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.text.price"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.items.group.psychomode.price")))
-                    .binding(
-                        300,
-                        () -> ClientConfig.getInt("watheextended.psychoMode.price", 300),
-                        value ->
-                            ScreenUtils.stage(
-                                sendCommand, parent, "watheextended.psychoMode.price", value))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            /// COOLDOWN
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.items.group.psychomode.cooldown")))
-                    .binding(
-                        300,
-                        () -> ClientConfig.getInt("watheextended.psychoMode.cooldown", 300),
-                        value ->
-                            ScreenUtils.stage(
-                                sendCommand, parent, "watheextended.psychoMode.cooldown", value))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            .collapsed(true)
-            .build());
+        "items.psychomode",
+        group ->
+            group
+                .name(withIcon("gui.watheextended.config.category.items.group.psychomode"))
+                .description(Text.empty())
+                .option(
+                    SettingKey.of("watheextended.psychoMode.price", Integer.class),
+                    option ->
+                        option
+                            .name(text("text.price"))
+                            .description(text("category.items.group.psychomode.price"))
+                            .defaultValue(300)
+                            .controller(
+                                Controllers.numberField(
+                                    Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                .option(
+                    SettingKey.of("watheextended.psychoMode.cooldown", Integer.class),
+                    option ->
+                        option
+                            .name(text("text.cooldown"))
+                            .description(text("category.items.group.psychomode.cooldown"))
+                            .defaultValue(300)
+                            .controller(
+                                Controllers.numberField(
+                                    Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                .collapsed(true));
 
     // Poison Vial
     builder.group(
-        OptionGroup.createBuilder()
-            .name(withIcon("gui.watheextended.config.category.items.group.poison_vial"))
-            /// PRICE
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.text.price"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.items.group.poison_vial.price")))
-                    .binding(
-                        100,
-                        () -> ClientConfig.getInt("watheextended.poisonVial.price", 100),
-                        value ->
-                            ScreenUtils.stage(
-                                sendCommand, parent, "watheextended.poisonVial.price", value))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            .collapsed(true)
-            .build());
+        "items.poison_vial",
+        group ->
+            group
+                .name(withIcon("gui.watheextended.config.category.items.group.poison_vial"))
+                .description(Text.empty())
+                .option(
+                    SettingKey.of("watheextended.poisonVial.price", Integer.class),
+                    option ->
+                        option
+                            .name(text("text.price"))
+                            .description(text("category.items.group.poison_vial.price"))
+                            .defaultValue(100)
+                            .controller(
+                                Controllers.numberField(
+                                    Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                .collapsed(true));
 
     // Scorpion
     builder.group(
-        OptionGroup.createBuilder()
-            .name(withIcon("gui.watheextended.config.category.items.group.scorpion"))
-            /// PRICE
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.text.price"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.items.group.scorpion.price")))
-                    .binding(
-                        50,
-                        () -> ClientConfig.getInt("watheextended.scorpion.price", 50),
-                        value ->
-                            ScreenUtils.stage(
-                                sendCommand, parent, "watheextended.scorpion.price", value))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            .collapsed(true)
-            .build());
+        "items.scorpion",
+        group ->
+            group
+                .name(withIcon("gui.watheextended.config.category.items.group.scorpion"))
+                .description(Text.empty())
+                .option(
+                    SettingKey.of("watheextended.scorpion.price", Integer.class),
+                    option ->
+                        option
+                            .name(text("text.price"))
+                            .description(text("category.items.group.scorpion.price"))
+                            .defaultValue(50)
+                            .controller(
+                                Controllers.numberField(
+                                    Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                .collapsed(true));
 
     // Firecracker
     builder.group(
-        OptionGroup.createBuilder()
-            .name(withIcon("gui.watheextended.config.category.items.group.firecracker"))
-            /// PRICE
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.text.price"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.items.group.firecracker.price")))
-                    .binding(
-                        10,
-                        () -> ClientConfig.getInt("watheextended.firecracker.price", 10),
-                        value ->
-                            ScreenUtils.stage(
-                                sendCommand, parent, "watheextended.firecracker.price", value))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            .collapsed(true)
-            .build());
+        "items.firecracker",
+        group ->
+            group
+                .name(withIcon("gui.watheextended.config.category.items.group.firecracker"))
+                .description(Text.empty())
+                .option(
+                    SettingKey.of("watheextended.firecracker.price", Integer.class),
+                    option ->
+                        option
+                            .name(text("text.price"))
+                            .description(text("category.items.group.firecracker.price"))
+                            .defaultValue(10)
+                            .controller(
+                                Controllers.numberField(
+                                    Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                .collapsed(true));
 
     // Note
     builder.group(
-        OptionGroup.createBuilder()
-            .name(withIcon("gui.watheextended.config.category.items.group.note"))
-            /// PRICE
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.text.price"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.items.group.note.price")))
-                    .binding(
-                        10,
-                        () -> ClientConfig.getInt("watheextended.note.price", 10),
-                        value ->
-                            ScreenUtils.stage(
-                                sendCommand, parent, "watheextended.note.price", value))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            .collapsed(true)
-            .build());
+        "items.note",
+        group ->
+            group
+                .name(withIcon("gui.watheextended.config.category.items.group.note"))
+                .description(Text.empty())
+                .option(
+                    SettingKey.of("watheextended.note.price", Integer.class),
+                    option ->
+                        option
+                            .name(text("text.price"))
+                            .description(text("category.items.group.note.price"))
+                            .defaultValue(10)
+                            .controller(
+                                Controllers.numberField(
+                                    Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                .collapsed(true));
 
     // Lockpick
     builder.group(
-        OptionGroup.createBuilder()
-            .name(withIcon("gui.watheextended.config.category.items.group.lockpick"))
-            /// PRICE
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.text.price"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.items.group.lockpick.price")))
-                    .binding(
-                        50,
-                        () -> ClientConfig.getInt("watheextended.lockpick.price", 50),
-                        value ->
-                            ScreenUtils.stage(
-                                sendCommand, parent, "watheextended.lockpick.price", value))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            /// COOLDOWN
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.items.group.lockpick.cooldown")))
-                    .binding(
-                        180,
-                        () -> ClientConfig.getInt("watheextended.lockpick.cooldown", 180),
-                        value ->
-                            ScreenUtils.stage(
-                                sendCommand, parent, "watheextended.lockpick.cooldown", value))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            .collapsed(true)
-            .build());
+        "items.lockpick",
+        group ->
+            group
+                .name(withIcon("gui.watheextended.config.category.items.group.lockpick"))
+                .description(Text.empty())
+                .option(
+                    SettingKey.of("watheextended.lockpick.price", Integer.class),
+                    option ->
+                        option
+                            .name(text("text.price"))
+                            .description(text("category.items.group.lockpick.price"))
+                            .defaultValue(50)
+                            .controller(
+                                Controllers.numberField(
+                                    Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                .option(
+                    SettingKey.of("watheextended.lockpick.cooldown", Integer.class),
+                    option ->
+                        option
+                            .name(text("text.cooldown"))
+                            .description(text("category.items.group.lockpick.cooldown"))
+                            .defaultValue(180)
+                            .controller(
+                                Controllers.numberField(
+                                    Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                .collapsed(true));
 
     // Crowbar
     builder.group(
-        OptionGroup.createBuilder()
-            .name(withIcon("gui.watheextended.config.category.items.group.crowbar"))
-            /// PRICE
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.text.price"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.items.group.crowbar.price")))
-                    .binding(
-                        25,
-                        () -> ClientConfig.getInt("watheextended.crowbar.price", 25),
-                        value ->
-                            ScreenUtils.stage(
-                                sendCommand, parent, "watheextended.crowbar.price", value))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            /// COOLDOWN
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.items.group.crowbar.cooldown")))
-                    .binding(
-                        10,
-                        () -> ClientConfig.getInt("watheextended.crowbar.cooldown", 10),
-                        value ->
-                            ScreenUtils.stage(
-                                sendCommand, parent, "watheextended.crowbar.cooldown", value))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            .collapsed(true)
-            .build());
+        "items.crowbar",
+        group ->
+            group
+                .name(withIcon("gui.watheextended.config.category.items.group.crowbar"))
+                .description(Text.empty())
+                .option(
+                    SettingKey.of("watheextended.crowbar.price", Integer.class),
+                    option ->
+                        option
+                            .name(text("text.price"))
+                            .description(text("category.items.group.crowbar.price"))
+                            .defaultValue(25)
+                            .controller(
+                                Controllers.numberField(
+                                    Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                .option(
+                    SettingKey.of("watheextended.crowbar.cooldown", Integer.class),
+                    option ->
+                        option
+                            .name(text("text.cooldown"))
+                            .description(text("category.items.group.crowbar.cooldown"))
+                            .defaultValue(10)
+                            .controller(
+                                Controllers.numberField(
+                                    Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                .collapsed(true));
 
     // Body Bag
     builder.group(
-        OptionGroup.createBuilder()
-            .name(withIcon("gui.watheextended.config.category.items.group.bodybag"))
-            /// PRICE
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.text.price"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.items.group.bodybag.price")))
-                    .binding(
-                        200,
-                        () -> ClientConfig.getInt("watheextended.bodyBag.price", 200),
-                        value ->
-                            ScreenUtils.stage(
-                                sendCommand, parent, "watheextended.bodyBag.price", value))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            /// COOLDOWN
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.items.group.bodybag.cooldown")))
-                    .binding(
-                        300,
-                        () -> ClientConfig.getInt("watheextended.bodyBag.cooldown", 300),
-                        value ->
-                            ScreenUtils.stage(
-                                sendCommand, parent, "watheextended.bodyBag.cooldown", value))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            .collapsed(true)
-            .build());
+        "items.bodybag",
+        group ->
+            group
+                .name(withIcon("gui.watheextended.config.category.items.group.bodybag"))
+                .description(Text.empty())
+                .option(
+                    SettingKey.of("watheextended.bodyBag.price", Integer.class),
+                    option ->
+                        option
+                            .name(text("text.price"))
+                            .description(text("category.items.group.bodybag.price"))
+                            .defaultValue(200)
+                            .controller(
+                                Controllers.numberField(
+                                    Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                .option(
+                    SettingKey.of("watheextended.bodyBag.cooldown", Integer.class),
+                    option ->
+                        option
+                            .name(text("text.cooldown"))
+                            .description(text("category.items.group.bodybag.cooldown"))
+                            .defaultValue(300)
+                            .controller(
+                                Controllers.numberField(
+                                    Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                .collapsed(true));
 
     // Blackout
     builder.group(
-        OptionGroup.createBuilder()
-            .name(withIcon("gui.watheextended.config.category.items.group.blackout"))
-            /// PRICE
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.text.price"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.items.group.blackout.price")))
-                    .binding(
-                        200,
-                        () -> ClientConfig.getInt("watheextended.blackout.price", 200),
-                        value ->
-                            ScreenUtils.stage(
-                                sendCommand, parent, "watheextended.blackout.price", value))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            /// COOLDOWN
-            .option(
-                Option.<Integer>createBuilder()
-                    .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                    .description(
-                        OptionDescription.of(
-                            Text.translatable(
-                                "gui.watheextended.config.category.items.group.blackout.cooldown")))
-                    .binding(
-                        300,
-                        () -> ClientConfig.getInt("watheextended.blackout.cooldown", 300),
-                        value ->
-                            ScreenUtils.stage(
-                                sendCommand, parent, "watheextended.blackout.cooldown", value))
-                    .controller(IntegerFieldControllerBuilder::create)
-                    .build())
-            .collapsed(true)
-            .build());
+        "items.blackout",
+        group ->
+            group
+                .name(withIcon("gui.watheextended.config.category.items.group.blackout"))
+                .description(Text.empty())
+                .option(
+                    SettingKey.of("watheextended.blackout.price", Integer.class),
+                    option ->
+                        option
+                            .name(text("text.price"))
+                            .description(text("category.items.group.blackout.price"))
+                            .defaultValue(200)
+                            .controller(
+                                Controllers.numberField(
+                                    Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                .option(
+                    SettingKey.of("watheextended.blackout.cooldown", Integer.class),
+                    option ->
+                        option
+                            .name(text("text.cooldown"))
+                            .description(text("category.items.group.blackout.cooldown"))
+                            .defaultValue(300)
+                            .controller(
+                                Controllers.numberField(
+                                    Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                .collapsed(true));
 
     if (cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) {
       // Sulfuric Acid Barrel
       builder.group(
-          OptionGroup.createBuilder()
-              .name(withIcon("gui.watheextended.config.category.items.group.sulfuricacidbarrel"))
-              /// COOLDOWN
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.sulfuricacidbarrel.cooldown")))
-                      .binding(
-                          60,
-                          () ->
-                              ClientConfig.getInt("watheextended.sulfuricAcidBarrel.cooldown", 60),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand,
-                                  parent,
-                                  "watheextended.sulfuricAcidBarrel.cooldown",
-                                  value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              .collapsed(true)
-              .build());
+          "items.sulfuricacidbarrel",
+          group ->
+              group
+                  .name(
+                      withIcon("gui.watheextended.config.category.items.group.sulfuricacidbarrel"))
+                  .description(Text.empty())
+                  .option(
+                      SettingKey.of("watheextended.sulfuricAcidBarrel.cooldown", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.cooldown"))
+                              .description(text("category.items.group.sulfuricacidbarrel.cooldown"))
+                              .defaultValue(60)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .collapsed(true));
 
       // Hunting Knife
       builder.group(
-          OptionGroup.createBuilder()
-              .name(withIcon("gui.watheextended.config.category.items.group.huntingknife"))
-              /// PRICE
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.price"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.huntingknife.price")))
-                      .binding(
-                          100,
-                          () -> ClientConfig.getInt("watheextended.huntingKnife.price", 100),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "watheextended.huntingKnife.price", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              /// COOLDOWN
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.huntingknife.cooldown")))
-                      .binding(
-                          45,
-                          () -> ClientConfig.getInt("watheextended.huntingKnife.cooldown", 45),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand,
-                                  parent,
-                                  "watheextended.huntingKnife.cooldown",
-                                  value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              .collapsed(true)
-              .build());
+          "items.huntingknife",
+          group ->
+              group
+                  .name(withIcon("gui.watheextended.config.category.items.group.huntingknife"))
+                  .description(Text.empty())
+                  .option(
+                      SettingKey.of("watheextended.huntingKnife.price", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.price"))
+                              .description(text("category.items.group.huntingknife.price"))
+                              .defaultValue(100)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .option(
+                      SettingKey.of("watheextended.huntingKnife.cooldown", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.cooldown"))
+                              .description(text("category.items.group.huntingknife.cooldown"))
+                              .defaultValue(45)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .collapsed(true));
 
       // Medical Kit
       builder.group(
-          OptionGroup.createBuilder()
-              .name(withIcon("gui.watheextended.config.category.items.group.medicalkit"))
-              /// COOLDOWN
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.medicalkit.cooldown")))
-                      .binding(
-                          60,
-                          () -> ClientConfig.getInt("watheextended.medicalKit.cooldown", 60),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "watheextended.medicalKit.cooldown", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              .collapsed(true)
-              .build());
+          "items.medicalkit",
+          group ->
+              group
+                  .name(withIcon("gui.watheextended.config.category.items.group.medicalkit"))
+                  .description(Text.empty())
+                  .option(
+                      SettingKey.of("watheextended.medicalKit.cooldown", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.cooldown"))
+                              .description(text("category.items.group.medicalkit.cooldown"))
+                              .defaultValue(60)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .collapsed(true));
 
       // Pan
       builder.group(
-          OptionGroup.createBuilder()
-              .name(withIcon("gui.watheextended.config.category.items.group.pan"))
-              /// PRICE
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.price"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.pan.price")))
-                      .binding(
-                          250,
-                          () -> ClientConfig.getInt("watheextended.pan.price", 250),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "watheextended.pan.price", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              /// COOLDOWN
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.pan.cooldown")))
-                      .binding(
-                          45,
-                          () -> ClientConfig.getInt("watheextended.pan.cooldown", 45),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "watheextended.pan.cooldown", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              .collapsed(true)
-              .build());
+          "items.pan",
+          group ->
+              group
+                  .name(withIcon("gui.watheextended.config.category.items.group.pan"))
+                  .description(Text.empty())
+                  .option(
+                      SettingKey.of("watheextended.pan.price", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.price"))
+                              .description(text("category.items.group.pan.price"))
+                              .defaultValue(250)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .option(
+                      SettingKey.of("watheextended.pan.cooldown", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.cooldown"))
+                              .description(text("category.items.group.pan.cooldown"))
+                              .defaultValue(45)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .collapsed(true));
 
       // Poison Injector
       builder.group(
-          OptionGroup.createBuilder()
-              .name(withIcon("gui.watheextended.config.category.items.group.poisoninjector"))
-              /// PRICE
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.price"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.poisoninjector.price")))
-                      .binding(
-                          125,
-                          () -> ClientConfig.getInt("watheextended.poisonInjector.price", 125),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "watheextended.poisonInjector.price", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              /// COOLDOWN
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.poisoninjector.cooldown")))
-                      .binding(
-                          60,
-                          () -> ClientConfig.getInt("watheextended.poisonInjector.cooldown", 60),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand,
-                                  parent,
-                                  "watheextended.poisonInjector.cooldown",
-                                  value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              .collapsed(true)
-              .build());
+          "items.poisoninjector",
+          group ->
+              group
+                  .name(withIcon("gui.watheextended.config.category.items.group.poisoninjector"))
+                  .description(Text.empty())
+                  .option(
+                      SettingKey.of("watheextended.poisonInjector.price", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.price"))
+                              .description(text("category.items.group.poisoninjector.price"))
+                              .defaultValue(125)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .option(
+                      SettingKey.of("watheextended.poisonInjector.cooldown", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.cooldown"))
+                              .description(text("category.items.group.poisoninjector.cooldown"))
+                              .defaultValue(60)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .collapsed(true));
 
       // Pill
       builder.group(
-          OptionGroup.createBuilder()
-              .name(withIcon("gui.watheextended.config.category.items.group.pill"))
-              /// PRICE
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.price"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.pill.price")))
-                      .binding(
-                          300,
-                          () -> ClientConfig.getInt("watheextended.pill.price", 300),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "watheextended.pill.price", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              /// COOLDOWN
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.pill.cooldown")))
-                      .binding(
-                          180,
-                          () -> ClientConfig.getInt("watheextended.pill.cooldown", 180),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "watheextended.pill.cooldown", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              .collapsed(true)
-              .build());
+          "items.pill",
+          group ->
+              group
+                  .name(withIcon("gui.watheextended.config.category.items.group.pill"))
+                  .description(Text.empty())
+                  .option(
+                      SettingKey.of("watheextended.pill.price", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.price"))
+                              .description(text("category.items.group.pill.price"))
+                              .defaultValue(300)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .option(
+                      SettingKey.of("watheextended.pill.cooldown", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.cooldown"))
+                              .description(text("category.items.group.pill.cooldown"))
+                              .defaultValue(180)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .collapsed(true));
 
       // Blowgun
       builder.group(
-          OptionGroup.createBuilder()
-              .name(withIcon("gui.watheextended.config.category.items.group.blowgun"))
-              /// PRICE
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.price"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.blowgun.price")))
-                      .binding(
-                          175,
-                          () -> ClientConfig.getInt("watheextended.blowgun.price", 175),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "watheextended.blowgun.price", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              /// COOLDOWN
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.blowgun.cooldown")))
-                      .binding(
-                          60,
-                          () -> ClientConfig.getInt("watheextended.blowgun.cooldown", 60),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "watheextended.blowgun.cooldown", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              .collapsed(true)
-              .build());
+          "items.blowgun",
+          group ->
+              group
+                  .name(withIcon("gui.watheextended.config.category.items.group.blowgun"))
+                  .description(Text.empty())
+                  .option(
+                      SettingKey.of("watheextended.blowgun.price", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.price"))
+                              .description(text("category.items.group.blowgun.price"))
+                              .defaultValue(175)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .option(
+                      SettingKey.of("watheextended.blowgun.cooldown", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.cooldown"))
+                              .description(text("category.items.group.blowgun.cooldown"))
+                              .defaultValue(60)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .collapsed(true));
 
       // Knockout Drug
       builder.group(
-          OptionGroup.createBuilder()
-              .name(withIcon("gui.watheextended.config.category.items.group.knockoutdrug"))
-              /// PRICE
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.price"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.knockoutdrug.price")))
-                      .binding(
-                          75,
-                          () -> ClientConfig.getInt("watheextended.knockoutDrug.price", 75),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "watheextended.knockoutDrug.price", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              /// COOLDOWN
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.knockoutdrug.cooldown")))
-                      .binding(
-                          60,
-                          () -> ClientConfig.getInt("watheextended.knockoutDrug.cooldown", 60),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand,
-                                  parent,
-                                  "watheextended.knockoutDrug.cooldown",
-                                  value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              .collapsed(true)
-              .build());
+          "items.knockoutdrug",
+          group ->
+              group
+                  .name(withIcon("gui.watheextended.config.category.items.group.knockoutdrug"))
+                  .description(Text.empty())
+                  .option(
+                      SettingKey.of("watheextended.knockoutDrug.price", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.price"))
+                              .description(text("category.items.group.knockoutdrug.price"))
+                              .defaultValue(75)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .option(
+                      SettingKey.of("watheextended.knockoutDrug.cooldown", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.cooldown"))
+                              .description(text("category.items.group.knockoutdrug.cooldown"))
+                              .defaultValue(60)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .collapsed(true));
 
       // Capture Device
       builder.group(
-          OptionGroup.createBuilder()
-              .name(withIcon("gui.watheextended.config.category.items.group.capturedevice"))
-              /// PRICE
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.price"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.capturedevice.price")))
-                      .binding(
-                          100,
-                          () -> ClientConfig.getInt("watheextended.captureDevice.price", 100),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "watheextended.captureDevice.price", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              /// COOLDOWN
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.capturedevice.cooldown")))
-                      .binding(
-                          60,
-                          () -> ClientConfig.getInt("watheextended.captureDevice.cooldown", 60),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand,
-                                  parent,
-                                  "watheextended.captureDevice.cooldown",
-                                  value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              .collapsed(true)
-              .build());
+          "items.capturedevice",
+          group ->
+              group
+                  .name(withIcon("gui.watheextended.config.category.items.group.capturedevice"))
+                  .description(Text.empty())
+                  .option(
+                      SettingKey.of("watheextended.captureDevice.price", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.price"))
+                              .description(text("category.items.group.capturedevice.price"))
+                              .defaultValue(100)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .option(
+                      SettingKey.of("watheextended.captureDevice.cooldown", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.cooldown"))
+                              .description(text("category.items.group.capturedevice.cooldown"))
+                              .defaultValue(60)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .collapsed(true));
 
       // Wrench
       builder.group(
-          OptionGroup.createBuilder()
-              .name(withIcon("gui.watheextended.config.category.items.group.wrench"))
-              /// PRICE
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.price"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.wrench.price")))
-                      .binding(
-                          100,
-                          () -> ClientConfig.getInt("watheextended.wrench.price", 100),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "watheextended.wrench.price", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              /// COOLDOWN
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.wrench.cooldown")))
-                      .binding(
-                          120,
-                          () -> ClientConfig.getInt("watheextended.wrench.cooldown", 120),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "watheextended.wrench.cooldown", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              .collapsed(true)
-              .build());
+          "items.wrench",
+          group ->
+              group
+                  .name(withIcon("gui.watheextended.config.category.items.group.wrench"))
+                  .description(Text.empty())
+                  .option(
+                      SettingKey.of("watheextended.wrench.price", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.price"))
+                              .description(text("category.items.group.wrench.price"))
+                              .defaultValue(100)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .option(
+                      SettingKey.of("watheextended.wrench.cooldown", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.cooldown"))
+                              .description(text("category.items.group.wrench.cooldown"))
+                              .defaultValue(120)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .collapsed(true));
 
       // Power Restoration
       builder.group(
-          OptionGroup.createBuilder()
-              .name(withIcon("gui.watheextended.config.category.items.group.powerrestoration"))
-              /// PRICE
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.price"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.powerrestoration.price")))
-                      .binding(
-                          300,
-                          () -> ClientConfig.getInt("watheextended.powerRestoration.price", 300),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand,
-                                  parent,
-                                  "watheextended.powerRestoration.price",
-                                  value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              /// COOLDOWN
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.powerrestoration.cooldown")))
-                      .binding(
-                          180,
-                          () -> ClientConfig.getInt("watheextended.powerRestoration.cooldown", 180),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand,
-                                  parent,
-                                  "watheextended.powerRestoration.cooldown",
-                                  value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              .collapsed(true)
-              .build());
+          "items.powerrestoration",
+          group ->
+              group
+                  .name(withIcon("gui.watheextended.config.category.items.group.powerrestoration"))
+                  .description(Text.empty())
+                  .option(
+                      SettingKey.of("watheextended.powerRestoration.price", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.price"))
+                              .description(text("category.items.group.powerrestoration.price"))
+                              .defaultValue(300)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .option(
+                      SettingKey.of("watheextended.powerRestoration.cooldown", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.cooldown"))
+                              .description(text("category.items.group.powerrestoration.cooldown"))
+                              .defaultValue(180)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .collapsed(true));
 
       // Refresh Weapon Cooldown
       builder.group(
-          OptionGroup.createBuilder()
-              .name(withIcon("gui.watheextended.config.category.items.group.refreshweaponcooldown"))
-              /// PRICE
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.price"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.refreshweaponcooldown.price")))
-                      .binding(
-                          300,
-                          () ->
-                              ClientConfig.getInt("watheextended.refreshWeaponCooldown.price", 300),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand,
-                                  parent,
-                                  "watheextended.refreshWeaponCooldown.price",
-                                  value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              /// COOLDOWN
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.refreshweaponcooldown.cooldown")))
-                      .binding(
-                          180,
-                          () ->
-                              ClientConfig.getInt(
-                                  "watheextended.refreshWeaponCooldown.cooldown", 180),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand,
-                                  parent,
-                                  "watheextended.refreshWeaponCooldown.cooldown",
-                                  value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              .collapsed(true)
-              .build());
+          "items.refreshweaponcooldown",
+          group ->
+              group
+                  .name(
+                      withIcon(
+                          "gui.watheextended.config.category.items.group.refreshweaponcooldown"))
+                  .option(
+                      SettingKey.of("watheextended.refreshWeaponCooldown.price", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.price"))
+                              .description(text("category.items.group.refreshweaponcooldown.price"))
+                              .defaultValue(300)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .option(
+                      SettingKey.of("watheextended.refreshWeaponCooldown.cooldown", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.cooldown"))
+                              .description(
+                                  text("category.items.group.refreshweaponcooldown.cooldown"))
+                              .defaultValue(180)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .collapsed(true));
 
       // Refresh Ability Cooldown
       builder.group(
-          OptionGroup.createBuilder()
-              .name(
-                  withIcon("gui.watheextended.config.category.items.group.refreshabilitycooldown"))
-              /// PRICE
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.price"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.refreshabilitycooldown.price")))
-                      .binding(
-                          400,
-                          () ->
-                              ClientConfig.getInt(
-                                  "watheextended.refreshAbilityCooldown.price", 400),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand,
-                                  parent,
-                                  "watheextended.refreshAbilityCooldown.price",
-                                  value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              /// COOLDOWN
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.refreshabilitycooldown.cooldown")))
-                      .binding(
-                          300,
-                          () ->
-                              ClientConfig.getInt(
-                                  "watheextended.refreshAbilityCooldown.cooldown", 300),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand,
-                                  parent,
-                                  "watheextended.refreshAbilityCooldown.cooldown",
-                                  value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              .collapsed(true)
-              .build());
+          "items.refreshabilitycooldown",
+          group ->
+              group
+                  .name(
+                      withIcon(
+                          "gui.watheextended.config.category.items.group.refreshabilitycooldown"))
+                  .option(
+                      SettingKey.of("watheextended.refreshAbilityCooldown.price", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.price"))
+                              .description(
+                                  text("category.items.group.refreshabilitycooldown.price"))
+                              .defaultValue(400)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .option(
+                      SettingKey.of("watheextended.refreshAbilityCooldown.cooldown", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.cooldown"))
+                              .description(
+                                  text("category.items.group.refreshabilitycooldown.cooldown"))
+                              .defaultValue(300)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .collapsed(true));
 
       // Refresh Potion Effect
       builder.group(
-          OptionGroup.createBuilder()
-              .name(withIcon("gui.watheextended.config.category.items.group.refreshpotioneffect"))
-              /// PRICE
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.price"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.refreshpotioneffect.price")))
-                      .binding(
-                          200,
-                          () -> ClientConfig.getInt("watheextended.refreshPotionEffect.price", 200),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand,
-                                  parent,
-                                  "watheextended.refreshPotionEffect.price",
-                                  value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              /// COOLDOWN
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.refreshpotioneffect.cooldown")))
-                      .binding(
-                          180,
-                          () ->
-                              ClientConfig.getInt(
-                                  "watheextended.refreshPotionEffect.cooldown", 180),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand,
-                                  parent,
-                                  "watheextended.refreshPotionEffect.cooldown",
-                                  value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              .collapsed(true)
-              .build());
+          "items.refreshpotioneffect",
+          group ->
+              group
+                  .name(
+                      withIcon("gui.watheextended.config.category.items.group.refreshpotioneffect"))
+                  .description(Text.empty())
+                  .option(
+                      SettingKey.of("watheextended.refreshPotionEffect.price", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.price"))
+                              .description(text("category.items.group.refreshpotioneffect.price"))
+                              .defaultValue(200)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .option(
+                      SettingKey.of("watheextended.refreshPotionEffect.cooldown", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.cooldown"))
+                              .description(
+                                  text("category.items.group.refreshpotioneffect.cooldown"))
+                              .defaultValue(180)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .collapsed(true));
     }
 
     if (cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.isLoaded()) {
       // Defense Vial
       builder.group(
-          OptionGroup.createBuilder()
-              .name(withIcon("gui.watheextended.config.category.items.group.defense_vial"))
-              /// PRICE
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.price"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.defense_vial.price")))
-                      .binding(
-                          200,
-                          () -> ClientConfig.getInt("noellesroles.defenseVialPrice", 200),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "noellesroles.defenseVialPrice", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              .collapsed(true)
-              .build());
+          "items.defense_vial",
+          group ->
+              group
+                  .name(withIcon("gui.watheextended.config.category.items.group.defense_vial"))
+                  .description(Text.empty())
+                  .option(
+                      SettingKey.of("noellesroles.defenseVialPrice", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.price"))
+                              .description(text("category.items.group.defense_vial.price"))
+                              .defaultValue(200)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .collapsed(true));
 
       // Delusion Vial
       builder.group(
-          OptionGroup.createBuilder()
-              .name(withIcon("gui.watheextended.config.category.items.group.delusion_vial"))
-              /// PRICE
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.price"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.delusion_vial.price")))
-                      .binding(
-                          30,
-                          () -> ClientConfig.getInt("noellesroles.delusionVialPrice", 30),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "noellesroles.delusionVialPrice", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              .collapsed(true)
-              .build());
+          "items.delusion_vial",
+          group ->
+              group
+                  .name(withIcon("gui.watheextended.config.category.items.group.delusion_vial"))
+                  .description(Text.empty())
+                  .option(
+                      SettingKey.of("noellesroles.delusionVialPrice", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.price"))
+                              .description(text("category.items.group.delusion_vial.price"))
+                              .defaultValue(30)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .collapsed(true));
 
       // Role Mine
       builder.group(
-          OptionGroup.createBuilder()
-              .name(withIcon("gui.watheextended.config.category.items.group.role_mine"))
-              /// PRICE
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.price"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.role_mine.price")))
-                      .binding(
-                          100,
-                          () -> ClientConfig.getInt("noellesroles.roleMinePrice", 100),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "noellesroles.roleMinePrice", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              .collapsed(true)
-              .build());
+          "items.role_mine",
+          group ->
+              group
+                  .name(withIcon("gui.watheextended.config.category.items.group.role_mine"))
+                  .description(Text.empty())
+                  .option(
+                      SettingKey.of("noellesroles.roleMinePrice", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.price"))
+                              .description(text("category.items.group.role_mine.price"))
+                              .defaultValue(100)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .collapsed(true));
     }
 
     if (cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.isLoaded()) {
       // Tape
       builder.group(
-          OptionGroup.createBuilder()
-              .name(withIcon("gui.watheextended.config.category.items.group.tape"))
-              /// PRICE
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.price"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.tape.price")))
-                      .binding(
-                          75,
-                          () -> ClientConfig.getInt("starexpress.tape.price", 75),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "starexpress.tape.price", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              /// COOLDOWN
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.tape.cooldown")))
-                      .binding(
-                          20,
-                          () -> ClientConfig.getInt("starexpress.tapeCooldown", 20),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "starexpress.tapeCooldown", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              /// SUFFOCATION TIME
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(
-                          Text.translatable(
-                              "gui.watheextended.config.category.items.group.tape.suffocationtime"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.tape.suffocationtime.desc")))
-                      .binding(
-                          60,
-                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper
-                              ::getMuzzlerSuffocationTime,
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "starexpress.suffocationTime", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              /// TEAR CHECK COUNT
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(
-                          Text.translatable(
-                              "gui.watheextended.config.category.items.group.tape.tapetearcheckcount"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.tape.tapetearcheckcount.desc")))
-                      .binding(
-                          5,
-                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper
-                              ::getMuzzlerTapeTearCheckCount,
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "starexpress.tapeTearCheckCount", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              /// TEAR MOOD CHANGE
-              .option(
-                  Option.<Float>createBuilder()
-                      .name(
-                          Text.translatable(
-                              "gui.watheextended.config.category.items.group.tape.tapetearmoodchange"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.tape.tapetearmoodchange.desc")))
-                      .binding(
-                          0.1f,
-                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper
-                              ::getMuzzlerTapeTearMoodChange,
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "starexpress.tapeTearMoodChange", value))
-                      .controller(
-                          option ->
-                              FloatSliderControllerBuilder.create(option)
-                                  .range(0.0f, 1.0f)
-                                  .step(0.1f)
-                                  .formatValue(
-                                      value ->
-                                          Text.literal(
-                                              String.format(java.util.Locale.ROOT, "%d%%", value))))
-                      .build())
-              /// KILL IF CHECKED AT ZERO
-              .option(
-                  Option.<Boolean>createBuilder()
-                      .name(
-                          Text.translatable(
-                              "gui.watheextended.config.category.items.group.tape.killifcheckedatzero"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.tape.killifcheckedatzero.desc")))
-                      .binding(
-                          true,
-                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper
-                              ::getMuzzlerKillIfCheckedAtZero,
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "starexpress.killIfCheckedAtZero", value))
-                      .controller(
-                          option ->
-                              BooleanControllerBuilder.create(option)
-                                  .formatValue(
-                                      value ->
-                                          Text.translatable(
-                                              value
-                                                  ? "gui.watheextended.config.text.on"
-                                                  : "gui.watheextended.config.text.off")))
-                      .build())
-              /// DISPLAY SILENCED TIP DELAY
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(
-                          Text.translatable(
-                              "gui.watheextended.config.category.items.group.tape.displaysilencedtipdelay"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.tape.displaysilencedtipdelay.desc")))
-                      .binding(
-                          120,
-                          cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper
-                              ::getMuzzlerDisplaySilencedTipDelay,
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand,
-                                  parent,
-                                  "starexpress.displaySilencedTipDelay",
-                                  value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              .collapsed(true)
-              .build());
+          "items.tape",
+          group ->
+              group
+                  .name(withIcon("gui.watheextended.config.category.items.group.tape"))
+                  .description(Text.empty())
+                  .option(
+                      SettingKey.of("starexpress.tape.price", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.price"))
+                              .description(text("category.items.group.tape.price"))
+                              .defaultValue(75)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .option(
+                      SettingKey.of("starexpress.tapeCooldown", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.cooldown"))
+                              .description(text("category.items.group.tape.cooldown"))
+                              .defaultValue(20)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .option(
+                      SettingKey.of("starexpress.suffocationTime", Integer.class),
+                      option ->
+                          option
+                              .name(text("category.items.group.tape.suffocationtime"))
+                              .description(text("category.items.group.tape.suffocationtime.desc"))
+                              .defaultValue(60)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .option(
+                      SettingKey.of("starexpress.tapeTearCheckCount", Integer.class),
+                      option ->
+                          option
+                              .name(text("category.items.group.tape.tapetearcheckcount"))
+                              .description(
+                                  text("category.items.group.tape.tapetearcheckcount.desc"))
+                              .defaultValue(5)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .option(
+                      SettingKey.of("starexpress.tapeTearMoodChange", Float.class),
+                      option ->
+                          option
+                              .name(text("category.items.group.tape.tapetearmoodchange"))
+                              .description(
+                                  text("category.items.group.tape.tapetearmoodchange.desc"))
+                              .defaultValue(0.1f)
+                              .controller(
+                                  Controllers.numberSlider(Float.class, 0.0f, 1.0f, 0.1f, false))
+                              .formatter(ConfigText::percent)
+                              .validator(value -> range(value, 0.0f, 1.0f)))
+                  .option(
+                      SettingKey.of("starexpress.killIfCheckedAtZero", Boolean.class),
+                      option ->
+                          option
+                              .name(text("category.items.group.tape.killifcheckedatzero"))
+                              .description(
+                                  text("category.items.group.tape.killifcheckedatzero.desc"))
+                              .defaultValue(true)
+                              .controller(Controllers.bool(true))
+                              .formatter(ConfigText::onOff))
+                  .option(
+                      SettingKey.of("starexpress.displaySilencedTipDelay", Integer.class),
+                      option ->
+                          option
+                              .name(text("category.items.group.tape.displaysilencedtipdelay"))
+                              .description(
+                                  text("category.items.group.tape.displaysilencedtipdelay.desc"))
+                              .defaultValue(120)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .collapsed(true));
     }
 
     if (ConfigHelper.isLoaded()) {
       // Jerry Can
       builder.group(
-          OptionGroup.createBuilder()
-              .name(withIcon("gui.watheextended.config.category.items.group.jerry_can"))
-              /// COOLDOWN
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.jerry_can.cooldown")))
-                      .binding(
-                          0,
-                          () -> ClientConfig.getInt("stupidexpress.jerryCan.cooldown", 0),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "stupidexpress.jerryCan.cooldown", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              .collapsed(true)
-              .build());
+          "items.jerry_can",
+          group ->
+              group
+                  .name(withIcon("gui.watheextended.config.category.items.group.jerry_can"))
+                  .description(Text.empty())
+                  .option(
+                      SettingKey.of("stupidexpress.jerryCan.cooldown", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.cooldown"))
+                              .description(text("category.items.group.jerry_can.cooldown"))
+                              .defaultValue(0)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .collapsed(true));
 
       // Lighter
       builder.group(
-          OptionGroup.createBuilder()
-              .name(withIcon("gui.watheextended.config.category.items.group.lighter"))
-              /// COOLDOWN
-              .option(
-                  Option.<Integer>createBuilder()
-                      .name(Text.translatable("gui.watheextended.config.text.cooldown"))
-                      .description(
-                          OptionDescription.of(
-                              Text.translatable(
-                                  "gui.watheextended.config.category.items.group.lighter.cooldown")))
-                      .binding(
-                          0,
-                          () -> ClientConfig.getInt("stupidexpress.lighter.cooldown", 0),
-                          value ->
-                              ScreenUtils.stage(
-                                  sendCommand, parent, "stupidexpress.lighter.cooldown", value))
-                      .controller(IntegerFieldControllerBuilder::create)
-                      .build())
-              .collapsed(true)
-              .build());
+          "items.lighter",
+          group ->
+              group
+                  .name(withIcon("gui.watheextended.config.category.items.group.lighter"))
+                  .description(Text.empty())
+                  .option(
+                      SettingKey.of("stupidexpress.lighter.cooldown", Integer.class),
+                      option ->
+                          option
+                              .name(text("text.cooldown"))
+                              .description(text("category.items.group.lighter.cooldown"))
+                              .defaultValue(0)
+                              .controller(
+                                  Controllers.numberField(
+                                      Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)))
+                  .collapsed(true));
     }
-
-    return builder.build();
   }
 
   private static Text withIcon(String langKey) {

@@ -10,46 +10,37 @@
 
 ### Added
 
+- New configuration screen:
+    - **Migrated the configuration screen from YetAnotherConfigLib to OreLib.**
+    - Players can edit their personal settings under **Client**. Server operators also have access to **Game**, **Map**, **Items**, **Roles**, and **Modifiers**.
+    - Moved server configuration editing and networking tasks to OreLib. Applying changes sends them to the server for validation and synchronization.
+    - Replaced the custom preset screens with OreLib’s preset manager. Operators can save, load, overwrite, and delete server presets. Entering a name and description and pressing **Save** submits the preset immediately. Server presets capture the currently applied settings, so apply pending edits first if they belong in the preset.
 - New configurable options:
-    - **Amnesiac**
-        - **Keeps the game going** (Default: Enabled)
-          <br> *When enabled, the game won't end while the Amnesiac is still alive, meaning the Amnesiac can still
-          pick a role even after all Killers are dead.*
-- New texture for the **Copy Position** creative item
-- New inventory ability row pagination system
-    - Instead of splitting player picker rows into multiple lines, rows now fold into multiple pages when there are
-      more than 12 players, keeping them on a single line. This should fix rows going off-screen, notably the
-      **Guesser** player picker row
-- World protection support for some [WathExtras](https://modrinth.com/mod/wathextras) blocks and lights
+    - **Per role/modifiers appearance chance percentage** (@Albarnie)
+- Wathe-themed textures for Simple Voice Chat GUIs
 
 ### Changed
 
-- **Breaking:** refactored the client mixins into a new structure
-- **Breaking:** split `WatheExtendedClient` into `InstinctClient`, `ProneClient`, and dedicated client networking and rendering classes
-- **Breaking:** split `WatheExtended` into dedicated config entries, server networking, world tick and `EffectCleaner` classes
-- Changed the `/pronouns set <field>` command to allow selecting a target with `/pronouns set <field> [target]`,
-  primarily made for testing and available to OP players only
-- Abstracted custom slot texture replacements to use one shared grayscale texture, tinted with a color mask based on
-  the current role's color
-- Set an ordering on lobby items and creative utility items: the Guidebook is always given in the first slot, followed
-  by the Teleport to Ready Area item. Creative items are now always given on the opposite side of the hotbar
-- The **Morphling** ability row now stays visible when the ability is triggered; its buttons are grayed out and not
-  interactable
-- Repositioned the unified name renderer further down the center of the screen to prevent it from overlapping with
-  Wathe crosshair elements
-- Updated Gradle to `9.8.2`
-- Updated `CHANGELOG.md`
+- Presets now saves map variables, allowing for multiple maps presets within the same world (#78)
+- Role and modifier group headers now show an enabled or disabled icon that updates as soon as the toggle changes (@Albarnie)
+- Updated Gradle to `9.9.0`
+- Updated Fabric Loader to `0.20.1`
+- Updated Fabric Loom to `1.19.4`
+
+> [!WARNING]
+> The project now requires **Java 25**. Gradle itself still runs on **Java 21** to compile it.
 
 ### Removed
 
-- Custom Minecraft asset textures, in favor of them being bundled within the modpack rather than the mod itself
-- Unused references to unused creative items
+- YACL integration and dependency
 
 ### Fixed
 
-- **Morphling** disguise username and pronouns (if any) compatibility with the new unified name renderer
-- Lobby items (Guidebook, Teleport to Ready Area) and creative utility items being duplicated when picking them up
-  with the cursor
+- Newly converted killers and players revived by the **Necromancer** missing their phones when a **Hacker** is in play (#115)
+- **Physician** Poison Sense ability not working with players that have been infected by the **Infected** (#114)
+- **Licensed Villain** compatibility with the limited Instinct mechanic
+- Various wrong, outdated and missing Guidebook entries (#116)
+- Duplicated Hacker HUD labels & compatibility issues with obfuscated names and Morph Psychosis feature (#120)
 
 ## [4.0.0-h1.4] - TBD
 
@@ -64,7 +55,12 @@
 
 ### Added
 
-- New configurable options:
+- New configuration screen:
+    - **Migrated the configuration screen from YetAnotherConfigLib to OreLib.**
+    - Players can edit their personal settings under **Client**. Server operators also have access to **Game**, **Map**, **Items**, **Roles**, and **Modifiers**.
+    - Moved server configuration editing and networking tasks to OreLib. Applying changes sends them to the server for validation and synchronization.
+    - Replaced the custom preset screens with OreLib’s preset manager. Operators can save, load, overwrite, and delete server presets. Entering a name and description and pressing **Save** submits the preset immediately. Server presets capture the currently applied settings, so apply pending edits first if they belong in the preset.
+- New role options:
     - **Dreamer**
         - **Imprint notification** (Default: Disabled)
           <br> *Displays a message in the action bar whenever a player is imprinted by the Dreamer.*
@@ -84,14 +80,15 @@
         - **Keeps the game going** (Default: Enabled)
           <br> *When enabled, the game won't end while the Amnesiac is still alive, meaning the Amnesiac can still
           pick a role even after all Killers are dead.*
-- New mood mechanics and options:
+- New configurable options:
     - **Prevent sprinting while depressed** (Default: Enabled)
     - **Disable role abilities while depressed** after a configurable delay in seconds (Default: Enabled, 0s)
+    - **Per role/modifiers appearance chance percentage** (@Albarnie)
 - New proning mechanic, allowing players to crawl on the ground with the <kbd>C</kbd> key, with a configurable
   keybind option to switch between **Hold** and **Toggle** modes (Default: Toggle)
 - New unified player name renderer, replacing the separate Wathe and HarpyModLoader name overlays:
-    - Spectators can see the current role, modifier (s), player name, pronouns, Killer Cohort label, and some
-      role- and modifier-specific labels, all in one shared adaptive overlay
+    - Spectators can see the current role, modifier(s), player name, pronouns, Killer Cohort label, and some
+      role/modifier-specific labels, all in one shared adaptive overlay
 - New inventory ability row pagination system
     - Instead of splitting player picker rows into multiple lines, rows now fold into multiple pages when there are
       more than 12 players, keeping them on a single line. This should fix rows going off-screen, notably the
@@ -101,6 +98,7 @@
         - Left-click to switch between point and box modes
         - Right-click to copy positions to the clipboard for easy pasting into configs
 - New plushies (they're mostly my friends who are helping me on the mod :3)
+- Wathe-themed textures for Simple Voice Chat GUIs
 - Restored the ability to change perspective (<kbd>F5</kbd>) when the game is not active
 - Pressing the inventory key while spectating now opens the Guidebook screen
 - Visual debugger showing every configured spawn position (Lobby, Ready Area, and Play Area)
@@ -132,13 +130,18 @@
   by the Teleport to Ready Area item. Creative items are now always given on the opposite side of the hotbar
 - The **Morphling** ability row now stays visible when the ability is triggered; its buttons are grayed out and not
   interactable
+- Added in-line enabled/disabled icons in the configuration screen for roles & modifiers states (@Albarnie)
+- Presets now saves map variables, allowing for multiple maps presets within the same world (#78)
+- Role and modifier group headers now show an enabled or disabled icon that updates as soon as the toggle changes (@Albarnie)
 - Updated Chinese translation (@haiman233)
-- Updated Gradle to `9.8.2`
-- Updated Fabric Loader support to `0.19.5`
+- Updated Gradle to `9.9.0`
+- Updated Fabric Loader to `0.20.1`
+- Updated Fabric Loom to `1.19.4`
+    - > [!WARNING]
+      > The project now requires **Java 25**. Gradle itself still runs on **Java 21** to compile it.
 - Updated Fabric API support to `0.116.17`
 - Updated Stupid Express support to `2026.10.1-h1.4`
     - [Stupid Express Changelog](https://modrinth.com/mod/stupid-express/version/2026.10.1-h1.4)
-- Updated some Guidebook entries that were missing context
 - Updated `README.md`
 - Updated `CHANGELOG.md`
 - Changed versioning format
@@ -151,6 +154,7 @@
   item
 - Removed custom Minecraft asset textures, in favor of them being bundled within the modpack rather than the mod
   itself
+- YACL integration and dependency
 
 ### Fixed
 
@@ -159,7 +163,7 @@
 - Secret Murder chance option not being synced with Wathe's world NBT setting; it now follows that setting
 - Killer Cohort overlay appearing for roles that shouldn't see it (**Arsonist**, **Executioner**, **Jester**, etc.)
   (#99)
-- **Licensed Villain** and **Dreamer** having access to Instinct
+- **Dreamer** having access to Instinct
 - **Licensed Villain** dropping their *Revolver* when shooting innocents
 - **Introverted** modifier being assigned to the **Licensed Villain**
 - **Recaller** ability not teleporting them if they were seated
@@ -174,6 +178,10 @@
 - Guidebook Game Guide tab state icons being drawn next to entries
 - Lobby items (Guidebook, Teleport to Ready Area) and creative utility items being duplicated when picking them up
   with the cursor
+- Newly converted killers and players revived by the **Necromancer** missing their phones when a **Hacker** is in play (#115)
+- **Physician** Poison Sense ability not working with players that have been infected by the **Infected** (#114)
+- **Licensed Villain** compatibility with the limited Instinct mechanic
+- Various wrong, outdated and missing Guidebook entries (#116)
 
 ## [stable-3.8.141] - Sep 27, 2026
 
