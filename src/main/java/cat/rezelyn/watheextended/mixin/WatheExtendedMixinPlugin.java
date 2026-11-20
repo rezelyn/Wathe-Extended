@@ -73,7 +73,6 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
   private static final Set<String> STUPID_EXPRESS_MIXINS =
       Set.of(
           "client.game.roles.arsonist.ArsonistHudMixin",
-          "client.game.roles.arsonist.ArsonistDousedLabelMixin",
           "fix.InitiateRemoteDeathMixin",
           "fix.RevivalItemGivingMixin",
           "game.item.ArsonistItemsUseMixin",

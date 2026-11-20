@@ -1,4 +1,4 @@
-package cat.rezelyn.watheextended.client.mixin.game.roles.arsonist;
+package cat.rezelyn.watheextended.client.mixin.hud;
 
 import cat.rezelyn.watheextended.client.render.hud.UnifiedNameRenderer;
 import net.fabricmc.api.EnvType;
@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Environment(EnvType.CLIENT)
 @Mixin(DrawContext.class)
-public abstract class ArsonistDousedLabelMixin {
+public abstract class CompatibilityLabelMixin {
 
   @Inject(
       method =
@@ -21,14 +21,16 @@ public abstract class ArsonistDousedLabelMixin {
       at = @At("HEAD"),
       cancellable = true,
       require = 0)
-  private void watheextended$suppressStupidExpressLabel(
+  private void watheextended$suppressDuplicateLabel(
       TextRenderer renderer,
       Text text,
       int x,
       int y,
       int color,
       CallbackInfoReturnable<Integer> cir) {
-    if (UnifiedNameRenderer.shouldSuppressStupidExpressOverlayDraw(text)) {
+    if (text == null) return;
+    if (UnifiedNameRenderer.shouldSuppressKinsWathe(text, y)
+        || UnifiedNameRenderer.shouldSuppressStupidExpress(text)) {
       cir.setReturnValue(0);
     }
   }
