@@ -59,11 +59,10 @@ repositories {
             includeGroup "com.terraformersmc"
         }
     }
-    // (not public yet)
-    // maven {
-    //     name = "Rezelyn"
-    //     url = "https://maven.esraniki.space/releases"
-    // }
+    maven {
+        name = "Rezelyn"
+        url = "https://maven.esraniki.space/releases"
+    }
     maven {
         name = "Ladysnake Mods"
         url = "https://maven.ladysnake.org/releases"
@@ -102,8 +101,9 @@ dependencies {
     // Fabric API
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    // OreLib (Maven repo is not public yet)
-    // modImplementation "cat.rezelyn.fabric:orelib:${project.orelib_version}"
+    // OreLib
+    modImplementation "cat.rezelyn.fabric:orelib:${project.orelib_version}"
+    include "cat.rezelyn.fabric:orelib:${project.orelib_version}"
 
     // Wathe
     modApi "dev.doctor4t:wathe:${project.wathe_version}"
@@ -125,7 +125,8 @@ dependencies {
         modApi "maven.modrinth:wathextras:${project.wathextras_version}"
 
     // Libraries
-    modImplementation "dev.isxander:yet-another-config-lib:${project.yacl_version}"
+    modCompileOnly "dev.isxander:yet-another-config-lib:${project.yacl_version}"
+    modRuntimeOnly "dev.isxander:yet-another-config-lib:${project.yacl_version}"
     modImplementation "me.fzzyhmstrs:fzzy_config:${project.fzzyConfigVersion}"
     annotationProcessor modImplementation("io.wispforest:owo-lib:${project.owo_version}")
     include "io.wispforest:owo-sentinel:${project.owo_version}"
@@ -147,7 +148,8 @@ dependencies {
 def resourceProperties = [
         version: project.version.toString(),
         minecraft_version: project.minecraft_version.toString(),
-        loader_version: project.loader_version.toString()
+        loader_version: project.loader_version.toString(),
+        orelib_version: project.orelib_version.toString()
 ]
 
 processResources {
@@ -223,9 +225,6 @@ modrinth {
     dependencies {
         // Wathe
         required.project "wathe"
-
-        // OreLib (not yet published on Modrinth, bundled-in
-        // required.project "orelib"
 
         // Harpy Mod Loader
         required.project "harpymodloader"

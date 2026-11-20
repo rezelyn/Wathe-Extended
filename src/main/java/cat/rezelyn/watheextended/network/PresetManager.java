@@ -1,373 +1,173 @@
 package cat.rezelyn.watheextended.network;
 
+import cat.rezelyn.orelib.api.preset.PresetInfo;
+import cat.rezelyn.orelib.api.preset.PresetStorage;
+import cat.rezelyn.orelib.api.preset.StoredPreset;
 import cat.rezelyn.watheextended.WatheExtended;
-import cat.rezelyn.watheextended.WatheExtendedServerConfig;
-import cat.rezelyn.watheextended.game.ItemCooldowns;
-import cat.rezelyn.watheextended.game.ItemPrices;
 import com.google.gson.*;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
-import java.util.regex.Pattern;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
+import java.util.function.UnaryOperator;
 
-public final class PresetManager {
-
-  public static final int SCHEMA_VERSION = 1;
-  public static final int MAX_NAME_LENGTH = 64;
-  public static final int MAX_DESCRIPTION_LENGTH = 256;
-  private static final Pattern SAFE_ID = Pattern.compile("[^a-z0-9_-]+");
-  private static final DateTimeFormatter TIMESTAMP_FORMAT =
-      DateTimeFormatter.ofPattern("MM/dd/yyyy-HH:mm:ss");
+/** Adapts Wathe's existing one-file-per-preset schema to OreLib's live preset store. */
+public final class PresetManager implements PresetStorage {
   private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-  private static final Path PRESET_DIRECTORY =
-      net.fabricmc.loader.api.FabricLoader.getInstance()
-          .getConfigDir()
-          .resolve("watheextended")
-          .resolve("presets");
+  private static final DateTimeFormatter LEGACY_DATE = DateTimeFormatter.ofPattern("MM/dd/yyyy-HH:mm:ss");
+  private final Path directory;
+  private final String authorName;
+  private final UUID authorUuid;
+  private final Set<String> roles;
+  private final Set<String> modifiers;
 
-  private PresetManager() {}
+  PresetManager(Path directory, String authorName, UUID authorUuid, Set<String> roles, Set<String> modifiers) {
+    this.directory = directory.toAbsolutePath().normalize();
+    this.authorName = authorName;
+    this.authorUuid = authorUuid;
+    this.roles = Set.copyOf(roles);
+    this.modifiers = Set.copyOf(modifiers);
+  }
 
-  public static List<PresetMetadata> list() {
-    List<PresetMetadata> result = new ArrayList<>();
+  private record FilePreset(JsonObject document, StoredPreset preset) {}
+
+  @Override
+  public List<StoredPreset> list() {
+    return readFiles().values().stream().map(FilePreset::preset).toList();
+  }
+
+  @Override
+  public void update(UnaryOperator<List<StoredPreset>> operation) {
+    // OreLib's server-thread operations each mutate one file. Check that contract before writing.
+    var existing = readFiles();
+    var updated = new LinkedHashMap<String, StoredPreset>();
+    for (var preset : operation.apply(existing.values().stream().map(FilePreset::preset).toList())) {
+      if (updated.putIfAbsent(preset.id(), preset) != null)
+        throw new IllegalArgumentException("Duplicate preset ID: " + preset.id());
+    }
+    var changed = new LinkedHashSet<>(existing.keySet());
+    changed.addAll(updated.keySet());
+    changed.removeIf(id -> existing.containsKey(id) && existing.get(id).preset().equals(updated.get(id)));
+    if (changed.isEmpty()) return;
+    if (changed.size() != 1) throw new IllegalArgumentException("Expected a single preset mutation");
+    String id = changed.iterator().next();
     try {
-      Files.createDirectories(PRESET_DIRECTORY);
-      try (var paths = Files.list(PRESET_DIRECTORY)) {
-        paths
-            .filter(path -> path.getFileName().toString().endsWith(".json"))
-            .sorted(Comparator.comparing(path -> path.getFileName().toString()))
-            .forEach(
-                path -> {
-                  try {
-                    result.add(read(path).metadata());
-                  } catch (Exception exception) {
-                    WatheExtended.LOGGER.warn(
-                        "Ignoring invalid configuration preset {}", path, exception);
-                  }
-                });
+      var target = resolvePresetPath(id);
+      if (!updated.containsKey(id)) {
+        Files.delete(target);
+        return;
+      }
+      if (!existing.containsKey(id) && Files.exists(target))
+        throw new IOException("Cannot replace unreadable preset: " + id);
+      write(target, existing.get(id), updated.get(id));
+    } catch (IOException exception) {
+      throw new UncheckedIOException(exception);
+    }
+  }
+
+  private Map<String, FilePreset> readFiles() {
+    var result = new LinkedHashMap<String, FilePreset>();
+    if (Files.notExists(directory)) return result;
+    try (var files = Files.list(directory)) {
+      for (Path path : files.filter(p -> p.getFileName().toString().endsWith(".json")).sorted().toList()) {
+        try {
+          JsonObject doc = JsonParser.parseString(Files.readString(path)).getAsJsonObject();
+          if (doc.get("schemaVersion").getAsInt() != 1) throw new IllegalArgumentException("Unsupported preset version");
+          String id = doc.get("id").getAsString();
+          if (!resolvePresetPath(id).equals(path)) throw new IllegalArgumentException("Preset filename and ID disagree");
+          JsonObject author = doc.getAsJsonObject("author");
+          var info = new PresetInfo(author == null ? "Unknown" : text(author, "name"),
+              iso(text(doc, "createdAt")), iso(text(doc, "updatedAt")));
+          var values = new LinkedHashMap<String, JsonElement>();
+          var config = doc.getAsJsonObject("config");
+          if (config != null) {
+            config.asMap().forEach((key, value) -> {
+              if (value.isJsonNull()) return;
+              String raw = value.getAsString();
+              if (key.equals("hml.disabled")) expand(values, "role.enabled.", roles, raw);
+              else if (key.equals("hml.disabledModifiers")) expand(values, "modifier.enabled.", modifiers, raw);
+              else if ((key.startsWith("role.enabled.") || key.startsWith("modifier.enabled."))
+                  && (raw.equals("true") || raw.equals("false"))) values.put(key, new JsonPrimitive(Boolean.parseBoolean(raw)));
+              else values.put(key, new JsonPrimitive(raw));
+            });
+          }
+          var preset = new StoredPreset(id, doc.get("name").getAsString(), text(doc, "description"), values, info);
+          result.put(id, new FilePreset(doc, preset));
+        } catch (RuntimeException | IOException exception) {
+          WatheExtended.LOGGER.warn("Ignoring invalid configuration preset {}", path, exception);
+        }
       }
     } catch (IOException exception) {
-      WatheExtended.LOGGER.error("Unable to list configuration presets", exception);
+      throw new UncheckedIOException(exception);
     }
     return result;
   }
 
-  public static SaveResult save(
-      String name, String description, ServerPlayerEntity author, Map<String, String> config)
-      throws IOException {
-    String cleanName = normalize(name, MAX_NAME_LENGTH, "Preset");
-    String cleanDescription = normalize(description, MAX_DESCRIPTION_LENGTH, "");
-    PresetMetadata existing = findByName(cleanName);
-    String id = existing != null ? existing.id() : uniqueId(cleanName);
-    String now = LocalDateTime.now().format(TIMESTAMP_FORMAT);
-    PresetMetadata metadata =
-        new PresetMetadata(
-            id,
-            cleanName,
-            cleanDescription,
-            author.getName().getString(),
-            author.getUuid(),
-            existing != null ? existing.createdAt() : now,
-            now);
-    write(new Preset(metadata, new LinkedHashMap<>(config)));
-    return new SaveResult(metadata, existing != null);
-  }
-
-  public static Preset load(String id) throws IOException {
-    Path path = resolvePresetPath(id);
-    if (!Files.exists(path)) throw new IOException("Preset does not exist: " + id);
-    return read(path);
-  }
-
-  public static void delete(String id) throws IOException {
-    Files.deleteIfExists(resolvePresetPath(id));
-  }
-
-  public static ApplyResult apply(Preset preset, ServerWorld world) {
-    int applied = 0;
-    int skipped = 0;
-    Map<String, ServerConfig.Entry<?>> entries = ServerConfig.entries();
-    Map<String, String> knownChanges = new LinkedHashMap<>();
-    for (Map.Entry<String, String> entry : preset.config().entrySet()) {
-      if (entries.containsKey(entry.getKey())) {
-        knownChanges.put(entry.getKey(), entry.getValue());
-        applied++;
-      } else {
-        skipped++;
-      }
+  private static void expand(Map<String, JsonElement> values, String prefix, Set<String> known, String csv) {
+    for (String id : known) values.put(prefix + id, new JsonPrimitive(true));
+    for (String id : csv.split(",")) {
+      if (!id.isEmpty()) values.put(prefix + id, new JsonPrimitive(false));
     }
-
-    ServerConfig.applyChanges(knownChanges, world);
-
-    WatheExtendedServerConfig.save();
-    ItemPrices.applyAll();
-    ItemCooldowns.applyAll();
-    return new ApplyResult(applied, skipped);
   }
 
-  public static void sendList(MinecraftServer server) {
-    ListPayload payload = buildListPayload();
-    server.execute(
-        () ->
-            server
-                .getPlayerManager()
-                .getPlayerList()
-                .forEach(player -> ServerPlayNetworking.send(player, payload)));
+  private static String text(JsonObject object, String name) {
+    return object.has(name) ? object.get(name).getAsString() : "";
   }
 
-  public static void sendList(ServerPlayerEntity player) {
-    ServerPlayNetworking.send(player, buildListPayload());
-  }
-
-  private static ListPayload buildListPayload() {
-    NbtCompound root = new NbtCompound();
-    NbtList presets = new NbtList();
-    for (PresetMetadata metadata : list()) presets.add(toNbt(metadata));
-    root.put("presets", presets);
-    return new ListPayload(root);
-  }
-
-  public static NbtCompound toNbt(PresetMetadata metadata) {
-    NbtCompound nbt = new NbtCompound();
-    nbt.putString("id", metadata.id());
-    nbt.putString("name", metadata.name());
-    nbt.putString("description", metadata.description());
-    nbt.putString("authorName", metadata.authorName());
-    nbt.putString("authorUuid", metadata.authorUuid().toString());
-    nbt.putString("createdAt", metadata.createdAt());
-    nbt.putString("updatedAt", metadata.updatedAt());
-    NbtCompound config = new NbtCompound();
-    metadata.config().forEach(config::putString);
-    nbt.put("config", config);
-    return nbt;
-  }
-
-  public static List<PresetMetadata> fromNbt(NbtCompound root) {
-    List<PresetMetadata> result = new ArrayList<>();
-    if (root == null) return result;
-    if (!(root.get("presets") instanceof NbtList list)) return result;
-    for (NbtElement el : list) {
-      if (!(el instanceof NbtCompound nbt)) continue;
+  private static String iso(String original) {
+    try {
+      return Instant.parse(original).toString();
+    } catch (DateTimeParseException exception) {
       try {
-        result.add(
-            new PresetMetadata(
-                nbt.getString("id"),
-                nbt.getString("name"),
-                nbt.getString("description"),
-                nbt.getString("authorName"),
-                UUID.fromString(nbt.getString("authorUuid")),
-                nbt.getString("createdAt"),
-                nbt.getString("updatedAt"),
-                readConfigFromNbt(nbt)));
-      } catch (Exception ignored) {
+        return LocalDateTime.parse(original, LEGACY_DATE).atZone(ZoneId.systemDefault()).toInstant().toString();
+      } catch (DateTimeParseException unknownFormat) {
+        return "";
       }
     }
-    return result;
   }
 
-  private static Map<String, String> readConfigFromNbt(NbtCompound nbt) {
-    Map<String, String> config = new LinkedHashMap<>();
-    if (!nbt.contains("config", NbtElement.COMPOUND_TYPE)) return config;
-    NbtCompound values = nbt.getCompound("config");
-    for (String key : values.getKeys()) {
-      config.put(key, values.getString(key));
-    }
-    return config;
-  }
-
-  private static PresetMetadata findByName(String name) {
-    return list().stream()
-        .filter(metadata -> metadata.name().equalsIgnoreCase(name))
-        .findFirst()
-        .orElse(null);
-  }
-
-  private static String uniqueId(String name) {
-    String base = SAFE_ID.matcher(name.toLowerCase(Locale.ROOT).replace(' ', '-')).replaceAll("");
-    if (base.isBlank()) base = "preset";
-    String id = base;
-    int suffix = 2;
-    while (Files.exists(PRESET_DIRECTORY.resolve(id + ".json"))) id = base + "-" + suffix++;
-    return id;
-  }
-
-  private static String normalize(String value, int maxLength, String fallback) {
-    if (value == null) return fallback;
-    String normalized = value.strip();
-    if (normalized.length() > maxLength) normalized = normalized.substring(0, maxLength);
-    return normalized.isBlank() ? fallback : normalized;
-  }
-
-  private static Path resolvePresetPath(String id) throws IOException {
+  private Path resolvePresetPath(String id) throws IOException {
     if (id == null || !id.matches("[a-z0-9_-]+")) throw new IOException("Invalid preset id");
-    Path directory = PRESET_DIRECTORY.toAbsolutePath().normalize();
+
     Path path = directory.resolve(id + ".json").normalize();
     if (!directory.equals(path.getParent())) throw new IOException("Invalid preset path");
     return path;
   }
 
-  private static Preset read(Path path) throws IOException {
-    JsonObject root =
-        JsonParser.parseString(Files.readString(path, StandardCharsets.UTF_8)).getAsJsonObject();
-    int schemaVersion = root.has("schemaVersion") ? root.get("schemaVersion").getAsInt() : 0;
-    if (schemaVersion != SCHEMA_VERSION)
-      throw new IOException("Unsupported schema version " + schemaVersion);
-
-    UUID authorUuid;
-    try {
-      authorUuid = UUID.fromString(root.get("author").getAsJsonObject().get("uuid").getAsString());
-    } catch (Exception exception) {
-      authorUuid = new UUID(0, 0);
+  private void write(Path path, FilePreset existing, StoredPreset replacement) throws IOException {
+    JsonObject doc = existing == null ? new JsonObject() : existing.document().deepCopy();
+    doc.addProperty("id", replacement.id());
+    doc.addProperty("schemaVersion", 1);
+    doc.addProperty("name", replacement.name());
+    doc.addProperty("description", replacement.description());
+    if (existing == null) {
+      var author = new JsonObject();
+      author.addProperty("name", authorName);
+      author.addProperty("uuid", authorUuid.toString());
+      doc.add("author", author);
+      doc.addProperty("createdAt", replacement.metadata().createdAt());
     }
-
-    Map<String, String> config = new LinkedHashMap<>();
-    JsonObject configObject = root.getAsJsonObject("config");
-    if (configObject != null) {
-      for (Map.Entry<String, JsonElement> entry : configObject.entrySet()) {
-        if (!entry.getValue().isJsonNull())
-          config.put(entry.getKey(), entry.getValue().getAsString());
+    doc.addProperty("updatedAt", replacement.metadata().updatedAt());
+    var values = new JsonObject();
+    replacement.values().forEach((key, value) -> values.addProperty(key, value.getAsString()));
+    doc.add("config", values);
+    Files.createDirectories(directory);
+    Path temporary = Files.createTempFile(directory, ".preset-", ".tmp");
+    try {
+      Files.writeString(temporary, GSON.toJson(doc), StandardCharsets.UTF_8);
+      try {
+        Files.move(temporary, path, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+      } catch (AtomicMoveNotSupportedException | FileAlreadyExistsException unsupported) {
+        Files.move(temporary, path, StandardCopyOption.REPLACE_EXISTING);
       }
-    }
-
-    JsonObject authorObject = root.getAsJsonObject("author");
-    String authorName =
-        authorObject != null && authorObject.has("name")
-            ? authorObject.get("name").getAsString()
-            : "Unknown";
-    PresetMetadata metadata =
-        new PresetMetadata(
-            root.get("id").getAsString(),
-            root.get("name").getAsString(),
-            root.has("description") ? root.get("description").getAsString() : "",
-            authorName,
-            authorUuid,
-            root.has("createdAt") ? root.get("createdAt").getAsString() : "",
-            root.has("updatedAt") ? root.get("updatedAt").getAsString() : "",
-            config);
-    return new Preset(metadata, config);
-  }
-
-  private static void write(Preset preset) throws IOException {
-    Files.createDirectories(PRESET_DIRECTORY);
-    JsonObject root = new JsonObject();
-    root.addProperty("schemaVersion", SCHEMA_VERSION);
-    root.addProperty("id", preset.metadata().id());
-    root.addProperty("name", preset.metadata().name());
-    root.addProperty("description", preset.metadata().description());
-    JsonObject author = new JsonObject();
-    author.addProperty("name", preset.metadata().authorName());
-    author.addProperty("uuid", preset.metadata().authorUuid().toString());
-    root.add("author", author);
-    root.addProperty("createdAt", preset.metadata().createdAt());
-    root.addProperty("updatedAt", preset.metadata().updatedAt());
-    JsonObject config = new JsonObject();
-    preset.config().forEach(config::addProperty);
-    root.add("config", config);
-
-    Path target = resolvePresetPath(preset.metadata().id());
-    Path temporary = target.resolveSibling(target.getFileName() + ".tmp");
-    Files.writeString(temporary, GSON.toJson(root), StandardCharsets.UTF_8);
-    try {
-      Files.move(
-          temporary, target, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
-    } catch (AtomicMoveNotSupportedException | FileAlreadyExistsException exception) {
-      Files.move(temporary, target, StandardCopyOption.REPLACE_EXISTING);
-    }
-  }
-
-  public record PresetMetadata(
-      String id,
-      String name,
-      String description,
-      String authorName,
-      UUID authorUuid,
-      String createdAt,
-      String updatedAt,
-      Map<String, String> config) {
-    public PresetMetadata(
-        String id,
-        String name,
-        String description,
-        String authorName,
-        UUID authorUuid,
-        String createdAt,
-        String updatedAt) {
-      this(id, name, description, authorName, authorUuid, createdAt, updatedAt, Map.of());
-    }
-  }
-
-  public record Preset(PresetMetadata metadata, Map<String, String> config) {}
-
-  public record SaveResult(PresetMetadata metadata, boolean overwritten) {}
-
-  public record ApplyResult(int applied, int skipped) {}
-
-  public record ActionPayload(String action, String id, String name, String description)
-      implements CustomPayload {
-    public static final Id<ActionPayload> ID = new Id<>(WatheExtended.id("preset_action"));
-    public static final PacketCodec<RegistryByteBuf, ActionPayload> CODEC =
-        PacketCodec.of(
-            (value, buffer) -> {
-              buffer.writeString(value.action());
-              buffer.writeString(value.id() == null ? "" : value.id());
-              buffer.writeString(value.name() == null ? "" : value.name());
-              buffer.writeString(value.description() == null ? "" : value.description());
-            },
-            buffer ->
-                new ActionPayload(
-                    buffer.readString(16),
-                    buffer.readString(128),
-                    buffer.readString(MAX_NAME_LENGTH),
-                    buffer.readString(MAX_DESCRIPTION_LENGTH)));
-
-    @Override
-    public Id<? extends CustomPayload> getId() {
-      return ID;
-    }
-  }
-
-  public record ListPayload(NbtCompound data) implements CustomPayload {
-    public static final Id<ListPayload> ID = new Id<>(WatheExtended.id("preset_list"));
-    public static final PacketCodec<RegistryByteBuf, ListPayload> CODEC =
-        PacketCodec.of(
-            (value, buffer) -> buffer.writeNbt(value.data()),
-            buffer -> new ListPayload(buffer.readNbt()));
-
-    @Override
-    public Id<? extends CustomPayload> getId() {
-      return ID;
-    }
-  }
-
-  public record ResultPayload(boolean success, String action, String message)
-      implements CustomPayload {
-    public static final Id<ResultPayload> ID = new Id<>(WatheExtended.id("preset_result"));
-    public static final PacketCodec<RegistryByteBuf, ResultPayload> CODEC =
-        PacketCodec.of(
-            (value, buffer) -> {
-              buffer.writeBoolean(value.success());
-              buffer.writeString(value.action());
-              buffer.writeString(value.message());
-            },
-            buffer ->
-                new ResultPayload(
-                    buffer.readBoolean(), buffer.readString(16), buffer.readString(256)));
-
-    @Override
-    public Id<? extends CustomPayload> getId() {
-      return ID;
+    } finally {
+      Files.deleteIfExists(temporary);
     }
   }
 }

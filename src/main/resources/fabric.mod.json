@@ -53,7 +53,7 @@
     "fabricloader": ">=${loader_version}",
     "fabric-api": "*",
     "minecraft": "${minecraft_version}",
-    "yet_another_config_lib_v3": ">=3.8.2+1.21.1-fabric",
+    "orelib": ">=${orelib_version}",
     "wathe": ">=1.4-1.21.1",
     "harpymodloader": ">=1.2.5-h1.4"
   },

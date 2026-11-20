@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class GameMenuScreenMixin extends Screen {
 
   private static final Identifier watheIcon =
-      Identifier.of("watheextended", "textures/gui/sprites/hud/wathe.png");
+      Identifier.of("watheextended", "textures/gui/sprites/wathe.png");
 
   protected GameMenuScreenMixin(Text title) {
     super(title);
