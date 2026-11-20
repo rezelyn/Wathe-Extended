@@ -21,6 +21,7 @@ public final class KillerCohortAccess {
   // Roles that should not see killer cohort labels, across all client overlays
   private static final Set<Identifier> COHORT_VISIBILITY_DENYLIST =
       Set.of(
+          Identifier.of("kinswathe", "licensed_villain"),
           Identifier.of("stupid_express", "arsonist"),
           Identifier.of("stupid_express", "thief"),
           Identifier.of("noellesroles", "executioner"),
