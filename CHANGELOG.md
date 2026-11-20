@@ -40,6 +40,7 @@
 - **Physician** Poison Sense ability not working with players that have been infected by the **Infected** (#114)
 - **Licensed Villain** compatibility with the limited Instinct mechanic
 - Various wrong, outdated and missing Guidebook entries (#116)
+- Duplicated Hacker HUD labels & compatibility issues with obfuscated names and Morph Psychosis feature (#120)
 
 ## [4.0.0-h1.4] - TBD
 
