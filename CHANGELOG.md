@@ -10,17 +10,36 @@
 
 ### Added
 
+- New configuration screen:
+    - **Migrated the configuration screen from YetAnotherConfigLib to OreLib.**
+    - Players can edit their personal settings under **Client**. Server operators also have access to **Game**, **Map**, **Items**, **Roles**, and **Modifiers**.
+    - Moved server configuration editing and networking tasks to OreLib. Applying changes sends them to the server for validation and synchronization.
+    - Replaced the custom preset screens with OreLib’s preset manager. Operators can save, load, overwrite, and delete server presets. Entering a name and description and pressing **Save** submits the preset immediately. Server presets capture the currently applied settings, so apply pending edits first if they belong in the preset.
 - New configurable options:
     - **Per role/modifiers appearance chance percentage** (@Albarnie)
+- Wathe-themed textures for Simple Voice Chat GUIs
 
 ### Changed
 
-- Added in-line enabled/disabled icons in the configuration screen for roles & modifiers states (@Albarnie)
+- Presets now saves map variables, allowing for multiple maps presets within the same world (#78)
+- Role and modifier group headers now show an enabled or disabled icon that updates as soon as the toggle changes (@Albarnie)
 - Updated Gradle to `9.9.0`
 - Updated Fabric Loader to `0.20.1`
 - Updated Fabric Loom to `1.19.4`
-    - > [!WARNING]
-      > The project now requires **Java 25**. Gradle itself still runs on **Java 21** to compile it.
+
+> [!WARNING]
+> The project now requires **Java 25**. Gradle itself still runs on **Java 21** to compile it.
+
+### Removed
+
+- YACL integration and dependency
+
+### Fixed
+
+- Newly converted killers and players revived by the **Necromancer** missing their phones when a **Hacker** is in play (#115)
+- **Physician** Poison Sense ability not working with players that have been infected by the **Infected** (#114)
+- **Licensed Villain** compatibility with the limited Instinct mechanic
+- Various wrong, outdated and missing Guidebook entries (#116)
 
 ## [4.0.0-h1.4] - TBD
 
@@ -35,6 +54,11 @@
 
 ### Added
 
+- New configuration screen:
+    - **Migrated the configuration screen from YetAnotherConfigLib to OreLib.**
+    - Players can edit their personal settings under **Client**. Server operators also have access to **Game**, **Map**, **Items**, **Roles**, and **Modifiers**.
+    - Moved server configuration editing and networking tasks to OreLib. Applying changes sends them to the server for validation and synchronization.
+    - Replaced the custom preset screens with OreLib’s preset manager. Operators can save, load, overwrite, and delete server presets. Entering a name and description and pressing **Save** submits the preset immediately. Server presets capture the currently applied settings, so apply pending edits first if they belong in the preset.
 - New role options:
     - **Dreamer**
         - **Imprint notification** (Default: Disabled)
@@ -73,6 +97,7 @@
         - Left-click to switch between point and box modes
         - Right-click to copy positions to the clipboard for easy pasting into configs
 - New plushies (they're mostly my friends who are helping me on the mod :3)
+- Wathe-themed textures for Simple Voice Chat GUIs
 - Restored the ability to change perspective (<kbd>F5</kbd>) when the game is not active
 - Pressing the inventory key while spectating now opens the Guidebook screen
 - Visual debugger showing every configured spawn position (Lobby, Ready Area, and Play Area)
@@ -105,6 +130,8 @@
 - The **Morphling** ability row now stays visible when the ability is triggered; its buttons are grayed out and not
   interactable
 - Added in-line enabled/disabled icons in the configuration screen for roles & modifiers states (@Albarnie)
+- Presets now saves map variables, allowing for multiple maps presets within the same world (#78)
+- Role and modifier group headers now show an enabled or disabled icon that updates as soon as the toggle changes (@Albarnie)
 - Updated Chinese translation (@haiman233)
 - Updated Gradle to `9.9.0`
 - Updated Fabric Loader to `0.20.1`
@@ -114,7 +141,6 @@
 - Updated Fabric API support to `0.116.17`
 - Updated Stupid Express support to `2026.10.1-h1.4`
     - [Stupid Express Changelog](https://modrinth.com/mod/stupid-express/version/2026.10.1-h1.4)
-- Updated some Guidebook entries that were missing context
 - Updated `README.md`
 - Updated `CHANGELOG.md`
 - Changed versioning format
@@ -127,6 +153,7 @@
   item
 - Removed custom Minecraft asset textures, in favor of them being bundled within the modpack rather than the mod
   itself
+- YACL integration and dependency
 
 ### Fixed
 
@@ -135,7 +162,7 @@
 - Secret Murder chance option not being synced with Wathe's world NBT setting; it now follows that setting
 - Killer Cohort overlay appearing for roles that shouldn't see it (**Arsonist**, **Executioner**, **Jester**, etc.)
   (#99)
-- **Licensed Villain** and **Dreamer** having access to Instinct
+- **Dreamer** having access to Instinct
 - **Licensed Villain** dropping their *Revolver* when shooting innocents
 - **Introverted** modifier being assigned to the **Licensed Villain**
 - **Recaller** ability not teleporting them if they were seated
@@ -150,6 +177,10 @@
 - Guidebook Game Guide tab state icons being drawn next to entries
 - Lobby items (Guidebook, Teleport to Ready Area) and creative utility items being duplicated when picking them up
   with the cursor
+- Newly converted killers and players revived by the **Necromancer** missing their phones when a **Hacker** is in play (#115)
+- **Physician** Poison Sense ability not working with players that have been infected by the **Infected** (#114)
+- **Licensed Villain** compatibility with the limited Instinct mechanic
+- Various wrong, outdated and missing Guidebook entries (#116)
 
 ## [stable-3.8.141] - Sep 27, 2026
 
