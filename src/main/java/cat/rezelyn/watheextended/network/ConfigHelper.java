@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
  *
  * <p>Missing keys keep their defaults, invalid values are skipped, and a file that can't be parsed
  * is moved to {@code <fileName>.bak} before defaults are written. {@link Map} fields are merged
- * with their current (default) content instead of replaced. Range validation is left to YACL
+ * with their current (default) content instead of replaced. Range validation is handled by the OreLib screen
  */
 public final class ConfigHelper {
   private static final Logger LOGGER = LoggerFactory.getLogger("watheextended");

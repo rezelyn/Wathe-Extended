@@ -1,636 +1,330 @@
 package cat.rezelyn.watheextended.client.screen.config;
 
-import cat.rezelyn.watheextended.WatheExtendedServerConfig;
+import static cat.rezelyn.watheextended.client.screen.config.ConfigText.*;
+
+import cat.rezelyn.orelib.api.config.ConfigBuilder.CategoryBuilder;
+import cat.rezelyn.orelib.api.config.ConfigBuilder.GroupBuilder;
+import cat.rezelyn.orelib.api.controller.Controllers;
+import cat.rezelyn.orelib.api.model.EntryDefinition;
+import cat.rezelyn.orelib.api.setting.SettingKey;
 import cat.rezelyn.watheextended.api.ModifiersDisplay;
 import cat.rezelyn.watheextended.api.ModifiersId;
 import cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper;
 import cat.rezelyn.watheextended.client.screen.ScreenUtils;
 import cat.rezelyn.watheextended.network.ClientConfig;
-import dev.isxander.yacl3.api.*;
-import dev.isxander.yacl3.api.controller.*;
 import java.util.Map;
-import java.util.function.BiConsumer;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 
 public final class ModifiersCategory {
 
   private ModifiersCategory() {}
 
-  public static ConfigCategory build(
-      Screen parent, Map<String, Boolean> pendingState, Map<String, Float> pendingChances, BiConsumer<String, Screen> sendCommand) {
-    ConfigCategory.Builder builder =
-        ConfigCategory.createBuilder()
-            .name(Text.translatable("gui.watheextended.config.category.modifiers"))
-            .tooltip(Text.translatable("gui.watheextended.config.category.modifiers.tooltip"));
+  public static void build(CategoryBuilder builder) {
+    builder.name(text("category.modifiers")).description(text("category.modifiers.tooltip"));
 
     try {
       if (ModifiersId.get().isEmpty()) {
-        builder.option(
-            LabelOption.create(
-                Text.translatable("gui.watheextended.config.category.modifiers.empty")
-                    .styled(style -> style.withColor(0xFF5555))));
+        builder.entry(
+            new EntryDefinition.FullWidthLabel(
+                "category.modifiers.empty",
+                text("category.modifiers.empty").styled(style -> style.withColor(0xFF5555)),
+                Text.empty(),
+                ctx -> true));
       } else {
         Map<String, ModifiersDisplay.ModifierDisplay> modifierName = ModifiersDisplay.get();
 
         for (String id : ModifiersId.get()) {
           ModifiersDisplay.ModifierDisplay display = modifierName.get(id);
 
-          boolean state =
-              pendingState.containsKey(id)
-                  ? pendingState.get(id)
-                  : !cat.rezelyn.watheextended.api.config.hml.ConfigHelper.getDisabledModifiers()
-                      .contains(id);
-
-          float chance = pendingChances.containsKey(id)
-                  ? pendingChances.get(id)
-                  : WatheExtendedServerConfig.getModifierChance(id);
+          var enabledKey = SettingKey.of("modifier.enabled." + id, Boolean.class);
+          boolean state = !ClientConfig.getStringList("hml.disabledModifiers").contains(id);
+          float chance = ClientConfig.getFloat("watheextended.modifierChance." + id, 1.0f);
 
           Text label =
               (display != null
                   ? display.display().copy().styled(style -> style.withColor(display.color()))
-                  : Text.literal(ModifiersDisplay.prettyName(id)))
-                  .append(Text.literal("  ")).append(ScreenUtils.icon(state ? "enabled" : "disabled"));
+                  : Text.literal(ModifiersDisplay.prettyName(id)));
 
-          OptionGroup.Builder group = OptionGroup.createBuilder().name(label).collapsed(true);
-          group.option(
-              Option.<Boolean>createBuilder()
-                  .name(Text.translatable("gui.watheextended.config.text.enabled"))
-                  .description(
-                      OptionDescription.of(
-                          Text.literal(id).styled(style -> style.withColor(0x505050))))
-                  .binding(
-                      state,
-                      () ->
-                          pendingState.containsKey(id)
-                              ? pendingState.get(id)
-                              : !cat.rezelyn.watheextended.api.config.hml.ConfigHelper
-                                  .getDisabledModifiers()
-                                  .contains(id),
-                      enabled -> {
-                        pendingState.put(id, enabled);
-                      })
-                  .controller(
-                      option ->
-                          BooleanControllerBuilder.create(option)
-                              .formatValue(
-                                  value ->
-                                      Text.translatable(
-                                          value
-                                              ? "gui.watheextended.config.text.on"
-                                              : "gui.watheextended.config.text.off")))
-                  .build());
+          builder.group(
+              "modifiers." + id,
+              group -> {
+                group.name(label).description(Text.empty()).collapsed(true);
+                group.option(
+                    enabledKey,
+                    option ->
+                        option
+                            .name(text("text.enabled"))
+                            .description(
+                                Text.literal(id).styled(style -> style.withColor(0x505050)))
+                            .defaultValue(state)
+                            .controller(Controllers.bool(true))
+                            .formatter(ConfigText::onOff));
 
-          group.option(
-          Option.<Float>createBuilder()
-              .name(Text.translatable("gui.watheextended.config.text.chance"))
-              .description(
-                  OptionDescription.of(
-                      Text.literal(id).styled(style -> style.withColor(0x505050))))
-              .binding(
-                  chance,
-                  () ->
-                      pendingChances.containsKey(id)
-                              ? pendingChances.get(id)
-                      : WatheExtendedServerConfig.getModifierChance(id),
-                  value -> {
-                    pendingChances.put(id, value);
-                  })
-              .controller(
-                  value ->
-                          FloatSliderControllerBuilder.create(value)
-                                  .range(0.0f, 1.0f)
-                                  .step(0.01f)
-                                  .formatValue(inValue -> Text.literal(Math.round(inValue * 100.0f) + "%")))
-              .build());
+                group.option(
+                    SettingKey.of("watheextended.modifierChance." + id, Float.class),
+                    option ->
+                        option
+                            .name(text("text.chance"))
+                            .description(text("category.modifiers.chance.desc"))
+                            .availability(ctx -> Boolean.TRUE.equals(ctx.get(enabledKey)))
+                            .defaultValue(chance)
+                            .controller(
+                                Controllers.numberSlider(Float.class, 0.0f, 1.0f, 0.01f, false))
+                            .formatter(ConfigText::percent)
+                            .validator(value -> range(value, 0.0f, 1.0f)));
 
-          modifierOptions(id, group, parent, sendCommand);
-          builder.group(group.build());
+                modifierOptions(id, group);
+              });
         }
       }
     } catch (Throwable t) {
-      builder.option(
-          LabelOption.create(
-              Text.translatable("gui.watheextended.config.category.modifiers.error")
-                  .styled(style -> style.withColor(0xFF5555))));
+      builder.entry(
+          new EntryDefinition.FullWidthLabel(
+              "category.modifiers.error",
+              text("category.modifiers.error").styled(style -> style.withColor(0xFF5555)),
+              Text.empty(),
+              ctx -> true));
     }
-
-    return builder.build();
   }
 
-  private static void modifierOptions(
-      String id,
-      OptionGroup.Builder builder,
-      Screen parent,
-      BiConsumer<String, Screen> sendCommand) {
+  private static void modifierOptions(String id, GroupBuilder builder) {
     switch (id) {
       case "watheextended:introverted" -> {
         builder.option(
-            Option.<Integer>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.introverted.crowdcount"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.introverted.crowdcount.desc")))
-                .binding(
-                    3,
-                    () -> ClientConfig.getInt("watheextended.introverted.crowdCount", 3),
-                    value ->
-                        ScreenUtils.stage(
-                            sendCommand, parent, "watheextended.introverted.crowdCount", value))
-                .controller(IntegerFieldControllerBuilder::create)
-                .build());
-        ;
+            SettingKey.of("watheextended.introverted.crowdCount", Integer.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.introverted.crowdcount"))
+                    .description(text("category.modifiers.opt.introverted.crowdcount.desc"))
+                    .defaultValue(3)
+                    .controller(
+                        Controllers.numberField(
+                            Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
         builder.option(
-            Option.<Float>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.introverted.crowdrange"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.introverted.crowdrange.desc")))
-                .binding(
-                    5.0f,
-                    () -> ClientConfig.getFloat("watheextended.introverted.crowdRange", 5.0f),
-                    value ->
-                        ScreenUtils.stage(
-                            sendCommand, parent, "watheextended.introverted.crowdRange", value))
-                .controller(ScreenUtils::floatController)
-                .build());
+            SettingKey.of("watheextended.introverted.crowdRange", Float.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.introverted.crowdrange"))
+                    .description(text("category.modifiers.opt.introverted.crowdrange.desc"))
+                    .defaultValue(5.0f)
+                    .controller(
+                        Controllers.numberField(Float.class, -Float.MAX_VALUE, Float.MAX_VALUE))
+                    .formatter(value -> Text.literal(ScreenUtils.format(value)))
+                    .validator(value -> range(value, -Float.MAX_VALUE, Float.MAX_VALUE)));
         builder.option(
-            Option.<Float>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.introverted.crowddrainmultiplier"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.introverted.crowddrainmultiplier.desc")))
-                .binding(
-                    2.0f,
-                    () ->
-                        ClientConfig.getFloat(
-                            "watheextended.introverted.crowdDrainMultiplier", 2.0f),
-                    value ->
-                        ScreenUtils.stage(
-                            sendCommand,
-                            parent,
-                            "watheextended.introverted.crowdDrainMultiplier",
-                            value))
-                .controller(
-                    option ->
-                        FloatSliderControllerBuilder.create(option)
-                            .range(0.0f, 2.0f)
-                            .step(0.01f)
-                            .formatValue(value -> Text.literal(Math.round(value * 100.0f) + "%")))
-                .build());
-        ;
+            SettingKey.of("watheextended.introverted.crowdDrainMultiplier", Float.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.introverted.crowddrainmultiplier"))
+                    .description(
+                        text("category.modifiers.opt.introverted.crowddrainmultiplier.desc"))
+                    .defaultValue(2.0f)
+                    .controller(Controllers.numberSlider(Float.class, 0.0f, 2.0f, 0.01f, false))
+                    .formatter(ConfigText::percent)
+                    .validator(value -> range(value, 0.0f, 2.0f)));
         builder.option(
-            Option.<Float>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.introverted.alonedrainmultiplier"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.introverted.alonedrainmultiplier.desc")))
-                .binding(
-                    0.5f,
-                    () ->
-                        ClientConfig.getFloat(
-                            "watheextended.introverted.aloneDrainMultiplier", 0.5f),
-                    value ->
-                        ScreenUtils.stage(
-                            sendCommand,
-                            parent,
-                            "watheextended.introverted.aloneDrainMultiplier",
-                            value))
-                .controller(
-                    option ->
-                        FloatSliderControllerBuilder.create(option)
-                            .range(0.0f, 2.0f)
-                            .step(0.01f)
-                            .formatValue(value -> Text.literal(Math.round(value * 100.0f) + "%")))
-                .build());
-        ;
+            SettingKey.of("watheextended.introverted.aloneDrainMultiplier", Float.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.introverted.alonedrainmultiplier"))
+                    .description(
+                        text("category.modifiers.opt.introverted.alonedrainmultiplier.desc"))
+                    .defaultValue(0.5f)
+                    .controller(Controllers.numberSlider(Float.class, 0.0f, 2.0f, 0.01f, false))
+                    .formatter(ConfigText::percent)
+                    .validator(value -> range(value, 0.0f, 2.0f)));
       }
       case "watheextended:taxed" -> {
         builder.option(
-            Option.<Float>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.taxed.coinreduction"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.taxed.coinreduction.desc")))
-                .binding(
-                    0.50f,
-                    () -> ClientConfig.getFloat("watheextended.taxed.coinReduction", 0.50f),
-                    value ->
-                        ScreenUtils.stage(
-                            sendCommand, parent, "watheextended.taxed.coinReduction", value))
-                .controller(
-                    option ->
-                        FloatSliderControllerBuilder.create(option)
-                            .range(0.0f, 1.0f)
-                            .step(0.01f)
-                            .formatValue(value -> Text.literal(Math.round(value * 100.0f) + "%")))
-                .build());
-        ;
+            SettingKey.of("watheextended.taxed.coinReduction", Float.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.taxed.coinreduction"))
+                    .description(text("category.modifiers.opt.taxed.coinreduction.desc"))
+                    .defaultValue(0.50f)
+                    .controller(Controllers.numberSlider(Float.class, 0.0f, 1.0f, 0.01f, false))
+                    .formatter(ConfigText::percent)
+                    .validator(value -> range(value, 0.0f, 1.0f)));
         builder.option(
-            Option.<Integer>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.taxed.killthreshold"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.taxed.killthreshold.desc")))
-                .binding(
-                    1,
-                    () -> ClientConfig.getInt("watheextended.taxed.killThreshold", 1),
-                    value ->
-                        ScreenUtils.stage(
-                            sendCommand, parent, "watheextended.taxed.killThreshold", value))
-                .controller(IntegerFieldControllerBuilder::create)
-                .build());
-        ;
+            SettingKey.of("watheextended.taxed.killThreshold", Integer.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.taxed.killthreshold"))
+                    .description(text("category.modifiers.opt.taxed.killthreshold.desc"))
+                    .defaultValue(1)
+                    .controller(
+                        Controllers.numberField(
+                            Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
         builder.option(
-            Option.<Integer>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.taxed.killwindowseconds"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.taxed.killwindowseconds.desc")))
-                .binding(
-                    60,
-                    () -> ClientConfig.getInt("watheextended.taxed.killWindowSeconds", 60),
-                    value ->
-                        ScreenUtils.stage(
-                            sendCommand, parent, "watheextended.taxed.killWindowSeconds", value))
-                .controller(IntegerFieldControllerBuilder::create)
-                .build());
-        ;
+            SettingKey.of("watheextended.taxed.killWindowSeconds", Integer.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.taxed.killwindowseconds"))
+                    .description(text("category.modifiers.opt.taxed.killwindowseconds.desc"))
+                    .defaultValue(60)
+                    .controller(
+                        Controllers.numberField(
+                            Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
       }
       case "watheextended:adaptive" -> {
         builder.option(
-            Option.<Float>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.adaptive.penaltyreduction"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.adaptive.penaltyreduction.desc")))
-                .binding(
-                    0.25f,
-                    () -> ClientConfig.getFloat("watheextended.adaptive.penaltyReduction", 0.25f),
-                    value ->
-                        ScreenUtils.stage(
-                            sendCommand, parent, "watheextended.adaptive.penaltyReduction", value))
-                .controller(
-                    option ->
-                        FloatSliderControllerBuilder.create(option)
-                            .range(0.0f, 1.0f)
-                            .step(0.01f)
-                            .formatValue(value -> Text.literal(Math.round(value * 100.0f) + "%")))
-                .build());
-        ;
+            SettingKey.of("watheextended.adaptive.penaltyReduction", Float.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.adaptive.penaltyreduction"))
+                    .description(text("category.modifiers.opt.adaptive.penaltyreduction.desc"))
+                    .defaultValue(0.25f)
+                    .controller(Controllers.numberSlider(Float.class, 0.0f, 1.0f, 0.01f, false))
+                    .formatter(ConfigText::percent)
+                    .validator(value -> range(value, 0.0f, 1.0f)));
         builder.option(
-            Option.<Float>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.adaptive.bonusmultiplier"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.adaptive.bonusmultiplier.desc")))
-                .binding(
-                    0.50f,
-                    () -> ClientConfig.getFloat("watheextended.adaptive.bonusMultiplier", 0.50f),
-                    value ->
-                        ScreenUtils.stage(
-                            sendCommand, parent, "watheextended.adaptive.bonusMultiplier", value))
-                .controller(
-                    option ->
-                        FloatSliderControllerBuilder.create(option)
-                            .range(0.0f, 1.0f)
-                            .step(0.01f)
-                            .formatValue(value -> Text.literal(Math.round(value * 100.0f) + "%")))
-                .build());
-        ;
+            SettingKey.of("watheextended.adaptive.bonusMultiplier", Float.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.adaptive.bonusmultiplier"))
+                    .description(text("category.modifiers.opt.adaptive.bonusmultiplier.desc"))
+                    .defaultValue(0.50f)
+                    .controller(Controllers.numberSlider(Float.class, 0.0f, 1.0f, 0.01f, false))
+                    .formatter(ConfigText::percent)
+                    .validator(value -> range(value, 0.0f, 1.0f)));
       }
       case "noellesroles:guesser" -> {
         if (!cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper.isLoaded()) return;
         builder.option(
-            Option.<Boolean>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.guesser.allowcivillian"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.guesser.allowcivillian.desc")))
-                .binding(
-                    false,
-                    cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper
-                        ::getAllowCivillianGuessers,
-                    value ->
-                        ScreenUtils.stage(
-                            sendCommand, parent, "noellesroles.allowCivillianGuessers", value))
-                .controller(
-                    option ->
-                        BooleanControllerBuilder.create(option)
-                            .formatValue(
-                                value ->
-                                    Text.translatable(
-                                        value
-                                            ? "gui.watheextended.config.text.on"
-                                            : "gui.watheextended.config.text.off")))
-                .build());
+            SettingKey.of("noellesroles.allowCivillianGuessers", Boolean.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.guesser.allowcivillian"))
+                    .description(text("category.modifiers.opt.guesser.allowcivillian.desc"))
+                    .defaultValue(false)
+                    .controller(Controllers.bool(true))
+                    .formatter(ConfigText::onOff));
         builder.option(
-            Option.<String>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.guesser.wrongguessmode"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.guesser.wrongguessmode.desc")))
-                .binding(
-                    "death",
-                    cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper
-                        ::getGuesserDiesAfterIncorrectGuess,
-                    value ->
-                        ScreenUtils.stage(
-                            sendCommand,
-                            parent,
-                            "noellesroles.guesserDiesAfterIncorrectGuess",
-                            value))
-                .controller(
-                    option ->
-                        CyclingListControllerBuilder.create(option)
-                            .values(java.util.List.of("none", "death", "explode"))
-                            .formatValue(value -> Text.literal(value.toUpperCase())))
-                .build());
+            SettingKey.of("noellesroles.guesserDiesAfterIncorrectGuess", String.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.guesser.wrongguessmode"))
+                    .description(text("category.modifiers.opt.guesser.wrongguessmode.desc"))
+                    .defaultValue("death")
+                    .controller(
+                        Controllers.cycling(
+                            java.util.List.of("none", "death", "explode"),
+                            value -> Text.literal(value.toUpperCase())))
+                    .formatter(value -> Text.literal(value.toUpperCase()))
+                    .validator(
+                        value -> choice(value, java.util.List.of("none", "death", "explode"))));
       }
       case "stupid_express:lovers" -> {
         if (!ConfigHelper.isLoaded()) return;
         builder.option(
-            Option.<Boolean>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.lovers.forbidden"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.lovers.forbidden.desc")))
-                .binding(
-                    false,
-                    () -> ClientConfig.getBool("watheextended.forbiddenLovers", false),
-                    value ->
-                        ScreenUtils.stage(
-                            sendCommand, parent, "watheextended.forbiddenLovers", value))
-                .controller(
-                    option ->
-                        BooleanControllerBuilder.create(option)
-                            .formatValue(
-                                value ->
-                                    Text.translatable(
-                                        value
-                                            ? "gui.watheextended.config.text.on"
-                                            : "gui.watheextended.config.text.off")))
-                .build());
+            SettingKey.of("watheextended.forbiddenLovers", Boolean.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.lovers.forbidden"))
+                    .description(text("category.modifiers.opt.lovers.forbidden.desc"))
+                    .defaultValue(false)
+                    .controller(Controllers.bool(true))
+                    .formatter(ConfigText::onOff));
         builder.option(
-            Option.<Float>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.lovers.forbidden.chance"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.lovers.forbidden.chance.desc")))
-                .binding(
-                    0.25f,
-                    () -> ClientConfig.getFloat("watheextended.forbiddenLovers.chance", 0.25f),
-                    value ->
-                        ScreenUtils.stage(
-                            sendCommand, parent, "watheextended.forbiddenLovers.chance", value))
-                .controller(
-                    option ->
-                        FloatSliderControllerBuilder.create(option)
-                            .range(0.0f, 1.0f)
-                            .step(0.01f)
-                            .formatValue(value -> Text.literal(Math.round(value * 100.0f) + "%")))
-                .build());
+            SettingKey.of("watheextended.forbiddenLovers.chance", Float.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.lovers.forbidden.chance"))
+                    .description(text("category.modifiers.opt.lovers.forbidden.chance.desc"))
+                    .defaultValue(0.25f)
+                    .controller(Controllers.numberSlider(Float.class, 0.0f, 1.0f, 0.01f, false))
+                    .formatter(ConfigText::percent)
+                    .validator(value -> range(value, 0.0f, 1.0f)));
         builder.option(
-            Option.<Boolean>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.lovers.knowimmediately"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.lovers.knowimmediately.desc")))
-                .binding(
-                    true,
-                    ConfigHelper::getLoversKnowImmediately,
-                    value ->
-                        ScreenUtils.stage(
-                            sendCommand, parent, "stupidexpress.loversKnowImmediately", value))
-                .controller(
-                    option ->
-                        BooleanControllerBuilder.create(option)
-                            .formatValue(
-                                value ->
-                                    Text.translatable(
-                                        value
-                                            ? "gui.watheextended.config.text.on"
-                                            : "gui.watheextended.config.text.off")))
-                .build());
+            SettingKey.of("stupidexpress.loversKnowImmediately", Boolean.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.lovers.knowimmediately"))
+                    .description(text("category.modifiers.opt.lovers.knowimmediately.desc"))
+                    .defaultValue(true)
+                    .controller(Controllers.bool(true))
+                    .formatter(ConfigText::onOff));
         builder.option(
-            Option.<Boolean>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.lovers.winwithkillers"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.lovers.winwithkillers.desc")))
-                .binding(
-                    false,
-                    ConfigHelper::getLoversWinWithKillers,
-                    value ->
-                        ScreenUtils.stage(
-                            sendCommand, parent, "stupidexpress.loversWinWithKillers", value))
-                .controller(
-                    option ->
-                        BooleanControllerBuilder.create(option)
-                            .formatValue(
-                                value ->
-                                    Text.translatable(
-                                        value
-                                            ? "gui.watheextended.config.text.on"
-                                            : "gui.watheextended.config.text.off")))
-                .build());
+            SettingKey.of("stupidexpress.loversWinWithKillers", Boolean.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.lovers.winwithkillers"))
+                    .description(text("category.modifiers.opt.lovers.winwithkillers.desc"))
+                    .defaultValue(false)
+                    .controller(Controllers.bool(true))
+                    .formatter(ConfigText::onOff));
         builder.option(
-            Option.<Boolean>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.lovers.winwithcivilians"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.lovers.winwithcivilians.desc")))
-                .binding(
-                    true,
-                    ConfigHelper::getLoversWinWithCivilians,
-                    value ->
-                        ScreenUtils.stage(
-                            sendCommand, parent, "stupidexpress.loversWinWithCivilians", value))
-                .controller(
-                    option ->
-                        BooleanControllerBuilder.create(option)
-                            .formatValue(
-                                value ->
-                                    Text.translatable(
-                                        value
-                                            ? "gui.watheextended.config.text.on"
-                                            : "gui.watheextended.config.text.off")))
-                .build());
+            SettingKey.of("stupidexpress.loversWinWithCivilians", Boolean.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.lovers.winwithcivilians"))
+                    .description(text("category.modifiers.opt.lovers.winwithcivilians.desc"))
+                    .defaultValue(true)
+                    .controller(Controllers.bool(true))
+                    .formatter(ConfigText::onOff));
         builder.option(
-            Option.<Boolean>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.lovers.glowtoeachother"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.lovers.glowtoeachother.desc")))
-                .binding(
-                    true,
-                    ConfigHelper::getLoversGlowToEachother,
-                    value ->
-                        ScreenUtils.stage(
-                            sendCommand, parent, "stupidexpress.loversGlowToEachother", value))
-                .controller(
-                    option ->
-                        BooleanControllerBuilder.create(option)
-                            .formatValue(
-                                value ->
-                                    Text.translatable(
-                                        value
-                                            ? "gui.watheextended.config.text.on"
-                                            : "gui.watheextended.config.text.off")))
-                .build());
+            SettingKey.of("stupidexpress.loversGlowToEachother", Boolean.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.lovers.glowtoeachother"))
+                    .description(text("category.modifiers.opt.lovers.glowtoeachother.desc"))
+                    .defaultValue(true)
+                    .controller(Controllers.bool(true))
+                    .formatter(ConfigText::onOff));
       }
       case "starexpress:allergic" -> {
         if (!cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper.isLoaded()) return;
         builder.option(
-            Option.<Integer>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.allergic.nothingchance"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.allergic.nothingchance.desc")))
-                .binding(
-                    3,
-                    cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper
-                        ::getAllergicNothingChance,
-                    value ->
-                        ScreenUtils.stage(sendCommand, parent, "starexpress.nothingChance", value))
-                .controller(IntegerFieldControllerBuilder::create)
-                .build());
-        ;
+            SettingKey.of("starexpress.nothingChance", Integer.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.allergic.nothingchance"))
+                    .description(text("category.modifiers.opt.allergic.nothingchance.desc"))
+                    .defaultValue(3)
+                    .controller(
+                        Controllers.numberField(
+                            Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
         builder.option(
-            Option.<Integer>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.allergic.instinctchance"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.allergic.instinctchance.desc")))
-                .binding(
-                    1,
-                    cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper
-                        ::getAllergicInstinctChance,
-                    value ->
-                        ScreenUtils.stage(sendCommand, parent, "starexpress.instinctChance", value))
-                .controller(IntegerFieldControllerBuilder::create)
-                .build());
-        ;
+            SettingKey.of("starexpress.instinctChance", Integer.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.allergic.instinctchance"))
+                    .description(text("category.modifiers.opt.allergic.instinctchance.desc"))
+                    .defaultValue(1)
+                    .controller(
+                        Controllers.numberField(
+                            Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
         builder.option(
-            Option.<Integer>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.allergic.armorchance"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.allergic.armorchance.desc")))
-                .binding(
-                    1,
-                    cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper
-                        ::getAllergicArmorChance,
-                    value ->
-                        ScreenUtils.stage(sendCommand, parent, "starexpress.armorChance", value))
-                .controller(IntegerFieldControllerBuilder::create)
-                .build());
-        ;
+            SettingKey.of("starexpress.armorChance", Integer.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.allergic.armorchance"))
+                    .description(text("category.modifiers.opt.allergic.armorchance.desc"))
+                    .defaultValue(1)
+                    .controller(
+                        Controllers.numberField(
+                            Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
         builder.option(
-            Option.<Integer>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.allergic.poisonchance"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.allergic.poisonchance.desc")))
-                .binding(
-                    1,
-                    cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper
-                        ::getAllergicPoisonChance,
-                    value ->
-                        ScreenUtils.stage(sendCommand, parent, "starexpress.poisonChance", value))
-                .controller(IntegerFieldControllerBuilder::create)
-                .build());
-        ;
+            SettingKey.of("starexpress.poisonChance", Integer.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.allergic.poisonchance"))
+                    .description(text("category.modifiers.opt.allergic.poisonchance.desc"))
+                    .defaultValue(1)
+                    .controller(
+                        Controllers.numberField(
+                            Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
         builder.option(
-            Option.<Integer>createBuilder()
-                .name(
-                    Text.translatable(
-                        "gui.watheextended.config.category.modifiers.opt.allergic.instinctduration"))
-                .description(
-                    OptionDescription.of(
-                        Text.translatable(
-                            "gui.watheextended.config.category.modifiers.opt.allergic.instinctduration.desc")))
-                .binding(
-                    3,
-                    cat.rezelyn.watheextended.api.config.starexpress.ConfigHelper
-                        ::getAllergicInstinctDuration,
-                    value ->
-                        ScreenUtils.stage(
-                            sendCommand, parent, "starexpress.instinctDuration", value))
-                .controller(
-                    option ->
-                        IntegerSliderControllerBuilder.create(option)
-                            .range(0, 10)
-                            .step(1)
-                            .formatValue(
-                                value ->
-                                    Text.literal(
-                                        String.format(java.util.Locale.ROOT, "%ds", value))))
-                .build());
-        ;
+            SettingKey.of("starexpress.instinctDuration", Integer.class),
+            option ->
+                option
+                    .name(text("category.modifiers.opt.allergic.instinctduration"))
+                    .description(text("category.modifiers.opt.allergic.instinctduration.desc"))
+                    .defaultValue(3)
+                    .controller(Controllers.numberSlider(Integer.class, 0, 10, 1, false))
+                    .formatter(
+                        value -> Text.literal(String.format(java.util.Locale.ROOT, "%ds", value)))
+                    .validator(value -> range(value, 0, 10)));
       }
     }
   }

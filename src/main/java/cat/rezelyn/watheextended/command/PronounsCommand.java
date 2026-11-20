@@ -5,6 +5,8 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import java.util.UUID;
+import cat.rezelyn.orelib.api.network.ServerConfigs;
+import cat.rezelyn.watheextended.network.ServerConfig;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.server.command.CommandManager;
@@ -119,6 +121,7 @@ public final class PronounsCommand {
         .getServer()
         .execute(
             () -> {
+              ServerConfigs.invalidate(ServerConfig.CONFIG_ID);
               for (ServerPlayerEntity player :
                   source.getServer().getPlayerManager().getPlayerList()) {
                 ServerPlayNetworking.send(player, payload);

@@ -210,7 +210,7 @@ public final class WatheExtendedServerConfig {
 
   /**
    * Sets an option and saves the config. Any {@link Number} is converted to the field's numeric
-   * type. Range validation is left to the YACL screen
+   * type. Range validation is handled by the configuration screen.
    *
    * @return {@code false} if the option doesn't exist or the value has the wrong type
    */
