@@ -72,7 +72,7 @@ Wathe: Extended aims to improve the overall gameplay experience and accessibilit
 </details>
 
 ## Configuration Screen
-A YACL configuration screen accessible from the pause menu that can be used to directly tweak the game and some add-ons directly in-game, splits into these categories:
+A configuration screen accessible from the pause menu that can be used to directly tweak the game and some add-ons directly in-game, splits into these categories:
   - `CLIENT`
     > Client-side only settings such as keybindings, visual effects, personal pronouns...
   > [!NOTE]
