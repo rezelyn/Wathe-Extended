@@ -28,6 +28,7 @@
     "game.roles.PlayerSlotTextureMixin",
     "game.roles.phantom.PhantomCancelHudMixin",
     "game.roles.physician.PhysicianDeathReasonTextMixin",
+    "game.roles.physician.PhysicianInfectionHighlightMixin",
     "game.roles.swapper.SwapperSlotTextureMixin",
     "game.roles.swapper.SwapperTextSuppressMixin",
     "game.roles.voodoo.VoodooTextSuppressMixin",

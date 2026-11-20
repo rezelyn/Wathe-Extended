@@ -89,6 +89,7 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
           "client.game.roles.bodymaker.BodymakerRolePickerMixin",
           "client.game.roles.dreamer.DreamerInstinctMixin",
           "client.game.roles.physician.PhysicianDeathReasonTextMixin",
+          "client.game.roles.physician.PhysicianInfectionHighlightMixin",
           "game.roles.bellringer.BellringerAbilityMixin",
           "game.roles.cleaner.CleanerAbilityMixin",
           "game.mood.KinsBellringerAbilityMixin",
@@ -98,6 +99,7 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
           "game.roles.dreamer.DreamImprintNotificationMixin",
           "game.roles.dreamer.DreamerImprintRecoveryMixin",
           "game.roles.dreamer.DreamerKillerConversionMixin",
+          "game.roles.physician.PhysicianInfectionAlertMixin",
           "game.roles.robot.RobotAbilityMixin",
           "game.shop.AddonsPlayerShopComponentMixin");
 

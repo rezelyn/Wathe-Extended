@@ -52,6 +52,7 @@
     "game.roles.dreamer.DreamerKillerConversionMixin",
     "game.roles.dreamer.DreamImprintNotificationMixin",
     "game.roles.morphling.MorphlingCooldownMixin",
+    "game.roles.physician.PhysicianInfectionAlertMixin",
     "game.roles.recaller.RecallerTeleportMixin",
     "game.roles.robot.RobotAbilityMixin",
     "game.roles.starstruck.StarstruckAbilityMixin",
