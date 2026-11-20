@@ -283,7 +283,7 @@
   "gui.watheextended.config.category.map.opt.itemboundscheck": "Item Bounds Check",
   "gui.watheextended.config.category.map.opt.itemboundscheck.desc": "When enabled, any items that falls outside the play area during an active game will be automatically teleported back to the nearest alive player or dead body.",
   "gui.watheextended.config.category.map.opt.jumpmode": "Jump Mode",
-  "gui.watheextended.config.category.map.opt.jumpmode.desc": "Controls when players are allowed to jump.\n\n• Default§7Use Wathe's standard behavior§r\n\n• Lobby\n§7Allows jumping only outside an active game§r\n\n• Everywhere\n§7Allows jumping everywhere, like vanilla Minecraft",
+  "gui.watheextended.config.category.map.opt.jumpmode.desc": "Controls when players are allowed to jump.\n\n• Default\n§7Use Wathe's standard behavior§r\n\n• Lobby\n§7Allows jumping only outside an active game§r\n\n• Everywhere\n§7Allows jumping everywhere, like vanilla Minecraft",
   "gui.watheextended.config.category.map.opt.jumpmode.default": "Default",
   "gui.watheextended.config.category.map.opt.jumpmode.lobby": "Lobby",
   "gui.watheextended.config.category.map.opt.jumpmode.everywhere": "Everywhere",
