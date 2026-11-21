@@ -2,10 +2,15 @@ package cat.rezelyn.watheextended.client.screen.guidebook;
 
 import cat.rezelyn.watheextended.client.screen.ScreenUtils;
 import cat.rezelyn.watheextended.network.ClientConfig;
+import dev.doctor4t.wathe.util.ShopEntry;
 import java.util.*;
 import java.util.function.Supplier;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
 public final class GuidebookEntryItems {
 
@@ -13,48 +18,46 @@ public final class GuidebookEntryItems {
   private static final Map<String, Set<String>> EXCLUSIONS = new HashMap<>();
 
   static {
-    register("wathe:vigilante", () -> List.of(starting("revolver", "item.wathe.revolver")));
+    register("wathe:vigilante", () -> List.of(starting("wathe:revolver")));
     register(
         "noellesroles:jester",
         () ->
-            List.of(
-                starting("fake_knife", "item.noellesroles.fake_knife"),
-                starting("fake_revolver", "item.noellesroles.fake_revolver")));
-    register("noellesroles:awesome_binglus", () -> List.of(starting("note", "item.wathe.note")));
+            framingRoleItems(
+                starting("noellesroles:fake_knife"),
+                starting("noellesroles:fake_revolver")));
+    register("noellesroles:awesome_binglus", () -> List.of(starting("wathe:note")));
     register(
         "noellesroles:better_vigilante",
         () ->
             List.of(
-                starting("revolver", "item.wathe.revolver"),
-                starting("grenade", "item.wathe.grenade")));
+                starting("wathe:revolver"),
+                starting("wathe:grenade")));
     register(
         "noellesroles:conductor",
-        () -> List.of(starting("master_key", "item.noellesroles.master_key")));
+        () -> List.of(starting("noellesroles:master_key")));
     register(
         "noellesroles:bartender",
         () ->
             List.of(
                 shop(
-                    "defense_vial",
-                    "item.noellesroles.defense_vial",
+                    "noellesroles:defense_vial",
                     ClientConfig.getInt("noellesroles.defenseVialPrice", 200))));
     register(
         "noellesroles:noisemaker",
-        () -> List.of(shop("firecracker", "item.wathe.firecracker", 75)));
+        () -> List.of(shop("wathe:firecracker", 75)));
     register(
         "noellesroles:trapper",
         () ->
             List.of(
                 shop(
-                    "role_mine",
-                    "item.noellesroles.role_mine",
+                    "noellesroles:role_mine",
                     ClientConfig.getInt("noellesroles.roleMinePrice", 100))));
     register(
         "noellesroles:mimic",
-        () -> List.of(starting("fake_knife", "item.noellesroles.fake_knife")));
+        () -> framingRoleItems(starting("noellesroles:fake_knife")));
     register(
-        "noellesroles:recon", () -> List.of(starting("role_mine", "item.noellesroles.role_mine")));
-    register("noellesroles:executioner", GuidebookEntryItems::framingShop);
+        "noellesroles:recon", () -> List.of(starting("noellesroles:role_mine")));
+    register("noellesroles:executioner", GuidebookEntryItems::framingRoleItems);
     register("noellesroles:morphling", GuidebookEntryItems::framingShop);
     register("noellesroles:phantom", GuidebookEntryItems::framingShop);
     register("noellesroles:swapper", GuidebookEntryItems::framingShop);
@@ -62,54 +65,48 @@ public final class GuidebookEntryItems {
         "kinswathe:hacker",
         () ->
             List.of(
-                starting("phone", "item.kinswathe.phone"),
+                starting("kinswathe:phone"),
                 shop(
-                    "icon_weapon_cooldown_refresh",
-                    "item.kinswathe.icon_weapon_cooldown_refresh",
+                    "kinswathe:icon_weapon_cooldown_refresh",
                     ClientConfig.getInt("watheextended.refreshWeaponCooldown.price", 300)),
                 shop(
-                    "icon_ability_cooldown_refresh",
-                    "item.kinswathe.icon_ability_cooldown_refresh",
+                    "kinswathe:icon_ability_cooldown_refresh",
                     ClientConfig.getInt("watheextended.refreshAbilityCooldown.price", 400)),
                 shop(
-                    "icon_potion_effect_refresh",
-                    "item.kinswathe.icon_potion_effect_refresh",
+                    "kinswathe:icon_potion_effect_refresh",
                     ClientConfig.getInt("watheextended.refreshPotionEffect.price", 200))));
     register(
         "kinswathe:cleaner",
-        () -> List.of(starting("sulfuric_acid_barrel", "item.kinswathe.sulfuric_acid_barrel")));
+        () -> List.of(starting("kinswathe:sulfuric_acid_barrel")));
     register(
         "kinswathe:cook",
         () ->
             List.of(
                 shop(
-                    "pan",
-                    "item.kinswathe.pan",
-                    ClientConfig.getInt("watheextended.pan.price", 250))
-                // TODO: add food
-                ));
+                    "kinswathe:pan",
+                    ClientConfig.getInt("watheextended.pan.price", 250)),
+                shop(Items.COOKED_BEEF.getDefaultStack(), 75),
+                shop(Items.COOKED_CHICKEN.getDefaultStack(), 75),
+                shop(Items.COOKED_PORKCHOP.getDefaultStack(), 75)));
     register(
         "kinswathe:dreamer",
-        () -> List.of(starting("dream_imprint", "item.kinswathe.dream_imprint")));
+        () -> List.of(starting("kinswathe:dream_imprint")));
     register(
         "kinswathe:drugmaker",
         () ->
             List.of(
                 shop(
-                    "poison_injector",
-                    "item.kinswathe.poison_injector",
+                    "kinswathe:poison_injector",
                     ClientConfig.getInt("watheextended.poisonInjector.price", 125)),
                 shop(
-                    "blowgun",
-                    "item.kinswathe.blowgun",
+                    "kinswathe:blowgun",
                     ClientConfig.getInt("watheextended.blowgun.price", 175))));
     register(
         "kinswathe:hunter",
         () ->
             List.of(
                 shop(
-                    "hunting_knife",
-                    "item.kinswathe.hunting_knife",
+                    "kinswathe:hunting_knife",
                     ClientConfig.getInt("watheextended.huntingKnife.price", 100))));
     EXCLUSIONS.put("kinswathe:hunter", Set.of("knife"));
     register(
@@ -117,57 +114,50 @@ public final class GuidebookEntryItems {
         () ->
             List.of(
                 shop(
-                    "knockout_drug",
-                    "item.kinswathe.knockout_drug",
+                    "kinswathe:knockout_drug",
                     ClientConfig.getInt("watheextended.knockoutDrug.price", 75))));
     register(
         "kinswathe:licensed_villain",
         () ->
             List.of(
-                starting("lockpick", "item.wathe.lockpick"),
+                starting("wathe:lockpick"),
                 shop(
-                    "revolver",
-                    "item.wathe.revolver",
+                    "wathe:revolver",
                     ClientConfig.getInt("watheextended.revolver.price", 300))));
     register(
         "kinswathe:physician",
         () ->
             List.of(
-                starting("medical_kit", "item.kinswathe.medical_kit"),
+                starting("kinswathe:medical_kit"),
                 shop(
-                    "pill",
-                    "item.kinswathe.pill",
+                    "kinswathe:pill",
                     ClientConfig.getInt("watheextended.pill.price", 300))));
     register(
         "kinswathe:technician",
         () ->
             List.of(
                 shop(
-                    "wrench",
-                    "item.kinswathe.wrench",
+                    "kinswathe:wrench",
                     ClientConfig.getInt("watheextended.wrench.price", 100)),
                 shop(
-                    "capture_device",
-                    "item.kinswathe.capture_device",
+                    "kinswathe:capture_device",
                     ClientConfig.getInt("watheextended.captureDevice.price", 100)),
                 shop(
-                    "icon_power_restoration",
-                    "item.kinswathe.icon_power_restoration",
+                    "kinswathe:icon_power_restoration",
                     ClientConfig.getInt("watheextended.powerRestoration.price", 300))));
     register(
         "stupid_express:arsonist",
         () ->
             List.of(
-                starting("jerry_can", "item.stupid_express.jerry_can"),
-                starting("lighter", "item.stupid_express.lighter")));
-    register("stupid_express:initiate", () -> List.of(shop("knife", "item.wathe.knife", 200)));
+                starting("stupid_express:jerry_can"),
+                starting("stupid_express:lighter")));
+    register("stupid_express:initiate", () -> List.of(shop("wathe:knife", 200)));
     register(
         "starexpress:muzzler",
         () ->
             List.of(
                 shop(
-                    "tape",
-                    "item.starexpress.tape",
+                    "starexpress:tape",
                     ClientConfig.getInt("starexpress.tape.price", 75))));
   }
 
@@ -196,71 +186,81 @@ public final class GuidebookEntryItems {
 
   private static List<RoleItem> buildGlobalKillerShop() {
     return List.of(
-        shop("knife", "item.wathe.knife", ClientConfig.getInt("watheextended.knife.price", 100)),
+        shop("wathe:knife", ClientConfig.getInt("watheextended.knife.price", 100)),
         shop(
-            "revolver",
-            "item.wathe.revolver",
+            "wathe:revolver",
             ClientConfig.getInt("watheextended.revolver.price", 300)),
         shop(
-            "grenade",
-            "item.wathe.grenade",
+            "wathe:grenade",
             ClientConfig.getInt("watheextended.grenade.price", 350)),
         shop(
-            "psycho_mode",
-            "item.wathe.psycho_mode",
+            "wathe:psycho_mode",
             ClientConfig.getInt("watheextended.psychoMode.price", 300)),
         shop(
-            "poison_vial",
-            "item.wathe.poison_vial",
+            "wathe:poison_vial",
             ClientConfig.getInt("watheextended.poisonVial.price", 100)),
         shop(
-            "scorpion",
-            "item.wathe.scorpion",
+            "wathe:scorpion",
             ClientConfig.getInt("watheextended.scorpion.price", 50)),
         shop(
-            "firecracker",
-            "item.wathe.firecracker",
+            "wathe:firecracker",
             ClientConfig.getInt("watheextended.firecracker.price", 10)),
         shop(
-            "lockpick",
-            "item.wathe.lockpick",
+            "wathe:lockpick",
             ClientConfig.getInt("watheextended.lockpick.price", 50)),
         shop(
-            "crowbar",
-            "item.wathe.crowbar",
+            "wathe:crowbar",
             ClientConfig.getInt("watheextended.crowbar.price", 25)),
         shop(
-            "body_bag",
-            "item.wathe.body_bag",
+            "wathe:body_bag",
             ClientConfig.getInt("watheextended.bodyBag.price", 200)),
         shop(
-            "blackout",
-            "item.wathe.blackout",
+            "wathe:blackout",
             ClientConfig.getInt("watheextended.blackout.price", 200)),
-        shop("note", "item.wathe.note", ClientConfig.getInt("watheextended.note.price", 10)));
+        shop("wathe:note", ClientConfig.getInt("watheextended.note.price", 10)));
   }
 
   private static void register(String id, Supplier<List<RoleItem>> supplier) {
     REGISTRY.put(id, supplier);
   }
 
-  private static RoleItem shop(String icon, String name, int price) {
-    return new RoleItem(icon, name, price);
+  private static RoleItem shop(String itemId, int price) {
+    Identifier id = Identifier.of(itemId);
+    ItemStack stack = Registries.ITEM.getOrEmpty(id)
+        .map(item -> item.getDefaultStack())
+        .orElse(ItemStack.EMPTY);
+    return new RoleItem(id.getPath(), id.toTranslationKey("item"), price, stack);
   }
 
-  private static RoleItem starting(String icon, String name) {
-    return new RoleItem(icon, name, 0);
+  private static RoleItem shop(ItemStack stack, int price) {
+    String icon = Registries.ITEM.getId(stack.getItem()).getPath();
+    return new RoleItem(icon, stack.getTranslationKey(), price, stack);
+  }
+
+  private static RoleItem starting(String itemId) {
+    return shop(itemId, 0);
+  }
+
+  private static List<RoleItem> framingRoleItems(RoleItem... startingItems) {
+    List<RoleItem> items = new ArrayList<>(List.of(startingItems));
+    for (ShopEntry entry : org.agmas.noellesroles.Noellesroles.FRAMING_ROLES_SHOP) {
+      var stack = entry.stack();
+      int price =
+          stack.isOf(org.agmas.noellesroles.ModItems.DELUSION_VIAL)
+              ? ClientConfig.getInt("noellesroles.delusionVialPrice", entry.price())
+              : entry.price();
+      items.add(shop(stack, price));
+    }
+    return items;
   }
 
   private static List<RoleItem> framingShop() {
     return List.of(
         shop(
-            "lockpick",
-            "item.wathe.lockpick",
+            "wathe:lockpick",
             ClientConfig.getInt("watheextended.lockpick.price", 50)),
         shop(
-            "delusion_vial",
-            "item.noellesroles.delusion_vial",
+            "noellesroles:delusion_vial",
             ClientConfig.getInt("noellesroles.delusionVialPrice", 30)));
   }
 
@@ -284,13 +284,14 @@ public final class GuidebookEntryItems {
     return string.isEmpty() ? raw : string.toString();
   }
 
-  public record RoleItem(String icon, String name, int price) {
+  public record RoleItem(String icon, String name, int price, ItemStack stack) {
+
 
     public Text toText() {
       MutableText line = Text.literal("");
 
-      if (ScreenUtils.hasIcon(icon)) {
-        line.append(ScreenUtils.icon(icon));
+      if (!stack.isEmpty()) {
+        line.append(GuidebookItemIcon.text(stack));
         line.append(Text.literal(" ").styled(style -> style.withFont(null)));
       }
 

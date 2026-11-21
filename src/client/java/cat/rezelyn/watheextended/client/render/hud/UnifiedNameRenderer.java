@@ -2,7 +2,6 @@ package cat.rezelyn.watheextended.client.render.hud;
 
 import cat.rezelyn.watheextended.api.ModifiersDisplay;
 import cat.rezelyn.watheextended.api.RolesDisplay;
-import cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper;
 import cat.rezelyn.watheextended.client.compat.KinsWatheAccess;
 import cat.rezelyn.watheextended.client.compat.StupidExpressAccess;
 import cat.rezelyn.watheextended.client.utils.PronounsCache;
@@ -12,7 +11,6 @@ import dev.doctor4t.wathe.api.WatheGameModes;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerPsychoComponent;
 import dev.doctor4t.wathe.client.WatheClient;
-import dev.doctor4t.wathe.game.GameFunctions;
 import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Predicate;
@@ -34,6 +32,8 @@ import net.minecraft.util.math.MathHelper;
 import org.agmas.harpymodloader.Harpymodloader;
 import org.agmas.harpymodloader.component.WorldModifierComponent;
 import org.agmas.harpymodloader.modifiers.Modifier;
+import org.agmas.noellesroles.ConfigWorldComponent;
+import org.agmas.noellesroles.client.NoellesrolesClient;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 
 /**
@@ -178,6 +178,19 @@ public final class UnifiedNameRenderer {
       PlayerEntity target,
       int y,
       int alphaMask) {
+    boolean seesMorphs = seesPsychosisMorphs(viewer);
+    boolean psycho = isPsycho(target);
+    if (!psycho
+        && seesMorphs
+        && NoellesrolesClient.SHUFFLED_PLAYER_ENTRIES_CACHE.get(target.getUuid()) != null) {
+      return drawLine(
+          renderer,
+          context,
+          Text.literal("OBFUSCATED").formatted(Formatting.OBFUSCATED),
+          y,
+          0xFFFFFF | alphaMask);
+    }
+
     UUID disguiseUuid = getMorphlingDisguise(target);
     Text username;
     try {
@@ -187,7 +200,7 @@ public final class UnifiedNameRenderer {
     } catch (Throwable ignored) {
       username = Text.literal(target.getGameProfile().getName());
     }
-    if (isPsycho(target)) {
+    if (psycho) {
       username =
           Text.literal("urscrewed" + "X".repeat(viewer.getRandom().nextInt(8)))
               .styled(style -> style.withObfuscated(true).withColor(0xAA0000));
@@ -198,7 +211,7 @@ public final class UnifiedNameRenderer {
     // any
     String pronouns = PronounsCache.get(disguiseUuid == null ? target.getUuid() : disguiseUuid);
     if (!target.isInvisible()
-        && !shouldHidePronouns(viewer)
+        && !seesMorphs
         && pronouns != null
         && !pronouns.isBlank()) {
       y = drawLine(renderer, context, Text.literal(pronouns), y, 0xAAAAAA | alphaMask);
@@ -357,39 +370,6 @@ public final class UnifiedNameRenderer {
         isSpectating(viewer) ? PRIVILEGED_RANGE : NORMAL_RANGE);
   }
 
-  /**
-   * Checks whether text is Noelle's separate draw of the current Morphling appearance name.
-   *
-   * @param viewer the player looking at the target
-   * @param text the text about to be drawn by Wathe's name renderer
-   * @return {@code true} if the text duplicates the unified Morphling name
-   */
-  public static boolean isMorphedAppearanceName(ClientPlayerEntity viewer, Text text) {
-    PlayerEntity target = getTarget(viewer);
-    if (target == null) target = lastTarget;
-    if (target == null) return false;
-
-    UUID disguiseUuid = getMorphlingDisguise(target);
-    if (disguiseUuid == null) return false;
-
-    PlayerEntity appearance = target.getWorld().getPlayerByUuid(disguiseUuid);
-    if (appearance == null) return false;
-    try {
-      return appearance.getDisplayName().getString().equals(text.getString());
-    } catch (Throwable ignored) {
-      return false;
-    }
-  }
-
-  /** Finds the player Kin's Wathe would target */
-  private static PlayerEntity getTargetCompat(ClientPlayerEntity viewer) {
-    return findTarget(
-        viewer,
-        entity ->
-            entity instanceof PlayerEntity player && GameFunctions.isPlayerAliveAndSurvival(player),
-        NORMAL_RANGE);
-  }
-
   private static boolean isPsycho(PlayerEntity target) {
     try {
       return PlayerPsychoComponent.KEY.get(target).getPsychoTicks() > 0;
@@ -403,10 +383,10 @@ public final class UnifiedNameRenderer {
     return role != null && Identifier.of("noellesroles", "executioner").equals(role.identifier());
   }
 
-  private static boolean shouldHidePronouns(PlayerEntity viewer) {
+  private static boolean seesPsychosisMorphs(PlayerEntity viewer) {
     try {
-      return ConfigHelper.isLoaded()
-          && ConfigHelper.getInsanePlayersSeeMorphs(viewer.getWorld())
+      return FabricLoader.getInstance().isModLoaded("noellesroles")
+          && ConfigWorldComponent.KEY.get(viewer.getWorld()).insaneSeesMorphs
           && WatheClient.moodComponent != null
           && WatheClient.moodComponent.isLowerThanDepressed();
     } catch (Throwable ignored) {
@@ -432,28 +412,31 @@ public final class UnifiedNameRenderer {
   }
 
   /** Checks for Kin's Wathe texts that should be hidden, to avoid duplicates */
-  public static boolean shouldSuppressKinsOverlayDraw(Text text) {
-    if (!FabricLoader.getInstance().isModLoaded("kinswathe")
+  public static boolean shouldSuppressKinsWathe(Text text, int y) {
+    if (drawingCompatibilityStatus
         || !(text.getContent() instanceof TranslatableTextContent translatable)) return false;
-
+    String key = translatable.getKey();
+    boolean cohort = y == 0 && "game.tip.cohort".equals(key);
+    boolean hacker = y == 32 && ("hud.kinswathe.hacker.target".equals(key)
+        || "hud.kinswathe.hacker.target_safe".equals(key)
+        || "hud.kinswathe.hacker.target_hacked".equals(key));
+    if (!cohort && !hacker) return false;
     ClientPlayerEntity viewer = MinecraftClient.getInstance().player;
     if (viewer == null) return false;
-    PlayerEntity target = getTargetCompat(viewer);
+    PlayerEntity target = getTarget(viewer);
     if (target == null) return false;
 
     GameWorldComponent game = GameWorldComponent.KEY.get(viewer.getWorld());
-    String key = translatable.getKey();
-    if ("game.tip.cohort".equals(key)) {
+    if (cohort) {
       return KinsWatheAccess.isHackerCohortTarget(game, viewer, target)
           && game.isRunning()
           && canSeeKillerCohort(game, viewer);
     }
-    return key.startsWith("hud.kinswathe.hacker.target")
-        && KinsWatheAccess.getHackerStatus(game, viewer, target) != null;
+    return KinsWatheAccess.getHackerStatus(game, viewer, target) != null;
   }
 
   /** Checks for Stupid Express texts that should be hidden, to avoid duplicates */
-  public static boolean shouldSuppressStupidExpressOverlayDraw(Text text) {
+  public static boolean shouldSuppressStupidExpress(Text text) {
     if (drawingCompatibilityStatus
         || !FabricLoader.getInstance().isModLoaded("stupid_express")
         || !(text.getContent() instanceof TranslatableTextContent translatable)) return false;

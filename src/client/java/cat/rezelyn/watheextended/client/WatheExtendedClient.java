@@ -5,9 +5,7 @@ import cat.rezelyn.watheextended.client.api.ProneClient;
 import cat.rezelyn.watheextended.client.network.ClientNetworking;
 import cat.rezelyn.watheextended.client.render.ClientRendering;
 import cat.rezelyn.watheextended.client.render.hud.LastStandRenderer;
-import cat.rezelyn.watheextended.client.screen.ConfigScreen;
 import cat.rezelyn.watheextended.client.screen.GuidebookScreen;
-import cat.rezelyn.watheextended.client.screen.config.ClientCategory;
 import cat.rezelyn.watheextended.client.utils.CopyPositionHandler;
 import cat.rezelyn.watheextended.client.utils.PronounsCache;
 import cat.rezelyn.watheextended.index.WatheExtendedItems;
@@ -45,10 +43,7 @@ public class WatheExtendedClient implements ClientModInitializer {
 
   private static void registerLifecycle() {
     ClientLifecycleEvents.CLIENT_STARTED.register(
-        client -> {
-          ClientCategory.loadImages();
-          unbindVanillaKeybinds(client);
-        });
+            WatheExtendedClient::unbindVanillaKeybinds);
   }
 
   private static void unbindVanillaKeybinds(MinecraftClient client) {
@@ -60,7 +55,7 @@ public class WatheExtendedClient implements ClientModInitializer {
   }
 
   private static void registerTick() {
-    ConfigScreen.registerTickHandler();
+
     ClientTickEvents.END_CLIENT_TICK.register(
         client -> {
           InstinctClient.tick(client);
@@ -85,7 +80,7 @@ public class WatheExtendedClient implements ClientModInitializer {
   private static void onDisconnect() {
     InstinctClient.reset();
     ProneClient.reset();
-    ConfigScreen.clearPendingState();
+
     ClientConfig.clear();
     PronounsCache.clear();
     LastStandRenderer.stop();

@@ -4,6 +4,7 @@ import cat.rezelyn.watheextended.api.GameStatus;
 import cat.rezelyn.watheextended.client.screen.guidebook.GuidebookEntry;
 import cat.rezelyn.watheextended.client.screen.guidebook.GuidebookEntryBuilder;
 import cat.rezelyn.watheextended.client.screen.guidebook.GuidebookEntrySource;
+import cat.rezelyn.watheextended.client.screen.guidebook.GuidebookItemIcon;
 import cat.rezelyn.watheextended.client.screen.guidebook.GuidebookPageContent;
 import cat.rezelyn.watheextended.index.WatheExtendedSounds;
 import dev.doctor4t.wathe.api.Role;
@@ -507,14 +508,19 @@ public class GuidebookScreen extends Screen {
     }
 
     for (Text line : rightPageLines) {
-      if (line.getString().isEmpty()) {
+      String content = line.getString();
+      if (content.isEmpty()) {
         y += LINE_HEIGHT / 2;
         continue;
       }
+      boolean hasItems = content.indexOf(GuidebookItemIcon.MARKER) >= 0;
       for (OrderedText wrapped : textRenderer.wrapLines(line, usableW)) {
         if (isYVisible(y, rightPageY, scrollAreaH)) {
           context.drawText(
               textRenderer, wrapped, rightPageX + CONTENT_PAD, y, COLOR_RIGHT_TEXT, false);
+          if (hasItems) {
+            GuidebookItemIcon.draw(context, textRenderer, wrapped, rightPageX + CONTENT_PAD, y);
+          }
         }
         y += LINE_HEIGHT;
       }

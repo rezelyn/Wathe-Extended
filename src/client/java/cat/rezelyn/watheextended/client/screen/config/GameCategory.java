@@ -1,886 +1,498 @@
 package cat.rezelyn.watheextended.client.screen.config;
 
-import static cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getEnableNoellesRolesModify;
+import static cat.rezelyn.watheextended.client.screen.config.ConfigText.*;
 
+import cat.rezelyn.orelib.api.config.ConfigBuilder.CategoryBuilder;
+import cat.rezelyn.orelib.api.config.ConfigBuilder.GroupBuilder;
+import cat.rezelyn.orelib.api.controller.Controllers;
+import cat.rezelyn.orelib.api.model.EntryDefinition;
+import cat.rezelyn.orelib.api.setting.SettingKey;
 import cat.rezelyn.watheextended.api.GameComponents;
 import cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper;
-import cat.rezelyn.watheextended.client.screen.ScreenUtils;
 import cat.rezelyn.watheextended.network.ClientConfig;
-import dev.isxander.yacl3.api.*;
-import dev.isxander.yacl3.api.controller.*;
-import java.util.function.BiConsumer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 
 public final class GameCategory {
 
-  private static final float TICKS_PER_SECOND = 20.0f;
-
   private GameCategory() {}
 
-  public static ConfigCategory build(Screen parent, BiConsumer<String, Screen> sendCommand) {
-    ConfigCategory.Builder builder =
-        ConfigCategory.createBuilder()
-            .name(Text.translatable("gui.watheextended.config.category.game"))
-            .tooltip(Text.translatable("gui.watheextended.config.category.game.tooltip"));
+  public static void build(CategoryBuilder builder) {
+    builder.name(text("category.game")).description(text("category.game.tooltip"));
 
-    builder.group(gamerulesGroup(parent, sendCommand));
-    builder.group(watheOptionsGroup(parent, sendCommand));
+    builder.group("game.gamerules", GameCategory::gamerulesGroup);
+    builder.group("game.watheOptions", GameCategory::watheOptionsGroup);
     if (cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) {
-      builder.group(extraOptionsGroup(parent, sendCommand));
+      builder.group("game.extraOptions", GameCategory::extraOptionsGroup);
     }
-
-    return builder.build();
   }
 
-  private static OptionGroup gamerulesGroup(Screen parent, BiConsumer<String, Screen> sendCommand) {
-    OptionGroup.Builder group =
-        OptionGroup.createBuilder()
-            .name(Text.translatable("gui.watheextended.config.category.game.group.gamerules"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.gamerules.tooltip")))
-            .collapsed(false);
+  private static void gamerulesGroup(GroupBuilder group) {
+    group
+        .name(text("category.game.group.gamerules"))
+        .description(text("category.game.group.gamerules.tooltip"))
+        .collapsed(false);
 
     World client = MinecraftClient.getInstance().world;
 
     group.option(
-        Option.<Boolean>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.gamerules.opt.collisions"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.gamerules.opt.collisions.desc")))
-            .binding(
-                ClientConfig.getBool("watheextended.playerCollisions", true),
-                () -> ClientConfig.getBool("watheextended.playerCollisions", true),
-                value ->
-                    ScreenUtils.stage(sendCommand, parent, "watheextended.playerCollisions", value))
-            .controller(
-                opt ->
-                    BooleanControllerBuilder.create(opt)
-                        .formatValue(
-                            value ->
-                                Text.translatable(
-                                    value
-                                        ? "gui.watheextended.config.text.on"
-                                        : "gui.watheextended.config.text.off")))
-            .build());
+        SettingKey.of("watheextended.playerCollisions", Boolean.class),
+        option ->
+            option
+                .name(text("category.game.group.gamerules.opt.collisions"))
+                .description(text("category.game.group.gamerules.opt.collisions.desc"))
+                .defaultValue(ClientConfig.getBool("watheextended.playerCollisions", true))
+                .controller(Controllers.bool(true))
+                .formatter(ConfigText::onOff));
 
     group.option(
-        Option.<Boolean>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.gamerules.opt.suppressabilityvfxsfx"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.gamerules.opt.suppressabilityvfxsfx.desc")))
-            .binding(
-                ClientConfig.getBool("watheextended.suppressAbilityVfxSfx", false),
-                () -> ClientConfig.getBool("watheextended.suppressAbilityVfxSfx", false),
-                value ->
-                    ScreenUtils.stage(
-                        sendCommand, parent, "watheextended.suppressAbilityVfxSfx", value))
-            .controller(
-                opt ->
-                    BooleanControllerBuilder.create(opt)
-                        .formatValue(
-                            value ->
-                                Text.translatable(
-                                    value
-                                        ? "gui.watheextended.config.text.on"
-                                        : "gui.watheextended.config.text.off")))
-            .build());
+        SettingKey.of("watheextended.suppressAbilityVfxSfx", Boolean.class),
+        option ->
+            option
+                .name(text("category.game.group.gamerules.opt.suppressabilityvfxsfx"))
+                .description(text("category.game.group.gamerules.opt.suppressabilityvfxsfx.desc"))
+                .defaultValue(ClientConfig.getBool("watheextended.suppressAbilityVfxSfx", false))
+                .controller(Controllers.bool(true))
+                .formatter(ConfigText::onOff));
 
     if (ConfigHelper.isLoaded()) {
       group.option(
-          Option.<Boolean>createBuilder()
-              .name(
-                  Text.translatable(
-                      "gui.watheextended.config.category.game.group.gamerules.opt.morphpsychosis"))
-              .description(
-                  OptionDescription.of(
-                      Text.translatable(
-                          "gui.watheextended.config.category.game.group.gamerules.opt.morphpsychosis.desc")))
-              .binding(
-                  false,
-                  () -> ConfigHelper.getInsanePlayersSeeMorphs(null),
-                  value ->
-                      ScreenUtils.stage(
-                          sendCommand, parent, "noellesroles.insanePlayersSeeMorphs", value))
-              .controller(
-                  opt ->
-                      BooleanControllerBuilder.create(opt)
-                          .formatValue(
-                              value ->
-                                  Text.translatable(
-                                      value
-                                          ? "gui.watheextended.config.text.on"
-                                          : "gui.watheextended.config.text.off")))
-              .build());
+          SettingKey.of("noellesroles.insanePlayersSeeMorphs", Boolean.class),
+          option ->
+              option
+                  .name(text("category.game.group.gamerules.opt.morphpsychosis"))
+                  .description(text("category.game.group.gamerules.opt.morphpsychosis.desc"))
+                  .defaultValue(false)
+                  .controller(Controllers.bool(true))
+                  .formatter(ConfigText::onOff));
     }
 
+    group.entry(
+        new EntryDefinition.FullWidthLabel(
+            "category.game.group.gamerules.label.laststand",
+            text("category.game.group.gamerules.label.laststand")
+                .styled(style -> style.withColor(0xAAAAAA)),
+            Text.empty(),
+            ctx -> true));
     group.option(
-        LabelOption.create(
-            Text.translatable(
-                    "gui.watheextended.config.category.game.group.gamerules.label.laststand")
-                .styled(style -> style.withColor(0xAAAAAA))));
-    group.option(
-        Option.<Boolean>createBuilder()
-            .name(Text.translatable("gui.watheextended.config.text.enabled"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.gamerules.opt.laststand.desc")))
-            .binding(
-                ClientConfig.getBool("watheextended.lastStand.enabled", false),
-                () -> ClientConfig.getBool("watheextended.lastStand.enabled", false),
-                value ->
-                    ScreenUtils.stage(
-                        sendCommand, parent, "watheextended.lastStand.enabled", value))
-            .controller(
-                opt ->
-                    BooleanControllerBuilder.create(opt)
-                        .formatValue(
-                            value ->
-                                Text.translatable(
-                                    value
-                                        ? "gui.watheextended.config.text.on"
-                                        : "gui.watheextended.config.text.off")))
-            .build());
+        SettingKey.of("watheextended.lastStand.enabled", Boolean.class),
+        option ->
+            option
+                .name(text("text.enabled"))
+                .description(text("category.game.group.gamerules.opt.laststand.desc"))
+                .defaultValue(ClientConfig.getBool("watheextended.lastStand.enabled", false))
+                .controller(Controllers.bool(true))
+                .formatter(ConfigText::onOff));
 
     group.option(
-        Option.<Integer>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.gamerules.opt.laststandcooldown"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.gamerules.opt.laststandcooldown.desc")))
-            .binding(
-                30,
-                () -> ClientConfig.getInt("watheextended.lastStand.cooldown", 30),
-                value ->
-                    ScreenUtils.stage(
-                        sendCommand, parent, "watheextended.lastStand.cooldown", value))
-            .controller(IntegerFieldControllerBuilder::create)
-            .build());
+        SettingKey.of("watheextended.lastStand.cooldown", Integer.class),
+        option ->
+            option
+                .name(text("category.game.group.gamerules.opt.laststandcooldown"))
+                .description(text("category.game.group.gamerules.opt.laststandcooldown.desc"))
+                .defaultValue(30)
+                .controller(
+                    Controllers.numberField(Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
 
+    group.entry(
+        new EntryDefinition.FullWidthLabel(
+            "category.game.label.instinct",
+            text("category.client.label.instinct").styled(style -> style.withColor(0xAAAAAA)),
+            Text.empty(),
+            ctx -> true));
     group.option(
-        LabelOption.create(
-            Text.translatable("gui.watheextended.config.category.client.label.instinct")
-                .styled(style -> style.withColor(0xAAAAAA))));
+        SettingKey.of("watheextended.instinct.capacity", Float.class),
+        option ->
+            option
+                .name(text("category.game.group.gamerules.opt.instinctcapacity"))
+                .description(text("category.game.group.gamerules.opt.instinctcapacity.desc"))
+                .defaultValue(60.0f)
+                .controller(Controllers.numberSlider(Float.class, 0.0f, 60.0f, 1.0f, false))
+                .formatter(
+                    value -> Text.literal(String.format(java.util.Locale.ROOT, "%.0fs", value)))
+                .validator(value -> range(value, 0.0f, 60.0f)));
     group.option(
-        Option.<Float>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.gamerules.opt.instinctcapacity"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.gamerules.opt.instinctcapacity.desc")))
-            .binding(
-                60.0f,
-                () ->
-                    ClientConfig.getFloat("watheextended.instinct.capacity", 1200.0f)
-                        / TICKS_PER_SECOND,
-                value ->
-                    ScreenUtils.stage(
-                        sendCommand,
-                        parent,
-                        "watheextended.instinct.capacity",
-                        value * TICKS_PER_SECOND))
-            .controller(
-                option ->
-                    FloatSliderControllerBuilder.create(option)
-                        .range(0.0f, 60.0f)
-                        .step(1.0f)
-                        .formatValue(
-                            value ->
-                                Text.literal(String.format(java.util.Locale.ROOT, "%.0fs", value))))
-            .build());
+        SettingKey.of("watheextended.instinct.drainRate", Float.class),
+        option ->
+            option
+                .name(text("category.game.group.gamerules.opt.instinctdrainrate"))
+                .description(text("category.game.group.gamerules.opt.instinctdrainrate.desc"))
+                .defaultValue(3.0f)
+                .controller(Controllers.numberSlider(Float.class, 0.0f, 10.0f, 0.1f, false))
+                .formatter(
+                    value -> Text.literal(String.format(java.util.Locale.ROOT, "-%.1fs/s", value)))
+                .validator(value -> range(value, 0.0f, 10.0f)));
     group.option(
-        Option.<Float>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.gamerules.opt.instinctdrainrate"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.gamerules.opt.instinctdrainrate.desc")))
-            .binding(
-                3.0f,
-                () ->
-                    ClientConfig.getFloat("watheextended.instinct.drainRate", 60.0f)
-                        / TICKS_PER_SECOND,
-                value ->
-                    ScreenUtils.stage(
-                        sendCommand,
-                        parent,
-                        "watheextended.instinct.drainRate",
-                        value * TICKS_PER_SECOND))
-            .controller(
-                option ->
-                    FloatSliderControllerBuilder.create(option)
-                        .range(0.0f, 10.0f)
-                        .step(0.1f)
-                        .formatValue(
-                            value ->
-                                Text.literal(
-                                    String.format(java.util.Locale.ROOT, "-%.1fs/s", value))))
-            .build());
-    group.option(
-        Option.<Float>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.gamerules.opt.instinctreloadrate"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.gamerules.opt.instinctreloadrate.desc")))
-            .binding(
-                1.0f,
-                () ->
-                    ClientConfig.getFloat("watheextended.instinct.reloadRate", 20.0f)
-                        / TICKS_PER_SECOND,
-                value ->
-                    ScreenUtils.stage(
-                        sendCommand,
-                        parent,
-                        "watheextended.instinct.reloadRate",
-                        value * TICKS_PER_SECOND))
-            .controller(
-                option ->
-                    FloatSliderControllerBuilder.create(option)
-                        .range(0.0f, 10.0f)
-                        .step(0.1f)
-                        .formatValue(
-                            value ->
-                                Text.literal(
-                                    String.format(java.util.Locale.ROOT, "+%.1fs/s", value))))
-            .build());
+        SettingKey.of("watheextended.instinct.reloadRate", Float.class),
+        option ->
+            option
+                .name(text("category.game.group.gamerules.opt.instinctreloadrate"))
+                .description(text("category.game.group.gamerules.opt.instinctreloadrate.desc"))
+                .defaultValue(1.0f)
+                .controller(Controllers.numberSlider(Float.class, 0.0f, 10.0f, 0.1f, false))
+                .formatter(
+                    value -> Text.literal(String.format(java.util.Locale.ROOT, "+%.1fs/s", value)))
+                .validator(value -> range(value, 0.0f, 10.0f)));
 
     if (cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) {
       final boolean startSafeTimeDefault =
           cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getEnableStartSafeTime(
               client);
+      group.entry(
+          new EntryDefinition.FullWidthLabel(
+              "category.game.group.gamerules.label.safepreptime",
+              text("category.game.group.gamerules.label.safepreptime")
+                  .styled(style -> style.withColor(0xAAAAAA)),
+              Text.empty(),
+              ctx -> true));
       group.option(
-          LabelOption.create(
-              Text.translatable(
-                      "gui.watheextended.config.category.game.group.gamerules.label.safepreptime")
-                  .styled(style -> style.withColor(0xAAAAAA))));
-      group.option(
-          Option.<Boolean>createBuilder()
-              .name(Text.translatable("gui.watheextended.config.text.enabled"))
-              .description(
-                  OptionDescription.of(
-                      Text.translatable(
-                          "gui.watheextended.config.category.game.group.gamerules.opt.safepreptime.desc")))
-              .binding(
-                  startSafeTimeDefault,
-                  () ->
-                      cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper
-                          .getEnableStartSafeTime(MinecraftClient.getInstance().world),
-                  value ->
-                      ScreenUtils.stage(
-                          sendCommand, parent, "kinswathe.EnableStartSafeTime", value))
-              .controller(
-                  opt ->
-                      BooleanControllerBuilder.create(opt)
-                          .formatValue(
-                              value ->
-                                  Text.translatable(
-                                      value
-                                          ? "gui.watheextended.config.text.on"
-                                          : "gui.watheextended.config.text.off")))
-              .build());
+          SettingKey.of("kinswathe.EnableStartSafeTime", Boolean.class),
+          option ->
+              option
+                  .name(text("text.enabled"))
+                  .description(text("category.game.group.gamerules.opt.safepreptime.desc"))
+                  .defaultValue(startSafeTimeDefault)
+                  .controller(Controllers.bool(true))
+                  .formatter(ConfigText::onOff));
 
       group.option(
-          Option.<Integer>createBuilder()
-              .name(
-                  Text.translatable(
-                      "gui.watheextended.config.category.game.group.gamerules.opt.safeprepcooldown"))
-              .description(
-                  OptionDescription.of(
-                      Text.translatable(
-                          "gui.watheextended.config.category.game.group.gamerules.opt.safeprepcooldown.desc")))
-              .binding(
-                  30,
-                  () ->
-                      cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper
-                          .getStartingCooldown(MinecraftClient.getInstance().world),
-                  value ->
-                      ScreenUtils.stage(sendCommand, parent, "kinswathe.StartingCooldown", value))
-              .controller(
-                  option ->
-                      IntegerSliderControllerBuilder.create(option)
-                          .range(0, 60)
-                          .step(1)
-                          .formatValue(
-                              value ->
-                                  Text.literal(String.format(java.util.Locale.ROOT, "%ds", value))))
-              .build());
+          SettingKey.of("kinswathe.StartingCooldown", Integer.class),
+          option ->
+              option
+                  .name(text("category.game.group.gamerules.opt.safeprepcooldown"))
+                  .description(text("category.game.group.gamerules.opt.safeprepcooldown.desc"))
+                  .defaultValue(30)
+                  .controller(Controllers.numberSlider(Integer.class, 0, 60, 1, false))
+                  .formatter(
+                      value -> Text.literal(String.format(java.util.Locale.ROOT, "%ds", value)))
+                  .validator(value -> range(value, 0, 60)));
     }
-
-    return group.build();
   }
 
-  private static OptionGroup watheOptionsGroup(
-      Screen parent, BiConsumer<String, Screen> sendCommand) {
-    OptionGroup.Builder group =
-        OptionGroup.createBuilder()
-            .name(Text.translatable("gui.watheextended.config.category.game.group.wathe_options"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.wathe_options.tooltip")))
-            .collapsed(false);
+  private static void watheOptionsGroup(GroupBuilder group) {
+    group
+        .name(text("category.game.group.wathe_options"))
+        .description(text("category.game.group.wathe_options.tooltip"))
+        .collapsed(false);
+
+    World world = MinecraftClient.getInstance().world;
+
+    group.entry(
+        new EntryDefinition.FullWidthLabel(
+            "category.game.group.wathe_options.label.global",
+            text("category.game.group.wathe_options.label.global")
+                .styled(style -> style.withColor(0xAAAAAA)),
+            Text.empty(),
+            ctx -> true));
+    group.option(
+        SettingKey.of("watheextended.killIncreaseTime", Integer.class),
+        option ->
+            option
+                .name(text("category.game.group.gamerules.opt.killincreasetime"))
+                .description(text("category.game.group.gamerules.opt.killincreasetime.desc"))
+                .defaultValue(60)
+                .controller(Controllers.numberSlider(Integer.class, 0, 60, 1, false))
+                .formatter(
+                    value -> Text.literal(String.format(java.util.Locale.ROOT, "%ds", value)))
+                .validator(value -> range(value, 0, 60)));
+
+    group.option(
+        SettingKey.of("watheextended.shootInnocentPunishmentMode", String.class),
+        option ->
+            option
+                .name(text("category.game.group.wathe_options.opt.shooterpunishment"))
+                .description(text("category.game.group.wathe_options.opt.shooterpunishment.desc"))
+                .defaultValue("DEFAULT")
+                .controller(
+                    Controllers.cycling(
+                        java.util.List.of("DEFAULT", "PREVENT_PICKUP", "KILL_SHOOTER", "KILL_BOTH"),
+                        value ->
+                            text(
+                                "category.game.group.wathe_options.opt.shooterpunishment."
+                                    + value.toLowerCase(java.util.Locale.ROOT))))
+                .formatter(value ->
+                    text(
+                        "category.game.group.wathe_options.opt.shooterpunishment."
+                            + value.toLowerCase(java.util.Locale.ROOT)))
+                .validator(value ->
+                    choice(
+                        value,
+                        java.util.List.of(
+                            "DEFAULT", "PREVENT_PICKUP", "KILL_SHOOTER", "KILL_BOTH"))));
+
+    group.option(
+        SettingKey.of("command.backfire", Integer.class),
+        option ->
+            option
+                .name(text("category.game.group.wathe_options.opt.backfire"))
+                .description(text("category.game.group.wathe_options.opt.backfire.desc"))
+                .defaultValue(GameComponents.getBackfire(world))
+                .controller(Controllers.numberSlider(Integer.class, 0, 100, 1, false))
+                .formatter(
+                    value -> Text.literal(String.format(java.util.Locale.ROOT, "%d%%", value)))
+                .validator(value -> range(value, 0, 100)));
+
+    group.entry(
+        new EntryDefinition.FullWidthLabel(
+            "category.game.group.wathe_options.label.mood",
+            text("category.game.group.wathe_options.label.mood")
+                .styled(style -> style.withColor(0xAAAAAA)),
+            Text.empty(),
+            ctx -> true));
+    group.option(
+        SettingKey.of("watheextended.mood.depressedPreventSprintEnabled", Boolean.class),
+        option ->
+            option
+                .name(text("category.game.group.wathe_options.opt.preventsprint"))
+                .description(text("category.game.group.wathe_options.opt.preventsprint.desc"))
+                .defaultValue(true)
+                .controller(Controllers.bool(true))
+                .formatter(ConfigText::onOff));
+    group.option(
+        SettingKey.of("watheextended.mood.depressedAbilityDisableEnabled", Boolean.class),
+        option ->
+            option
+                .name(text("category.game.group.wathe_options.opt.disableability"))
+                .description(text("category.game.group.wathe_options.opt.disableability.desc"))
+                .defaultValue(true)
+                .controller(Controllers.bool(true))
+                .formatter(ConfigText::onOff));
+    group.option(
+        SettingKey.of("watheextended.mood.depressedAbilityDisableTime", Integer.class),
+        option ->
+            option
+                .name(text("category.game.group.wathe_options.opt.disableabilitytime"))
+                .description(text("category.game.group.wathe_options.opt.disableabilitytime.desc"))
+                .defaultValue(0)
+                .controller(Controllers.numberSlider(Integer.class, 0, 30, 1, false))
+                .formatter(
+                    value -> Text.literal(String.format(java.util.Locale.ROOT, "%ds", value)))
+                .validator(value -> range(value, 0, 30))
+                .availability(ctx ->
+                    Boolean.TRUE.equals(
+                        ctx.get(
+                            SettingKey.of(
+                                "watheextended.mood.depressedAbilityDisableEnabled",
+                                Boolean.class)))));
+
+    group.entry(
+        new EntryDefinition.FullWidthLabel(
+            "category.roles",
+            text("category.roles").styled(style -> style.withColor(0xAAAAAA)),
+            Text.empty(),
+            ctx -> true));
+    group.option(
+        SettingKey.of("command.killerDividend", Integer.class),
+        option ->
+            option
+                .name(text("category.game.group.wathe_options.opt.roledividend_killer"))
+                .description(text("category.game.group.wathe_options.opt.roledividend_killer.desc"))
+                .defaultValue(GameComponents.getKillerDividend(world))
+                .controller(
+                    Controllers.numberField(Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
+    group.option(
+        SettingKey.of("command.vigilanteDividend", Integer.class),
+        option ->
+            option
+                .name(text("category.game.group.wathe_options.opt.roledividend_vigilante"))
+                .description(
+                    text("category.game.group.wathe_options.opt.roledividend_vigilante.desc"))
+                .defaultValue(GameComponents.getVigilanteDividend(world))
+                .controller(
+                    Controllers.numberField(Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
+
+    group.entry(
+        new EntryDefinition.FullWidthLabel(
+            "category.modifiers",
+            text("category.modifiers").styled(style -> style.withColor(0xAAAAAA)),
+            Text.empty(),
+            ctx -> true));
+    group.option(
+        SettingKey.of("hml.modifierMaximum", Integer.class),
+        option ->
+            option
+                .name(text("category.game.group.wathe_options.opt.modifiers_maximum"))
+                .description(text("category.game.group.wathe_options.opt.modifiers_maximum.desc"))
+                .defaultValue(1)
+                .controller(
+                    Controllers.numberField(Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
+    group.option(
+        SettingKey.of("hml.modifierMultiplier", Integer.class),
+        option ->
+            option
+                .name(text("category.game.group.wathe_options.opt.modifiers_multiplier"))
+                .description(
+                    text("category.game.group.wathe_options.opt.modifiers_multiplier.desc"))
+                .defaultValue(1)
+                .controller(
+                    Controllers.numberField(Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
+
+    group.entry(
+        new EntryDefinition.FullWidthLabel(
+            "category.game.group.gamerules.label.economy",
+            text("category.game.group.gamerules.label.economy")
+                .styled(style -> style.withColor(0xAAAAAA)),
+            Text.empty(),
+            ctx -> true));
+
+    group.option(
+        SettingKey.of("watheextended.balance.basePassiveIncome", Integer.class),
+        option ->
+            option
+                .name(text("category.game.group.wathe_options.opt.base_passive_income"))
+                .description(text("category.game.group.wathe_options.opt.base_passive_income.desc"))
+                .defaultValue(5)
+                .controller(
+                    Controllers.numberField(Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
+    group.option(
+        SettingKey.of("watheextended.balance.adjustPassiveIncome", Boolean.class),
+        option ->
+            option
+                .name(text("category.game.group.wathe_options.opt.adjust_passive_income"))
+                .description(
+                    text("category.game.group.wathe_options.opt.adjust_passive_income.desc"))
+                .defaultValue(false)
+                .controller(Controllers.bool(true))
+                .formatter(ConfigText::onOff));
+    group.option(
+        SettingKey.of("watheextended.balance.maxPassiveIncomeDistance", Integer.class),
+        option ->
+            option
+                .name(text("category.game.group.wathe_options.opt.max_passive_income_distance"))
+                .description(
+                    text("category.game.group.wathe_options.opt.max_passive_income_distance.desc"))
+                .defaultValue(10)
+                .controller(
+                    Controllers.numberField(Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE))
+                .availability(ctx ->
+                    Boolean.TRUE.equals(
+                        ctx.get(
+                            SettingKey.of(
+                                "watheextended.balance.adjustPassiveIncome", Boolean.class)))));
+    group.option(
+        SettingKey.of("watheextended.balance.minPassiveIncome", Integer.class),
+        option ->
+            option
+                .name(text("category.game.group.wathe_options.opt.min_passive_income"))
+                .description(text("category.game.group.wathe_options.opt.min_passive_income.desc"))
+                .defaultValue(0)
+                .controller(
+                    Controllers.numberField(Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE))
+                .availability(ctx ->
+                    Boolean.TRUE.equals(
+                        ctx.get(
+                            SettingKey.of(
+                                "watheextended.balance.adjustPassiveIncome", Boolean.class)))));
+  }
+
+  private static void extraOptionsGroup(GroupBuilder group) {
+    group
+        .name(text("category.game.group.extra_options"))
+        .description(text("category.game.group.extra_options.tooltip"))
+        .collapsed(false);
 
     World world = MinecraftClient.getInstance().world;
 
     group.option(
-        LabelOption.create(
-            Text.translatable(
-                    "gui.watheextended.config.category.game.group.wathe_options.label.global")
-                .styled(style -> style.withColor(0xAAAAAA))));
-    group.option(
-        Option.<Integer>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.gamerules.opt.killincreasetime"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.gamerules.opt.killincreasetime.desc")))
-            .binding(
-                60,
-                () -> ClientConfig.getInt("watheextended.killIncreaseTime", 60),
-                value ->
-                    ScreenUtils.stage(sendCommand, parent, "watheextended.killIncreaseTime", value))
-            .controller(
-                option ->
-                    IntegerSliderControllerBuilder.create(option)
-                        .range(0, 60)
-                        .step(1)
-                        .formatValue(
-                            value ->
-                                Text.literal(String.format(java.util.Locale.ROOT, "%ds", value))))
-            .build());
+        SettingKey.of("kinswathe.EnableWatheModify", Boolean.class),
+        option ->
+            option
+                .name(text("category.game.group.extra_options.opt.wathetweaks"))
+                .description(text("category.game.group.extra_options.opt.wathetweaks.desc"))
+                .defaultValue(false)
+                .controller(Controllers.tickBox()));
 
     group.option(
-        Option.<String>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.wathe_options.opt.shooterpunishment"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.wathe_options.opt.shooterpunishment.desc")))
-            .binding(
-                "DEFAULT",
-                () ->
-                    ClientConfig.getString("watheextended.shootInnocentPunishmentMode", "DEFAULT"),
-                value ->
-                    ScreenUtils.stage(
-                        sendCommand, parent, "watheextended.shootInnocentPunishmentMode", value))
-            .controller(
-                option ->
-                    CyclingListControllerBuilder.create(option)
-                        .values(
-                            java.util.List.of(
-                                "DEFAULT", "PREVENT_PICKUP", "KILL_SHOOTER", "KILL_BOTH"))
-                        .formatValue(
-                            value ->
-                                Text.translatable(
-                                    "gui.watheextended.config.category.game.group.wathe_options.opt.shooterpunishment."
-                                        + value.toLowerCase(java.util.Locale.ROOT))))
-            .build());
+        SettingKey.of("kinswathe.InitialCivilianIncome", Integer.class),
+        option ->
+            option
+                .name(text("category.game.group.extra_options.opt.initialcivilianincome"))
+                .description(
+                    text("category.game.group.extra_options.opt.initialcivilianincome.desc"))
+                .defaultValue(0)
+                .controller(
+                    Controllers.numberField(Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE))
+                .availability(ctx ->
+                    Boolean.TRUE.equals(
+                        ctx.get(SettingKey.of("kinswathe.EnableWatheModify", Boolean.class)))));
 
     group.option(
-        Option.<Integer>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.wathe_options.opt.backfire"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.wathe_options.opt.backfire.desc")))
-            .binding(
-                GameComponents.getBackfire(world),
-                () -> GameComponents.getBackfire(MinecraftClient.getInstance().world),
-                value ->
-                    sendCommand.accept(
-                        "wathe:gameSettings set backfireChancePerInnocentKill " + (value / 100f),
-                        parent))
-            .controller(
-                option ->
-                    IntegerSliderControllerBuilder.create(option)
-                        .range(0, 100)
-                        .step(1)
-                        .formatValue(
-                            value ->
-                                Text.literal(String.format(java.util.Locale.ROOT, "%d%%", value))))
-            .build());
+        SettingKey.of("kinswathe.InitialNeutralIncome", Integer.class),
+        option ->
+            option
+                .name(text("category.game.group.extra_options.opt.initialnnetralincome"))
+                .description(
+                    text("category.game.group.extra_options.opt.initialnnetralincome.desc"))
+                .defaultValue(0)
+                .controller(
+                    Controllers.numberField(Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE))
+                .availability(ctx ->
+                    Boolean.TRUE.equals(
+                        ctx.get(SettingKey.of("kinswathe.EnableWatheModify", Boolean.class)))));
 
     group.option(
-        LabelOption.create(
-            Text.translatable(
-                    "gui.watheextended.config.category.game.group.wathe_options.label.mood")
-                .styled(style -> style.withColor(0xAAAAAA))));
-    group.option(
-        Option.<Boolean>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.wathe_options.opt.preventsprint"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.wathe_options.opt.preventsprint.desc")))
-            .binding(
-                true,
-                () ->
-                    ClientConfig.getBool("watheextended.mood.depressedPreventSprintEnabled", true),
-                value ->
-                    ScreenUtils.stage(
-                        sendCommand,
-                        parent,
-                        "watheextended.mood.depressedPreventSprintEnabled",
-                        value))
-            .controller(
-                option ->
-                    BooleanControllerBuilder.create(option)
-                        .formatValue(
-                            value ->
-                                Text.translatable(
-                                    value
-                                        ? "gui.watheextended.config.text.on"
-                                        : "gui.watheextended.config.text.off")))
-            .build());
-    group.option(
-        Option.<Boolean>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.wathe_options.opt.disableability"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.wathe_options.opt.disableability.desc")))
-            .binding(
-                true,
-                () ->
-                    ClientConfig.getBool("watheextended.mood.depressedAbilityDisableEnabled", true),
-                value ->
-                    ScreenUtils.stage(
-                        sendCommand,
-                        parent,
-                        "watheextended.mood.depressedAbilityDisableEnabled",
-                        value))
-            .controller(
-                option ->
-                    BooleanControllerBuilder.create(option)
-                        .formatValue(
-                            value ->
-                                Text.translatable(
-                                    value
-                                        ? "gui.watheextended.config.text.on"
-                                        : "gui.watheextended.config.text.off")))
-            .build());
-    group.option(
-        Option.<Integer>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.wathe_options.opt.disableabilitytime"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.wathe_options.opt.disableabilitytime.desc")))
-            .binding(
-                0,
-                () -> ClientConfig.getInt("watheextended.mood.depressedAbilityDisableTime", 0),
-                value ->
-                    ScreenUtils.stage(
-                        sendCommand,
-                        parent,
-                        "watheextended.mood.depressedAbilityDisableTime",
-                        value))
-            .controller(
-                option ->
-                    IntegerSliderControllerBuilder.create(option)
-                        .range(0, 30)
-                        .step(1)
-                        .formatValue(
-                            value ->
-                                Text.literal(String.format(java.util.Locale.ROOT, "%ds", value))))
-            .available(
-                ClientConfig.getBool("watheextended.mood.depressedAbilityDisableEnabled", false))
-            .build());
+        SettingKey.of("kinswathe.InitialKillerIncome", Integer.class),
+        option ->
+            option
+                .name(text("category.game.group.extra_options.opt.initialkillerncome"))
+                .description(text("category.game.group.extra_options.opt.initialkillerncome.desc"))
+                .defaultValue(100)
+                .controller(
+                    Controllers.numberField(Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE))
+                .availability(ctx ->
+                    Boolean.TRUE.equals(
+                        ctx.get(SettingKey.of("kinswathe.EnableWatheModify", Boolean.class)))));
 
     group.option(
-        LabelOption.create(
-            Text.translatable("gui.watheextended.config.category.roles")
-                .styled(style -> style.withColor(0xAAAAAA))));
-    group.option(
-        Option.<Integer>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.wathe_options.opt.roledividend_killer"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.wathe_options.opt.roledividend_killer.desc")))
-            .binding(
-                GameComponents.getKillerDividend(world),
-                () -> GameComponents.getKillerDividend(MinecraftClient.getInstance().world),
-                value ->
-                    sendCommand.accept(
-                        "wathe:gameSettings set roleDividend killer " + value, parent))
-            .controller(IntegerFieldControllerBuilder::create)
-            .build());
-    group.option(
-        Option.<Integer>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.wathe_options.opt.roledividend_vigilante"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.wathe_options.opt.roledividend_vigilante.desc")))
-            .binding(
-                GameComponents.getVigilanteDividend(world),
-                () -> GameComponents.getVigilanteDividend(MinecraftClient.getInstance().world),
-                value ->
-                    sendCommand.accept(
-                        "wathe:gameSettings set roleDividend vigilante " + value, parent))
-            .controller(IntegerFieldControllerBuilder::create)
-            .build());
+        SettingKey.of("kinswathe.IncreaseMoneyWhenKill", Integer.class),
+        option ->
+            option
+                .name(text("category.game.group.extra_options.opt.increasemoneywhenkilll"))
+                .description(
+                    text("category.game.group.extra_options.opt.increasemoneywhenkilll.desc"))
+                .defaultValue(100)
+                .controller(
+                    Controllers.numberField(Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE))
+                .availability(ctx ->
+                    Boolean.TRUE.equals(
+                        ctx.get(SettingKey.of("kinswathe.EnableWatheModify", Boolean.class)))));
 
     group.option(
-        LabelOption.create(
-            Text.translatable("gui.watheextended.config.category.modifiers")
-                .styled(style -> style.withColor(0xAAAAAA))));
-    group.option(
-        Option.<Integer>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.wathe_options.opt.modifiers_maximum"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.wathe_options.opt.modifiers_maximum.desc")))
-            .binding(
-                1,
-                cat.rezelyn.watheextended.api.config.hml.ConfigHelper::getModifierMaximum,
-                value -> ScreenUtils.stage(sendCommand, parent, "hml.modifierMaximum", value))
-            .controller(IntegerFieldControllerBuilder::create)
-            .build());
-    group.option(
-        Option.<Integer>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.wathe_options.opt.modifiers_multiplier"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.wathe_options.opt.modifiers_multiplier.desc")))
-            .binding(
-                1,
-                cat.rezelyn.watheextended.api.config.hml.ConfigHelper::getModifierMultiplier,
-                value -> ScreenUtils.stage(sendCommand, parent, "hml.modifierMultiplier", value))
-            .controller(IntegerFieldControllerBuilder::create)
-            .build());
+        SettingKey.of("kinswathe.EnableNoellesRolesModify", Boolean.class),
+        option ->
+            option
+                .name(text("category.game.group.extra_options.opt.noellestweaks"))
+                .description(text("category.game.group.extra_options.opt.noellestweaks.desc"))
+                .defaultValue(false)
+                .controller(Controllers.tickBox()));
 
     group.option(
-        LabelOption.create(
-            Text.translatable(
-                    "gui.watheextended.config.category.game.group.gamerules.label.economy")
-                .styled(style -> style.withColor(0xAAAAAA))));
-    final boolean adjustPassiveIncomeEnabled =
-        ClientConfig.getBool("watheextended.balance.adjustPassiveIncome", false);
-    group.option(
-        Option.<Integer>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.wathe_options.opt.base_passive_income"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.wathe_options.opt.base_passive_income.desc")))
-            .binding(
-                5,
-                () -> ClientConfig.getInt("watheextended.balance.basePassiveIncome", 5),
-                value ->
-                    ScreenUtils.stage(
-                        sendCommand, parent, "watheextended.balance.basePassiveIncome", value))
-            .controller(IntegerFieldControllerBuilder::create)
-            .build());
-    group.option(
-        Option.<Boolean>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.wathe_options.opt.adjust_passive_income"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.wathe_options.opt.adjust_passive_income.desc")))
-            .binding(
-                false,
-                () -> ClientConfig.getBool("watheextended.balance.adjustPassiveIncome", false),
-                value ->
-                    ScreenUtils.stage(
-                        sendCommand, parent, "watheextended.balance.adjustPassiveIncome", value))
-            .controller(
-                option ->
-                    BooleanControllerBuilder.create(option)
-                        .formatValue(
-                            value ->
-                                Text.translatable(
-                                    value
-                                        ? "gui.watheextended.config.text.on"
-                                        : "gui.watheextended.config.text.off")))
-            .build());
-    group.option(
-        Option.<Integer>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.wathe_options.opt.max_passive_income_distance"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.wathe_options.opt.max_passive_income_distance.desc")))
-            .binding(
-                10,
-                () -> ClientConfig.getInt("watheextended.balance.maxPassiveIncomeDistance", 10),
-                value ->
-                    ScreenUtils.stage(
-                        sendCommand,
-                        parent,
-                        "watheextended.balance.maxPassiveIncomeDistance",
-                        value))
-            .controller(IntegerFieldControllerBuilder::create)
-            .available(adjustPassiveIncomeEnabled)
-            .build());
-    group.option(
-        Option.<Integer>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.wathe_options.opt.min_passive_income"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.wathe_options.opt.min_passive_income.desc")))
-            .binding(
-                0,
-                () -> ClientConfig.getInt("watheextended.balance.minPassiveIncome", 0),
-                value ->
-                    ScreenUtils.stage(
-                        sendCommand, parent, "watheextended.balance.minPassiveIncome", value))
-            .controller(IntegerFieldControllerBuilder::create)
-            .available(adjustPassiveIncomeEnabled)
-            .build());
-
-    return group.build();
-  }
-
-  private static OptionGroup extraOptionsGroup(
-      Screen parent, BiConsumer<String, Screen> sendCommand) {
-    OptionGroup.Builder group =
-        OptionGroup.createBuilder()
-            .name(Text.translatable("gui.watheextended.config.category.game.group.extra_options"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.extra_options.tooltip")))
-            .collapsed(false);
-
-    World world = MinecraftClient.getInstance().world;
-    final boolean watheTweaksEnabled =
-        cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getEnableWatheModify(world);
-    final boolean noellesRolesTweaksEnabled = getEnableNoellesRolesModify(world);
+        SettingKey.of("kinswathe.ConductorInstinctModify", Boolean.class),
+        option ->
+            option
+                .name(text("category.game.group.extra_options.opt.conductorinstinct"))
+                .description(text("category.game.group.extra_options.opt.conductorinstinct.desc"))
+                .defaultValue(false)
+                .controller(Controllers.bool(true))
+                .formatter(ConfigText::onOff)
+                .availability(ctx ->
+                    Boolean.TRUE.equals(
+                        ctx.get(
+                            SettingKey.of("kinswathe.EnableNoellesRolesModify", Boolean.class)))));
 
     group.option(
-        Option.<Boolean>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.extra_options.opt.wathetweaks"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.extra_options.opt.wathetweaks.desc")))
-            .binding(
-                false,
-                () ->
-                    cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper
-                        .getEnableWatheModify(MinecraftClient.getInstance().world),
-                value ->
-                    ScreenUtils.stage(sendCommand, parent, "kinswathe.EnableWatheModify", value))
-            .controller(TickBoxControllerBuilder::create)
-            .build());
-
-    group.option(
-        Option.<Integer>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.extra_options.opt.initialcivilianincome"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.extra_options.opt.initialcivilianincome.desc")))
-            .binding(
-                0,
-                () ->
-                    cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper
-                        .getInitialCivilianIncome(MinecraftClient.getInstance().world),
-                value ->
-                    ScreenUtils.stage(
-                        sendCommand, parent, "kinswathe.InitialCivilianIncome", value))
-            .controller(IntegerFieldControllerBuilder::create)
-            .available(watheTweaksEnabled)
-            .build());
-
-    group.option(
-        Option.<Integer>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.extra_options.opt.initialnnetralincome"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.extra_options.opt.initialnnetralincome.desc")))
-            .binding(
-                0,
-                () ->
-                    cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper
-                        .getInitialNeutralIncome(MinecraftClient.getInstance().world),
-                value ->
-                    ScreenUtils.stage(sendCommand, parent, "kinswathe.InitialNeutralIncome", value))
-            .controller(IntegerFieldControllerBuilder::create)
-            .available(watheTweaksEnabled)
-            .build());
-
-    group.option(
-        Option.<Integer>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.extra_options.opt.initialkillerncome"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.extra_options.opt.initialkillerncome.desc")))
-            .binding(
-                100,
-                () ->
-                    cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper
-                        .getInitialKillerIncome(MinecraftClient.getInstance().world),
-                value ->
-                    ScreenUtils.stage(sendCommand, parent, "kinswathe.InitialKillerIncome", value))
-            .controller(IntegerFieldControllerBuilder::create)
-            .available(watheTweaksEnabled)
-            .build());
-
-    group.option(
-        Option.<Integer>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.extra_options.opt.increasemoneywhenkilll"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.extra_options.opt.increasemoneywhenkilll.desc")))
-            .binding(
-                100,
-                () ->
-                    cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper
-                        .getIncreaseMoneyWhenKill(MinecraftClient.getInstance().world),
-                value ->
-                    ScreenUtils.stage(
-                        sendCommand, parent, "kinswathe.IncreaseMoneyWhenKill", value))
-            .controller(IntegerFieldControllerBuilder::create)
-            .available(watheTweaksEnabled)
-            .build());
-
-    group.option(
-        Option.<Boolean>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.extra_options.opt.noellestweaks"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.extra_options.opt.noellestweaks.desc")))
-            .binding(
-                false,
-                () -> getEnableNoellesRolesModify(MinecraftClient.getInstance().world),
-                value ->
-                    ScreenUtils.stage(
-                        sendCommand, parent, "kinswathe.EnableNoellesRolesModify", value))
-            .controller(TickBoxControllerBuilder::create)
-            .build());
-
-    group.option(
-        Option.<Boolean>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.extra_options.opt.conductorinstinct"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.extra_options.opt.conductorinstinct.desc")))
-            .binding(
-                false,
-                () ->
-                    cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper
-                        .getConductorInstinctModify(MinecraftClient.getInstance().world),
-                value ->
-                    ScreenUtils.stage(
-                        sendCommand, parent, "kinswathe.ConductorInstinctModify", value))
-            .controller(
-                opt ->
-                    BooleanControllerBuilder.create(opt)
-                        .formatValue(
-                            value ->
-                                Text.translatable(
-                                    value
-                                        ? "gui.watheextended.config.text.on"
-                                        : "gui.watheextended.config.text.off")))
-            .available(noellesRolesTweaksEnabled)
-            .build());
-
-    group.option(
-        Option.<Boolean>createBuilder()
-            .name(
-                Text.translatable(
-                    "gui.watheextended.config.category.game.group.extra_options.opt.coronerinstinct"))
-            .description(
-                OptionDescription.of(
-                    Text.translatable(
-                        "gui.watheextended.config.category.game.group.extra_options.opt.coronerinstinct.desc")))
-            .binding(
-                false,
-                () ->
-                    cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper
-                        .getCoronerInstinctModify(MinecraftClient.getInstance().world),
-                value ->
-                    ScreenUtils.stage(
-                        sendCommand, parent, "kinswathe.CoronerInstinctModify", value))
-            .controller(
-                opt ->
-                    BooleanControllerBuilder.create(opt)
-                        .formatValue(
-                            value ->
-                                Text.translatable(
-                                    value
-                                        ? "gui.watheextended.config.text.on"
-                                        : "gui.watheextended.config.text.off")))
-            .available(noellesRolesTweaksEnabled)
-            .build());
-
-    return group.build();
+        SettingKey.of("kinswathe.CoronerInstinctModify", Boolean.class),
+        option ->
+            option
+                .name(text("category.game.group.extra_options.opt.coronerinstinct"))
+                .description(text("category.game.group.extra_options.opt.coronerinstinct.desc"))
+                .defaultValue(false)
+                .controller(Controllers.bool(true))
+                .formatter(ConfigText::onOff)
+                .availability(ctx ->
+                    Boolean.TRUE.equals(
+                        ctx.get(
+                            SettingKey.of("kinswathe.EnableNoellesRolesModify", Boolean.class)))));
   }
 }

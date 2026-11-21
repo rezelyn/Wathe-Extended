@@ -20,51 +20,6 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/config/save.png",
-      "ascent": 9,
-      "height": 13,
-      "chars": [
-        "\uE500"
-      ]
-    },
-    {
-      "type": "bitmap",
-      "file": "watheextended:gui/config/refresh.png",
-      "ascent": 9,
-      "height": 13,
-      "chars": [
-        "\uE501"
-      ]
-    },
-    {
-      "type": "bitmap",
-      "file": "watheextended:gui/config/load.png",
-      "ascent": 9,
-      "height": 13,
-      "chars": [
-        "\uE502"
-      ]
-    },
-    {
-      "type": "bitmap",
-      "file": "watheextended:gui/config/delete.png",
-      "ascent": 9,
-      "height": 13,
-      "chars": [
-        "\uE503"
-      ]
-    },
-    {
-      "type": "bitmap",
-      "file": "watheextended:gui/config/override.png",
-      "ascent": 9,
-      "height": 13,
-      "chars": [
-        "\uE505"
-      ]
-    },
-    {
-      "type": "bitmap",
       "file": "watheextended:gui/guidebook/sprites/mood.png",
       "ascent": 9,
       "height": 12,
@@ -74,7 +29,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/knife.png",
+      "file": "wathe:item/knife.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -83,7 +38,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/revolver.png",
+      "file": "wathe:item/revolver.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -92,7 +47,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/lighter.png",
+      "file": "stupid_express:item/lighter.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -101,7 +56,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/lockpick.png",
+      "file": "wathe:item/lockpick.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -110,7 +65,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/master_key.png",
+      "file": "noellesroles:item/master_key.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -119,7 +74,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/role_mine.png",
+      "file": "noellesroles:item/role_mine.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -128,7 +83,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/tape.png",
+      "file": "starexpress:item/tape.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -137,7 +92,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/jerry_can.png",
+      "file": "stupid_express:item/jerry_can.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -146,7 +101,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/defense_vial.png",
+      "file": "noellesroles:item/defense_vial.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -155,7 +110,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/delusion_vial.png",
+      "file": "noellesroles:item/delusion_vial.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -164,7 +119,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/psycho_mode.png",
+      "file": "wathe:item/psycho_mode.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -173,7 +128,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/bat.png",
+      "file": "wathe:item/bat.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -182,7 +137,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/blowgun.png",
+      "file": "kinswathe:item/blowgun.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -191,7 +146,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/body_bag.png",
+      "file": "wathe:item/body_bag.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -200,7 +155,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/crowbar.png",
+      "file": "wathe:item/crowbar.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -209,7 +164,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/dream_imprint.png",
+      "file": "kinswathe:item/dream_imprint.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -218,7 +173,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/firecracker.png",
+      "file": "wathe:item/firecracker.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -227,7 +182,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/grenade.png",
+      "file": "wathe:item/grenade.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -236,7 +191,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/hunting_knife.png",
+      "file": "kinswathe:item/hunting_knife.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -245,7 +200,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/knockout_drug.png",
+      "file": "kinswathe:item/knockout_drug.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -254,7 +209,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/medical_kit.png",
+      "file": "kinswathe:item/medical_kit.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -263,7 +218,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/note.png",
+      "file": "wathe:item/note.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -272,7 +227,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/pan.png",
+      "file": "kinswathe:item/pan.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -281,7 +236,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/pill.png",
+      "file": "kinswathe:item/pill.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -290,7 +245,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/poison_injector.png",
+      "file": "kinswathe:item/poison_injector.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -299,7 +254,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/poison_vial.png",
+      "file": "wathe:item/poison_vial.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -308,7 +263,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/sulfuric_acid_barrel.png",
+      "file": "kinswathe:item/sulfuric_acid_barrel.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -353,7 +308,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/scorpion.png",
+      "file": "wathe:item/scorpion.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -362,7 +317,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/blackout.png",
+      "file": "wathe:item/blackout.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -371,7 +326,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/phone.png",
+      "file": "kinswathe:item/phone.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -380,7 +335,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/icon_ability_cooldown_refresh.png",
+      "file": "kinswathe:item/icon_ability_cooldown_refresh.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -389,7 +344,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/icon_potion_effect_refresh.png",
+      "file": "kinswathe:item/icon_potion_effect_refresh.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -398,7 +353,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/icon_weapon_cooldown_refresh.png",
+      "file": "kinswathe:item/icon_weapon_cooldown_refresh.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -407,7 +362,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/wrench.png",
+      "file": "kinswathe:item/wrench.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -416,7 +371,7 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/capture_device.png",
+      "file": "kinswathe:item/capture_device.png",
       "ascent": 9,
       "height": 12,
       "chars": [
@@ -425,11 +380,38 @@
     },
     {
       "type": "bitmap",
-      "file": "watheextended:gui/guidebook/sprites/items/icon_power_restoration.png",
+      "file": "kinswathe:item/icon_power_restoration.png",
       "ascent": 9,
       "height": 12,
       "chars": [
         "\uE21F"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:item/cooked_beef.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": [
+        "\uE220"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:item/cooked_chicken.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": [
+        "\uE221"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "minecraft:item/cooked_porkchop.png",
+      "ascent": 9,
+      "height": 12,
+      "chars": [
+        "\uE222"
       ]
     },
     {
