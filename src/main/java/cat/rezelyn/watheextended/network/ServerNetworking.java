@@ -2,7 +2,9 @@ package cat.rezelyn.watheextended.network;
 
 import cat.rezelyn.watheextended.api.GameStatus;
 import cat.rezelyn.watheextended.command.PronounsCommand;
+import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.game.*;
+import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -29,6 +31,12 @@ public final class ServerNetworking {
         (payload, context) -> setPronouns(context.player(), payload.pronouns()));
     ServerPlayNetworking.registerGlobalReceiver(PlayerMovement.SetPronePayload.ID, PlayerMovement::handleSetProne);
     ServerPlayerEvents.JOIN.register(ServerNetworking::onPlayerJoin);
+    ServerPlayerEvents.LEAVE.register(player -> {
+      if (!player.isSpectator()) {
+        var world = player.getServerWorld().getServer().getOverworld();
+        WatheExtendedWorldComponent.KEY.get(world).clearKilledPlayersUUID(player.getUuid());
+      }
+    });
   }
 
   static void setPronouns(ServerPlayerEntity player, String value) {
@@ -45,7 +53,10 @@ public final class ServerNetworking {
                     joining, new PronounsManager.SyncPayload(uuid, pronouns)));
 
     ServerWorld overworld = joining.getServerWorld().getServer().getOverworld();
-    if (GameStatus.State(overworld)) {
+    if (GameStatus.State(overworld)
+        && (GameWorldComponent.KEY.get(overworld).getRole(joining) == null
+            || joining.isSpectator()
+            || WatheExtendedWorldComponent.KEY.get(overworld).isPlayerKilled(joining.getUuid()))) {
       var spawn = MapVariablesWorldComponent.KEY.get(overworld).getSpectatorSpawnPos();
       joining.changeGameMode(GameMode.SPECTATOR);
       joining.teleportTo(

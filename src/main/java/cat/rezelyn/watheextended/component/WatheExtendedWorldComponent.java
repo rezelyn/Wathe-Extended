@@ -121,6 +121,10 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
     return killedPlayers.contains(uuid);
   }
 
+  public void clearKilledPlayersUUID(UUID uuid) {
+    killedPlayers.remove(uuid);
+  }
+
   public void clearKilledPlayers() {
     killedPlayers.clear();
   }
