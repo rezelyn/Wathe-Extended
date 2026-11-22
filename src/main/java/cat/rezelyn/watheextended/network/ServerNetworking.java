@@ -1,16 +1,17 @@
 package cat.rezelyn.watheextended.network;
 
+import cat.rezelyn.watheextended.api.GameStatus;
 import cat.rezelyn.watheextended.command.PronounsCommand;
-import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.game.*;
-import dev.doctor4t.wathe.cca.GameWorldComponent;
+import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameMode;
+import net.minecraft.world.TeleportTarget;
 
 /** Registers Wathe gameplay payloads and restores state when a player joins. */
 public final class ServerNetworking {
@@ -27,7 +28,7 @@ public final class ServerNetworking {
     ServerPlayNetworking.registerGlobalReceiver(PronounsManager.UpdatePayload.ID,
         (payload, context) -> setPronouns(context.player(), payload.pronouns()));
     ServerPlayNetworking.registerGlobalReceiver(PlayerMovement.SetPronePayload.ID, PlayerMovement::handleSetProne);
-    ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> onPlayerJoin(handler.player, server));
+    ServerPlayerEvents.JOIN.register(ServerNetworking::onPlayerJoin);
   }
 
   static void setPronouns(ServerPlayerEntity player, String value) {
@@ -35,7 +36,7 @@ public final class ServerNetworking {
     PronounsCommand.broadcastAll(player.getCommandSource(), player.getUuid(), PronounsManager.get(player.getUuid()));
   }
 
-  private static void onPlayerJoin(ServerPlayerEntity joining, MinecraftServer server) {
+  private static void onPlayerJoin(ServerPlayerEntity joining) {
     ServerConfig.sendToPlayer(joining);
     PronounsManager.getAll()
         .forEach(
@@ -43,16 +44,14 @@ public final class ServerNetworking {
                 ServerPlayNetworking.send(
                     joining, new PronounsManager.SyncPayload(uuid, pronouns)));
 
-    try {
-      ServerWorld overworld = server.getOverworld();
-      GameWorldComponent game = GameWorldComponent.KEY.get(overworld);
-      WatheExtendedWorldComponent extended = WatheExtendedWorldComponent.KEY.get(overworld);
-
-      if (game.isRunning() && extended.isPlayerKilled(joining.getUuid())) {
-        joining.changeGameMode(GameMode.SPECTATOR);
-      }
-      PlayerItem.applyItemState(joining, overworld);
-    } catch (Throwable ignored) {
+    ServerWorld overworld = joining.getServerWorld().getServer().getOverworld();
+    if (GameStatus.State(overworld)) {
+      var spawn = MapVariablesWorldComponent.KEY.get(overworld).getSpectatorSpawnPos();
+      joining.changeGameMode(GameMode.SPECTATOR);
+      joining.teleportTo(
+          new TeleportTarget(
+              overworld, spawn.pos, Vec3d.ZERO, spawn.yaw, spawn.pitch, TeleportTarget.NO_OP));
     }
+    PlayerItem.applyItemState(joining, overworld);
   }
 }

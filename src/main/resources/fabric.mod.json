@@ -35,6 +35,9 @@
     "main": [
       "cat.rezelyn.watheextended.WatheExtended"
     ],
+    "voicechat": [
+      "cat.rezelyn.watheextended.game.compat.svc.SpectatorVoicePlugin"
+    ],
     "cardinal-components": [
       "cat.rezelyn.watheextended.component.WatheExtendedComponents"
     ]
