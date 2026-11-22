@@ -51,6 +51,7 @@
     "game.roles.dreamer.DreamerImprintRecoveryMixin",
     "game.roles.dreamer.DreamerKillerConversionMixin",
     "game.roles.dreamer.DreamImprintNotificationMixin",
+    "game.roles.jester.JesterGunshotMixin",
     "game.roles.morphling.MorphlingCooldownMixin",
     "game.roles.physician.PhysicianInfectionAlertMixin",
     "game.roles.recaller.RecallerTeleportMixin",

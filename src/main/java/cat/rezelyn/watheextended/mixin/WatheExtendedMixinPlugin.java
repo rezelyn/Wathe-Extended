@@ -4,6 +4,7 @@ import cat.rezelyn.watheextended.mixin.compat.LegacyWatheImportsMixin;
 import java.util.List;
 import java.util.Set;
 import net.fabricmc.loader.api.FabricLoader;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.*;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
@@ -57,6 +58,7 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
           "game.AbilityDurationMixin",
           "game.mood.DepressedAbilityMixin",
           "game.shop.ShopEntryBinglusMixin",
+          "game.roles.jester.JesterGunshotMixin",
           "game.roles.morphling.MorphlingCooldownMixin",
           "game.roles.recaller.RecallerTeleportMixin",
           "game.roles.swapper.SwapperTeleportMixin");
@@ -98,6 +100,7 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
           "game.roles.dreamer.DreamImprintNotificationMixin",
           "game.roles.dreamer.DreamerImprintRecoveryMixin",
           "game.roles.dreamer.DreamerKillerConversionMixin",
+          "game.roles.jester.JesterGunshotMixin",
           "game.roles.physician.PhysicianInfectionAlertMixin",
           "game.roles.robot.RobotAbilityMixin",
           "game.shop.AddonsPlayerShopComponentMixin");
@@ -191,6 +194,7 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
   @Override
   public void postApply(
       String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
+    if (mixinClassName.endsWith("game.roles.jester.JesterGunshotMixin")) patchJesterGunshotCheck(targetClass);
     rewriteAnnotations(targetClass.visibleAnnotations);
     rewriteAnnotations(targetClass.invisibleAnnotations);
 
@@ -222,6 +226,30 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
           arrayInsn.desc = replacePayloadNames(arrayInsn.desc);
         }
       }
+    }
+  }
+
+  private static void patchJesterGunshotCheck(ClassNode targetClass) {
+    MethodNode check =
+        targetClass.methods.stream()
+            .filter(method -> method.name.equals("watheextended$isLicensedVillainGunshot"))
+            .findFirst()
+            .orElseThrow();
+    // both mods cancel the death
+    // mixin generates prefix of each merged handlers
+    for (MethodNode handler : targetClass.methods) {
+      if (!handler.name.endsWith("$noellesroles$jesterJest")
+          && !handler.name.endsWith("$kinswathe$setJesterJest")) continue;
+
+      LabelNode proceed = new LabelNode();
+      InsnList guard = new InsnList();
+      guard.add(new VarInsnNode(Opcodes.ALOAD, 2));
+      guard.add(new VarInsnNode(Opcodes.ALOAD, 3));
+      guard.add(new MethodInsnNode(Opcodes.INVOKESTATIC, targetClass.name, check.name, check.desc, false));
+      guard.add(new JumpInsnNode(Opcodes.IFEQ, proceed));
+      guard.add(new InsnNode(Opcodes.RETURN));
+      guard.add(proceed);
+      handler.instructions.insert(guard);
     }
   }
 
