@@ -80,7 +80,11 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
           "game.item.ArsonistItemsUseMixin",
           "game.item.ThiefItemRulesMixin",
           "game.roles.amnesiac.AmnesiacKeepAliveMixin",
-          "game.roles.arsonist.DousedPlayerNotificationMixin");
+          "game.roles.arsonist.DousedPlayerNotificationMixin",
+          "game.roles.necromancer.RevivalChunkTrackingAccessor",
+          "game.roles.necromancer.RevivalEntityTrackerAccessor",
+          "game.roles.necromancer.RevivalTrackedPositionAccessor",
+          "game.roles.necromancer.RevivalVisibilityMixin");
 
   /** Mixins that need the Kin's Wathe add-on (mod id {@code kinswathe}) */
   private static final Set<String> KINS_WATHE_MIXINS =
