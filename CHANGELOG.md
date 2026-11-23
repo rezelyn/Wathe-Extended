@@ -8,39 +8,15 @@
 
 ## [Unreleased]
 
-### Added
-
-- New configuration screen:
-    - **Migrated the configuration screen from YetAnotherConfigLib to OreLib.**
-    - Players can edit their personal settings under **Client**. Server operators also have access to **Game**, **Map**, **Items**, **Roles**, and **Modifiers**.
-    - Moved server configuration editing and networking tasks to OreLib. Applying changes sends them to the server for validation and synchronization.
-    - Replaced the custom preset screens with OreLib’s preset manager. Operators can save, load, overwrite, and delete server presets. Entering a name and description and pressing **Save** submits the preset immediately. Server presets capture the currently applied settings, so apply pending edits first if they belong in the preset.
-- New configurable options:
-    - **Per role/modifiers appearance chance percentage** (@Albarnie)
-- Wathe-themed textures for Simple Voice Chat GUIs
-
-### Changed
-
-- Presets now saves map variables, allowing for multiple maps presets within the same world (#78)
-- Role and modifier group headers now show an enabled or disabled icon that updates as soon as the toggle changes (@Albarnie)
-- Updated Gradle to `9.9.0`
-- Updated Fabric Loader to `0.20.1`
-- Updated Fabric Loom to `1.19.4`
-
-> [!WARNING]
-> The project now requires **Java 25**. Gradle itself still runs on **Java 21** to compile it.
-
-### Removed
-
-- YACL integration and dependency
-
 ### Fixed
 
-- Newly converted killers and players revived by the **Necromancer** missing their phones when a **Hacker** is in play (#115)
-- **Physician** Poison Sense ability not working with players that have been infected by the **Infected** (#114)
-- **Licensed Villain** compatibility with the limited Instinct mechanic
-- Various wrong, outdated and missing Guidebook entries (#116)
-- Duplicated Hacker HUD labels & compatibility issues with obfuscated names and Morph Psychosis feature (#120)
+- **Licensed Villain** triggering **Jester** psychosis instead of killing them on sight (#122)
+- Players joining mid-round not being placed at the spectator spawn point and added to the spectators' voice chat group (#123)
+- Players briefly seeing inside each other's heads when swapped by the **Swapper** (#124)
+- Players revived by the **Necromancer** briefly appearing where they were spectating before reappearing at their body (#124)
+- Sleeping players staying asleep after getting swapped by the **Swapper** and returning to the bed position when waking up
+- Dead players appearing in the **Guesser** player picker or remaining selected after dying (#125)
+- **Guesser** player picker missing its labels, pagination system and role picker list for the **Necromancer** when its shop is disabled
 
 ## [4.0.0-h1.4] - TBD
 
@@ -182,6 +158,12 @@
 - **Physician** Poison Sense ability not working with players that have been infected by the **Infected** (#114)
 - **Licensed Villain** compatibility with the limited Instinct mechanic
 - Various wrong, outdated and missing Guidebook entries (#116)
+- **Licensed Villain** triggering **Jester** psychosis instead of killing them on sight (#122)
+- Players joining mid-round not being placed at the spectator spawn point and added to the spectators' voice chat group (#123)
+- Players briefly seeing inside each other's heads when swapped by the **Swapper** (#124)
+- Players revived by the **Necromancer** briefly appearing where they were spectating before reappearing at their body (#124)
+- Sleeping players staying asleep after getting swapped by the **Swapper** and returning to the bed position when waking up
+- **Guesser** player picker missing its labels, pagination system and role picker list for the **Necromancer** when its shop is disabled
 
 ## [stable-3.8.141] - Sep 27, 2026
 
