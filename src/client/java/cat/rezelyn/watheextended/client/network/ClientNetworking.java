@@ -7,6 +7,7 @@ import cat.rezelyn.watheextended.game.LastStand;
 import cat.rezelyn.watheextended.network.ClientConfig;
 import cat.rezelyn.watheextended.network.PronounsManager;
 import cat.rezelyn.watheextended.network.ServerConfig;
+import cat.rezelyn.watheextended.game.roles.swapper.SwapperTeleportPayload;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 
 /** Registers the client receivers for every payload the server sends and forwards them */
@@ -16,11 +17,28 @@ public final class ClientNetworking {
 
   public static void register() {
     ClientPlayNetworking.registerGlobalReceiver(
+        SwapperTeleportPayload.ID, ClientNetworking::handleSwapperTeleport);
+    ClientPlayNetworking.registerGlobalReceiver(
         LastStand.LastStandPayload.ID, ClientNetworking::handleLastStand);
     ClientPlayNetworking.registerGlobalReceiver(
         ServerConfig.SyncPayload.ID, ClientNetworking::handleConfigSync);
     ClientPlayNetworking.registerGlobalReceiver(
         PronounsManager.SyncPayload.ID, ClientNetworking::handlePronounsSync);
+  }
+
+  private static void handleSwapperTeleport(
+      SwapperTeleportPayload swap, ClientPlayNetworking.Context context) {
+    var player = context.player();
+    var partner = player.getWorld().getEntityById(swap.partnerId());
+    if (partner != null) {
+      var pos = swap.partnerDestination();
+      partner.updateTrackedPositionAndAngles(
+          pos.x, pos.y, pos.z, partner.getYaw(), partner.getPitch(), 0);
+      partner.refreshPositionAfterTeleport(pos.x, pos.y, pos.z);
+    }
+    
+    var pos = swap.destination();
+    player.refreshPositionAfterTeleport(pos.x, pos.y, pos.z);
   }
 
   private static void handleLastStand(

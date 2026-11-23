@@ -4,6 +4,7 @@ import cat.rezelyn.watheextended.api.GameStatus;
 import cat.rezelyn.watheextended.command.PronounsCommand;
 import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
 import cat.rezelyn.watheextended.game.*;
+import cat.rezelyn.watheextended.game.roles.swapper.SwapperTeleportPayload;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.MapVariablesWorldComponent;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
@@ -21,6 +22,7 @@ public final class ServerNetworking {
 
   public static void register() {
     ConfigSchema.register();
+    PayloadTypeRegistry.playS2C().register(SwapperTeleportPayload.ID, SwapperTeleportPayload.CODEC);
     PayloadTypeRegistry.playS2C().register(ServerConfig.SyncPayload.ID, ServerConfig.SyncPayload.CODEC);
     PayloadTypeRegistry.playC2S().register(PronounsManager.UpdatePayload.ID, PronounsManager.UpdatePayload.CODEC);
     PayloadTypeRegistry.playS2C().register(PronounsManager.SyncPayload.ID, PronounsManager.SyncPayload.CODEC);
