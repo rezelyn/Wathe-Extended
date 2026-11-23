@@ -6,14 +6,17 @@ import cat.rezelyn.watheextended.client.widget.PlayerRowLayout;
 import cat.rezelyn.watheextended.client.widget.PlayerRowPagination;
 import cat.rezelyn.watheextended.client.widget.RolePickerWidget;
 import cat.rezelyn.watheextended.compat.AddonModCompat;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.gui.screen.ingame.LimitedInventoryScreen;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -24,9 +27,8 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.world.GameMode;
 import org.agmas.harpymodloader.Harpymodloader;
 import org.agmas.noellesroles.Noellesroles;
 import org.agmas.noellesroles.client.ui.guesser.GuesserPlayerWidget;
@@ -48,18 +50,14 @@ public abstract class GuesserRolePickerMixin extends Screen {
   private List<ClickableWidget> watheextended$swapperWidgets = new ArrayList<>();
   private List<ClickableWidget> watheextended$voodooWidgets = new ArrayList<>();
   private List<ClickableWidget> watheextended$judgeWidgets = new ArrayList<>();
-  private List<ClickableWidget> watheextended$guesserPlayerWidgets = new ArrayList<>();
+  private List<GuesserPlayerWidget> watheextended$guesserCandidates = List.of();
+  private final Set<GuesserPlayerWidget> watheextended$excludedTargets = new HashSet<>();
+  private List<GuesserPlayerWidget> watheextended$guesserPlayerWidgets = List.of();
   private PlayerRowPagination watheextended$guesserPageControl;
   private int watheextended$guesserPlayersY;
 
   protected GuesserRolePickerMixin() {
     super(Text.empty());
-  }
-
-  @Inject(method = "init", at = @At("HEAD"))
-  private void watheextended$resetGuesserPagination(CallbackInfo ci) {
-    watheextended$guesserPageControl = null;
-    watheextended$guesserPlayersY = 0;
   }
 
   private static List<RolePickerWidget.RoleEntry> buildGuesserEntries(boolean guesserIsInnocent) {
@@ -104,12 +102,18 @@ public abstract class GuesserRolePickerMixin extends Screen {
     return result;
   }
 
-  @Inject(method = "init", at = @At("TAIL"))
-  private void watheextended$guesserPickerInit(CallbackInfo ci) {
+  @WrapMethod(method = "init")
+  private void watheextended$guesserPickerInit(Operation<Void> original) {
+    // The Necromancer's disabled shop can end init early, after the Guesser widgets are added.
+    original.call();
+    watheextended$guesserPageControl = null;
+    watheextended$guesserPlayersY = 0;
     watheextended$guesserPicker = null;
     watheextended$bodymakerWidgets = new ArrayList<>();
     watheextended$bodymakerReasonWidgets = new ArrayList<>();
-    watheextended$guesserPlayerWidgets = new ArrayList<>();
+    watheextended$guesserCandidates = List.of();
+    watheextended$excludedTargets.clear();
+    watheextended$guesserPlayerWidgets = List.of();
     watheextended$morphlingWidgets = new ArrayList<>();
     watheextended$swapperWidgets = new ArrayList<>();
     watheextended$voodooWidgets = new ArrayList<>();
@@ -199,32 +203,18 @@ public abstract class GuesserRolePickerMixin extends Screen {
       } catch (Exception ignored) {
       }
 
-      for (Element child : List.copyOf(this.children())) {
-        if (guesserPicker.isInstance(child) && child instanceof ClickableWidget widget) {
-          boolean isMimic = false;
-          try {
-            Field targetUUIDField = guesserPicker.getField("targetUUID");
-            UUID targetUUID = (UUID) targetUUIDField.get(widget);
-            ClientWorld world = MinecraftClient.getInstance().world;
-            if (world != null && targetUUID != null) {
-              PlayerEntity targetPlayer = world.getPlayerByUuid(targetUUID);
-              if (targetPlayer != null) {
-                isMimic =
-                    GameWorldComponent.KEY.get(world).isRole(targetPlayer, Noellesroles.MIMIC);
-              }
-            }
-          } catch (Exception ignored) {
-          }
-          if (isMimic) {
-            this.remove(widget);
-          } else {
-            PlayerRowPagination.resetWidgetVisibility(widget, true);
-            watheextended$guesserPlayerWidgets.add(widget);
-          }
-        }
+      watheextended$guesserCandidates =
+          this.children().stream()
+              .filter(GuesserPlayerWidget.class::isInstance)
+              .map(GuesserPlayerWidget.class::cast)
+              .toList();
+      watheextended$guesserPlayerWidgets = watheextended$guesserCandidates;
+      for (var widget : watheextended$guesserPlayerWidgets) {
+        PlayerRowPagination.resetWidgetVisibility(widget, true);
       }
+      watheextended$refreshGuesserTargets();
 
-      if (!watheextended$guesserPlayerWidgets.isEmpty()) {
+      if (!watheextended$guesserCandidates.isEmpty()) {
         watheextended$guesserPlayersY = (this.height - 32) / 2 + 60;
         watheextended$guesserPageControl = new PlayerRowPagination();
         this.addDrawableChild(watheextended$guesserPageControl.previousButton());
@@ -257,7 +247,10 @@ public abstract class GuesserRolePickerMixin extends Screen {
               entries,
               sendValue -> {
                 UUID selected = GuesserPlayerWidget.selectedPlayer;
-                if (selected == null) return;
+                if (!watheextended$isGuesserTarget(selected)) {
+                  GuesserPlayerWidget.selectedPlayer = null;
+                  return;
+                }
                 ClientPlayNetworking.send(new GuessC2SPacket(selected, sendValue));
                 screen.close();
               });
@@ -274,6 +267,7 @@ public abstract class GuesserRolePickerMixin extends Screen {
   @Inject(method = "render", at = @At("HEAD"))
   private void watheextended$updateGuesserPickerVisibility(
       DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+    watheextended$refreshGuesserTargets();
     boolean playerSelected = GuesserPlayerWidget.selectedPlayer != null;
     boolean rolePickerOpen =
         RolePickerWidget.isOpen(this) || AddonModCompat.isGuesserPickerOpen();
@@ -340,14 +334,52 @@ public abstract class GuesserRolePickerMixin extends Screen {
   }
 
   @Unique
-  private void watheextended$layoutGuesserPlayers(boolean rolePickerOpen) {
-    if (watheextended$guesserPlayerWidgets.isEmpty()
-        || watheextended$guesserPageControl == null) {
-      return;
+  private boolean watheextended$isGuesserTarget(UUID uuid) {
+    if (uuid == null || this.client == null || this.client.world == null
+        || this.client.getNetworkHandler() == null) return false;
+    // Wathe deaths switch the player to spectator mode. The player list carries that update
+    // even when the target is outside entity tracking range.
+    var entry = this.client.getNetworkHandler().getPlayerListEntry(uuid);
+    return entry != null && entry.getGameMode() != GameMode.SPECTATOR
+        && !GameWorldComponent.KEY.get(this.client.world).isRole(uuid, Noellesroles.MIMIC);
+  }
+
+  @Unique
+  private void watheextended$refreshGuesserTargets() {
+    boolean changed = false;
+    for (var widget : watheextended$guesserCandidates) {
+      if (watheextended$isGuesserTarget(widget.targetUUID)) {
+        if (watheextended$excludedTargets.remove(widget)) {
+          PlayerRowPagination.resetWidgetVisibility(widget, true);
+          this.addDrawableChild(widget);
+          changed = true;
+        }
+      } else if (watheextended$excludedTargets.add(widget)) {
+        widget.visible = false;
+        this.remove(widget);
+        if (widget.targetUUID.equals(GuesserPlayerWidget.selectedPlayer)) {
+          GuesserPlayerWidget.selectedPlayer = null;
+        }
+        changed = true;
+      }
     }
+    if (changed) {
+      watheextended$guesserPlayerWidgets = watheextended$guesserCandidates.stream()
+          .filter(widget -> !watheextended$excludedTargets.contains(widget))
+          .toList();
+    }
+  }
+
+  @Unique
+  private void watheextended$layoutGuesserPlayers(boolean rolePickerOpen) {
+    if (watheextended$guesserPageControl == null) return;
 
     PlayerRowPagination controls = watheextended$guesserPageControl;
     controls.setEntryCount(watheextended$guesserPlayerWidgets.size(), this.width);
+    if (watheextended$guesserPlayerWidgets.isEmpty()) {
+      controls.setControlsVisible(false);
+      return;
+    }
     int roleRowsBottom = watheextended$roleRowsBottom();
     int secondaryRowGap = PlayerRowLayout.secondaryRowGap();
     int secondaryRowSpace =
