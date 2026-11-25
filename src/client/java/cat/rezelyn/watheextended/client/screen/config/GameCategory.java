@@ -23,11 +23,13 @@ public final class GameCategory {
 
     builder.group("game.gamerules", GameCategory::gamerulesGroup);
     builder.group("game.watheOptions", GameCategory::watheOptionsGroup);
+
     if (cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) {
       builder.group("game.extraOptions", GameCategory::extraOptionsGroup);
     }
   }
 
+  // Gamerules
   private static void gamerulesGroup(GroupBuilder group) {
     group
         .name(text("category.game.group.gamerules"))
@@ -36,6 +38,7 @@ public final class GameCategory {
 
     World client = MinecraftClient.getInstance().world;
 
+    /// PLAYER COLLISIONS
     group.option(
         SettingKey.of("watheextended.playerCollisions", Boolean.class),
         option ->
@@ -46,6 +49,7 @@ public final class GameCategory {
                 .controller(Controllers.bool(true))
                 .formatter(ConfigText::onOff));
 
+    /// SUPPRESS ABILITY VFX/SFX
     group.option(
         SettingKey.of("watheextended.suppressAbilityVfxSfx", Boolean.class),
         option ->
@@ -56,6 +60,7 @@ public final class GameCategory {
                 .controller(Controllers.bool(true))
                 .formatter(ConfigText::onOff));
 
+    /// MORPH PSYCHOSIS
     if (ConfigHelper.isLoaded()) {
       group.option(
           SettingKey.of("noellesroles.insanePlayersSeeMorphs", Boolean.class),
@@ -68,6 +73,7 @@ public final class GameCategory {
                   .formatter(ConfigText::onOff));
     }
 
+    // Last Stand
     group.entry(
         new EntryDefinition.FullWidthLabel(
             "category.game.group.gamerules.label.laststand",
@@ -75,6 +81,8 @@ public final class GameCategory {
                 .styled(style -> style.withColor(0xAAAAAA)),
             Text.empty(),
             ctx -> true));
+
+    /// STATE
     group.option(
         SettingKey.of("watheextended.lastStand.enabled", Boolean.class),
         option ->
@@ -85,6 +93,7 @@ public final class GameCategory {
                 .controller(Controllers.bool(true))
                 .formatter(ConfigText::onOff));
 
+    /// COOLDOWN
     group.option(
         SettingKey.of("watheextended.lastStand.cooldown", Integer.class),
         option ->
@@ -95,12 +104,15 @@ public final class GameCategory {
                 .controller(
                     Controllers.numberField(Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
 
+    // Instinct
     group.entry(
         new EntryDefinition.FullWidthLabel(
             "category.game.label.instinct",
             text("category.client.label.instinct").styled(style -> style.withColor(0xAAAAAA)),
             Text.empty(),
             ctx -> true));
+
+    /// CAPACITY
     group.option(
         SettingKey.of("watheextended.instinct.capacity", Float.class),
         option ->
@@ -112,6 +124,8 @@ public final class GameCategory {
                 .formatter(
                     value -> Text.literal(String.format(java.util.Locale.ROOT, "%.0fs", value)))
                 .validator(value -> range(value, 0.0f, 60.0f)));
+
+    /// DRAIN RATE
     group.option(
         SettingKey.of("watheextended.instinct.drainRate", Float.class),
         option ->
@@ -123,6 +137,8 @@ public final class GameCategory {
                 .formatter(
                     value -> Text.literal(String.format(java.util.Locale.ROOT, "-%.1fs/s", value)))
                 .validator(value -> range(value, 0.0f, 10.0f)));
+
+    /// RELOAD RATE
     group.option(
         SettingKey.of("watheextended.instinct.reloadRate", Float.class),
         option ->
@@ -135,10 +151,8 @@ public final class GameCategory {
                     value -> Text.literal(String.format(java.util.Locale.ROOT, "+%.1fs/s", value)))
                 .validator(value -> range(value, 0.0f, 10.0f)));
 
+    // Safe prep time
     if (cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) {
-      final boolean startSafeTimeDefault =
-          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getEnableStartSafeTime(
-              client);
       group.entry(
           new EntryDefinition.FullWidthLabel(
               "category.game.group.gamerules.label.safepreptime",
@@ -146,6 +160,12 @@ public final class GameCategory {
                   .styled(style -> style.withColor(0xAAAAAA)),
               Text.empty(),
               ctx -> true));
+
+      final boolean startSafeTimeDefault =
+          cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.getEnableStartSafeTime(
+              client);
+
+      /// STATE
       group.option(
           SettingKey.of("kinswathe.EnableStartSafeTime", Boolean.class),
           option ->
@@ -156,6 +176,7 @@ public final class GameCategory {
                   .controller(Controllers.bool(true))
                   .formatter(ConfigText::onOff));
 
+      /// COOLDOWN
       group.option(
           SettingKey.of("kinswathe.StartingCooldown", Integer.class),
           option ->
@@ -170,6 +191,7 @@ public final class GameCategory {
     }
   }
 
+  // Wathe Options
   private static void watheOptionsGroup(GroupBuilder group) {
     group
         .name(text("category.game.group.wathe_options"))
@@ -178,6 +200,7 @@ public final class GameCategory {
 
     World world = MinecraftClient.getInstance().world;
 
+    // Global
     group.entry(
         new EntryDefinition.FullWidthLabel(
             "category.game.group.wathe_options.label.global",
@@ -185,6 +208,8 @@ public final class GameCategory {
                 .styled(style -> style.withColor(0xAAAAAA)),
             Text.empty(),
             ctx -> true));
+
+    /// KILL TIME INCREASE
     group.option(
         SettingKey.of("watheextended.killIncreaseTime", Integer.class),
         option ->
@@ -197,6 +222,7 @@ public final class GameCategory {
                     value -> Text.literal(String.format(java.util.Locale.ROOT, "%ds", value)))
                 .validator(value -> range(value, 0, 60)));
 
+    /// SHOOTER PUNISHEMENT MODE
     group.option(
         SettingKey.of("watheextended.shootInnocentPunishmentMode", String.class),
         option ->
@@ -205,12 +231,13 @@ public final class GameCategory {
                 .description(text("category.game.group.wathe_options.opt.shooterpunishment.desc"))
                 .defaultValue("DEFAULT")
                 .controller(
-                    Controllers.cycling(
+                    Controllers.selection(
                         java.util.List.of("DEFAULT", "PREVENT_PICKUP", "KILL_SHOOTER", "KILL_BOTH"),
                         value ->
                             text(
                                 "category.game.group.wathe_options.opt.shooterpunishment."
-                                    + value.toLowerCase(java.util.Locale.ROOT))))
+                                    + value.toLowerCase(java.util.Locale.ROOT)),
+                        true))
                 .formatter(value ->
                     text(
                         "category.game.group.wathe_options.opt.shooterpunishment."
@@ -221,6 +248,7 @@ public final class GameCategory {
                         java.util.List.of(
                             "DEFAULT", "PREVENT_PICKUP", "KILL_SHOOTER", "KILL_BOTH"))));
 
+    /// BACKFIRE CHANCE
     group.option(
         SettingKey.of("command.backfire", Integer.class),
         option ->
@@ -233,6 +261,7 @@ public final class GameCategory {
                     value -> Text.literal(String.format(java.util.Locale.ROOT, "%d%%", value)))
                 .validator(value -> range(value, 0, 100)));
 
+    // Mood
     group.entry(
         new EntryDefinition.FullWidthLabel(
             "category.game.group.wathe_options.label.mood",
@@ -240,6 +269,8 @@ public final class GameCategory {
                 .styled(style -> style.withColor(0xAAAAAA)),
             Text.empty(),
             ctx -> true));
+
+    /// PREVENT SPRINT WHILE DEPRESSED
     group.option(
         SettingKey.of("watheextended.mood.depressedPreventSprintEnabled", Boolean.class),
         option ->
@@ -249,6 +280,8 @@ public final class GameCategory {
                 .defaultValue(true)
                 .controller(Controllers.bool(true))
                 .formatter(ConfigText::onOff));
+
+    /// PREVENT ABILITY WHILE DEPRESSED
     group.option(
         SettingKey.of("watheextended.mood.depressedAbilityDisableEnabled", Boolean.class),
         option ->
@@ -258,6 +291,8 @@ public final class GameCategory {
                 .defaultValue(true)
                 .controller(Controllers.bool(true))
                 .formatter(ConfigText::onOff));
+
+    /// PREVENT ABILITY WHILE DEPRESSED TIME
     group.option(
         SettingKey.of("watheextended.mood.depressedAbilityDisableTime", Integer.class),
         option ->
@@ -276,12 +311,15 @@ public final class GameCategory {
                                 "watheextended.mood.depressedAbilityDisableEnabled",
                                 Boolean.class)))));
 
+    // Roles
     group.entry(
         new EntryDefinition.FullWidthLabel(
             "category.roles",
             text("category.roles").styled(style -> style.withColor(0xAAAAAA)),
             Text.empty(),
             ctx -> true));
+
+    /// KILLER DIVIDEND
     group.option(
         SettingKey.of("command.killerDividend", Integer.class),
         option ->
@@ -291,6 +329,8 @@ public final class GameCategory {
                 .defaultValue(GameComponents.getKillerDividend(world))
                 .controller(
                     Controllers.numberField(Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
+
+    /// VIGILANTE DIVIDEND
     group.option(
         SettingKey.of("command.vigilanteDividend", Integer.class),
         option ->
@@ -302,12 +342,15 @@ public final class GameCategory {
                 .controller(
                     Controllers.numberField(Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
 
+    // Modifiers
     group.entry(
         new EntryDefinition.FullWidthLabel(
             "category.modifiers",
             text("category.modifiers").styled(style -> style.withColor(0xAAAAAA)),
             Text.empty(),
             ctx -> true));
+
+    /// MAXIMUM MODIFIERS
     group.option(
         SettingKey.of("hml.modifierMaximum", Integer.class),
         option ->
@@ -317,6 +360,8 @@ public final class GameCategory {
                 .defaultValue(1)
                 .controller(
                     Controllers.numberField(Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
+
+    /// MODIFIER MULTIPLIER
     group.option(
         SettingKey.of("hml.modifierMultiplier", Integer.class),
         option ->
@@ -328,6 +373,7 @@ public final class GameCategory {
                 .controller(
                     Controllers.numberField(Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
 
+    // Economy
     group.entry(
         new EntryDefinition.FullWidthLabel(
             "category.game.group.gamerules.label.economy",
@@ -336,6 +382,7 @@ public final class GameCategory {
             Text.empty(),
             ctx -> true));
 
+    /// BASE PASSIVE INCOME
     group.option(
         SettingKey.of("watheextended.balance.basePassiveIncome", Integer.class),
         option ->
@@ -345,6 +392,8 @@ public final class GameCategory {
                 .defaultValue(5)
                 .controller(
                     Controllers.numberField(Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
+
+    /// ADJUST PASSIVE INCOME
     group.option(
         SettingKey.of("watheextended.balance.adjustPassiveIncome", Boolean.class),
         option ->
@@ -355,6 +404,8 @@ public final class GameCategory {
                 .defaultValue(false)
                 .controller(Controllers.bool(true))
                 .formatter(ConfigText::onOff));
+
+    /// MAX PASSIVE INCOME DISTANCE
     group.option(
         SettingKey.of("watheextended.balance.maxPassiveIncomeDistance", Integer.class),
         option ->
@@ -370,6 +421,8 @@ public final class GameCategory {
                         ctx.get(
                             SettingKey.of(
                                 "watheextended.balance.adjustPassiveIncome", Boolean.class)))));
+
+    /// MIN PASSIVE INCOME DISTANCE
     group.option(
         SettingKey.of("watheextended.balance.minPassiveIncome", Integer.class),
         option ->
@@ -386,6 +439,7 @@ public final class GameCategory {
                                 "watheextended.balance.adjustPassiveIncome", Boolean.class)))));
   }
 
+  // Extra Options
   private static void extraOptionsGroup(GroupBuilder group) {
     group
         .name(text("category.game.group.extra_options"))
@@ -394,6 +448,7 @@ public final class GameCategory {
 
     World world = MinecraftClient.getInstance().world;
 
+    /// ENABLE WATHE MODIFIERS
     group.option(
         SettingKey.of("kinswathe.EnableWatheModify", Boolean.class),
         option ->
@@ -403,6 +458,7 @@ public final class GameCategory {
                 .defaultValue(false)
                 .controller(Controllers.tickBox()));
 
+    /// INITIAL CIVILIAN INCOME
     group.option(
         SettingKey.of("kinswathe.InitialCivilianIncome", Integer.class),
         option ->
@@ -417,6 +473,7 @@ public final class GameCategory {
                     Boolean.TRUE.equals(
                         ctx.get(SettingKey.of("kinswathe.EnableWatheModify", Boolean.class)))));
 
+    /// INITIAL NEUTRAL INCOME
     group.option(
         SettingKey.of("kinswathe.InitialNeutralIncome", Integer.class),
         option ->
@@ -431,6 +488,7 @@ public final class GameCategory {
                     Boolean.TRUE.equals(
                         ctx.get(SettingKey.of("kinswathe.EnableWatheModify", Boolean.class)))));
 
+    /// INITIAL KILLER INCOME
     group.option(
         SettingKey.of("kinswathe.InitialKillerIncome", Integer.class),
         option ->
@@ -444,6 +502,7 @@ public final class GameCategory {
                     Boolean.TRUE.equals(
                         ctx.get(SettingKey.of("kinswathe.EnableWatheModify", Boolean.class)))));
 
+    /// KILL INCOME
     group.option(
         SettingKey.of("kinswathe.IncreaseMoneyWhenKill", Integer.class),
         option ->
@@ -458,6 +517,7 @@ public final class GameCategory {
                     Boolean.TRUE.equals(
                         ctx.get(SettingKey.of("kinswathe.EnableWatheModify", Boolean.class)))));
 
+    /// ENABLE NOELLES ROLES MODIFIERS
     group.option(
         SettingKey.of("kinswathe.EnableNoellesRolesModify", Boolean.class),
         option ->
@@ -467,6 +527,7 @@ public final class GameCategory {
                 .defaultValue(false)
                 .controller(Controllers.tickBox()));
 
+    /// CONDUCTOR INSTINCT
     group.option(
         SettingKey.of("kinswathe.ConductorInstinctModify", Boolean.class),
         option ->
@@ -481,6 +542,7 @@ public final class GameCategory {
                         ctx.get(
                             SettingKey.of("kinswathe.EnableNoellesRolesModify", Boolean.class)))));
 
+    /// CORONER INSTINCT
     group.option(
         SettingKey.of("kinswathe.CoronerInstinctModify", Boolean.class),
         option ->

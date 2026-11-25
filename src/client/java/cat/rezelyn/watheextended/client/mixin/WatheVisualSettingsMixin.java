@@ -16,7 +16,7 @@ public abstract class WatheVisualSettingsMixin {
 
   @ModifyReturnValue(method = "isSnowing", at = @At("RETURN"))
   private boolean watheextended$applySnowflakePreference(boolean original) {
-    return WatheExtendedClientConfig.showSnowflakes;
+    return original && WatheExtendedClientConfig.showSnowflakes;
   }
 
   @ModifyReturnValue(method = "isFoggy", at = @At("RETURN"))

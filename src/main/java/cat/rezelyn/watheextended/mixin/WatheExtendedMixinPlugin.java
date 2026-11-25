@@ -137,15 +137,16 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
     if (mixinClassName.endsWith(PLAYER_SLOT_TEXTURE_MIXIN)) {
       return loader.isModLoaded("noellesroles") || loader.isModLoaded("kinswathe");
     }
+
     if (matches(mixinClassName, NOELLES_ROLES_MIXINS) && !loader.isModLoaded("noellesroles"))
       return false;
     if (matches(mixinClassName, STARRY_EXPRESS_MIXINS) && !loader.isModLoaded("starexpress"))
       return false;
     if (matches(mixinClassName, STUPID_EXPRESS_MIXINS) && !loader.isModLoaded("stupid_express"))
       return false;
-    if (matches(mixinClassName, WATHE_EXTRA_ITEMS_MIXINS) && !loader.isModLoaded("watheextraitems"))
-      return false;
     if (matches(mixinClassName, KINS_WATHE_MIXINS) && !loader.isModLoaded("kinswathe"))
+      return false;
+    if (matches(mixinClassName, WATHE_EXTRA_ITEMS_MIXINS) && !loader.isModLoaded("watheextraitems"))
       return false;
 
     if (mixinClassName.endsWith(LEGACY_IMPORTS_MIXIN) && !loader.isModLoaded("kinswathe"))

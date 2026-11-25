@@ -6,7 +6,6 @@ import cat.rezelyn.orelib.api.config.ConfigBuilder.CategoryBuilder;
 import cat.rezelyn.orelib.api.controller.Controllers;
 import cat.rezelyn.orelib.api.setting.SettingKey;
 import cat.rezelyn.watheextended.WatheExtendedServerConfig;
-import cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper;
 import cat.rezelyn.watheextended.client.screen.ScreenUtils;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.text.MutableText;
@@ -873,7 +872,7 @@ public class ItemsCategory {
                                   text("category.items.group.tape.tapetearmoodchange.desc"))
                               .defaultValue(0.1f)
                               .controller(
-                                  Controllers.numberSlider(Float.class, 0.0f, 1.0f, 0.1f, false))
+                                  Controllers.numberSlider(Float.class, 0.0f, 1.0f, 0.1f, true))
                               .formatter(ConfigText::percent)
                               .validator(value -> range(value, 0.0f, 1.0f)))
                   .option(
@@ -900,7 +899,7 @@ public class ItemsCategory {
                   .collapsed(true));
     }
 
-    if (ConfigHelper.isLoaded()) {
+    if (cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper.isLoaded()) {
       // Jerry Can
       builder.group(
           "items.jerry_can",

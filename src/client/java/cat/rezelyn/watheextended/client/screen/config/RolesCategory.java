@@ -59,10 +59,13 @@ public final class RolesCategory {
                   ? display.display().copy().styled(style -> style.withColor(display.color()))
                   : Text.literal(RolesDisplay.prettyName(id)));
 
+          // Roles
           builder.group(
               "roles." + id,
               group -> {
                 group.name(label).description(Text.empty()).collapsed(true);
+
+                /// ROLE STATE
                 group.option(
                     enabledKey,
                     option ->
@@ -74,6 +77,7 @@ public final class RolesCategory {
                             .controller(Controllers.bool(true))
                             .formatter(ConfigText::onOff));
 
+                /// ROLE CHANCE
                 group.option(
                     SettingKey.of("watheextended.roleChance." + id, Float.class),
                     option ->
@@ -87,6 +91,7 @@ public final class RolesCategory {
                             .formatter(ConfigText::percent)
                             .validator(value -> range(value, 0.0f, 1.0f)));
 
+                /// ROLE OPTIONS
                 roleOptions(id, group);
               });
         }
@@ -106,12 +111,16 @@ public final class RolesCategory {
       // Bellringer
       case "kinswathe:bellringer" -> {
         if (!cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) return;
+
+        // Ability
         builder.entry(
             new EntryDefinition.FullWidthLabel(
                 "roles.kinswathe:bellringer.text.ability",
                 text("text.ability").styled(style -> style.withColor(0xAAAAAA)),
                 Text.empty(),
                 ctx -> true));
+
+        /// ABILITY PRICE
         builder.option(
             SettingKey.of("kinswathe.BellringerAbilityPrice", Integer.class),
             option ->
@@ -122,6 +131,8 @@ public final class RolesCategory {
                     .controller(
                         Controllers.numberField(
                             Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
+
+        /// ABILITY COOLDOWN
         builder.option(
             SettingKey.of("kinswathe.BellringerAbilityCooldown", Integer.class),
             option ->
@@ -133,15 +144,20 @@ public final class RolesCategory {
                         Controllers.numberField(
                             Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
       }
+
       // Bodymaker
       case "kinswathe:bodymaker" -> {
         if (!cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) return;
+
+        // Ability
         builder.entry(
             new EntryDefinition.FullWidthLabel(
                 "roles.kinswathe:bodymaker.text.ability",
                 text("text.ability").styled(style -> style.withColor(0xAAAAAA)),
                 Text.empty(),
                 ctx -> true));
+
+        /// ABILITY COOLDOWN
         builder.option(
             SettingKey.of("kinswathe.BodymakerAbilityCooldown", Integer.class),
             option ->
@@ -152,6 +168,8 @@ public final class RolesCategory {
                     .controller(
                         Controllers.numberField(
                             Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
+
+        /// CAN CREATE FAKE ROLES
         builder.option(
             SettingKey.of("kinswathe.BodymakerAbilityFakeRole", Boolean.class),
             option ->
@@ -162,9 +180,12 @@ public final class RolesCategory {
                     .controller(Controllers.bool(true))
                     .formatter(ConfigText::onOff));
       }
+
       // Cleaner
       case "kinswathe:cleaner" -> {
         if (!cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) return;
+
+        /// BARREL COIN BONUS
         builder.option(
             SettingKey.of("watheextended.cleaner.acidBarrelCoinBonusEnabled", Boolean.class),
             option ->
@@ -174,6 +195,8 @@ public final class RolesCategory {
                     .defaultValue(false)
                     .controller(Controllers.bool(true))
                     .formatter(ConfigText::onOff));
+
+        /// COIN BONUS AMOUNT
         builder.option(
             SettingKey.of("watheextended.cleaner.acidBarrelCoins", Integer.class),
             option ->
@@ -190,12 +213,16 @@ public final class RolesCategory {
                                 SettingKey.of(
                                     "watheextended.cleaner.acidBarrelCoinBonusEnabled",
                                     Boolean.class)))));
+
+        // Ability
         builder.entry(
             new EntryDefinition.FullWidthLabel(
                 "roles.kinswathe:cleaner.text.ability",
                 text("text.ability").styled(style -> style.withColor(0xAAAAAA)),
                 Text.empty(),
                 ctx -> true));
+
+        /// ABILITY PRICE
         builder.option(
             SettingKey.of("kinswathe.CleanerAbilityPrice", Integer.class),
             option ->
@@ -206,6 +233,8 @@ public final class RolesCategory {
                     .controller(
                         Controllers.numberField(
                             Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
+
+        /// ABILITY COOLDOWN
         builder.option(
             SettingKey.of("kinswathe.CleanerAbilityCooldown", Integer.class),
             option ->
@@ -216,6 +245,8 @@ public final class RolesCategory {
                     .controller(
                         Controllers.numberField(
                             Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
+
+        /// ABILITY PLAYER LIMIT
         builder.option(
             SettingKey.of("watheextended.cleaner.playerLimit", Integer.class),
             option ->
@@ -227,15 +258,20 @@ public final class RolesCategory {
                         Controllers.numberField(
                             Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
       }
+
       // Detective
       case "kinswathe:detective" -> {
         if (!cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) return;
+
+        // Ability
         builder.entry(
             new EntryDefinition.FullWidthLabel(
                 "roles.kinswathe:detective.text.ability",
                 text("text.ability").styled(style -> style.withColor(0xAAAAAA)),
                 Text.empty(),
                 ctx -> true));
+
+        /// ABILITY PRICE
         builder.option(
             SettingKey.of("kinswathe.DetectiveAbilityPrice", Integer.class),
             option ->
@@ -246,6 +282,8 @@ public final class RolesCategory {
                     .controller(
                         Controllers.numberField(
                             Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
+
+        /// ABILITY COOLDOWN
         builder.option(
             SettingKey.of("kinswathe.DetectiveAbilityCooldown", Integer.class),
             option ->
@@ -257,9 +295,12 @@ public final class RolesCategory {
                         Controllers.numberField(
                             Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
       }
+
       // Dreamer
       case "kinswathe:dreamer" -> {
         if (!cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) return;
+
+        /// DREAM IMPRINT ITEM COUNT
         builder.option(
             SettingKey.of("kinswathe.DreamerInitialItemQuantity", Integer.class),
             option ->
@@ -270,6 +311,8 @@ public final class RolesCategory {
                     .controller(
                         Controllers.numberField(
                             Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
+
+        /// IMPRINT NOTIFICATION
         builder.option(
             SettingKey.of("watheextended.dreamer.imprintNotificationEnabled", Boolean.class),
             option ->
@@ -280,9 +323,12 @@ public final class RolesCategory {
                     .controller(Controllers.bool(true))
                     .formatter(ConfigText::onOff));
       }
+
       // Drugmaker
       case "kinswathe:drugmaker" -> {
         if (!cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) return;
+
+        /// PLAYER LIMIT
         builder.option(
             SettingKey.of("kinswathe.DrugmakerPlayerLimit", Integer.class),
             option ->
@@ -293,6 +339,8 @@ public final class RolesCategory {
                     .controller(
                         Controllers.numberField(
                             Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
+
+        /// HAS PASSIVE INCOME
         builder.option(
             SettingKey.of("kinswathe.DrugmakerGetCoins", Integer.class),
             option ->
@@ -687,9 +735,9 @@ public final class RolesCategory {
                     .name(text("category.roles.opt.infected.coughchance"))
                     .description(text("category.roles.opt.infected.coughchance.desc"))
                     .defaultValue(5)
-                    .controller(
-                        Controllers.numberField(
-                            Integer.class, Integer.MIN_VALUE, Integer.MAX_VALUE)));
+                    .controller(Controllers.numberSlider(Integer.class, 0, 100, 1, false))
+                    .formatter(value -> Text.literal(value + "%"))
+                    .validator(value -> range(value, 0, 100)));
       }
       // Recon
       case "noellesroles:recon" -> {

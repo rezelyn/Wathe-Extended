@@ -4,10 +4,12 @@ import static cat.rezelyn.watheextended.client.screen.config.ConfigText.*;
 
 import cat.rezelyn.orelib.api.config.ConfigBuilder.CategoryBuilder;
 import cat.rezelyn.orelib.api.config.ConfigBuilder.GroupBuilder;
+import cat.rezelyn.orelib.api.controller.Controller;
 import cat.rezelyn.orelib.api.controller.Controllers;
-import cat.rezelyn.orelib.api.model.EntryDefinition;
+import cat.rezelyn.orelib.api.setting.ResetPolicy;
 import cat.rezelyn.orelib.api.setting.SettingKey;
 import cat.rezelyn.orelib.api.setting.Validation;
+import cat.rezelyn.orelib.client.widget.OreLabel;
 import cat.rezelyn.watheextended.api.GameComponents;
 import cat.rezelyn.watheextended.api.MapVariables;
 import cat.rezelyn.watheextended.client.screen.ScreenUtils;
@@ -31,14 +33,12 @@ public final class MapCategory {
     String playAreaDefault = ScreenUtils.boxToArgs(MapVariables.getPlayArea(world));
     String playAreaOffsetDefault = ScreenUtils.vec3iToArgs(MapVariables.getPlayAreaOffset(world));
     String readyAreaDefault = ScreenUtils.boxToArgs(MapVariables.getReadyArea(world));
-    String resetPasteOffsetDefault =
-        ScreenUtils.vec3iToArgs(MapVariables.getResetPasteOffset(world));
+    String resetPasteOffsetDefault = ScreenUtils.vec3iToArgs(MapVariables.getResetPasteOffset(world));
     String spawnPosDefault = ScreenUtils.posToArgs(MapVariables.getSpawnPosition(world));
-    String readyAreaSpawnDefault =
-        ScreenUtils.posToArgs(MapVariables.getReadyAreaSpawnPosition(world));
-    String spectatorSpawnDefault =
-        ScreenUtils.posToArgs(MapVariables.getSpectatorSpawnPosition(world));
+    String readyAreaSpawnDefault = ScreenUtils.posToArgs(MapVariables.getReadyAreaSpawnPosition(world));
+    String spectatorSpawnDefault = ScreenUtils.posToArgs(MapVariables.getSpectatorSpawnPosition(world));
 
+    /// WORLD PROTECTION
     builder.option(
         SettingKey.of("watheextended.blockProtection", Boolean.class),
         option ->
@@ -48,6 +48,8 @@ public final class MapCategory {
                 .defaultValue(false)
                 .controller(Controllers.bool(true))
                 .formatter(ConfigText::onOff));
+
+    /// RTP
     builder.option(
         SettingKey.of("watheextended.rtpEnabled", Boolean.class),
         option ->
@@ -57,6 +59,8 @@ public final class MapCategory {
                 .defaultValue(false)
                 .controller(Controllers.bool(true))
                 .formatter(ConfigText::onOff));
+
+    /// ITEM BOUNDS CHECK
     builder.option(
         SettingKey.of("watheextended.itemBoundsCheck", Boolean.class),
         option ->
@@ -66,6 +70,8 @@ public final class MapCategory {
                 .defaultValue(true)
                 .controller(Controllers.bool(true))
                 .formatter(ConfigText::onOff));
+
+    /// JUMP MODE
     builder.option(
         SettingKey.of("watheextended.jumpMode", String.class),
         option ->
@@ -74,16 +80,19 @@ public final class MapCategory {
                 .description(text("category.map.opt.jumpmode.desc"))
                 .defaultValue("LOBBY")
                 .controller(
-                    Controllers.cycling(
+                    Controllers.selection(
                         java.util.List.of("DEFAULT", "LOBBY", "EVERYWHERE"),
                         value ->
                             text(
                                 "category.map.opt.jumpmode."
-                                    + value.toLowerCase(java.util.Locale.ROOT))))
+                                    + value.toLowerCase(java.util.Locale.ROOT)),
+                        true))
                 .formatter(value ->
                     text("category.map.opt.jumpmode." + value.toLowerCase(java.util.Locale.ROOT)))
                 .validator(
                     value -> choice(value, java.util.List.of("DEFAULT", "LOBBY", "EVERYWHERE"))));
+
+    /// AUTOSTART COOLDOWN
     builder.option(
         SettingKey.of("command.autoStart", Integer.class),
         option ->
@@ -103,6 +112,8 @@ public final class MapCategory {
           mapEffect
               .name(text("category.map.group.map_effect"))
               .description(text("category.map.group.map_effect.tooltip"));
+
+          /// GAMEMODE
           mapEffect.option(
               SettingKey.of("watheextended.map.gameMode", String.class),
               option ->
@@ -111,7 +122,7 @@ public final class MapCategory {
                       .description(text("category.map.group.map_effect.opt.gamemode.desc"))
                       .defaultValue("MODDED_MURDER")
                       .controller(
-                          Controllers.cycling(
+                          Controllers.selection(
                               java.util.List.of(
                                   "MODDED_MURDER",
                                   "MODDED_SECRET_MURDER",
@@ -122,7 +133,8 @@ public final class MapCategory {
                               value ->
                                   text(
                                       "category.map.group.map_effect.opt.gamemode."
-                                          + value.toLowerCase(java.util.Locale.ROOT))))
+                                          + value.toLowerCase(java.util.Locale.ROOT)),
+                              true))
                       .formatter(value ->
                           text(
                               "category.map.group.map_effect.opt.gamemode."
@@ -137,6 +149,8 @@ public final class MapCategory {
                                   "LOOSE_ENDS",
                                   "SECRET_MURDER",
                                   "DISCOVERY"))));
+
+          /// SECRET MURDER ROUND CHANCE
           mapEffect.option(
               SettingKey.of("watheextended.secretMurderChance", Integer.class),
               option ->
@@ -148,6 +162,8 @@ public final class MapCategory {
                       .formatter(value ->
                           Text.literal(String.format(java.util.Locale.ROOT, "%d%%", value)))
                       .validator(value -> range(value, 0, 100)));
+
+          /// USE GENERIC MAP EFFECT
           mapEffect.option(
               SettingKey.of("watheextended.map.generic", Boolean.class),
               option ->
@@ -157,8 +173,14 @@ public final class MapCategory {
                       .defaultValue(false)
                       .controller(Controllers.bool(true))
                       .formatter(ConfigText::onOff));
+
+          /// GAME TIME
           mapTimeOption(mapEffect, "time");
+
+          /// LOBBY TIME
           mapTimeOption(mapEffect, "lobbytime");
+
+          /// ROUND DURATION
           mapEffect.option(
               SettingKey.of("watheextended.map.duration", Integer.class),
               option ->
@@ -179,6 +201,8 @@ public final class MapCategory {
               .name(text("category.map.group.variables"))
               .description(text("category.map.group.variables.tooltip"))
               .collapsed(true);
+
+          /// LOBBY AREA
           group.option(
               SettingKey.of("command.lobbyArea", String.class),
               option ->
@@ -190,6 +214,8 @@ public final class MapCategory {
                       .defaultValue(lobbyAreaDefault)
                       .controller(Controllers.string())
                       .validator(value -> coordinates(value, 6, false)));
+
+          /// PLAY AREA
           group.option(
               SettingKey.of("command.playArea", String.class),
               option ->
@@ -201,6 +227,8 @@ public final class MapCategory {
                       .defaultValue(playAreaDefault)
                       .controller(Controllers.string())
                       .validator(value -> coordinates(value, 6, false)));
+
+          /// PLAY AREA OFFSET
           group.option(
               SettingKey.of("command.playAreaOffset", String.class),
               option ->
@@ -212,6 +240,8 @@ public final class MapCategory {
                       .defaultValue(playAreaOffsetDefault)
                       .controller(Controllers.string())
                       .validator(value -> coordinates(value, 3, false)));
+
+          /// READY AREA
           group.option(
               SettingKey.of("command.readyArea", String.class),
               option ->
@@ -223,6 +253,8 @@ public final class MapCategory {
                       .defaultValue(readyAreaDefault)
                       .controller(Controllers.string())
                       .validator(value -> coordinates(value, 6, false)));
+
+          /// RESET PASTE OFFSET
           group.option(
               SettingKey.of("command.resetPasteOffset", String.class),
               option ->
@@ -234,6 +266,8 @@ public final class MapCategory {
                       .defaultValue(resetPasteOffsetDefault)
                       .controller(Controllers.string())
                       .validator(value -> coordinates(value, 3, false)));
+
+          /// LOBBY SPAWN POSITION
           group.option(
               SettingKey.of("command.spawnPosition", String.class),
               option ->
@@ -245,6 +279,8 @@ public final class MapCategory {
                       .defaultValue(spawnPosDefault)
                       .controller(Controllers.string())
                       .validator(value -> coordinates(value, 5, false)));
+
+          /// READY AREA SPAWN POSITION
           group.option(
               SettingKey.of("command.readyAreaSpawnPosition", String.class),
               option ->
@@ -256,6 +292,8 @@ public final class MapCategory {
                       .defaultValue(readyAreaSpawnDefault)
                       .controller(Controllers.string())
                       .validator(value -> coordinates(value, 5, false)));
+
+          /// SPECTATOR SPAWN POSITION
           group.option(
               SettingKey.of("command.spectatorSpawnPosition", String.class),
               option ->
@@ -268,6 +306,8 @@ public final class MapCategory {
                       .controller(Controllers.string())
                       .validator(value -> coordinates(value, 5, false)));
         });
+
+    // RTP Slots
     builder.group("map.rtpSlots", MapCategory::buildRtpSlotsGroup);
   }
 
@@ -282,14 +322,15 @@ public final class MapCategory {
                 .description(text("category.map.group.map_effect.opt." + key + ".desc"))
                 .defaultValue(key.equals("lobbytime") ? "DAY" : "NIGHT")
                 .controller(
-                    Controllers.cycling(
+                    Controllers.selection(
                         java.util.List.of("DAY", "NIGHT", "SUNDOWN"),
                         value ->
                             text(
                                 "category.map.group.map_effect.opt."
                                     + key
                                     + "."
-                                    + value.toLowerCase(java.util.Locale.ROOT))))
+                                    + value.toLowerCase(java.util.Locale.ROOT)),
+                        true))
                 .formatter(value ->
                     text(
                         "category.map.group.map_effect.opt."
@@ -320,12 +361,21 @@ public final class MapCategory {
     }
 
     if (slots.isEmpty()) {
-      group.entry(
-          new EntryDefinition.FullWidthLabel(
-              "category.map.group.rtp_slots.none",
-              text("category.map.group.rtp_slots.none").styled(style -> style.withColor(0xFF5555)),
-              Text.empty(),
-              ctx -> true));
+      Text hint = text("category.map.group.rtp_slots.add_hint");
+      group.option(
+          SettingKey.of("client.rtpSlotsEmpty", Boolean.class),
+          option ->
+              option
+                  .name(Text.translatable("command.watheextended.rtp_slot.list_empty")
+                      .styled(style -> style.withColor(0xFF5555)))
+                  .description(hint)
+                  .defaultValue(false)
+                  .reset(ResetPolicy.NONE, ctx -> null)
+                  .controller(new Controller<>((ctx, binding) -> {
+                    var label = new OreLabel(ctx.x(), ctx.y(), ctx.width(), ctx.height(), hint);
+                    label.setHeight(label.wrappedHeight());
+                    return label;
+                  })));
     } else {
       for (Map.Entry<Integer, TeleportationSlot> entry : slots.entrySet()) {
         final int slotId = entry.getKey();

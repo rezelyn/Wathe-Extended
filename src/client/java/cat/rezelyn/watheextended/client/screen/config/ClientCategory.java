@@ -1,16 +1,20 @@
 package cat.rezelyn.watheextended.client.screen.config;
 
+import static cat.rezelyn.watheextended.api.config.wathe.ConfigHelper.getDisableScreenShake;
+import static cat.rezelyn.watheextended.api.config.wathe.ConfigHelper.setDisableScreenShake;
 import static cat.rezelyn.watheextended.client.screen.config.ConfigText.*;
 
 import cat.rezelyn.orelib.api.config.ConfigBuilder.CategoryBuilder;
 import cat.rezelyn.orelib.api.config.ConfigBuilder.GroupBuilder;
 import cat.rezelyn.orelib.api.controller.Controllers;
 import cat.rezelyn.orelib.api.model.EntryDefinition;
+import cat.rezelyn.orelib.api.setting.ResetPolicy;
 import cat.rezelyn.orelib.api.setting.SettingKey;
 import cat.rezelyn.orelib.api.setting.Validation;
-import cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper;
 import cat.rezelyn.watheextended.client.WatheExtendedClientConfig;
 import cat.rezelyn.watheextended.client.render.BoxDebugRenderer;
+import cat.rezelyn.watheextended.client.utils.PronounsCache;
+import cat.rezelyn.watheextended.compat.sodium.SceneryCompatibility;
 import net.minecraft.text.Text;
 
 public final class ClientCategory {
@@ -27,13 +31,16 @@ public final class ClientCategory {
             text("category.client.label.player").styled(style -> style.withColor(0xAAAAAA)),
             Text.empty(),
             ctx -> true));
+
+    /// PRONOUNS
     builder.option(
         SettingKey.of("player.pronouns", String.class),
         option ->
             option
                 .name(text("category.client.opt.pronouns"))
                 .description(text("category.client.opt.pronouns.desc"))
-                .defaultValue("")
+                .defaultSupplier(PronounsCache::getLocalPronouns)
+                .reset(ResetPolicy.NONE, ctx -> null)
                 .controller(Controllers.string())
                 .validator(ClientCategory::pronouns));
 
@@ -44,6 +51,8 @@ public final class ClientCategory {
             text("category.client.label.hud").styled(style -> style.withColor(0xAAAAAA)),
             Text.empty(),
             ctx -> true));
+
+    /// CHAT
     builder.option(
         SettingKey.of("client.showchat", Boolean.class),
         option ->
@@ -56,7 +65,9 @@ public final class ClientCategory {
                     value -> WatheExtendedClientConfig.set("showChatDuringGame", value))
                 .controller(Controllers.bool(true))
                 .formatter(ConfigText::onOff));
-    if (ConfigHelper.isLoaded()) {
+
+    /// STAMINA BAR
+    if (cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper.isLoaded()) {
       builder.option(
           SettingKey.of("client.staminabar", Boolean.class),
           option ->
@@ -64,10 +75,15 @@ public final class ClientCategory {
                   .name(text("category.client.opt.staminabar"))
                   .description(text("category.client.opt.staminabar.desc"))
                   .binding(
-                      false, ConfigHelper::getEnableStaminaBar, ConfigHelper::setEnableStaminaBar)
+                      false,
+                      cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper
+                          ::getEnableStaminaBar,
+                      cat.rezelyn.watheextended.api.config.kinswathe.ConfigHelper
+                          ::setEnableStaminaBar)
                   .controller(Controllers.bool(true))
                   .formatter(ConfigText::onOff));
     }
+
     // Instinct
     builder.entry(
         new EntryDefinition.FullWidthLabel(
@@ -75,6 +91,8 @@ public final class ClientCategory {
             text("category.client.label.instinct").styled(style -> style.withColor(0xAAAAAA)),
             Text.empty(),
             ctx -> true));
+
+    /// HUD STYLE
     builder.option(
         SettingKey.of("client.instinct.hudstyle", String.class),
         option ->
@@ -86,18 +104,21 @@ public final class ClientCategory {
                     () -> WatheExtendedClientConfig.instinctHudStyle,
                     value -> WatheExtendedClientConfig.set("instinctHudStyle", value))
                 .controller(
-                    Controllers.cycling(
+                    Controllers.selection(
                         java.util.List.of("FULL", "HALF_LEFT", "HALF_RIGHT"),
                         value ->
                             text(
                                 "category.client.opt.instinct.hudstyle."
-                                    + value.toLowerCase(java.util.Locale.ROOT))))
+                                    + value.toLowerCase(java.util.Locale.ROOT)),
+                        true))
                 .formatter(value ->
                     text(
                         "category.client.opt.instinct.hudstyle."
                             + value.toLowerCase(java.util.Locale.ROOT)))
                 .validator(
                     value -> choice(value, java.util.List.of("FULL", "HALF_LEFT", "HALF_RIGHT"))));
+
+    /// HUD OPACITY
     builder.option(
         SettingKey.of("client.instinct.hudopacity", Float.class),
         option ->
@@ -111,6 +132,8 @@ public final class ClientCategory {
                 .controller(Controllers.numberSlider(Float.class, 0.0f, 1.0f, 0.01f, false))
                 .formatter(ConfigText::percent)
                 .validator(value -> range(value, 0.0f, 1.0f)));
+
+    /// ALWAYS SHOW HUD
     builder.option(
         SettingKey.of("client.instinct.hudalwaysshow", Boolean.class),
         option ->
@@ -131,7 +154,8 @@ public final class ClientCategory {
             text("category.client.label.keybinds").styled(style -> style.withColor(0xAAAAAA)),
             Text.empty(),
             ctx -> true));
-    // INSTINCT
+
+    // INSTINCT MODE
     builder.option(
         SettingKey.of("client.instinctmode", String.class),
         option ->
@@ -149,7 +173,7 @@ public final class ClientCategory {
                 .formatter(value -> text("text." + value.toLowerCase(java.util.Locale.ROOT)))
                 .validator(value -> choice(value, java.util.List.of("HOLD", "TOGGLE"))));
 
-    // PRONING
+    // PRONE MODE
     builder.option(
         SettingKey.of("client.pronemode", String.class),
         option ->
@@ -174,6 +198,8 @@ public final class ClientCategory {
             text("category.client.label.visual").styled(style -> style.withColor(0xAAAAAA)),
             Text.empty(),
             ctx -> true));
+
+    /// SCREENSHAKE
     builder.option(
         SettingKey.of("client.screenshake", Boolean.class),
         option ->
@@ -181,11 +207,13 @@ public final class ClientCategory {
                 .name(text("category.client.opt.screenshake"))
                 .description(text("category.client.opt.screenshake.desc"))
                 .binding(
-                    false,
-                    cat.rezelyn.watheextended.api.config.wathe.ConfigHelper::getDisableScreenShake,
-                    cat.rezelyn.watheextended.api.config.wathe.ConfigHelper::setDisableScreenShake)
+                    true,
+                    () -> !getDisableScreenShake(),
+                    enabled -> setDisableScreenShake(!enabled))
                 .controller(Controllers.bool(true))
-                .formatter(value -> ConfigText.onOff(!value)));
+                .formatter(ConfigText::onOff));
+
+    /// CUSTOM FOG
     builder.option(
         SettingKey.of("client.fog", Boolean.class),
         option ->
@@ -198,6 +226,8 @@ public final class ClientCategory {
                     value -> WatheExtendedClientConfig.set("showFog", value))
                 .controller(Controllers.bool(true))
                 .formatter(ConfigText::onOff));
+
+    /// SHOW HUD
     builder.option(
         SettingKey.of("client.hud", Boolean.class),
         option ->
@@ -210,6 +240,8 @@ public final class ClientCategory {
                     value -> WatheExtendedClientConfig.set("showWatheHud", value))
                 .controller(Controllers.bool(true))
                 .formatter(ConfigText::onOff));
+
+    /// SNOWFLAKES
     builder.option(
         SettingKey.of("client.snowflakes", Boolean.class),
         option ->
@@ -222,6 +254,8 @@ public final class ClientCategory {
                     value -> WatheExtendedClientConfig.set("showSnowflakes", value))
                 .controller(Controllers.bool(true))
                 .formatter(ConfigText::onOff));
+
+    /// ULTRA PERFORMANCE MODE
     builder.option(
         SettingKey.of("client.ultraperfmode", Boolean.class),
         option ->
@@ -239,6 +273,7 @@ public final class ClientCategory {
     }
   }
 
+  // Debug
   private static void buildDebugGroup(GroupBuilder group) {
     group
         .name(text("category.client.group.debug").styled(style -> style.withColor(0xFF5555)))
@@ -255,8 +290,9 @@ public final class ClientCategory {
                         () -> BoxDebugRenderer.showBoxBoundaries,
                         value -> BoxDebugRenderer.showBoxBoundaries = value)
                     .controller(Controllers.bool(true))
-                    .formatter(ConfigText::onOff)
-                    .availability(ctx -> ctx.capability("operator")))
+                    .formatter(ConfigText::onOff))
+
+        /// SHOW SPAWN POSITIONS
         .option(
             SettingKey.of("client.showspawnpositions", Boolean.class),
             option ->
@@ -268,8 +304,9 @@ public final class ClientCategory {
                         () -> BoxDebugRenderer.showSpawnPositions,
                         value -> BoxDebugRenderer.showSpawnPositions = value)
                     .controller(Controllers.bool(true))
-                    .formatter(ConfigText::onOff)
-                    .availability(ctx -> ctx.capability("operator")))
+                    .formatter(ConfigText::onOff))
+
+        /// SHOW RTP SLOTS
         .option(
             SettingKey.of("client.showrtpslots", Boolean.class),
             option ->
@@ -281,8 +318,9 @@ public final class ClientCategory {
                         () -> BoxDebugRenderer.showRtpSlots,
                         value -> BoxDebugRenderer.showRtpSlots = value)
                     .controller(Controllers.bool(true))
-                    .formatter(ConfigText::onOff)
-                    .availability(ctx -> ctx.capability("operator")))
+                    .formatter(ConfigText::onOff))
+
+        /// SHOW ROOM KEYS ASSIGEMENTS
         .option(
             SettingKey.of("client.showkeyassignments", Boolean.class),
             option ->
@@ -294,8 +332,7 @@ public final class ClientCategory {
                         () -> BoxDebugRenderer.showKeyAssignments,
                         value -> BoxDebugRenderer.showKeyAssignments = value)
                     .controller(Controllers.bool(true))
-                    .formatter(ConfigText::onOff)
-                    .availability(ctx -> ctx.capability("operator")));
+                    .formatter(ConfigText::onOff));
   }
 
   private static Validation<String> pronouns(String value) {
