@@ -7,6 +7,8 @@
   "mixins": [
     "WatheVisualSettingsMixin",
     "compat.GuidebookButtonMixin",
+    "dev.DebugHudMixin",
+    "dev.KeyboardMixin",
     "fix.GraverobberCoronerHudMixin",
     "fix.PlayerBodyNullRendererMixin",
     "fix.PsychosisItemsRenderMixin",

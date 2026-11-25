@@ -134,6 +134,10 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
   @Override
   public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
     FabricLoader loader = FabricLoader.getInstance();
+
+    // dev environment only mixins
+    if (mixinClassName.contains(".client.mixin.dev.")) return loader.isDevelopmentEnvironment();
+
     if (mixinClassName.endsWith(PLAYER_SLOT_TEXTURE_MIXIN)) {
       return loader.isModLoaded("noellesroles") || loader.isModLoaded("kinswathe");
     }

@@ -1,0 +1,29 @@
+package cat.rezelyn.watheextended.client.mixin.dev;
+
+import com.bawnorton.mixinsquared.TargetHandler;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.hud.DebugHud;
+import net.minecraft.world.GameMode;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+
+@Mixin(value = DebugHud.class, priority = 1100)
+abstract class DebugHudMixin {
+  @TargetHandler(
+      mixin = "dev.doctor4t.wathe.mixin.client.restrictions.DebugHudMixin",
+      name = "shouldShowDebugHud")
+  @ModifyExpressionValue(
+      method = "@MixinSquared:Handler",
+      at =
+          @At(
+              value = "INVOKE",
+              target = "Ldev/doctor4t/wathe/client/WatheClient;isPlayerAliveAndInSurvival()Z"),
+      remap = false)
+  private boolean watheextended$allowAdventureDebugKeys(boolean restricted) {
+    var interactionManager = MinecraftClient.getInstance().interactionManager;
+    return restricted
+        && (interactionManager == null
+            || interactionManager.getCurrentGameMode() != GameMode.ADVENTURE);
+  }
+}
