@@ -8,6 +8,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Changed some configuration screen options controllers, mostly enum cycles to enum dropdowns for accessibility purposes.
+
 ### Fixed
 
 - **Licensed Villain** triggering **Jester** psychosis instead of killing them on sight (#122)
@@ -17,6 +21,7 @@
 - Sleeping players staying asleep after getting swapped by the **Swapper** and returning to the bed position when waking up
 - Dead players appearing in the **Guesser** player picker or remaining selected after dying (#125)
 - **Guesser** player picker missing its labels, pagination system and role picker list for the **Necromancer** when its shop is disabled
+- Various wrong defaults and broken options in the configuration screen
 
 ## [4.0.0-h1.4] - TBD
 
