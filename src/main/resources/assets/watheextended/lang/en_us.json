@@ -340,7 +340,7 @@
   "gui.watheextended.config.category.map.group.rtp_slots.tooltip": "View and edit the teleportation slots used by random teleportation.",
   "gui.watheextended.config.category.map.group.rtp_slots.slot": "Slot #%d",
   "gui.watheextended.config.category.map.group.rtp_slots.slot.desc": "Format: <x> <y> <z> <yaw> <pitch>\n\n§fEdit this slot's values.\nLeave the values blank to delete the slot.\n\nChanges take effect when saving.",
-  "gui.watheextended.config.category.map.group.rtp_slots.none": "No teleportation slots configured.\nYou can use the §e/watheextended:rtp slot add§r command to create slots.",
+  "gui.watheextended.config.category.map.group.rtp_slots.add_hint": "You can use the §e/watheextended:rtp slot add§r command to create slots.",
 
   "gui.watheextended.config.category.items": "Items",
   "gui.watheextended.config.category.items.tooltip": "Control various options related to in-game items",

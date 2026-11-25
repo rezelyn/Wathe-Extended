@@ -255,6 +255,22 @@ public final class ClientCategory {
                 .controller(Controllers.bool(true))
                 .formatter(ConfigText::onOff));
 
+    /// REDUCE TERRAIN GRAPH
+    if (SceneryCompatibility.SUPPORTED && SceneryCompatibility.SODIUM_08) {
+      builder.option(
+          SettingKey.of("client.limitTerrainGraphUpdates", Boolean.class),
+          option ->
+              option
+                  .name(text("category.client.opt.terraingraph"))
+                  .description(text("category.client.opt.terraingraph.desc"))
+                  .binding(
+                      true,
+                      () -> WatheExtendedClientConfig.limitTerrainGraphUpdates,
+                      value -> WatheExtendedClientConfig.set("limitTerrainGraphUpdates", value))
+                  .controller(Controllers.bool(true))
+                  .formatter(ConfigText::onOff));
+    }
+
     /// ULTRA PERFORMANCE MODE
     builder.option(
         SettingKey.of("client.ultraperfmode", Boolean.class),
