@@ -1,7 +1,7 @@
 package cat.rezelyn.watheextended.network;
 
 import cat.rezelyn.orelib.api.preset.PresetInfo;
-import cat.rezelyn.orelib.api.preset.PresetStorage;
+import cat.rezelyn.orelib.api.preset.FilePresetStorage;
 import cat.rezelyn.orelib.api.preset.StoredPreset;
 import cat.rezelyn.watheextended.WatheExtended;
 import com.google.gson.*;
@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.function.UnaryOperator;
 
 /** Adapts Wathe's existing one-file-per-preset schema to OreLib's live preset store. */
-public final class PresetManager implements PresetStorage {
+public final class PresetManager implements FilePresetStorage {
   private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
   private static final DateTimeFormatter LEGACY_DATE = DateTimeFormatter.ofPattern("MM/dd/yyyy-HH:mm:ss");
   private final Path directory;
@@ -38,13 +38,17 @@ public final class PresetManager implements PresetStorage {
   private record FilePreset(JsonObject document, StoredPreset preset) {}
 
   @Override
+  public Path path() {
+    return directory;
+  }
+
+  @Override
   public List<StoredPreset> list() {
     return readFiles().values().stream().map(FilePreset::preset).toList();
   }
 
   @Override
   public void update(UnaryOperator<List<StoredPreset>> operation) {
-    // OreLib's server-thread operations each mutate one file. Check that contract before writing.
     var existing = readFiles();
     var updated = new LinkedHashMap<String, StoredPreset>();
     for (var preset : operation.apply(existing.values().stream().map(FilePreset::preset).toList())) {
