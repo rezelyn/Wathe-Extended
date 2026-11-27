@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.client.mixin.game.mood;
 
+import cat.rezelyn.watheextended.api.AssignedModifier;
 import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import cat.rezelyn.watheextended.client.render.hud.VignetteRenderer;
 import cat.rezelyn.watheextended.game.modifiers.WatheExtendedModifiers;
@@ -15,7 +16,6 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.player.PlayerEntity;
-import org.agmas.harpymodloader.component.WorldModifierComponent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -60,8 +60,7 @@ public abstract class IntrovertedVignetteMixin {
       GameTimeComponent time = GameTimeComponent.KEY.get(player.getWorld());
       if (time.resetTime - time.getTime() < GameConstants.TIME_TO_FIRST_TASK) return false;
 
-      WorldModifierComponent modifier = WorldModifierComponent.KEY.get(player.getWorld());
-      if (!modifier.isModifier(player, WatheExtendedModifiers.INTROVERTED)) return false;
+      if (!AssignedModifier.hasModifier(player, WatheExtendedModifiers.INTROVERTED)) return false;
 
       float range =
           WatheExtendedServerConfig.introvertedCrowdRange

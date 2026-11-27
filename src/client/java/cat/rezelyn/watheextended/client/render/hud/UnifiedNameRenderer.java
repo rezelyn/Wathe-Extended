@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.client.render.hud;
 
+import cat.rezelyn.watheextended.api.AssignedModifier;
 import cat.rezelyn.watheextended.api.ModifiersDisplay;
 import cat.rezelyn.watheextended.api.RolesDisplay;
 import cat.rezelyn.watheextended.client.compat.KinsWatheAccess;
@@ -30,7 +31,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.MathHelper;
 import org.agmas.harpymodloader.Harpymodloader;
-import org.agmas.harpymodloader.component.WorldModifierComponent;
 import org.agmas.harpymodloader.modifiers.Modifier;
 import org.agmas.noellesroles.ConfigWorldComponent;
 import org.agmas.noellesroles.client.NoellesrolesClient;
@@ -463,9 +463,7 @@ public final class UnifiedNameRenderer {
 
   private static List<Modifier> getModifiers(PlayerEntity target) {
     try {
-      List<Modifier> modifiers =
-          WorldModifierComponent.KEY.get(target.getWorld()).getModifiers(target);
-      return modifiers == null ? List.of() : modifiers;
+      return AssignedModifier.findModifiers(target, true);
     } catch (Throwable ignored) {
       return List.of();
     }

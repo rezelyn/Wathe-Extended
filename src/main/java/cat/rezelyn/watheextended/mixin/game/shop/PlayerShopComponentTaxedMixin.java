@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.mixin.game.shop;
 
+import cat.rezelyn.watheextended.api.AssignedModifier;
 import cat.rezelyn.watheextended.game.modifiers.WatheExtendedModifiers;
 import cat.rezelyn.watheextended.game.modifiers.adaptive.AdaptiveModifier;
 import cat.rezelyn.watheextended.game.modifiers.taxed.TaxedModifier;
@@ -8,7 +9,6 @@ import dev.doctor4t.wathe.cca.PlayerShopComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import org.agmas.harpymodloader.component.WorldModifierComponent;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -32,9 +32,7 @@ public class PlayerShopComponentTaxedMixin {
       if (!game.isRunning()) return amount;
       if (!game.canUseKillerFeatures(p)) return amount;
 
-      WorldModifierComponent modifier = WorldModifierComponent.KEY.get(world);
-
-      if (!modifier.isModifier(p, WatheExtendedModifiers.TAXED)) return amount;
+      if (!AssignedModifier.hasModifier(p, WatheExtendedModifiers.TAXED)) return amount;
 
       AdaptiveModifier.KillContext kill = AdaptiveModifier.CURRENT_KILL.get();
 

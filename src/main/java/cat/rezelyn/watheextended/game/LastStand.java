@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.game;
 
+import cat.rezelyn.watheextended.api.AssignedModifier;
 import cat.rezelyn.watheextended.WatheExtended;
 import cat.rezelyn.watheextended.WatheExtendedServerConfig;
 import cat.rezelyn.watheextended.api.GameStatus;
@@ -15,7 +16,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.agmas.harpymodloader.component.WorldModifierComponent;
 import org.agmas.noellesroles.Noellesroles;
 import org.jetbrains.annotations.Nullable;
 
@@ -119,8 +119,7 @@ public final class LastStand {
 
   private static boolean isGuesser(PlayerEntity player) {
     try {
-      WorldModifierComponent wmc = WorldModifierComponent.KEY.get(player.getWorld());
-      return wmc.isModifier(player, Noellesroles.GUESSER);
+      return AssignedModifier.hasModifier(player, Noellesroles.GUESSER);
     } catch (Throwable ignored) {
     }
     return false;

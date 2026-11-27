@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.client.mixin.fix;
 
+import cat.rezelyn.watheextended.api.AssignedModifier;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.api.WatheRoles;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
@@ -16,7 +17,6 @@ import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import org.agmas.harpymodloader.component.WorldModifierComponent;
 import org.agmas.noellesroles.Noellesroles;
 import org.agmas.noellesroles.client.NoellesrolesClient;
 import org.agmas.noellesroles.coroner.BodyDeathReasonComponent;
@@ -46,8 +46,7 @@ public class GraverobberCoronerHudMixin {
       if (client.player == null) return;
 
       // only run for graverobber modifier
-      WorldModifierComponent modifier = WorldModifierComponent.KEY.get(client.player.getWorld());
-      if (!modifier.isModifier(client.player.getUuid(), Noellesroles.GRAVEROBBER)) return;
+      if (!AssignedModifier.hasModifier(client.player, Noellesroles.GRAVEROBBER)) return;
 
       // avoid rendering duplication for coroner and vulture roles
       GameWorldComponent game = GameWorldComponent.KEY.get(client.player.getWorld());
