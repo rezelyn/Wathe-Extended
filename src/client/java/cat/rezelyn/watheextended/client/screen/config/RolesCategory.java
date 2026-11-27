@@ -691,7 +691,7 @@ public final class RolesCategory {
             SettingKey.of("noellesroles.trapperSeesNames", Boolean.class),
             option ->
                 option
-                    .name(text("category.roles.opt.trapper.seesnames"))
+                    .name(text("text.seesnames"))
                     .description(text("category.roles.opt.trapper.seesnames.desc"))
                     .defaultValue(false)
                     .controller(Controllers.bool(true))
@@ -746,7 +746,7 @@ public final class RolesCategory {
             SettingKey.of("noellesroles.reconsSeeNames", Boolean.class),
             option ->
                 option
-                    .name(text("category.roles.opt.recon.seesnames"))
+                    .name(text("text.seesnames"))
                     .description(text("category.roles.opt.recon.seesnames.desc"))
                     .defaultValue(false)
                     .controller(Controllers.bool(true))
@@ -810,7 +810,7 @@ public final class RolesCategory {
             SettingKey.of("stupidexpress.arsonistKeepsGameGoing", Boolean.class),
             option ->
                 option
-                    .name(text("category.roles.opt.arsonist.keepsgamegoing"))
+                    .name(text("text.keepsgamegoing"))
                     .description(text("category.roles.opt.arsonist.keepsgamegoing.desc"))
                     .defaultValue(true)
                     .controller(Controllers.bool(true))
@@ -823,7 +823,7 @@ public final class RolesCategory {
             SettingKey.of("stupidexpress.amnesiacKeepsGameGoing", Boolean.class),
             option ->
                 option
-                    .name(text("category.roles.opt.amnesiac.keepsgamegoing"))
+                    .name(text("text.keepsgamegoing"))
                     .description(text("category.roles.opt.amnesiac.keepsgamegoing.desc"))
                     .defaultValue(true)
                     .controller(Controllers.bool(true))
