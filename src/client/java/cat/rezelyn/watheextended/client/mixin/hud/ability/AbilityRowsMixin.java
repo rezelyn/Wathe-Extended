@@ -1,4 +1,4 @@
-package cat.rezelyn.watheextended.client.mixin.hud;
+package cat.rezelyn.watheextended.client.mixin.hud.ability;
 
 import cat.rezelyn.watheextended.api.AssignedRole;
 import cat.rezelyn.watheextended.client.widget.PlayerRowLayout;
@@ -200,20 +200,25 @@ public abstract class AbilityRowsMixin extends Screen {
         watheextended$morphlingWidgets,
         "gui.watheextended.inventory.morphling.morph",
         color);
+
     watheextended$drawLabel(
         context, watheextended$swapperWidgets, "gui.watheextended.inventory.swapper.swap", color);
+
     watheextended$drawLabel(
         context, watheextended$judgeWidgets, "gui.watheextended.inventory.judge.judgement", color);
+
     watheextended$drawLabel(
         context,
         watheextended$bodymakerWidgets,
         "gui.watheextended.inventory.bodymaker.select",
         color);
+
     watheextended$drawLabel(
         context,
         watheextended$bodymakerReasonWidgets,
         "gui.watheextended.inventory.bodymaker.reason",
         color);
+
     watheextended$drawLabel(
         context,
         watheextended$voodooWidgets,

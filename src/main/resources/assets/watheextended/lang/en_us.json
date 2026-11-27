@@ -612,6 +612,7 @@
   "gui.watheextended.inventory.rolepicker.no_matches": "No matches",
 
   "gui.watheextended.hud.ability.ready": "Ready",
+  "gui.watheextended.hud.ability.not_ready":  "Not Ready",
   "gui.watheextended.hud.ability.cancel": "Cancel",
   "gui.watheextended.hud.ability.disabled": "Ability disabled!",
   "gui.watheextended.hud.ability.vulture": "bodies eaten",

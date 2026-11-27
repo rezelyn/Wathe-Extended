@@ -2,9 +2,9 @@ package cat.rezelyn.watheextended.client.mixin.game.roles.arsonist;
 
 import cat.rezelyn.watheextended.api.GameStatus;
 import cat.rezelyn.watheextended.api.config.stupidexpress.ConfigHelper;
+import cat.rezelyn.watheextended.client.render.hud.ability.AbilityTip;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.client.gui.RoleNameRenderer;
-import dev.doctor4t.wathe.game.GameConstants;
 import dev.doctor4t.wathe.game.GameFunctions;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -48,24 +48,8 @@ public class ArsonistHudMixin {
       }
 
       int required = (int) (aliveCount * 0.3);
-      Text text = Text.literal("🔥 " + dousedCount + "/" + required + " doused players");
-
-      int color = 0xfc9526;
-      int fade = GameWorldComponent.KEY.get(player.getWorld()).getFade();
-      if (fade > 0) {
-        int alpha = (int) (255.0f * Math.max(0.0f, 1.0f - fade / (float) GameConstants.FADE_TIME));
-        if (alpha <= 3) return;
-        color = (alpha << 24) | (color & 0xFFFFFF);
-      }
-
-      int textWidth = renderer.getWidth(text);
-      context.drawText(
-          renderer,
-          text,
-          context.getScaledWindowWidth() - textWidth - 5,
-          context.getScaledWindowHeight() - 12,
-          color,
-          true);
+      Text progress = AbilityTip.progress("🔥", dousedCount, required, Text.literal("doused players"));
+      AbilityTip.draw(context, renderer, progress, SERoles.ARSONIST.color());
     } catch (Throwable ignored) {
     }
   }

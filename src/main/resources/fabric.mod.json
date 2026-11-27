@@ -26,6 +26,9 @@
   "icon": "assets/watheextended/icon.png",
   "environment": "*",
   "entrypoints": {
+    "mixinsquared-adjuster": [
+      "cat.rezelyn.watheextended.compat.AbilityHudLayerAdjuster"
+    ],
     "fabric-datagen": [
       "cat.rezelyn.watheextended.client.WatheExtendedDataGenerator"
     ],

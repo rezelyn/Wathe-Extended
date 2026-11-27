@@ -46,7 +46,7 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
           "client.game.shop.BinglusShopMixin",
           "client.fix.GraverobberCoronerHudMixin",
           "client.game.roles.infected.InfectedInstinctMixin",
-          "client.game.roles.morphling.MorphlingCancelHudMixin",
+          "client.game.roles.morphling.MorphlingHudMixin",
           "client.game.roles.morphling.MorphlingActiveRowMixin",
           "client.game.roles.swapper.SwapperSlotTextureMixin",
           "client.game.modifiers.guesser.GuesserRolePickerMixin",
@@ -75,6 +75,7 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
   private static final Set<String> STUPID_EXPRESS_MIXINS =
       Set.of(
           "client.game.roles.arsonist.ArsonistHudMixin",
+          "client.game.roles.necromancer.NecromancerHudMixin",
           "fix.InitiateRemoteDeathMixin",
           "fix.RevivalItemGivingMixin",
           "game.item.ArsonistItemsUseMixin",
@@ -93,7 +94,11 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
           "client.hud.DreamImprintOverlayMixin",
           "client.item.MedicalKitVisibilityMixin",
           "client.game.roles.bodymaker.BodymakerRolePickerMixin",
+          "client.game.roles.detective.DetectiveAbilityKeyMixin",
+          "client.game.roles.detective.DetectiveUseMixin",
           "client.game.roles.dreamer.DreamerInstinctMixin",
+          "client.game.roles.judge.JudgeHudMixin",
+          "client.game.roles.judge.JudgePickerTooltipMixin",
           "client.game.roles.physician.PhysicianDeathReasonTextMixin",
           "client.game.roles.physician.PhysicianInfectionHighlightMixin",
           "game.roles.bellringer.BellringerAbilityMixin",
