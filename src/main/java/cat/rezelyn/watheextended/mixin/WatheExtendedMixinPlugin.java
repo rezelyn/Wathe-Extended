@@ -82,6 +82,7 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
           "game.roles.amnesiac.AmnesiacKeepAliveMixin",
           "game.roles.arsonist.DousedPlayerNotificationMixin",
           "game.roles.necromancer.RevivalChunkTrackingAccessor",
+          "game.roles.necromancer.RevivalCooldownMixin",
           "game.roles.necromancer.RevivalEntityTrackerAccessor",
           "game.roles.necromancer.RevivalTrackedPositionAccessor",
           "game.roles.necromancer.RevivalVisibilityMixin");

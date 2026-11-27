@@ -777,6 +777,14 @@ public final class RolesCategory {
                     .defaultValue(false)
                     .controller(Controllers.bool(true))
                     .formatter(ConfigText::onOff));
+        builder.option(
+            SettingKey.of("watheextended.necromancer.abilityCooldown", Integer.class),
+            option ->
+                option
+                    .name(text("text.cooldown"))
+                    .description(text("category.roles.opt.necromancer.cooldown.desc"))
+                    .defaultValue(180)
+                    .controller(Controllers.numberField(Integer.class, 0, Integer.MAX_VALUE / 20)));
       }
       // Arsonist
       case "stupid_express:arsonist" -> {

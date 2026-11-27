@@ -60,6 +60,8 @@ public final class WatheExtendedServerConfig {
   public static boolean morphlingCanCancelAbility = true;
   public static int morphlingAbilityDuration = 35;
   public static int morphlingAbilityCooldown = 60;
+  // Necromancer
+  public static int necromancerAbilityCooldown = 180;
   // Phantom
   public static boolean phantomCanCancelAbility = true;
   public static int phantomAbilityDuration = 30;

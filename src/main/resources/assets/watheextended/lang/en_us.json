@@ -527,6 +527,7 @@
   "gui.watheextended.config.category.roles.opt.executioner.canpickupgun": "Can Pick Up Gun",
   "gui.watheextended.config.category.roles.opt.executioner.canpickupgun.desc": "Whether the Executioner can pick up a dropped Revolver.",
   "gui.watheextended.config.category.roles.opt.necromancer.hasshop.desc": "Whether the Necromancer has access to a shop.",
+  "gui.watheextended.config.category.roles.opt.necromancer.cooldown.desc": "Cooldown in seconds after revival can be used again.",
   "gui.watheextended.config.category.roles.opt.arsonist.keepsgamegoing.desc": "When enabled, the game won't end while the Arsonist is still alive.\nMeaning that the Arsonist needs be the last alive in order to win the game.",
   "gui.watheextended.config.category.roles.opt.amnesiac.keepsgamegoing.desc": "When enabled, the game won't end while the Amnesiac is still alive.\nMeaning that the Amnesiac can still pick a role even after all the Killers are dead.",
   "gui.watheextended.config.category.roles.opt.amnesiac.bodiesglow": "Bodies Glow",

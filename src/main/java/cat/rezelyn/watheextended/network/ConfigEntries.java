@@ -244,6 +244,13 @@ public final class ConfigEntries {
         () -> WatheExtendedServerConfig.morphlingAbilityCooldown,
         "morphlingAbilityCooldown");
 
+    // Necromancer
+    registerInt(
+        "watheextended.necromancer.abilityCooldown",
+        180,
+        () -> WatheExtendedServerConfig.necromancerAbilityCooldown,
+        "necromancerAbilityCooldown");
+
     // Phantom
     registerBool(
         "watheextended.phantom.canCancelAbility",
