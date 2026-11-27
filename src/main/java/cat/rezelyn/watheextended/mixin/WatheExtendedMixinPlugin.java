@@ -104,6 +104,7 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
           "client.game.roles.physician.PhysicianInfectionHighlightMixin",
           "game.roles.bellringer.BellringerAbilityMixin",
           "game.roles.cleaner.CleanerAbilityMixin",
+          "game.roles.cook.PanShotBlockMixin",
           "game.mood.KinsBellringerAbilityMixin",
           "game.mood.KinsDetectiveAbilityMixin",
           "game.mood.KinsJudgeAbilityMixin",

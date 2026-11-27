@@ -1,8 +1,9 @@
 package cat.rezelyn.watheextended.game;
 
 import cat.rezelyn.watheextended.WatheExtendedServerConfig;
+import cat.rezelyn.watheextended.api.config.noellesroles.ConfigHelper;
 import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
-import dev.doctor4t.wathe.cca.GameWorldComponent;
+import cat.rezelyn.watheextended.game.roles.cook.CookPan;import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.cca.PlayerMoodComponent;
 import dev.doctor4t.wathe.cca.PlayerVariablesComponent;
 import dev.doctor4t.wathe.game.GameConstants;
@@ -17,9 +18,11 @@ import dev.doctor4t.wathe.util.Scheduler;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
+import org.agmas.noellesroles.bartender.BartenderPlayerComponent;
 
 public final class ShooterPunishment {
 
@@ -71,7 +74,14 @@ public final class ShooterPunishment {
         || target.squaredDistanceTo(player) > 65.0 * 65.0) {
       return false;
     }
-    return game.isInnocent(target);
+
+    return game.isInnocent(target)
+        && !(player.getMainHandStack().isOf(WatheItems.REVOLVER) && shouldBlock(target));
+  }
+
+  public static boolean shouldBlock(PlayerEntity target) {
+    return CookPan.canBlockShot(target)
+        || (ConfigHelper.isLoaded() && BartenderPlayerComponent.KEY.get(target).armor > 0);
   }
 
   public static void handle(

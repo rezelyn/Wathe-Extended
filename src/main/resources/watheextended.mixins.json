@@ -54,6 +54,7 @@
     "game.roles.amnesiac.AmnesiacKeepAliveMixin",
     "game.roles.bellringer.BellringerAbilityMixin",
     "game.roles.cleaner.CleanerAbilityMixin",
+    "game.roles.cook.PanShotBlockMixin",
     "game.roles.dreamer.DreamerImprintRecoveryMixin",
     "game.roles.dreamer.DreamerKillerConversionMixin",
     "game.roles.dreamer.DreamImprintNotificationMixin",
