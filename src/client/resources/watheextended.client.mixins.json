@@ -7,6 +7,11 @@
   "mixins": [
     "WatheVisualSettingsMixin",
     "compat.GuidebookButtonMixin",
+    "compat.sodium.TrainShakeMixin",
+    "compat.sodium.VanillaSceneryMixin",
+    "compat.sodium.render.ChunkRendererMixin",
+    "compat.sodium.render.SectionManagerMixin",
+    "compat.sodium.render.TerrainGraphMixin",
     "dev.DebugHudMixin",
     "dev.KeyboardMixin",
     "fix.GraverobberCoronerHudMixin",

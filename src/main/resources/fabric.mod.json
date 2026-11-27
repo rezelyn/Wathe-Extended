@@ -27,7 +27,11 @@
   "environment": "*",
   "entrypoints": {
     "mixinsquared-adjuster": [
-      "cat.rezelyn.watheextended.compat.AbilityHudLayerAdjuster"
+      "cat.rezelyn.watheextended.compat.AbilityHudLayerAdjuster",
+      "cat.rezelyn.watheextended.compat.sodium.IrisMixinAdjuster"
+    ],
+    "mixinsquared": [
+      "cat.rezelyn.watheextended.compat.sodium.SceneryCompat"
     ],
     "fabric-datagen": [
       "cat.rezelyn.watheextended.client.WatheExtendedDataGenerator"

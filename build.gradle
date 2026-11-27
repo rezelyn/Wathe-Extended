@@ -91,12 +91,17 @@ repositories {
         name = "WispForest"
         url = "https://maven.wispforest.io/releases"
     }
+    maven {
+        url = "https://maven.bawnorton.com/releases"
+        content { includeGroup "com.github.bawnorton.mixinsquared" }
+    }
 }
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    include(implementation("com.github.bawnorton.mixinsquared:mixinsquared-fabric:0.3.9"))
 
     // Fabric API
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
@@ -105,8 +110,19 @@ dependencies {
     modImplementation "cat.rezelyn.fabric:orelib:${project.orelib_version}"
     include "cat.rezelyn.fabric:orelib:${project.orelib_version}"
 
+    // Sodium
+    modClientCompileOnly "maven.modrinth:sodium:${project.sodium_version}"
+    modLocalRuntime "maven.modrinth:sodium:${project.sodium_version}"
+
+    // Iris Shaders
+    modClientCompileOnly "maven.modrinth:iris:${project.iris_version}"
+    modLocalRuntime "maven.modrinth:iris:${project.iris_version}"
+
     // Wathe
-    modApi "dev.doctor4t:wathe:${project.wathe_version}"
+    modApi("dev.doctor4t:wathe:${project.wathe_version}") {
+        exclude group: "maven.modrinth", module: "sodium"
+        exclude group: "maven.modrinth", module: "iris"
+    }
         // Cardinal Components API and Ratatouille
         modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-base:${project.cca_version}"
         modImplementation "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"

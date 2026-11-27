@@ -183,6 +183,8 @@
   "gui.watheextended.config.category.client.opt.hud.desc": "Toggle custom HUD elements, like the mood meter, timer, coin counter...",
   "gui.watheextended.config.category.client.opt.snowflakes": "Snowflakes",
   "gui.watheextended.config.category.client.opt.snowflakes.desc": "Toggle the rendering of custom snowflake particles that appear during gameplay.",
+  "gui.watheextended.config.category.client.opt.terraingraph": "Limit terrain graph updates",
+  "gui.watheextended.config.category.client.opt.terraingraph.desc": "While the train is moving, Sodium caches its list of visible terrain sections and reuses it as long as you only look around or stay within the same chunk section. The list is rebuilt when you cross into a new section or when new terrain loads.\nThis can give a huge performance boost when enabled, up to +320%. Disable it if you encounter issues such as disapearing scenery chunks/scenery not loading.\n\n§6When an Iris shader pack is active, Sodium falls back to its normal update behavior, so this optimization only applies when shaders are off.",
   "gui.watheextended.config.category.client.opt.ultraperfmode": "Ultra Performance Mode",
   "gui.watheextended.config.category.client.opt.ultraperfmode.desc": "When enabled, completely disable the scenery to improve performance during a game.",
   "gui.watheextended.config.category.client.group.debug": "Debug",

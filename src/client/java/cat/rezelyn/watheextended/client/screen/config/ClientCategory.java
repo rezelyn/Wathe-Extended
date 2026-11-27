@@ -14,7 +14,7 @@ import cat.rezelyn.orelib.api.setting.Validation;
 import cat.rezelyn.watheextended.client.WatheExtendedClientConfig;
 import cat.rezelyn.watheextended.client.render.BoxDebugRenderer;
 import cat.rezelyn.watheextended.client.utils.PronounsCache;
-import cat.rezelyn.watheextended.compat.sodium.SceneryCompatibility;
+import cat.rezelyn.watheextended.compat.sodium.SceneryCompat;
 import net.minecraft.text.Text;
 
 public final class ClientCategory {
@@ -256,7 +256,7 @@ public final class ClientCategory {
                 .formatter(ConfigText::onOff));
 
     /// REDUCE TERRAIN GRAPH
-    if (SceneryCompatibility.SUPPORTED && SceneryCompatibility.SODIUM_08) {
+    if (SceneryCompat.WATHE && SceneryCompat.SODIUM) {
       builder.option(
           SettingKey.of("client.limitTerrainGraphUpdates", Boolean.class),
           option ->

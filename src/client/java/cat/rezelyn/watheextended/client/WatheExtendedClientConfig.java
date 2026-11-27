@@ -28,6 +28,7 @@ public final class WatheExtendedClientConfig {
   public static boolean showWatheHud = true;
   public static boolean showSnowflakes = true;
   public static boolean showFog = true;
+  public static boolean limitTerrainGraphUpdates = true;
   // Instinct
   public static String instinctMode = "HOLD";
   public static String proneMode = "TOGGLE";

@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.mixin;
 
+import cat.rezelyn.watheextended.compat.sodium.SceneryCompat;
 import cat.rezelyn.watheextended.mixin.compat.LegacyWatheImportsMixin;
 import java.util.List;
 import java.util.Set;
@@ -145,8 +146,8 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
     if (mixinClassName.contains(".client.mixin.dev.")) return loader.isDevelopmentEnvironment();
 
     if (mixinClassName.contains(".client.compat.sodium.")) {
-      if (!SceneryCompat.SUPPORTED) return false;
-      if (mixinClassName.contains(".sodium.render.")) return SceneryCompat.SODIUM_08;
+      if (!SceneryCompat.WATHE) return false;
+      if (mixinClassName.contains(".sodium.render.")) return SceneryCompat.SODIUM;
       if (mixinClassName.endsWith(".VanillaSceneryMixin")) return !loader.isModLoaded("sodium");
     }
 
