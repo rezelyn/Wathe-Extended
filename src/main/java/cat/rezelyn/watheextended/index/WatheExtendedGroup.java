@@ -1,6 +1,7 @@
 package cat.rezelyn.watheextended.index;
 
 import cat.rezelyn.watheextended.WatheExtended;
+import dev.doctor4t.wathe.index.WatheItems;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -20,7 +21,7 @@ public class WatheExtendedGroup {
         Registries.ITEM_GROUP,
         WATHE_EXTENDED_GROUP,
         FabricItemGroup.builder()
-            .icon(() -> new ItemStack(WatheExtendedItems.GUIDEBOOK))
+            .icon(() -> new ItemStack(WatheItems.PSYCHO_MODE))
             .displayName(Text.translatable("itemGroup.watheextended.main"))
             .entries(
                 (context, entries) -> {
