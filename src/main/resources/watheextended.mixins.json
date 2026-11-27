@@ -7,6 +7,7 @@
   "mixins": [
     "compat.ExtraItemsRoundStartMixin",
     "compat.LegacyWatheImportsMixin",
+    "compat.SpectatorVoiceGameModeMixin",
     "fix.CursorSlotMixin",
     "fix.DisabledKillerRoleConversionMixin",
     "fix.InitiateRemoteDeathMixin",

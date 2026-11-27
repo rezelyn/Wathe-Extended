@@ -139,6 +139,15 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
     // dev environment only mixins
     if (mixinClassName.contains(".client.mixin.dev.")) return loader.isDevelopmentEnvironment();
 
+    if (mixinClassName.contains(".client.compat.sodium.")) {
+      if (!SceneryCompat.SUPPORTED) return false;
+      if (mixinClassName.contains(".sodium.render.")) return SceneryCompat.SODIUM_08;
+      if (mixinClassName.endsWith(".VanillaSceneryMixin")) return !loader.isModLoaded("sodium");
+    }
+
+    if (mixinClassName.endsWith(".compat.SpectatorVoiceGameModeMixin"))
+      return loader.isModLoaded("voicechat");
+
     if (mixinClassName.endsWith(PLAYER_SLOT_TEXTURE_MIXIN)) {
       return loader.isModLoaded("noellesroles") || loader.isModLoaded("kinswathe");
     }

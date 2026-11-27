@@ -14,6 +14,7 @@ import dev.doctor4t.wathe.game.GameConstants;
 import java.util.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
 import net.minecraft.registry.RegistryWrapper;
@@ -38,6 +39,7 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
   private final World world;
   private final Map<Integer, TeleportationSlot> teleportationSlots = new LinkedHashMap<>();
   private final Set<UUID> killedPlayers = new HashSet<>();
+  private boolean hasRoundDeathRecord = true;
   private final Set<UUID> revolverPickupBlockedPlayers = new HashSet<>();
   private int nextSlotId = 1;
   private MapVariablesWorldComponent.PosWithOrientation readyAreaSpawnPos =
@@ -121,12 +123,17 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
     return killedPlayers.contains(uuid);
   }
 
+  public boolean hasRoundDeathRecord() {
+    return hasRoundDeathRecord;
+  }
+
   public void clearKilledPlayersUUID(UUID uuid) {
     killedPlayers.remove(uuid);
   }
 
   public void clearKilledPlayers() {
     killedPlayers.clear();
+    hasRoundDeathRecord = true;
   }
 
   public void blockRevolverPickup(UUID uuid) {
@@ -437,6 +444,12 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
     this.nextSlotId =
         teleportationSlots.isEmpty() ? 1 : Collections.max(teleportationSlots.keySet()) + 1;
 
+    killedPlayers.clear();
+    hasRoundDeathRecord = tag.contains("killedPlayers", NbtElement.LIST_TYPE);
+    for (var uuid : tag.getList("killedPlayers", NbtElement.INT_ARRAY_TYPE)) {
+      killedPlayers.add(NbtHelper.toUuid(uuid));
+    }
+
     this.revolverPickupBlockedPlayers.clear();
     if (tag.contains("revolverPickupBlockedPlayers")) {
       NbtList list = tag.getList("revolverPickupBlockedPlayers", NbtElement.STRING_TYPE);
@@ -479,6 +492,12 @@ public class WatheExtendedWorldComponent implements AutoSyncedComponent {
       list.add(slotTag);
     }
     tag.put("teleportationSlots", list);
+
+    if (hasRoundDeathRecord) {
+      NbtList deaths = new NbtList();
+      for (UUID uuid : killedPlayers) deaths.add(NbtHelper.fromUuid(uuid));
+      tag.put("killedPlayers", deaths);
+    }
 
     NbtList blockedPlayers = new NbtList();
     for (UUID uuid : this.revolverPickupBlockedPlayers) {

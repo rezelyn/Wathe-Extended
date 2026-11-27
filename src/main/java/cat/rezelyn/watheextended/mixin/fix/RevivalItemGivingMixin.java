@@ -1,5 +1,6 @@
 package cat.rezelyn.watheextended.mixin.fix;
 
+import cat.rezelyn.watheextended.component.WatheExtendedWorldComponent;
 import dev.doctor4t.wathe.api.Role;
 import dev.doctor4t.wathe.cca.GameWorldComponent;
 import dev.doctor4t.wathe.entity.PlayerBodyEntity;
@@ -40,6 +41,7 @@ public class RevivalItemGivingMixin {
 
     PlayerEntity revivedPlayer = serverWorld.getPlayerByUuid(body.getPlayerUuid());
     if (revivedPlayer == null) return;
+    WatheExtendedWorldComponent.KEY.get(serverWorld).clearKilledPlayersUUID(revivedPlayer.getUuid());
 
     GameWorldComponent role = GameWorldComponent.KEY.get(level);
     Role assignedRole = role.getRole(revivedPlayer);
