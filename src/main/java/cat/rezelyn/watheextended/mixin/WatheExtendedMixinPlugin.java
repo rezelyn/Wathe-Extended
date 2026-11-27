@@ -145,7 +145,7 @@ public class WatheExtendedMixinPlugin implements IMixinConfigPlugin {
     // dev environment only mixins
     if (mixinClassName.contains(".client.mixin.dev.")) return loader.isDevelopmentEnvironment();
 
-    if (mixinClassName.contains(".client.compat.sodium.")) {
+    if (mixinClassName.contains(".client.mixin.compat.sodium.")) {
       if (!SceneryCompat.WATHE) return false;
       if (mixinClassName.contains(".sodium.render.")) return SceneryCompat.SODIUM;
       if (mixinClassName.endsWith(".VanillaSceneryMixin")) return !loader.isModLoaded("sodium");
