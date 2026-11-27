@@ -37,7 +37,7 @@ public class InfectedInstinctMixin {
     }
 
     InfectedPlayerComponent infected = InfectedPlayerComponent.KEY.get(target);
-    cir.setReturnValue(infected != null && infected.infectedTicks > 0 ? 0xFF00FF00 : -1);
+    cir.setReturnValue(infected != null && infected.infectedTicks > 0 ? Noellesroles.INFECTED.color() : -1);
     cir.cancel();
   }
 }
