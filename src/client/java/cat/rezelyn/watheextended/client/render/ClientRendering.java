@@ -6,6 +6,7 @@ import cat.rezelyn.watheextended.index.WatheExtendedBlockEntities;
 import cat.rezelyn.watheextended.index.WatheExtendedBlocks;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 
@@ -15,18 +16,18 @@ public final class ClientRendering {
   private ClientRendering() {}
 
   public static void register() {
-    BoxDebugRenderer.register();
-    registerHud();
-    registerBlockEntityRenderers();
-    registerBlockRenderLayers();
+    clientHud();
+    blockEntityRenderers();
+    blockRenderLayers();
+    debugRenderer();
   }
 
-  private static void registerHud() {
+  private static void clientHud() {
     HudRenderCallback.EVENT.register((context, tickCounter) -> LastStandRenderer.render(context));
     HudRenderCallback.EVENT.register(InstinctHudRenderer::render);
   }
 
-  private static void registerBlockEntityRenderers() {
+  private static void blockEntityRenderers() {
     BlockEntityRendererFactories.register(
         WatheExtendedBlockEntities.ISH_PLUSH, PlushBlockEntityRenderer::new);
     BlockEntityRendererFactories.register(
@@ -47,7 +48,7 @@ public final class ClientRendering {
         WatheExtendedBlockEntities.ZORIVIEK_PLUSH, PlushBlockEntityRenderer::new);
   }
 
-  private static void registerBlockRenderLayers() {
+  private static void blockRenderLayers() {
     BlockRenderLayerMap.INSTANCE.putBlocks(
         RenderLayer.getCutout(),
         WatheExtendedBlocks.ANTHRACITE_STEEL_ORNAMENT,
@@ -65,5 +66,9 @@ public final class ClientRendering {
         WatheExtendedBlocks.SNOWY_CHERRY_LEAVES,
         WatheExtendedBlocks.SNOWY_AZALEA_LEAVES,
         WatheExtendedBlocks.SNOWY_FLOWERING_AZALEA_LEAVES);
+  }
+
+  public static void debugRenderer() {
+          WorldRenderEvents.AFTER_TRANSLUCENT.register(BoxDebugRenderer::onWorldRender);
   }
 }

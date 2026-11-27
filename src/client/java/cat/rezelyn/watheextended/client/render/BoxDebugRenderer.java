@@ -20,6 +20,7 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.chunk.WorldChunk;
 import org.joml.Matrix4f;
 
+// @todo: replace custom in world renderer with Veil
 public final class BoxDebugRenderer {
 
   private static final float BEAM = 0.04f;
@@ -38,11 +39,7 @@ public final class BoxDebugRenderer {
 
   private BoxDebugRenderer() {}
 
-  public static void register() {
-    WorldRenderEvents.AFTER_TRANSLUCENT.register(BoxDebugRenderer::onWorldRender);
-  }
-
-  private static void onWorldRender(WorldRenderContext ctx) {
+  static void onWorldRender(WorldRenderContext ctx) {
     if (!(showBoxBoundaries || showRtpSlots || showKeyAssignments || showSpawnPositions)) return;
 
     MinecraftClient client = MinecraftClient.getInstance();
